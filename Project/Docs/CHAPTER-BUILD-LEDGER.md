@@ -38,6 +38,7 @@ Ch14 cut, Ch15 merged into Ch16 — never built. Completion flags: `chN_complete
 | Ch02 leftovers + Ch03 fixtures (post Ep02–04 deletion −15, Ch03 +21) | 467 | 467 / 0 failed / 3 skipped | PASS 2026-07-03 |
 | Ch03 (post Ep05–07 deletion −15) | 452 | 452 / 0 failed / 3 skipped | PASS 2026-07-03 |
 | Ch04 (+18 fixtures; post Ep08–09 deletion −10) | 460 | 460 / 0 failed / 3 skipped | PASS 2026-07-03 |
+| Ch05 (+7 fixtures; post Ep10–11 deletion −10) | 457 | 457 / 0 failed / 3 skipped | PASS 2026-07-03 |
 
 ## Legacy deletion batches
 
@@ -47,7 +48,7 @@ Ch14 cut, Ch15 merged into Ch16 — never built. Completion flags: `chN_complete
 | Ch02 | Ep02–Ep04 (builders+manifests+LinesTests; Ep02/03/04 Lines KEPT — live Galaxy1Builder deps; Ep04 scene builders moved to shared) | 2026-07-03 |
 | Ch03 | Ep05–Ep07 (8 builders incl. surprise Ep07BuilderSpace + 3 manifests + 3 LinesTests; Lines KEPT — live Galaxy1Builder/EnemyWarningBuilder deps; Ep05–07 scene builders moved to shared) | 2026-07-03 |
 | Ch04 | Ep08–Ep09 (5 builders incl. Ep08BuilderSpace + 2 manifests + 2 LinesTests; Lines KEPT — Galaxy1/Galaxy2Builder deps; Ep08 space builders moved to shared; PlayMode MechanicsTests kept — test generic components. Orphan candidates: Data/Ep08Reaper.asset, Data/Ep09Vera.asset) | 2026-07-03 |
-| Ch05 | Ep10–Ep11 | |
+| Ch05 | Ep10–Ep11 (4 builders + 2 manifests + 2 LinesTests; Lines KEPT — Galaxy2Builder deps; nothing needed moving; PlayMode MechanicsTests kept. Orphan candidate: Data/Ep10Enforcer.asset) | 2026-07-03 |
 | Ch06 | Ep12–Ep13 | |
 | Ch07 | Ep14–Ep15 | |
 | Ch08 | Ep16–Ep17 | |
