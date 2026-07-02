@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Ronin7/Scenes/Galaxy1_Ch1_Hub.unity
     guid: 4865f1847db732445914c9414205232d
+  - enabled: 1
+    path: Assets/Ronin7/Scenes/Ch02_Auction.unity
+    guid: a41370cf5b2b15e47971e72c832d712b
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 9b706728c01987b43bdf3acac015b69a, type: 2}
     com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}

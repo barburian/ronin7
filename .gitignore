@@ -23,6 +23,9 @@ Project/crashlytics-build.properties
 Project/res.xml
 Project/TestResults*.xml
 
+# Unity AI Toolkit scratch (editor holds file locks here)
+Project/Assets/AI Toolkit/Temp/
+
 # OS / editor noise
 .DS_Store
 Thumbs.db

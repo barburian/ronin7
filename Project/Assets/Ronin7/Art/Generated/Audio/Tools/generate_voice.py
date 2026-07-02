@@ -52,6 +52,9 @@ SPEAKER_VOICES = {
     "Comm (V.O.)": ("en-GB-RyanNeural", "+12%", "-15Hz"),
     "Handler (Hologram)": ("en-GB-RyanNeural", "+10%", "-15Hz"),
     "Drone": ("en-US-RogerNeural", "+15%", "-12Hz"),
+    # Chapter 2 (Galaxy 1) speakers
+    "Resh": ("en-US-EricNeural", "+0%", "-5Hz"),
+    "Broker": ("en-US-JasonNeural", "+18%", "+4Hz"),
     # EP02 speakers
     "Station Traffic Control": ("en-US-JennyNeural", "+0%", "+0Hz"),
     "Captain Resh": ("en-GB-SoniaNeural", "-5%", "-5Hz"),

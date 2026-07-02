@@ -46,10 +46,12 @@ namespace Ronin7.EditorTools
         {
             if (!TryLoadInputRefs(out var refs)) return;
 
+            var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+
+            // Definition assets must be loaded AFTER NewScene: scene creation unloads unused assets,
+            // so references held across it go fake-null and serialize as {fileID: 0} on every enemy.
             var weapon = EnsureWeaponDefinition();
             var enemyDef = EnsureEnemyDefinition();
-
-            var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
             // ---- Lighting: cool directional key + low ambient fill, then per-room mood accents. ----
             var lightGo = new GameObject("Directional Light");

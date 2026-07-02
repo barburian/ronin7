@@ -52,6 +52,7 @@ namespace Ronin7.EditorTools
             gatesGo.transform.SetParent(hubRoot.transform, false);
 
             var crewCommons = BuildDarkRoomShell(gatesGo.transform, "CrewCommons", new Vector3(-20f, 0f, 4f));
+            Ch2FillCrewCommons(crewCommons); // Ch2 increment: table, seats, warm light, idle Resh/Iris/Mira — still gated by ch2_complete below
             var ironDojoBay = BuildDarkRoomShell(gatesGo.transform, "IronDojoBay", new Vector3(-20f, 0f, 12f));
             var archiveHolds = BuildDarkRoomShell(gatesGo.transform, "ArchiveHolds", new Vector3(-20f, 0f, 20f));
             var warRoomTable = BuildDarkRoomShell(gatesGo.transform, "WarRoomTable", new Vector3(-20f, 0f, 28f));
@@ -111,6 +112,49 @@ namespace Ronin7.EditorTools
             BuildRoomDetails(root.transform, name, Vector3.zero, new Vector2(4f, 4f), accent);
 
             return root;
+        }
+
+        /// <summary>Ch2 increment: fills the CrewCommons dark-shell gate room (built by
+        /// <see cref="BuildDarkRoomShell"/> just above) with a lightweight commons — a table, seats, a
+        /// warm accent light, and the three Ch02 allies idling together. Shell geometry and the
+        /// ch2_complete room-gate wiring below are unchanged.</summary>
+        private static void Ch2FillCrewCommons(GameObject root)
+        {
+            var wood = new Color(0.32f, 0.22f, 0.14f);
+            BuildProp(root.transform, "Table", new Vector3(0f, 0.45f, 0f), new Vector3(1.6f, 0.08f, 1.0f), wood);
+            Vector3[] seatOffsets = { new Vector3(-1.1f, 0f, 0f), new Vector3(1.1f, 0f, 0f), new Vector3(0f, 0f, -0.9f) };
+            foreach (var off in seatOffsets)
+                BuildProp(root.transform, "Seat", off + new Vector3(0f, 0.22f, 0f), new Vector3(0.4f, 0.44f, 0.4f), wood * 1.2f);
+
+            var lightGo = new GameObject("CommonsLight");
+            lightGo.transform.SetParent(root.transform, false);
+            lightGo.transform.localPosition = new Vector3(0f, 2.4f, 0f);
+            var light = lightGo.AddComponent<Light>();
+            light.type = LightType.Point;
+            light.color = new Color(1f, 0.82f, 0.55f);
+            light.intensity = 2f;
+            light.range = 8f;
+            light.shadows = LightShadows.None;
+
+            (string prefab, Vector3 pos, string name)[] cast =
+            {
+                (Ch2ReshPrefab, root.transform.position + new Vector3(-1.6f, 0f, 1.2f), "Resh"),
+                (Ch2IrisPrefab, root.transform.position + new Vector3(1.6f, 0f, 1.2f), "Iris"),
+                (Ch2MiraPrefab, root.transform.position + new Vector3(0f, 0f, 1.8f), "Mira"),
+            };
+            foreach (var (prefab, pos, name) in cast)
+            {
+                var npc = InstantiateNpc(prefab, pos, name);
+                FitNamedCharacter(npc);
+                if (npc == null) continue;
+                // InstantiateNpc leaves instances at scene root; parent under the room so the
+                // ch2_complete gate (and the hub/mission mode toggle) actually covers them.
+                npc.transform.SetParent(root.transform, true);
+                var storyNpc = npc.AddComponent<StoryNpc>();
+                var so = new SerializedObject(storyNpc);
+                so.FindProperty("displayName").stringValue = name;
+                so.ApplyModifiedPropertiesWithoutUndo();
+            }
         }
 
         /// <summary>ch16's gate: not a room shell but an empty root holding a few bright lights (an
