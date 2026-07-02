@@ -7,6 +7,7 @@ using Ronin7.Flow;
 using Ronin7.Player;
 using Ronin7.Ship;
 using Ronin7.World;
+using Ronin7.World.Story;
 using Ronin7.Editor.Art;
 using Unity.XR.CoreUtils;
 using UnityEditor;
@@ -2053,6 +2054,39 @@ namespace Ronin7.EditorTools
                 components++;
                 objects.Add(interactor.gameObject);
                 EnsureRayLineVisual(interactor.gameObject);
+            }
+
+            // Dialogue panels are built inactive (hidden until triggered), so the search must include
+            // inactive objects or every advanceAction re-nulls silently on rebuild.
+            foreach (var dialogue in Object.FindObjectsByType<DialoguePlayer>(FindObjectsInactive.Include))
+            {
+                var so = new SerializedObject(dialogue);
+                SetObjectRef(so, "advanceAction", FindRef(refs, "Left Hand", "Talk"));
+                so.ApplyModifiedPropertiesWithoutUndo();
+                EditorUtility.SetDirty(dialogue);
+                components++;
+                objects.Add(dialogue.gameObject);
+            }
+
+            foreach (var toggle in Object.FindObjectsByType<SettingsMenuToggle>(FindObjectsInactive.Include))
+            {
+                var so = new SerializedObject(toggle);
+                SetObjectRef(so, "toggleAction", FindRef(refs, "Left Hand", "Menu"));
+                so.ApplyModifiedPropertiesWithoutUndo();
+                EditorUtility.SetDirty(toggle);
+                components++;
+                objects.Add(toggle.gameObject);
+            }
+
+            // Prompt advancers are built inactive like dialogue panels and share the Talk action.
+            foreach (var prompt in Object.FindObjectsByType<PromptInputAdvancer>(FindObjectsInactive.Include))
+            {
+                var so = new SerializedObject(prompt);
+                SetObjectRef(so, "advanceAction", FindRef(refs, "Left Hand", "Talk"));
+                so.ApplyModifiedPropertiesWithoutUndo();
+                EditorUtility.SetDirty(prompt);
+                components++;
+                objects.Add(prompt.gameObject);
             }
 
             // Retrofit: older built scenes have a sword but no KatanaHolster, so a released sword

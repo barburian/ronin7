@@ -33,12 +33,13 @@ Ch14 cut, Ch15 merged into Ch16 — never built. Completion flags: `chN_complete
 | Baseline (pre-Phase 0) | 418 (415 pass / 3 skip) | 418, 0 failed, 3 skipped (CyberAssets ×2, PlanetAssets ×1 — skip by design) | PASS 2026-07-02 |
 | Phase 0 (chapter flow foundation) | 426 (+8: HubStateControllerTests, ChapterOutroTests) | 426 / 0 failed / 3 skipped | PASS 2026-07-02 |
 | Phase 1 (ability framework + Echo + placeholders) | 450 (+24: CampaignStateAbility 11, EchoCalloutSelector 7, EchoLines 6) | 450 / 0 failed / 3 skipped | PASS 2026-07-02 |
+| Ch01 retrofit (Echo on rig, rewire gap closed, Ep01 batch deleted) | 450 (±0 — no Ep01LinesTests existed) | 450 / 0 failed / 3 skipped | PASS 2026-07-02 |
 
 ## Legacy deletion batches
 
 | After | Delete | Done |
 |---|---|---|
-| Ch01 retrofit | Ep01 | |
+| Ch01 retrofit | Ep01 (Builder+VoiceManifest deleted; Ep01Lines KEPT — live dep of Galaxy1Builder + EnemyWarningBuilder) | 2026-07-02 |
 | Ch02 | Ep02–Ep04 | |
 | Ch03 | Ep05–Ep07 | |
 | Ch04 | Ep08–Ep09 | |
@@ -61,9 +62,9 @@ Before deleting any EpNN file: grep it for methods still called by Chapter*/Hub*
 - `Camera "Main Camera" does not use a Tracked Pose Driver (Input System)` — rig uses custom PoseFollower
 - `XR: Error setting active audio output driver` + `OculusLoader.EditorLoadOVRPlugin` NRE — no headset attached
 - Test-generated expected logs: SaveSystem error paths, GeminiClient aspect fallback, ProjectilePool starvation, ArtPrefabRegistry greybox fallback (Hand_L/R)
-- 14× `[Space Samurai] Input action not found` during any scene rebuild — pre-existing builder race;
-  `RewireOpenScene()` repairs rig components before save. Residual gap: `DialoguePlayer.advanceAction`
-  (8×) + settings `toggleAction` (1×) stay `{fileID: 0}` — follow-up in Ch01 retrofit.
+- 15× `[Space Samurai] Input action not found` during any scene rebuild (14 legacy + 1 "Left Hand/Talk") —
+  pre-existing builder race; `RewireOpenScene()` repairs rig components, DialoguePlayers,
+  PromptInputAdvancers, and SettingsMenuToggle before save (gap closed in Ch01 retrofit).
 - `console-clear-logs` MCP tool broken (file lock, HTTP 500) — use `lastMinutes` filtering instead.
 - 4× `EnvironmentDependencyValues`/`graphicsApiMask 4 -> 262148` on playmode transitions — Unity 6 infra noise.
 

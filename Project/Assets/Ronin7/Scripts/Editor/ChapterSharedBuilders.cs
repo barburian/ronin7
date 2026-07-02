@@ -23,6 +23,27 @@ namespace Ronin7.EditorTools
     {
         private const float RoomH = 3.6f;
 
+        // Moved from Ep01Builder (deleted) — still needed by XRRigBuilder's boot-scene build list and
+        // by Galaxy1Builder's landable/completion checks.
+        private const string Ep01ShipScenePath = SceneFolder + "/Galaxy1_EP01_Ship.unity";
+        private const string Galaxy1Ep01PlanetScenePath = SceneFolder + "/Galaxy1_EP01_Planet.unity";
+        private static readonly string Galaxy1Ep01PlanetSceneName = System.IO.Path.GetFileNameWithoutExtension(Galaxy1Ep01PlanetScenePath);
+        private const string Galaxy1Ep01HideoutScenePath = SceneFolder + "/Galaxy1_EP01_Hideout.unity";
+
+        // Named-cast prefabs baked from Data/CharacterSpecs by "Build Characters from Specs Folder".
+        // These are FEET-pivot (parts authored from y≈0 up), so place them at floor height (y=0) —
+        // unlike ArtPrefabBuilder.KesslerPrefabPath, whose root is a body capsule placed at y=1.
+        // Moved from Ep01Builder (deleted) — still used by several later episode builders.
+        private const string GeneratedCharFolder = "Assets/Ronin7/Prefabs/Art/Generated";
+        private const string ReshPrefabPath    = GeneratedCharFolder + "/Resh.prefab";
+        private const string IrisPrefabPath    = GeneratedCharFolder + "/Iris.prefab";
+        private const string KhallPrefabPath   = GeneratedCharFolder + "/Khall.prefab";
+        private const string DrHerisPrefabPath = GeneratedCharFolder + "/DrHeris.prefab";
+        private const string ChildPrefabPath   = GeneratedCharFolder + "/Cassie04.prefab";
+
+        /// <summary>Drops a capsule-frame position (pivot at y≈1) to the floor for feet-pivot prefabs.</summary>
+        private static Vector3 AtFloor(Vector3 p) => new Vector3(p.x, 0f, p.z);
+
         private static void BuildWall(Transform parent, string name, Vector3 localPos, Vector3 localScale)
         {
             var wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -229,6 +250,174 @@ namespace Ronin7.EditorTools
             // Ceiling pipe running along x near the -z wall (up at the ceiling, so it clears doorways).
             BuildProp(parent, name + "_Pipe", new Vector3(center.x, RoomH - 0.2f, center.z - hz + 0.4f),
                 new Vector3(2f * hx - 0.8f, 0.18f, 0.18f), new Color(0.3f, 0.32f, 0.36f));
+        }
+
+        // ---- Moved from Ep01Builder (deleted) — still called by Chapter1Builder / Galaxy1Builder. ----
+
+        /// <summary>Replaces the command room's back wall (z=42) with a bridge windshield: a structural
+        /// frame around a large transparent canopy, backed by a big emissive galaxy backdrop quad set
+        /// further out so the player reads it as the view of Galaxy 1 outside the ship.</summary>
+        private static void BuildCommandWindshield(Transform parent, Material galaxyMat)
+        {
+            var rootGo = new GameObject("Command_Windshield");
+            var root = rootGo.transform;
+            root.SetParent(parent, false);
+
+            // Structural frame (keeps colliders so the player can't walk out): side pillars, top header,
+            // bottom sill. This frames a window opening of roughly x[-8,8], y[0.6, RoomH-0.5].
+            BuildWall(root, "Windshield_Frame_PillarW", new Vector3(-8f, RoomH/2f, 42f), new Vector3(0.4f, RoomH, 0.3f));
+            BuildWall(root, "Windshield_Frame_PillarE", new Vector3(8f, RoomH/2f, 42f), new Vector3(0.4f, RoomH, 0.3f));
+            BuildWall(root, "Windshield_Frame_Header", new Vector3(0f, RoomH - 0.25f, 42f), new Vector3(18f, 0.5f, 0.3f));
+            BuildWall(root, "Windshield_Frame_Sill", new Vector3(0f, 0.3f, 42f), new Vector3(18f, 0.6f, 0.3f));
+            // Vertical mullion dividers across the opening for a canopy look.
+            BuildWall(root, "Windshield_Frame_MullionL", new Vector3(-2.7f, RoomH/2f, 42f), new Vector3(0.15f, RoomH, 0.25f));
+            BuildWall(root, "Windshield_Frame_MullionR", new Vector3(2.7f, RoomH/2f, 42f), new Vector3(0.15f, RoomH, 0.25f));
+
+            // Invisible barrier sealing the FULL opening (x[-9,9]) so the player can't walk out into
+            // z>42 (the floor ends at z=42). We keep its collider but strip the renderer — a visible
+            // opaque pane would hide the galaxy, and we want a clear "open canopy" view through to it.
+            var glass = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            glass.name = "Windshield_Glass";
+            glass.transform.SetParent(root, false);
+            glass.transform.localPosition = new Vector3(0f, RoomH/2f, 42f);
+            glass.transform.localScale = new Vector3(18f, RoomH, 0.05f);
+            Object.DestroyImmediate(glass.GetComponent<MeshRenderer>());
+
+            // Galaxy backdrop: a large quad set further out (z=45), sized larger than the opening so its
+            // edges hide behind the frame and it reads as distant. Purely visual (no collider).
+            var backdrop = GameObject.CreatePrimitive(PrimitiveType.Quad);
+            backdrop.name = "GalaxyBackdrop";
+            backdrop.transform.SetParent(root, false);
+            backdrop.transform.localPosition = new Vector3(0f, RoomH/2f, 45f);
+            backdrop.transform.localScale = new Vector3(22f, 6f, 0.1f);
+            // A Unity Quad's front face normal points -Z; the player stands on the -Z side looking +Z,
+            // so identity rotation already faces the lit side at the player. (No 180° flip — that would
+            // turn the back-culled face toward the player and show nothing.)
+            Object.DestroyImmediate(backdrop.GetComponent<Collider>());
+            var backdropRenderer = backdrop.GetComponent<Renderer>();
+            if (galaxyMat != null)
+                backdropRenderer.sharedMaterial = galaxyMat;
+            else
+                TintShared(backdropRenderer, new Color(0.12f, 0.10f, 0.28f)); // deep-space fallback tint
+        }
+
+        /// <summary>
+        /// A side room off the corridor: 3 outer walls + floor/ceiling + a back-wall label and a couple
+        /// of props. The corridor-facing wall (with its door gap) is built by <see cref="BuildCorridorWall"/>.
+        /// </summary>
+        private static void BuildRoomShell(Transform parent, string name, float corridorX, bool west, float doorZ,
+            float halfW, float depth, Color floorColor, Color ceilColor, string label, Color accent)
+        {
+            float sign = west ? -1f : 1f;
+            float backX = sign * (corridorX + depth);
+            float centerX = sign * (corridorX + depth / 2f);
+
+            BuildFloorCeiling(parent, name, new Vector3(centerX, 0f, doorZ), new Vector3(depth, 0f, halfW * 2f), floorColor, ceilColor);
+            BuildWall(parent, name + "_Back", new Vector3(backX, RoomH/2f, doorZ), new Vector3(0.2f, RoomH, halfW * 2f));
+            BuildWall(parent, name + "_SideA", new Vector3(centerX, RoomH/2f, doorZ - halfW), new Vector3(depth, RoomH, 0.2f));
+            BuildWall(parent, name + "_SideB", new Vector3(centerX, RoomH/2f, doorZ + halfW), new Vector3(depth, RoomH, 0.2f));
+
+            // Label on the back wall, facing the room interior / corridor.
+            var labelGo = new GameObject(name + "_Label");
+            labelGo.transform.SetParent(parent, false);
+            labelGo.transform.localPosition = new Vector3(backX - sign * 0.15f, 2.3f, doorZ);
+            labelGo.transform.localRotation = Quaternion.Euler(0f, west ? -90f : 90f, 0f);
+            labelGo.transform.localScale = Vector3.one * 0.05f;
+            var tm = labelGo.AddComponent<TextMesh>();
+            tm.text = label;
+            tm.anchor = TextAnchor.MiddleCenter;
+            tm.alignment = TextAlignment.Center;
+            tm.fontSize = 48;
+            tm.color = new Color(0.8f, 0.9f, 1f);
+
+            // A couple of generic props tinted with the room accent.
+            BuildProp(parent, name + "_Prop1", new Vector3(backX - sign * 0.6f, 0.5f, doorZ - halfW * 0.5f), new Vector3(0.8f, 1f, 0.8f), accent);
+            BuildProp(parent, name + "_Prop2", new Vector3(backX - sign * 0.6f, 0.35f, doorZ + halfW * 0.5f), new Vector3(0.8f, 0.7f, 0.8f), accent);
+
+            // Set-dressing to make the room feel lived-in. Floor center/half-extents match BuildFloorCeiling above.
+            BuildRoomDetails(parent, name, new Vector3(centerX, 0f, doorZ), new Vector2(depth / 2f, halfW), accent);
+        }
+
+        /// <summary>Builds a small emissive "maintenance drone" primitive (no collider — purely cosmetic)
+        /// parented under <paramref name="parent"/>. The caller attaches a mover (FloatingArrow / PlanetOrbit).
+        /// Returns the drone GameObject.</summary>
+        private static GameObject BuildShipDrone(Transform parent, string name, Vector3 localPos, Color glow)
+        {
+            var drone = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            drone.name = name;
+            drone.transform.SetParent(parent, false);
+            drone.transform.localPosition = localPos;
+            drone.transform.localScale = Vector3.one * 0.25f;
+            TintShared(drone.GetComponent<Renderer>(), glow);
+            Object.DestroyImmediate(drone.GetComponent<Collider>());
+
+            // Tiny antenna nub for silhouette (also cosmetic, no collider).
+            var antenna = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            antenna.name = "Antenna";
+            antenna.transform.SetParent(drone.transform, false);
+            antenna.transform.localPosition = new Vector3(0f, 0.9f, 0f);
+            antenna.transform.localScale = new Vector3(0.12f, 0.6f, 0.12f);
+            TintShared(antenna.GetComponent<Renderer>(), glow);
+            Object.DestroyImmediate(antenna.GetComponent<Collider>());
+
+            return drone;
+        }
+
+        /// <summary>
+        /// Scatters decorative character prefabs (baked by "Build Characters from Specs Folder" into
+        /// Prefabs/Art/Generated/) at the given <paramref name="positions"/> for crowd flavour. Purely
+        /// visual — no StoryNpc, dialogue, arrow, or combat. Which prefabs count as "decorative" is read
+        /// from the Data/CharacterSpecs/Decorative specs; the named story cast is skipped so the crowd
+        /// never duplicates them. Degrades gracefully (logs) if fewer prefabs are baked than positions
+        /// requested. Returns the count actually placed.
+        /// </summary>
+        private static int PlaceDecorativeCrowd(Vector3[] positions)
+        {
+            const string GeneratedFolder = "Assets/Ronin7/Prefabs/Art/Generated";
+            const string DecorativeSpecs = "Assets/Ronin7/Data/CharacterSpecs/Decorative";
+            var skip = new HashSet<string> { "Kessler", "Khall", "Iris" }; // named cast placed by story scenes
+
+            string osFolder = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), DecorativeSpecs);
+            if (!System.IO.Directory.Exists(osFolder))
+            {
+                Debug.LogWarning($"[Space Samurai] No decorative specs at {DecorativeSpecs}; skipping crowd.");
+                return 0;
+            }
+
+            int placed = 0;
+            foreach (string file in System.IO.Directory.GetFiles(osFolder, "*.json", System.IO.SearchOption.TopDirectoryOnly))
+            {
+                if (placed >= positions.Length) break;
+
+                ArtPrefabBuilder.CharacterSpec spec;
+                try { spec = JsonUtility.FromJson<ArtPrefabBuilder.CharacterSpec>(System.IO.File.ReadAllText(file)); }
+                catch { continue; }
+                if (spec == null || string.IsNullOrEmpty(spec.name) || skip.Contains(spec.name)) continue;
+
+                // The baker names the prefab from the sanitized spec name, not the JSON filename.
+                string prefabPath = $"{GeneratedFolder}/{SanitizeAssetName(spec.name)}.prefab";
+                if (AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath) == null) continue; // not baked yet
+
+                var p = positions[placed];
+                InstantiateNpc(prefabPath, new Vector3(p.x, 0f, p.z), $"Decorative_{spec.name}");
+                placed++;
+            }
+
+            if (placed < positions.Length)
+                Debug.LogWarning($"[Space Samurai] Placed {placed}/{positions.Length} decorative NPCs " +
+                                 "— run 'Tools/Space Samurai/Art/Build Characters from Specs Folder' first to bake them all.");
+            return placed;
+        }
+
+        // Mirrors the private Sanitize in ArtPrefabBuilder.CharacterGen so derived prefab paths match
+        // the baker's output names exactly (letters/digits kept, everything else collapsed to '_').
+        private static string SanitizeAssetName(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return "GeneratedCharacter";
+            var sb = new System.Text.StringBuilder(s.Length);
+            foreach (char c in s) sb.Append(char.IsLetterOrDigit(c) ? c : '_');
+            string r = sb.ToString().Trim('_');
+            return string.IsNullOrEmpty(r) ? "GeneratedCharacter" : r;
         }
 
         /// <summary>Instantiate an NPC prefab or fallback to a capsule placeholder.</summary>

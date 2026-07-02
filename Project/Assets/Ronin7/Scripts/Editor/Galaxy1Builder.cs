@@ -408,7 +408,7 @@ namespace Ronin7.EditorTools
         /// The Corsair — Kessler's salvage-converted fighter, canon "a patchwork vessel that
         /// shouldn't fly but does" — as a BIG dockable exterior. Authored ~20 local units long at
         /// root scale 6 → ~120 universe units, i.e. roughly 2× a planet's radius. Same primitive
-        /// recipe as <see cref="BuildKesslerMothership"/> (collider-free parts under the universe);
+        /// collider-free-parts-under-the-universe recipe as the mothership prop;
         /// the port-side docking bay carries a green unlit strip so the approach reads visually.
         /// </summary>
         private static GameObject BuildCorsairExterior(Transform universe, Vector3 localPos, float scale)

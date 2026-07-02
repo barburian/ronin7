@@ -21,8 +21,8 @@ namespace Ronin7.EditorTools
     /// faithful to the canonical Ch01 script: Revival Bay -> Main Hold (wreck-field viewport) ->
     /// Airlock corridor (the boarding) -> Command Room (the ultimatum / cracked viewscreen).
     ///
-    /// Lives in the same <see cref="XRRigBuilder"/> partial class as <c>Ep01Builder</c> so it can call
-    /// all the shared private static helpers directly (geometry, doors, NPCs, dialogue, combat rigs).
+    /// Lives in the same <see cref="XRRigBuilder"/> partial class as <c>ChapterSharedBuilders</c> so it
+    /// can call all the shared private static helpers directly (geometry, doors, NPCs, dialogue, combat rigs).
     /// </summary>
     public static partial class XRRigBuilder
     {
@@ -149,6 +149,7 @@ namespace Ronin7.EditorTools
             // ---- Player rig (head + hands, no body), locomotion, bounds, belt katana. ----
             var rig = BuildRig(refs, addLocomotion: true);
             var playerHealth = rig.GetComponent<Health>();
+            rig.AddComponent<EchoPresence>(); // ambient shadow-AI callouts, additive, no wiring needed
             var bounds = rig.AddComponent<ZoneBounds>();
             bounds.center = new Vector3(0f, 0f, 19f);
             bounds.radius = 45f;
