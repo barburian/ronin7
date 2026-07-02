@@ -59,6 +59,9 @@ SPEAKER_VOICES = {
     # Same voice both ways (it IS the same being), slightly warmer once named.
     "Shadow": ("en-US-AriaNeural", "-8%", "-6Hz"),
     "Echo": ("en-US-AriaNeural", "-4%", "-4Hz"),
+    # Chapter 4 (Galaxy 1) speakers. Mera Voss and Khall reuse their EP08/base entries above.
+    "Tessa Rin": ("en-GB-SoniaNeural", "-6%", "-5Hz"),
+    "Kerrax": ("en-US-RogerNeural", "-10%", "-12Hz"),
     # EP02 speakers
     "Station Traffic Control": ("en-US-JennyNeural", "+0%", "+0Hz"),
     "Captain Resh": ("en-GB-SoniaNeural", "-5%", "-5Hz"),
@@ -151,7 +154,8 @@ SPEAKER_VOICES = {
     "Dominion Guard 2": ("en-US-SteffanNeural", "-6%", "-8Hz"),
     "Dominion Interceptor Pilot": ("en-US-ChristopherNeural", "+10%", "-3Hz"),
     # EP08 speakers
-    "Mera Voss": ("en-US-AriaNeural", "-12%", "-10Hz"),
+    # Distinct from Echo's AriaNeural so the Ch4 Beat5 scene reads as two people.
+    "Mera Voss": ("en-US-MichelleNeural", "-12%", "-8Hz"),
     "Reaper Unit": ("en-US-RogerNeural", "-15%", "-22Hz"),
     "Lotus Drone 1": ("en-US-EricNeural", "-14%", "-28Hz"),
     "Lotus Drone 2": ("en-US-EricNeural", "-16%", "-26Hz"),

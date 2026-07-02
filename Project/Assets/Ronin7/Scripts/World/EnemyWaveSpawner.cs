@@ -32,9 +32,12 @@ namespace Ronin7.World
         private int aliveEnemyCount = 0;
         private Coroutine beginRoutine;
 
-        /// <summary>Arm the spawner to begin polling for the player entering the trigger radius.</summary>
+        /// <summary>Arm the spawner to begin polling for the player entering the trigger radius.
+        /// Idempotent: once waves have started (or finished), later calls are no-ops — a re-armed
+        /// heat threshold or duplicate trigger must not restart waves or revive dead enemies.</summary>
         public void Begin()
         {
+            if (currentWaveIndex >= 0 || IsComplete) return;
             if (beginRoutine != null)
             {
                 StopCoroutine(beginRoutine);
