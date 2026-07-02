@@ -40,6 +40,9 @@ namespace Ronin7.World.Story
 
         public event System.Action Finished;
 
+        /// <summary>True while a line is currently on screen — i.e. this dialogue is actively playing.</summary>
+        public bool IsPlaying => isShowing;
+
         private InputAction advanceResolved;
         private InputAction ownedAdvance; // created when no asset reference resolves (mirrors SettingsMenuToggle)
         private Coroutine playCoroutine;

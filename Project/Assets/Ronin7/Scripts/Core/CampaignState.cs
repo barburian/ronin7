@@ -12,6 +12,7 @@ namespace Ronin7.Core
     {
         private static readonly HashSet<string> completed = new HashSet<string>();
         private static readonly HashSet<string> storyFlags = new HashSet<string>();
+        private static readonly HashSet<string> abilities = new HashSet<string>();
         public static string LastPlanetScene { get; private set; } = "";
 
         /// <summary>
@@ -82,6 +83,30 @@ namespace Ronin7.Core
         }
 
         /// <summary>
+        /// Record that a permanent ability (see <see cref="AbilityId"/>) has been unlocked. Ignores null/empty.
+        /// </summary>
+        public static void UnlockAbility(string id)
+        {
+            if (!string.IsNullOrEmpty(id))
+            {
+                abilities.Add(id);
+            }
+        }
+
+        /// <summary>
+        /// Return true if the given ability has been unlocked.
+        /// </summary>
+        public static bool HasAbility(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return false;
+            }
+
+            return abilities.Contains(id);
+        }
+
+        /// <summary>
         /// Number of galaxies the player has finished, derived from the "galaxyN_complete" story
         /// flags (set by each galaxy's finale mission). Persists via the normal storyFlags save.
         /// Used by SpaceEncounterManager to scale ambient hostile counts with story progress.
@@ -122,6 +147,10 @@ namespace Ronin7.Core
             List<string> sortedFlags = new List<string>(storyFlags);
             sortedFlags.Sort();
             save.storyFlags = sortedFlags;
+
+            List<string> sortedAbilities = new List<string>(abilities);
+            sortedAbilities.Sort();
+            save.abilityIds = sortedAbilities;
 
             save.lastPlanetScene = LastPlanetScene;
             save.firstPlanetDeparted = Galaxy1Progress.FirstPlanetDeparted;
@@ -165,6 +194,18 @@ namespace Ronin7.Core
                 }
             }
 
+            abilities.Clear();
+            if (data.abilityIds != null)
+            {
+                foreach (string id in data.abilityIds)
+                {
+                    if (!string.IsNullOrEmpty(id))
+                    {
+                        abilities.Add(id);
+                    }
+                }
+            }
+
             LastPlanetScene = data.lastPlanetScene ?? "";
             Galaxy1Progress.FirstPlanetDeparted = data.firstPlanetDeparted;
             ShipSelection.SelectedHullIndex = data.shipHullIndex;
@@ -177,6 +218,7 @@ namespace Ronin7.Core
         {
             completed.Clear();
             storyFlags.Clear();
+            abilities.Clear();
             LastPlanetScene = "";
         }
     }

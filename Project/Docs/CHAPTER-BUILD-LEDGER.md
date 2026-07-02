@@ -32,6 +32,7 @@ Ch14 cut, Ch15 merged into Ch16 — never built. Completion flags: `chN_complete
 |---|---|---|---|
 | Baseline (pre-Phase 0) | 418 (415 pass / 3 skip) | 418, 0 failed, 3 skipped (CyberAssets ×2, PlanetAssets ×1 — skip by design) | PASS 2026-07-02 |
 | Phase 0 (chapter flow foundation) | 426 (+8: HubStateControllerTests, ChapterOutroTests) | 426 / 0 failed / 3 skipped | PASS 2026-07-02 |
+| Phase 1 (ability framework + Echo + placeholders) | 450 (+24: CampaignStateAbility 11, EchoCalloutSelector 7, EchoLines 6) | 450 / 0 failed / 3 skipped | PASS 2026-07-02 |
 
 ## Legacy deletion batches
 
@@ -64,6 +65,7 @@ Before deleting any EpNN file: grep it for methods still called by Chapter*/Hub*
   `RewireOpenScene()` repairs rig components before save. Residual gap: `DialoguePlayer.advanceAction`
   (8×) + settings `toggleAction` (1×) stay `{fileID: 0}` — follow-up in Ch01 retrofit.
 - `console-clear-logs` MCP tool broken (file lock, HTTP 500) — use `lastMinutes` filtering instead.
+- 4× `EnvironmentDependencyValues`/`graphicsApiMask 4 -> 262148` on playmode transitions — Unity 6 infra noise.
 
 ## Perf reference bar (Ch1 hub scene, edit-mode UnityStats at greybox)
 
