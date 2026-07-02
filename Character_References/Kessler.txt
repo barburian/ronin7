@@ -1,0 +1,45 @@
+==================================================================
+KESSLER
+==================================================================
+SPECIES: Human (exempt civilian — explicitly human per project rule). Former Dominion serviceman.
+
+ROLE & FACTION: Independent salvager; revives Ronin-7 (Ch1); owes him his life from a mercy six
+years ago. Runs the Hub — his salvaged capital-class leviathan, THE CAIRN (he calls it "the rig").
+Father of Iris. The crew's emotional anchor and home-base captain.
+
+CHAPTERS: Ch1–Ch16 (recurring; home-base anchor).
+
+AGE / BUILD / HEIGHT: Late 50s; ~1.85 m. Big, broad, worn-down working frame; heavy hands; a
+salvager's durable bulk gone a little tired.
+
+HEAD: Weathered, lined face carrying three weeks of no sleep at first meeting; grey-streaked beard
+stubble; deep-set tired eyes with gallows-warmth worn into the creases. Gravelly Terran voice.
+
+BODY: Strong but stiff; the patience of a man who waits and maintains a dead ship alone. Old work
+injuries in the way he moves.
+
+WEAPONS / PROPS: A salvager's tools — cutting torch, multi-tool, sidearm holstered but rarely
+drawn; data-slate; mag-boots. Not a fighter by trade.
+
+CLOTHING / ARMOR: Practical, lived-in salvage rig — heavy canvas/leather work coat, padded vest,
+tool harness, grease-stained gloves, layered thermals for the cold dark decks.
+
+COLOR PALETTE: Oil-brown, rust, faded olive, worn leather, grey.
+
+SILHOUETTE / DISTINGUISHING FEATURES: Big tired bear of a man in a tool harness; fatherly weight;
+reads as the freighter captain you trust.
+
+DEMEANOR: Gravelly, wry, gallows-humored; protective (especially of Iris and Mira); loyal through
+action; calm under pressure. "Go down, get who you are, come back up. That's the whole mission to me."
+
+CANON SOURCE QUOTES:
+  - Six-years-ago mercy: "You had me on my knees... and then you were just standing there." (Ch1)
+  - Three weeks of no sleep visible on his face (Ch1).
+
+>> IMAGE-PROMPT SUMMARY:
+Late-50s human male salvager, big and broad and worn down, with heavy calloused hands, a weathered
+deeply-lined face, grey beard stubble, and tired deep-set eyes softened by gallows warmth. Dressed
+in a heavy grease-stained canvas-and-leather work coat, padded vest and a tool harness hung with a
+cutting torch and multi-tool, layered thermals underneath. Oil-brown, rust and faded-olive palette.
+Stands like a tired, protective freighter captain. Grounded, human, lived-in sci-fi salvager.
+==================================================================

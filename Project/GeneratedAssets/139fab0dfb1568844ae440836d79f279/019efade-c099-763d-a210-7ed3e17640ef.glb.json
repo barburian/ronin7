@@ -1,0 +1,23 @@
+{
+  "asset": "139fab0dfb1568844ae440836d79f279",
+  "fileName": "019efade-c099-763d-a210-7ed3e17640ef.glb",
+  "prompt": "can you add a blue neon light to the edge of the blade",
+  "negativePrompt": "",
+  "model": "model3d-tripo-p1",
+  "modelName": "Tripo P1",
+  "customSeed": -1,
+  "w3CTraceId": "",
+  "feedback": 1,
+  "refinementMode": "Generation",
+  "promptImageReferenceGuid": "9b7076dce38887f43be1fa1b3970598e",
+  "modelReferenceGuid": "",
+  "multiviewFrontGuid": "",
+  "multiviewBackGuid": "",
+  "multiviewLeftGuid": "",
+  "multiviewRightGuid": "",
+  "multiviewTopGuid": "",
+  "multiviewBottomGuid": "",
+  "multiviewLeftFrontGuid": "",
+  "multiviewRightFrontGuid": "",
+  "faceLimit": -1
+}

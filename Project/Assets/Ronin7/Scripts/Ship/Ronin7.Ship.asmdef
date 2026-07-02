@@ -1,0 +1,21 @@
+{
+    "name": "Ronin7.Ship",
+    "rootNamespace": "Ronin7.Ship",
+    "references": [
+        "Ronin7.Core",
+        "Ronin7.Combat",
+        "Ronin7.World",
+        "Unity.XR.Interaction.Toolkit",
+        "Unity.XR.CoreUtils",
+        "Unity.InputSystem"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

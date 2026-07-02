@@ -1,0 +1,8 @@
+VARIANT: Gravelkin #07 — "Shieldbearer Warrior"
+SPECIES: Gravelkin (cave-dwelling stoneblood).
+SEX / AGE / BUILD: Female / adult / towering, broad, disciplined.
+ROLE IN WORLD: Frontline shield-warrior defending the hold gates.
+DISTINGUISHING FEATURES: Dense basalt hide; ridged defensive nodules across the forearms (natural bracers); steady hard quartz eyes; short blunt tusks; a clan-mark carved into a chest-nodule.
+CLOTHING / GEAR: A huge slab-shield of welded scrap, a short stabbing-sword, layered plate, a gate-warden sash.
+COLOR / PALETTE: Basalt-grey hide; grey welded-scrap shield; iron plate; a deep-red warden sash.
+>> IMAGE-PROMPT SUMMARY: A towering broad disciplined adult female gravelkin shield-warrior with dense basalt lithic hide, ridged natural bracer-nodules across the forearms, steady hard quartz eyes, short blunt tusks and a clan-mark carved into a chest-nodule. Wears layered iron plate and a deep-red gate-warden sash, hefting a huge welded-scrap slab-shield and a short stabbing-sword. Basalt-grey, iron and deep-red palette. Stalwart, immovable. Grounded alien sci-fi.

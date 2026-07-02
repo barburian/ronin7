@@ -1,0 +1,8 @@
+VARIANT: Gravelkin #09 — "Hold Armorer"
+SPECIES: Gravelkin (cave-dwelling stoneblood).
+SEX / AGE / BUILD: Female / middle-aged / heavy, soot-streaked, strong.
+ROLE IN WORLD: Forges and repairs the band weapons and scrap-plate.
+DISTINGUISHING FEATURES: Granite hide blackened with forge-soot; heat-glazed nodules on the hands; bright quartz eyes lit by the forge; a hammer-callus ridge along one forearm.
+CLOTHING / GEAR: A thick hide forge-apron, stone-and-iron gauntlets, a great hammer, glowing tongs.
+COLOR / PALETTE: Soot-black-over-granite hide; forge-orange glow; iron and ember.
+>> IMAGE-PROMPT SUMMARY: A heavy soot-streaked strong middle-aged female gravelkin armorer with granite lithic hide blackened by forge-soot, heat-glazed hand-nodules, forge-bright quartz eyes and a hammer-callus ridge along one forearm. Wears a thick hide forge-apron and stone-and-iron gauntlets, wielding a great hammer and glowing tongs. Soot-black-over-granite and forge-orange palette. Strong, fiery, focused. Grounded alien sci-fi.

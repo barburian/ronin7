@@ -1,0 +1,379 @@
+{
+    "lines": [
+        {
+            "file": "ep18_cabin_brief2_00_kessler",
+            "speaker": "Kessler",
+            "text": "You're going to want to see this."
+        },
+        {
+            "file": "ep18_cabin_brief2_01_cipher",
+            "speaker": "Cipher",
+            "text": "What is it?"
+        },
+        {
+            "file": "ep18_cabin_brief2_02_kessler",
+            "speaker": "Kessler",
+            "text": "A message. Encrypted through a dead-drop network I thought I'd burned years ago."
+        },
+        {
+            "file": "ep18_cabin_brief2_03_kessler",
+            "speaker": "Kessler",
+            "text": "Coordinates to Thalassa-5. And one word: \"Takeshi.\""
+        },
+        {
+            "file": "ep18_cabin_brief2_04_cipher",
+            "speaker": "Cipher",
+            "text": "Your son."
+        },
+        {
+            "file": "ep18_cabin_brief2_05_kessler",
+            "speaker": "Kessler",
+            "text": "Recruited into the Dominion at twelve. Silent for eight years. But someone got a message out."
+        },
+        {
+            "file": "ep18_cabin_brief2_06_kessler",
+            "speaker": "Kessler",
+            "text": "These coordinates are the first sign he's still breathing."
+        },
+        {
+            "file": "ep18_cabin_brief2_07_cipher",
+            "speaker": "Cipher",
+            "text": "We set course now."
+        },
+        {
+            "file": "ep18_bartender_info_00_bartender",
+            "speaker": "Bartender",
+            "text": "You're looking for something specific, and you're carrying the weight of it like a wound."
+        },
+        {
+            "file": "ep18_bartender_info_01_kessler",
+            "speaker": "Kessler",
+            "text": "The Abyssal Vault. What do you know about operations down there?"
+        },
+        {
+            "file": "ep18_bartender_info_02_bartender",
+            "speaker": "Bartender",
+            "text": "The Vault is a prison and a market both. Prisoners are value, and value is extracted."
+        },
+        {
+            "file": "ep18_bartender_info_03_bartender",
+            "speaker": "Bartender",
+            "text": "They flood the cells twice daily. Drowning near to death and revival, over and over, until the prisoners' memory barriers collapse. What's inside gets sold. Everything extracted flows through the Hollow Kings' network."
+        },
+        {
+            "file": "ep18_bartender_info_04_bartender",
+            "speaker": "Bartender",
+            "text": "What remains of the prisoners gets recycled as programmable labor. Work until expiration. Efficient."
+        },
+        {
+            "file": "ep18_bartender_info_05_kessler",
+            "speaker": "Kessler",
+            "text": "How deep?"
+        },
+        {
+            "file": "ep18_bartender_info_06_bartender",
+            "speaker": "Bartender",
+            "text": "Two kilometers beneath the ice, tethered to thermal vents. Corridors are built to flood and drain on a tidal cycle. Prisoners don't climb out. They're already beneath the drowning."
+        },
+        {
+            "file": "ep18_station_enforcer_barks_00_tidebaronenforcer",
+            "speaker": "Tide Baron Enforcer",
+            "text": "Kessler. I remember you."
+        },
+        {
+            "file": "ep18_station_enforcer_barks_01_tidebaronenforcer",
+            "speaker": "Tide Baron Enforcer",
+            "text": "The old debt. From the runoff years. Still outstanding."
+        },
+        {
+            "file": "ep18_station_enforcer_barks_02_kessler",
+            "speaker": "Kessler",
+            "text": "That debt's been paid through channels..."
+        },
+        {
+            "file": "ep18_station_enforcer_barks_03_enforcer1",
+            "speaker": "Enforcer 1",
+            "text": "Multiple contacts! Detainment protocol!"
+        },
+        {
+            "file": "ep18_station_enforcer_barks_04_kessler",
+            "speaker": "Kessler",
+            "text": "We're out of time. We move now or we're trapped here."
+        },
+        {
+            "file": "ep18_corridor_confession_00_kessler",
+            "speaker": "Kessler",
+            "text": "Takeshi was taken when he was twelve."
+        },
+        {
+            "file": "ep18_corridor_confession_01_kessler",
+            "speaker": "Kessler",
+            "text": "The Dominion's recruiters came to his school. They said he had augmentation markers. Potential. I tried to stop them."
+        },
+        {
+            "file": "ep18_corridor_confession_02_cipher",
+            "speaker": "Cipher",
+            "text": "They took him anyway."
+        },
+        {
+            "file": "ep18_corridor_confession_03_kessler",
+            "speaker": "Kessler",
+            "text": "The Barons declared his departure a \"compensable debt.\" A boy with operative markers is valuable merchandise. I would have had to pay or lose him."
+        },
+        {
+            "file": "ep18_corridor_confession_04_kessler",
+            "speaker": "Kessler",
+            "text": "I chose to disappear instead. I've been paying in other ways ever since."
+        },
+        {
+            "file": "ep18_prisoner_worker_00_prisonerworker",
+            "speaker": "Prisoner-Worker",
+            "text": "You move like an operative."
+        },
+        {
+            "file": "ep18_quarantine_recognition_00_takeshi",
+            "speaker": "Takeshi",
+            "text": "Seven."
+        },
+        {
+            "file": "ep18_quarantine_recognition_01_takeshi",
+            "speaker": "Takeshi",
+            "text": "You came."
+        },
+        {
+            "file": "ep18_quarantine_recognition_02_cipher",
+            "speaker": "Cipher",
+            "text": "How do you know that designation?"
+        },
+        {
+            "file": "ep18_quarantine_recognition_03_takeshi",
+            "speaker": "Takeshi",
+            "text": "Because my father told me about you before they took me."
+        },
+        {
+            "file": "ep18_quarantine_recognition_04_takeshi",
+            "speaker": "Takeshi",
+            "text": "He said when I was scared I should remember a soldier who chose mercy over mission. He said you were the only operative they ever couldn't make kill children."
+        },
+        {
+            "file": "ep18_quarantine_recognition_05_takeshi",
+            "speaker": "Takeshi",
+            "text": "The Barons said you were dead. But I never believed it."
+        },
+        {
+            "file": "ep18_quarantine_recognition_06_takeshi",
+            "speaker": "Takeshi",
+            "text": "How did you know to come?"
+        },
+        {
+            "file": "ep18_quarantine_recognition_07_cipher",
+            "speaker": "Cipher",
+            "text": "Your father sent a message. One word. That was enough."
+        },
+        {
+            "file": "ep18_quarantine_recognition_08_takeshi",
+            "speaker": "Takeshi",
+            "text": "Because I'm the only operative who ever chose someone over the mission."
+        },
+        {
+            "file": "ep18_quarantine_recognition_09_takeshi",
+            "speaker": "Takeshi",
+            "text": "No. You're the only operative who chose my father. And that was the whole choice."
+        },
+        {
+            "file": "ep18_failsafe_reveal_00_takeshi",
+            "speaker": "Takeshi",
+            "text": "The Dominion's failsafe leaves a neural signature in every operative who ever walked out of the program."
+        },
+        {
+            "file": "ep18_failsafe_reveal_01_takeshi",
+            "speaker": "Takeshi",
+            "text": "A latticework connecting chip to handler to command hub. Every operative networked to the next."
+        },
+        {
+            "file": "ep18_failsafe_reveal_02_takeshi",
+            "speaker": "Takeshi",
+            "text": "By extracting from enough operatives over enough years, the Vault built a complete map. The full reach of the network. How many operatives are connected. How the routing flows through Dominion command infrastructure."
+        },
+        {
+            "file": "ep18_failsafe_reveal_03_takeshi",
+            "speaker": "Takeshi",
+            "text": "They have that map now. The Barons sold it to two major buyers. The network is no longer a secret the Dominion controls alone."
+        },
+        {
+            "file": "ep18_failsafe_reveal_04_cipher",
+            "speaker": "Cipher",
+            "text": "And you."
+        },
+        {
+            "file": "ep18_failsafe_reveal_05_takeshi",
+            "speaker": "Takeshi",
+            "text": "Tomorrow they plan to extract my memories of you. Of your defection. To sell as proof that the conditioning can break. To sell that crack in the architecture to anyone desperate enough to pay."
+        },
+        {
+            "file": "ep18_extraction_barks_00_researcher1",
+            "speaker": "Researcher 1",
+            "text": "Specimen is mobile! Override containment!"
+        },
+        {
+            "file": "ep18_vault_inventory_00_takeshi",
+            "speaker": "Takeshi",
+            "text": "Seventeen prisoners remain in the Vault. All operatives. All still alive."
+        },
+        {
+            "file": "ep18_vault_inventory_01_takeshi",
+            "speaker": "Takeshi",
+            "text": "If containment fails, the standard protocol is a full-structure flood. Kill the evidence. No survivors. No proof."
+        },
+        {
+            "file": "ep18_vault_inventory_02_cipher",
+            "speaker": "Cipher",
+            "text": "Where are the emergency bulkhead controls?"
+        },
+        {
+            "file": "ep18_vault_inventory_03_takeshi",
+            "speaker": "Takeshi",
+            "text": "Three sectors down. The command core. Below the research floor."
+        },
+        {
+            "file": "ep18_sable_intercept_00_sabledross",
+            "speaker": "Sable Dross",
+            "text": "I've watched you since you entered the Vault."
+        },
+        {
+            "file": "ep18_sable_intercept_01_sabledross",
+            "speaker": "Sable Dross",
+            "text": "I joined the Tide Barons for deep-sea research. For the study of bioluminescence and neural adaptation in high-pressure environments."
+        },
+        {
+            "file": "ep18_sable_intercept_02_sabledross",
+            "speaker": "Sable Dross",
+            "text": "I did not join to watch the Vault become what it became."
+        },
+        {
+            "file": "ep18_sable_intercept_03_sabledross",
+            "speaker": "Sable Dross",
+            "text": "The command core access code. Use it."
+        },
+        {
+            "file": "ep18_sable_intercept_04_cipher",
+            "speaker": "Cipher",
+            "text": "Why would you give me this?"
+        },
+        {
+            "file": "ep18_sable_intercept_05_sabledross",
+            "speaker": "Sable Dross",
+            "text": "Because the Dominion doesn't care about justice. They care about efficiency. The Barons don't care about the prisoners. They care about profit. And I have decided I will care about neither."
+        },
+        {
+            "file": "ep18_sable_intercept_06_sabledross",
+            "speaker": "Sable Dross",
+            "text": "After this, I am done with the Tide Barons. I want passage from the Dominion's reach."
+        },
+        {
+            "file": "ep18_construct_barks_00_defensesystemoverhead",
+            "speaker": "Defense System (Overhead)",
+            "text": "Intruder neutralized by automated defense. Initiate containment protocol."
+        },
+        {
+            "file": "ep18_commodore_logic_00_commodore",
+            "speaker": "Commodore",
+            "text": "The Tide Barons have never exploited weakness in operatives."
+        },
+        {
+            "file": "ep18_commodore_logic_01_commodore",
+            "speaker": "Commodore",
+            "text": "Weakness is unreliable. It breaks in unpredictable ways."
+        },
+        {
+            "file": "ep18_commodore_logic_02_commodore",
+            "speaker": "Commodore",
+            "text": "Strength is what we exploit. The capacity for connection. For compassion. The flaw that makes operatives useful to anyone who understands it."
+        },
+        {
+            "file": "ep18_dock_return_00_sabledross",
+            "speaker": "Sable Dross",
+            "text": "The Vault's full extraction records. Every operative transferred. Every memory extracted. Every price paid."
+        },
+        {
+            "file": "ep18_dock_return_01_sabledross",
+            "speaker": "Sable Dross",
+            "text": "I copied everything before the collapse. The originals are wiped. No second copy exists."
+        },
+        {
+            "file": "ep18_dock_return_02_sabledross",
+            "speaker": "Sable Dross",
+            "text": "I'm done with the Barons."
+        },
+        {
+            "file": "ep18_dock_return_03_cipher",
+            "speaker": "Cipher",
+            "text": "You have passage. Welcome aboard."
+        },
+        {
+            "file": "ep18_hyperspace_revelation_00_sabledross",
+            "speaker": "Sable Dross",
+            "text": "The network map was sold to at least two external buyers before I wiped the Vault's original records."
+        },
+        {
+            "file": "ep18_hyperspace_revelation_01_sabledross",
+            "speaker": "Sable Dross",
+            "text": "One buyer paid in currency used only by organizations working to dismantle the Dominion from outside."
+        },
+        {
+            "file": "ep18_hyperspace_revelation_02_sabledross",
+            "speaker": "Sable Dross",
+            "text": "That might be you, eventually."
+        },
+        {
+            "file": "ep18_ledger_promise_00_sabledross",
+            "speaker": "Sable Dross",
+            "text": "The archive contains everything the Vault extracted from operatives over the past seven years."
+        },
+        {
+            "file": "ep18_ledger_promise_01_sabledross",
+            "speaker": "Sable Dross",
+            "text": "Alongside the network map, there are the Vault's procurement records. Every operative transferred in. Dates of capture. Last Dominion contact recorded. Status at transfer."
+        },
+        {
+            "file": "ep18_ledger_promise_02_sabledross",
+            "speaker": "Sable Dross",
+            "text": "These entries are different. Not dead. Not broken. But struck from the Dominion's own records as though they never existed."
+        },
+        {
+            "file": "ep18_ledger_promise_03_kessler",
+            "speaker": "Kessler",
+            "text": "This is only the Vault's copy."
+        },
+        {
+            "file": "ep18_ledger_promise_04_kessler",
+            "speaker": "Kessler",
+            "text": "Somewhere in the Dominion, there is a master ledger. Every operative they ever built. Every one they erased. A complete accounting of what they made and then unmade."
+        },
+        {
+            "file": "ep18_observation_truth_00_cipher",
+            "speaker": "Cipher",
+            "text": "The Dominion built us and erased us when we stopped being useful."
+        },
+        {
+            "file": "ep18_observation_truth_01_cipher",
+            "speaker": "Cipher",
+            "text": "If there is a master ledger, every name they struck from the record, then there are people who don't know they're still on someone's list. Or still alive enough to matter."
+        },
+        {
+            "file": "ep18_observation_truth_02_cipher",
+            "speaker": "Cipher",
+            "text": "We find that ledger. And we make sure no one else forgets what the Dominion tried to erase."
+        },
+        {
+            "file": "ep18_space_ep18_post_00_cipher",
+            "speaker": "Cipher",
+            "text": "Takeshi is alive. Sable Dross is aboard with the Vault's full records."
+        },
+        {
+            "file": "ep18_space_ep18_post_01_kessler",
+            "speaker": "Kessler",
+            "text": "And somewhere there's a master ledger naming every operative they erased. We find it next."
+        }
+    ]
+}

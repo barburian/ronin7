@@ -1,0 +1,8 @@
+VARIANT: Voll #07 — "Pawnbroker / Fence"
+SPECIES: Voll (syndicate / black-market profiteer).
+SEX / AGE / BUILD: Female / middle-aged / squat, shrewd, beady.
+ROLE IN WORLD: Runs a cramped pawn-and-fence stall in the market underbelly.
+DISTINGUISHING FEATURES: Yellow-grey oily skin; small busy dewlaps; very sharp appraising gold eyes; a jeweler-loupe implant in one eye; ringed counting-fingers.
+CLOTHING / GEAR: A many-pocketed fence-apron of trinkets, a strongbox, an appraisal-scale, a barred counter.
+COLOR / PALETTE: Yellow-grey flesh; cluttered brass and gem-glint; tarnished gold; dim stall-lamp.
+>> IMAGE-PROMPT SUMMARY: A squat shrewd beady middle-aged female voll pawnbroker-fence with yellow-grey oily skin, small busy dewlaps, very sharp appraising gold eyes (one fitted with a jeweler-loupe implant) and ringed counting-fingers. Wears a many-pocketed fence-apron of trinkets behind a barred counter with a strongbox and appraisal-scale. Yellow-grey, brass and gem-glint palette in dim lamp-light. Calculating, grasping. Grounded alien sci-fi.

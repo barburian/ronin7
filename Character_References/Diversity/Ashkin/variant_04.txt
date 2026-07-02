@@ -1,0 +1,8 @@
+VARIANT: Ashkin #04 — "Dust-World Girl"
+SPECIES: Ashkin (frontier dust-world settler).
+SEX / AGE / BUILD: Female / child (~8) / slight, light-plated.
+ROLE IN WORLD: A homestead child; carries water and minds the young beasts.
+DISTINGUISHING FEATURES: Ruddy ochre skin with faint just-forming cheek-plates; big curious bright ember eyes; rust pigtails dusted grey; a scraped knee.
+CLOTHING / GEAR: A simple rust tunic and wrap, worn sandals, a small water-pail, a loose breath-scarf.
+COLOR / PALETTE: Ochre skin; rust tunic; grey ash; soft warm daylight.
+>> IMAGE-PROMPT SUMMARY: A slight ~8-year-old female ashkin homestead child with ruddy ochre skin, faint just-forming cheek-plates, big curious bright ember eyes and grey-dusted rust pigtails. Wears a simple rust tunic and wrap, worn sandals and a loose breath-scarf, carrying a small water-pail. Ochre, rust and grey-ash palette in warm daylight. Curious, innocent. Grounded alien sci-fi frontier.

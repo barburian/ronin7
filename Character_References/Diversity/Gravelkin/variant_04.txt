@@ -1,0 +1,8 @@
+VARIANT: Gravelkin #04 — "Hold Whelp (Child)"
+SPECIES: Gravelkin (cave-dwelling stoneblood).
+SEX / AGE / BUILD: Female / child / small and almost smooth-hided (very young for a stone species).
+ROLE IN WORLD: A hold-born child underfoot in the pirate caves.
+DISTINGUISHING FEATURES: Soft pale-grey hide with no nodules yet, just faint bumps at the brow; oversized curious quartz eyes; no tusks; clumsy heavy little hands.
+CLOTHING / GEAR: A simple hide-smock, a hold-token on a cord, a toy carved from cave-crystal.
+COLOR / PALETTE: Pale-grey hide; undyed hide-smock; a single crystal-toy glint.
+>> IMAGE-PROMPT SUMMARY: A small almost smooth-hided gravelkin child (very young for a long-lived stone species) with soft pale-grey lithic skin, only faint brow-bumps where nodules will grow, oversized curious quartz eyes, no tusks and clumsy heavy little hands. Wears a simple undyed hide-smock and a hold-token cord, clutching a carved cave-crystal toy. Pale-grey, undyed-hide palette with a crystal glint. Endearing, curious. Grounded alien sci-fi.

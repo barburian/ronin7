@@ -1,0 +1,28 @@
+{
+    "asset": "3f561002f4514bd4997609e6667352a1",
+    "fileName": "019efa4e-7f2c-77ed-998d-2f873194b252.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A bent half-lamed once-lean old male vesh warrior with brittle faded flaking chitin, both mandible-tusks worn to stubs, dimming orange slit-eyes, a withered hooked hand, a dragging lamed leg and the densest kill-notches in the clan. Wears a trophy blanket-cloak with a memory-cord of brands, leaning on a crutch-spear with a pipe. Faded grey-oxblood, trophy-brown and bone-white palette. Grizzled, storied. Grounded alien sci-fi raider. Color palette: Faded grey-oxblood carapace; old trophy-browns; bone-white worn brands; ember-pipe glow. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

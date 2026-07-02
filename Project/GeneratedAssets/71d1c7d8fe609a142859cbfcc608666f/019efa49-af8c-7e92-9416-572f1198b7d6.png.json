@@ -1,0 +1,28 @@
+{
+    "asset": "71d1c7d8fe609a142859cbfcc608666f",
+    "fileName": "019efa49-af8c-7e92-9416-572f1198b7d6.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A low crouched fast Smoke-Shroud Assassin Synod voidform with an obsidian body half-dissolved into streaming shadow-smoke, a narrow predatory white-blue seam for a face, hands tapering into long shadow-blades and trailing smoke where the legs should be. Wears almost no regalia, just a shredded smoke-shroud bleeding into vapor. Obsidian-black-to-smoke with sharp white-blue seam palette. Stealthy, deadly. Cosmic dark sci-fi. Color palette: Obsidian black bleeding to shadow-smoke; sharp white-blue seam. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

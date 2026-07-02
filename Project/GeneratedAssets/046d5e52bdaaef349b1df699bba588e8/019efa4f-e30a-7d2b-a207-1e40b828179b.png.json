@@ -1,0 +1,28 @@
+{
+    "asset": "046d5e52bdaaef349b1df699bba588e8",
+    "fileName": "019efa4f-e30a-7d2b-a207-1e40b828179b.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A broad proud sturdy adult male vesh banner-bearer with solid ceremonially-clean dark-red chitin, steady fervent orange slit-eyes, clan-ribbon-bound mandible-tusks, a large proud clan-glyph chest-brand and a bracing shoulder-callus. Wears a bearer-harness with a great standard-socket, hoisting a towering bone-and-hide clan banner and a defending short-axe. Dark-red, clan-color banner and bone palette. Proud, stalwart. Grounded alien sci-fi raider. Color palette: Clean dark-red carapace; the banner clan-colors; bone, hide and brand-white. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

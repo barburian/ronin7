@@ -1,0 +1,28 @@
+{
+    "asset": "b52f8ae464677304ba7dc61301264e7d",
+    "fileName": "019efa40-80d7-72f1-a477-5ff3d1b6aa95.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A council of tall, regal, eyeless alien forgers — the Hollow Kings: polished obsidian-black voidforms with too-many-jointed limbs and too-smooth motion, edges bleeding shadow-smoke, each crowned with an ornate hollow crown or mask you can literally see through into void (emptier than their apex, Maelgorn). Hairline fault-light cracks seam them in cold white-blue. Fused fractured obsidian mantles of office, each King's crown-motif slightly distinct. Obsidian black with void-purple undertone and cold white-blue seams, with hollow voids showing through the crowns. Stand as cold, decree-wielding, eternal authors of the cage. Cosmic dark sci-fi. Color palette: Obsidian black, void-purple undertone, cold white-blue fault-seams; hollow voids. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

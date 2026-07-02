@@ -1,0 +1,28 @@
+{
+    "asset": "e57830aa3c350cf4da10f64bb82be30f",
+    "fileName": "019efa3b-e4eb-7804-879d-d3687073f866.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: Ancient, towering human male operative — the prototype every assassin make was cut from — with a weathered half-vacant face, deep hollow eyes crawling with faint broadcast-static, long matted grey-white hair and beard, features that flicker and de-resolve between man and shadow. Clad in the oldest, heaviest knightly operative armor gone to fused, corroded ruin, draped in canyon dust and dream-static. Wields a huge archaic great-blade with a dim leashed hilt-light. Bone-white, rust and dead-grey palette with cold static-flicker. Stands monumental, ancient, slow and immense. Grounded dark sci-fi. Color palette: Bone-white, rust, ash, dead grey; cold static-flicker; dim hilt-light. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

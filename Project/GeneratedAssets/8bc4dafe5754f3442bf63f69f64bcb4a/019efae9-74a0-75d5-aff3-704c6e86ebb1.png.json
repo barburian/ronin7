@@ -1,0 +1,28 @@
+{
+    "asset": "8bc4dafe5754f3442bf63f69f64bcb4a",
+    "fileName": "019efae9-74a0-75d5-aff3-704c6e86ebb1.png",
+    "prompt": "Concept art of a single weapon set shown complete and centered, isolated on a plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, NO character, no hands, no figure, only the weapons by themselves. Subject: a stealth-assassin's light fast sci-fi blade, a slim quick single-edged short-sword with a cold leashed pale hilt-light, flanked by a pair of concealed shorter throwing/wrist blades; matte non-reflective, mine-dust worn, built for speed and silence. Color palette: charcoal and matte-black with dust-grey and a cold leashed hilt-light. Grounded lived-in sci-fi, single weapon prop set on neutral background.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

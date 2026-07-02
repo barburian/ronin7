@@ -1,0 +1,8 @@
+VARIANT: Ashkin #14 — "Keeper of the Dead"
+SPECIES: Ashkin (frontier dust-world settler).
+SEX / AGE / BUILD: Male / older adult / tall, gaunt, solemn.
+ROLE IN WORLD: Settlement death-priest who anoints and buries the dead in ash.
+DISTINGUISHING FEATURES: Grey-brown skin powdered ritual-pale with grave-ash; severe brow and jaw plates; deep still ember eyes; ash hand-prints ritual-marked on the robe.
+CLOTHING / GEAR: A long grey grave-robe with ash hand-prints, a censer of bone-ash, a burial spade.
+COLOR / PALETTE: Ash-pale grey-brown skin; grey grave-robe; bone-white prints; dead-rust trim.
+>> IMAGE-PROMPT SUMMARY: A tall gaunt solemn older male ashkin death-priest with grey-brown skin powdered ritual-pale in grave-ash, severe brow and jaw keratin-plates, deep still ember eyes, and ash hand-prints marked on his robe. Wears a long grey grave-robe with ash prints, carrying a bone-ash censer and a burial spade. Ash-pale grey and dead-rust palette. Solemn, ritual. Grounded alien sci-fi frontier.

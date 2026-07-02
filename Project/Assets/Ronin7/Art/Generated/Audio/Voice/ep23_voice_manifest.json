@@ -1,0 +1,264 @@
+{
+    "lines": [
+        {
+            "file": "ep23_signal_00_kessler",
+            "speaker": "Kessler",
+            "text": "That frequency is dead-channel. Military band. The kind of thing the Dominion only uses for listening posts and derelict installations."
+        },
+        {
+            "file": "ep23_signal_01_cipher",
+            "speaker": "Cipher",
+            "text": "Is it broadcasting?"
+        },
+        {
+            "file": "ep23_signal_02_kessler",
+            "speaker": "Kessler",
+            "text": "No. Just repeating. Like something left on a shelf to die slowly. Could be a graveyard. Could be bait."
+        },
+        {
+            "file": "ep23_drone_barks_00_empiredrone",
+            "speaker": "Empire Drone",
+            "text": "Intruder-detection-protocol-alpha-alert-alert-ALERT..."
+        },
+        {
+            "file": "ep23_drone_barks_01_cipher",
+            "speaker": "Cipher",
+            "text": "It's a Program asset. Or it was."
+        },
+        {
+            "file": "ep23_drone_barks_02_kessler",
+            "speaker": "Kessler",
+            "text": "See that? That chill you're feeling?"
+        },
+        {
+            "file": "ep23_drone_barks_03_kessler",
+            "speaker": "Kessler",
+            "text": "That's not cold. That's recognition."
+        },
+        {
+            "file": "ep23_ice_below_00_kessler",
+            "speaker": "Kessler",
+            "text": "Power relay's down there. We get it online, the station's docking mechanisms respond. We don't, we're sitting dark in the vacuum with no comms home."
+        },
+        {
+            "file": "ep23_ice_below_01_iris",
+            "speaker": "Iris",
+            "text": "And the Dominion doesn't leave infrastructure unguarded. Not ever."
+        },
+        {
+            "file": "ep23_ice_below_02_kessler",
+            "speaker": "Kessler",
+            "text": "Quick breach, in-out. You get the relay open, I keep the hauler warm. If anything moves, you move faster."
+        },
+        {
+            "file": "ep23_sentinel_barks_00_sentinelplatform1",
+            "speaker": "Sentinel Platform 1",
+            "text": "Unauthorized biological signature detected. Initiating defensive protocols."
+        },
+        {
+            "file": "ep23_sentinel_barks_01_sentinelplatform2",
+            "speaker": "Sentinel Platform 2",
+            "text": "Magnetic interference detected. Eliminating threat."
+        },
+        {
+            "file": "ep23_ice_aftermath_00_cipher",
+            "speaker": "Cipher",
+            "text": "Relay is live. Station's docking bay is opening."
+        },
+        {
+            "file": "ep23_ice_aftermath_01_kessler",
+            "speaker": "Kessler",
+            "text": "Understood. Coming down to collect you."
+        },
+        {
+            "file": "ep23_crypt_below_00_cryointerface",
+            "speaker": "Cryo-Interface",
+            "text": "Seven? Seven, is that you? Seven? Seven, is that you?"
+        },
+        {
+            "file": "ep23_cryo_barks_00_cryoanimate1",
+            "speaker": "Cryo-Animate 1",
+            "text": "Return. Return to stasis. Return to..."
+        },
+        {
+            "file": "ep23_cryo_barks_01_cryoanimate2",
+            "speaker": "Cryo-Animate 2",
+            "text": "Wake not allowed. Sleep required. Sleep. Return to..."
+        },
+        {
+            "file": "ep23_crypt_aftermath_00_stationai",
+            "speaker": "Station AI",
+            "text": "Cohort designations Ronin-1 through Ronin-9, third iteration. All status: Preserved. Cause of stasis: Authorized quarantine. Duration: Indefinite."
+        },
+        {
+            "file": "ep23_crypt_aftermath_01_stationai",
+            "speaker": "Station AI",
+            "text": "Defective generation classification: Confirmed. Containment priority: Terminal."
+        },
+        {
+            "file": "ep23_the_commander_00_kessler",
+            "speaker": "Kessler",
+            "text": "Let them sleep, Seven. They're ghosts now. Dead in all the ways that matter."
+        },
+        {
+            "file": "ep23_the_commander_01_cipher",
+            "speaker": "Cipher",
+            "text": "She needs to wake."
+        },
+        {
+            "file": "ep23_defense_barks_00_defensedrone3",
+            "speaker": "Defense Drone 3",
+            "text": "Containment breach! Quarantine protocol activated!"
+        },
+        {
+            "file": "ep23_defense_barks_01_defensedrone4",
+            "speaker": "Defense Drone 4",
+            "text": "Containment protocol failure! Terminating breach!"
+        },
+        {
+            "file": "ep23_defense_barks_02_vale",
+            "speaker": "Vale",
+            "text": "Did we complete the mission?"
+        },
+        {
+            "file": "ep23_defense_barks_03_vale",
+            "speaker": "Vale",
+            "text": "Your mark is gone."
+        },
+        {
+            "file": "ep23_defense_barks_04_vale",
+            "speaker": "Vale",
+            "text": "What happened to you, Seven?"
+        },
+        {
+            "file": "ep23_defective_generation_00_cipher",
+            "speaker": "Cipher",
+            "text": "You remember Kethel-7?"
+        },
+        {
+            "file": "ep23_defective_generation_01_vale",
+            "speaker": "Vale",
+            "text": "I remember the order. To cull the defective generation, the ones who had shown mercy in field operations. The children were a test. A loyalty trial. And you refused."
+        },
+        {
+            "file": "ep23_defective_generation_02_vale",
+            "speaker": "Vale",
+            "text": "You reported it. Then you were gone."
+        },
+        {
+            "file": "ep23_defective_generation_03_vale",
+            "speaker": "Vale",
+            "text": "They didn't erase us."
+        },
+        {
+            "file": "ep23_defective_generation_04_vale",
+            "speaker": "Vale",
+            "text": "They quarantined us. Everyone who knew. Everyone who had shown the capacity to refuse. Labeled us the \"defective generation\" and sealed us in ice."
+        },
+        {
+            "file": "ep23_defective_generation_05_vale",
+            "speaker": "Vale",
+            "text": "Not to kill us. To keep us quiet. Indefinite. Terminal containment of a terminal flaw."
+        },
+        {
+            "file": "ep23_defective_generation_06_vale",
+            "speaker": "Vale",
+            "text": "We can be woken, Seven. All of us. And we remember everything they tried to erase."
+        },
+        {
+            "file": "ep23_defective_barks_00_cipher",
+            "speaker": "Cipher",
+            "text": "The reactor vents?"
+        },
+        {
+            "file": "ep23_defective_barks_01_vale",
+            "speaker": "Vale",
+            "text": "Cooling system will stabilize when we vent the heat."
+        },
+        {
+            "file": "ep23_defective_barks_02_cryoanimate1",
+            "speaker": "Cryo-Animate 1",
+            "text": "Programming fractured. Cannot... cannot comply..."
+        },
+        {
+            "file": "ep23_defective_aftermath_00_vale",
+            "speaker": "Vale",
+            "text": "The Dominion made us defective by giving us a conscience. Then decided that was too dangerous to leave walking around."
+        },
+        {
+            "file": "ep23_the_wake_00_vale",
+            "speaker": "Vale",
+            "text": "We are not going back to the Dominion. We are free, or we are nothing."
+        },
+        {
+            "file": "ep23_boarding_barks_00_dominiondestroyercommander",
+            "speaker": "Dominion Destroyer Commander",
+            "text": "All boarding teams, breach on contact! Suppress all personnel on lower decks!"
+        },
+        {
+            "file": "ep23_boarding_barks_01_iris",
+            "speaker": "Iris",
+            "text": "I have the hauler docked. You're loading now. Don't argue. Move."
+        },
+        {
+            "file": "ep23_wake_aftermath_00_vale",
+            "speaker": "Vale",
+            "text": "You didn't choose to be erased, Seven. And you don't have to choose to stay forgotten."
+        },
+        {
+            "file": "ep23_ghost_fleet_00_vale",
+            "speaker": "Vale",
+            "text": "The manifest you pulled from the relay's backup systems, I've been reading it."
+        },
+        {
+            "file": "ep23_ghost_fleet_01_vale",
+            "speaker": "Vale",
+            "text": "Five more installations, Seven. Scattered across the outer rim. All marked with the same designation. All housing cryo-vaults. All containing preserved operatives classified as the defective generation."
+        },
+        {
+            "file": "ep23_ghost_fleet_02_vale",
+            "speaker": "Vale",
+            "text": "Thousands of operatives. All of them quarantined. All of them waiting."
+        },
+        {
+            "file": "ep23_ghost_fleet_03_cipher",
+            "speaker": "Cipher",
+            "text": "How many iterations of the program were authorized?"
+        },
+        {
+            "file": "ep23_ghost_fleet_04_vale",
+            "speaker": "Vale",
+            "text": "More than we knew existed. More than the Dominion ever documented in channels we could access."
+        },
+        {
+            "file": "ep23_ghost_barks_00_kessler",
+            "speaker": "Kessler",
+            "text": "Evasion pattern delta! Stay close to the debris!"
+        },
+        {
+            "file": "ep23_ghost_barks_01_kessler",
+            "speaker": "Kessler",
+            "text": "Jump coordinates locked. We're clear. We made it."
+        },
+        {
+            "file": "ep23_closing_00_vale",
+            "speaker": "Vale",
+            "text": "The defective generation. That is what they called us."
+        },
+        {
+            "file": "ep23_closing_01_vale",
+            "speaker": "Vale",
+            "text": "But how many of you are there, exactly?"
+        },
+        {
+            "file": "ep23_space_ep23_post_00_cipher",
+            "speaker": "Cipher",
+            "text": "Twelve of them woke from cryo. They remember me. They remember what they refused. There are five more installations like the Thermopause, thousands more operatives, all classified defective, all waiting in the ice."
+        },
+        {
+            "file": "ep23_space_ep23_post_01_kessler",
+            "speaker": "Kessler",
+            "text": "The manifest shows more variants than anyone documented. More iterations of the Program. This wasn't a single cohort buried in ice. This was the whole backup generation. And the Dominion was willing to keep them frozen forever rather than let them wake."
+        }
+    ]
+}

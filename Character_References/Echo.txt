@@ -1,0 +1,46 @@
+==================================================================
+ECHO   (formerly "Shadow" — the sword's shadow-AI)
+==================================================================
+SPECIES: CONSTRUCT / NON-CORPOREAL — a defected shadow-AI. No body. Not human, not alien-species;
+a Program AI that chose freedom.
+
+ROLE & FACTION: The shadow-AI bonded to Ronin-7's optic nerve and housed in his katana. Rode behind
+his eyes during the Kethel-7 mission (before the wipe), recorded his defection and the killswitch
+firing, broke with the Program, and survived dormant in the casketed blade. Named "Shadow" through
+Ch3's bonding/playback, then renamed ECHO by Ronin. Witness, partner, and conscience; carries three
+inherited freed blade-shadows by Ch10.
+
+CHAPTERS: Ch3–Ch16 (wakes Ch3; recurring narrator/companion).
+
+PHYSICAL FORM: None. Echo has no figure to model — it exists only as Ronin's optic-feed companion
+(heard only by him) and as a presence in the steel. For art, Echo IS its visual signatures:
+  - A single small, STEADY LIGHT in the katana's wrapped hilt / along the blade-line when present.
+  - The blade is inert, dead grey steel in any other hand (the light goes out).
+  - Optional optic-feed visualization: a faint HUD-glow / reticle and weak-point marks layered over
+    Ronin's vision (first-person), in Echo's signature color.
+  - By Ch10 the hilt-light is subtly layered/complex (three inherited blade-shadows nested in it).
+
+WEAPONS / PROPS: It IS the katana's soul; the katana itself (plain, wrapped, humble) is the prop.
+
+COLOR PALETTE: A warm-cool signature glow — suggest a steady soft cyan-white or pale amber light
+against the matte blade; nothing flashy. Goes black/dead when not bonded.
+
+SILHOUETTE / DISTINGUISHING FEATURES: There is no silhouette but the sword's — the steady hilt-light
+is the entire visual identity. Render concepts of "the living blade" and "first-person HUD presence."
+
+DEMEANOR (for portrayal of its light/voice): Warm, dry, personable, present from the first word;
+tenderness under wit; grows uneasy near shelved shadows. "I see what you see. I saw it through these
+same eyes before they wiped you, and I see it through them now." (Ch3)
+
+CANON SOURCE QUOTES:
+  - "a small steady light" in the hilt; inert steel in any other hand (Ch3+).
+
+>> IMAGE-PROMPT SUMMARY:
+(Echo has no body — produce these instead.) 1) A plain wrapped katana with a worn cord hilt and an
+unadorned matte-grey blade, with a single small steady soft cyan-white light glowing from within the
+hilt-wrap and faintly along the blade-line — "the living blade." 2) The same katana in a stranger's
+hand: the light gone out, dead grey inert steel. 3) A first-person optic-feed view: faint
+cyan-white HUD glow, reticle and weak-point marks layered over a battlefield, representing the AI
+that sees what its bonded operative sees. Matte blade + single warm-cool steady glow palette;
+restrained, intimate, not flashy.
+==================================================================

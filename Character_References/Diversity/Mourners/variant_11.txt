@@ -1,0 +1,7 @@
+VARIANT: Mourner #11 — "Censer-Bearer"
+SPECIES: The Mourners (ancient soul-keepers).
+FORM / AGE / DENSITY: Tall, processional; bears a swinging grave-censer of cold mist.
+DISTINGUISHING FEATURES: An upright processional posture; a steady grave-blue glow; one hand extended swinging a chained censer that breathes pale grave-incense fog instead of smoke.
+ROBE / STATE: A long ceremonial shroud with a censer-chain looped over the forearm.
+COLOR / PALETTE: Ash-grey; grave-blue glow; pale cold incense-fog; dull censer-iron.
+>> IMAGE-PROMPT SUMMARY: A tall upright processional Censer-Bearer Mourner swinging a chained grave-censer that breathes pale cold grave-incense fog instead of smoke, with a steady grave-blue glow in the face-hollow and a censer-chain looped over the forearm. Wears a long ceremonial ash-grey shroud. Ash-grey, grave-blue and cold-incense-pale palette with dull iron. Ritual, solemn. Cosmic dark sci-fi.

@@ -1,0 +1,474 @@
+{
+    "lines": [
+        {
+            "file": "ep06_approach_transmission_00_kessler",
+            "speaker": "Kessler",
+            "text": "That transmission from the relay station came through encrypted. I cracked it. It's a Dominion retrieval order."
+        },
+        {
+            "file": "ep06_approach_transmission_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Content?"
+        },
+        {
+            "file": "ep06_approach_transmission_02_kessler",
+            "speaker": "Kessler",
+            "text": "The same hand that gave the Kethel-7 kill order is still hunting the ones who survived it. And this time it's signed, Overseer Khall. Your designation's at the top of his list."
+        },
+        {
+            "file": "ep06_approach_transmission_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I still don't remember it. Only what Ronin-9 told me."
+        },
+        {
+            "file": "ep06_approach_transmission_04_kessler",
+            "speaker": "Kessler",
+            "text": "Ronin-9 and the others scattered to the vault sites after the Rust Collective, hunting their sleeping kin. It's just us out here, and Khall knows it."
+        },
+        {
+            "file": "ep06_approach_transmission_05_kessler",
+            "speaker": "Kessler",
+            "text": "There. Frosthold colony. Below. Military distress beacon running on loop. Could be salvage."
+        },
+        {
+            "file": "ep06_approach_transmission_06_ronin7",
+            "speaker": "Ronin-7",
+            "text": "We leave it."
+        },
+        {
+            "file": "ep06_approach_transmission_07_kessler",
+            "speaker": "Kessler",
+            "text": "The coordinates alone could fetch half a credit if we..."
+        },
+        {
+            "file": "ep06_approach_transmission_08_khall",
+            "speaker": "Khall",
+            "text": "Cipher. This is Overseer. Come home. I have left you a gift."
+        },
+        {
+            "file": "ep06_approach_transmission_09_kessler",
+            "speaker": "Kessler",
+            "text": "Ronin. Ronin-7."
+        },
+        {
+            "file": "ep06_approach_transmission_10_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Cut the channel."
+        },
+        {
+            "file": "ep06_medical_barks_00_hollowkingsoperative1",
+            "speaker": "Hollow Kings Operative 1",
+            "text": "Contact! Descender pod on approach!"
+        },
+        {
+            "file": "ep06_medical_barks_01_hollowkingsoperative2",
+            "speaker": "Hollow Kings Operative 2",
+            "text": "Lock down the wing! All access points sealed!"
+        },
+        {
+            "file": "ep06_medical_barks_02_hollowkingsoperative3",
+            "speaker": "Hollow Kings Operative 3",
+            "text": "Movement in the northeast corridor!"
+        },
+        {
+            "file": "ep06_medical_barks_03_kessler",
+            "speaker": "Kessler",
+            "text": "Stay mobile. Don't let them box you in."
+        },
+        {
+            "file": "ep06_medical_barks_04_hollowkingsoperative4",
+            "speaker": "Hollow Kings Operative 4",
+            "text": "Two down! Fall back to the medical console!"
+        },
+        {
+            "file": "ep06_medical_barks_05_kessler",
+            "speaker": "Kessler",
+            "text": "Medical console is reading active. Data chip detected. Don't touch it."
+        },
+        {
+            "file": "ep06_medical_barks_06_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I'm playing it."
+        },
+        {
+            "file": "ep06_khall_hologram_00_khall",
+            "speaker": "Khall",
+            "text": "You were my finest creation, Cipher. I molded you myself. Your hands. Your sight. The way you breathe before a strike."
+        },
+        {
+            "file": "ep06_khall_hologram_01_khall",
+            "speaker": "Khall",
+            "text": "All of it came from me. All of it was mine to give. And I gave it to make you a weapon without question, without doubt, without mercy."
+        },
+        {
+            "file": "ep06_khall_hologram_02_khall",
+            "speaker": "Khall",
+            "text": "You are coming back to me, whether you remember wanting to or not. The leash I built into you still answers to my hand."
+        },
+        {
+            "file": "ep06_khall_hologram_03_kessler",
+            "speaker": "Kessler",
+            "text": "What did you find?"
+        },
+        {
+            "file": "ep06_khall_hologram_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "A name. Cipher. He says it's mine. And he says there's a leash still wired into me, and he's still holding it."
+        },
+        {
+            "file": "ep06_orbital_ultimatum_00_kessler",
+            "speaker": "Kessler",
+            "text": "We've got company. Multiple signatures. Dominion fleet markers."
+        },
+        {
+            "file": "ep06_orbital_ultimatum_01_khall",
+            "speaker": "Khall",
+            "text": "Cipher. You have one hour to surrender. If you do not, I will burn the colony with the salvager inside it."
+        },
+        {
+            "file": "ep06_orbital_ultimatum_02_khall",
+            "speaker": "Khall",
+            "text": "And the closer you come, the more you will feel it, the part of you I built to obey. It never left. Come alone. Let us speak as we used to. As creator and blade."
+        },
+        {
+            "file": "ep06_orbital_ultimatum_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "We're leaving. Now."
+        },
+        {
+            "file": "ep06_orbital_ultimatum_04_kessler",
+            "speaker": "Kessler",
+            "text": "Negative. We're not outrunning a fleet drop. We fight down, get you to ground, lose them in the colony ruins."
+        },
+        {
+            "file": "ep06_orbital_ultimatum_05_ronin7",
+            "speaker": "Ronin-7",
+            "text": "He said he'd kill you."
+        },
+        {
+            "file": "ep06_orbital_ultimatum_06_kessler",
+            "speaker": "Kessler",
+            "text": "He said a lot of things. Men like that always do. But I've read Khall's file. And I know he needs you alive more than he needs you dead. Otherwise that ultimatum would have been a sentence."
+        },
+        {
+            "file": "ep06_orbital_ultimatum_07_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I need to hear what he's going to say."
+        },
+        {
+            "file": "ep06_yard_assault_barks_00_dominiontrooper1",
+            "speaker": "Dominion Trooper 1",
+            "text": "Contact on the landing pad! Return fire!"
+        },
+        {
+            "file": "ep06_yard_assault_barks_01_dominiontrooper2",
+            "speaker": "Dominion Trooper 2",
+            "text": "Spread formation! Establish a perimeter!"
+        },
+        {
+            "file": "ep06_yard_assault_barks_02_dominiontrooper3",
+            "speaker": "Dominion Trooper 3",
+            "text": "Moving to engage on the left flank!"
+        },
+        {
+            "file": "ep06_yard_assault_barks_03_kessler",
+            "speaker": "Kessler",
+            "text": "Fuel depot two hundred meters east. Try it."
+        },
+        {
+            "file": "ep06_yard_assault_barks_04_dominiontrooper4",
+            "speaker": "Dominion Trooper 4",
+            "text": "Decompression! Seal the inner bulkhead!"
+        },
+        {
+            "file": "ep06_yard_assault_barks_05_khall",
+            "speaker": "Khall",
+            "text": "I taught you that maneuver, Cipher. The forced breach into close quarters. You learned it in the third year of your training."
+        },
+        {
+            "file": "ep06_yard_assault_barks_06_khall",
+            "speaker": "Khall",
+            "text": "Come inside alone. Let us talk about the orphanage. Let us talk about Kethel-7."
+        },
+        {
+            "file": "ep06_gantry_monologue_00_khall",
+            "speaker": "Khall",
+            "text": "Welcome home, Cipher."
+        },
+        {
+            "file": "ep06_gantry_monologue_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I don't remember you."
+        },
+        {
+            "file": "ep06_gantry_monologue_02_khall",
+            "speaker": "Khall",
+            "text": "No. But your hands do. Every angle you cut today, every breath before a strike, I put those there. I did not command you, Cipher. I built you. Bone and reflex and silence. You are the finest thing I ever made."
+        },
+        {
+            "file": "ep06_gantry_monologue_03_khall",
+            "speaker": "Khall",
+            "text": "You remember Kethel-7 now. The hydroponics. The choir we kept singing through your meditations. More than seventy children in that station."
+        },
+        {
+            "file": "ep06_gantry_monologue_04_khall",
+            "speaker": "Khall",
+            "text": "I sent you in to purge a cell hiding among them. And you did it. Every one of them. Flawless, exactly as I made you to be."
+        },
+        {
+            "file": "ep06_gantry_monologue_05_khall",
+            "speaker": "Khall",
+            "text": "And then something I never coded into you woke up. You broke. You turned on us and walked out. In seventeen years, not one of my operatives had ever broken all the way through. You did."
+        },
+        {
+            "file": "ep06_gantry_monologue_06_khall",
+            "speaker": "Khall",
+            "text": "So I sent the order to erase you, wipe you to a blank slate, the way we reset the failures. It should have ended what you were. Instead you woke half-deleted, and gone. I still cannot explain how you lived."
+        },
+        {
+            "file": "ep06_gantry_monologue_07_khall",
+            "speaker": "Khall",
+            "text": "Your codename is Cipher. It has always been Cipher. And you were mine to build."
+        },
+        {
+            "file": "ep06_gantry_monologue_08_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Why?"
+        },
+        {
+            "file": "ep06_gantry_monologue_09_khall",
+            "speaker": "Khall",
+            "text": "Because obedience that has never been tested is not obedience at all. I had to know there was nothing left in you I had not put there. Cutting away everything else, that was the lesson."
+        },
+        {
+            "file": "ep06_gantry_elite_barks_00_dominionelite1",
+            "speaker": "Dominion Elite 1",
+            "text": "Cipher recognized. Engaging at full capacity."
+        },
+        {
+            "file": "ep06_gantry_elite_barks_01_dominionelite2",
+            "speaker": "Dominion Elite 2",
+            "text": "Engaging neural-leash override."
+        },
+        {
+            "file": "ep06_gantry_elite_barks_02_dominionelite1",
+            "speaker": "Dominion Elite 1",
+            "text": "Predictable. You favor the left deception."
+        },
+        {
+            "file": "ep06_gantry_elite_barks_03_dominionelite2",
+            "speaker": "Dominion Elite 2",
+            "text": "Countering with the cascade. The one you taught us."
+        },
+        {
+            "file": "ep06_gantry_elite_barks_04_khall",
+            "speaker": "Khall",
+            "text": "Improvisation. That's new."
+        },
+        {
+            "file": "ep06_archive_deal_00_khall",
+            "speaker": "Khall",
+            "text": "The Hollow Kings cached everything they could steal from Dominion archives. Training files. Command structures. Personnel records. It's all here."
+        },
+        {
+            "file": "ep06_archive_deal_01_khall",
+            "speaker": "Khall",
+            "text": "I want you to retrieve them. Gather the data core and bring it back to me. And I will tell you your name. Not an operator tag. Not Cipher. The name you had before we rewrote you."
+        },
+        {
+            "file": "ep06_archive_deal_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "And if I refuse?"
+        },
+        {
+            "file": "ep06_archive_deal_03_khall",
+            "speaker": "Khall",
+            "text": "Then I leave you to the Dominion's hunters and the leash I still hold. But you won't refuse, will you? Somewhere inside that erased brain you remember what it was to have a real name. And you want it back."
+        },
+        {
+            "file": "ep06_archive_deal_04_khall",
+            "speaker": "Khall",
+            "text": "I should tell you something else, though. Something you should know before you go down there."
+        },
+        {
+            "file": "ep06_archive_deal_05_khall",
+            "speaker": "Khall",
+            "text": "The Program never stopped. While you have been drifting, learning to feel, the machine that made you has kept running, children taken, broken, rebuilt into weapons. Hundreds of them, right now, across the Dominion's reach."
+        },
+        {
+            "file": "ep06_archive_deal_06_khall",
+            "speaker": "Khall",
+            "text": "Come home and you take your place again, at my side, at the head of it. The rest will answer to the blade I made first. That is what I am offering you, Cipher. Not mercy. Purpose."
+        },
+        {
+            "file": "ep06_archive_deal_07_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I'll get them."
+        },
+        {
+            "file": "ep06_archive_barks_00_hollowkingsoperative5",
+            "speaker": "Hollow Kings Operative 5",
+            "text": "Intruder in the north archive! Seal the bulkhead!"
+        },
+        {
+            "file": "ep06_archive_barks_01_hollowkingsoperative6",
+            "speaker": "Hollow Kings Operative 6",
+            "text": "Multiple casualties! Fall back to secondary position!"
+        },
+        {
+            "file": "ep06_archive_barks_02_hollowkingsoperative7",
+            "speaker": "Hollow Kings Operative 7",
+            "text": "They're coming through the east wing! Concentrate fire on the..."
+        },
+        {
+            "file": "ep06_archive_barks_03_hollowkingsoperative8",
+            "speaker": "Hollow Kings Operative 8",
+            "text": "The core is..."
+        },
+        {
+            "file": "ep06_archive_barks_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Got the core. And, a kit, sealed under it. Dominion issue. Throwing blades, balanced for a hand like mine."
+        },
+        {
+            "file": "ep06_archive_barks_05_kessler",
+            "speaker": "Kessler",
+            "text": "Those standard for your kind?"
+        },
+        {
+            "file": "ep06_archive_barks_06_ronin7",
+            "speaker": "Ronin-7",
+            "text": "My hands knew them before I did. They're mine."
+        },
+        {
+            "file": "ep06_failsafe_activation_00_khall",
+            "speaker": "Khall",
+            "text": "There. I have just sent the word to your leash."
+        },
+        {
+            "file": "ep06_failsafe_activation_01_khall",
+            "speaker": "Khall",
+            "text": "I am not killing you, Cipher. I am reminding you who holds the cord. Feel it? The same signal that should have erased you on Kethel-7, still wired to my hand."
+        },
+        {
+            "file": "ep06_failsafe_activation_02_khall",
+            "speaker": "Khall",
+            "text": "Come home, and it stays quiet. Walk back into the Program, and I never pull it again. That is the only mercy left for something like you."
+        },
+        {
+            "file": "ep06_failsafe_activation_03_khall",
+            "speaker": "Khall",
+            "text": "Stay with your salvager, stay free, and I will keep reaching for you. Every quiet moment. Until the day your own hands turn the blade around and carry you home to me. Your choice."
+        },
+        {
+            "file": "ep06_failsafe_activation_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Khall."
+        },
+        {
+            "file": "ep06_failsafe_activation_05_khall",
+            "speaker": "Khall",
+            "text": "Yes?"
+        },
+        {
+            "file": "ep06_failsafe_activation_06_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Kethel-7. Did you know I would break?"
+        },
+        {
+            "file": "ep06_failsafe_activation_07_khall",
+            "speaker": "Khall",
+            "text": "No. I truly did not. That's what makes you remarkable, Cipher. And what makes you dangerous. Goodbye."
+        },
+        {
+            "file": "ep06_collapse_barks_00_dominiontrooper5",
+            "speaker": "Dominion Trooper 5",
+            "text": "Core temperature critical! Evacuate all personnel!"
+        },
+        {
+            "file": "ep06_collapse_barks_01_dominiontrooper6",
+            "speaker": "Dominion Trooper 6",
+            "text": "Casualty at the western stairwell! We've lost comms with..."
+        },
+        {
+            "file": "ep06_collapse_barks_02_dominiontrooper7",
+            "speaker": "Dominion Trooper 7",
+            "text": "Prisoner breach! Seal the east corridor!"
+        },
+        {
+            "file": "ep06_collapse_barks_03_dominiontrooper8",
+            "speaker": "Dominion Trooper 8",
+            "text": "Breach through the zero-pressure corridor! Get to the landing platform!"
+        },
+        {
+            "file": "ep06_escape_jammer_00_kessler",
+            "speaker": "Kessler",
+            "text": "Talk to me. What did he do to you?"
+        },
+        {
+            "file": "ep06_escape_jammer_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "He reached into me. The part that was built to obey, he pulled on it. Tried to walk me back to him without a fight."
+        },
+        {
+            "file": "ep06_escape_jammer_02_kessler",
+            "speaker": "Kessler",
+            "text": "And?"
+        },
+        {
+            "file": "ep06_escape_jammer_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "It didn't take. I'm still mine."
+        },
+        {
+            "file": "ep06_escape_jammer_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "But the switch he fired on Kethel-7, it was meant to erase me. It should have. It didn't, then or now. That is not a flaw, Kessler."
+        },
+        {
+            "file": "ep06_escape_jammer_05_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Someone built it to fail. Someone wanted me to survive my own execution."
+        },
+        {
+            "file": "ep06_escape_jammer_06_kessler",
+            "speaker": "Kessler",
+            "text": "Then somebody out there is on your side. We find them, whoever they are."
+        },
+        {
+            "file": "ep06_escape_jammer_07_kessler",
+            "speaker": "Kessler",
+            "text": "How many others?"
+        },
+        {
+            "file": "ep06_escape_jammer_08_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Hundreds. The Program never stopped, children taken right now, broken into what I am. He offered me a place at the head of it."
+        },
+        {
+            "file": "ep06_escape_jammer_09_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I brought something back instead."
+        },
+        {
+            "file": "ep06_escape_jammer_10_kessler",
+            "speaker": "Kessler",
+            "text": "Throwing blades. Dominion work."
+        },
+        {
+            "file": "ep06_escape_jammer_11_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Program issue. My hands knew them before my mind did. Whatever else they took, they trained these into me, and I'm taking them back."
+        },
+        {
+            "file": "ep06_escape_jammer_12_ronin7",
+            "speaker": "Ronin-7",
+            "text": "My name was Cipher. That's all he would tell me. Everything before that is gone."
+        },
+        {
+            "file": "ep06_escape_jammer_13_kessler",
+            "speaker": "Kessler",
+            "text": "Then we get the rest back. We find what he took. And we burn his Program down with it."
+        }
+    ]
+}

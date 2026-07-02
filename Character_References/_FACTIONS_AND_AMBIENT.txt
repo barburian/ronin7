@@ -1,0 +1,84 @@
+==================================================================
+FACTIONS & AMBIENT — grouped background / crowd / non-individual roles
+==================================================================
+These are ambient roles that don't warrant a single-character sheet. Species tags follow the
+project rule (Dominion/Program = Human; non-Dominion crowds = the relevant alien species — see
+_SPECIES_BIBLE.txt). Use the Diversity/<Species> folders for individual crowd faces.
+
+------------------------------------------------------------------
+DOMINION TROOPERS / BOARDING SQUADS (Ch1+)  — HUMAN
+------------------------------------------------------------------
+Faction: Dominion Program enforcement. Visored helmets with scanning optics that stream the
+wearer's view up-chain to a handler; tactical weapon-up carry; procedural, faceless, uniform.
+Armor: matte charcoal/oxblood Dominion combat plate over a sealed bodysuit; full-face visor with
+a cold scan-glow; Program sigil on the pauldron.
+PALETTE: charcoal, oxblood, gunmetal; cold cyan visor-glow.
+>> IMAGE-PROMPT SUMMARY: Faceless human Dominion troopers in matte charcoal-and-oxblood combat
+plate over sealed bodysuits, full-face visors with a cold cyan scan-glow streaming to a handler,
+Program sigil on the pauldron, weapons up in disciplined procedural formation. Uniform, anonymous,
+menacing. Grounded human sci-fi.
+
+------------------------------------------------------------------
+DOMINION SCAN-DRONES (Ch4+)  — MACHINE
+------------------------------------------------------------------
+Faction: Dominion surveillance. Autonomous drones that throw a pale scanning grid across passing
+faces; drift the docks as ambient manhunt pressure.
+Form: smooth dark armored ovoid/disc bodies, a single cold cyan scanner-eye, projecting a faint
+grid of light; quiet thruster-glow; small and impersonal.
+PALETTE: matte black, cold cyan scan-light.
+>> IMAGE-PROMPT SUMMARY: Small autonomous Dominion scan-drones — smooth dark armored ovoid bodies
+with a single cold cyan scanner-eye projecting a pale scanning grid over a crowd, faint thruster-
+glow, quiet and impersonal. Faceless surveillance menace. Grounded sci-fi.
+
+------------------------------------------------------------------
+REDACTION SENTRIES (Ch3 memory-dive)  — CONSTRUCT / ENVIRONMENTAL
+------------------------------------------------------------------
+Faction: the Program's erasure conditioning made visible inside a memory-dive. Not people.
+Form: faceless, half-formed geometric figures of scrubbed static and censor-blocks; patrol the
+playback to scrub the truth; blocks of glitch where a body should be.
+PALETTE: glitch-grey, censor-black, scan-line cyan, static-white.
+>> IMAGE-PROMPT SUMMARY: Faceless geometric Redaction sentries built of scrubbed static and
+censor-blocks — half-formed humanoid shapes of glitch and scan-lines patrolling a corrupted memory
+to erase it. Abstract, digital, eerie; not living. Glitch-grey, censor-black and cyan palette.
+Stylized sci-fi datascape.
+
+------------------------------------------------------------------
+COIL ENFORCERS (Ch4)  — ALIEN: VOLL (with mixed underlings)
+------------------------------------------------------------------
+Faction: The Coil syndicate muscle on Drovis. Bored professional collectors (want bounties alive,
+so stun-capable). Lead enforcers are VOLL; rank-and-file thugs may be drawn from any market
+species (Warren-folk, Vesh) for variety — see Diversity folders.
+Gear: mismatched scrap-armor, stun-poles, slug-guns, Coil syndicate bands.
+PALETTE: oily-green Voll flesh, scrap-iron armor, neon Coil trim.
+>> IMAGE-PROMPT SUMMARY: Coil syndicate enforcers — bored professional collectors led by heavyset
+oily-green Voll in mismatched scrap-armor with stun-poles and slug-guns and neon Coil bands, mixed
+alien underlings at their backs. Hired muscle, not zealots. Grounded alien sci-fi.
+
+------------------------------------------------------------------
+SCAVENGERS / ASH-WORLD PICKERS (Ch5)  — ALIEN: ASHKIN (mixed)
+------------------------------------------------------------------
+Faction: independent pickers stripping dead towns; not soldiers, scatter from grief like anyone.
+Mostly ASHKIN frontier survivors; occasional Warren-folk drifters. See Diversity folders.
+Gear: dust-cloaks, breath-scarves, salvage-sacks, scrap-tools, the odd holdout weapon.
+PALETTE: ochre/terracotta skin, grey ash, rust salvage.
+>> IMAGE-PROMPT SUMMARY: Ash-world scavengers — ashkin frontier pickers in dust-cloaks and
+breath-scarves with salvage-sacks and scrap-tools, stripping a dead town, wary and non-militant.
+Ochre, grey-ash and rust palette. Grounded alien sci-fi frontier.
+
+------------------------------------------------------------------
+KETHEL-7 CARETAKER & CHILDREN (Ch3 memory-dive)  — ALIEN: WARREN-FOLK (orphanage population)
+------------------------------------------------------------------
+Faction: civilians of the Kethel-7 orphanage-world, victims of the erasure mission. The CARETAKER:
+an unarmed adult with open, surrendering hands behind a half-shut door. The CHILDREN: small shapes
+behind doors and in crowds; the innocents the conscience-fracture is tied to. Treated as Warren-folk
+(the saga's underclass-civilian species) for the orphanage population.
+PALETTE: grey-mauve skin; plain institutional drab; warm memory-light curdling to dread.
+>> IMAGE-PROMPT SUMMARY: Kethel-7 orphanage civilians — an unarmed grey-mauve warren-folk caretaker
+with open surrendering hands at a half-shut door, and small huge-eyed warren-folk children as
+fragile shapes behind doors, in plain institutional drab under warm memory-light turning to dread.
+The innocent victims. Grounded alien sci-fi.
+
+==================================================================
+NOTE: Named members of these factions who DO warrant a sheet have their own files
+(e.g. Kerrax = Coil boss, Vera/Kira Dusk = ash-world). This file covers only the anonymous crowd.
+==================================================================

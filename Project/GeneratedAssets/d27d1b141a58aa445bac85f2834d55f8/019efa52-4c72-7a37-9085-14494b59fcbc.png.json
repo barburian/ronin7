@@ -1,0 +1,28 @@
+{
+    "asset": "d27d1b141a58aa445bac85f2834d55f8",
+    "fileName": "019efa52-4c72-7a37-9085-14494b59fcbc.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A plump polished smug middle-aged male voll corrupt official with buffed green-grey oily skin, tidy groomed dewlaps, complacent hooded gold eyes, a bribe-grin of capped teeth and an official seal-ring. Wears a pompous navy-and-gold braided office-uniform with sashes and a data-monocle, a stamp-kit and a bribe-coffer at hand. Green-grey, navy-gold and brass palette. Officious, venal. Grounded alien sci-fi. Color palette: Green-grey flesh; navy-and-gold uniform; brass seals; officious lighting. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

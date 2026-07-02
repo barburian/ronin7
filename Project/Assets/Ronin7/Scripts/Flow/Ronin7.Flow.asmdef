@@ -1,0 +1,23 @@
+{
+    "name": "Ronin7.Flow",
+    "rootNamespace": "Ronin7.Flow",
+    "references": [
+        "Ronin7.Core",
+        "Ronin7.Player",
+        "Ronin7.Combat",
+        "Ronin7.Ship",
+        "Unity.XR.Interaction.Toolkit",
+        "UnityEngine.UI",
+        "Unity.RenderPipelines.Core.Runtime",
+        "Unity.RenderPipelines.Universal.Runtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

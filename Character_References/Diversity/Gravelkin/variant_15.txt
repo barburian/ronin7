@@ -1,0 +1,8 @@
+VARIANT: Gravelkin #15 — "Navigator / Cartographer"
+SPECIES: Gravelkin (cave-dwelling stoneblood).
+SEX / AGE / BUILD: Female / middle-aged / solid, precise, watchful.
+ROLE IN WORLD: Charts the deep-cave routes and the dark-space lanes for the band.
+DISTINGUISHING FEATURES: Granite hide; neat nodules; very sharp pale-quartz eyes; ink and chalk staining the fingers; a stylus-callus; a chart-glyph tattoo on one forearm-plate.
+CLOTHING / GEAR: A rolled-chart bandolier, a star-compass, a chalk-slate, a measuring-cord, a magnifier-stone.
+COLOR / PALETTE: Granite-grey hide; ink-blue and chalk-white charts; brass instruments.
+>> IMAGE-PROMPT SUMMARY: A solid precise watchful middle-aged female gravelkin navigator with granite lithic hide, neat nodules, very sharp pale-quartz eyes and ink-and-chalk-stained fingers, a chart-glyph tattoo on one forearm-plate. Wears a rolled-chart bandolier with a brass star-compass, chalk-slate, measuring-cord and magnifier-stone. Granite-grey, ink-blue and brass palette. Studious, sharp. Grounded alien sci-fi.

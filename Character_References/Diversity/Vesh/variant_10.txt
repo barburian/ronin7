@@ -1,0 +1,8 @@
+VARIANT: Vesh #10 — "Clan Brander / Smith"
+SPECIES: Vesh (raider nomad clan).
+SEX / AGE / BUILD: Female / middle-aged / strong, soot-marked, exacting.
+ROLE IN WORLD: Forges the clan blades and burns the honor-brands into the blooded.
+DISTINGUISHING FEATURES: Charcoal plating glazed and soot-blackened by the forge; steady orange slit-eyes; mandible-tusks heat-darkened; brand-scarred forearms (her own marks); spark-pocked plates.
+CLOTHING / GEAR: A hide forge-apron, branding-irons, a hammer and tongs, a quench-trough, blade-blanks.
+COLOR / PALETTE: Soot-charcoal carapace; forge-orange glow; iron and ember; bone-white brands.
+>> IMAGE-PROMPT SUMMARY: A strong soot-marked exacting middle-aged female vesh brander-smith with charcoal chitin glazed and soot-blackened by the forge, steady orange slit-eyes, heat-darkened mandible-tusks, brand-scarred forearms and spark-pocked plates. Wears a hide forge-apron, wielding branding-irons, hammer and tongs by a quench-trough. Soot-charcoal, forge-orange and iron palette. Focused, fiery. Grounded alien sci-fi raider.

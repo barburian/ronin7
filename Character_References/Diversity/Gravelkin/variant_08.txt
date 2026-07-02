@@ -1,0 +1,8 @@
+VARIANT: Gravelkin #08 — "Tunnel-Scout"
+SPECIES: Gravelkin (cave-dwelling stoneblood).
+SEX / AGE / BUILD: Male / young adult / unusually lean and low, quiet-footed for the species.
+ROLE IN WORLD: Scouts the unmapped deep tunnels ahead of the band.
+DISTINGUISHING FEATURES: Smooth dark-slate hide with minimal nodules (helps him squeeze through gaps); large light-drinking quartz eyes; no tusks; fingertips worn smooth for climbing.
+CLOTHING / GEAR: A close climbing-rig, chalk and line, a short pick, a lamp-stone, a tunnel-map slab.
+COLOR / PALETTE: Dark-slate hide; charcoal climbing-rig; pale lamp-stone glow.
+>> IMAGE-PROMPT SUMMARY: An unusually lean low quiet-footed young male gravelkin tunnel-scout with smooth dark-slate lithic hide and minimal nodules, large light-drinking quartz eyes, no tusks and climb-smoothed fingertips. Wears a close charcoal climbing-rig with chalk, line, a short pick, a glowing lamp-stone and a tunnel-map slab. Dark-slate and charcoal palette with a pale lamp glow. Stealthy, careful. Grounded alien sci-fi.

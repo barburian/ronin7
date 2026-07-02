@@ -1,0 +1,7 @@
+VARIANT: Obsidian Synod #02 — "Herald of War"
+SPECIES: Obsidian Synod (shadow-author voidform).
+RANK / FORM: A messenger-office that proclaims the forged orders; lithe, swift voidform.
+DISTINGUISHING FEATURES: A slimmer obsidian body; a long horn-like masked head split by a white-blue seam; a forked smoke-trail behind it; one arm ending in a sheaf of glowing forged-writ glyphs instead of a hand.
+REGALIA / STATE: A herald-tabard of fractured black glass; war-glyphs orbiting the shoulders.
+COLOR / PALETTE: Obsidian black; cold white-blue seam; pale glyph-glow.
+>> IMAGE-PROMPT SUMMARY: A lithe swift Herald-of-War Synod voidform with a slimmer obsidian body, a long horn-like masked head split by a cold white-blue seam, a forked smoke-trail behind it and one arm ending in a sheaf of glowing forged-writ glyphs. Wears a fractured-black-glass herald-tabard with war-glyphs orbiting the shoulders. Obsidian-black with cold-white-blue seam and pale glyph-glow palette. Swift, ominous. Cosmic dark sci-fi.

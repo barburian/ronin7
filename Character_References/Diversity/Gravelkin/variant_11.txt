@@ -1,0 +1,8 @@
+VARIANT: Gravelkin #11 — "Bonesetter / Healer"
+SPECIES: Gravelkin (cave-dwelling stoneblood).
+SEX / AGE / BUILD: Female / older adult / sturdy, patient, careful.
+ROLE IN WORLD: Mends the band fractures and re-sets cracked hide.
+DISTINGUISHING FEATURES: Pale-granite hide; smooth nodules; calm steady quartz eyes; very careful broad hands; mineral-paste smeared on her forearms (her medicine).
+CLOTHING / GEAR: A clean hide-apron of splints and clamps, a setting-mallet, mineral-paste pots, binding-cord.
+COLOR / PALETTE: Pale-granite hide; bone-white apron; pale-blue paste; iron tools.
+>> IMAGE-PROMPT SUMMARY: A sturdy patient careful older female gravelkin bonesetter with pale-granite lithic hide, smooth nodules, calm steady quartz eyes and very careful broad hands smeared with pale-blue mineral-paste. Wears a clean bone-white hide-apron of splints and clamps, holding a setting-mallet by paste-pots and binding-cord. Pale-granite, bone-white and pale-blue palette. Steady, healing. Grounded alien sci-fi.

@@ -1,0 +1,28 @@
+{
+    "asset": "4085954998628d14994eb89bcfdf0ec7",
+    "fileName": "019efaa2-3bf8-7163-9a5d-42c73f5428a3.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from the top of the head down to the soles of the feet, the figure centered with empty background margins on all four sides so nothing is cropped, head and feet fully inside the frame. Front view, neutral upright A-pose, arms slightly away from the body. Plain flat light-gray studio backdrop, even soft lighting, no text, no logo, no border, only one character. Subject: a lean, mid-30s human male SCI-FI SPACE-SAMURAI, hard haunted face, short dark hair, a long surgical scar across his throat. He is designed to MATCH HIS GLOWING ENERGY SWORD. He holds a single sleek high-tech KATANA upright in front of him in both hands, blade pointing up — a matte dark-graphite blade with a bright glowing CYAN-WHITE energy edge and luminous cyan tech-circuitry running up the blade, a segmented metal hilt with lit cyan panels. His sleek matte dark-graphite and gunmetal samurai armor is laced with the SAME bright glowing cyan-white energy circuitry lines along the chest plate, shoulders, forearms and shins, plus a long worn dark travel coat; the cyan glow on his armor clearly echoes the sword. Faint cyan glow in his eyes. Lean and lethal, dead-still poise. Bright, clearly visible cyan-white energy glow. Color palette: matte black and gunmetal graphite with prominent glowing cyan-white energy accents. Samurai elegy in a dead-tech sci-fi galaxy.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

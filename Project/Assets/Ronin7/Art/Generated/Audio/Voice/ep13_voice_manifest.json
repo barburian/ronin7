@@ -1,0 +1,474 @@
+{
+    "lines": [
+        {
+            "file": "ep13_transit_intro_00_kessler",
+            "speaker": "Kessler",
+            "text": "Morrigan's intelligence puts the Carnival's current orbit in the Ashfield Corridor. It cycles position every seventy-two hours. We have an entry window that closes in about twenty-six hours."
+        },
+        {
+            "file": "ep13_transit_intro_01_kessler",
+            "speaker": "Kessler",
+            "text": "After that, it moves again and we spend a week tracking it through the Fringe Belt until the next window opens. The Dominion will have flagged our jump signatures from the Market by then."
+        },
+        {
+            "file": "ep13_transit_intro_02_cipher",
+            "speaker": "Cipher",
+            "text": "I heard you the first time, Kessler."
+        },
+        {
+            "file": "ep13_transit_intro_03_cipher",
+            "speaker": "Cipher",
+            "text": "The memory Lyris's barker was supposed to take from me at the gate, if the carnival's extraction tech works the way Morrigan described, it will be the specific moment of waking. When you pulled me out of the debris field."
+        },
+        {
+            "file": "ep13_transit_intro_04_cipher",
+            "speaker": "Cipher",
+            "text": "I don't have it to spare."
+        },
+        {
+            "file": "ep13_transit_intro_05_kessler",
+            "speaker": "Kessler",
+            "text": "Then don't let them take it."
+        },
+        {
+            "file": "ep13_transit_intro_06_morrigan",
+            "speaker": "Morrigan",
+            "text": "The Exchange's footprint is consistent with what I've been tracking. Four active surveillance bands, rotating cipher keys on the outer docking ring. The interior commons frequency is jammed against outside monitoring, standard Vellum practice."
+        },
+        {
+            "file": "ep13_transit_intro_07_morrigan",
+            "speaker": "Morrigan",
+            "text": "Coral Vex is the Exchange's Ringmaster here. She has been running this carnival for at least eight cycles. I have encountered her name in three separate operative-archive transactions, she is not a broker. She holds things and she keeps them. That distinction matters."
+        },
+        {
+            "file": "ep13_transit_intro_08_cipher",
+            "speaker": "Cipher",
+            "text": "If she holds things and keeps them, she has been waiting for this visit."
+        },
+        {
+            "file": "ep13_transit_intro_09_morrigan",
+            "speaker": "Morrigan",
+            "text": "She will recognize your designation. Which means she has been in contact with operative records at some point. How she got access to them is the question I cannot answer from here."
+        },
+        {
+            "file": "ep13_transit_intro_10_kessler",
+            "speaker": "Kessler",
+            "text": "I'll hold orbit. Three hours. After that, I assume the carnival's taken you apart and I start planning the recovery."
+        },
+        {
+            "file": "ep13_transit_intro_11_kessler",
+            "speaker": "Kessler",
+            "text": "Take the secondary comms chip. If you get into something you can't finish alone, the frequency is..."
+        },
+        {
+            "file": "ep13_transit_intro_12_cipher",
+            "speaker": "Cipher",
+            "text": "The frequency's jammed from the inside. You told me."
+        },
+        {
+            "file": "ep13_lyris_gate_00_lyris",
+            "speaker": "Lyris",
+            "text": "Welcome to the Carnival of Forgotten Names. We don't ask where you're from. We don't ask what you've done. We only ask, what would you give to know what was taken from you?"
+        },
+        {
+            "file": "ep13_lyris_gate_01_lyris",
+            "speaker": "Lyris",
+            "text": "I'm Lyris. I'll be your guide. The first booth is already expecting you."
+        },
+        {
+            "file": "ep13_lyris_gate_02_cipher",
+            "speaker": "Cipher",
+            "text": "Who sent the invitation."
+        },
+        {
+            "file": "ep13_lyris_gate_03_lyris",
+            "speaker": "Lyris",
+            "text": "The Carnival does not send invitations. It simply arranges itself to be findable by those with the right kind of absence. And you, I can tell, are carrying quite a lot of that."
+        },
+        {
+            "file": "ep13_lyris_gate_04_lyris",
+            "speaker": "Lyris",
+            "text": "The carousel is just ahead. A small test of reflex and rhythm. The Exchange insists on it for new clients. Something about establishing a baseline."
+        },
+        {
+            "file": "ep13_carousel_barks_00_memorygrinderlead",
+            "speaker": "Memory Grinder Lead",
+            "text": "Three rotations, visitor. Still standing at the end, you go forward."
+        },
+        {
+            "file": "ep13_carousel_barks_01_lyris",
+            "speaker": "Lyris",
+            "text": "Very good. Three minutes faster than the average. The Exchange will note that."
+        },
+        {
+            "file": "ep13_memory_stolen_00_lyris",
+            "speaker": "Lyris",
+            "text": "I should tell you, the carnival doesn't only give. It also receives. That's the exchange. First booth always takes something small. You won't notice for a few hours."
+        },
+        {
+            "file": "ep13_memory_stolen_01_cipher",
+            "speaker": "Cipher",
+            "text": "What did it take."
+        },
+        {
+            "file": "ep13_memory_stolen_02_lyris",
+            "speaker": "Lyris",
+            "text": "A moment. The specific quality of waking from a long unconsciousness, the first second of recognizing that someone chose to pull you from the dark rather than leave you there. The feeling of being chosen."
+        },
+        {
+            "file": "ep13_memory_stolen_03_cipher",
+            "speaker": "Cipher",
+            "text": "The Ringmaster is in the center tent."
+        },
+        {
+            "file": "ep13_memory_stolen_04_lyris",
+            "speaker": "Lyris",
+            "text": "She's been waiting for you. This way."
+        },
+        {
+            "file": "ep13_yask_warning_00_yask",
+            "speaker": "Yask",
+            "text": "You're the one she was watching for. The operator with the number. I've been told to let you through, but, I need a moment. Please."
+        },
+        {
+            "file": "ep13_yask_warning_01_cipher",
+            "speaker": "Cipher",
+            "text": "Talk."
+        },
+        {
+            "file": "ep13_yask_warning_02_yask",
+            "speaker": "Yask",
+            "text": "I was taken eight years ago. I was running a Dominion intelligence route through the Corridor, low-rank courier work, nothing that should have made me valuable. They took me anyway. Stripped what they wanted and offered me a choice: the Carnival, or the void."
+        },
+        {
+            "file": "ep13_yask_warning_03_yask",
+            "speaker": "Yask",
+            "text": "I chose the Carnival. I'm still choosing it. I'm not ashamed of that."
+        },
+        {
+            "file": "ep13_yask_warning_04_yask",
+            "speaker": "Yask",
+            "text": "The Ringmaster is not what she appears. I mean that as a warning, not an insult. What she has survived would have killed most things that can be killed."
+        },
+        {
+            "file": "ep13_yask_warning_05_yask",
+            "speaker": "Yask",
+            "text": "Khall is monitoring this platform. From a distance, passive surveillance. He has been waiting to see who walks in here with your designation profile. Whatever happens inside, he is watching the outcomes."
+        },
+        {
+            "file": "ep13_yask_warning_06_cipher",
+            "speaker": "Cipher",
+            "text": "There's a cracked memory crystal near the shattered booth behind you."
+        },
+        {
+            "file": "ep13_mirror_maze_00_cipher",
+            "speaker": "Cipher",
+            "text": "I know what you were. I know what they made you into."
+        },
+        {
+            "file": "ep13_mirror_after_00_lyris",
+            "speaker": "Lyris",
+            "text": "She's inside. She'll open the conversation. Whatever she asks you, answer it honestly. She'll know if you don't, and that matters here more than it usually does."
+        },
+        {
+            "file": "ep13_mirror_after_01_cipher",
+            "speaker": "Cipher",
+            "text": "And you?"
+        },
+        {
+            "file": "ep13_mirror_after_02_lyris",
+            "speaker": "Lyris",
+            "text": "My job is the door. Hers is what's beyond it."
+        },
+        {
+            "file": "ep13_ringmaster_reveal_00_coralvex",
+            "speaker": "Coral Vex",
+            "text": "Seven."
+        },
+        {
+            "file": "ep13_ringmaster_reveal_01_cipher",
+            "speaker": "Cipher",
+            "text": "You know my designation."
+        },
+        {
+            "file": "ep13_ringmaster_reveal_02_coralvex",
+            "speaker": "Coral Vex",
+            "text": "I know your designation because it is adjacent to mine. I am Ronin-6."
+        },
+        {
+            "file": "ep13_ringmaster_reveal_03_coralvex",
+            "speaker": "Coral Vex",
+            "text": "Not dead. Converted. The Dominion's erasure protocol was never designed to terminate operatives, Seven. It was designed to rewrite them. To take a person who carried too much capability and too many memories and transform them into something the Dominion could use without the complications of personhood. A living extraction vessel. Walking intelligence hardware, networked to a central repository, harvesting data through every contact and combat engagement."
+        },
+        {
+            "file": "ep13_ringmaster_reveal_04_coralvex",
+            "speaker": "Coral Vex",
+            "text": "When conversion completes, when the process runs its full course, the operative stops being a person. They become a file. A very sophisticated, self-updating file, walking around in a body that still functions perfectly."
+        },
+        {
+            "file": "ep13_coral_survival_00_cipher",
+            "speaker": "Cipher",
+            "text": "You survived it."
+        },
+        {
+            "file": "ep13_coral_survival_01_coralvex",
+            "speaker": "Coral Vex",
+            "text": "I broke the process mid-conversion. Before it finished. There is a window, approximately forty percent through the protocol's completion, where the rewrite is far enough to begin and not far enough to be irreversible. I found it by accident. By fighting back at the wrong moment in the wrong way, and the wrong moment turned out to be the only possible right one."
+        },
+        {
+            "file": "ep13_coral_survival_02_coralvex",
+            "speaker": "Coral Vex",
+            "text": "I built the Carnival because I needed somewhere the Dominion would not look, somewhere that traded in exactly what they valued, so that looking too hard at it would reveal too much about their own operation. I used the Vellum Exchange's infrastructure because they are discreet and they prize what I have. The archive here is not for commerce."
+        },
+        {
+            "file": "ep13_coral_survival_03_coralvex",
+            "speaker": "Coral Vex",
+            "text": "I have a complete copy of the operative archive. Every designation ever processed through the program. Every conversion record. Not sold. Preserved."
+        },
+        {
+            "file": "ep13_coral_survival_04_cipher",
+            "speaker": "Cipher",
+            "text": "How many."
+        },
+        {
+            "file": "ep13_coral_survival_05_coralvex",
+            "speaker": "Coral Vex",
+            "text": "Seventeen conversions on record. Of those, the archive carries full documentation on every one."
+        },
+        {
+            "file": "ep13_coral_survival_06_cipher",
+            "speaker": "Cipher",
+            "text": "And mine."
+        },
+        {
+            "file": "ep13_coral_survival_07_coralvex",
+            "speaker": "Coral Vex",
+            "text": "There is an anomalous flag on your entry. That is why I built the carousel's extraction parameters for you specifically. I needed to see what you would do with a version of yourself at the end of its certainty, and what you would do with a version of yourself that was eight years old and couldn't stop what was being done to it."
+        },
+        {
+            "file": "ep13_extraction_barks_00_extractionguardcaptain",
+            "speaker": "Extraction Guard Captain",
+            "text": "Stand down! All units hold position."
+        },
+        {
+            "file": "ep13_blade_at_throat_00_coralvex",
+            "speaker": "Coral Vex",
+            "text": "The archive is the only proof of what they did. Kill me, and Khall has no reason to leave it standing, he will burn everything here the moment I'm dead, and the seventeen records become ash, and they were never real."
+        },
+        {
+            "file": "ep13_blade_at_throat_01_coralvex",
+            "speaker": "Coral Vex",
+            "text": "I know where every converted operative is currently stored. The full operational record, conversion status, location, dormancy coordinates. I have been maintaining that record for eight cycles."
+        },
+        {
+            "file": "ep13_blade_at_throat_02_coralvex",
+            "speaker": "Coral Vex",
+            "text": "You came here chasing one file. I have them all."
+        },
+        {
+            "file": "ep13_blade_at_throat_03_cipher",
+            "speaker": "Cipher",
+            "text": "Show me the archive."
+        },
+        {
+            "file": "ep13_vault_descent_00_coralvex",
+            "speaker": "Coral Vex",
+            "text": "The full archive is not on the platform. The platform is too mobile, I move it every seventy-two hours. The archive needs stable geology. Verath Station's bedrock has been hollowed into the Exchange's off-site facility. Row upon row of sealed memory vaults cut into the rock."
+        },
+        {
+            "file": "ep13_vault_descent_01_coralvex",
+            "speaker": "Coral Vex",
+            "text": "Your conversion file is down there. I reviewed it when it first came through the Exchange's acquisition channels, six cycles ago, before I knew to be watching for your designation. There is an anomalous flag on the status field that I could not explain at the time and have not been able to explain since."
+        },
+        {
+            "file": "ep13_vault_descent_02_cipher",
+            "speaker": "Cipher",
+            "text": "What does the flag say."
+        },
+        {
+            "file": "ep13_vault_descent_03_coralvex",
+            "speaker": "Coral Vex",
+            "text": "The conversion was initiated. It did not complete. The status reads: ANOMALOUS TERMINATION, CAUSE UNDETERMINED. Every other record in the archive reads either CONVERSION COMPLETE or CONVERSION FAILED, OPERATIVE DECEASED."
+        },
+        {
+            "file": "ep13_vault_descent_04_coralvex",
+            "speaker": "Coral Vex",
+            "text": "You are the only exception in seventeen records."
+        },
+        {
+            "file": "ep13_verath_barks_00_coralvex",
+            "speaker": "Coral Vex",
+            "text": "Four sentries on the entrance, three crawlers covering our approach angle. The crawlers will prioritize me, I've tripped their biometric registry before. Take the right flank. I'll draw the crawlers to the east ridgeline."
+        },
+        {
+            "file": "ep13_verath_barks_01_cipher",
+            "speaker": "Cipher",
+            "text": "The ridge terrain."
+        },
+        {
+            "file": "ep13_verath_barks_02_dominionsentry3",
+            "speaker": "Dominion Sentry 3",
+            "text": "Breach at the east approach, contacts entering the vault!"
+        },
+        {
+            "file": "ep13_verath_barks_03_coralvex",
+            "speaker": "Coral Vex",
+            "text": "We have approximately twelve minutes before the platform receives that report. Move."
+        },
+        {
+            "file": "ep13_vault_terminal_00_cipher",
+            "speaker": "Cipher",
+            "text": "The conversion was started. It ran forty percent of the course. And then it stopped."
+        },
+        {
+            "file": "ep13_vault_terminal_01_coralvex",
+            "speaker": "Coral Vex",
+            "text": "Yes."
+        },
+        {
+            "file": "ep13_khalls_gambit_00_coralvex",
+            "speaker": "Coral Vex",
+            "text": "I've been tracking Khall's surveillance signature since you docked. Passive, long-range, a carrier vessel holding at one hundred and forty thousand kilometers, running emission discipline. Patient."
+        },
+        {
+            "file": "ep13_khalls_gambit_01_coralvex",
+            "speaker": "Coral Vex",
+            "text": "He has not come for the archive. He came for what your visit would cause. The Carnival's stored memory vials, all of them, the full accumulation of eight cycles of preservation, carry enough concentrated neural material to serve as a cascade pulse weapon. A cascade large enough to blank identity across multiple Belt population centers simultaneously."
+        },
+        {
+            "file": "ep13_khalls_gambit_02_coralvex",
+            "speaker": "Coral Vex",
+            "text": "The Carnival's activation core can be weaponized. Khall is inbound to weaponize it, a demonstration meant to break syndicate resistance to Dominion authority. Pacification through mass identity erasure. If he reaches the core, everything I have preserved becomes a weapon for exactly the thing I built this place to oppose."
+        },
+        {
+            "file": "ep13_khalls_gambit_03_cipher",
+            "speaker": "Cipher",
+            "text": "The activation core. Where."
+        },
+        {
+            "file": "ep13_khalls_gambit_04_coralvex",
+            "speaker": "Coral Vex",
+            "text": "Center of the platform. Adjacent to the main vial storage. We have approximately fifteen minutes before his boarding force reaches it."
+        },
+        {
+            "file": "ep13_khalls_gambit_05_cipher",
+            "speaker": "Cipher",
+            "text": "We move."
+        },
+        {
+            "file": "ep13_ronin10_00_ronin10",
+            "speaker": "Ronin-10",
+            "text": "Operative Cipher. Stand down. Return to program custody. The directive is current."
+        },
+        {
+            "file": "ep13_ronin10_01_cipher",
+            "speaker": "Cipher",
+            "text": "I see you. Whatever's left of you, I see it."
+        },
+        {
+            "file": "ep13_ronin10_02_coralvex",
+            "speaker": "Coral Vex",
+            "text": "Charges set. Fifteen seconds to the window."
+        },
+        {
+            "file": "ep13_burning_escape_00_kessler",
+            "speaker": "Kessler",
+            "text": "Drones falling! Hard left, now!"
+        },
+        {
+            "file": "ep13_burning_escape_01_cipher",
+            "speaker": "Cipher",
+            "text": "Evasion in the blank. Hold fire on the frigate."
+        },
+        {
+            "file": "ep13_burning_escape_02_kessler",
+            "speaker": "Kessler",
+            "text": "Jump window is open, ten seconds!"
+        },
+        {
+            "file": "ep13_drifting_coral_00_kessler",
+            "speaker": "Kessler",
+            "text": "Not the standard outcome. I wasn't sure, after three hours."
+        },
+        {
+            "file": "ep13_drifting_coral_01_coralvex",
+            "speaker": "Coral Vex",
+            "text": "The archive is backed up across three Vellum nodes under my cipher authority. The platform is gone. The backup is not."
+        },
+        {
+            "file": "ep13_drifting_coral_02_coralvex",
+            "speaker": "Coral Vex",
+            "text": "The Carnival was the box I built to survive. I am out of the box now."
+        },
+        {
+            "file": "ep13_drifting_coral_03_kessler",
+            "speaker": "Kessler",
+            "text": "There's a berth available. Second on the left, past the engine room. It's small."
+        },
+        {
+            "file": "ep13_drifting_coral_04_coralvex",
+            "speaker": "Coral Vex",
+            "text": "Small is fine."
+        },
+        {
+            "file": "ep13_archive_reviewed_00_coralvex",
+            "speaker": "Coral Vex",
+            "text": "I have reviewed your record forty-three times in six cycles. I have cross-referenced the conversion protocol documentation against the technical specifications for every stage. I cannot find a mechanism that produces the forty percent termination outcome without either an external intervention or an internal failure mode that the program's engineers were not aware of."
+        },
+        {
+            "file": "ep13_archive_reviewed_01_coralvex",
+            "speaker": "Coral Vex",
+            "text": "External intervention would require someone with administrative access to the conversion process. An internal failure mode would require something in your architecture that the program did not design and did not anticipate. Both explanations have the same problem: they require a cause, and the cause is not documented anywhere in the record."
+        },
+        {
+            "file": "ep13_archive_reviewed_02_cipher",
+            "speaker": "Cipher",
+            "text": "Seventeen records. Sixteen with resolution. One without."
+        },
+        {
+            "file": "ep13_archive_reviewed_03_coralvex",
+            "speaker": "Coral Vex",
+            "text": "Yes."
+        },
+        {
+            "file": "ep13_final_drone_00_kessler",
+            "speaker": "Kessler",
+            "text": "Clean sweep. Good."
+        },
+        {
+            "file": "ep13_the_question_00_cipher",
+            "speaker": "Cipher",
+            "text": "If the wipe always succeeds..."
+        },
+        {
+            "file": "ep13_the_question_01_cipher",
+            "speaker": "Cipher",
+            "text": "why did mine fail?"
+        },
+        {
+            "file": "ep13_the_question_02_kessler",
+            "speaker": "Kessler",
+            "text": "Give me coordinates when you have them."
+        },
+        {
+            "file": "ep13_space_ep13_post_00_kessler",
+            "speaker": "Kessler",
+            "text": "Coral's archive is backed up across three Vellum nodes. We have the records now, all seventeen."
+        },
+        {
+            "file": "ep13_space_ep13_post_01_cipher",
+            "speaker": "Cipher",
+            "text": "Sixteen resolved. One open. Mine."
+        },
+        {
+            "file": "ep13_space_ep13_post_02_kessler",
+            "speaker": "Kessler",
+            "text": "She's plotting the next node. Decommissioned Dominion station, grid RV-9."
+        },
+        {
+            "file": "ep13_space_ep13_post_03_cipher",
+            "speaker": "Cipher",
+            "text": "Then that's where we find the cause. Set the coordinates."
+        }
+    ]
+}

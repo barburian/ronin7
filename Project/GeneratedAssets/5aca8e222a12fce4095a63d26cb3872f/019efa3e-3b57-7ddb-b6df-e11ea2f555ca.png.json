@@ -1,0 +1,28 @@
+{
+    "asset": "5aca8e222a12fce4095a63d26cb3872f",
+    "fileName": "019efa3e-3b57-7ddb-b6df-e11ea2f555ca.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: 30s human woman, athletic and disciplined, with a hard composed face, cool assessing eyes and tightly bound hair, wearing fitted muted-tactical tracker armor (segmented plates, utility harness, light cover-scarf) with all faction insignia scrubbed off. Carries a long scoped marksman rifle and a sidearm, optics on her harness. Slate-grey, desaturated-green and black palette with gunmetal gear. Stands with a hunter's spare, arms-folded stillness. Reads as an ex-soldier bounty-tracker who changed sides. Grounded human sci-fi. Color palette: Slate grey, desaturated green, black; gunmetal optics. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

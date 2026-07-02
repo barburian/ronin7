@@ -1,0 +1,8 @@
+VARIANT: Voll #15 — "Smuggling Quartermaster"
+SPECIES: Voll (syndicate / black-market profiteer).
+SEX / AGE / BUILD: Male / adult / barrel-bodied, brisk, organized.
+ROLE IN WORLD: Runs the loading and manifests for a contraband ring.
+DISTINGUISHING FEATURES: Green oily skin; functional unadorned dewlaps; sharp busy gold eyes; a manifest-glyph brand on the forearm; a data-spike implant in one wrist; grinder-teeth clenched on a tally-stick.
+CLOTHING / GEAR: A practical dock-foreman vest of pouches, a manifest-slate, a cargo-hook, a whistle, key-chips.
+COLOR / PALETTE: Green flesh; oil-grey and crate-brown vest; data-amber slate; dock-light.
+>> IMAGE-PROMPT SUMMARY: A barrel-bodied brisk organized adult male voll smuggling quartermaster with green oily skin, functional unadorned dewlaps, sharp busy gold eyes, a manifest-glyph forearm brand, a wrist data-spike implant and a tally-stick in his grinder-teeth. Wears a practical oil-grey dock-foreman vest of pouches with a manifest-slate, cargo-hook, whistle and key-chips. Green, oil-grey and crate-brown palette in dock-light. Efficient, gruff. Grounded alien sci-fi.

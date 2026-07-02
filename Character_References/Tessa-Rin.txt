@@ -1,0 +1,41 @@
+==================================================================
+TESSA RIN
+==================================================================
+SPECIES: Human (Dominion/Program courier — Program staff; human per rule).
+
+ROLE & FACTION: On-the-run Program logistics courier. Sells Program internals at Drovis and hands
+Ronin-7 the data proving his killswitch was deliberately sabotaged, then vanishes into the crowd.
+One-chapter assist, not an ally.
+
+CHAPTERS: Ch4.
+
+AGE / BUILD / HEIGHT: Late 20s; ~1.7 m. Lean, runner's frame; jittery, awake too long.
+
+HEAD: Frayed, sharp face; fear laid thin under bluff; darting eyes; unkempt hair; the look of someone
+who hasn't slept and knows she's hunted.
+
+BODY: Twitchy, fast, ready to bolt; go-bag always shouldered; constantly checking exits.
+
+WEAPONS / PROPS: A packed go-bag, a holdout sidearm, the data-chit/courier case she's selling;
+a scrambler/false-ID rig.
+
+CLOTHING / ARMOR: Nondescript courier traveler's wear — hooded jacket, layered civvies for blending
+into Drovis, scuffed boots; Program underkit hidden beneath, insignia removed.
+
+COLOR PALETTE: Drab grey-green and brown; nothing memorable (deliberate camouflage).
+
+SILHOUETTE / DISTINGUISHING FEATURES: A hooded, twitchy courier clutching a go-bag; built to vanish.
+
+DEMEANOR: Fast-talking, paranoid-with-reason, professional discretion; bluff over genuine fear;
+gone the instant the data changes hands.
+
+CANON SOURCE QUOTES:
+  - Jittery, awake too long, go-bag ready; data reveals the switch was sabotaged, then she disappears (Ch4).
+
+>> IMAGE-PROMPT SUMMARY:
+Late-20s human woman courier, lean and twitchy and sleep-deprived, with a frayed sharp face, darting
+fearful eyes and unkempt hair. Wears nondescript hooded traveler's wear — drab grey-green jacket and
+layered civvies over hidden Program underkit, insignia removed — with a packed go-bag shouldered and a
+holdout sidearm. Clutches a courier data-case. Forgettable drab palette built for blending into a
+crowd. Stands ready to bolt, checking exits. Grounded human sci-fi.
+==================================================================

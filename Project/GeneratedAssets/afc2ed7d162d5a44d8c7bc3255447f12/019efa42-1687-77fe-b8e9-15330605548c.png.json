@@ -1,0 +1,28 @@
+{
+    "asset": "afc2ed7d162d5a44d8c7bc3255447f12",
+    "fileName": "019efa42-1687-77fe-b8e9-15330605548c.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A small almost smooth-hided gravelkin child (very young for a long-lived stone species) with soft pale-grey lithic skin, only faint brow-bumps where nodules will grow, oversized curious quartz eyes, no tusks and clumsy heavy little hands. Wears a simple undyed hide-smock and a hold-token cord, clutching a carved cave-crystal toy. Pale-grey, undyed-hide palette with a crystal glint. Endearing, curious. Grounded alien sci-fi. Color palette: Pale-grey hide; undyed hide-smock; a single crystal-toy glint. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

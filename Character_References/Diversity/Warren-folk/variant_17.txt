@@ -1,0 +1,8 @@
+VARIANT: Warren-folk #17 — "Hauler / Porter"
+SPECIES: Warren-folk (market underclass)
+SEX / AGE / BUILD: Male / adult / hunched-strong, overworked.
+ROLE IN WORLD: Cargo porter hauling loads through the warren on a back-harness.
+DISTINGUISHING FEATURES: A back permanently stooped; a strap-galled frill; thick neck cords; dull patient dark eyes; mauve skin chafed raw at the shoulders.
+CLOTHING / GEAR: A heavy load-harness and back-frame, shoulder pads, a sweat-rag, grip-wraps.
+COLOR / PALETTE: Grey-mauve skin; drab sack-cloth; worn leather harness, dust.
+>> IMAGE-PROMPT SUMMARY: A hunched-strong overworked adult male warren-folk porter with a permanently stooped back, a strap-galled throat-frill, thick neck cords, dull patient dark eyes and shoulders chafed raw on grey-mauve skin. Wears a heavy load-harness and back-frame with shoulder pads, a sweat-rag and grip-wraps. Drab sack-cloth and worn-leather palette. Weary, enduring. Grounded alien sci-fi.

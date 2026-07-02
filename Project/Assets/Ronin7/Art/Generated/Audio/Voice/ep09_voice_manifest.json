@@ -1,0 +1,469 @@
+{
+    "lines": [
+        {
+            "file": "ep09_space_ep09_briefing_00_kessler",
+            "speaker": "Kessler",
+            "text": "You've been standing there for two hours."
+        },
+        {
+            "file": "ep09_space_ep09_briefing_01_cipher",
+            "speaker": "Cipher",
+            "text": "The core confirms the shape of the choices. That I refused orders. But it doesn't tell me what I refused to kill, or who begged me not to."
+        },
+        {
+            "file": "ep09_space_ep09_briefing_02_meravoss",
+            "speaker": "Mera Voss",
+            "text": "The syndicates have been trading fragments across Galaxy 2 for years. Somewhere on the Char Spire there's a market for exactly what you're missing."
+        },
+        {
+            "file": "ep09_space_ep09_briefing_03_kessler",
+            "speaker": "Kessler",
+            "text": "The failsafe is still ticking. Every hour we spend circling is an hour we don't get back."
+        },
+        {
+            "file": "ep09_space_ep09_briefing_04_cipher",
+            "speaker": "Cipher",
+            "text": "Then we move."
+        },
+        {
+            "file": "ep09_space_ep09_briefing_05_kessler",
+            "speaker": "Kessler",
+            "text": "The past has a way of finding you before you find it."
+        },
+        {
+            "file": "ep09_spire_docking_00_kessler",
+            "speaker": "Kessler",
+            "text": "Someone spent serious credits on that."
+        },
+        {
+            "file": "ep09_spire_docking_01_meravoss",
+            "speaker": "Mera Voss",
+            "text": "Dominion-grade posting. Not a fringe operator."
+        },
+        {
+            "file": "ep09_spire_docking_02_cipher",
+            "speaker": "Cipher",
+            "text": "They're afraid of something."
+        },
+        {
+            "file": "ep09_spire_docking_03_kessler",
+            "speaker": "Kessler",
+            "text": "I'd say flattered, but that amount of fear usually ends badly for someone."
+        },
+        {
+            "file": "ep09_corridor_runners_00_syndicaterunner1",
+            "speaker": "Syndicate Runner 1",
+            "text": "Station buy-back! Stand down!"
+        },
+        {
+            "file": "ep09_corridor_runners_01_kessler",
+            "speaker": "Kessler",
+            "text": "Back!"
+        },
+        {
+            "file": "ep09_corridor_runners_02_syndicaterunner2",
+            "speaker": "Syndicate Runner 2",
+            "text": "He's Dominion..."
+        },
+        {
+            "file": "ep09_corridor_runners_03_kessler",
+            "speaker": "Kessler",
+            "text": "Fast."
+        },
+        {
+            "file": "ep09_bounty_read_00_kessler",
+            "speaker": "Kessler",
+            "text": "This is a retirement payout. Enough to buy a ship. Enough to buy two."
+        },
+        {
+            "file": "ep09_bounty_read_01_kessler",
+            "speaker": "Kessler",
+            "text": "Someone very afraid of you posted this."
+        },
+        {
+            "file": "ep09_bounty_read_02_cipher",
+            "speaker": "Cipher",
+            "text": "I think I already know them."
+        },
+        {
+            "file": "ep09_tavern_murmur_00_barkeep",
+            "speaker": "Barkeep",
+            "text": "You want quiet, you picked the wrong deck. Half the Spire heard about that bounty."
+        },
+        {
+            "file": "ep09_tavern_murmur_01_salvagerpatron1",
+            "speaker": "Salvager Patron 1",
+            "text": "That's him. Right off the hologram."
+        },
+        {
+            "file": "ep09_tavern_murmur_02_salvagerpatron2",
+            "speaker": "Salvager Patron 2",
+            "text": "Don't stare. Bounty that size, staring gets you spaced."
+        },
+        {
+            "file": "ep09_hunters_gambit_00_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "Cipher. Number seven."
+        },
+        {
+            "file": "ep09_hunters_gambit_01_cipher",
+            "speaker": "Cipher",
+            "text": "You have me at a disadvantage."
+        },
+        {
+            "file": "ep09_hunters_gambit_02_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "I know."
+        },
+        {
+            "file": "ep09_hunters_gambit_03_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "You have a choice. Come quietly and I will be fast about it. Or I take the old man instead."
+        },
+        {
+            "file": "ep09_hunters_gambit_04_kessler",
+            "speaker": "Kessler",
+            "text": "She's Dominion-trained. Look at the stance."
+        },
+        {
+            "file": "ep09_hunters_gambit_05_cipher",
+            "speaker": "Cipher",
+            "text": "We're not going quietly."
+        },
+        {
+            "file": "ep09_catwalk_duel_00_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "I've studied every recorded movement you've ever made. Every mission the Dominion filed before the wipe."
+        },
+        {
+            "file": "ep09_catwalk_duel_01_cipher",
+            "speaker": "Cipher",
+            "text": "Your anger is widening your reach."
+        },
+        {
+            "file": "ep09_mask_removed_00_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "Vera Dusk."
+        },
+        {
+            "file": "ep09_mask_removed_01_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "I was at the Kethel-7 orphanage five years ago."
+        },
+        {
+            "file": "ep09_mask_removed_02_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "I was twelve. I hid inside the walls when the Dominion came. Twenty-four children died."
+        },
+        {
+            "file": "ep09_mask_removed_03_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "I survived because I was too small and too frightened to be found."
+        },
+        {
+            "file": "ep09_mask_removed_04_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "You were there. And then you went down. And then the soldiers came in after you."
+        },
+        {
+            "file": "ep09_mask_removed_05_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "I've been hunting you for three years trying to understand exactly what I saw."
+        },
+        {
+            "file": "ep09_the_fracture_00_cipher",
+            "speaker": "Cipher",
+            "text": "Tell me what you saw."
+        },
+        {
+            "file": "ep09_the_fracture_01_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "I watched you refuse. The kill-order came through on comms, and you stopped."
+        },
+        {
+            "file": "ep09_the_fracture_02_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "Then the failsafe triggered. You went down hard. And the soldiers came in without you."
+        },
+        {
+            "file": "ep09_the_fracture_03_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "Either you grew a conscience in the field, or you were always something they could not fully build."
+        },
+        {
+            "file": "ep09_the_fracture_04_kessler",
+            "speaker": "Kessler",
+            "text": "Why are you telling him this?"
+        },
+        {
+            "file": "ep09_the_fracture_05_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "Because I came here to kill him and I need to understand why I can't."
+        },
+        {
+            "file": "ep09_dominion_breach_00_kessler",
+            "speaker": "Kessler",
+            "text": "Strike team. East corridor. At least six."
+        },
+        {
+            "file": "ep09_dominion_breach_01_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "They're not here for you. I've been running unsanctioned bounties for two years. They've been patient enough."
+        },
+        {
+            "file": "ep09_dominion_breach_02_cipher",
+            "speaker": "Cipher",
+            "text": "Same direction we're walking."
+        },
+        {
+            "file": "ep09_dominion_breach_03_dominionscout1",
+            "speaker": "Dominion Scout 1",
+            "text": "Corridor sealed! Box them at the hub!"
+        },
+        {
+            "file": "ep09_dominion_breach_04_dominionscout2",
+            "speaker": "Dominion Scout 2",
+            "text": "Rogue asset confirmed! Lethal engagement cleared!"
+        },
+        {
+            "file": "ep09_dominion_breach_05_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "Left junction! Maintenance hub!"
+        },
+        {
+            "file": "ep09_the_evidence_00_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "Your existence is evidence."
+        },
+        {
+            "file": "ep09_the_evidence_01_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "Of Kethel-7. Of every site like it. Khall is still running programs, same architecture, same raw material."
+        },
+        {
+            "file": "ep09_the_evidence_02_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "Your failsafe was designed to erase you cleanly. Someone let you survive. That means someone inside the program knows what you are."
+        },
+        {
+            "file": "ep09_the_evidence_03_cipher",
+            "speaker": "Cipher",
+            "text": "I don't remember refusing the order."
+        },
+        {
+            "file": "ep09_the_evidence_04_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "Your body does. I watched it happen."
+        },
+        {
+            "file": "ep09_memory_descent_00_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "You were the ideal. The Ronin Program's design, the blank slate they poured the conditioning into. You were never supposed to break."
+        },
+        {
+            "file": "ep09_memory_descent_01_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "You were CIPHER. Number seven. And they built you to be permanent."
+        },
+        {
+            "file": "ep09_memory_descent_02_kessler",
+            "speaker": "Kessler",
+            "text": "Easy."
+        },
+        {
+            "file": "ep09_memory_echoes_00_childecho1",
+            "speaker": "Child Echo 1",
+            "text": "Hide. Quick, inside the wall."
+        },
+        {
+            "file": "ep09_memory_echoes_01_childecho2",
+            "speaker": "Child Echo 2",
+            "text": "Where's Kira? She was right here."
+        },
+        {
+            "file": "ep09_memory_echoes_02_childecho1",
+            "speaker": "Child Echo 1",
+            "text": "Don't make a sound. Don't breathe."
+        },
+        {
+            "file": "ep09_memory_refusal_00_cipher",
+            "speaker": "Cipher",
+            "text": "I see the doorframe. I see the fire. I hear the order."
+        },
+        {
+            "file": "ep09_memory_refusal_01_cipher",
+            "speaker": "Cipher",
+            "text": "And then my hand opens."
+        },
+        {
+            "file": "ep09_memory_refusal_02_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "That's the refusal."
+        },
+        {
+            "file": "ep09_memory_refusal_03_cipher",
+            "speaker": "Cipher",
+            "text": "Then there's nothing. Just white. Just the ground."
+        },
+        {
+            "file": "ep09_memory_refusal_04_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "The failsafe dropped you before the soldiers came in. You never saw what happened after you refused."
+        },
+        {
+            "file": "ep09_kira_name_00_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "The bounty on your head is Khall's work. He placed it personally. He's afraid of you, and fear is the only weapon that costs him something."
+        },
+        {
+            "file": "ep09_kira_name_01_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "My sister's name was Kira. She was nine years old."
+        },
+        {
+            "file": "ep09_kira_name_02_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "When you find Khall, say it to him. Make him know what he destroyed."
+        },
+        {
+            "file": "ep09_kira_name_03_cipher",
+            "speaker": "Cipher",
+            "text": "Kira."
+        },
+        {
+            "file": "ep09_cinders_breach_00_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "Command chamber. Straight through, third junction, up one level."
+        },
+        {
+            "file": "ep09_cinders_breach_01_cipher",
+            "speaker": "Cipher",
+            "text": "How bad is the shoulder?"
+        },
+        {
+            "file": "ep09_cinders_breach_02_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "Fine."
+        },
+        {
+            "file": "ep09_cinders_breach_03_kessler",
+            "speaker": "Kessler",
+            "text": "I'm holding the landing pad. Make it count."
+        },
+        {
+            "file": "ep09_khall_reckoning_00_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "This is the man who ordered Kethel-7. Who built instruments out of children and called it necessity."
+        },
+        {
+            "file": "ep09_khall_reckoning_01_khall",
+            "speaker": "Khall",
+            "text": "My masterpiece."
+        },
+        {
+            "file": "ep09_khall_reckoning_02_khall",
+            "speaker": "Khall",
+            "text": "Still broken in all the right places."
+        },
+        {
+            "file": "ep09_khall_reckoning_03_khall",
+            "speaker": "Khall",
+            "text": "You want your name back? Ask the Fringe what they called you, if they even know."
+        },
+        {
+            "file": "ep09_khall_reckoning_04_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "The pod's away. He's gone."
+        },
+        {
+            "file": "ep09_cinders_scouts_00_dominionscout2",
+            "speaker": "Dominion Scout 2",
+            "text": "Rogue asset on site! All squads converge!"
+        },
+        {
+            "file": "ep09_cinders_scouts_01_dominionscout3",
+            "speaker": "Dominion Scout 3",
+            "text": "The bounty hunter is with him! Lethal engagement cleared!"
+        },
+        {
+            "file": "ep09_cinders_scouts_02_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "On your left. I'll take the flank."
+        },
+        {
+            "file": "ep09_cinders_escape_00_kessler",
+            "speaker": "Kessler",
+            "text": "I'm on the pad. East wing is going, come out now."
+        },
+        {
+            "file": "ep09_cinders_escape_01_cipher",
+            "speaker": "Cipher",
+            "text": "Kira."
+        },
+        {
+            "file": "ep09_extraction_picket_00_kessler",
+            "speaker": "Kessler",
+            "text": "Three contacts! They had our bearing before we lifted, someone sold them our approach vector."
+        },
+        {
+            "file": "ep09_extraction_picket_01_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "Target one is in my reticle. Say when."
+        },
+        {
+            "file": "ep09_extraction_picket_02_cipher",
+            "speaker": "Cipher",
+            "text": "When."
+        },
+        {
+            "file": "ep09_extraction_picket_03_kessler",
+            "speaker": "Kessler",
+            "text": "That was my port array."
+        },
+        {
+            "file": "ep09_extraction_picket_04_cipher",
+            "speaker": "Cipher",
+            "text": "Lane's clear."
+        },
+        {
+            "file": "ep09_ascent_epilogue_00_cipher",
+            "speaker": "Cipher",
+            "text": "I refused the order. I remember it now. I know what I did and what I failed to stop."
+        },
+        {
+            "file": "ep09_ascent_epilogue_01_cipher",
+            "speaker": "Cipher",
+            "text": "But I still don't know the name I had before they built this. Before any of it."
+        },
+        {
+            "file": "ep09_ascent_epilogue_02_kessler",
+            "speaker": "Kessler",
+            "text": "She's stable. Again."
+        },
+        {
+            "file": "ep09_ascent_epilogue_03_cipher",
+            "speaker": "Cipher",
+            "text": "She came here to kill me and she fought beside me instead."
+        },
+        {
+            "file": "ep09_ascent_epilogue_04_meravoss",
+            "speaker": "Mera Voss",
+            "text": "That's what the Architect of Mercy does. He makes it possible for people to choose something other than what they came for."
+        },
+        {
+            "file": "ep09_space_ep09_post_00_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "Before I went under, I pulled one more thread from the stolen records. A sanctuary on Velloch's Reach, survivors who hid from the program's first sites."
+        },
+        {
+            "file": "ep09_space_ep09_post_01_kessler",
+            "speaker": "Kessler",
+            "text": "If anyone kept names the Dominion erased, it's the people who hid from it."
+        },
+        {
+            "file": "ep09_space_ep09_post_02_cipher",
+            "speaker": "Cipher",
+            "text": "Set course for the Reach."
+        }
+    ]
+}

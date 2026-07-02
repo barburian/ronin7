@@ -1,0 +1,95 @@
+==================================================================
+RONIN-7 — CHARACTER REFERENCE INDEX
+==================================================================
+Purpose: image-reference / 3D-art description sheets for every character so far.
+Each file uses a fixed template ending in a paste-ready ">> IMAGE-PROMPT SUMMARY".
+
+SPECIES RULE (locked):
+  HUMAN  = all Dominion / Program-affiliated characters + Kessler & Iris.
+  ALIEN  = all other characters, from 7 recurring species (see _SPECIES_BIBLE.txt).
+  CONSTRUCT / NON-CORPOREAL = Echo, Sallow, the Warden.
+
+Counts: 37 named/character sheets + 3 reference files (root) + 140 diversity NPCs = 180 files.
+
+------------------------------------------------------------------
+REFERENCE FILES (root)
+------------------------------------------------------------------
+_SPECIES_BIBLE.txt ......... the 7 alien species + human baseline (read first)
+_FACTIONS_AND_AMBIENT.txt .. grouped crowd/ambient roles (troopers, drones, enforcers, etc.)
+_INDEX.txt ................. this file
+
+------------------------------------------------------------------
+HUMANS — Dominion / Program + exempt (Kessler, Iris)
+NAME | role | chapters | file
+------------------------------------------------------------------
+Ronin-7 / Cipher / Soren | protagonist operative (Ronin make) | Ch1-16 | Ronin-7_Cipher_Soren.txt
+Kessler | salvager, runs the Hub (the Cairn); exempt human | Ch1-16 | Kessler.txt
+Iris | tech/conscience, Kessler's daughter; exempt human | Ch2-16 | Iris.txt
+Mera Voss | ex-Dominion tracker, Ally #2 | Ch4-16 | Mera-Voss.txt
+Khall | handler / the Overseer (later repents) | Ch1,3,4,8,16 | Khall.txt
+Commander Vale | woken cryo-commander, false-prophet antagonist | Ch12 | Commander-Vale.txt
+Samurai-4 | elite hunter who breaks her leash, becomes family | Ch16 | Samurai-4.txt
+Coral Vex | freed Wraith-make operative, Ally #4 | Ch7-16 | Coral-Vex.txt
+Sable | Wraith-gen living-archive node, Ally #6 | Ch9-16 | Sable.txt
+Cassie-04 | Ninja-gen living-archive node, Ally #7 | Ch10-16 | Cassie-04.txt
+The Dreaming Archive | broken Knight-gen living-archive node (put down, unsalvageable) | Ch11 | The-Dreaming-Archive.txt
+Vane / Wraith-6 | leashed Wraith keeper (boss) | Ch9 | Vane_Wraith-6.txt
+Sever / Ninja-2 | leashed Ninja keeper (boss) | Ch10 | Sever_Ninja-2.txt
+Aldric / Knight-1 | eldest leashed Knight keeper (boss) | Ch11 | Aldric_Knight-1.txt
+Ronin-7 Edition | leashed clone dark-mirror (boss) | Ch12 | Ronin-7_Edition_Clone.txt
+The Previous Owner | feral blade-imprint, mindspace mini-boss (released) | Ch7 | The-Previous-Owner.txt
+Dr. Heris | maker of Ronin & the killswitch; Engine architect, Ally #9 (incl. Ch8 faceless-woman vision) | Ch8,13-16 | Dr-Heris.txt
+Morrigan | rogue Program engineer, inside informant, Ally #3 | Ch6-16 | Morrigan.txt
+Matron Hespa | Iron Dojo "Cradle" master (boss) | Ch6 | Matron-Hespa.txt
+Drillmaster Caradoc | Iron Dojo "Proving" master (boss) | Ch6 | Drillmaster-Caradoc.txt
+Master Kaelen | Iron Dojo "Vesting" architect-master (boss) | Ch6 | Master-Kaelen.txt
+Tessa Rin | on-the-run Program courier (one-chapter) | Ch4 | Tessa-Rin.txt
+
+------------------------------------------------------------------
+ALIENS — non-Dominion (species in parentheses)
+NAME | role | chapters | file
+------------------------------------------------------------------
+Resh (Warren-folk) | child-smuggler, Ally #1 | Ch2-16 | Resh.txt
+Mira (Warren-folk) | stowaway child, crew conscience | Ch2-16 | Mira.txt
+Gryph (Gravelkin) | old pirate-captain of Rustfang, Ally #5 | Ch9-16 | Gryph.txt
+Rook (Gravelkin) | Gryph's second, keeper of the hold | Ch9-10 | Rook.txt
+Vess (Vesh) | vengeance-raider, Ally #8 | Ch10-16 | Vess.txt
+Kerrax (Voll) | Coil syndicate boss on Drovis (boss) | Ch4 | Kerrax.txt
+Vera Dusk (Ashkin) | ash-world survivor who spares him | Ch5 | Vera-Dusk.txt
+Kira Dusk (Ashkin) | Vera's dead sister (memory only) | Ch5 | Kira-Dusk.txt
+The Velorum Broker (Voll) | paranoid records-fence (one-scene) | Ch2 | Velorum-Broker.txt
+The Mourners (Mourners) | ancient soul-keepers of the Silent Garden | Ch8 | The-Mourners.txt
+Maelgorn (Obsidian Synod) | the true enemy, apex of the Synod | Ch16 | Maelgorn.txt
+The Hollow Kings (Obsidian Synod) | order-forging Synod agents | Ch16 | The-Hollow-Kings.txt
+
+------------------------------------------------------------------
+CONSTRUCTS / NON-CORPOREAL
+NAME | role | chapters | file
+------------------------------------------------------------------
+Echo | the sword's defected shadow-AI (no body; hilt-light) | Ch3-16 | Echo.txt
+Sallow | Program "absolution" construct body, Ally #10 | Ch13-16 | Sallow.txt
+The Warden | Silent Garden grave-construct (boss) | Ch8 | The-Warden.txt
+
+------------------------------------------------------------------
+DIVERSITY NPCs (background population — 20 per species, 140 total)
+folder | species | files
+------------------------------------------------------------------
+Diversity/Warren-folk/     | Warren-folk (market underclass)        | variant_01..20.txt
+Diversity/Ashkin/          | Ashkin (frontier dust-world settlers)  | variant_01..20.txt
+Diversity/Gravelkin/       | Gravelkin (cave/pirate stoneblood)     | variant_01..20.txt
+Diversity/Voll/            | Voll (syndicate / black-market)        | variant_01..20.txt
+Diversity/Vesh/            | Vesh (raider nomad clan)               | variant_01..20.txt
+Diversity/Mourners/        | The Mourners (ancient soul-keepers)    | variant_01..20.txt
+Diversity/Obsidian-Synod/  | Obsidian Synod (shadow-author voidforms)| variant_01..20.txt
+
+------------------------------------------------------------------
+SPECIES <-> NAMED-CHARACTER MAP (for consistency)
+------------------------------------------------------------------
+Warren-folk ...... Resh, Mira (+ Kethel-7 orphanage population)
+Ashkin ........... Vera Dusk, Kira Dusk (+ ash-world scavengers)
+Gravelkin ........ Gryph, Rook
+Voll ............. Kerrax, the Velorum Broker (+ Coil enforcers)
+Vesh ............. Vess
+Mourners ......... the Mourners
+Obsidian Synod ... Maelgorn, the Hollow Kings
+==================================================================

@@ -1,0 +1,47 @@
+==================================================================
+IRIS
+==================================================================
+SPECIES: Human (exempt civilian — explicitly human per project rule). Kessler's daughter.
+
+ROLE & FACTION: Systems/decryption tech and conscience of the crew. Taken at 14, held as Dominion
+collateral in Velorum's markets for six years; freed by Ronin-7 at the auction (Ch2). Exposes the
+"Kael Vor" cover as a plant (Ch5).
+
+CHAPTERS: Ch2–Ch16 (joins after the auction).
+
+AGE / BUILD / HEIGHT: Early 20s (taken at 14, six years held); ~1.7 m. Slight, wiry, quick;
+slightly gaunt and undernourished when first freed, fills out over time.
+
+HEAD: Sharp, alert young face; quick darting eyes; practical short or tied-back hair. When first
+freed: hollow-cheeked but bright-eyed, a collateral collar-tag still at her throat. Grey ash dusts
+her hair in Ch5.
+
+BODY: Fast, precise hands (a born systems-tech); restless, economical movement; carries old caged
+wariness that eases as family reforms.
+
+WEAPONS / PROPS: Hand-screen / data-slate, decryption rig, tools; a small holdout sidearm later.
+Tech, not melee.
+
+CLOTHING / ARMOR: Practical crew tech-wear — fitted utility jumpsuit or layered vest with tool
+loops and cable runs, sleeves pushed up, fingerless gloves. The cut collar-tag kept as a keepsake.
+
+COLOR PALETTE: Teal/grey utilitarian with warm copper hair; small indicator-light accents from her rig.
+
+SILHOUETTE / DISTINGUISHING FEATURES: Lean, sharp tech-kid silhouette bent over a screen; the
+keepsake collar-tag; the family resemblance to Kessler around the eyes.
+
+DEMEANOR: Sharp, dry-humored (inherited from Kessler), fearless with data, the crew's hard-question
+conscience; sarcastic when afraid. "I hate it, but fine." (Ch3)
+
+CANON SOURCE QUOTES:
+  - Taken at 14, held six years; gaunt but sharp-eyed in the cage (Ch2).
+  - Times Ronin's memory-dive in Ch3, voicing dread as sarcasm.
+
+>> IMAGE-PROMPT SUMMARY:
+Early-20s human woman, slight and wiry, with a sharp alert face, quick dark eyes, copper hair tied
+back with a fine dusting of grey ash, and faintly gaunt cheeks from years in captivity. A cut
+collateral collar-tag worn at the throat as a keepsake. Dressed in a fitted teal-grey utility
+jumpsuit with tool loops, cable runs, pushed-up sleeves and fingerless gloves, hunched over a
+glowing hand-screen. Utilitarian palette with small indicator-light accents. Reads as the crew's
+fast, dry, fearless young hacker-conscience. Grounded human sci-fi.
+==================================================================

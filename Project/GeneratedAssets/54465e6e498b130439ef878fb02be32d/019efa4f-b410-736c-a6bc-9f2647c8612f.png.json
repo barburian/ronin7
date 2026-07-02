@@ -1,0 +1,28 @@
+{
+    "asset": "54465e6e498b130439ef878fb02be32d",
+    "fileName": "019efa4f-b410-736c-a6bc-9f2647c8612f.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A hunched-strong overworked adult male warren-folk porter with a permanently stooped back, a strap-galled throat-frill, thick neck cords, dull patient dark eyes and shoulders chafed raw on grey-mauve skin. Wears a heavy load-harness and back-frame with shoulder pads, a sweat-rag and grip-wraps. Drab sack-cloth and worn-leather palette. Weary, enduring. Grounded alien sci-fi. Color palette: Grey-mauve skin; drab sack-cloth; worn leather harness, dust. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

@@ -1,0 +1,7 @@
+VARIANT: Mourner #12 — "Sightless Listener"
+SPECIES: The Mourners (ancient soul-keepers).
+FORM / AGE / DENSITY: Medium, head tilted as if listening; no light at all in the hollow.
+DISTINGUISHING FEATURES: A face-hollow utterly dark and lightless (it hears rather than sees); the head canted to one side; both hands cupped toward the listener as if drawing in sound; fog drawn inward to it.
+ROBE / STATE: A plain close-drawn shroud with the cowl tilted, hood-edge frayed.
+COLOR / PALETTE: Ash-grey; a lightless black face-hollow; inward-drawn white fog.
+>> IMAGE-PROMPT SUMMARY: A medium Sightless-Listener Mourner with its head canted to one side, the face-hollow utterly dark and lightless as if it hears rather than sees, both pale hands cupped toward the listener drawing in sound, fog pulled inward to it. Wears a plain close-drawn ash-grey shroud with a tilted frayed cowl. Ash-grey with a lightless black hollow palette. Attentive, unnerving. Cosmic dark sci-fi.

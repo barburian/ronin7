@@ -1,0 +1,28 @@
+{
+    "asset": "33cc782bc3c9f274d809f8117c43efa7",
+    "fileName": "019efaea-ea5f-7a53-9589-52712d1a3a03.png",
+    "prompt": "Concept art of a single weapon shown complete and centered, isolated on a plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, NO character, no figure, only the weapon by itself. Subject: an immense grave-iron fist, a monstrous gauntlet-fist boss-weapon assembled from rusted grave-iron bars, broken grey headstone fragments and knotted dark roots packed with drifting white-grey fog, a faint cold blue-grey light pulsing in its hollows, shedding grave-dirt; a crushing graveyard mechanism, not a person. Color palette: grave-grey stone, rusted black iron, root-brown and fog with cold blue-grey inner light. Grounded dark sci-fi gothic, single weapon prop on neutral background.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

@@ -1,0 +1,8 @@
+VARIANT: Vesh #16 — "Headhunter / Trophy-Taker"
+SPECIES: Vesh (raider nomad clan).
+SEX / AGE / BUILD: Female / adult / lean, grim, methodical.
+ROLE IN WORLD: Takes and cures enemy trophies; the clan grim reputation made flesh.
+DISTINGUISHING FEATURES: Dark plating stained with cure-tannins; cold orange slit-eyes; mandible-tusks notched per trophy; a belt and cloak of cured foe-trophies; skinning-scarred hands.
+CLOTHING / GEAR: A trophy-hung cloak and belt, curing-tools, a flensing-knife, drying-racks of grim spoils.
+COLOR / PALETTE: Tannin-darkened carapace; cured-trophy browns; bone-white; dried-blood red.
+>> IMAGE-PROMPT SUMMARY: A lean grim methodical adult female vesh headhunter with dark tannin-stained chitin, cold orange slit-eyes, trophy-notched mandible-tusks, skinning-scarred hands and a cloak and belt of cured foe-trophies. Carries curing-tools and a flensing-knife among drying-racks of grim spoils. Tannin-dark, cured-brown, bone-white and dried-blood-red palette. Grim, unsettling. Grounded alien sci-fi raider.

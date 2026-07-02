@@ -1,0 +1,28 @@
+{
+    "asset": "9b7076dce38887f43be1fa1b3970598e",
+    "fileName": "019efa9c-51a9-7fce-9499-020c74d40b97.png",
+    "prompt": "Single object concept art of one futuristic sword, shown full length with the blade pointing straight up, the entire weapon centered and small within the frame with large empty background margins on all four sides so nothing is cropped, the whole sword from tip to pommel fully inside the frame and not touching any edge. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no text, no logo, no border, only the single sword, no hands, no character. Subject: a sleek high-tech SCI-FI katana — a living AI energy-blade. A matte dark-graphite blade with a glowing cyan-white energy edge and luminous tech-circuitry tracing along the blade-line; a modern high-tech hilt of segmented brushed metal with integrated glowing cyan panels, a sci-fi guard, and small holographic accents; the weapon looks advanced, futuristic and quietly energized — restrained but unmistakably sci-fi, not a plain traditional katana. Color palette: matte graphite metal with steady cyan-white energy glow. Grounded sci-fi.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

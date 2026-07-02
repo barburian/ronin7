@@ -1,0 +1,28 @@
+{
+    "asset": "f5a1c7cbea567f544acb7a92b7eeb99b",
+    "fileName": "019efa3e-d97b-741b-a983-f7009ac1e21d.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: Older human male stealth-assassin, lean and quiet, with a conditioned-flat face that flickers with visible strain (a man almost breaking his own leash), hooded shadowed eyes, short dark hair, augment-seams and a skull-base killswitch scar. Wears close-fit dark hooded stealth armor, wrapped and soft-soled with minimal plating, mine-dust worn. Carries a light fast blade and concealed shorter blades with a cold leashed hilt-light. Charcoal/matte-black and dust-grey palette. Stands low and fast, with a faint tremor of suppressed humanity. Grounded human sci-fi. Color palette: Charcoal and matte black, mine-dust grey, cold hilt-light. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

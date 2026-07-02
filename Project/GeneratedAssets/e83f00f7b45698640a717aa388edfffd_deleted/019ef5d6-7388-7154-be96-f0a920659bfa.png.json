@@ -1,0 +1,28 @@
+{
+    "asset": "e83f00f7b45698640a717aa388edfffd",
+    "fileName": "019ef5d6-7388-7154-be96-f0a920659bfa.png",
+    "prompt": "Full-body front-facing character concept of a generic adult human male, athletic average build, short hair, neutral facial expression, wearing simple fitted modern clothing (plain t-shirt and trousers, boots). Standing straight in a neutral A-pose, arms slightly away from the body, centered, full body head-to-toe visible, plain flat light-gray background, even studio lighting, no shadows on background, clean realistic game-ready character reference.",
+    "negativePrompt": "",
+    "model": "gpt-image-1",
+    "modelName": "GPT Image 1",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

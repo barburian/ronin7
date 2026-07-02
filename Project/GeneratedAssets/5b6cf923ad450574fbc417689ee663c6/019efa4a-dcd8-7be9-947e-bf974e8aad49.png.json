@@ -1,0 +1,28 @@
+{
+    "asset": "5b6cf923ad450574fbc417689ee663c6",
+    "fileName": "019efa4a-dcd8-7be9-947e-bf974e8aad49.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: The tallest most ancient Hollow-Eldest Mourner, a vast dense crowned fog-form the ring orients toward, with a deep slow ember-blue light in the face-hollow, an inner void worn through the chest by eons, fully skeletal-pale six-fingered hands and a faint corona of grave-cold, crowned with a circlet of grave-iron and bone over an immense layered grand-shroud. Deep ash-grey, ember-blue and grave-iron-bone palette. Supreme, eldritch, eternal. Cosmic dark sci-fi. Color palette: Deep ash-grey; ember-blue inner light; grave-iron-and-bone crown; cold corona. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

@@ -1,0 +1,28 @@
+{
+    "asset": "c3ebfafa6f3dddd4186be561c0d0a189",
+    "fileName": "019efa49-395c-79ea-90e2-56348cf58a7f.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A smaller plainer lowest-rank Acolyte Synod voidform with simpler proportions, a single small dim white-blue dot-seam for a face, an uncrowned smooth head, thin tentative shadow-hands and minimal smoke. Wears a plain undecorated black-glass acolyte-shroud with no crown or sigils. Plain obsidian-black with a small dim white-blue dot palette. Common, lesser, eerie. Cosmic dark sci-fi. Color palette: Plain obsidian black; small dim white-blue dot-seam. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

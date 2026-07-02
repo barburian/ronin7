@@ -1,0 +1,304 @@
+{
+    "lines": [
+        {
+            "file": "ep01_ship_beat2_00_kessler",
+            "speaker": "Kessler",
+            "text": "You're awake. That's good. Better than I expected."
+        },
+        {
+            "file": "ep01_ship_beat2_01_kessler",
+            "speaker": "Kessler",
+            "text": "You were floating in the debris field. No ID. No memory, from what I can tell. You had a katana holstered to your belt, and a lot of augmentation. So I brought you in."
+        },
+        {
+            "file": "ep01_ship_beat2_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "How long?"
+        },
+        {
+            "file": "ep01_ship_beat2_03_kessler",
+            "speaker": "Kessler",
+            "text": "Three weeks. You were unconscious for the better part of the first one. Your body's running on something I don't fully understand. But you're stable now. That's what matters."
+        },
+        {
+            "file": "ep01_ship_beat2_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "My name?"
+        },
+        {
+            "file": "ep01_ship_beat2_05_kessler",
+            "speaker": "Kessler",
+            "text": "You don't have one. Not anymore. Not that you remember."
+        },
+        {
+            "file": "ep01_ship_beat2_06_kessler",
+            "speaker": "Kessler",
+            "text": "But you will. First things first. Can you stand?"
+        },
+        {
+            "file": "ep01_ship_beat2_07_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I can move."
+        },
+        {
+            "file": "ep01_ship_beat2_08_kessler",
+            "speaker": "Kessler",
+            "text": "One thing before you find your feet. The Dominion sweeps this sector for salvage every few weeks, and one's overdue. I've kept you hidden three weeks, I can't hide you through an inspection."
+        },
+        {
+            "file": "ep01_ship_beat2_09_kessler",
+            "speaker": "Kessler",
+            "text": "So when they board, and they will, be ready to move."
+        },
+        {
+            "file": "ep01_ship_beat3_barks_00_dominiontrooper1",
+            "speaker": "Dominion Trooper 1",
+            "text": "Medical bay contact. Breach imminent!"
+        },
+        {
+            "file": "ep01_ship_beat3_barks_01_dominiontrooper2",
+            "speaker": "Dominion Trooper 2",
+            "text": "Target's armed! Weapons hot!"
+        },
+        {
+            "file": "ep01_ship_beat4_00_kessler",
+            "speaker": "Kessler",
+            "text": "Routine check. This happens every few weeks. They like to remind us they're in charge."
+        },
+        {
+            "file": "ep01_ship_beat4_01_kessler",
+            "speaker": "Kessler",
+            "text": "I had the chance to hand you over for 3 weeks now. Didn't."
+        },
+        {
+            "file": "ep01_ship_beat4_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Why?"
+        },
+        {
+            "file": "ep01_ship_beat4_03_kessler",
+            "speaker": "Kessler",
+            "text": "Because six years ago, you saved my life. I was Dominion then, same as you. A raid went bad, I was pinned, written off for dead. You came back for me when the order was to leave me."
+        },
+        {
+            "file": "ep01_ship_beat4_04_kessler",
+            "speaker": "Kessler",
+            "text": "I disappeared after that. Walked off the raid, off the grid, off everything I'd been. Been drifting the fringe as a salvager ever since."
+        },
+        {
+            "file": "ep01_ship_beat4_05_kessler",
+            "speaker": "Kessler",
+            "text": "I wasn't looking for you. I was stripping a dead hauler for parts and there you were, in the debris. The moment I saw your face, I knew it."
+        },
+        {
+            "file": "ep01_ship_beat4_06_ronin7",
+            "speaker": "Ronin-7",
+            "text": "What is your name."
+        },
+        {
+            "file": "ep01_ship_beat4_07_kessler",
+            "speaker": "Kessler",
+            "text": "Just Kessler now."
+        },
+        {
+            "file": "ep01_ship_beat7_00_kessler",
+            "speaker": "Kessler",
+            "text": "We've got a problem. Those troopers, their helmet feeds were live. Everything they saw went up to a Dominion relay before I could cut the signal."
+        },
+        {
+            "file": "ep01_ship_beat7_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Meaning?"
+        },
+        {
+            "file": "ep01_ship_beat7_02_kessler",
+            "speaker": "Kessler",
+            "text": "Meaning a server somewhere just watched you fight. And their systems don't forget a face. Especially not yours."
+        },
+        {
+            "file": "ep01_ship_beat56_00_shipcomputer",
+            "speaker": "Ship computer",
+            "text": "Incoming message."
+        },
+        {
+            "file": "ep01_ship_beat56_01_khall",
+            "speaker": "Khall",
+            "text": "Recognition flag. Priority black."
+        },
+        {
+            "file": "ep01_ship_beat56_02_khall",
+            "speaker": "Khall",
+            "text": "Kessler. Don't think you can escape the Dominion's grasp. We already know who you are."
+        },
+        {
+            "file": "ep01_ship_beat56_03_khall",
+            "speaker": "Khall",
+            "text": "We will keep your daughter Iris safe, for now. You will see her again when you return our lost item."
+        },
+        {
+            "file": "ep01_ship_beat56_04_kessler",
+            "speaker": "Kessler",
+            "text": "That's Khall, high Dominion. If his systems have your face, hiding's finished. For both of us."
+        },
+        {
+            "file": "ep01_ship_beat56_05_ronin7",
+            "speaker": "Ronin-7",
+            "text": "They have your daughter. I will not let her be harmed because of me. Turn me in!"
+        },
+        {
+            "file": "ep01_ship_beat56_06_kessler",
+            "speaker": "Kessler",
+            "text": "Nonsense. They will not harm her. They are just using her as leverage. We need to take her back, and anyone in the way learns why they should've left you in the dark."
+        },
+        {
+            "file": "ep01_ship_beat56_07_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then we save her. Together."
+        },
+        {
+            "file": "ep01_market_kessler_00_kessler",
+            "speaker": "Kessler",
+            "text": "Keep your hood up. This market's crawling with Dominion eyes."
+        },
+        {
+            "file": "ep01_market_kessler_01_kessler",
+            "speaker": "Kessler",
+            "text": "Somebody here runs cargo for the garrison. Find them, and we find the way in."
+        },
+        {
+            "file": "ep01_market_kessler_02_kessler",
+            "speaker": "Kessler",
+            "text": "I'll watch the exits. Go on, ask around."
+        },
+        {
+            "file": "ep01_market_dockhand_00_dockhand",
+            "speaker": "Dock Hand",
+            "text": "You're not from the platforms. I can tell."
+        },
+        {
+            "file": "ep01_market_dockhand_01_dockhand",
+            "speaker": "Dock Hand",
+            "text": "The Dominion command? That's the old relay compound, past the cargo cranes. Don't go near it."
+        },
+        {
+            "file": "ep01_market_dockhand_02_dockhand",
+            "speaker": "Dock Hand",
+            "text": "Whatever they're holding in there, it isn't worth your life."
+        },
+        {
+            "file": "ep01_market_trader_00_trader",
+            "speaker": "Trader",
+            "text": "Information's not free, stranger. But I hate those Dominion boots, so listen."
+        },
+        {
+            "file": "ep01_market_trader_01_trader",
+            "speaker": "Trader",
+            "text": "The compound guards rotate at dusk. Three on the door. Quiet types."
+        },
+        {
+            "file": "ep01_market_trader_02_trader",
+            "speaker": "Trader",
+            "text": "Get inside, find their command terminal. Everything they move through this world is logged there."
+        },
+        {
+            "file": "ep01_hideout_intro_00_kessler",
+            "speaker": "Kessler",
+            "text": "I'm patched into your feed. Three hostiles in the entry hall, take them down fast."
+        },
+        {
+            "file": "ep01_hideout_intro_01_kessler",
+            "speaker": "Kessler",
+            "text": "Past them there's a corridor. The command room's at the end. That's where their data lives."
+        },
+        {
+            "file": "ep01_hideout_wave1_bark_00_dominiontrooper",
+            "speaker": "Dominion Trooper",
+            "text": "Contact! Engaging!"
+        },
+        {
+            "file": "ep01_hideout_wave2_bark_00_dominiontrooper",
+            "speaker": "Dominion Trooper",
+            "text": "Thermal signature converging on platform! Containing spread!"
+        },
+        {
+            "file": "ep01_hideout_wave3_bark_00_dominiontrooper",
+            "speaker": "Dominion Trooper",
+            "text": "Unit approaching! All available teams to the command room!"
+        },
+        {
+            "file": "ep01_hideout_hack_00_kessler",
+            "speaker": "Kessler",
+            "text": "You're in. Pulling the manifest now..."
+        },
+        {
+            "file": "ep01_hideout_hack_01_kessler",
+            "speaker": "Kessler",
+            "text": "No. No, no, no... They moved her. Iris isn't in the school anymore."
+        },
+        {
+            "file": "ep01_hideout_hack_02_kessler",
+            "speaker": "Kessler",
+            "text": "She's in Dominion custody. Transit-classified. Destination logged as, Velorum Station."
+        },
+        {
+            "file": "ep01_hideout_hack_03_kessler",
+            "speaker": "Kessler",
+            "text": "An auction. They're going to sell her. We move now, get back to the ship."
+        },
+        {
+            "file": "ep01_space_briefing_00_kessler",
+            "speaker": "Kessler",
+            "text": "Check the silver planet, Aquilane. Water-mining world. Nothing but storms and silver seas down there."
+        },
+        {
+            "file": "ep01_space_briefing_01_kessler",
+            "speaker": "Kessler",
+            "text": "The Dominion runs a relay platform on the surface. That's the place where Iris's school was."
+        },
+        {
+            "file": "ep01_space_briefing_02_kessler",
+            "speaker": "Kessler",
+            "text": "Set us down clean."
+        },
+        {
+            "file": "ep01_space_velorum_00_kessler",
+            "speaker": "Kessler",
+            "text": "Velorum Station. It's a hub where assets and intelligence are brokered under cover of an open market."
+        },
+        {
+            "file": "ep01_space_velorum_01_kessler",
+            "speaker": "Kessler",
+            "text": "We don't hide and we don't wait. We walk into Velorum, we find the right buyer, and we get the location."
+        },
+        {
+            "file": "ep01_space_velorum_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Into the lion's mouth."
+        },
+        {
+            "file": "ep01_space_velorum_03_kessler",
+            "speaker": "Kessler",
+            "text": "We find Iris. We don't stop until we do."
+        },
+        {
+            "file": "ep01_space_enemy_warning_00_kessler",
+            "speaker": "Kessler",
+            "text": "Watch out! Hostiles closing in!"
+        },
+        {
+            "file": "ep01_space_enemy_warning_01_kessler",
+            "speaker": "Kessler",
+            "text": "Heads up! Enemy ships, right on top of us!"
+        },
+        {
+            "file": "ep01_space_enemy_warning_02_kessler",
+            "speaker": "Kessler",
+            "text": "Contacts inbound! They're coming for us, watch yourself!"
+        },
+        {
+            "file": "ep01_space_objective_cleared_00_kessler",
+            "speaker": "Kessler",
+            "text": "Skies are clear. Follow the marker, that's where we're headed next."
+        }
+    ]
+}

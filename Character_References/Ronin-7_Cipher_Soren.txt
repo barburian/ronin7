@@ -1,0 +1,59 @@
+==================================================================
+RONIN-7  /  "CIPHER"  /  "KAEL VOR" (false)  /  SOREN (birth name)
+==================================================================
+SPECIES: Human (Dominion/Program operative — the protagonist of the human empire of killers).
+
+ROLE & FACTION: The prime template of the Ronin program (the current/newest make:
+Knight > Ninja > Wraith > Ronin) — its seventh iteration and the first viable one (Ronin-1..6
+were flawed and culled); the original the Ronin editions were cloned FROM, not a downstream copy
+(revealed Ch12, inverting the Ch11 supposition). Assassin built for "clean erasures"; first defector;
+becomes leader of the rebellion. Codename "Cipher" (used by handler Khall and his AI Echo);
+"Kael Vor" is a planted cover identity (exposed Ch5); "Soren" is his recovered birth name (Ch16).
+
+CHAPTERS: Ch1–Ch16 (protagonist throughout).
+
+AGE / BUILD / HEIGHT: Looks mid-30s, carries older; ~1.8 m. Lean-muscular, engineered combat
+body — no bulk wasted, every line functional. Operative "manufactured" silhouette.
+
+HEAD: Hard, still face; flat affect that thaws as the saga humanizes him. Short, practical dark
+hair. Eyes wired for the optic-feed bond with Echo (a faint instrument-glint at the iris in low
+light — "awake behind his eyes"). A long, surgical THROAT SCAR runs across the front of the neck
+(signature). Faint killswitch scar at the base of the skull.
+
+BODY: Augment-seams traceable under the skin at neck, spine and forearms — "expensive military
+augments under cheap grafted skin," the graft a slightly different tone than his own. Economical,
+lethal movement; no theatrics; goes utterly still before he acts.
+
+WEAPONS / PROPS: A plain, wrapped KATANA — worn cord hilt, unadorned saya — that houses Echo,
+the defected shadow-AI. A small steady light lives in the hilt/blade-line when Echo is present;
+the blade is inert dead steel in any other hand. Later gains ability-tells from freed blade-shadows
+(Overdrive/Phase-step/Unbroken/Mirror) but the sword's look stays humble.
+
+CLOTHING / ARMOR: Stripped-down operative blacks and greys — close-fit underlayer, segmented
+light armor panels at chest/forearms/shins, a long worn travel coat/wrap over it. Mission-dirt
+texture. Nothing ornamental; salvaged, repaired, practical.
+
+COLOR PALETTE: Matte black, ash-grey, gunmetal; the single warm note is the katana's hilt-light
+and dried-blood red accents.
+
+SILHOUETTE / DISTINGUISHING FEATURES: Throat scar; wrapped katana at the hip; long coat; the
+operative's dead-careful stillness. Reads as a worn, haunted swordsman in dead-tech sci-fi.
+
+DEMEANOR: Flat, measured, economical of speech and motion; conscience visibly bleeding through
+the conditioning; offers his own life as the solution; the hitch-before-the-kill is his "tell."
+
+CANON SOURCE QUOTES:
+  - "expensive military augments under cheap skin" (Ch1).
+  - Throat scar referenced repeatedly (Ch1+).
+  - "You built me to carry the dead." (Ch16)
+
+>> IMAGE-PROMPT SUMMARY:
+Lean, mid-30s human male space-samurai with a hard, flat, haunted face; short dark hair; a long
+surgical scar across his throat and a faint scar at the base of the skull; subtle cybernetic
+augment-seams under slightly mismatched grafted skin at neck and forearms; a faint instrument-glint
+in the eyes. Dressed in stripped-down matte-black and ash-grey operative gear with segmented light
+armor panels and a long worn travel coat, mission-dirtied. Carries a plain wrapped katana with a
+worn cord hilt that holds a single small steady glowing light in the blade-line. Gunmetal/black
+palette with dried-blood red accents. Stands with dead-still, economical, lethal poise. Samurai
+elegy in a dead-tech galaxy.
+==================================================================

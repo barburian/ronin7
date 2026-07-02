@@ -1,0 +1,28 @@
+{
+    "asset": "a28cafaa921002b4faefd792e235d130",
+    "fileName": "019efa9b-9e4d-7e5e-95dc-06bc043c2457.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from the top of the head down to the soles of the feet, the whole figure centered and small within the frame with large empty background margins on all four sides so nothing is cropped, the complete head and feet fully inside the frame and not touching any edge. Front view, neutral upright A-pose, arms slightly away from the body. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no text, no logo, no border, only one character. Subject: FULLY CLOTHED vast heavyset alien voll crime-boss, dressed in ostentatious syndicate finery — a heavy armored ceremonial coat over the bulk, rich stolen dark fabrics, gaudy gold trim, jeweled rings and neon Coil accents — completely covering his body and belly, NOT naked, no bare chest, no nudity. Sickly green-to-liver-brown oily-sheened jowled skin, multi-folded face, inflating throat dewlaps, small close-set hooded gold eyes, a wide lipless many-toothed mouth with gilded teeth, old scars. Bored, entitled, dangerous gangster wealth. Color palette: sickly-green/liver-brown flesh, gaudy gold, rich dark fabrics, neon syndicate accent. Grounded alien sci-fi.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

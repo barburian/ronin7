@@ -1,0 +1,28 @@
+{
+    "asset": "683365a50f75f264d9f72f7b04f886b2",
+    "fileName": "019efa42-cd70-70d9-87c8-4aaec0d6c790.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A heavy slab-shouldered adult male ashkin ore-miner with terracotta skin caked grey in ore-dust, very heavy thick shoulder and forearm keratin-plates, squinting ember eyes and a pick-scar across one plate. Wears a reinforced iron-grey dust-vest, knee-pads, head-lamp and breath-mask, carrying a heavy pick. Dust-greyed terracotta and iron palette with a yellow lamp-glow. Strong, grimy. Grounded alien sci-fi frontier. Color palette: Dust-greyed terracotta; iron-grey vest; ore-dust; a yellow lamp-glow. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

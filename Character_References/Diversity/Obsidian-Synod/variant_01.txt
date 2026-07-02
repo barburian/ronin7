@@ -1,0 +1,7 @@
+VARIANT: Obsidian Synod #01 — "Hollow King (Lesser Throne)"
+SPECIES: Obsidian Synod (shadow-author voidform). See _SPECIES_BIBLE.txt.
+RANK / FORM: A lesser crowned king of the council; tall, regal voidform.
+DISTINGUISHING FEATURES: Polished obsidian-black body that drinks light; a face you can see through into void; cold white-blue fault-light seams; an ornate hollow crown with a visible void at its center; too-many-jointed limbs.
+REGALIA / STATE: A fused fractured obsidian mantle of office; smoke bleeding from the edges.
+COLOR / PALETTE: Obsidian black, void-purple undertone, cold white-blue seams.
+>> IMAGE-PROMPT SUMMARY: A tall regal lesser Hollow King voidform of polished obsidian-black that drinks light, a face you can see through into void, cold white-blue fault-light seams, and an ornate hollow crown with a visible void at its center, on too-many-jointed limbs that move too smoothly. Wears a fused fractured obsidian mantle bleeding shadow-smoke. Obsidian-black, void-purple and cold-white-blue palette, no skin tone. Cold, sovereign, eerie. Cosmic dark sci-fi.

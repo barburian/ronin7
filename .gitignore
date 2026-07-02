@@ -1,0 +1,30 @@
+# Unity project ignores (scoped to Project/)
+Project/[Ll]ibrary/
+Project/[Tt]emp/
+Project/[Oo]bj/
+Project/[Ll]ogs/
+Project/[Uu]ser[Ss]ettings/
+Project/[Bb]uild/
+Project/[Bb]uilds/
+Project/.vs/
+Project/*.csproj
+Project/*.sln
+Project/*.suo
+Project/*.user
+Project/*.userprefs
+Project/*.pidb
+Project/*.booproj
+Project/*.svd
+Project/*.pdb
+Project/*.mdb
+Project/*.opendb
+Project/*.VC.db
+Project/crashlytics-build.properties
+Project/res.xml
+Project/TestResults*.xml
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp

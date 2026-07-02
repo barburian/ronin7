@@ -1,0 +1,8 @@
+VARIANT: Vesh #01 — "Clan War-Chief"
+SPECIES: Vesh (raider nomad clan). See _SPECIES_BIBLE.txt.
+SEX / AGE / BUILD: Male / prime adult / tall, lean-muscled, dominant.
+ROLE IN WORLD: War-chief leading a raider clan on the hunt.
+DISTINGUISHING FEATURES: Charcoal chitin plating banding the skull, chest and limbs; burning orange slit-eyes; large iron-capped mandible-tusks; heavy bone-white scar-brands and dense kill-notch tallies; hooked nails.
+CLOTHING / GEAR: A trophy-cord war-harness, a great hooked glaive, a clan-standard token, a horn.
+COLOR / PALETTE: Charcoal-oxblood carapace; bone-white brands; iron caps; blood-red war-cords.
+>> IMAGE-PROMPT SUMMARY: A tall lean-muscled dominant prime-adult male vesh war-chief with charcoal chitin plating banding skull, chest and limbs, burning orange slit-eyes, large iron-capped mandible-tusks, dense bone-white scar-brands and kill-notch tallies, and hooked nails. Wears a trophy-cord war-harness with a clan-standard token, wielding a great hooked glaive. Charcoal-oxblood, bone-white and blood-red palette. Commanding, lethal. Grounded alien sci-fi raider.

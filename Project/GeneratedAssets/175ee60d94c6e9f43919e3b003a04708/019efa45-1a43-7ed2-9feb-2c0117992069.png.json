@@ -1,0 +1,28 @@
+{
+    "asset": "175ee60d94c6e9f43919e3b003a04708",
+    "fileName": "019efa45-1a43-7ed2-9feb-2c0117992069.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A frail animated elder female ashkin storyteller with crazed pale-ochre skin, thin crumbling keratin-plates, one milk-dimmed ember eye, ash-white braids and expressive knotted hands. Wears a faded multicolor patchwork song-shawl sewn with settlement-tokens, holding a bone hand-drum and a story-staff. Pale-ochre, faded-patchwork and grey-ash palette. Warm, lore-keeping. Grounded alien sci-fi frontier. Color palette: Pale-ochre skin; faded multicolor patchwork shawl; grey ash; bone drum. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

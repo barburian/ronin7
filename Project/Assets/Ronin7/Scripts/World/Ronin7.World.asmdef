@@ -1,0 +1,20 @@
+{
+    "name": "Ronin7.World",
+    "rootNamespace": "Ronin7.World",
+    "references": [
+        "Ronin7.Core",
+        "Ronin7.Combat",
+        "Ronin7.Enemies",
+        "Unity.XR.Interaction.Toolkit",
+        "Unity.InputSystem"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

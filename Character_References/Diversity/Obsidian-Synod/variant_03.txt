@@ -1,0 +1,7 @@
+VARIANT: Obsidian Synod #03 — "Executioner-Form"
+SPECIES: Obsidian Synod (shadow-author voidform).
+RANK / FORM: A heavy enforcer-office; broad, looming, brutal voidform.
+DISTINGUISHING FEATURES: A massive thick obsidian body; a featureless helm-head with a single broad furnace-orange seam (higher rank); over-long arms ending in blade-edged shadow; a deep furnace glow banked in the chest-cavity.
+REGALIA / STATE: Fused war-plate of black glass; a great void-bladed glaive of solid shadow.
+COLOR / PALETTE: Deep obsidian black; furnace-orange seams; void-purple shadow-blades.
+>> IMAGE-PROMPT SUMMARY: A massive looming brutal Executioner Synod voidform with a thick obsidian body, a featureless helm-head split by a single broad furnace-orange seam, over-long arms ending in blade-edged shadow and a deep furnace glow banked in the chest-cavity. Clad in fused black-glass war-plate, wielding a great void-bladed glaive of solid shadow. Deep-obsidian, furnace-orange and void-purple palette. Heavy, lethal, dread. Cosmic dark sci-fi.

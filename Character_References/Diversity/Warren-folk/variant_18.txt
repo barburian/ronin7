@@ -1,0 +1,8 @@
+VARIANT: Warren-folk #18 — "Warren Lookout"
+SPECIES: Warren-folk (market underclass)
+SEX / AGE / BUILD: Female / young adult / lean, alert, balanced.
+ROLE IN WORLD: Rooftop lookout and sentry for a smuggling crew; whistles the warnings.
+DISTINGUISHING FEATURES: Very large light-gathering dark eyes; a perked alert frill; a signal-whistle scar at the lip; sure-footed broad pads.
+CLOTHING / GEAR: Light scrap-armor over a climb-suit, a spyglass, a whistle, a dart-gun.
+COLOR / PALETTE: Grey-mauve skin; charcoal climb-suit; muted scrap-plate; a roof-grey cloak.
+>> IMAGE-PROMPT SUMMARY: A lean alert young female warren-folk rooftop lookout with very large light-gathering dark eyes, a perked alert throat-frill, a lip scar and sure broad-padded feet. Wears a charcoal climb-suit under light muted scrap-armor and a roof-grey cloak, with a spyglass, signal-whistle and dart-gun. Grey-mauve and charcoal palette. Watchful, poised. Grounded alien sci-fi.

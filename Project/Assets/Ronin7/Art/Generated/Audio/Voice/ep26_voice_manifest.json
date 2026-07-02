@@ -1,0 +1,364 @@
+{
+    "lines": [
+        {
+            "file": "ep26_contract_intro_00_kessler",
+            "speaker": "Kessler",
+            "text": "Pale Choir death contract. Rustfang captain named Varrik. Hidden on Ashen Deep."
+        },
+        {
+            "file": "ep26_contract_intro_01_kessler",
+            "speaker": "Kessler",
+            "text": "Sanctuary flagged it two hours ago. It's a direct hit."
+        },
+        {
+            "file": "ep26_contract_intro_02_cipher",
+            "speaker": "Cipher",
+            "text": "I know them."
+        },
+        {
+            "file": "ep26_contract_intro_03_kessler",
+            "speaker": "Kessler",
+            "text": "You remember?"
+        },
+        {
+            "file": "ep26_contract_intro_04_cipher",
+            "speaker": "Cipher",
+            "text": "I feel it. Don't know why."
+        },
+        {
+            "file": "ep26_contract_intro_05_cipher",
+            "speaker": "Cipher",
+            "text": "The failsafe is holding. Heris bought us time. But if I'm going to spend it, I want answers."
+        },
+        {
+            "file": "ep26_ashen_barks_00_cipher",
+            "speaker": "Cipher",
+            "text": "Stand aside."
+        },
+        {
+            "file": "ep26_mortis_summons_00_mortisvoicerecording",
+            "speaker": "Mortis (Voice Recording)",
+            "text": "The confessor does not remember his purpose. The Choir will remind him."
+        },
+        {
+            "file": "ep26_mortis_summons_01_mortisvoicerecording",
+            "speaker": "Mortis (Voice Recording)",
+            "text": "Come to the Absolution. The Requiem Protocol will restore what the purge erased."
+        },
+        {
+            "file": "ep26_cathedral_shadow_00_kessler",
+            "speaker": "Kessler",
+            "text": "This is a trap."
+        },
+        {
+            "file": "ep26_cathedral_shadow_01_cipher",
+            "speaker": "Cipher",
+            "text": "I've been carrying the shape of this place inside me without knowing what it was."
+        },
+        {
+            "file": "ep26_cathedral_shadow_02_cipher",
+            "speaker": "Cipher",
+            "text": "I need to know."
+        },
+        {
+            "file": "ep26_cathedral_shadow_03_kessler",
+            "speaker": "Kessler",
+            "text": "Then I'm coming with you."
+        },
+        {
+            "file": "ep26_docking_barks_00_kessler",
+            "speaker": "Kessler",
+            "text": "Move!"
+        },
+        {
+            "file": "ep26_mortis_greeting_00_mortis",
+            "speaker": "Mortis",
+            "text": "Excellent form. The purge didn't erase your body's knowledge."
+        },
+        {
+            "file": "ep26_mortis_greeting_01_mortis",
+            "speaker": "Mortis",
+            "text": "Only the name for what you are."
+        },
+        {
+            "file": "ep26_mortis_greeting_02_mortis",
+            "speaker": "Mortis",
+            "text": "Come. I will give you that name."
+        },
+        {
+            "file": "ep26_nave_reveal_00_mortis",
+            "speaker": "Mortis",
+            "text": "Before the Dominion transferred you to the Ronin Program, you trained here."
+        },
+        {
+            "file": "ep26_nave_reveal_01_mortis",
+            "speaker": "Mortis",
+            "text": "As a confessor."
+        },
+        {
+            "file": "ep26_nave_reveal_02_cipher",
+            "speaker": "Cipher",
+            "text": "I don't remember."
+        },
+        {
+            "file": "ep26_nave_reveal_03_mortis",
+            "speaker": "Mortis",
+            "text": "Your katana carries a neural-link. It records the final moments of those you kill. Not for intelligence. For ritual."
+        },
+        {
+            "file": "ep26_nave_reveal_04_mortis",
+            "speaker": "Mortis",
+            "text": "You were built to carry the dead. To absorb their final truths and hold them."
+        },
+        {
+            "file": "ep26_nave_reveal_05_mortis",
+            "speaker": "Mortis",
+            "text": "The Dominion called this a weapon function. We call it sacred."
+        },
+        {
+            "file": "ep26_katana_vo_00_katanainteriorvo",
+            "speaker": "Katana (Interior VO)",
+            "text": "He tells it crooked, but the bone of it is true. I said it once, we are a ledger written in carbon and iron. This is what the ledger was forged to hold."
+        },
+        {
+            "file": "ep26_varrik_test_00_mortis",
+            "speaker": "Mortis",
+            "text": "Extract his final truth. Then absolve him."
+        },
+        {
+            "file": "ep26_varrik_duel_00_varrik",
+            "speaker": "Varrik",
+            "text": "You're not a confessor! You're a predator! You eat souls!"
+        },
+        {
+            "file": "ep26_refuse_00_cipher",
+            "speaker": "Cipher",
+            "text": "I'm not what you think I am."
+        },
+        {
+            "file": "ep26_refuse_01_mortis",
+            "speaker": "Mortis",
+            "text": "Refusing again. The Requiem Protocol activates regardless."
+        },
+        {
+            "file": "ep26_refuse_02_mortis",
+            "speaker": "Mortis",
+            "text": "Your nature is returning whether you accept it or not."
+        },
+        {
+            "file": "ep26_archivist_00_sallow",
+            "speaker": "Sallow",
+            "text": "You heard him and chose not to drink."
+        },
+        {
+            "file": "ep26_archivist_01_sallow",
+            "speaker": "Sallow",
+            "text": "In eleven years of this nave, I have never seen that."
+        },
+        {
+            "file": "ep26_archivist_02_sallow",
+            "speaker": "Sallow",
+            "text": "I maintain the archive of confessions. Thousands of final moments."
+        },
+        {
+            "file": "ep26_archivist_03_sallow",
+            "speaker": "Sallow",
+            "text": "I know the difference between a predator that hungers and a vessel that carries."
+        },
+        {
+            "file": "ep26_archivist_04_mortis",
+            "speaker": "Mortis",
+            "text": "Return to your duties, Sallow."
+        },
+        {
+            "file": "ep26_archivist_05_sallow",
+            "speaker": "Sallow",
+            "text": "No."
+        },
+        {
+            "file": "ep26_archivist_06_sallow",
+            "speaker": "Sallow",
+            "text": "He is what the design was meant to be before the Dominion weaponized it."
+        },
+        {
+            "file": "ep26_archivist_07_sallow",
+            "speaker": "Sallow",
+            "text": "He does not consume the dead. He holds them."
+        },
+        {
+            "file": "ep26_archive_barks_00_mortis",
+            "speaker": "Mortis",
+            "text": "Contain them. The archivist will be disciplined."
+        },
+        {
+            "file": "ep26_archive_drive_00_sallow",
+            "speaker": "Sallow",
+            "text": "The full archive. Every confession recorded in this nave."
+        },
+        {
+            "file": "ep26_archive_drive_01_sallow",
+            "speaker": "Sallow",
+            "text": "Not just syndicate secrets. The orders behind them. The names behind the names."
+        },
+        {
+            "file": "ep26_archive_drive_02_cipher",
+            "speaker": "Cipher",
+            "text": "Why give this to me?"
+        },
+        {
+            "file": "ep26_archive_drive_03_sallow",
+            "speaker": "Sallow",
+            "text": "Because you are the only person who has ever walked into this nave and carried the dead without being destroyed by the weight."
+        },
+        {
+            "file": "ep26_archive_drive_04_sallow",
+            "speaker": "Sallow",
+            "text": "Someone should leave here with that burden and give it meaning."
+        },
+        {
+            "file": "ep26_the_tenth_voice_00_cipher",
+            "speaker": "Cipher",
+            "text": "Run. Send coordinates to your faction."
+        },
+        {
+            "file": "ep26_the_tenth_voice_01_mortis",
+            "speaker": "Mortis",
+            "text": "You were magnificent, Cipher. But the confessor-link never sleeps."
+        },
+        {
+            "file": "ep26_the_tenth_voice_02_mortis",
+            "speaker": "Mortis",
+            "text": "Sooner or later you will need what we built into you."
+        },
+        {
+            "file": "ep26_the_tenth_voice_03_mortis",
+            "speaker": "Mortis",
+            "text": "The Absolution will be waiting."
+        },
+        {
+            "file": "ep26_the_tenth_voice_04_kessler",
+            "speaker": "Kessler",
+            "text": "Ten drones closing! Get out!"
+        },
+        {
+            "file": "ep26_drone_barks_00_kessler",
+            "speaker": "Kessler",
+            "text": "Get out!"
+        },
+        {
+            "file": "ep26_worlds_not_people_00_sallow",
+            "speaker": "Sallow",
+            "text": "Eleven years of confessions."
+        },
+        {
+            "file": "ep26_worlds_not_people_01_sallow",
+            "speaker": "Sallow",
+            "text": "But some of them confessed to worlds, Cipher. Not people."
+        },
+        {
+            "file": "ep26_worlds_not_people_02_sallow",
+            "speaker": "Sallow",
+            "text": "The Dominion's cruelty is not limited to people. It murders whole worlds."
+        },
+        {
+            "file": "ep26_worlds_not_people_03_sallow",
+            "speaker": "Sallow",
+            "text": "Cleanses them. Erases them. Leaves no name and no record."
+        },
+        {
+            "file": "ep26_worlds_not_people_04_cipher",
+            "speaker": "Cipher",
+            "text": "The confessions."
+        },
+        {
+            "file": "ep26_worlds_not_people_05_sallow",
+            "speaker": "Sallow",
+            "text": "Are the only record those worlds ever had."
+        },
+        {
+            "file": "ep26_hunter_arrival_00_kessler",
+            "speaker": "Kessler",
+            "text": "You gave up everything. What's the price?"
+        },
+        {
+            "file": "ep26_hunter_arrival_01_sallow",
+            "speaker": "Sallow",
+            "text": "Nothing. Or everything."
+        },
+        {
+            "file": "ep26_hunter_arrival_02_sallow",
+            "speaker": "Sallow",
+            "text": "I have spent eleven years recording the dead and handing the records to people who used them as leverage."
+        },
+        {
+            "file": "ep26_hunter_arrival_03_sallow",
+            "speaker": "Sallow",
+            "text": "I am done with leverage."
+        },
+        {
+            "file": "ep26_hunter_arrival_04_sallow",
+            "speaker": "Sallow",
+            "text": "If you are building something, if this man is going to do something with what he carries, I want to help."
+        },
+        {
+            "file": "ep26_hunter_arrival_05_cipher",
+            "speaker": "Cipher",
+            "text": "You're the tenth."
+        },
+        {
+            "file": "ep26_hunter_arrival_06_sallow",
+            "speaker": "Sallow",
+            "text": "The tenth what?"
+        },
+        {
+            "file": "ep26_hunter_arrival_07_cipher",
+            "speaker": "Cipher",
+            "text": "Ally."
+        },
+        {
+            "file": "ep26_hunter_duel_00_cipher",
+            "speaker": "Cipher",
+            "text": "Clean. One strike."
+        },
+        {
+            "file": "ep26_reckoning_vow_00_cipher",
+            "speaker": "Cipher",
+            "text": "I was built to carry the dead and give their truth weight."
+        },
+        {
+            "file": "ep26_reckoning_vow_01_cipher",
+            "speaker": "Cipher",
+            "text": "The Dominion turned it into a weapon. The Choir turned it into a ritual."
+        },
+        {
+            "file": "ep26_reckoning_vow_02_cipher",
+            "speaker": "Cipher",
+            "text": "I am going to turn it into a reckoning."
+        },
+        {
+            "file": "ep26_reckoning_vow_03_sallow",
+            "speaker": "Sallow",
+            "text": "The Pale Choir sings to absolve violence once committed."
+        },
+        {
+            "file": "ep26_reckoning_vow_04_sallow",
+            "speaker": "Sallow",
+            "text": "We never sang loud enough."
+        },
+        {
+            "file": "ep26_reckoning_vow_05_cipher",
+            "speaker": "Cipher",
+            "text": "Then we'll sing louder."
+        },
+        {
+            "file": "ep26_space_ep26_post_00_cipher",
+            "speaker": "Cipher",
+            "text": "The Absolution is a sanctuary for the Pale Choir. Mortis is a High Deacon who trained me as a confessor, a vessel to carry the final truths of the dead through my katana's neural-link. It was never about consumption. It was about custody. Sallow, the Harmonian archivist, broke ranks and gave me the full confession archive, thousands of final moments, including those of worlds the Dominion murdered and erased."
+        },
+        {
+            "file": "ep26_space_ep26_post_01_kessler",
+            "speaker": "Kessler",
+            "text": "Those confessions name planets, Cipher. Entire worlds the Dominion ordered cleansed. Full extinction, no survivors, no record. Except in the archive. Sallow gave you coordinates to every ordered genocide. That's the heading now, proof that those worlds existed, and a chance to speak their names before anyone else remembers to mourn them."
+        }
+    ]
+}

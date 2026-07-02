@@ -1,0 +1,8 @@
+VARIANT: Gravelkin #06 — "Deep-Miner"
+SPECIES: Gravelkin (cave-dwelling stoneblood).
+SEX / AGE / BUILD: Male / adult / immense, hunched from tunnel-work.
+ROLE IN WORLD: Hews ore and widens the hold tunnels in the deep dark.
+DISTINGUISHING FEATURES: Slate hide caked in rock-dust; very heavy callus-nodules on the shoulders and hands from the work; squint quartz eyes; a flat blunt brow; mineral dust filling every seam.
+CLOTHING / GEAR: A reinforced hauling-harness, a great pick, a head-lamp socketed to a brow-nodule, knee-guards.
+COLOR / PALETTE: Dust-grey slate hide; iron harness; a yellow lamp-glow; ore-dark.
+>> IMAGE-PROMPT SUMMARY: An immense hunched adult male gravelkin deep-miner with slate lithic hide caked in rock-dust, very heavy callus-nodules on shoulders and hands, squinting quartz eyes and a flat blunt brow, mineral dust filling every seam. Wears a reinforced iron hauling-harness, knee-guards and a head-lamp socketed to a brow-nodule, carrying a great pick. Dust-grey slate and iron palette with a yellow lamp-glow. Powerful, grimy. Grounded alien sci-fi.

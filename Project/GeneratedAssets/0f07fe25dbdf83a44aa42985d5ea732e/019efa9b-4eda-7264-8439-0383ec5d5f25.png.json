@@ -1,0 +1,28 @@
+{
+    "asset": "0f07fe25dbdf83a44aa42985d5ea732e",
+    "fileName": "019efa9b-4eda-7264-8439-0383ec5d5f25.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from the top of the head down to the soles of the feet, the whole figure centered and small within the frame with large empty background margins on all four sides so nothing is cropped, the complete head and feet fully inside the frame and not touching any edge. Front view, neutral upright A-pose, arms slightly away from the body. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no text, no logo, no border, only one character. Subject: FULLY CLOTHED lean tall predatory alien vesh raider, wearing scavenged raider armor — a strapped harness, scavenged plate-scrap armor, trophy cords and clan tokens worn over the carapace and completely covering the torso, NOT naked, no nudity. Dark red-brown-to-charcoal chitinous plating banding the skull-cap, forearms, shins and chest, narrow wide-set burning orange eyes with vertical slit pupils, small paired mandible-tusks, bone-white clan scarification and carved kill-notch tallies. Whipcord-sinewy, fast digitigrade stance, coiled and lethal. Color palette: oxblood/charcoal carapace, bone-white brands, scavenged armor, trophy bone. Grounded alien sci-fi.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

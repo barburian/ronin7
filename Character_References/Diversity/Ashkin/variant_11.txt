@@ -1,0 +1,8 @@
+VARIANT: Ashkin #11 — "Caravan Trader"
+SPECIES: Ashkin (frontier dust-world settler).
+SEX / AGE / BUILD: Male / middle-aged / stout, shrewd, road-worn.
+ROLE IN WORLD: Runs a dust-caravan trading water and salvage between colonies.
+DISTINGUISHING FEATURES: Terracotta skin tanned dark; heavy brow-plates; shrewd amber eyes; a gold trade-ring through a cheek-plate; sun-cracked lips.
+CLOTHING / GEAR: A many-layered travel-coat, a trade-ledger, scales, a holstered sidearm, a pack-beast lead.
+COLOR / PALETTE: Dark terracotta skin; dust-tan and umber layers; tarnished gold ring; grey ash.
+>> IMAGE-PROMPT SUMMARY: A stout shrewd road-worn middle-aged male ashkin caravan-trader with dark-tanned terracotta skin, heavy brow keratin-plates, shrewd amber eyes, a gold ring through one cheek-plate and sun-cracked lips. Wears a many-layered dust-tan-and-umber travel-coat with a trade-ledger, scales and a holstered sidearm. Dark-terracotta, umber and tarnished-gold palette. Canny, weathered. Grounded alien sci-fi frontier.

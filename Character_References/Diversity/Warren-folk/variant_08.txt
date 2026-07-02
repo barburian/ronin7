@@ -1,0 +1,8 @@
+VARIANT: Warren-folk #08 — "Scrap-Tinker"
+SPECIES: Warren-folk (market underclass)
+SEX / AGE / BUILD: Male / middle-aged / wiry, hunched from bench-work.
+ROLE IN WORLD: Salvage tinker repairing junk-tech in a stall den.
+DISTINGUISHING FEATURES: Solder-burn scars dotting the hands and frill; one eye behind a magnifier lens; mauve skin grey with metal-dust; a makeshift tool clamped to a forearm brace.
+CLOTHING / GEAR: A scorched work-apron of tool-loops, a brow magnifier-rig, wire spools, a soldering iron.
+COLOR / PALETTE: Dust-grey mauve skin; scorched brown apron; copper wire and lens-glint.
+>> IMAGE-PROMPT SUMMARY: A wiry hunched middle-aged male warren-folk scrap-tinker with solder-burn scars on hands and frill, one eye behind a brow magnifier-lens, metal-dust-greyed mauve skin and a tool clamped to a forearm brace. Wears a scorched tool-loop work-apron among wire spools and junk-tech. Dust-grey mauve and copper palette. Absorbed, grimy. Grounded alien sci-fi.

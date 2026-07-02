@@ -1,0 +1,12 @@
+{
+    "asset": "b606e517bc21b8845879ff9729184727",
+    "fileName": "019ef579-2e1d-7da2-894b-64a5147ec5bf_Preview.png",
+    "prompt": "Seamless tileable dark gunmetal sci-fi spaceship wall panel. Brushed steel plates with recessed seams and small rivets, subtle scratches, wear and grime in the crevices, a few faint cyan emissive trim lines along panel edges. Moody techno-noir, low-key value, desaturated cool steel. Flat even lighting, orthographic, PBR albedo, high detail.",
+    "negativePrompt": "",
+    "model": "gemini-3.1-flash-texture",
+    "modelName": "Gemini 3.1 Nano Banana 2",
+    "customSeed": 1518771735,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation"
+}

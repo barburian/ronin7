@@ -1,0 +1,48 @@
+==================================================================
+CASSIE-04   (Ninja-generation living archive)
+==================================================================
+SPECIES: Human (Dominion/Program operative weaponized as a living-archive node — human per rule,
+heavily wired/augmented). Holds the Ninja generation's shadow-AIs. (Note: she is an operative-node,
+NOT a synthetic construct — the Story Bible governs.)
+
+ROLE & FACTION: A mine-shaft living-archive node racked with the whole Ninja make; she IS its node
+and ledger — her cross-index reads the erased across the server and points to where the other
+scattered nodes are held. Ally #7; first of Sable's kin recovered alive.
+
+CHAPTERS: Ch10–Ch16 (freed in the Ninefold mine shafts, joins).
+
+AGE / BUILD / HEIGHT: Looks late 20s–30s; ~1.68 m. Operative frame, worn but more wiry-intact than
+Sable; clerk-precise rather than collapsed.
+
+HEAD: Sharp, dry-witted face; DATA-LIGHT pulses under the skin (distinct rhythm from Sable's —
+quicker, ledger-like). Eyes clear and counting. Hair short/practical, shaved at port-points.
+
+BODY: Spinal/shoulder racking like Sable's but trimmer; data-conduits and archive-glyphs run her
+arms and surface as scrolling ledger-glyphs on her skin. Moves with clerk-like precision.
+
+WEAPONS / PROPS: The ledger itself — registry-glyphs she can surface and "read out"; conduit-tethers;
+a node-cradle she's pulled from.
+
+CLOTHING / ARMOR: Torn archive-shift and salvage straps leaving the racking visible, like Sable, but
+she keeps hers tidier — wraps cinched, gear ordered.
+
+COLOR PALETTE: Ashen skin with cold GREEN-white data-light (to distinguish from Sable's blue-white);
+black hardware; amber ledger-glyphs.
+
+SILHOUETTE / DISTINGUISHING FEATURES: A second living-archive host — trimmer, tidier than Sable,
+with scrolling ledger-glyphs on the skin and green-white data-veins.
+
+DEMEANOR: Bone-dry, gallows-witty, clear-eyed; survives horror by counting it exactly; does not
+want pity. "I'm a ledger, Cipher. I have a column for everything. I did not have a column for that." (Ch10)
+
+CANON SOURCE QUOTES:
+  - Racked with the Ninja make; her cross-index points to the other nodes (Bible §4, Ch10).
+
+>> IMAGE-PROMPT SUMMARY:
+Late-20s/30s human woman, a second living-archive host: wiry, clear-eyed and dry, ashen skin laced
+with cold green-white data-light veins (quicker, ledger-like pulse), short practical hair shaved at
+the port-points, scrolling amber ledger-glyphs surfacing on her arms. A trim half-exposed lattice of
+black hardware and data-conduits is grown into her spine and shoulders, kept tidy with cinched
+salvage wraps. Ashen + green-white glow + black hardware palette. Stands with clerk-like precision
+and gallows composure. Tragic human-machine archivist, grounded sci-fi.
+==================================================================

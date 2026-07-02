@@ -1,0 +1,8 @@
+VARIANT: Ashkin #03 — "Colony Militiawoman"
+SPECIES: Ashkin (frontier dust-world settler).
+SEX / AGE / BUILD: Female / adult / wiry, hard, athletic.
+ROLE IN WORLD: Volunteer militia defending the homestead from raiders.
+DISTINGUISHING FEATURES: Terracotta skin with battle-chipped cheek-plates; sharp bright ember eyes; a shaved scalp with rust stubble; a plate cracked open by an old wound.
+CLOTHING / GEAR: Scrap-plate armor over dust-cloth, a long settler rifle, bandolier, breath-scarf.
+COLOR / PALETTE: Terracotta skin; rust scrap-plate; dust-tan cloth; grey ash.
+>> IMAGE-PROMPT SUMMARY: A wiry hard adult female ashkin militiawoman with terracotta skin, battle-chipped cheek keratin-plates, sharp bright ember eyes and a shaved rust-stubbled scalp. Wears rust scrap-plate armor over dust-cloth with a bandolier and breath-scarf, carrying a long settler rifle. Terracotta, rust and dust-tan palette. Tough, vigilant. Grounded alien sci-fi frontier.

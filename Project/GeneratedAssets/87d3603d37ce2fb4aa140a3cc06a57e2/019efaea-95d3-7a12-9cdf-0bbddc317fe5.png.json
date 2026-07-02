@@ -1,0 +1,28 @@
+{
+    "asset": "87d3603d37ce2fb4aa140a3cc06a57e2",
+    "fileName": "019efaea-95d3-7a12-9cdf-0bbddc317fe5.png",
+    "prompt": "Concept art of a single weapon shown complete and centered, isolated on a plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, NO character, no hands, no figure, only the weapon by itself. Subject: a heavy blunt training weapon, a brutal thick blunt practice war-mace / iron drill-club with a sweat-dark wrapped leather grip and bracer-strap, Program-marked, scuffed and dented from breaking trainees, made for punishment not finesse. Color palette: iron-grey, blood-rust and sweat-dark leather. Grounded human sci-fi, single weapon prop on neutral background.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

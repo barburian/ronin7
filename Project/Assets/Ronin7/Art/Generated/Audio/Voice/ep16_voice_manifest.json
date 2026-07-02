@@ -1,0 +1,279 @@
+{
+    "lines": [
+        {
+            "file": "ep16_transit_intro_00_cipher",
+            "speaker": "Cipher",
+            "text": "Is there life after being a weapon?"
+        },
+        {
+            "file": "ep16_transit_intro_01_kessler",
+            "speaker": "Kessler",
+            "text": "You can ask that every day for the rest of your life, or you can find someone who already answered it."
+        },
+        {
+            "file": "ep16_transit_intro_02_kessler",
+            "speaker": "Kessler",
+            "text": "Frostwind Reach. Unmarked stellar chart. There's a dead world here, Cinder Vale. I've stopped here before."
+        },
+        {
+            "file": "ep16_transit_intro_03_kessler",
+            "speaker": "Kessler",
+            "text": "Drive coils are overheating. We're losing power fast. Emergency descent initiated."
+        },
+        {
+            "file": "ep16_salvage_barks_00_salvagepirate1",
+            "speaker": "Salvage Pirate 1",
+            "text": "New wreck! Easy pickings!"
+        },
+        {
+            "file": "ep16_salvage_barks_01_salvagepirate2",
+            "speaker": "Salvage Pirate 2",
+            "text": "Come on! They're grounded!"
+        },
+        {
+            "file": "ep16_sela_intro_00_sela",
+            "speaker": "Sela",
+            "text": "This is Ashfall. We don't ask questions."
+        },
+        {
+            "file": "ep16_sela_intro_01_sela",
+            "speaker": "Sela",
+            "text": "We ask forgiveness instead, but first you have to remember why you need it."
+        },
+        {
+            "file": "ep16_sela_intro_02_sela",
+            "speaker": "Sela",
+            "text": "Your pilot took burn-damage from the descent. He's lucky the coils didn't rupture. He's lucky the blast didn't take him."
+        },
+        {
+            "file": "ep16_descent_00_cipher",
+            "speaker": "Cipher",
+            "text": "How far underground are we?"
+        },
+        {
+            "file": "ep16_descent_01_sela",
+            "speaker": "Sela",
+            "text": "Far enough that the Dominion stopped looking for us decades ago. We're below their sensors. Below their reach. The world is dead. The monastery is alive."
+        },
+        {
+            "file": "ep16_morrow_intro_00_morrow",
+            "speaker": "Morrow",
+            "text": "Sela says you woke up without a past."
+        },
+        {
+            "file": "ep16_morrow_intro_01_morrow",
+            "speaker": "Morrow",
+            "text": "That is mercy pretending to be cruelty. But you are welcome here regardless of your history."
+        },
+        {
+            "file": "ep16_morrow_intro_02_cipher",
+            "speaker": "Cipher",
+            "text": "I have a name. A designation. The rest is blank."
+        },
+        {
+            "file": "ep16_morrow_intro_03_morrow",
+            "speaker": "Morrow",
+            "text": "Then you have your own choice to make. You may rest in this hall and ask forgiveness of ghosts that may not even remember their names. Or you may work in the Blade Garden and understand the discipline beneath violence."
+        },
+        {
+            "file": "ep16_morrow_intro_04_morrow",
+            "speaker": "Morrow",
+            "text": "Either way, you will do it as yourself. Not as a weapon."
+        },
+        {
+            "file": "ep16_morrow_intro_05_cipher",
+            "speaker": "Cipher",
+            "text": "The Blade Garden."
+        },
+        {
+            "file": "ep16_sela_practice_00_sela",
+            "speaker": "Sela",
+            "text": "You fight like someone trying to remember."
+        },
+        {
+            "file": "ep16_sela_practice_01_cipher",
+            "speaker": "Cipher",
+            "text": "I don't remember the training."
+        },
+        {
+            "file": "ep16_sela_practice_02_sela",
+            "speaker": "Sela",
+            "text": "Your body does. Your body remembers everything you've forgotten."
+        },
+        {
+            "file": "ep16_sela_practice_03_sela",
+            "speaker": "Sela",
+            "text": "I have been here five years. Before that I don't talk about. But I know that look, it's the one I had when I arrived. You can see the shape of the cage, but you still think the door is a lie."
+        },
+        {
+            "file": "ep16_sela_practice_04_cipher",
+            "speaker": "Cipher",
+            "text": "What was your name? Before the monastery?"
+        },
+        {
+            "file": "ep16_sela_practice_05_sela",
+            "speaker": "Sela",
+            "text": "That operative is dead. Don't mourn her. She chose to die here, and something else chose to live instead."
+        },
+        {
+            "file": "ep16_pilgrim_00_morrow",
+            "speaker": "Morrow",
+            "text": "Overseer Khall is offering a recovery bounty on a lost asset carrying classified neural implants."
+        },
+        {
+            "file": "ep16_pilgrim_01_khall",
+            "speaker": "Khall",
+            "text": "Ronin-7 was the finest of his generation. The failsafe was meant to be merciful. I am offering this bounty not as a sanction, but as a courtesy. He was something worth making."
+        },
+        {
+            "file": "ep16_pilgrim_02_cipher",
+            "speaker": "Cipher",
+            "text": "He broadcast that knowing I would hear it."
+        },
+        {
+            "file": "ep16_pilgrim_03_morrow",
+            "speaker": "Morrow",
+            "text": "Khall is hunting you. He always was."
+        },
+        {
+            "file": "ep16_corvette_barks_00_dominionsoldier1",
+            "speaker": "Dominion Soldier 1",
+            "text": "Monastery breach! Hostiles engaging in central corridor!"
+        },
+        {
+            "file": "ep16_corvette_barks_01_dominionsoldier2",
+            "speaker": "Dominion Soldier 2",
+            "text": "Clearing meditation hall! Stand by for thermal scan!"
+        },
+        {
+            "file": "ep16_locator_reveal_00_morrow",
+            "speaker": "Morrow",
+            "text": "The chip in your spine is broadcasting. Not the purge sequence, a secondary function. A locator."
+        },
+        {
+            "file": "ep16_locator_reveal_01_morrow",
+            "speaker": "Morrow",
+            "text": "They allowed you to believe you were free while the leash stayed invisible."
+        },
+        {
+            "file": "ep16_locator_reveal_02_cipher",
+            "speaker": "Cipher",
+            "text": "The Dominion never lost me."
+        },
+        {
+            "file": "ep16_locator_reveal_03_morrow",
+            "speaker": "Morrow",
+            "text": "No. They were always watching."
+        },
+        {
+            "file": "ep16_makers_truth_00_morrow",
+            "speaker": "Morrow",
+            "text": "I was a Dominion architect. One of the early designers of operative conditioning, a precursor to everything later built into your generation."
+        },
+        {
+            "file": "ep16_makers_truth_01_morrow",
+            "speaker": "Morrow",
+            "text": "I designed the first versions of the locator function. I trained your handler Khall when he was still a boy. I built the machine that is tearing you apart, one second at a time."
+        },
+        {
+            "file": "ep16_makers_truth_02_morrow",
+            "speaker": "Morrow",
+            "text": "Then I saw what the program became and I faked my own death."
+        },
+        {
+            "file": "ep16_makers_truth_03_morrow",
+            "speaker": "Morrow",
+            "text": "I came to this place to stop killing. You didn't come for peace, you came because you have nowhere else to go. But I am asking you the same question I once asked myself: will you turn that weapon on the people who built you, or will you learn that putting the sword down is the only real victory?"
+        },
+        {
+            "file": "ep16_overseer_arrival_00_khall",
+            "speaker": "Khall",
+            "text": "I knew you would come to this place. Every operative eventually looks for a way to stop."
+        },
+        {
+            "file": "ep16_overseer_arrival_01_khall",
+            "speaker": "Khall",
+            "text": "There is no peace in renunciation, Ronin-7. There is only the lie you tell yourself while the purge continues."
+        },
+        {
+            "file": "ep16_overseer_arrival_02_morrow",
+            "speaker": "Morrow",
+            "text": "I built the first version of him. And I will not let you break what is left."
+        },
+        {
+            "file": "ep16_the_offer_00_khall",
+            "speaker": "Khall",
+            "text": "Your augments are a living record of everything we built. Every syndicate in this galaxy will hunt you for the architecture alone."
+        },
+        {
+            "file": "ep16_the_offer_01_khall",
+            "speaker": "Khall",
+            "text": "Come back to the Dominion and I can restore your full capacity. You could find out what you were truly made for."
+        },
+        {
+            "file": "ep16_the_offer_02_khall",
+            "speaker": "Khall",
+            "text": "Or you can stay here and die slowly in the dark, wondering if the peace was real or just the slowest possible form of cruelty."
+        },
+        {
+            "file": "ep16_the_severance_00_khall",
+            "speaker": "Khall",
+            "text": "You cut yourself open for a signal relay. The purge is still running. You are still dying."
+        },
+        {
+            "file": "ep16_the_severance_01_cipher",
+            "speaker": "Cipher",
+            "text": "I know."
+        },
+        {
+            "file": "ep16_the_severance_02_morrow",
+            "speaker": "Morrow",
+            "text": "The beacon was never the leash. The leash is what he believes about himself. But now you have no signal to follow, Overseer. You have no business here."
+        },
+        {
+            "file": "ep16_garden_remade_00_morrow",
+            "speaker": "Morrow",
+            "text": "You are learning. But you carry ghosts, a massacre, an orphanage, choices made and choices made in your name. You will need to know the difference between them before this is over."
+        },
+        {
+            "file": "ep16_garden_remade_01_cipher",
+            "speaker": "Cipher",
+            "text": "How will I know?"
+        },
+        {
+            "file": "ep16_garden_remade_02_morrow",
+            "speaker": "Morrow",
+            "text": "You won't, not yet. Build a life anyway. The truth finds you when you are ready to hold it."
+        },
+        {
+            "file": "ep16_departure_00_kessler",
+            "speaker": "Kessler",
+            "text": "I pulled a body out of the void and it turned out to be a man. I am glad he woke up."
+        },
+        {
+            "file": "ep16_cage_revealed_00_sela",
+            "speaker": "Sela",
+            "text": "Before I came here, I served a syndicate that believed peace was weakness. We fought constantly, against three other syndicates, rotating enemies, always funded just enough to keep the killing going."
+        },
+        {
+            "file": "ep16_cage_revealed_01_sela",
+            "speaker": "Sela",
+            "text": "I was years into the work before I understood the pattern. The wars never ended. They just rotated. Enemies changed sides. Debts accumulated. And somewhere above all of it, someone was keeping score."
+        },
+        {
+            "file": "ep16_cage_revealed_02_sela",
+            "speaker": "Sela",
+            "text": "The Dominion does not rule the galaxies by force alone. It keeps them caged by keeping the syndicates desperate and at war. It seeds the hatred, funds both sides, and collects the debt. Every galaxy is a pit they built to trap the people in it."
+        },
+        {
+            "file": "ep16_sword_laid_down_00_cipher",
+            "speaker": "Cipher",
+            "text": "Duty, not destiny."
+        },
+        {
+            "file": "ep16_silent_garden_00_morrow",
+            "speaker": "Morrow",
+            "text": "To forget is to be cursed. To remember without becoming the thing you remembered, that is to be free."
+        }
+    ]
+}

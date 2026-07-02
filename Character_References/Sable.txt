@@ -1,0 +1,50 @@
+==================================================================
+SABLE   (Wraith-generation living archive)
+==================================================================
+SPECIES: Human (Dominion/Program operative weaponized as a living-archive node — human per rule,
+but heavily wired/augmented). Holds the Wraith generation's shadow-AIs.
+
+ROLE & FACTION: An operative racked with dozens of kept Wraith-make shadow-AIs and wired into the
+Concord Engine's transmission lattice as a node. Conscious through every shadow seated in her. Ally
+#6; "the map" — she feels the server-veins to the other scattered archives. Wants to be a person,
+not infrastructure.
+
+CHAPTERS: Ch9–Ch16 (freed in the Tide depths, joins, becomes the living map).
+
+AGE / BUILD / HEIGHT: Looks 30s; ~1.7 m. Operative frame, but gaunt and overburdened by the racking
+hardware fused to her.
+
+HEAD: Drawn, exhausted face; eyes that seem to hold many presences at once. DATA-LIGHT crawls under
+the skin of her temples, throat and jaw — fine glowing circuit-veins that pulse with the lattice.
+Hair thin or shaved at the contact points where ports seat.
+
+BODY: Spinal and shoulder RACKING — a half-exposed lattice of conditioning hardware, cabling and
+glowing data-conduits grown into her back and arms, never fully letting go. Data-light traces the
+veins beneath her skin all over. Moves a little tethered, as if the racks breathe with her.
+
+WEAPONS / PROPS: Not a fighter; the lattice itself is her "weapon"/function. Trailing conduit-tethers,
+archive-glyphs that surface on her skin.
+
+CLOTHING / ARMOR: Minimal — a torn archive-shift / wrap that leaves the back-racking exposed; salvage
+straps; the look of someone unplugged from a machine she was built into.
+
+COLOR PALETTE: Ashen grey skin with cold blue-white data-light veins; black hardware; faint archive-amber glyphs.
+
+SILHOUETTE / DISTINGUISHING FEATURES: A human host with a glowing lattice grown out of her spine and
+data-light under the skin; doubled, layered voice; tragedy-made-visible.
+
+DEMEANOR: Exhausted grief refined into purpose; reaches for personhood; voice carries a faint
+doubling, "never fully one throat." "This is a voice — loud enough to reach every world at once." (Ch9)
+
+CANON SOURCE QUOTES:
+  - Data-light under the skin; doubled voice; conscious through every shadow strung into her (Ch9).
+
+>> IMAGE-PROMPT SUMMARY:
+30s human woman weaponized into a living archive: gaunt and exhausted, ashen-grey skin laced with
+glowing cold blue-white data-light circuit-veins at temples, throat and arms, hair shaved at the
+port-points. A half-exposed lattice of black conditioning hardware, cabling and glowing data-conduits
+is grown into her spine and shoulders, trailing tethers. Wears a torn archive-shift and salvage
+straps that leave the back-racking exposed. Faint amber archive-glyphs surface on her skin. Ashen
+grey + cold blue-white glow + black hardware palette. Stands slightly tethered, burdened, reaching
+for personhood. Tragic human-machine hybrid, grounded sci-fi.
+==================================================================

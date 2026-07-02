@@ -1,0 +1,8 @@
+VARIANT: Ashkin #09 — "Colony Herbwoman"
+SPECIES: Ashkin (frontier dust-world settler).
+SEX / AGE / BUILD: Female / adult / calm, capable, sun-lined.
+ROLE IN WORLD: Healer brewing dust-root remedies for the settlement.
+DISTINGUISHING FEATURES: Warm terracotta skin; neat cheek-plates; steady amber ember eyes; herb-stained fingers; a faint burn-scar along one forearm plate.
+CLOTHING / GEAR: A practical apron-robe, a remedy-satchel, a mortar, drying root-bundles.
+COLOR / PALETTE: Terracotta skin; sage-green and rust cloth; grey ash; dried-root browns.
+>> IMAGE-PROMPT SUMMARY: A calm capable sun-lined adult female ashkin herbwoman with warm terracotta skin, neat cheek keratin-plates, steady amber ember eyes and herb-stained fingers. Wears a sage-green-and-rust apron-robe with a remedy-satchel and mortar among drying root-bundles. Terracotta, sage and rust palette. Grounded, healing presence. Grounded alien sci-fi frontier.

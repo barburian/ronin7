@@ -1,0 +1,8 @@
+VARIANT: Vesh #05 — "Bone-Reader Shaman"
+SPECIES: Vesh (raider nomad clan).
+SEX / AGE / BUILD: Indeterminate / old / gaunt, stooped, ritual-marked.
+ROLE IN WORLD: The clan seer who reads omens in cast bones and brands the blooded.
+DISTINGUISHING FEATURES: Faded grey-brown plating carved all over with ritual scar-glyphs; one orange eye gone milk-pale; long curling mandible-tusks strung with charms; ash-painted plating.
+CLOTHING / GEAR: A fetish-hung shaman cloak of feathers and bones, a casting-pouch, a branding-iron, a rattle.
+COLOR / PALETTE: Grey-brown carapace; ash-white ritual glyphs; bone, feather and charm-clutter.
+>> IMAGE-PROMPT SUMMARY: A gaunt stooped ritual-marked old vesh bone-reader shaman with faded grey-brown chitin carved all over in ash-white ritual scar-glyphs, one milk-pale and one burning orange slit-eye, long curling charm-strung mandible-tusks and ash-painted plating. Wears a fetish-hung cloak of feathers and bones with a casting-pouch, branding-iron and rattle. Grey-brown, ash-white and bone palette. Eerie, mystic. Grounded alien sci-fi raider.

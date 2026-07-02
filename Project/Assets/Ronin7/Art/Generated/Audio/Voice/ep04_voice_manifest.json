@@ -1,0 +1,409 @@
+{
+    "lines": [
+        {
+            "file": "ep04_jungle_vigil_00_ronin7",
+            "speaker": "Ronin-7",
+            "text": "She screamed. You couldn't stop it."
+        },
+        {
+            "file": "ep04_jungle_vigil_01_kessler",
+            "speaker": "Kessler",
+            "text": "What are you talking about?"
+        },
+        {
+            "file": "ep04_jungle_vigil_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "The blade is speaking."
+        },
+        {
+            "file": "ep04_jungle_vigil_03_kessler",
+            "speaker": "Kessler",
+            "text": "That weapon has been resonating ever since I pulled you from the void."
+        },
+        {
+            "file": "ep04_jungle_vigil_04_kessler",
+            "speaker": "Kessler",
+            "text": "Some blades carry combat records. Yours carries something else. I think... I think it's carrying you."
+        },
+        {
+            "file": "ep04_jungle_vigil_05_ronin7",
+            "speaker": "Ronin-7",
+            "text": "How many?"
+        },
+        {
+            "file": "ep04_jungle_vigil_06_kessler",
+            "speaker": "Kessler",
+            "text": "I don't know yet. But it's giving them back faster than I expected. Whatever the killswitch did, it didn't finish you, it locked you. We need to move."
+        },
+        {
+            "file": "ep04_jungle_fight_barks_00_rustfangscout1",
+            "speaker": "Rustfang Scout 1",
+            "text": "Contact. Derelict Corsair-class. No transponder. Claim it."
+        },
+        {
+            "file": "ep04_jungle_fight_barks_01_rustfangscout2",
+            "speaker": "Rustfang Scout 2",
+            "text": "Breach the ramp! Move!"
+        },
+        {
+            "file": "ep04_jungle_fight_barks_02_katana",
+            "speaker": "Katana",
+            "text": "High guard. Third taught you this."
+        },
+        {
+            "file": "ep04_jungle_fight_barks_03_rustfangscout3",
+            "speaker": "Rustfang Scout 3",
+            "text": "Operative! Operative!"
+        },
+        {
+            "file": "ep04_jungle_fight_barks_04_rustfangscout4",
+            "speaker": "Rustfang Scout 4",
+            "text": "Fall back! Signal the..."
+        },
+        {
+            "file": "ep04_jungle_confession_00_kessler",
+            "speaker": "Kessler",
+            "text": "I wasn't always a salvager."
+        },
+        {
+            "file": "ep04_jungle_confession_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I know."
+        },
+        {
+            "file": "ep04_jungle_confession_02_kessler",
+            "speaker": "Kessler",
+            "text": "I was Dominion. An operative, same as you, different generation, no blade."
+        },
+        {
+            "file": "ep04_jungle_confession_03_kessler",
+            "speaker": "Kessler",
+            "text": "Six years ago a raid went bad. I was pinned, written off, left to bleed. One of you was on that line, you could have stepped over me. You pulled me out instead."
+        },
+        {
+            "file": "ep04_jungle_confession_04_kessler",
+            "speaker": "Kessler",
+            "text": "I deserted within the month. Couldn't wear the uniform after a man I was sent to kill saved my life. Been drifting the fringe as a salvager ever since."
+        },
+        {
+            "file": "ep04_jungle_confession_05_ronin7",
+            "speaker": "Ronin-7",
+            "text": "The blade. How is this possible?"
+        },
+        {
+            "file": "ep04_jungle_confession_06_kessler",
+            "speaker": "Kessler",
+            "text": "Your blade didn't come with the ship. It came bonded to you, neural-locked to your augmented nervous system before they wiped you."
+        },
+        {
+            "file": "ep04_jungle_confession_07_kessler",
+            "speaker": "Kessler",
+            "text": "I think when the killswitch misfired, instead of erasing your memories it locked them into the only thing that could outlast the chip. The steel itself."
+        },
+        {
+            "file": "ep04_jungle_confession_08_katana",
+            "speaker": "Katana",
+            "text": "He is correct. We are a ledger written in carbon and iron."
+        },
+        {
+            "file": "ep04_jungle_confession_09_kessler",
+            "speaker": "Kessler",
+            "text": "Then we use it. We go to the Archive. We get the rest before Khall's people find you."
+        },
+        {
+            "file": "ep04_space_ep04_approach_00_kessler",
+            "speaker": "Kessler",
+            "text": "Corona Archive shows on old salvage maps. Believed decommissioned twelve years ago. If there are files left, they'll still be registered to your biometrics."
+        },
+        {
+            "file": "ep04_space_ep04_approach_01_kessler",
+            "speaker": "Kessler",
+            "text": "Whatever they made you, the record of it is in there. We get it before Khall's people do."
+        },
+        {
+            "file": "ep04_space_ep04_drones_00_drone1",
+            "speaker": "Drone 1",
+            "text": "Target locked. Evasion countermeasures active."
+        },
+        {
+            "file": "ep04_space_ep04_drones_01_katana",
+            "speaker": "Katana",
+            "text": "Precision, not aggression. You learned this form in silence."
+        },
+        {
+            "file": "ep04_space_ep04_drones_02_drone2",
+            "speaker": "Drone 2",
+            "text": "First unit down. Engaging alternate vector. Firing..."
+        },
+        {
+            "file": "ep04_space_ep04_drones_03_drone3",
+            "speaker": "Drone 3",
+            "text": "Disengaging to beacon deploy..."
+        },
+        {
+            "file": "ep04_space_ep04_drones_04_kessler",
+            "speaker": "Kessler",
+            "text": "Beacon fired before it died. We have company coming. How long to Archive?"
+        },
+        {
+            "file": "ep04_space_ep04_drones_05_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Seventeen minutes at current vector."
+        },
+        {
+            "file": "ep04_archive_ghost_00_kessler",
+            "speaker": "Kessler",
+            "text": "Docking sequence initiated. Archive is cold. No active defenses detected, but the station knows you're here."
+        },
+        {
+            "file": "ep04_archive_ghost_01_archiveghostsignal",
+            "speaker": "Archive Ghost Signal",
+            "text": "Welcome, Operative Ronin-7. Your reactivation has been logged."
+        },
+        {
+            "file": "ep04_archive_ghost_02_archiveghostsignal",
+            "speaker": "Archive Ghost Signal",
+            "text": "Your biometrics match file RONIN-SEVENTH-GENERATION. Clearance granted to archives one through nine."
+        },
+        {
+            "file": "ep04_archive_ghost_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "It still thinks I'm coming home."
+        },
+        {
+            "file": "ep04_archive_ghost_04_katana",
+            "speaker": "Katana",
+            "text": "They always intended to call you back. The erasure was meant to be temporary, a reset. Had the killswitch done its job, you would have activated, returned here, and been remade. It didn't. You walked away with the gaps instead."
+        },
+        {
+            "file": "ep04_archive_ghost_05_kessler",
+            "speaker": "Kessler",
+            "text": "They expect you to rebuild yourself for whatever comes next."
+        },
+        {
+            "file": "ep04_archive_ghost_06_kessler",
+            "speaker": "Kessler",
+            "text": "We can recover everything, every file, every record. Or we can burn the Archive down and let the ghosts sleep."
+        },
+        {
+            "file": "ep04_archive_ghost_07_kessler",
+            "speaker": "Kessler",
+            "text": "That answers that."
+        },
+        {
+            "file": "ep04_archive_sentry_barks_00_sentry1",
+            "speaker": "Sentry 1",
+            "text": "Intruder detected. Detainment protocol engaged."
+        },
+        {
+            "file": "ep04_archive_sentry_barks_01_katana",
+            "speaker": "Katana",
+            "text": "Pivot on the wave-pressure. The cadence was always three-beat. You were always graceful in the void."
+        },
+        {
+            "file": "ep04_archive_welcome_00_sentry1",
+            "speaker": "Sentry 1",
+            "text": "Welcome home, brother."
+        },
+        {
+            "file": "ep04_archive_welcome_01_sentry2",
+            "speaker": "Sentry 2",
+            "text": "Welcome home, brother."
+        },
+        {
+            "file": "ep04_heart_khall_log_00_khall",
+            "speaker": "Khall",
+            "text": "If you're watching this, the reset failed."
+        },
+        {
+            "file": "ep04_heart_khall_log_01_khall",
+            "speaker": "Khall",
+            "text": "Strength that questions is weakness. The orphanage was a lesson. Mercy and duty are incompatible."
+        },
+        {
+            "file": "ep04_heart_khall_log_02_khall",
+            "speaker": "Khall",
+            "text": "You were tested. You were broken. Now we remake you."
+        },
+        {
+            "file": "ep04_heart_blade_truth_00_katana",
+            "speaker": "Katana",
+            "text": "He lied. The orphanage was not a lesson."
+        },
+        {
+            "file": "ep04_heart_blade_truth_01_katana",
+            "speaker": "Katana",
+            "text": "What you did that night is why he triggered the killswitch. The truth of it is buried deeper than he wants you to dig."
+        },
+        {
+            "file": "ep04_heart_blade_truth_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "What did I do?"
+        },
+        {
+            "file": "ep04_heart_blade_truth_03_katana",
+            "speaker": "Katana",
+            "text": "Not yet. The memory will tear you open if it arrives before you can hold it. Find the ones who survived that night. Let them tell you what they saw."
+        },
+        {
+            "file": "ep04_heart_enforcer_challenge_00_enforcer",
+            "speaker": "Enforcer",
+            "text": "Operative Ronin-7. You are classified as escaped asset. Return to Dominion custody."
+        },
+        {
+            "file": "ep04_heart_enforcer_challenge_01_katana",
+            "speaker": "Katana",
+            "text": "He leads with the high parry. You taught him that. Use it."
+        },
+        {
+            "file": "ep04_heart_enforcer_after_00_enforcer",
+            "speaker": "Enforcer",
+            "text": "I'm sorry, brother. I didn't have a Kessler."
+        },
+        {
+            "file": "ep04_heart_files_00_archiveterminal",
+            "speaker": "Archive Terminal",
+            "text": "File load successful. Displaying intake record: OPERATIONAL CHILD SPECIMEN, COHORT RONIN-SEVENTH."
+        },
+        {
+            "file": "ep04_heart_files_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "What is my name?"
+        },
+        {
+            "file": "ep04_heart_files_02_katana",
+            "speaker": "Katana",
+            "text": "Not yet. You are not ready. The gaps are still raw, pull too hard and they tear."
+        },
+        {
+            "file": "ep04_heart_files_03_katana",
+            "speaker": "Katana",
+            "text": "When the chip is silenced, I will show you everything. Every memory. Every name the Dominion tried to burn away."
+        },
+        {
+            "file": "ep04_heart_files_04_kessler",
+            "speaker": "Kessler",
+            "text": "The alarms are triggering now. He knows you're here."
+        },
+        {
+            "file": "ep04_heart_alarm_00_khall",
+            "speaker": "Khall",
+            "text": "All operatives are compelled to return to Dominion custody."
+        },
+        {
+            "file": "ep04_heart_alarm_01_khall",
+            "speaker": "Khall",
+            "text": "Non-compliance triggers involuntary termination. Ronin-7, your time ends now."
+        },
+        {
+            "file": "ep04_heart_alarm_02_katana",
+            "speaker": "Katana",
+            "text": "He commands a battleship at the Reaches' edge. He will burn this station and chase you across every corridor between stars."
+        },
+        {
+            "file": "ep04_heart_alarm_03_kessler",
+            "speaker": "Kessler",
+            "text": "We go. Now."
+        },
+        {
+            "file": "ep04_heart_alarm_04_kessler",
+            "speaker": "Kessler",
+            "text": "We find the others who survived. We make this harder for him."
+        },
+        {
+            "file": "ep04_heart_escape_00_interceptor1",
+            "speaker": "Interceptor 1",
+            "text": "Corsair departing. Weapons free. Converge."
+        },
+        {
+            "file": "ep04_heart_escape_01_kessler",
+            "speaker": "Kessler",
+            "text": "Starboard thruster degrading! Compensate!"
+        },
+        {
+            "file": "ep04_heart_escape_02_katana",
+            "speaker": "Katana",
+            "text": "The star remembers you. It always has."
+        },
+        {
+            "file": "ep04_heart_escape_03_kessler",
+            "speaker": "Kessler",
+            "text": "We're clear. Jumping now."
+        },
+        {
+            "file": "ep04_ledger_count_00_kessler",
+            "speaker": "Kessler",
+            "text": "I pulled everything before we fled. Look."
+        },
+        {
+            "file": "ep04_ledger_count_01_katana",
+            "speaker": "Katana",
+            "text": "Count them."
+        },
+        {
+            "file": "ep04_ledger_count_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "How many of us?"
+        },
+        {
+            "file": "ep04_ledger_count_03_kessler",
+            "speaker": "Kessler",
+            "text": "You were never a program. You were a harvest."
+        },
+        {
+            "file": "ep04_ledger_count_04_katana",
+            "speaker": "Katana",
+            "text": "Every numbered child is still in here. Every one who broke. Every moment they tried to make you forget. We carry them all."
+        },
+        {
+            "file": "ep04_ledger_count_05_ronin7",
+            "speaker": "Ronin-7",
+            "text": "How long has this been happening?"
+        },
+        {
+            "file": "ep04_ledger_count_06_kessler",
+            "speaker": "Kessler",
+            "text": "Longer than either of us has been alive."
+        },
+        {
+            "file": "ep04_ledger_revelation_00_katana",
+            "speaker": "Katana",
+            "text": "There. The roster entry."
+        },
+        {
+            "file": "ep04_ledger_revelation_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "We're not unique."
+        },
+        {
+            "file": "ep04_ledger_revelation_02_katana",
+            "speaker": "Katana",
+            "text": "No. But you broke. They ordered the unthinkable, and you carried it out, and then something in you refused to keep being their weapon. That break is the proof the system can fail."
+        },
+        {
+            "file": "ep04_ledger_revelation_03_katana",
+            "speaker": "Katana",
+            "text": "Find the others. The flagged ones. The ones still in the vaults. The ones still being processed. That is why I remember."
+        },
+        {
+            "file": "ep04_ledger_revelation_04_kessler",
+            "speaker": "Kessler",
+            "text": "Then we go. We find them."
+        },
+        {
+            "file": "ep04_space_ep04_post_00_kessler",
+            "speaker": "Kessler",
+            "text": "The ledger's flagged entries are real. Anomalous, unresolved, operatives who broke conditioning and lived. Like you."
+        },
+        {
+            "file": "ep04_space_ep04_post_01_katana",
+            "speaker": "Katana",
+            "text": "One signal repeats in the deep registers. A woman's cadence. Ninth generation."
+        },
+        {
+            "file": "ep04_space_ep04_post_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then we follow it. We find her before Khall does."
+        }
+    ]
+}

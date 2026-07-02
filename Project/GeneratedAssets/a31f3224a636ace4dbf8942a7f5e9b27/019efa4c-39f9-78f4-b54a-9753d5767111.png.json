@@ -1,0 +1,28 @@
+{
+    "asset": "a31f3224a636ace4dbf8942a7f5e9b27",
+    "fileName": "019efa4c-39f9-78f4-b54a-9753d5767111.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A massive looming brutal Executioner Synod voidform with a thick obsidian body, a featureless helm-head split by a single broad furnace-orange seam, over-long arms ending in blade-edged shadow and a deep furnace glow banked in the chest-cavity. Clad in fused black-glass war-plate, wielding a great void-bladed glaive of solid shadow. Deep-obsidian, furnace-orange and void-purple palette. Heavy, lethal, dread. Cosmic dark sci-fi. Color palette: Deep obsidian black; furnace-orange seams; void-purple shadow-blades. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

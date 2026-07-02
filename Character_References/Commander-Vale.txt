@@ -1,0 +1,48 @@
+==================================================================
+COMMANDER VALE
+==================================================================
+SPECIES: Human (Dominion old-line commander — human per project rule).
+
+ROLE & FACTION: Dormant Dominion authority held in cryo-stasis as the command-key for the operative
+network. Woken in Ch12; believes the "defective generation" of fractured operatives can be roused
+into a self-aware army under his command — the seductive "wrong answer" (command instead of liberation).
+
+CHAPTERS: Ch12 (cryo-command vault confrontation).
+
+AGE / BUILD / HEIGHT: Old-line commander, aged out of an earlier era and held in stasis — looks
+50s–60s, preserved; ~1.78 m. Erect, commanding, strategist's frame.
+
+HEAD: Severe, intelligent face; cryo-pallid skin with faint frost-burn at the temples; steel-grey
+hair, severe cut; cold compelling eyes. Carries the certainty of someone used to being obeyed.
+
+BODY: Stiff from stasis at first, then ramrod command posture; measured, deliberate gestures.
+
+WEAPONS / PROPS: Command baton/sidearm; the cryo-vault throne/cradle and its command-network
+interface; stasis-frost still steaming off his gear when woken.
+
+CLOTHING / ARMOR: An older, grander Dominion command uniform — heavier ceremonial cut than Khall's,
+ornate epaulettes and an antique rank-sash, half-frosted from stasis. Reads "previous generation of
+the empire."
+
+COLOR PALETTE: Frost-white and pale blue over deep imperial charcoal/oxblood; tarnished gold rank-trim.
+
+SILHOUETTE / DISTINGUISHING FEATURES: Frost-rimed antique officer; the seductive, dangerous prophet
+of conquest; old-empire grandeur in a buried vault.
+
+DEMEANOR: Strategic, compelling, certain command is the natural order; "You're not an edition, Cipher.
+You're the original. We grew them all from you. And from one good original you can print an army that
+never ends." (Ch12)
+
+CANON SOURCE QUOTES:
+  - Reveals Ronin-7 is the prime Ronin template (the seventh, first-viable; 1-6 culled) — the army is
+    cloned FROM him, inverting the Ch11 "you're a copy" supposition (Ch12).
+  - Offers Ronin-7 an army; refuses sanctuary when he cuts the node loose (Ch12).
+
+>> IMAGE-PROMPT SUMMARY:
+50s–60s human commander (preserved in cryo-stasis), with a severe intelligent face, cryo-pallid
+frost-burned skin, steel-grey severely cut hair and cold compelling eyes. Wears an older, grander
+ceremonial Dominion command uniform with ornate epaulettes and an antique rank-sash, half-rimed in
+stasis frost that still steams off the shoulders. Frost-white and pale-blue over deep imperial
+charcoal-oxblood, tarnished gold trim. Stands with ramrod old-empire command authority in a buried
+vault. Grounded human sci-fi.
+==================================================================

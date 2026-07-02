@@ -1,0 +1,28 @@
+{
+    "asset": "3de08c6b5e6c31443ad7efda492532f5",
+    "fileName": "019efa3d-4c59-7c34-aa48-6dcc48592006.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: Weathered older human woman, a former assassin, with a hard lined face, grey-shot cropped hair, cold steel eyes and faint cybernetic augment-seams, plus a brutal self-inflicted scar at the nape where she tore out her own killswitch. Dressed in worn salvager layers — long weathered coat, wraps, patched armor scraps — over the remnants of operative underkit. Carries a sheathed blade with a cold glowing hilt-light and guards a rack of similar blades. Faded-slate, bone and teal-grey palette with tarnished steel. Moves with an aged but unmistakable operative's lethal economy. Grounded human sci-fi. Color palette: Faded slate, bone, deep teal-grey; tarnished steel; cold blade-light. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

@@ -1,0 +1,28 @@
+{
+    "asset": "2bc76e1a011ad2741a63dcc1890901a5",
+    "fileName": "019efa3e-6a6f-71e7-8771-c04f39efcc04.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: Late-20s/30s human female elite operative — a pristine dark mirror of the protagonist — with a cold beautiful disciplined face, tightly bound hair, flat conditioned eyes, faint augment-seams and a skull-base scar. Wears sleek current-issue black operative armor with crisp segmented plating and a removable half-mask/visor (mission-clean, not worn). Carries a katana-class blade with a small glowing hilt-light and a sidearm. Black and cold steel-blue palette with sharp white edge-lines. Stands with flawless lethal poise that is just beginning to falter into doubt. Grounded human sci-fi. Color palette: Black and cold steel-blue, sharp white edge-lines, faint blade hilt-light. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

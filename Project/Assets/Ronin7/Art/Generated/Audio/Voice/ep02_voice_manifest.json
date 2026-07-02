@@ -1,0 +1,339 @@
+{
+    "lines": [
+        {
+            "file": "ep02_dock_approach_00_stationtrafficcontrol",
+            "speaker": "Station Traffic Control",
+            "text": "Incoming vessel, this is Velorum Port Authority. State cargo and business."
+        },
+        {
+            "file": "ep02_dock_approach_01_kessler",
+            "speaker": "Kessler",
+            "text": "Merchant hauler Corsair, inbound with augmentation broker cargo and procurement credentials. Code Seven-Tango-Four."
+        },
+        {
+            "file": "ep02_dock_kessler_00_kessler",
+            "speaker": "Kessler",
+            "text": "The Dominion's holding leverage. If Iris is here, she's in the pens under the auction floor."
+        },
+        {
+            "file": "ep02_dock_kessler_01_kessler",
+            "speaker": "Kessler",
+            "text": "After the auction tomorrow, she disappears into the pipeline. Sold, distributed, lost."
+        },
+        {
+            "file": "ep02_dock_kessler_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I'll need access papers."
+        },
+        {
+            "file": "ep02_dock_kessler_03_kessler",
+            "speaker": "Kessler",
+            "text": "Already loaded. You're going in as a black-market augmentation broker. Half the syndicates on that station have priced your augmentation. Walk in looking like money and nobody asks questions, Velorum only cares that it moves."
+        },
+        {
+            "file": "ep02_dock_kessler_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "And you?"
+        },
+        {
+            "file": "ep02_dock_kessler_05_kessler",
+            "speaker": "Kessler",
+            "text": "I hold the hauler at docking berth three. When you have her, you run. No stalling, no heroics, no looking back. The moment you're clear of the checkpoint, we burn for open space."
+        },
+        {
+            "file": "ep02_dock_kessler_06_kessler",
+            "speaker": "Kessler",
+            "text": "I lost her once to fear. I'm not losing her to ego."
+        },
+        {
+            "file": "ep02_dock_challenge_00_saffronveilenforcer1",
+            "speaker": "Saffron Veil Enforcer 1",
+            "text": "Identification and cargo manifest. Broker credentials."
+        },
+        {
+            "file": "ep02_dock_challenge_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Code Seven-Tango-Four. My papers are clean."
+        },
+        {
+            "file": "ep02_dock_challenge_02_saffronveilenforcer2",
+            "speaker": "Saffron Veil Enforcer 2",
+            "text": "You don't have the look of a broker."
+        },
+        {
+            "file": "ep02_dock_fight_barks_00_saffronveilenforcer1",
+            "speaker": "Saffron Veil Enforcer 1",
+            "text": "Breach! Alert security!"
+        },
+        {
+            "file": "ep02_dock_aftermath_00_ronin7",
+            "speaker": "Ronin-7",
+            "text": "[under breath, to himself] Aurelings. Trained fast."
+        },
+        {
+            "file": "ep02_dock_resh_00_captainresh",
+            "speaker": "Captain Resh",
+            "text": "Welcome, Operative Seven. I wondered if you'd answer the call. I am Resh."
+        },
+        {
+            "file": "ep02_dock_resh_01_captainresh",
+            "speaker": "Captain Resh",
+            "text": "I'm not here to hurt you. I'm here to burn this station down."
+        },
+        {
+            "file": "ep02_dock_resh_02_captainresh",
+            "speaker": "Captain Resh",
+            "text": "I have been for two years."
+        },
+        {
+            "file": "ep02_dock_resh_03_captainresh",
+            "speaker": "Captain Resh",
+            "text": "247 children are earmarked for the next Ronin cycle. The same pipeline that produced you. Blank slates waiting for conditioning, erasure, and rebirth as weapons."
+        },
+        {
+            "file": "ep02_dock_resh_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Why trust you?"
+        },
+        {
+            "file": "ep02_dock_resh_05_captainresh",
+            "speaker": "Captain Resh",
+            "text": "After Kethel-7 I scrubbed every Veil record that tracked you, told the hunters you were dead. That cover held until two days ago, when you surfaced and their net flagged you. Khall knows you're breathing now. So we're both on the clock."
+        },
+        {
+            "file": "ep02_dock_resh_06_captainresh",
+            "speaker": "Captain Resh",
+            "text": "The children at Kethel-7 were real. So was what it did to you, it cracked you open, and you ran. You were never meant to survive what they did to you after."
+        },
+        {
+            "file": "ep02_dock_resh_07_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I don't remember you."
+        },
+        {
+            "file": "ep02_dock_resh_08_captainresh",
+            "speaker": "Captain Resh",
+            "text": "I remember you. That's enough."
+        },
+        {
+            "file": "ep02_pens_challenge_00_saffronveilguard1",
+            "speaker": "Saffron Veil Guard 1",
+            "text": "Captain Resh. Priority access clearance confirmed. You can pass. But the intruder..."
+        },
+        {
+            "file": "ep02_pens_challenge_01_captainresh",
+            "speaker": "Captain Resh",
+            "text": "Stand down. He is with me."
+        },
+        {
+            "file": "ep02_pens_fight_barks_00_saffronveilguard2",
+            "speaker": "Saffron Veil Guard 2",
+            "text": "Captain, we're locked..."
+        },
+        {
+            "file": "ep02_pens_iris_00_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Kessler sent me. Docking berth three, three sectors up. Run straight and don't stop."
+        },
+        {
+            "file": "ep02_pens_iris_01_iris",
+            "speaker": "Iris",
+            "text": "Are you one of the bad ones?"
+        },
+        {
+            "file": "ep02_pens_iris_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I am a friend of your father. Now run."
+        },
+        {
+            "file": "ep02_pens_alarm_00_saffronveilguard3",
+            "speaker": "Saffron Veil Guard 3",
+            "text": "The pens are open! The intruder is in the holding block!"
+        },
+        {
+            "file": "ep02_pens_alarm_01_captainresh",
+            "speaker": "Captain Resh",
+            "text": "Go! I'll hold the lock!"
+        },
+        {
+            "file": "ep02_pens_fight2_barks_00_saffronveilguard4",
+            "speaker": "Saffron Veil Guard 4",
+            "text": "Contact, contact! The Captain is with them!"
+        },
+        {
+            "file": "ep02_pens_khall_00_khall",
+            "speaker": "Khall",
+            "text": "The program requires genetic specificity. No compromises."
+        },
+        {
+            "file": "ep02_pens_khall_01_khall",
+            "speaker": "Khall",
+            "text": "And if Seven's ghost is walking my station, find it. Erase it again."
+        },
+        {
+            "file": "ep02_pens_resh_plan_00_captainresh",
+            "speaker": "Captain Resh",
+            "text": "He's early. The schedule was accelerated."
+        },
+        {
+            "file": "ep02_pens_resh_plan_01_captainresh",
+            "speaker": "Captain Resh",
+            "text": "We trigger the fire suppression override now. It will scatter his security and give us time to clear the bidders' gallery before the syndicates coordinate a counter-response."
+        },
+        {
+            "file": "ep02_pens_resh_plan_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "And Khall?"
+        },
+        {
+            "file": "ep02_pens_resh_plan_03_captainresh",
+            "speaker": "Captain Resh",
+            "text": "Leave him. Today is about the children, not your revenge."
+        },
+        {
+            "file": "ep02_pens_resh_plan_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "No, I will put a stop to this madness!"
+        },
+        {
+            "file": "ep02_pens_resh_plan_05_captainresh",
+            "speaker": "Captain Resh",
+            "text": "The children are more important."
+        },
+        {
+            "file": "ep02_pens_resh_plan_06_ronin7",
+            "speaker": "Ronin-7",
+            "text": "You handle the children, I will handle Khall."
+        },
+        {
+            "file": "ep02_gallery_barks_00_gildedmawhandler1",
+            "speaker": "Gilded Maw Handler 1",
+            "text": "Contact on the gallery tier! Authorization to engage!"
+        },
+        {
+            "file": "ep02_gallery_barks_01_veilescort1",
+            "speaker": "Veil Escort 1",
+            "text": "Fall back! Fall back to secondary positions!"
+        },
+        {
+            "file": "ep02_gallery_barks_02_gildedmawhandler2",
+            "speaker": "Gilded Maw Handler 2",
+            "text": "He's moving faster than the profile data suggests..."
+        },
+        {
+            "file": "ep02_gallery_khall_00_khall",
+            "speaker": "Khall",
+            "text": "Seal the docking bays. All personnel to containment."
+        },
+        {
+            "file": "ep02_gallery_khall_01_khall",
+            "speaker": "Khall",
+            "text": "And Seven, the killswitch I fired should have ended you. It didn't. Whatever you are now, I'll put you down the old way."
+        },
+        {
+            "file": "ep02_core_khall_00_khall",
+            "speaker": "Khall",
+            "text": "Your rage is your subroutine, Seven. You were always meant to be a blade for my hand."
+        },
+        {
+            "file": "ep02_core_khall_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I am no one's blade."
+        },
+        {
+            "file": "ep02_core_khall_02_khall",
+            "speaker": "Khall",
+            "text": "Then you're just a broken thing to be recycled."
+        },
+        {
+            "file": "ep02_core_khall_03_khall",
+            "speaker": "Khall",
+            "text": "Ninety seconds and every system shuts down. You will be sealed in."
+        },
+        {
+            "file": "ep02_core_khall_04_khall",
+            "speaker": "Khall",
+            "text": "Your children die in the dark, with you, Seven."
+        },
+        {
+            "file": "ep02_core_fight_barks_00_dominionenforcer1",
+            "speaker": "Dominion Enforcer 1",
+            "text": "Operative Seven is contained. Authorization to engage with full prejudice."
+        },
+        {
+            "file": "ep02_core_fight_barks_01_captainresh",
+            "speaker": "Captain Resh",
+            "text": "Mainframe is burning, topside, now!"
+        },
+        {
+            "file": "ep02_core_escape_00_kessler",
+            "speaker": "Kessler",
+            "text": "Airlock is open! Come on!"
+        },
+        {
+            "file": "ep02_core_escape_01_captainresh",
+            "speaker": "Captain Resh",
+            "text": "180 out, including Iris. The other 67, I couldn't reach the secondary pen in time."
+        },
+        {
+            "file": "ep02_core_escape_02_captainresh",
+            "speaker": "Captain Resh",
+            "text": "The Ronin-7 they built was a machine. The one who just emptied those cells, that isn't the weapon they made. That's what broke through when the conditioning cracked."
+        },
+        {
+            "file": "ep02_core_escape_03_captainresh",
+            "speaker": "Captain Resh",
+            "text": "That part is yours now. Hold on to it."
+        },
+        {
+            "file": "ep02_safehouse_resh_00_captainresh",
+            "speaker": "Captain Resh",
+            "text": "Everything I know about Dominion command structure. Khall's black-site labs. The memory-wipe architecture."
+        },
+        {
+            "file": "ep02_safehouse_resh_01_captainresh",
+            "speaker": "Captain Resh",
+            "text": "You want to recover your past and burn the system that built you, this is where you start."
+        },
+        {
+            "file": "ep02_safehouse_resh_02_captainresh",
+            "speaker": "Captain Resh",
+            "text": "The Dominion will hunt us both now. But we won't be alone."
+        },
+        {
+            "file": "ep02_safehouse_drill_00_ronin7",
+            "speaker": "Ronin-7",
+            "text": "[under breath, to himself] His switch should have killed me. It didn't. Why am I still here?"
+        },
+        {
+            "file": "ep02_safehouse_decision_00_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Khall is still out there. And there's a hole where my memory should be. I need to know who I was, and why I'm still alive."
+        },
+        {
+            "file": "ep02_safehouse_decision_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Tell me where we start digging."
+        },
+        {
+            "file": "ep02_safehouse_decision_02_captainresh",
+            "speaker": "Captain Resh",
+            "text": "Then my network digs with you. I work the Veil's channels from the inside."
+        },
+        {
+            "file": "ep02_space_ep02_post_00_kessler",
+            "speaker": "Kessler",
+            "text": "Coordinates locked. Let's see what's waiting at the next station."
+        },
+        {
+            "file": "ep02_space_ep02_post_01_kessler",
+            "speaker": "Kessler",
+            "text": "Resh is already working the Veil's channels from the inside. Whatever she learns about Khall, we hear it first."
+        },
+        {
+            "file": "ep02_space_ep02_post_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then we don't stop until we have it."
+        }
+    ]
+}

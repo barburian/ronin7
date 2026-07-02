@@ -1,0 +1,28 @@
+{
+    "asset": "ffba1ca39f1eb544a8ceae2fd5b5470e",
+    "fileName": "019efa43-5096-7d0d-a73f-e8d740b469d1.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A thin still middle-aged female ashkin widow in mourning, with ochre skin streaked in ritual grey mourning-ash, dim wet ember eyes, cheek keratin-plates rubbed pale and a shorn head. Wrapped in a grey mourning shroud, holding an ash-pot and a single kept rust keepsake of the dead. Ochre under grey-ash, colorless palette. Grief-stilled. Grounded alien sci-fi frontier. Color palette: Ochre skin under heavy grey mourning-ash; colorless shroud; one kept rust token. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

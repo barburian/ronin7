@@ -1,0 +1,45 @@
+==================================================================
+RONIN-7 EDITION   (the leashed clone — Ch12 dark mirror)
+==================================================================
+SPECIES: Human (Dominion/Program operative — a clone of Ronin-7 himself, the Ronin template; human per rule).
+
+ROLE & FACTION: A clone of Ronin-7 himself — one of the editions printed from him (the Ronin template) — woken and conditioned by Commander Vale as her
+enforcer to keep Cipher off the command-network node. Wears Ronin's exact face; pure conditioning,
+no person left. Ch12 boss; cut down to reach the node; his death frees the MIRROR ability (summon a
+phantom double of self).
+
+CHAPTERS: Ch12 (cryo-command-vault boss).
+
+AGE / BUILD / HEIGHT: Identical to Ronin-7 — same age, same frame, same ~1.8 m (cloned from him).
+
+HEAD: Ronin-7's exact face — but the eyes are FLAT WITH THE LEASH, no spark, no hitch. Same short
+dark hair; here it may be freshly issued/clean (woken from stasis) vs. Ronin's weathering. The same
+throat-scar potential and skull-base killswitch scar.
+
+BODY: Ronin's exact technique mirrored back, but with zero hesitation — perfect, certain, machine.
+The horror is the perfect symmetry.
+
+WEAPONS / PROPS: The same katana-class blade and school as Ronin, housing a LEASHED blade-shadow
+(hilt-light) that frees at death.
+
+CLOTHING / ARMOR: Fresh-issue Dominion operative armor (clean, current, stasis-new) — the "factory"
+version of Ronin's salvaged, repaired kit, to read as the same man uncorrupted by freedom.
+
+COLOR PALETTE: Black and gunmetal like Ronin, but cleaner, colder, with stasis-sheen; cold hilt-light.
+
+SILHOUETTE / DISTINGUISHING FEATURES: Ronin-7's identical silhouette — same face, blade, stance —
+but pristine and dead-eyed. The literal mirror.
+
+DEMEANOR: No personality; the leash is complete; "The asset stays on the network. That's the order." (Ch12)
+
+CANON SOURCE QUOTES:
+  - "eyes flat with the leash"; identical to Ronin, called up from stasis (Ch12).
+
+>> IMAGE-PROMPT SUMMARY:
+An exact human double of the protagonist — same lean mid-30s frame, same hard face, same short dark
+hair, same throat and skull-base scars — but with dead, flat, leashed eyes and zero hesitation,
+freshly woken from stasis. Wears clean current-issue black-and-gunmetal Dominion operative armor (the
+factory version of the hero's salvaged kit), faint stasis-sheen on the plating. Carries the identical
+wrapped katana with a cold leashed hilt-light. Cold black/gunmetal palette. Stands in the hero's own
+stance, perfectly certain, utterly hollow — a mirror that did not escape. Grounded human sci-fi.
+==================================================================

@@ -1,0 +1,28 @@
+{
+    "asset": "53b7722d23dddef45af398500ef95053",
+    "fileName": "019efa3c-60ff-77e1-a79b-fae40460ce00.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A slight 14-year-old alien girl of the ashkin, shown alive in a warm remembered moment: ruddy ochre cracked-clay skin with light just-forming keratin plates on the cheekbones, bright curious amber ember-glow eyes, coarse rust-grey ashy hair. Dressed in simple plain frontier child's clothing — a rust tunic, wrap and worn shoes, loose breath-scarf, faintly ash-dusted — perched by a settlement well with a writing-slate of ship-names. Ochre skin, rust cloth and grey ash in soft warm daylight (a gentler palette than the rest of the saga). Reads as innocent, curious, doomed. Grounded alien sci-fi. Color palette: Ochre skin, rust cloth, grey ash, soft daylight (a warmer, alive palette than the rest. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

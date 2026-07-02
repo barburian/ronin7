@@ -1,0 +1,8 @@
+VARIANT: Vesh #06 — "Berserker"
+SPECIES: Vesh (raider nomad clan).
+SEX / AGE / BUILD: Male / adult / massive-for-the-species, brutal, scarred.
+ROLE IN WORLD: A frenzy-fighter unleashed at the front of a raid.
+DISTINGUISHING FEATURES: Thick oxblood plating cracked and re-scarred across; wild wide orange slit-eyes; broken jagged mandible-tusks; brands gone chaotic; self-inflicted frenzy-cuts; knuckle-hooks.
+CLOTHING / GEAR: Minimal straps and trophy-skulls, twin heavy cleavers, a frenzy-draught flask, war-paint.
+COLOR / PALETTE: Oxblood carapace; chaotic bone-white scarring; blood-red war-paint; trophy-bone.
+>> IMAGE-PROMPT SUMMARY: A massive brutal scarred adult male vesh berserker with thick oxblood chitin cracked and re-scarred all over, wild wide orange slit-eyes, broken jagged mandible-tusks, chaotic brands, self-inflicted frenzy-cuts and knuckle-hooks. Wears minimal straps hung with trophy-skulls and blood-red war-paint, wielding twin heavy cleavers with a frenzy-draught flask. Oxblood, chaotic-bone-white and blood-red palette. Frenzied, terrifying. Grounded alien sci-fi raider.

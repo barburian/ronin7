@@ -1,0 +1,8 @@
+VARIANT: Voll #11 — "Augmented Gourmand"
+SPECIES: Voll (syndicate / black-market profiteer).
+SEX / AGE / BUILD: Male / middle-aged / enormous, augment-laden, sluggish.
+ROLE IN WORLD: A glutton-collector who buys rare flesh and rarer tech for the table.
+DISTINGUISHING FEATURES: Oily green skin stretched over heavy augments; bloated dewlaps fitted with taste-implants; small gleeful gold eyes; chrome feeding-ports along the jaw; gilded grinder-teeth.
+CLOTHING / GEAR: A bib-like dining-mantle, a hover-tray of delicacies, taste-augment rigs, a jeweled utensil-set.
+COLOR / PALETTE: Oily-green flesh; cream-and-gold dining-mantle; chrome ports; warm table-light.
+>> IMAGE-PROMPT SUMMARY: An enormous augment-laden sluggish middle-aged male voll gourmand with oily-green skin stretched over heavy augments, bloated taste-implant dewlaps, small gleeful gold eyes, chrome feeding-ports along the jaw and gilded grinder-teeth. Wears a cream-and-gold bib-like dining-mantle with a jeweled utensil-set, a hover-tray of delicacies before him. Oily-green, cream-gold and chrome palette in warm table-light. Gluttonous, grotesque. Grounded alien sci-fi.

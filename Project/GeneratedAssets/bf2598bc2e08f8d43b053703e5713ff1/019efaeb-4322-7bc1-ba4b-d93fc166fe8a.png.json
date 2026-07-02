@@ -1,0 +1,28 @@
+{
+    "asset": "bf2598bc2e08f8d43b053703e5713ff1",
+    "fileName": "019efaeb-4322-7bc1-ba4b-d93fc166fe8a.png",
+    "prompt": "Concept art of a single weapon set shown complete and centered, isolated on a plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, NO character, no hands, no figure, only the weapons by themselves. Subject: a long scoped marksman rifle, a precise muted-tactical sci-fi sniper rifle with a long barrel, mounted optic/scope and folding bipod, laid beside a compact gunmetal sidearm; all faction insignia scrubbed off, spare and functional, a hunter's tools. Color palette: slate-grey, desaturated-green and black with gunmetal gear. Grounded human sci-fi, single weapon prop set on neutral background.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

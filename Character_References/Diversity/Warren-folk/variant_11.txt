@@ -1,0 +1,8 @@
+VARIANT: Warren-folk #11 — "Route-Keeper Elder"
+SPECIES: Warren-folk (market underclass)
+SEX / AGE / BUILD: Male / elder / dignified, lean, upright despite age.
+ROLE IN WORLD: Keeper of the smuggling-route lore; the warren quiet memory.
+DISTINGUISHING FEATURES: A large frill ceremonially painted with route-glyphs; deep skin-crazing; calm dark eyes; long fine white forearm-down.
+CLOTHING / GEAR: A worn ceremonial route-keeper robe, a knotted memory-cord, a staff.
+COLOR / PALETTE: Pale mauve-grey skin; deep indigo robe with white route-glyphs; bone staff.
+>> IMAGE-PROMPT SUMMARY: A dignified upright elder male warren-folk route-keeper with a large ceremonially route-glyph-painted throat-frill, deep skin-crazing, calm dark eyes and long white forearm-down. Wears a worn indigo route-keeper robe with white glyphs, a knotted memory-cord and a bone staff. Pale mauve-grey and indigo palette. Wise, solemn. Grounded alien sci-fi.

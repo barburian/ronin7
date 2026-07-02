@@ -1,0 +1,28 @@
+{
+    "asset": "b41c322138aa5bb4b9a74d9f287dfd0b",
+    "fileName": "019efa48-0d5e-7a95-a09d-d1e6a217728e.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A stooped many-armed Archivist Synod voidform with a hunched obsidian body, several too-jointed arms, a low cold white-blue glow and threads of glowing war-loom strands running through its fingers and through a hollow where a heart-core should be. Wears a loom-mantle strung with glowing strategy-threads, smoke pooling at its feet. Obsidian-black with cold-white-blue and pale-thread-glow palette. Calculating, eldritch. Cosmic dark sci-fi. Color palette: Obsidian black; cold white-blue glow; pale loom-thread light. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

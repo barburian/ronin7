@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Ronin7/Scenes/Phase6_Boot.unity
+    guid: f7976a1963d07aa40aabf147bc466b58
+  - enabled: 1
+    path: Assets/Ronin7/Scenes/Galaxy1_Ch1_Hub.unity
+    guid: 4865f1847db732445914c9414205232d
+  m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 9b706728c01987b43bdf3acac015b69a, type: 2}
+    com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: e7d4eb7a84637e54c808c9470457673a, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: cb883c508af8aad499b7da6bcb96b240, type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 76c0542218e1d12469df214e1444debc, type: 2}

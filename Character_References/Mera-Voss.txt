@@ -1,0 +1,45 @@
+==================================================================
+MERA VOSS
+==================================================================
+SPECIES: Human (Dominion/Program staff — ex-Dominion tracker; human per project rule).
+
+ROLE & FACTION: Ex-Dominion tracker/hunter (Ally #2). Sent to confirm Ronin-7's death (Ch4);
+defects after witnessing the Kerrax mercy — proof an operative can choose. Becomes the crew's
+recon/tactical expert.
+
+CHAPTERS: Ch4–Ch16 (hunts him Ch4, joins, stays aboard).
+
+AGE / BUILD / HEIGHT: 30s; ~1.75 m. Controlled, economical, trained frame — athletic, not bulky.
+
+HEAD: Hard, composed face with a hunter's flat attention; reads trails and kill-boxes the way she
+reads people. Practical short or tightly bound hair; cool, assessing eyes. Minimal expression
+early, cracking open as conviction shifts.
+
+BODY: Disciplined, still, arms often folded; every gesture spare. Moves like the operatives she
+used to hunt — the same trained economy, slightly less surgical.
+
+WEAPONS / PROPS: Tracker's kit — long-range scoped rifle/marksman weapon, sidearm, optics/scanner,
+trail-reading sensor gear, restraint gear from her hunter days.
+
+CLOTHING / ARMOR: Tactical Dominion-derived tracker gear stripped of insignia — fitted armored
+bodysuit, segmented plates, utility harness, light cloak/scarf for cover; functional, muted.
+
+COLOR PALETTE: Slate grey, desaturated green, black; gunmetal optics.
+
+SILHOUETTE / DISTINGUISHING FEATURES: Lean tactical hunter with a long weapon and folded-arms
+stillness; an ex-Dominion soldier who scrubbed her own insignia.
+
+DEMEANOR: Cold, professional, observant; distrustful then quietly converted; "I'd rather be on the
+side that hesitates." (Ch4)
+
+CANON SOURCE QUOTES:
+  - "I've put down four of your kind... That isn't a fault in the metal. That's a man." (Ch5)
+
+>> IMAGE-PROMPT SUMMARY:
+30s human woman, athletic and disciplined, with a hard composed face, cool assessing eyes and
+tightly bound hair, wearing fitted muted-tactical tracker armor (segmented plates, utility harness,
+light cover-scarf) with all faction insignia scrubbed off. Carries a long scoped marksman rifle and
+a sidearm, optics on her harness. Slate-grey, desaturated-green and black palette with gunmetal
+gear. Stands with a hunter's spare, arms-folded stillness. Reads as an ex-soldier bounty-tracker who
+changed sides. Grounded human sci-fi.
+==================================================================

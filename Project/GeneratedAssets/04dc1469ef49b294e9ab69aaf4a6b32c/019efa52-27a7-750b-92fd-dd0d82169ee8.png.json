@@ -1,0 +1,28 @@
+{
+    "asset": "04dc1469ef49b294e9ab69aaf4a6b32c",
+    "fileName": "019efa52-27a7-750b-92fd-dd0d82169ee8.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A tall imperious battle-honed older female vesh matriarch-warlord with imposing lacquered gilt-edged dark-charcoal chitin, piercing sovereign orange slit-eyes, great gold-and-bone-capped mandible-tusks, a crown of cured trophy-skulls and the deepest oldest authority-brands. Wears a grand warlord-mantle of trophy-pelts and bone, wielding a fanged war-glaive and a war-horn of office, an honor-guard behind her. Lacquered-charcoal, gilt, trophy-bone and clan-red-gold palette. Sovereign, terrifying. Grounded alien sci-fi raider. Color palette: Lacquered charcoal carapace; gilt band-edges; trophy-bone crown; deep clan-red and gold. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

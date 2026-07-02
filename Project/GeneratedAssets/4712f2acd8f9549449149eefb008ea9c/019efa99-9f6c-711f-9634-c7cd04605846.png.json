@@ -1,0 +1,28 @@
+{
+    "asset": "4712f2acd8f9549449149eefb008ea9c",
+    "fileName": "019efa99-9f6c-711f-9634-c7cd04605846.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from the top of the head down to the soles of the feet, the whole figure centered and small within the frame with large empty background margins on all four sides so nothing is cropped, the complete head and feet fully inside the frame and not touching any edge. Front view, neutral upright A-pose, arms slightly away from the body. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no text, no logo, no border, only one character. Subject: FULLY CLOTHED 30s human woman, a tragic living-archive, wearing a torn archive-shift wrap garment that completely covers her torso, chest and pelvis (black conditioning hardware and cabling show only on her back and shoulders), modest, NOT naked, no bare chest, no nudity. Gaunt ashen-grey skin laced with glowing cold blue-white data-light circuit-veins at temples, throat and arms, hair shaved at the port-points, faint amber archive-glyphs on her skin. Stands slightly tethered, burdened. Color palette: ashen grey, cold blue-white glow, black hardware. Grounded tragic sci-fi.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

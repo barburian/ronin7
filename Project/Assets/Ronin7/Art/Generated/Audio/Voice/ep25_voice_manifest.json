@@ -1,0 +1,314 @@
+{
+    "lines": [
+        {
+            "file": "ep25_lead_intro_00_kessler",
+            "speaker": "Kessler",
+            "text": "There's a name in the network Sanctuary pulled. A physician operating out of a medical station hidden in the Sable Drift."
+        },
+        {
+            "file": "ep25_lead_intro_01_kessler",
+            "speaker": "Kessler",
+            "text": "Gilded Maw faction. They traffic in augmentation and neural reconstruction. And according to the files, this physician has published research on a patented reversal technique."
+        },
+        {
+            "file": "ep25_lead_intro_02_cipher",
+            "speaker": "Cipher",
+            "text": "What kind of reversal?"
+        },
+        {
+            "file": "ep25_lead_intro_03_kessler",
+            "speaker": "Kessler",
+            "text": "Augmentation reversal. Not full removal, the leash is wired into your neural architecture too deep for that. But interruption. Slowing. Buying time instead of counting down to zeros."
+        },
+        {
+            "file": "ep25_lead_intro_04_cipher",
+            "speaker": "Cipher",
+            "text": "The Gilded Maw prices miracles in other people's flesh."
+        },
+        {
+            "file": "ep25_lead_intro_05_kessler",
+            "speaker": "Kessler",
+            "text": "They do. Which means we go in as buyers. Walk in like we're looking for augmentation work, not hunting for salvation. Let them show us what they can do."
+        },
+        {
+            "file": "ep25_harrow_greeting_00_harrow",
+            "speaker": "Harrow",
+            "text": "Welcome to the Crimson Thread. I am Harrow, primary facilitator."
+        },
+        {
+            "file": "ep25_harrow_greeting_01_harrow",
+            "speaker": "Harrow",
+            "text": "Such precise augmentation work. Such... familiar architecture."
+        },
+        {
+            "file": "ep25_harrow_greeting_02_harrow",
+            "speaker": "Harrow",
+            "text": "I would very much like to show you our medical core. A private tour. Our most specialized work happens in those corridors."
+        },
+        {
+            "file": "ep25_cargo_barks_00_harrow",
+            "speaker": "Harrow",
+            "text": "I'm afraid your cover was insufficient."
+        },
+        {
+            "file": "ep25_architect_00_drheris",
+            "speaker": "Dr. Heris",
+            "text": "I know every weld in you."
+        },
+        {
+            "file": "ep25_architect_01_drheris",
+            "speaker": "Dr. Heris",
+            "text": "I put them there."
+        },
+        {
+            "file": "ep25_architect_02_cipher",
+            "speaker": "Cipher",
+            "text": "Kethel-7."
+        },
+        {
+            "file": "ep25_architect_03_drheris",
+            "speaker": "Dr. Heris",
+            "text": "I kept the surgical record of your purge. Every step. I needed to bear witness to something, even while I was too afraid to stop it."
+        },
+        {
+            "file": "ep25_enforcer_aftermath_00_drheris",
+            "speaker": "Dr. Heris",
+            "text": "I trained them. Several Gilded Maw soldiers. On the same combat specifications I gave you."
+        },
+        {
+            "file": "ep25_enforcer_aftermath_01_drheris",
+            "speaker": "Dr. Heris",
+            "text": "I defected to Gilded Maw years ago. Not as a loyalist. As a fugitive. The Dominion marked me as a liability the moment I started keeping unauthorized records."
+        },
+        {
+            "file": "ep25_enforcer_aftermath_02_cipher",
+            "speaker": "Cipher",
+            "text": "You've been waiting for me."
+        },
+        {
+            "file": "ep25_enforcer_aftermath_03_drheris",
+            "speaker": "Dr. Heris",
+            "text": "I have."
+        },
+        {
+            "file": "ep25_real_record_00_cipher",
+            "speaker": "Cipher",
+            "text": "The massacre. It was real."
+        },
+        {
+            "file": "ep25_real_record_01_drheris",
+            "speaker": "Dr. Heris",
+            "text": "It was real. Overseer Khall ordered it as a loyalty test. He commanded you to eliminate every child in the Kethel-7 orphanage. You refused. The first operative in the history of the Program to refuse a direct order from command."
+        },
+        {
+            "file": "ep25_real_record_02_drheris",
+            "speaker": "Dr. Heris",
+            "text": "Khall purged you as punishment. The failsafe activated. I was present at the surgical intervention. I documented what was happening to your neural matrix. I watched the purge begin."
+        },
+        {
+            "file": "ep25_real_record_03_cipher",
+            "speaker": "Cipher",
+            "text": "Why keep the record?"
+        },
+        {
+            "file": "ep25_real_record_04_drheris",
+            "speaker": "Dr. Heris",
+            "text": "Because I was too afraid to stop it. Because witnessing, even silently, was the only resistance I could afford."
+        },
+        {
+            "file": "ep25_real_record_05_cipher",
+            "speaker": "Cipher",
+            "text": "Can you undo it?"
+        },
+        {
+            "file": "ep25_real_record_06_drheris",
+            "speaker": "Dr. Heris",
+            "text": "The leash? Not fully. Not quickly. Not without risk."
+        },
+        {
+            "file": "ep25_real_record_07_drheris",
+            "speaker": "Dr. Heris",
+            "text": "But yes. The architecture I installed is mine. I know every weld. I can interrupt the cascade. I can slow what is trying to kill you from the inside."
+        },
+        {
+            "file": "ep25_real_record_08_drheris",
+            "speaker": "Dr. Heris",
+            "text": "Not cure. Reprieve. But reprieve is a kind of mercy."
+        },
+        {
+            "file": "ep25_commando_barks_00_dominioncommando1",
+            "speaker": "Dominion Commando 1",
+            "text": "Stand down, CIPHER. Return to command authority."
+        },
+        {
+            "file": "ep25_commando_barks_01_dominioncommando2",
+            "speaker": "Dominion Commando 2",
+            "text": "You don't fight like yourself anymore, Seven. You're broken."
+        },
+        {
+            "file": "ep25_vault_00_drheris",
+            "speaker": "Dr. Heris",
+            "text": "I have been documenting all of it. Every intake. Every modification. Every scheduled awakening for deployment."
+        },
+        {
+            "file": "ep25_vault_01_drheris",
+            "speaker": "Dr. Heris",
+            "text": "I intercepted the intake order before the Dominion could activate the procedure. I froze her before they could touch her. I don't know if she is family or engineering."
+        },
+        {
+            "file": "ep25_vault_02_drheris",
+            "speaker": "Dr. Heris",
+            "text": "The records don't go back far enough to know. But she is alive. And she is not augmented. And she is not staying here."
+        },
+        {
+            "file": "ep25_vault_03_cipher",
+            "speaker": "Cipher",
+            "text": "I don't remember her."
+        },
+        {
+            "file": "ep25_vault_04_cipher",
+            "speaker": "Cipher",
+            "text": "I'm not leaving her."
+        },
+        {
+            "file": "ep25_khall_wire_00_khall",
+            "speaker": "Khall",
+            "text": "Cipher. I see you are exploring the Crimson Thread's hospitality."
+        },
+        {
+            "file": "ep25_khall_wire_01_khall",
+            "speaker": "Khall",
+            "text": "Dr. Heris was useful once. But her usefulness expired when she began keeping records the Dominion did not authorize. You will cross my next threshold before you reach the hangar, and then we will see how far sentiment carries you."
+        },
+        {
+            "file": "ep25_khall_wire_02_cipher",
+            "speaker": "Cipher",
+            "text": "How long?"
+        },
+        {
+            "file": "ep25_khall_wire_03_drheris",
+            "speaker": "Dr. Heris",
+            "text": "Six minutes. Somewhere to sit. I can slow it right now. Not cure it, slow it. Enough to reach somewhere safe for the full procedure."
+        },
+        {
+            "file": "ep25_corridor_barks_00_harrow",
+            "speaker": "Harrow",
+            "text": "I sold them your location. Dominion pays better than Heris does."
+        },
+        {
+            "file": "ep25_self_destruct_00_harrow",
+            "speaker": "Harrow",
+            "text": "Self-destruct sequence initiated. Core meltdown in ninety seconds. Evacuate immediately."
+        },
+        {
+            "file": "ep25_purpose_untold_00_kessler",
+            "speaker": "Kessler",
+            "text": "We're clear. Jump sequence in ninety seconds."
+        },
+        {
+            "file": "ep25_purpose_untold_01_drheris",
+            "speaker": "Dr. Heris",
+            "text": "The interrupt I performed was partial. Crude, by my own standards. But effective."
+        },
+        {
+            "file": "ep25_purpose_untold_02_drheris",
+            "speaker": "Dr. Heris",
+            "text": "Full reversal requires the original augmentation blueprints. The specifications I used to build you. I encoded them before I defected. I know where they are."
+        },
+        {
+            "file": "ep25_purpose_untold_03_drheris",
+            "speaker": "Dr. Heris",
+            "text": "But before we move toward that reversal, I have something you need to understand about your own construction."
+        },
+        {
+            "file": "ep25_purpose_untold_04_drheris",
+            "speaker": "Dr. Heris",
+            "text": "Your augmentation was not standard Ronin-class design. The specifications exceeded combat and control. Whoever designed your neural architecture designed you for something beyond what the Dominion's Augmentation Division was prepared to admit to."
+        },
+        {
+            "file": "ep25_purpose_untold_05_drheris",
+            "speaker": "Dr. Heris",
+            "text": "I was shown the blueprint only in fragments. Specified by someone above the Augmentation Division. And I was never told the reason. I built you to a plan I was never given the full text of."
+        },
+        {
+            "file": "ep25_purpose_untold_06_drheris",
+            "speaker": "Dr. Heris",
+            "text": "You were designed for something. I built you to a plan. And I do not know what you were meant to become."
+        },
+        {
+            "file": "ep25_purpose_untold_07_cipher",
+            "speaker": "Cipher",
+            "text": "Do you want to know?"
+        },
+        {
+            "file": "ep25_purpose_untold_08_drheris",
+            "speaker": "Dr. Heris",
+            "text": "I do. Very much."
+        },
+        {
+            "file": "ep25_purpose_untold_09_cipher",
+            "speaker": "Cipher",
+            "text": "Not yet. I'm not ready to learn what I was meant to become until I'm done choosing what I have become."
+        },
+        {
+            "file": "ep25_intercept_barks_00_kessler",
+            "speaker": "Kessler",
+            "text": "Corvette dropping out of the dark, it's tracking Heris's signal. Break and engage."
+        },
+        {
+            "file": "ep25_the_heading_00_kessler",
+            "speaker": "Kessler",
+            "text": "Hundreds."
+        },
+        {
+            "file": "ep25_the_heading_01_kessler",
+            "speaker": "Kessler",
+            "text": "And that's only what she could save from one facility."
+        },
+        {
+            "file": "ep25_the_heading_02_drheris",
+            "speaker": "Dr. Heris",
+            "text": "Is having the surgeon who built the cage now working to remove it enough to call me an ally?"
+        },
+        {
+            "file": "ep25_the_heading_03_cipher",
+            "speaker": "Cipher",
+            "text": "Yes."
+        },
+        {
+            "file": "ep25_the_heading_04_drheris",
+            "speaker": "Dr. Heris",
+            "text": "And do you want to know more about the purpose encoded in your design? The hidden architecture I was never shown the full text of?"
+        },
+        {
+            "file": "ep25_the_heading_05_cipher",
+            "speaker": "Cipher",
+            "text": "Not yet."
+        },
+        {
+            "file": "ep25_the_heading_06_cipher",
+            "speaker": "Cipher",
+            "text": "I'm not ready to learn what I was made for until I'm done choosing what I choose to be."
+        },
+        {
+            "file": "ep25_the_heading_07_kessler",
+            "speaker": "Kessler",
+            "text": "Where to?"
+        },
+        {
+            "file": "ep25_the_heading_08_cipher",
+            "speaker": "Cipher",
+            "text": "To the blueprints. To the full reversal. To whatever truth is written in the architecture of my augmented body that even its own builder was never shown."
+        },
+        {
+            "file": "ep25_space_ep25_post_00_cipher",
+            "speaker": "Cipher",
+            "text": "The Crimson Thread was a Gilded Maw flesh-market. The surgeon who built me was waiting in it. Dr. Heris installed my leash thirty years ago, and she's the one person alive who can interrupt it. She bought me months. We got out with a frozen child the Dominion grew as my replacement, and a drive full of the Program's sourcing records."
+        },
+        {
+            "file": "ep25_space_ep25_post_01_kessler",
+            "speaker": "Kessler",
+            "text": "Heris says a full reversal needs the original blueprints, and she knows where she hid them. But there's something worse in those specs: you weren't built to standard. Someone above the Augmentation Division designed you for a purpose she was never told. That's the heading now. The blueprints, the cure, and the truth of what you were made for."
+        }
+    ]
+}

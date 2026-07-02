@@ -1,0 +1,28 @@
+{
+    "asset": "b09e69c54ed4af044957c1b6a34f4785",
+    "fileName": "019efae8-a26d-79b8-81a6-ee92b7dcc031.png",
+    "prompt": "Concept art of a single matched weapon set shown complete and centered, isolated on a plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, NO character, no hands, no figure, only the weapons by themselves. Subject: an elite operative's katana-class blade with crisp segmented plating and a small glowing pale-blue hilt-light, laid beside a sleek compact sci-fi sidearm pistol; both pristine and mission-clean with sharp white edge-lines, flawless and lethal. Color palette: black and cold steel-blue with sharp white edge-lines. Grounded lived-in sci-fi, single weapon prop set on neutral background.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

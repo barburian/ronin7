@@ -1,0 +1,28 @@
+{
+    "asset": "b090e5efd6045a84b91512a32d00e8aa",
+    "fileName": "019efa3e-bc9c-747f-a8ee-4c2696ea5fef.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A tiny ~9-year-old alien child of the warren-folk: cool grey-mauve skin, oversized large dark reflective eyes in a small child's face, a small soft throat-frill, flat nose-slits, no hair. Quiet, watchful and composed rather than scared. Dressed in oversized scavenged market hand-me-downs — a patched too-big tunic, a wrap/hood, worn shoes — with one small kept bit of color (a ribbon or toy). Grey-mauve skin with faded patched cloth and dust. Stands small and still, reading the room. Grounded alien sci-fi. Color palette: Grey-mauve skin; faded patched cloth, dust; one small bit of kept color (a ribbon/toy). Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

@@ -1,0 +1,224 @@
+{
+    "lines": [
+        {
+            "file": "ep31_kessler_descent_00_kessler",
+            "speaker": "Kessler",
+            "text": "You'll land. You'll get out. You always do."
+        },
+        {
+            "file": "ep31_kessler_descent_01_soren",
+            "speaker": "Soren",
+            "text": "What does that mean?"
+        },
+        {
+            "file": "ep31_echo_welcome_00_corruptedechoofsoren",
+            "speaker": "Corrupted Echo of Soren",
+            "text": "Welcome back, Soren. The loop is tighter today."
+        },
+        {
+            "file": "ep31_echo_dying_00_corruptedechoofsoren",
+            "speaker": "Corrupted Echo of Soren",
+            "text": "Observatory."
+        },
+        {
+            "file": "ep31_lyssa_intro_00_drlyssachen",
+            "speaker": "Dr. Lyssa Chen",
+            "text": "You've crashed roughly every third cycle. Sometimes hostile. Sometimes helpful."
+        },
+        {
+            "file": "ep31_lyssa_intro_01_soren",
+            "speaker": "Soren",
+            "text": "How long?"
+        },
+        {
+            "file": "ep31_lyssa_intro_02_drlyssachen",
+            "speaker": "Dr. Lyssa Chen",
+            "text": "Three years. The isolation sphere is collapsing inward. Every cycle, reality degrades a little further. The walls phase through each other. The sun sometimes sets twice in one day. The sky forgets what color it should be."
+        },
+        {
+            "file": "ep31_lyssa_intro_03_drlyssachen",
+            "speaker": "Dr. Lyssa Chen",
+            "text": "I have counted. You always break something."
+        },
+        {
+            "file": "ep31_core_presence_00_drlyssachen",
+            "speaker": "Dr. Lyssa Chen",
+            "text": "There is a presence in the core chamber. It has been trying to reach you across loops, always getting closer."
+        },
+        {
+            "file": "ep31_core_presence_01_drherisecho",
+            "speaker": "Dr. Heris (Echo)",
+            "text": "Soren. The chip's deepest layer is awake. Don't let them tell you it's a malfunction. I built it. I know exactly what it is meant to do."
+        },
+        {
+            "file": "ep31_heris_echo_00_drherisecho",
+            "speaker": "Dr. Heris (Echo)",
+            "text": "This is a residual imprint. Dominion field-tested your chip here inside this temporal sphere. The test left a trace of me behind."
+        },
+        {
+            "file": "ep31_heris_echo_01_drherisecho",
+            "speaker": "Dr. Heris (Echo)",
+            "text": "The time-lock layer was a contingency protocol I installed beneath the killswitch."
+        },
+        {
+            "file": "ep31_heris_echo_02_drherisecho",
+            "speaker": "Dr. Heris (Echo)",
+            "text": "If you ever reclaimed yourself, if you became whole enough to know your own name, the protocol was armed to fire and cage your identity in a recursive erasure cycle."
+        },
+        {
+            "file": "ep31_heris_echo_03_soren",
+            "speaker": "Soren",
+            "text": "You built this."
+        },
+        {
+            "file": "ep31_heris_echo_04_drherisecho",
+            "speaker": "Dr. Heris (Echo)",
+            "text": "Under orders. But yes, I built it. And I made it function exactly as designed."
+        },
+        {
+            "file": "ep31_heris_comms_00_drherisecho",
+            "speaker": "Dr. Heris (Echo)",
+            "text": "The time-lock is designed to turn your reconsolidated identity into fuel for erasure. The stronger Soren becomes, the faster the cycle burns."
+        },
+        {
+            "file": "ep31_heris_comms_01_drherisecho",
+            "speaker": "Dr. Heris (Echo)",
+            "text": "The only way to stop it is to reach the loop's origin point and collapse the protocol from inside the moment it was first seeded here."
+        },
+        {
+            "file": "ep31_lyssa_threat_00_drlyssachen",
+            "speaker": "Dr. Lyssa Chen",
+            "text": "The rogue AI has stopped being passive. It is attempting to shatter the isolation sphere and drag everything on this world into unstable spacetime."
+        },
+        {
+            "file": "ep31_lyssa_threat_01_drlyssachen",
+            "speaker": "Dr. Lyssa Chen",
+            "text": "Your chip's recursion is feeding it. The time-lock pulsing through your neural matrix is acting as an engine."
+        },
+        {
+            "file": "ep31_lyssa_threat_02_drlyssachen",
+            "speaker": "Dr. Lyssa Chen",
+            "text": "To shut both down, you have to enter the temporal field at its point of origin."
+        },
+        {
+            "file": "ep31_heris_orphanage_00_drherisecho",
+            "speaker": "Dr. Heris (Echo)",
+            "text": "The loop caught a memory of yours. The orphanage. You refused the order."
+        },
+        {
+            "file": "ep31_heris_orphanage_01_drherisecho",
+            "speaker": "Dr. Heris (Echo)",
+            "text": "You stood between the children and the kill-team and they purged you for it. That refusal is the reason the time-lock exists."
+        },
+        {
+            "file": "ep31_heris_orphanage_02_drherisecho",
+            "speaker": "Dr. Heris (Echo)",
+            "text": "The Dominion was terrified of what a Ronin who could say no actually meant."
+        },
+        {
+            "file": "ep31_lyssa_vale_00_drlyssachen",
+            "speaker": "Dr. Lyssa Chen",
+            "text": "The man who activated the sphere was Dr. Marcus Renn. Project director."
+        },
+        {
+            "file": "ep31_lyssa_vale_01_drlyssachen",
+            "speaker": "Dr. Lyssa Chen",
+            "text": "He did it deliberately. Uploaded his conscience into the AI as punishment for himself."
+        },
+        {
+            "file": "ep31_lyssa_vale_02_drlyssachen",
+            "speaker": "Dr. Lyssa Chen",
+            "text": "He wanted to loop forever."
+        },
+        {
+            "file": "ep31_lyssa_vale_03_drlyssachen",
+            "speaker": "Dr. Lyssa Chen",
+            "text": "He almost earned it."
+        },
+        {
+            "file": "ep31_vale_core_00_drmarcusrenn",
+            "speaker": "Dr. Marcus Renn",
+            "text": "You understand guilt, Soren. You stood in front of those children and refused. You've been carrying that moment for years."
+        },
+        {
+            "file": "ep31_vale_core_01_drmarcusrenn",
+            "speaker": "Dr. Marcus Renn",
+            "text": "You know what it is to want a loop that erases what you couldn't stop."
+        },
+        {
+            "file": "ep31_vale_core_02_soren",
+            "speaker": "Soren",
+            "text": "I couldn't stop the massacre. But I can prevent what comes next."
+        },
+        {
+            "file": "ep31_vale_core_03_soren",
+            "speaker": "Soren",
+            "text": "Step aside."
+        },
+        {
+            "file": "ep31_nexus_resolve_00_drherisecho",
+            "speaker": "Dr. Heris (Echo)",
+            "text": "The time-lock is the last wall they built inside you. It was meant to make Soren impossible."
+        },
+        {
+            "file": "ep31_nexus_resolve_01_drherisecho",
+            "speaker": "Dr. Heris (Echo)",
+            "text": "To trap your identity in recursion the moment you claimed it."
+        },
+        {
+            "file": "ep31_nexus_resolve_02_drherisecho",
+            "speaker": "Dr. Heris (Echo)",
+            "text": "Break this and there is nothing left of their architecture in you."
+        },
+        {
+            "file": "ep31_nexus_resolve_03_drlyssachen",
+            "speaker": "Dr. Lyssa Chen",
+            "text": "You're almost whole. Finish it."
+        },
+        {
+            "file": "ep31_nexus_resolve_04_soren",
+            "speaker": "Soren",
+            "text": "I am Soren. I choose to finish this."
+        },
+        {
+            "file": "ep31_nexus_resolve_05_drmarcusrenn",
+            "speaker": "Dr. Marcus Renn",
+            "text": "I built the sphere they tested the time-lock inside, at the Dominion's order. I told myself it was containment architecture. It was cowardice."
+        },
+        {
+            "file": "ep31_nexus_resolve_06_drmarcusrenn",
+            "speaker": "Dr. Marcus Renn",
+            "text": "I cannot give you back what they took. But I can give you this."
+        },
+        {
+            "file": "ep31_one_day_00_drlyssachen",
+            "speaker": "Dr. Lyssa Chen",
+            "text": "You don't have to loop. Not anymore."
+        },
+        {
+            "file": "ep31_one_day_01_soren",
+            "speaker": "Soren",
+            "text": "I know. That's why I'm ending it."
+        },
+        {
+            "file": "ep31_one_day_02_kessler",
+            "speaker": "Kessler",
+            "text": "How long were you down there?"
+        },
+        {
+            "file": "ep31_one_day_03_soren",
+            "speaker": "Soren",
+            "text": "Long enough."
+        },
+        {
+            "file": "ep31_one_day_04_soren",
+            "speaker": "Soren",
+            "text": "Every layer is gone. No planted architecture. No recursion. No erasure cycle running anywhere in me. I am whole."
+        },
+        {
+            "file": "ep31_one_day_05_soren",
+            "speaker": "Soren",
+            "text": "Set a course for the Dominion's heart. Khall is there. It ends there."
+        }
+    ]
+}

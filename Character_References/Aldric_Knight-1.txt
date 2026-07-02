@@ -1,0 +1,48 @@
+==================================================================
+ALDRIC  /  KNIGHT-1   (the eldest leashed keeper)
+==================================================================
+SPECIES: Human (Dominion/Program operative — the very first Knight make; human per rule).
+
+ROLE & FACTION: The first operative of the first program — "Knight-One," the prototype every later
+make was cut from. Leashed keeper of the broken bone-canyon node (Knight-generation shadows),
+half-lost to the node's broadcast; cannot be freed, only put down. Ch11 boss (fought through a
+narcosis dreamscape); his death frees the UNBROKEN ability (fear-ward + survive one lethal blow).
+
+CHAPTERS: Ch11 (bone-canyon dreamscape boss).
+
+AGE / BUILD / HEIGHT: The oldest thing the Program ever leashed — ancient; ~1.9 m. The prototype
+operative frame: the heaviest, broadest, most archaic of all the makes.
+
+HEAD: An ancient, weathered, half-vacant face, eroded by centuries of keeping an overloaded archive;
+deep-set hollow eyes with faint broadcast-static crawling across them; long grey-white hair/beard,
+matted. Existing between person and shadow — features sometimes flicker/de-resolve.
+
+BODY: Heavy, monumental, slow-immense; the oldest and most archaic combat school in the game.
+Old, deep scarring; armor fused into him by ages of wear.
+
+WEAPONS / PROPS: A huge, ancient great-blade (the heaviest, most archaic weapon the player faces);
+a node-overloaded blade-shadow that frees at death. The bone-canyon and the dream interrupt the duel.
+
+CLOTHING / ARMOR: The very first operative armor — heavy, knightly, antique plating gone to ruin;
+fused, broadcast-corroded, draped in canyon dust and dream-static. Reads "ancestor of all the others."
+
+COLOR PALETTE: Bone-white, rust, ash, dead grey; cold static-flicker; dim hilt-light.
+
+SILHOUETTE / DISTINGUISHING FEATURES: A towering, ancient armored knight half-dissolving into
+static; the distant ancestor of every operative; ruin made to stand.
+
+DEMEANOR: Ancient certainty, the weight of being first; half-broadcast, dream-haunted. "I was the
+first. Knight-One... I am the oldest thing they ever leashed, and I have kept this a long time." (Ch11)
+
+CANON SOURCE QUOTES:
+  - "Every make they ran after me, they cut from me." (Ch11)
+
+>> IMAGE-PROMPT SUMMARY:
+Ancient, towering human male operative — the prototype every assassin make was cut from — with a
+weathered half-vacant face, deep hollow eyes crawling with faint broadcast-static, long matted
+grey-white hair and beard, features that flicker and de-resolve between man and shadow. Clad in the
+oldest, heaviest knightly operative armor gone to fused, corroded ruin, draped in canyon dust and
+dream-static. Wields a huge archaic great-blade with a dim leashed hilt-light. Bone-white, rust and
+dead-grey palette with cold static-flicker. Stands monumental, ancient, slow and immense. Grounded
+dark sci-fi.
+==================================================================

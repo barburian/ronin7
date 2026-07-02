@@ -1,0 +1,28 @@
+{
+    "asset": "c8e9fbec269311a459213d0e9845cafc",
+    "fileName": "019efa46-4265-7136-9456-e73e75f852c3.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A gaunt-tall very old gravelkin crystal-seer whose lithic hide is overrun by huge faceted crystal nodules that have half-consumed the face and limbs, with faint-blue glowing crystalline eyes and growths fusing the legs to the cave floor. Draped in tattered ritual cloth between the crystals, hung with gem-shard chimes and holding a scrying-geode. Grey hide lost to luminous blue-white crystal with a faint inner glow. Eerie, mystic, half-mineral. Grounded alien sci-fi. Color palette: Grey hide nearly lost to luminous blue-white crystal; faint inner glow; dark cave. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

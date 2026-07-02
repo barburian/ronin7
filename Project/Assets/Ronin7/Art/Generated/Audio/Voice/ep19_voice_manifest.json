@@ -1,0 +1,364 @@
+{
+    "lines": [
+        {
+            "file": "ep19_ghost_name_00_tara",
+            "speaker": "Tara",
+            "text": "Three days out of the Drowning Deep. That's enough distance to start breathing like this isn't borrowed time."
+        },
+        {
+            "file": "ep19_ghost_name_01_cipher",
+            "speaker": "Cipher",
+            "text": "You move like someone trained for something other than debt-labor."
+        },
+        {
+            "file": "ep19_ghost_name_02_tara",
+            "speaker": "Tara",
+            "text": "Because I was. Eight years in a debt-colony. Before that, seven years as an auditor trying to trace the Bank's ledger."
+        },
+        {
+            "file": "ep19_ghost_name_03_tara",
+            "speaker": "Tara",
+            "text": "The Ninefold Bank compounds every obligation across generations. A child is born owing what their parents were never paid."
+        },
+        {
+            "file": "ep19_ghost_name_04_tara",
+            "speaker": "Tara",
+            "text": "The Bank's quantum ledger. Every transaction. Every name the Bank has certified as \"erased.\""
+        },
+        {
+            "file": "ep19_ghost_name_05_tara",
+            "speaker": "Tara",
+            "text": "Including the Dominion's own operatives. The ones they swore didn't exist."
+        },
+        {
+            "file": "ep19_ghost_name_06_cipher",
+            "speaker": "Cipher",
+            "text": "If the Bank has that ledger, then my erasure is written in their own hand. Documented. Real."
+        },
+        {
+            "file": "ep19_pursuit_barks_00_patrolcommander",
+            "speaker": "Patrol Commander",
+            "text": "Unidentified freighter, reduce speed and transmit registry. You are entering restricted orbital space."
+        },
+        {
+            "file": "ep19_pursuit_barks_01_kessler",
+            "speaker": "Kessler",
+            "text": "Cipher to the turret. We're about to have guests we didn't invite."
+        },
+        {
+            "file": "ep19_pursuit_barks_02_pursuitfighter2",
+            "speaker": "Pursuit Fighter 2",
+            "text": "Dorsal gun is hot! Evasive! Evasive!"
+        },
+        {
+            "file": "ep19_pursuit_barks_03_kessler",
+            "speaker": "Kessler",
+            "text": "Clean shot. Third fighter is breaking pursuit. We're clear."
+        },
+        {
+            "file": "ep19_mine_descent_00_tara",
+            "speaker": "Tara",
+            "text": "The archive serves two functions. It records debts that compound across generations, obligations inherited from parents who never contracted them."
+        },
+        {
+            "file": "ep19_mine_descent_01_tara",
+            "speaker": "Tara",
+            "text": "Alongside the debt ledger, it records erasures. Names of people the Dominion certified as non-existent."
+        },
+        {
+            "file": "ep19_mine_descent_02_cipher",
+            "speaker": "Cipher",
+            "text": "Why would the Bank record something the Dominion swore didn't exist?"
+        },
+        {
+            "file": "ep19_mine_descent_03_tara",
+            "speaker": "Tara",
+            "text": "Because the Dominion paid them to. The Bank certified the erasures. Made them official. Permanent record."
+        },
+        {
+            "file": "ep19_drone_barks_00_bankguard1",
+            "speaker": "Bank Guard 1",
+            "text": "Intruders in sector seven! Shutdown protocol engaged!"
+        },
+        {
+            "file": "ep19_drone_barks_01_bankguard2",
+            "speaker": "Bank Guard 2",
+            "text": "Sector seven thermal signature terminated!"
+        },
+        {
+            "file": "ep19_ghost_memories_00_cipher",
+            "speaker": "Cipher",
+            "text": "Ghost-memories live in my hands. Training. Kill-counts. A handler's voice giving orders. I cannot place the voice."
+        },
+        {
+            "file": "ep19_ghost_memories_01_cipher",
+            "speaker": "Cipher",
+            "text": "It's like the training knows the path the body should take. But the mind that learned it is gone."
+        },
+        {
+            "file": "ep19_ghost_memories_02_tara",
+            "speaker": "Tara",
+            "text": "Your body remembers what your mind was stripped of."
+        },
+        {
+            "file": "ep19_ghost_memories_03_tara",
+            "speaker": "Tara",
+            "text": "That makes you twice the weapon. They taught you twice."
+        },
+        {
+            "file": "ep19_ghost_memories_04_cipher",
+            "speaker": "Cipher",
+            "text": "Are you asking if I'm willing to die reaching that archive?"
+        },
+        {
+            "file": "ep19_ghost_memories_05_tara",
+            "speaker": "Tara",
+            "text": "Yes."
+        },
+        {
+            "file": "ep19_ghost_memories_06_cipher",
+            "speaker": "Cipher",
+            "text": "More than willing. Desperate."
+        },
+        {
+            "file": "ep19_vault_door_00_tara",
+            "speaker": "Tara",
+            "text": "Before I went into the debt-rolls, I was thorough. I took insurance."
+        },
+        {
+            "file": "ep19_vault_door_01_tara",
+            "speaker": "Tara",
+            "text": "The lock requires both. Neither alone will open the vault. But together..."
+        },
+        {
+            "file": "ep19_vault_door_02_tara",
+            "speaker": "Tara",
+            "text": "Before the door fully opens I need to ask you something."
+        },
+        {
+            "file": "ep19_vault_door_03_tara",
+            "speaker": "Tara",
+            "text": "If the archive shows you were a real person before the program, before the Dominion swore you didn't exist, what will you do with that knowledge?"
+        },
+        {
+            "file": "ep19_vault_door_04_cipher",
+            "speaker": "Cipher",
+            "text": "I'll make sure they can't say I never was."
+        },
+        {
+            "file": "ep19_vault_barks_00_vaultoperativecommander",
+            "speaker": "Vault Operative Commander",
+            "text": "Intruders are detained. Lockdown protocol is active. Reinforcements are nine minutes out."
+        },
+        {
+            "file": "ep19_vault_barks_01_vaultoperative",
+            "speaker": "Vault Operative",
+            "text": "Seven?"
+        },
+        {
+            "file": "ep19_vault_barks_02_vaultoperativecommander",
+            "speaker": "Vault Operative Commander",
+            "text": "Suppress that. Suppress full neural stack."
+        },
+        {
+            "file": "ep19_purged_entry_00_cipher",
+            "speaker": "Cipher",
+            "text": "I'm here. Written in the Bank's own hand."
+        },
+        {
+            "file": "ep19_purged_entry_01_cipher",
+            "speaker": "Cipher",
+            "text": "The Dominion declared me gone and then wrote down the lie for the Bank to witness. To be certain it stuck."
+        },
+        {
+            "file": "ep19_hammer_clause_00_tara",
+            "speaker": "Tara",
+            "text": "The archive holds the failsafe specifications. Every operative carries a neural purge device networked to central authority."
+        },
+        {
+            "file": "ep19_hammer_clause_01_tara",
+            "speaker": "Tara",
+            "text": "Your chip fired, but the purge stalled. Never confirmed complete. You were never certified dead."
+        },
+        {
+            "file": "ep19_hammer_clause_02_cipher",
+            "speaker": "Cipher",
+            "text": "We burn this. We burn it all."
+        },
+        {
+            "file": "ep19_hammer_clause_03_tara",
+            "speaker": "Tara",
+            "text": "If the Bank loses this archive, they lose leverage over forty thousand debtors in the colony."
+        },
+        {
+            "file": "ep19_hammer_clause_04_cipher",
+            "speaker": "Cipher",
+            "text": "If the Bank loses this ledger, it loses the proof of how many they destroyed for profit. We copy what matters. Then we burn the rest."
+        },
+        {
+            "file": "ep19_guard_barks_00_kessler",
+            "speaker": "Kessler",
+            "text": "Cipher, you have ten minutes before the tower's main defenses activate. Colony guards are converging on the vault entrance."
+        },
+        {
+            "file": "ep19_tower_crown_00_tara",
+            "speaker": "Tara",
+            "text": "I need to tell you the truth about myself, Cipher. I was never a supervisor. I was a Dominion sleeper, not a weapon, a watcher, embedded in the colony for seven years."
+        },
+        {
+            "file": "ep19_tower_crown_01_tara",
+            "speaker": "Tara",
+            "text": "Six months ago, the Dominion stopped running the program. They forgot everyone in it. So I activated myself."
+        },
+        {
+            "file": "ep19_tower_crown_02_tara",
+            "speaker": "Tara",
+            "text": "These are surviving operatives. Scattered across the outer rim. Seventeen are still alive enough to matter."
+        },
+        {
+            "file": "ep19_tower_crown_03_kessler",
+            "speaker": "Kessler",
+            "text": "Bay doors are open! Fifty seconds to full collapse!"
+        },
+        {
+            "file": "ep19_tower_crown_04_tara",
+            "speaker": "Tara",
+            "text": "The Dominion will come for all of us now. We've made ourselves impossible to ignore."
+        },
+        {
+            "file": "ep19_tower_crown_05_tara",
+            "speaker": "Tara",
+            "text": "Welcome back to the war."
+        },
+        {
+            "file": "ep19_signal_remnant_00_dominionsignal",
+            "speaker": "Dominion Signal",
+            "text": "OPERATIVE-07 RECOGNIZED. REQUEST EXTRACTION. AWAITING ORDERS."
+        },
+        {
+            "file": "ep19_signal_remnant_01_cipher",
+            "speaker": "Cipher",
+            "text": "The operative from the vault. The one who said my designation before her commander silenced her."
+        },
+        {
+            "file": "ep19_signal_remnant_02_tara",
+            "speaker": "Tara",
+            "text": "She's still transmitting, but her chip is degrading. The neural purge is activating. When it finishes, she'll stop transmitting permanently."
+        },
+        {
+            "file": "ep19_signal_remnant_03_cipher",
+            "speaker": "Cipher",
+            "text": "She was just following orders."
+        },
+        {
+            "file": "ep19_signal_remnant_04_kessler",
+            "speaker": "Kessler",
+            "text": "I'm changing course."
+        },
+        {
+            "file": "ep19_duel_silence_00_cipher",
+            "speaker": "Cipher",
+            "text": "I'm not your enemy."
+        },
+        {
+            "file": "ep19_debt_paid_00_tara",
+            "speaker": "Tara",
+            "text": "Your debt is paid."
+        },
+        {
+            "file": "ep19_operatives_name_00_operative",
+            "speaker": "Operative",
+            "text": "I don't know my real name."
+        },
+        {
+            "file": "ep19_operatives_name_01_cipher",
+            "speaker": "Cipher",
+            "text": "Then choose one."
+        },
+        {
+            "file": "ep19_operatives_name_02_operative",
+            "speaker": "Operative",
+            "text": "The Vault operatives wore numbers. I was number four in my cohort. The last survivor."
+        },
+        {
+            "file": "ep19_operatives_name_03_operative",
+            "speaker": "Operative",
+            "text": "Cassie. I choose Cassie."
+        },
+        {
+            "file": "ep19_operatives_name_04_cassie04",
+            "speaker": "Cassie-04",
+            "text": "Eight years in the Bank's vault rotation, running orders off a dead Dominion channel. They handed my cohort to the Bank as collateral and forgot us."
+        },
+        {
+            "file": "ep19_operatives_name_05_cassie04",
+            "speaker": "Cassie-04",
+            "text": "I don't know what choices look like when no one's giving orders."
+        },
+        {
+            "file": "ep19_operatives_name_06_cassie04",
+            "speaker": "Cassie-04",
+            "text": "Will you teach me?"
+        },
+        {
+            "file": "ep19_operatives_name_07_cipher",
+            "speaker": "Cipher",
+            "text": "Yes."
+        },
+        {
+            "file": "ep19_weight_of_names_00_tara",
+            "speaker": "Tara",
+            "text": "The Ninefold Bank was one of ten syndicates. They all serve the Dominion's infrastructure. All of them together form the shadow network that runs the empire."
+        },
+        {
+            "file": "ep19_weight_of_names_01_tara",
+            "speaker": "Tara",
+            "text": "If the operatives coordinate carefully, moving quietly, they could dismantle the architecture piece by piece."
+        },
+        {
+            "file": "ep19_weight_of_names_02_tara",
+            "speaker": "Tara",
+            "text": "It will take years. You may not survive the chip still degrading in your skull. But your existence, proved now by the Bank's own irreplaceable archive, witnessed and undeniable, could mean something other than a weapon."
+        },
+        {
+            "file": "ep19_choose_myself_00_cipher",
+            "speaker": "Cipher",
+            "text": "I choose myself."
+        },
+        {
+            "file": "ep19_final_choice_00_tara",
+            "speaker": "Tara",
+            "text": "The survivors you're freeing will face a choice that cannot be made for them."
+        },
+        {
+            "file": "ep19_final_choice_01_tara",
+            "speaker": "Tara",
+            "text": "Use what the ledger proved to strike back at everything that erased them. Vengeance or alliance, both begin the same way but end in different places."
+        },
+        {
+            "file": "ep19_final_choice_02_cipher",
+            "speaker": "Cipher",
+            "text": "They'll have to choose for themselves."
+        },
+        {
+            "file": "ep19_final_choice_03_cipher",
+            "speaker": "Cipher",
+            "text": "Tell me who else is alive."
+        },
+        {
+            "file": "ep19_final_choice_04_tara",
+            "speaker": "Tara",
+            "text": "We start here. We move carefully. We verify each coordinate. And when we have all seventeen, we call them all home."
+        },
+        {
+            "file": "ep19_space_ep19_post_00_cipher",
+            "speaker": "Cipher",
+            "text": "Cassie-04 is with us now. The ledger burned, but the seventeen names survived."
+        },
+        {
+            "file": "ep19_space_ep19_post_01_kessler",
+            "speaker": "Kessler",
+            "text": "The Dominion will come looking for all of us. But we're no longer hiding."
+        }
+    ]
+}

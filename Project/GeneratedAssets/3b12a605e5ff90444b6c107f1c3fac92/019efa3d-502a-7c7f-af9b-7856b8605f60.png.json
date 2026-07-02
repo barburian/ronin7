@@ -1,0 +1,28 @@
+{
+    "asset": "3b12a605e5ff90444b6c107f1c3fac92",
+    "fileName": "019efa3d-502a-7c7f-af9b-7856b8605f60.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A middle-aged-to-older human master-architect, refined and ascetic, with a calm intelligent clean- lined face, thin grey or shaved hair and precise detached curious eyes. Wears an austere high-collared dark architect's robe/coat with fine silver Program sigils over a surgical underlayer, thin instruments at hand. Surrounded by clinical Vesting apparatus — bonding cradles and implant rigs. Deep charcoal and sterile white palette with cold instrument-blue light. Stands with unhurried surgeon's poise, calm even in defeat. Cold intellectual sci-fi horror, grounded human. Color palette: Deep charcoal and sterile white; thin silver sigils; cold instrument-blue. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

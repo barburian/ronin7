@@ -1,0 +1,8 @@
+VARIANT: Gravelkin #10 — "Old Drunk Pirate"
+SPECIES: Gravelkin (cave-dwelling stoneblood).
+SEX / AGE / BUILD: Male / old / sagging-massive, unsteady.
+ROLE IN WORLD: A washed-up old raider holding up the hold ale-bench.
+DISTINGUISHING FEATURES: Weather-pitted basalt hide; nodules gone soft and chalky; bleary half-lidded quartz eyes; a chipped grin of worn tusks; a perpetual list to one side.
+CLOTHING / GEAR: A grease-stained open coat, a dented ale-stein, faded trophy chains, one boot.
+COLOR / PALETTE: Dull basalt hide; grimy brown coat; tarnished metal; ale-amber.
+>> IMAGE-PROMPT SUMMARY: A sagging-massive unsteady old male gravelkin drunk-pirate with weather-pitted basalt lithic hide, soft chalky nodules, bleary half-lidded quartz eyes and a chipped grin of worn tusks. Wears a grease-stained open coat, faded trophy chains and one boot, clutching a dented ale-stein. Dull-basalt, grimy-brown and tarnished-metal palette with ale-amber. Bleary, washed-up, fond. Grounded alien sci-fi.

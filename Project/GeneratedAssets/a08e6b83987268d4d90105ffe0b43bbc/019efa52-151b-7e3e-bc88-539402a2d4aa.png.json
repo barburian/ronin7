@@ -1,0 +1,28 @@
+{
+    "asset": "a08e6b83987268d4d90105ffe0b43bbc",
+    "fileName": "019efa52-151b-7e3e-bc88-539402a2d4aa.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A plump middle-aged female warren-folk stall-vendor with warm mauve skin, a bangle-pierced throat-frill, dye-stained palms and shrewd half-lidded dark eyes. Wears a many-pocketed vendor apron, bead strings and a coin-pouch among market clutter. Mauve skin with jewel-toned scarves and brass. Grounded alien sci-fi merchant. Color palette: Mauve skin; jewel-toned scarves (teal/magenta), brass bangles, market clutter. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

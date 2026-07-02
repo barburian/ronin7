@@ -1,0 +1,28 @@
+{
+    "asset": "c46cc5fd214d1b94eb6146afe9362fd3",
+    "fileName": "019efaea-43a4-7527-b23b-5c62cab0e2e6.png",
+    "prompt": "Concept art of a single weapon shown complete and centered, isolated on a plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, NO character, no hands, no figure, only the weapon by itself. Subject: a heavy old-school archaic broadsword, generations obsolete, corroded dark blade dissolving at the edges into cold ghost-blue glow and scrub-static, trailing faint ghost after-images of itself in an endless swing, old corroded fittings, a relentless haunted grave-blade. Color palette: rust-iron, bone-grey and corroded-black lit by ghost-blue and static-white. Grounded dark sci-fi, single weapon prop on neutral background.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

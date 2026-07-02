@@ -1,0 +1,28 @@
+{
+    "asset": "c5e002219eb772f4fa117cedb0e11535",
+    "fileName": "019efa45-87e2-7ab1-b282-b93c1b7ec5f5.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A stout shrewd road-worn middle-aged male ashkin caravan-trader with dark-tanned terracotta skin, heavy brow keratin-plates, shrewd amber eyes, a gold ring through one cheek-plate and sun-cracked lips. Wears a many-layered dust-tan-and-umber travel-coat with a trade-ledger, scales and a holstered sidearm. Dark-terracotta, umber and tarnished-gold palette. Canny, weathered. Grounded alien sci-fi frontier. Color palette: Dark terracotta skin; dust-tan and umber layers; tarnished gold ring; grey ash. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

@@ -1,0 +1,31 @@
+{
+    "name": "Ronin7.Editor",
+    "rootNamespace": "Ronin7.Editor",
+    "references": [
+        "Ronin7.Core",
+        "Ronin7.Player",
+        "Ronin7.Combat",
+        "Ronin7.Enemies",
+        "Ronin7.Ship",
+        "Ronin7.World",
+        "Ronin7.Flow",
+        "Ronin7.Audio",
+        "Unity.XR.Interaction.Toolkit",
+        "Unity.XR.CoreUtils",
+        "Unity.InputSystem",
+        "UnityEngine.UI",
+        "Unity.RenderPipelines.Core.Runtime",
+        "Unity.RenderPipelines.Universal.Runtime"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

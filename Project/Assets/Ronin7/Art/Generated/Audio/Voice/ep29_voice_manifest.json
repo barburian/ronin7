@@ -1,0 +1,429 @@
+{
+    "lines": [
+        {
+            "file": "ep29_sister_signal_00_kessler",
+            "speaker": "Kessler",
+            "text": "Someone in the Program just pinged your augmentation signature."
+        },
+        {
+            "file": "ep29_sister_signal_01_kessler",
+            "speaker": "Kessler",
+            "text": "Tight-beam frequency. Handler-tier encryption. This is live traffic, not intercepted archive."
+        },
+        {
+            "file": "ep29_sister_signal_02_samurai4",
+            "speaker": "Samurai-4",
+            "text": "Operative Ronin-7. If you receive this, understand that I am not here to retrieve you."
+        },
+        {
+            "file": "ep29_sister_signal_03_samurai4",
+            "speaker": "Samurai-4",
+            "text": "I am here to finish what the Failsafe began. You are contaminated. I will purify you."
+        },
+        {
+            "file": "ep29_sister_signal_04_samurai4",
+            "speaker": "Samurai-4",
+            "text": "Ketos Prime, six cycles. Your old home awaits. They call me Sister-Iron now."
+        },
+        {
+            "file": "ep29_sister_signal_05_cipher",
+            "speaker": "Cipher",
+            "text": "How did she find us?"
+        },
+        {
+            "file": "ep29_sister_signal_06_kessler",
+            "speaker": "Kessler",
+            "text": "Your neural signature carries a Dominion beacon. Always has. I thought it was passive, surveillance only. But it can broadcast. And if someone knows how to query it..."
+        },
+        {
+            "file": "ep29_sister_signal_07_iris",
+            "speaker": "Iris",
+            "text": "That's a kill contract. From the inside."
+        },
+        {
+            "file": "ep29_sister_signal_08_cipher",
+            "speaker": "Cipher",
+            "text": "Ketos Prime was our training hub. Twelve of us. We grew up in those corridors."
+        },
+        {
+            "file": "ep29_sister_signal_09_cipher",
+            "speaker": "Cipher",
+            "text": "One of them just announced she's coming to kill me."
+        },
+        {
+            "file": "ep29_duel_intro_00_samurai4",
+            "speaker": "Samurai-4",
+            "text": "We grew up together."
+        },
+        {
+            "file": "ep29_duel_intro_01_samurai4",
+            "speaker": "Samurai-4",
+            "text": "Same facility. Same trainer. Same conditioning. But you broke, and I remained whole."
+        },
+        {
+            "file": "ep29_duel_intro_02_samurai4",
+            "speaker": "Samurai-4",
+            "text": "They told us you died the moment you disobeyed. That the Failsafe was the Program's kindness, burning the corruption before it spread."
+        },
+        {
+            "file": "ep29_duel_intro_03_samurai4",
+            "speaker": "Samurai-4",
+            "text": "I believed them. I was proud of you, even dead."
+        },
+        {
+            "file": "ep29_duel_intro_04_samurai4",
+            "speaker": "Samurai-4",
+            "text": "Then you surfaced in Tide Baron space three cycles ago. You fought with a Dominion blade. That was you, wasn't it?"
+        },
+        {
+            "file": "ep29_duel_intro_05_cipher",
+            "speaker": "Cipher",
+            "text": "Yes."
+        },
+        {
+            "file": "ep29_duel_intro_06_samurai4",
+            "speaker": "Samurai-4",
+            "text": "I spent years hunting Hollow Kings archives to find you. Shards of your memory in traders' vaults. Fragments. Like you'd been scattered and I was supposed to collect the pieces and put them back wrong."
+        },
+        {
+            "file": "ep29_duel_intro_07_samurai4",
+            "speaker": "Samurai-4",
+            "text": "You were never meant to escape. You are defective. Unfixed. And somehow, absurdly, alive."
+        },
+        {
+            "file": "ep29_duel_intro_08_samurai4",
+            "speaker": "Samurai-4",
+            "text": "I am going to fix that. And then I am going home."
+        },
+        {
+            "file": "ep29_duel_yield_00_samurai4",
+            "speaker": "Samurai-4",
+            "text": "There. That is the fighter I remember."
+        },
+        {
+            "file": "ep29_duel_yield_01_samurai4",
+            "speaker": "Samurai-4",
+            "text": "It does not matter."
+        },
+        {
+            "file": "ep29_duel_yield_02_samurai4",
+            "speaker": "Samurai-4",
+            "text": "I just transmitted this station's location to the Dominion. In twelve hours, Ketos Prime burns."
+        },
+        {
+            "file": "ep29_duel_yield_03_samurai4",
+            "speaker": "Samurai-4",
+            "text": "I will go home as the operative who closed the Ronin-7 file. You will be ash, and the contamination will be contained."
+        },
+        {
+            "file": "ep29_duel_yield_04_samurai4",
+            "speaker": "Samurai-4",
+            "text": "This is what I was built for."
+        },
+        {
+            "file": "ep29_archive_descent_00_samurai4",
+            "speaker": "Samurai-4",
+            "text": "You want to remember?"
+        },
+        {
+            "file": "ep29_archive_descent_01_samurai4",
+            "speaker": "Samurai-4",
+            "text": "Be careful what you ask for."
+        },
+        {
+            "file": "ep29_archive_descent_02_samurai4",
+            "speaker": "Samurai-4",
+            "text": "Do you know what your first kill was?"
+        },
+        {
+            "file": "ep29_archive_descent_03_cipher",
+            "speaker": "Cipher",
+            "text": "No."
+        },
+        {
+            "file": "ep29_archive_descent_04_samurai4",
+            "speaker": "Samurai-4",
+            "text": "Me. Not fatally. Not permanently. They made us fight to unconsciousness to build the bond."
+        },
+        {
+            "file": "ep29_archive_descent_05_samurai4",
+            "speaker": "Samurai-4",
+            "text": "You won. I woke up with neural scarring I still carry. That is love in the Program."
+        },
+        {
+            "file": "ep29_archive_descent_06_samurai4",
+            "speaker": "Samurai-4",
+            "text": "That is what family means in here. And I am standing in your way right now because I still love you enough to end you before they do it worse."
+        },
+        {
+            "file": "ep29_neural_scar_00_samurai4",
+            "speaker": "Samurai-4",
+            "text": "You are still fast."
+        },
+        {
+            "file": "ep29_neural_scar_01_samurai4",
+            "speaker": "Samurai-4",
+            "text": "You are still mine."
+        },
+        {
+            "file": "ep29_neural_scar_02_samurai4",
+            "speaker": "Samurai-4",
+            "text": "This is mercy, do you understand that?"
+        },
+        {
+            "file": "ep29_neural_scar_03_samurai4",
+            "speaker": "Samurai-4",
+            "text": "If they take you alive, they will unmake you cell by cell."
+        },
+        {
+            "file": "ep29_neural_scar_04_samurai4",
+            "speaker": "Samurai-4",
+            "text": "At least this way, it is me. At least it is quick."
+        },
+        {
+            "file": "ep29_implant_evidence_00_cipher",
+            "speaker": "Cipher",
+            "text": "Look at the execution rate."
+        },
+        {
+            "file": "ep29_implant_evidence_01_cipher",
+            "speaker": "Cipher",
+            "text": "My Failsafe is still active. Still running."
+        },
+        {
+            "file": "ep29_implant_evidence_02_cipher",
+            "speaker": "Cipher",
+            "text": "But it has been crawling for months, something is slowing it."
+        },
+        {
+            "file": "ep29_implant_evidence_03_samurai4",
+            "speaker": "Samurai-4",
+            "text": "That's impossible."
+        },
+        {
+            "file": "ep29_implant_evidence_04_cipher",
+            "speaker": "Cipher",
+            "text": "It is not mercy. It is not malfunction."
+        },
+        {
+            "file": "ep29_implant_evidence_05_cipher",
+            "speaker": "Cipher",
+            "text": "Someone in the Dominion's own chain gave me a longer clock, then wiped my memory and threw me out anyway."
+        },
+        {
+            "file": "ep29_implant_evidence_06_cipher",
+            "speaker": "Cipher",
+            "text": "You are hunting a ghost because you were told I was already dead. But the file they fed you is not the file I am living inside."
+        },
+        {
+            "file": "ep29_implant_evidence_07_cipher",
+            "speaker": "Cipher",
+            "text": "We are not a program. We are evidence. And they are destroying that evidence one operative at a time."
+        },
+        {
+            "file": "ep29_implant_evidence_08_samurai4",
+            "speaker": "Samurai-4",
+            "text": "The data could be corrupted."
+        },
+        {
+            "file": "ep29_implant_evidence_09_cipher",
+            "speaker": "Cipher",
+            "text": "You know it isn't."
+        },
+        {
+            "file": "ep29_implant_evidence_10_cipher",
+            "speaker": "Cipher",
+            "text": "The Dominion took my memories for a reason. They wanted something buried."
+        },
+        {
+            "file": "ep29_implant_evidence_11_cipher",
+            "speaker": "Cipher",
+            "text": "But you still have yours. You were never flagged for erasure."
+        },
+        {
+            "file": "ep29_implant_evidence_12_cipher",
+            "speaker": "Cipher",
+            "text": "Find the orphanage mission in your own conditioning log. Find it, and then tell me what you see."
+        },
+        {
+            "file": "ep29_leash_break_00_samurai4",
+            "speaker": "Samurai-4",
+            "text": "I cannot question a direct command."
+        },
+        {
+            "file": "ep29_leash_break_01_samurai4",
+            "speaker": "Samurai-4",
+            "text": "The conditioning..."
+        },
+        {
+            "file": "ep29_leash_break_02_samurai4",
+            "speaker": "Samurai-4",
+            "text": "Do you feel that?"
+        },
+        {
+            "file": "ep29_leash_break_03_samurai4",
+            "speaker": "Samurai-4",
+            "text": "The thing behind my neck that tightens every time I drift toward doubt?"
+        },
+        {
+            "file": "ep29_leash_break_04_samurai4",
+            "speaker": "Samurai-4",
+            "text": "That is not loyalty. That is a leash."
+        },
+        {
+            "file": "ep29_leash_break_05_samurai4",
+            "speaker": "Samurai-4",
+            "text": "You are the only operative in the Program who ever broke it."
+        },
+        {
+            "file": "ep29_leash_break_06_samurai4",
+            "speaker": "Samurai-4",
+            "text": "And you are standing here telling me it broke you, not freed you."
+        },
+        {
+            "file": "ep29_leash_break_07_samurai4",
+            "speaker": "Samurai-4",
+            "text": "And you are still here. Still fighting. Still..."
+        },
+        {
+            "file": "ep29_leash_break_08_samurai4",
+            "speaker": "Samurai-4",
+            "text": "My implant is not like yours."
+        },
+        {
+            "file": "ep29_leash_break_09_samurai4",
+            "speaker": "Samurai-4",
+            "text": "Mine still has a full collar. If I try to betray them, it activates."
+        },
+        {
+            "file": "ep29_leash_break_10_samurai4",
+            "speaker": "Samurai-4",
+            "text": "But there is one thing it cannot stop me from doing."
+        },
+        {
+            "file": "ep29_leash_break_11_samurai4",
+            "speaker": "Samurai-4",
+            "text": "The activation signal I sent, I just burned it."
+        },
+        {
+            "file": "ep29_leash_break_12_samurai4",
+            "speaker": "Samurai-4",
+            "text": "Get out. Live. Find out what we actually are."
+        },
+        {
+            "file": "ep29_leash_break_13_samurai4",
+            "speaker": "Samurai-4",
+            "text": "And Ronin-7?"
+        },
+        {
+            "file": "ep29_leash_break_14_samurai4",
+            "speaker": "Samurai-4",
+            "text": "Come back for me when you have won."
+        },
+        {
+            "file": "ep29_wrist_sacrifice_00_kessler",
+            "speaker": "Kessler",
+            "text": "Now, now, now!"
+        },
+        {
+            "file": "ep29_wrist_sacrifice_01_kessler",
+            "speaker": "Kessler",
+            "text": "Dominion corvettes, three minutes!"
+        },
+        {
+            "file": "ep29_wrist_sacrifice_02_cipher",
+            "speaker": "Cipher",
+            "text": "She let me go."
+        },
+        {
+            "file": "ep29_wrist_sacrifice_03_cipher",
+            "speaker": "Cipher",
+            "text": "My sister. She broke her conditioning and let me go."
+        },
+        {
+            "file": "ep29_wrist_sacrifice_04_kessler",
+            "speaker": "Kessler",
+            "text": "Clear."
+        },
+        {
+            "file": "ep29_wrist_sacrifice_05_kessler",
+            "speaker": "Kessler",
+            "text": "That was the bloodiest extract we have run."
+        },
+        {
+            "file": "ep29_escape_reflection_00_cipher",
+            "speaker": "Cipher",
+            "text": "I made an ally. She reminded me of something the Program tried to cut out."
+        },
+        {
+            "file": "ep29_escape_reflection_01_cipher",
+            "speaker": "Cipher",
+            "text": "I was trained to be alone."
+        },
+        {
+            "file": "ep29_escape_reflection_02_cipher",
+            "speaker": "Cipher",
+            "text": "But we were never built to be alone. We were children."
+        },
+        {
+            "file": "ep29_escape_reflection_03_cipher",
+            "speaker": "Cipher",
+            "text": "Twelve of us. And at least one of them just chose to remember that."
+        },
+        {
+            "file": "ep29_intermission_packet_00_samurai4",
+            "speaker": "Samurai-4",
+            "text": "I survived the trigger. Barely."
+        },
+        {
+            "file": "ep29_intermission_packet_01_samurai4",
+            "speaker": "Samurai-4",
+            "text": "It will fire again if I move too fast, but slower now."
+        },
+        {
+            "file": "ep29_intermission_packet_02_samurai4",
+            "speaker": "Samurai-4",
+            "text": "I am going undercover inside the Dominion's inner tier, using my clearance to look for the orphanage files."
+        },
+        {
+            "file": "ep29_intermission_packet_03_samurai4",
+            "speaker": "Samurai-4",
+            "text": "You were right. Something is wrong with what they showed us."
+        },
+        {
+            "file": "ep29_intermission_packet_04_samurai4",
+            "speaker": "Samurai-4",
+            "text": "Find Handler Khall. Make him answer for what he knows."
+        },
+        {
+            "file": "ep29_intermission_packet_05_samurai4",
+            "speaker": "Samurai-4",
+            "text": "And Ronin-7..."
+        },
+        {
+            "file": "ep29_intermission_packet_06_samurai4",
+            "speaker": "Samurai-4",
+            "text": "This is not goodbye. This is intermission."
+        },
+        {
+            "file": "ep29_intermission_packet_07_samurai4",
+            "speaker": "Samurai-4",
+            "text": "When we meet again, I want to fight you as myself, not as their instrument."
+        },
+        {
+            "file": "ep29_intermission_packet_08_samurai4",
+            "speaker": "Samurai-4",
+            "text": "Until then: stay alive. That is an order from your oldest sister."
+        },
+        {
+            "file": "ep29_space_ep29_post_00_cipher",
+            "speaker": "Cipher",
+            "text": "We arrived at Ketos Prime, our old training hub, the place where twelve operatives grew up together before the Dominion scattered us across the galaxy. Samurai-4, designated Sister-Iron, was sent to complete my purification. In the neural archive beneath the station, we discovered that my Failsafe runs slower than it should. Someone in the Dominion's command chain slowed my purge, then erased my memory of why. That deception broke her conditioning. She burned her own activation signal and let me escape so I could find the truth. She is alive somewhere, undercover in the Dominion's inner tier, hunting the orphanage mission that both of us were ordered to commit."
+        },
+        {
+            "file": "ep29_space_ep29_post_01_kessler",
+            "speaker": "Kessler",
+            "text": "Which means the Dominion doesn't want us looking at sealed operative files. They're trying to bury something in your record, the real reason you refused that massacre at Kethel-7, the real reason someone protected your Failsafe, the real reason twelve children became weapons instead of staying children. There's a black-site archive that holds the answer. Handler-tier access only. We're going to steal your own file and find out what they need erased so badly they'd destroy one of their own operatives to keep it hidden."
+        }
+    ]
+}

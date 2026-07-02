@@ -1,0 +1,28 @@
+{
+    "asset": "e7604cff5ca2a994b93dd01d2e06d910",
+    "fileName": "019efa44-ee52-7202-ab38-6a242781e145.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A heavy soot-streaked strong middle-aged female gravelkin armorer with granite lithic hide blackened by forge-soot, heat-glazed hand-nodules, forge-bright quartz eyes and a hammer-callus ridge along one forearm. Wears a thick hide forge-apron and stone-and-iron gauntlets, wielding a great hammer and glowing tongs. Soot-black-over-granite and forge-orange palette. Strong, fiery, focused. Grounded alien sci-fi. Color palette: Soot-black-over-granite hide; forge-orange glow; iron and ember. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

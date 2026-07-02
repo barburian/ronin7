@@ -1,0 +1,8 @@
+VARIANT: Gravelkin #17 — "Beast-Handler"
+SPECIES: Gravelkin (cave-dwelling stoneblood).
+SEX / AGE / BUILD: Male / adult / wide, calm, scar-handed.
+ROLE IN WORLD: Keeps and handles the hold cave-beasts and pack-haulers.
+DISTINGUISHING FEATURES: Slate hide; moderate nodules; patient quartz eyes; deep bite-scars across the forearms; a low rumbling voice he uses to settle beasts.
+CLOTHING / GEAR: A hide handler-coat of beast-leathers, a goad, a feed-sack, a muzzle-lead, claw-scar bracers.
+COLOR / PALETTE: Slate-grey hide; beast-leather browns; iron goad; cave-dark.
+>> IMAGE-PROMPT SUMMARY: A wide calm scar-handed adult male gravelkin beast-handler with slate lithic hide, moderate nodules, patient quartz eyes and deep bite-scars across the forearms. Wears a beast-leather hide handler-coat and claw-scar bracers, carrying an iron goad, a feed-sack and a muzzle-lead. Slate-grey, beast-leather-brown and iron palette in cave-dark. Steady, gruff-gentle. Grounded alien sci-fi.

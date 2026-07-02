@@ -1,0 +1,7 @@
+VARIANT: Mourner #04 — "Kneeling Mourner"
+SPECIES: The Mourners (ancient soul-keepers).
+FORM / AGE / DENSITY: Medium density, perpetually bowed/kneeling over a grave-niche.
+DISTINGUISHING FEATURES: A stooped, grief-curled posture frozen in mourning; cold grave-blue glow dimmed low as if weeping; both hands pressed to the earth, fog pooling from the sleeves.
+ROBE / STATE: A pooling, ground-spread shroud that puddles into mist around the kneel.
+COLOR / PALETTE: Ash-grey; low dim grave-blue glow; pooled white mist.
+>> IMAGE-PROMPT SUMMARY: A perpetually-kneeling medium-density Mourner frozen in a stooped grief-curled mourning posture, both pale six-fingered hands pressed to the earth with fog pooling from the sleeves, and a low-dimmed grave-blue glow in the bowed face-hollow as if weeping. A pooling ash-grey shroud puddles into mist around the kneel. Ash-grey and dim grave-blue palette. Sorrowful, eternal. Cosmic dark sci-fi.

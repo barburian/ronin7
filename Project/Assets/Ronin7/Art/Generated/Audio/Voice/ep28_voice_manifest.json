@@ -1,0 +1,339 @@
+{
+    "lines": [
+        {
+            "file": "ep28_scan_agents_00_dominionscanagent1",
+            "speaker": "Dominion Scan Agent 1",
+            "text": "Neural signature flagged. Asset CIPHER. Detain for verification."
+        },
+        {
+            "file": "ep28_scan_agents_01_dominionscanagent2",
+            "speaker": "Dominion Scan Agent 2",
+            "text": "Suspect is mobile! All units converge on platform..."
+        },
+        {
+            "file": "ep28_maya_intro_00_mayaselene",
+            "speaker": "Maya Selene",
+            "text": "Those are local security. My people. Your neural profile triggered our safety protocols."
+        },
+        {
+            "file": "ep28_maya_intro_01_cipher",
+            "speaker": "Cipher",
+            "text": "I didn't mean to alarm them."
+        },
+        {
+            "file": "ep28_maya_intro_02_mayaselene",
+            "speaker": "Maya Selene",
+            "text": "You're augmented. Heavily. That katana isn't ceremonial. So I'm guessing you're either running from something or toward something. Either way, walking through that crowd again is going to end in more security requests."
+        },
+        {
+            "file": "ep28_maya_intro_03_mayaselene",
+            "speaker": "Maya Selene",
+            "text": "I can walk you through the festival grounds. File a false report. You get a few hours before the next sweep."
+        },
+        {
+            "file": "ep28_maya_intro_04_cipher",
+            "speaker": "Cipher",
+            "text": "Why would you do that?"
+        },
+        {
+            "file": "ep28_maya_intro_05_mayaselene",
+            "speaker": "Maya Selene",
+            "text": "Because some part of me recognizes the look. Someone trying to figure out who they are while running from what they were. Come on."
+        },
+        {
+            "file": "ep28_garden_walk_00_mayaselene",
+            "speaker": "Maya Selene",
+            "text": "Aethon-9's spent the last six years building something real. The Dominion actually left us alone to do it."
+        },
+        {
+            "file": "ep28_garden_walk_01_cipher",
+            "speaker": "Cipher",
+            "text": "That should concern you."
+        },
+        {
+            "file": "ep28_garden_walk_02_mayaselene",
+            "speaker": "Maya Selene",
+            "text": "No one questions Dominion designations on their own land. Those have been sealed for three years. Automated systems handle whatever's down there."
+        },
+        {
+            "file": "ep28_garden_walk_03_cipher",
+            "speaker": "Cipher",
+            "text": "Do you have children? On this world?"
+        },
+        {
+            "file": "ep28_garden_walk_04_mayaselene",
+            "speaker": "Maya Selene",
+            "text": "Let's keep walking."
+        },
+        {
+            "file": "ep28_garden_walk_05_cipher",
+            "speaker": "Cipher",
+            "text": "I need to go down there."
+        },
+        {
+            "file": "ep28_garden_walk_06_mayaselene",
+            "speaker": "Maya Selene",
+            "text": "That's a containment zone. Security drones. You'll trigger an alarm."
+        },
+        {
+            "file": "ep28_manifest_room_00_mayaselene",
+            "speaker": "Maya Selene",
+            "text": "I heard rumors. Kids disappearing from the lower settlements. Explained as scholarships. Dominion generosity."
+        },
+        {
+            "file": "ep28_manifest_room_01_cipher",
+            "speaker": "Cipher",
+            "text": "That's exactly what they want everyone to believe."
+        },
+        {
+            "file": "ep28_kessler_confession_00_kessler",
+            "speaker": "Kessler",
+            "text": "Cipher. Report."
+        },
+        {
+            "file": "ep28_kessler_confession_01_cipher",
+            "speaker": "Cipher",
+            "text": "Aethon-9 is running a child-extraction operation. Sealed facility beneath the agricultural sector. I'm reading a manifest now."
+        },
+        {
+            "file": "ep28_kessler_confession_02_cipher",
+            "speaker": "Cipher",
+            "text": "Forty-seven children. Ages six to fourteen. Transferred off-world under educational relocation codes."
+        },
+        {
+            "file": "ep28_kessler_confession_03_kessler",
+            "speaker": "Kessler",
+            "text": "Cipher... I need to tell you something."
+        },
+        {
+            "file": "ep28_kessler_confession_04_kessler",
+            "speaker": "Kessler",
+            "text": "During my Dominion logistics years, I ran contracts through Aethon-9. Sealed neural crates. Young-sized units. Loading them onto orbital transports."
+        },
+        {
+            "file": "ep28_kessler_confession_05_kessler",
+            "speaker": "Kessler",
+            "text": "I never opened them. I didn't want to know what was inside."
+        },
+        {
+            "file": "ep28_kessler_confession_06_kessler",
+            "speaker": "Kessler",
+            "text": "I'm sorry. I don't know if that means anything now."
+        },
+        {
+            "file": "ep28_kessler_confession_07_cipher",
+            "speaker": "Cipher",
+            "text": "It means you're going to help me end this. That's what it means."
+        },
+        {
+            "file": "ep28_extraction_combat_00_mayaselene",
+            "speaker": "Maya Selene",
+            "text": "How are you doing this? How is your body remembering this?"
+        },
+        {
+            "file": "ep28_extraction_combat_01_cipher",
+            "speaker": "Cipher",
+            "text": "I don't know. I only remember what I'm doing when I'm doing it."
+        },
+        {
+            "file": "ep28_kethel_confession_00_mayaselene",
+            "speaker": "Maya Selene",
+            "text": "Do you remember anything before the Dominion?"
+        },
+        {
+            "file": "ep28_kethel_confession_01_cipher",
+            "speaker": "Cipher",
+            "text": "Fragments. Phantom reflexes. The certainty I've done this exact thing before."
+        },
+        {
+            "file": "ep28_kethel_confession_02_cipher",
+            "speaker": "Cipher",
+            "text": "There was an orphanage. A command to massacre the children. I refused."
+        },
+        {
+            "file": "ep28_kethel_confession_03_mayaselene",
+            "speaker": "Maya Selene",
+            "text": "And the children?"
+        },
+        {
+            "file": "ep28_kethel_confession_04_cipher",
+            "speaker": "Cipher",
+            "text": "Some survived. The ones I couldn't reach in time did not."
+        },
+        {
+            "file": "ep28_archive_file_00_mayaselene",
+            "speaker": "Maya Selene",
+            "text": "CIPHER. They assigned you a number instead of a name."
+        },
+        {
+            "file": "ep28_archive_file_01_cipher",
+            "speaker": "Cipher",
+            "text": "It's not assigned. It's earned. Every operative in the Program gets a number and a codename and training that strips everything else away."
+        },
+        {
+            "file": "ep28_archive_file_02_cipher",
+            "speaker": "Cipher",
+            "text": "I was seven. They marked me CIPHER-7. And the file carries the name the syndicates gave me later: the Architect of Mercy. The documentation logs it as a behavioral anomaly they never successfully corrected."
+        },
+        {
+            "file": "ep28_archive_file_03_mayaselene",
+            "speaker": "Maya Selene",
+            "text": "You remember?"
+        },
+        {
+            "file": "ep28_archive_file_04_cipher",
+            "speaker": "Cipher",
+            "text": "My body remembers. That's almost worse."
+        },
+        {
+            "file": "ep28_failsafe_explain_00_cipher",
+            "speaker": "Cipher",
+            "text": "Hold still."
+        },
+        {
+            "file": "ep28_failsafe_explain_01_mayaselene",
+            "speaker": "Maya Selene",
+            "text": "What were those drones?"
+        },
+        {
+            "file": "ep28_failsafe_explain_02_cipher",
+            "speaker": "Cipher",
+            "text": "Capture units. The Dominion wants me alive. There's a failsafe in my neural implant, a slow purge that started the day I refused the order at Kethel-7. If they can trigger it remotely, they let the purge finish me."
+        },
+        {
+            "file": "ep28_failsafe_explain_03_cipher",
+            "speaker": "Cipher",
+            "text": "I'm already dying. They just want me to die on their schedule instead of mine."
+        },
+        {
+            "file": "ep28_failsafe_explain_04_mayaselene",
+            "speaker": "Maya Selene",
+            "text": "Then we're not wasting any more of your time on hesitation."
+        },
+        {
+            "file": "ep28_ceremony_plan_00_kessler",
+            "speaker": "Kessler",
+            "text": "Transport ship arriving at festival peak. Six hours. They're extracting the children currently staged in the lower hold. Maybe thirty of them. Already prepped for transit."
+        },
+        {
+            "file": "ep28_ceremony_plan_01_cipher",
+            "speaker": "Cipher",
+            "text": "We burn the facility. Destroy the manifests. Get the children to the Corsair."
+        },
+        {
+            "file": "ep28_ceremony_plan_02_kessler",
+            "speaker": "Kessler",
+            "text": "The Dominion wired a colony-wide destruct into the facility's power core. If you're captured and the failsafe activates, the whole valley system goes with it."
+        },
+        {
+            "file": "ep28_ceremony_plan_03_cipher",
+            "speaker": "Cipher",
+            "text": "Aethon-9 is disposable infrastructure to them. We're not staying long enough to matter."
+        },
+        {
+            "file": "ep28_commander_recognition_00_dominioncommander",
+            "speaker": "Dominion Commander",
+            "text": "CIPHER-7. Confirming asset recognition. Engaging."
+        },
+        {
+            "file": "ep28_maya_farewell_00_mayaselene",
+            "speaker": "Maya Selene",
+            "text": "How does someone like you remember anything?"
+        },
+        {
+            "file": "ep28_maya_farewell_01_cipher",
+            "speaker": "Cipher",
+            "text": "By being with someone who isn't afraid. Go."
+        },
+        {
+            "file": "ep28_khall_confront_00_khall",
+            "speaker": "Khall",
+            "text": "CIPHER. You're still functioning. I'm almost impressed."
+        },
+        {
+            "file": "ep28_khall_confront_01_cipher",
+            "speaker": "Cipher",
+            "text": "Kethel-7. The orphanage. The order. The massacre. The refusal."
+        },
+        {
+            "file": "ep28_khall_confront_02_cipher",
+            "speaker": "Cipher",
+            "text": "I'm destroying this facility and every manifest in it."
+        },
+        {
+            "file": "ep28_khall_confront_03_khall",
+            "speaker": "Khall",
+            "text": "CIPHER is a compromised asset. The Program's correction was always inevitable. Stand down and accept reclamation."
+        },
+        {
+            "file": "ep28_breaking_barks_00_cipher",
+            "speaker": "Cipher",
+            "text": "This ends now."
+        },
+        {
+            "file": "ep28_medbay_aftermath_00_kessler",
+            "speaker": "Kessler",
+            "text": "The children are being routed to safe colonies through Morrigan's contact network. They'll have a chance."
+        },
+        {
+            "file": "ep28_medbay_aftermath_01_kessler",
+            "speaker": "Kessler",
+            "text": "Maya filed a broadcast with the Outer Worlds Council naming the Aethon-9 operation by facility code. She's calling for an investigation."
+        },
+        {
+            "file": "ep28_medbay_aftermath_02_cipher",
+            "speaker": "Cipher",
+            "text": "What do I remember of Kethel-7 now?"
+        },
+        {
+            "file": "ep28_medbay_aftermath_03_kessler",
+            "speaker": "Kessler",
+            "text": "Everything?"
+        },
+        {
+            "file": "ep28_medbay_aftermath_04_cipher",
+            "speaker": "Cipher",
+            "text": "The order came in. I refused it. They wiped me for the refusal."
+        },
+        {
+            "file": "ep28_medbay_aftermath_05_cipher",
+            "speaker": "Cipher",
+            "text": "I don't know yet who issued the original command. How far up the chain it reached. Only that it was real. That the children were real. And that I was right to refuse."
+        },
+        {
+            "file": "ep28_medbay_aftermath_06_kessler",
+            "speaker": "Kessler",
+            "text": "I didn't know what was in those crates."
+        },
+        {
+            "file": "ep28_medbay_aftermath_07_cipher",
+            "speaker": "Cipher",
+            "text": "I know. That's what they count on. Everyone looking away. Everyone pretending."
+        },
+        {
+            "file": "ep28_sister_iron_00_cipher",
+            "speaker": "Cipher",
+            "text": "Kessler. Run every operative file we hold against that designation. SISTER-IRON."
+        },
+        {
+            "file": "ep28_sister_iron_01_kessler",
+            "speaker": "Kessler",
+            "text": "What are you afraid of?"
+        },
+        {
+            "file": "ep28_sister_iron_02_cipher",
+            "speaker": "Cipher",
+            "text": "That I know her."
+        },
+        {
+            "file": "ep28_space_ep28_post_00_cipher",
+            "speaker": "Cipher",
+            "text": "Aethon-9 was running a harvest operation beneath the festival grounds, a child-extraction facility that mirrors Kethel-7 exactly. Forty-seven children marked for off-world transfer. Kessler learned he unknowingly ran logistics for these operations years ago when he was still Dominion. The underground archive held my file: CIPHER-7, the operative marked at age seven with a behavioral anomaly they never corrected, the refusal to massacre children. I read my own designation for the first time. We got thirty children to safety and pulled fragments of the archive revealing seventeen more harvest installations across the galaxy."
+        },
+        {
+            "file": "ep28_space_ep28_post_01_kessler",
+            "speaker": "Kessler",
+            "text": "So the heading is outward and inward both, hunting SISTER-IRON, an operative dispatched by Dominion command to complete your purification. That name carries weight, Cipher. You need to know what you're facing. And we need to find every one of those seventeen facilities before the Dominion decides extraction is less valuable than erasure."
+        }
+    ]
+}

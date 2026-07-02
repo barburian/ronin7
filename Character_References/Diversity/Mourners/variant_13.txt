@@ -1,0 +1,7 @@
+VARIANT: Mourner #13 — "Tall Spire-Mourner"
+SPECIES: The Mourners (ancient soul-keepers).
+FORM / AGE / DENSITY: Abnormally elongated, stretched far taller than the rest; thin and spire-like.
+DISTINGUISHING FEATURES: A grotesquely tall, narrow, stretched form looming over the ring; a high-set distant cold-white glow; impossibly long thin arms and over-long six-fingered hands hanging near the ground.
+ROBE / STATE: A long drawn-out shroud falling like a sheeted column from a great height.
+COLOR / PALETTE: Ash-grey; high distant cold-white glow; long white fall of fog.
+>> IMAGE-PROMPT SUMMARY: An abnormally elongated spire Mourner stretched far taller and thinner than the rest, looming over the ring with a high-set distant cold-white glow, impossibly long thin arms and over-long six-fingered hands hanging near the ground. Wears a long drawn-out column-like ash-grey shroud falling from a great height. Ash-grey and distant-cold-white palette. Looming, wrong-proportioned. Cosmic dark sci-fi.

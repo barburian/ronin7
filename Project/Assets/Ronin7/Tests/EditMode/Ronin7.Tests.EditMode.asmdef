@@ -1,0 +1,26 @@
+{
+    "name": "Ronin7.Tests.EditMode",
+    "rootNamespace": "Ronin7.Tests.EditMode",
+    "references": [
+        "Ronin7.Core",
+        "Ronin7.Combat",
+        "Ronin7.Enemies",
+        "Ronin7.Ship",
+        "Ronin7.Player",
+        "Ronin7.World",
+        "Ronin7.Flow",
+        "Ronin7.Audio",
+        "Ronin7.Editor",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": ["Editor"],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": ["nunit.framework.dll"],
+    "autoReferenced": false,
+    "defineConstraints": ["UNITY_INCLUDE_TESTS"],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

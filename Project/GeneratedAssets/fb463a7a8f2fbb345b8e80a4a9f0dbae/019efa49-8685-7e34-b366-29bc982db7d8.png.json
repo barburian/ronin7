@@ -1,0 +1,28 @@
+{
+    "asset": "fb463a7a8f2fbb345b8e80a4a9f0dbae",
+    "fileName": "019efa49-8685-7e34-b366-29bc982db7d8.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A poised medium-tall bell-tender Mourner with one long pale six-fingered hand raised toward an unseen bell-rope, a measured grave-blue glow pulsing faintly in time with a toll, and cold mist curling from the lifted sleeve like a banner of fog. Wears a long ash-grey shroud, one arm raised. Ash-grey and pulsing grave-blue palette. Ritual, attentive. Cosmic dark sci-fi. Color palette: Ash-grey; pulsing grave-blue glow; curling white mist. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

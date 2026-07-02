@@ -1,0 +1,8 @@
+VARIANT: Vesh #19 — "Outcast Exile"
+SPECIES: Vesh (raider nomad clan).
+SEX / AGE / BUILD: Female / adult / gaunt, wary, hardened by solitude.
+ROLE IN WORLD: A clanless vesh cast out, surviving alone on the edges.
+DISTINGUISHING FEATURES: Dull neglected plating; haunted sharp orange slit-eyes; mandible-tusks bare of any tokens; her clan-brand deliberately scarred-over (exile-mark); patched-up self-mended cracks.
+CLOTHING / GEAR: A ragged scavenged cloak with no clan-colors, a mismatched salvaged blade, a lone survival-kit, a scarred-over brand.
+COLOR / PALETTE: Dull grey-red carapace; colorless ragged salvage; no clan-color anywhere.
+>> IMAGE-PROMPT SUMMARY: A gaunt wary solitude-hardened adult female vesh exile with dull neglected chitin, haunted sharp orange slit-eyes, token-bare mandible-tusks, a deliberately scarred-over clan-brand (exile-mark) and self-mended cracks. Wears a ragged colorless scavenged cloak with no clan-colors, carrying a mismatched salvaged blade and a lone survival-kit. Dull grey-red and colorless-salvage palette. Lonely, dangerous. Grounded alien sci-fi raider.

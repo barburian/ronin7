@@ -1,0 +1,28 @@
+{
+    "asset": "c995e3ff0bf55864089d2975aeb754ad",
+    "fileName": "019efaec-1060-70c7-8efb-ac5c6c68cc94.png",
+    "prompt": "Concept art of a single weapon shown complete and centered, isolated on a plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, NO character, no hands, no figure, only the weapon by itself. Subject: an enormous old war-sword sized for a two-meter stone-built alien warrior, a massive heavy slab of a blade in ancient scavenged iron, chipped and rust-stained, a huge leather-bound grip, brutal and immovable, an old captain's weapon. Color palette: slate-grey and basalt with mineral glints, rust and dead-cave tones. Grounded alien sci-fi, single weapon prop on neutral background.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

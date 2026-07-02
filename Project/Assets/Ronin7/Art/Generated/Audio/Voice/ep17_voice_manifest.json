@@ -1,0 +1,424 @@
+{
+    "lines": [
+        {
+            "file": "ep17_blood_debt_00_kessler",
+            "speaker": "Kessler",
+            "text": "Three years. The Saffron Veil and Hollow Kings have been tearing that same corridor apart for three years."
+        },
+        {
+            "file": "ep17_blood_debt_01_kessler",
+            "speaker": "Kessler",
+            "text": "Nothing resolved. No movement. Same ships. Same losses. Same profits for whoever's counting."
+        },
+        {
+            "file": "ep17_blood_debt_02_cipher",
+            "speaker": "Cipher",
+            "text": "A schedule."
+        },
+        {
+            "file": "ep17_blood_debt_03_kessler",
+            "speaker": "Kessler",
+            "text": "That's not a war. That's a schedule."
+        },
+        {
+            "file": "ep17_blood_debt_04_gryph",
+            "speaker": "Gryph",
+            "text": "Kessler. You're bringing me business or you're bringing me problems?"
+        },
+        {
+            "file": "ep17_blood_debt_05_kessler",
+            "speaker": "Kessler",
+            "text": "Looking to fence salvage. Clean inventory. Nothing hot."
+        },
+        {
+            "file": "ep17_blood_debt_06_gryph",
+            "speaker": "Gryph",
+            "text": "You're deep in scrap debt, old man. We both know it."
+        },
+        {
+            "file": "ep17_blood_debt_07_kessler",
+            "speaker": "Kessler",
+            "text": "I can clear it."
+        },
+        {
+            "file": "ep17_blood_debt_08_gryph",
+            "speaker": "Gryph",
+            "text": "You can't. But I've been patient. That patience costs. Thirty matches. Your operative as pit stock. Every match he wins, your debt shrinks. Lose three consecutive and he goes to the lower pit instead."
+        },
+        {
+            "file": "ep17_blood_debt_09_gryph",
+            "speaker": "Gryph",
+            "text": "Or I impound the ship right now and you walk out of here with nothing."
+        },
+        {
+            "file": "ep17_blood_debt_10_cipher",
+            "speaker": "Cipher",
+            "text": "I'll do it."
+        },
+        {
+            "file": "ep17_blood_debt_11_kessler",
+            "speaker": "Kessler",
+            "text": "Cipher, you don't have to..."
+        },
+        {
+            "file": "ep17_blood_debt_12_cipher",
+            "speaker": "Cipher",
+            "text": "The ship keeps flying. That's the math."
+        },
+        {
+            "file": "ep17_intake_barks_00_rustfangbreaker1",
+            "speaker": "Rustfang Breaker 1",
+            "text": "You get three minutes. Disarm or be disarmed."
+        },
+        {
+            "file": "ep17_intake_barks_01_rustfangbreaker2",
+            "speaker": "Rustfang Breaker 2",
+            "text": "Go."
+        },
+        {
+            "file": "ep17_pitlord_study_00_gryph",
+            "speaker": "Gryph",
+            "text": "You fight like someone forgot to be afraid."
+        },
+        {
+            "file": "ep17_pitlord_study_01_gryph",
+            "speaker": "Gryph",
+            "text": "That's rare. Most prisoners come in carrying their mortality like a weight. You move like it's not even there."
+        },
+        {
+            "file": "ep17_pitlord_study_02_cipher",
+            "speaker": "Cipher",
+            "text": "What happens if I lose?"
+        },
+        {
+            "file": "ep17_pitlord_study_03_gryph",
+            "speaker": "Gryph",
+            "text": "Three consecutive losses and you clear the upper pit. You go down to the lower level. Specialty markets. Neural components. Augmentation parts."
+        },
+        {
+            "file": "ep17_pitlord_study_04_gryph",
+            "speaker": "Gryph",
+            "text": "The lower pit is where prisoners who can't be killed profitably go to be harvested instead."
+        },
+        {
+            "file": "ep17_pitlord_study_05_gryph",
+            "speaker": "Gryph",
+            "text": "The gravity rigs rotate every six hours. Gives you time to learn the rhythm before it changes."
+        },
+        {
+            "file": "ep17_pitlord_study_06_cipher",
+            "speaker": "Cipher",
+            "text": "Why are you helping me?"
+        },
+        {
+            "file": "ep17_pitlord_study_07_gryph",
+            "speaker": "Gryph",
+            "text": "I'll tell you when the time comes. Or I won't. Either way, the debt clears by your sword or your corpse."
+        },
+        {
+            "file": "ep17_holding_pens_00_tisane",
+            "speaker": "Tisane",
+            "text": "New blood from the surface?"
+        },
+        {
+            "file": "ep17_holding_pens_01_cipher",
+            "speaker": "Cipher",
+            "text": "First match in four hours."
+        },
+        {
+            "file": "ep17_holding_pens_02_tisane",
+            "speaker": "Tisane",
+            "text": "You'll get three. Maybe four if you look useful. The gravity rig rotates every six hours, zero-g, heavy, zero-g. You learn the rhythm or you break in the wrong gravity and become a stain."
+        },
+        {
+            "file": "ep17_holding_pens_03_tisane",
+            "speaker": "Tisane",
+            "text": "Lose three in a row and they don't bring you back up here. The lower pit takes what's too valuable to kill but too broken to sell."
+        },
+        {
+            "file": "ep17_holding_pens_04_cipher",
+            "speaker": "Cipher",
+            "text": "What's down there?"
+        },
+        {
+            "file": "ep17_holding_pens_05_tisane",
+            "speaker": "Tisane",
+            "text": "Nobody talks about it. But the ones who go down, they come back different. If they come back at all."
+        },
+        {
+            "file": "ep17_arena_barks_00_pitmaster",
+            "speaker": "Pit Master",
+            "text": "Zero-G bout! Twenty-second grace period! Begin!"
+        },
+        {
+            "file": "ep17_arena_barks_01_pitmaster",
+            "speaker": "Pit Master",
+            "text": "First victor! Clear the arena!"
+        },
+        {
+            "file": "ep17_the_offer_00_gryph",
+            "speaker": "Gryph",
+            "text": "You've won four. That's more than the pool expected."
+        },
+        {
+            "file": "ep17_the_offer_01_gryph",
+            "speaker": "Gryph",
+            "text": "There's a prisoner in the lower pit who refuses to fight. The Rustfangs want her removed. If you bring her up alive, your debt clears today."
+        },
+        {
+            "file": "ep17_the_offer_02_rustfangcorporal",
+            "speaker": "Rustfang Corporal",
+            "text": "One condition. If she's valuable enough to refuse, she's valuable enough to stay functional."
+        },
+        {
+            "file": "ep17_the_offer_03_cipher",
+            "speaker": "Cipher",
+            "text": "I'll bring her up alive."
+        },
+        {
+            "file": "ep17_descent_00_rustfangcorporal",
+            "speaker": "Rustfang Corporal",
+            "text": "Lower pit serves specialty markets. Neural components. Augmentation parts. Prisoners with value can be harvested instead of killed."
+        },
+        {
+            "file": "ep17_descent_01_vesper",
+            "speaker": "Vesper",
+            "text": "Seven?"
+        },
+        {
+            "file": "ep17_vesper_reveal_00_vesper",
+            "speaker": "Vesper",
+            "text": "You move like seven. Like Cipher."
+        },
+        {
+            "file": "ep17_vesper_reveal_01_cipher",
+            "speaker": "Cipher",
+            "text": "I have no memory. My designation is all I have."
+        },
+        {
+            "file": "ep17_vesper_reveal_02_vesper",
+            "speaker": "Vesper",
+            "text": "I was in your cohort. Third generation. Watched them pull you out of the staging compound when you were twelve. I thought you were dead. Then they erased me and dumped me here instead of finishing it."
+        },
+        {
+            "file": "ep17_vesper_reveal_03_vesper",
+            "speaker": "Vesper",
+            "text": "The Dominion didn't purge you because the conditioning failed."
+        },
+        {
+            "file": "ep17_vesper_reveal_04_vesper",
+            "speaker": "Vesper",
+            "text": "They purged you because you proved it could be broken from the inside. Your refusal at Kethel-7, that wasn't a malfunction. That was proof."
+        },
+        {
+            "file": "ep17_vesper_reveal_05_cipher",
+            "speaker": "Cipher",
+            "text": "Proof of what?"
+        },
+        {
+            "file": "ep17_vesper_reveal_06_vesper",
+            "speaker": "Vesper",
+            "text": "That we're not machines. That the conditioning can fail. That a Ronin operative can choose mercy. The Overseer could not allow that possibility to circulate. So he purged everyone who knew. He rewrote the record. He made you into a ghost."
+        },
+        {
+            "file": "ep17_vesper_reveal_07_vesper",
+            "speaker": "Vesper",
+            "text": "My own erasure stalled partway. They dumped me here instead of trying again. They thought I was too broken to matter."
+        },
+        {
+            "file": "ep17_vault_location_00_vesper",
+            "speaker": "Vesper",
+            "text": "The vault core is three levels up, past the processing bays. This code will open the security door. The personnel files are still stored there, purge orders, mission logs, termination authorizations."
+        },
+        {
+            "file": "ep17_vault_location_01_vesper",
+            "speaker": "Vesper",
+            "text": "Your operational record might still be there. If you find it, you find out why they were afraid of you."
+        },
+        {
+            "file": "ep17_vault_location_02_cipher",
+            "speaker": "Cipher",
+            "text": "And you'll stay here?"
+        },
+        {
+            "file": "ep17_vault_location_03_vesper",
+            "speaker": "Vesper",
+            "text": "I'll hold the lower level. They'll hear us leaving and they'll come down hard. But I can buy you the corridor."
+        },
+        {
+            "file": "ep17_record_found_00_cipher",
+            "speaker": "Cipher",
+            "text": "Classification: Purge. Stamp: Protocol Silencia."
+        },
+        {
+            "file": "ep17_record_found_01_cipher",
+            "speaker": "Cipher",
+            "text": "If you wake, you were right. Kethel-7 was real. You were right to break. Find Kessler."
+        },
+        {
+            "file": "ep17_the_rising_00_vesper",
+            "speaker": "Vesper",
+            "text": "Find anything?"
+        },
+        {
+            "file": "ep17_the_rising_01_cipher",
+            "speaker": "Cipher",
+            "text": "Enough to prove you saved me. The rest is erased."
+        },
+        {
+            "file": "ep17_the_rising_02_vesper",
+            "speaker": "Vesper",
+            "text": "Deeper than a standard purge?"
+        },
+        {
+            "file": "ep17_the_rising_03_cipher",
+            "speaker": "Cipher",
+            "text": "Someone came before me."
+        },
+        {
+            "file": "ep17_the_rising_04_vesper",
+            "speaker": "Vesper",
+            "text": "The conditioning failures aren't isolated. I've seen fragments, other prisoners who passed through here, operatives waking up across multiple syndicates."
+        },
+        {
+            "file": "ep17_the_rising_05_vesper",
+            "speaker": "Vesper",
+            "text": "Whoever is waking will burn the old order or rebuild it. Either way, the war is changing."
+        },
+        {
+            "file": "ep17_the_rising_06_cipher",
+            "speaker": "Cipher",
+            "text": "Vesper..."
+        },
+        {
+            "file": "ep17_the_rising_07_vesper",
+            "speaker": "Vesper",
+            "text": "Tell Kessler I said hi."
+        },
+        {
+            "file": "ep17_khall_confront_00_khall",
+            "speaker": "Khall",
+            "text": "The vault file contained a trace beacon. I was waiting for this moment."
+        },
+        {
+            "file": "ep17_khall_confront_01_khall",
+            "speaker": "Khall",
+            "text": "I want answers about Kethel-7 before the Dominion gets its closure. And I'm calling you Mirror because that's what the vault called you."
+        },
+        {
+            "file": "ep17_khall_parting_00_khall",
+            "speaker": "Khall",
+            "text": "You weren't the only one who broke. You were just the one they could never find a clean reason for."
+        },
+        {
+            "file": "ep17_bridge_reckoning_00_kessler",
+            "speaker": "Kessler",
+            "text": "What happened down there?"
+        },
+        {
+            "file": "ep17_bridge_reckoning_01_cipher",
+            "speaker": "Cipher",
+            "text": "There was an operative in the lower pit. Ronin-3. She arranged my disposal as mercy, just drift instead of burn. And she left a message."
+        },
+        {
+            "file": "ep17_bridge_reckoning_02_cipher",
+            "speaker": "Cipher",
+            "text": "The Dominion didn't purge me because the conditioning failed. They purged me because I proved it could be broken. From the inside."
+        },
+        {
+            "file": "ep17_bridge_reckoning_03_kessler",
+            "speaker": "Kessler",
+            "text": "She carved an access code into her own spine so you'd have it if you ever showed up. That's a long bet on a dead man."
+        },
+        {
+            "file": "ep17_bridge_reckoning_04_kessler",
+            "speaker": "Kessler",
+            "text": "Vesper. That's her?"
+        },
+        {
+            "file": "ep17_bridge_reckoning_05_cipher",
+            "speaker": "Cipher",
+            "text": "Ronin-3. She's still alive."
+        },
+        {
+            "file": "ep17_network_revelation_00_cipher",
+            "speaker": "Cipher",
+            "text": "The failsafe chip. It's not just me."
+        },
+        {
+            "file": "ep17_network_revelation_01_cipher",
+            "speaker": "Cipher",
+            "text": "Vesper still carries one. Incomplete purge. Every operative who ever walked out of the program carries one."
+        },
+        {
+            "file": "ep17_network_revelation_02_cipher",
+            "speaker": "Cipher",
+            "text": "If the Dominion built it into him, they built it into all of them. The failsafe is not personal. It's a network."
+        },
+        {
+            "file": "ep17_network_revelation_03_kessler",
+            "speaker": "Kessler",
+            "text": "Every operative. All of them networked."
+        },
+        {
+            "file": "ep17_network_revelation_04_cipher",
+            "speaker": "Cipher",
+            "text": "Whoever controls the network controls all of them."
+        },
+        {
+            "file": "ep17_network_revelation_05_cipher",
+            "speaker": "Cipher",
+            "text": "Debt is clear. What I'm holding is information rather than scrap. Gryph is done working for the Rustfangs."
+        },
+        {
+            "file": "ep17_network_revelation_06_cipher",
+            "speaker": "Cipher",
+            "text": "Send reply: we'll talk."
+        },
+        {
+            "file": "ep17_hyperspace_drift_00_cipher",
+            "speaker": "Cipher",
+            "text": "I'm not the operative they erased. I'm the operative they were afraid of."
+        },
+        {
+            "file": "ep17_hyperspace_drift_01_kessler",
+            "speaker": "Kessler",
+            "text": "You chose mercy. They couldn't forgive that."
+        },
+        {
+            "file": "ep17_hyperspace_drift_02_cipher",
+            "speaker": "Cipher",
+            "text": "But others made the same choice. And if those operatives can wake up, if they can coordinate, then the cage is cracking."
+        },
+        {
+            "file": "ep17_hyperspace_drift_03_kessler",
+            "speaker": "Kessler",
+            "text": "The failsafe network."
+        },
+        {
+            "file": "ep17_hyperspace_drift_04_cipher",
+            "speaker": "Cipher",
+            "text": "We find out who controls it. And we break it."
+        },
+        {
+            "file": "ep17_cabin_brief_00_kessler",
+            "speaker": "Kessler",
+            "text": "That's Rustfang's Cradle below us. Gutted ore world, run by the syndicate that holds my scrap debt. Watch yourself down there."
+        },
+        {
+            "file": "ep17_cabin_brief_01_cipher",
+            "speaker": "Cipher",
+            "text": "Set us down. The sooner the debt clears, the sooner we move on."
+        },
+        {
+            "file": "ep17_space_ep17_post_00_kessler",
+            "speaker": "Kessler",
+            "text": "Vesper made it out. She's carrying proof of what they erased."
+        },
+        {
+            "file": "ep17_space_ep17_post_01_cipher",
+            "speaker": "Cipher",
+            "text": "The failsafe is a network. Every operative they made is connected. All of them."
+        }
+    ]
+}

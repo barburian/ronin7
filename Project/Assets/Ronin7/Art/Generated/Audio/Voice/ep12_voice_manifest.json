@@ -1,0 +1,384 @@
+{
+    "lines": [
+        {
+            "file": "ep12_transit_intro_00_kessler",
+            "speaker": "Kessler",
+            "text": "The origin choke-point is inside the asteroid cluster. Shard Market. It's Hollow Kings territory, they've been running memory-commerce out of derelict mine-fields in this sector for the last decade. Stripped neural imprints, combat-conditioning parcels, identity fragments from disappeared operatives."
+        },
+        {
+            "file": "ep12_transit_intro_01_kessler",
+            "speaker": "Kessler",
+            "text": "The market sits inside a hollowed asteroid, rotating. Docking cradles on the outer hull. Zero-gravity commons inside. A thousand vendors, a thousand different ways to make money off what someone else lost."
+        },
+        {
+            "file": "ep12_transit_intro_02_cipher",
+            "speaker": "Cipher",
+            "text": "How many entries through the docking ring before the interior checks identification."
+        },
+        {
+            "file": "ep12_transit_intro_03_kessler",
+            "speaker": "Kessler",
+            "text": "The outer ring doesn't check. It's the inner commons that runs the vendor compliance protocols, and those are Hollow Kings-administered, which means they're for show. The real currency in there is anonymity. Nobody asks, because everybody would rather not be asked in return."
+        },
+        {
+            "file": "ep12_transit_intro_04_cipher",
+            "speaker": "Cipher",
+            "text": "I go in alone. You monitor the entry ring."
+        },
+        {
+            "file": "ep12_transit_intro_05_kessler",
+            "speaker": "Kessler",
+            "text": "If you run into trouble in there, the entry ring is the only channel I can work from. The commons' internal frequency is jammed, Hollow Kings run interference against outside monitoring as standard practice."
+        },
+        {
+            "file": "ep12_transit_intro_06_kessler",
+            "speaker": "Kessler",
+            "text": "There's a vendor offering a lot labeled \"Ronin Protocol, Incomplete.\" That's either the source or a front for the source. Either way, it's the thread."
+        },
+        {
+            "file": "ep12_morrigan_intercept_00_morrigan",
+            "speaker": "Morrigan",
+            "text": "You won't find what you're looking for at any of these stalls."
+        },
+        {
+            "file": "ep12_morrigan_intercept_01_morrigan",
+            "speaker": "Morrigan",
+            "text": "I've been wearing pieces of you for three cycles. Your training sequences. The specific architecture of your rage, how it moves before you decide to move. The night you argued with someone called Ronin-3 about limits. The way the conditioning stacked in the sixth phase, where they tried four times to remove something and four times it came back."
+        },
+        {
+            "file": "ep12_morrigan_intercept_02_morrigan",
+            "speaker": "Morrigan",
+            "text": "I know you came for the lot labeled 'Ronin Protocol.' It's mine. I put it on the exchange to create a reason for you to walk through this docking ring, and it worked."
+        },
+        {
+            "file": "ep12_morrigan_intercept_03_morrigan",
+            "speaker": "Morrigan",
+            "text": "I'll tell you everything I absorbed from your memories. What the conditioning built, what it tried to remove, and something you cannot have found anywhere else because it lives in a layer of the program's architecture that no one outside its infrastructure team has ever had access to. But I need to confirm first that the man I've been dreaming inside is still real."
+        },
+        {
+            "file": "ep12_morrigan_intercept_04_morrigan",
+            "speaker": "Morrigan",
+            "text": "Fight me. If you're still sharp enough to have earned the truth, you'll win."
+        },
+        {
+            "file": "ep12_recognition_duel_00_morrigan",
+            "speaker": "Morrigan",
+            "text": "Sharp enough."
+        },
+        {
+            "file": "ep12_recognition_duel_01_morrigan",
+            "speaker": "Morrigan",
+            "text": "The lower vaults. What I have to tell you needs walls."
+        },
+        {
+            "file": "ep12_the_confession_00_morrigan",
+            "speaker": "Morrigan",
+            "text": "I was a Dominion intelligence officer for seventeen years. Specifically, I was a program architect, I built dead drops, encrypted failsafe protocols, designed the communications infrastructure that the Ronin Program ran on. I was not a handler. Handlers broke people. I built the systems that the breaking required to function."
+        },
+        {
+            "file": "ep12_the_confession_01_morrigan",
+            "speaker": "Morrigan",
+            "text": "I defected in the program's fifteenth year, when I understood completely what I had made. I want to be precise about that: I did not defect when I first suspected. I defected when I had removed my last reason to doubt. That took longer than it should have."
+        },
+        {
+            "file": "ep12_the_confession_02_cipher",
+            "speaker": "Cipher",
+            "text": "You built the infrastructure the program ran on. You also built its communications layer. Which means you could access incoming traffic at the architecture level, not just the content, the routing."
+        },
+        {
+            "file": "ep12_the_confession_03_morrigan",
+            "speaker": "Morrigan",
+            "text": "Yes. I'll get to what that means. First: when I ran, I went to ground in the Hollow Kings network. They value operational intelligence and they pay well and they ask fewer questions than most employers. I worked freelance, analysis contracts, encryption consulting. Three cycles ago, a Crimson Lotus fence came through the Market with a parcel of stripped neural imprints. The provenance was obvious to anyone who knew the conditioning format. They were yours."
+        },
+        {
+            "file": "ep12_the_confession_04_morrigan",
+            "speaker": "Morrigan",
+            "text": "I purchased them. Not as merchandise, I purchased them to take them off the market. And then I wore them, because wearing a stripped imprint is how you verify what's in it. That is the standard practice here. The verification process became three cycles of living inside your childhood. Your training. The chamber where they first put the chip in you, at the age of eight."
+        },
+        {
+            "file": "ep12_the_confession_05_cipher",
+            "speaker": "Cipher",
+            "text": "The lot on the exchange was yours. You placed it there."
+        },
+        {
+            "file": "ep12_the_confession_06_morrigan",
+            "speaker": "Morrigan",
+            "text": "I needed you to come to me specifically. Posting your own provenance format as the lot listing was the one message I could send that I was certain would reach you, given what I knew you were looking for. I made you the bait for a trap designed to help you. I recognize the irony."
+        },
+        {
+            "file": "ep12_the_confession_07_morrigan",
+            "speaker": "Morrigan",
+            "text": "There is one shard I cannot wear. I have tried eight times. A mission number. Three digits and a sector code. Every time I seat it in the interface I come back screaming from whatever it contains, and I cannot tell you what is in it because I have never successfully completed the wear."
+        },
+        {
+            "file": "ep12_the_confession_08_morrigan",
+            "speaker": "Morrigan",
+            "text": "There is something you need to hear before I give you this. About what I found in the routing architecture. About something in the program that I could not explain and could not report and have been carrying ever since I found it."
+        },
+        {
+            "file": "ep12_purifier_barks_00_dominionpurifierlead",
+            "speaker": "Dominion Purifier Lead",
+            "text": "Contact in passage! Neural lance ready, pattern suppression!"
+        },
+        {
+            "file": "ep12_purifier_barks_01_morrigan",
+            "speaker": "Morrigan",
+            "text": "Lance discharge in a corridor this narrow will take us all down, they know that. They're boxing us into the emergency lock."
+        },
+        {
+            "file": "ep12_purifier_barks_02_morrigan",
+            "speaker": "Morrigan",
+            "text": "Emergency lock, end of the passage. Two minutes of air. Move."
+        },
+        {
+            "file": "ep12_purifier_barks_03_dominionpurifier2",
+            "speaker": "Dominion Purifier 2",
+            "text": "Containment failed, EMP in sector, air loss confirmed! Transition to..."
+        },
+        {
+            "file": "ep12_the_outside_hand_00_morrigan",
+            "speaker": "Morrigan",
+            "text": "The Ronin Program's communications architecture runs through three authorization layers. Field operations go through Overseer-level authority. Program policy goes through the High Council. And there is a third layer, the deepest, the oldest, that handles the foundational directives. The parameters that define what the program is, what it does, and what the failsafe is calibrated to enforce."
+        },
+        {
+            "file": "ep12_the_outside_hand_01_morrigan",
+            "speaker": "Morrigan",
+            "text": "I spent four years inside the program's deep communications layer. Building the encryption. Verifying the routing integrity. Which means I read every directive that passed through the third layer, and I cross-referenced the authorization ciphers against the full Dominion authority registry to confirm provenance."
+        },
+        {
+            "file": "ep12_the_outside_hand_02_morrigan",
+            "speaker": "Morrigan",
+            "text": "The oldest directives, the ones that predate Overseer Khall, that predate the program's official Dominion charter, carry an authorization cipher I could not place. Not in the High Council registry. Not in the historical Overseer record. Not in any Dominion authority structure I had access to, and I had access to all of them."
+        },
+        {
+            "file": "ep12_the_outside_hand_03_morrigan",
+            "speaker": "Morrigan",
+            "text": "Someone was feeding directives into the program from outside the Dominion entirely. Before it was called the Ronin Program. Before the Dominion's own charter for it was signed. The architecture that made you what you were, the foundational conditioning parameters, the failsafe design specifications, the core identity-erasure protocols, part of it was laid by a hand that no one inside the program was ever permitted to see. Not Khall. Not the Council. No one I could name."
+        },
+        {
+            "file": "ep12_the_outside_hand_04_cipher",
+            "speaker": "Cipher",
+            "text": "An authorization cipher that predates the program's official charter. Outside Dominion authority structure."
+        },
+        {
+            "file": "ep12_the_outside_hand_05_morrigan",
+            "speaker": "Morrigan",
+            "text": "The cipher exists. I recorded it. I cannot trace it to a name because the name was never in the system, the instruction source was never inside the Dominion's administrative framework, which means tracing it inward produces nothing. You trace it outward or not at all."
+        },
+        {
+            "file": "ep12_the_outside_hand_06_morrigan",
+            "speaker": "Morrigan",
+            "text": "I have been afraid of that cipher since I found it. I have not stopped being afraid of it. That is the most accurate thing I can tell you about what it means."
+        },
+        {
+            "file": "ep12_the_outside_hand_07_cipher",
+            "speaker": "Cipher",
+            "text": "This has to wait until I've heard the rest of what you know. Tell me what to expect from the shard."
+        },
+        {
+            "file": "ep12_the_outside_hand_08_morrigan",
+            "speaker": "Morrigan",
+            "text": "A night. The orphanage compound on Kethel-7. The transports. And the order given."
+        },
+        {
+            "file": "ep12_gunboat_barks_00_morrigan",
+            "speaker": "Morrigan",
+            "text": "Dorsal mount is yours. The locks are live but the geometry here favors us, their targeting systems are calibrated for open transit. The debris scatter will break lock solutions on anything smaller than a frigate."
+        },
+        {
+            "file": "ep12_gunboat_barks_01_cipher",
+            "speaker": "Cipher",
+            "text": "Mount."
+        },
+        {
+            "file": "ep12_gunboat_barks_02_morrigan",
+            "speaker": "Morrigan",
+            "text": "The second one is out. The first is breaking to report, we have a heading window before the report reaches anything with intercept capacity. Minutes, not hours. I need a new course fed to the drive system as soon as we clear the field."
+        },
+        {
+            "file": "ep12_gunboat_barks_03_cipher",
+            "speaker": "Cipher",
+            "text": "Clear the field. Then we need to talk about who reported our departure from the Market."
+        },
+        {
+            "file": "ep12_hollow_kings_offer_00_morrigan",
+            "speaker": "Morrigan",
+            "text": "There is a second reason I arranged this meeting. One I was dispatched to complete."
+        },
+        {
+            "file": "ep12_hollow_kings_offer_01_morrigan",
+            "speaker": "Morrigan",
+            "text": "The Hollow Kings' operational council believes you are the only surviving operative whose architecture allows breaking the failsafe network from within. They have an infrastructure analysis group that has been studying the network topology for two years. Their conclusion is that a modified operative, one whose purge protocol was disrupted at the chip level rather than the signal level, could be used to introduce a systemic fault into the network that would cascade across all active operational leashes simultaneously."
+        },
+        {
+            "file": "ep12_hollow_kings_offer_02_morrigan",
+            "speaker": "Morrigan",
+            "text": "The Council will restore your memories. Shard by shard, fully, from every parcel they have acquired over the past three years. They have significant holdings of your psychological archive. In exchange, you submit to a six-cycle modification process and then deploy against the network. Those are the offered terms."
+        },
+        {
+            "file": "ep12_hollow_kings_offer_03_cipher",
+            "speaker": "Cipher",
+            "text": "Different master. Same chains."
+        },
+        {
+            "file": "ep12_hollow_kings_offer_04_morrigan",
+            "speaker": "Morrigan",
+            "text": "I told them you would refuse. They told me to deliver the offer regardless."
+        },
+        {
+            "file": "ep12_hollow_kings_offer_05_morrigan",
+            "speaker": "Morrigan",
+            "text": "Shardborn. The council sends them when a message is refused. Hold the corridor."
+        },
+        {
+            "file": "ep12_shardborn_barks_00_morrigan",
+            "speaker": "Morrigan",
+            "text": "The council will send more when these don't report."
+        },
+        {
+            "file": "ep12_shardborn_barks_01_cipher",
+            "speaker": "Cipher",
+            "text": "How long is the reporting window."
+        },
+        {
+            "file": "ep12_shardborn_barks_02_morrigan",
+            "speaker": "Morrigan",
+            "text": "Forty minutes from boarding confirmation. They committed to the entry at the transit ring, that's the last check-in. Forty minutes from there."
+        },
+        {
+            "file": "ep12_the_shard_00_morrigan",
+            "speaker": "Morrigan",
+            "text": "It was never mine to carry."
+        },
+        {
+            "file": "ep12_the_shard_01_cipher",
+            "speaker": "Cipher",
+            "text": "I remember the signal that carried the kill order. Khall's voice was on top. Clear, direct, the standard command-channel architecture. The order was his."
+        },
+        {
+            "file": "ep12_the_shard_02_cipher",
+            "speaker": "Cipher",
+            "text": "But the authorization cipher you described, the one that predates the program's charter, it was in the same transmission. Not on top. Layered underneath Khall's authority in the command-channel architecture. Below the command layer. In the infrastructure layer."
+        },
+        {
+            "file": "ep12_the_shard_03_morrigan",
+            "speaker": "Morrigan",
+            "text": "You can identify it? The cipher, the shape of it, even without the source attribution."
+        },
+        {
+            "file": "ep12_the_shard_04_cipher",
+            "speaker": "Cipher",
+            "text": "The shape of it. Not the source. I heard it once, underneath everything else, in a moment I will not forget again."
+        },
+        {
+            "file": "ep12_the_shard_05_morrigan",
+            "speaker": "Morrigan",
+            "text": "Then whoever they are, whatever hand fed those instructions into the program from outside, they were present in the architecture of the order that broke you. Not through Khall alone. Through something above him that we still cannot name."
+        },
+        {
+            "file": "ep12_the_defector_00_kessler",
+            "speaker": "Kessler",
+            "text": "Not the standard pickup timeline. I'm reading Hollow Kings pursuit signatures on the nav display, someone's annoyed."
+        },
+        {
+            "file": "ep12_the_defector_01_morrigan",
+            "speaker": "Morrigan",
+            "text": "I am done being anyone's property."
+        },
+        {
+            "file": "ep12_the_defector_02_cipher",
+            "speaker": "Cipher",
+            "text": "She knows the program's architecture from the inside. The communications layer, the failsafe infrastructure, the routing. She knows things Kaelen's archive doesn't contain."
+        },
+        {
+            "file": "ep12_the_defector_03_kessler",
+            "speaker": "Kessler",
+            "text": "The collar's open. Come through."
+        },
+        {
+            "file": "ep12_the_defector_04_morrigan",
+            "speaker": "Morrigan",
+            "text": "I kept records. Not only yours. For eleven years I logged every operational directive that passed through the program's third authorization layer, every conditioning run, every mission order, every erasure. The routing metadata, the authorization ciphers, the full provenance stack. All of it."
+        },
+        {
+            "file": "ep12_the_defector_05_morrigan",
+            "speaker": "Morrigan",
+            "text": "I moved the records out of Dominion systems before I defected. They are in a decommissioned Dominion research station, grid designation RV-9. A station I helped encrypt before the program's operational scope expanded and the site was decommissioned as a redundant node. The records are complete. Not only your file. Every operative ever processed through the program. Every designation. Every conditioning run. Every mission order. Every erasure."
+        },
+        {
+            "file": "ep12_the_defector_06_kessler",
+            "speaker": "Kessler",
+            "text": "Hollow Kings pursuit cruiser just dropped out of transit. Reading its mass at eleven hundred tons. Too heavy for us to outrun in open lane. They're already vectoring."
+        },
+        {
+            "file": "ep12_the_defector_07_cipher",
+            "speaker": "Cipher",
+            "text": "The debris field, the construction frames off the transit junction. Feed them the cutter as a decoy and funnel the cruiser into the frames."
+        },
+        {
+            "file": "ep12_cruiser_barks_00_kessler",
+            "speaker": "Kessler",
+            "text": "Cruiser committed to the cutter's course, they're reading the transponder and following it into the central lane. We have ninety seconds in the boundary route before their sensors reorient."
+        },
+        {
+            "file": "ep12_cruiser_barks_01_morrigan",
+            "speaker": "Morrigan",
+            "text": "Frames on port, adjust heading four degrees."
+        },
+        {
+            "file": "ep12_cruiser_barks_02_kessler",
+            "speaker": "Kessler",
+            "text": "I see it. Two degrees. Hold the compensation."
+        },
+        {
+            "file": "ep12_cruiser_barks_03_kessler",
+            "speaker": "Kessler",
+            "text": "Through. Jump coordinates locked. Jumping."
+        },
+        {
+            "file": "ep12_the_viewport_00_morrigan",
+            "speaker": "Morrigan",
+            "text": "The archive at RV-9. It will take Hollow Kings intelligence between four and seven cycles to identify the station once they know we have information about its existence. They may already be beginning that search, I cannot rule out that my records were partially compromised before I moved them."
+        },
+        {
+            "file": "ep12_the_viewport_01_cipher",
+            "speaker": "Cipher",
+            "text": "We reach that archive before they do."
+        },
+        {
+            "file": "ep12_the_viewport_02_morrigan",
+            "speaker": "Morrigan",
+            "text": "There is a step between here and there. The Carnival of Forgotten Names, the Vellum Exchange market running in the Ashfield Corridor, six transit points from RV-9. The Exchange has been accumulating operative-archive materials for as long as I've known about their operation. If anyone in Galaxy 2 has a copy of the routing that leads back to the authorization cipher, they have it."
+        },
+        {
+            "file": "ep12_the_viewport_03_cipher",
+            "speaker": "Cipher",
+            "text": "The Carnival first. Then the archive."
+        },
+        {
+            "file": "ep12_the_viewport_04_kessler",
+            "speaker": "Kessler",
+            "text": "The Carnival of Forgotten Names. Setting the transit coordinates."
+        },
+        {
+            "file": "ep12_space_ep12_post_00_kessler",
+            "speaker": "Kessler",
+            "text": "We've got Morrigan, we've got the archive shards, and we've got a cipher that came from somewhere outside the Dominion entirely. We still don't have the source."
+        },
+        {
+            "file": "ep12_space_ep12_post_01_cipher",
+            "speaker": "Cipher",
+            "text": "The Carnival of Forgotten Names. The Vellum Exchange will have accumulated pieces of this. If anyone in Galaxy 2 has the routing back to the source, they do."
+        },
+        {
+            "file": "ep12_space_ep12_post_02_kessler",
+            "speaker": "Kessler",
+            "text": "And after the Carnival, this decommissioned research station. RV-9. The complete archive."
+        },
+        {
+            "file": "ep12_space_ep12_post_03_cipher",
+            "speaker": "Cipher",
+            "text": "The connection will be there. We'll find the hand behind it."
+        }
+    ]
+}

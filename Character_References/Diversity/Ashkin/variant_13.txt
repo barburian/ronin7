@@ -1,0 +1,8 @@
+VARIANT: Ashkin #13 — "Beast-Herder Boy"
+SPECIES: Ashkin (frontier dust-world settler).
+SEX / AGE / BUILD: Male / child (~11) / wiry, sunbrowned.
+ROLE IN WORLD: Herds the colony dust-beasts across the flats.
+DISTINGUISHING FEATURES: Ochre skin; small forming plates; bright ember eyes; a wide grin missing a tooth; ash-matted hair; a herding-whistle on a cord.
+CLOTHING / GEAR: A poncho-wrap, a herding crook, a sling, a hide water-gourd, beast-prod.
+COLOR / PALETTE: Ochre skin; dust-tan poncho; grey ash; hide-browns.
+>> IMAGE-PROMPT SUMMARY: A wiry sunbrowned ~11-year-old male ashkin beast-herder with ochre skin, small forming cheek-plates, bright ember eyes, a gap-toothed grin and ash-matted hair. Wears a dust-tan poncho-wrap with a herding crook, a sling, a hide water-gourd and a whistle on a cord. Ochre, dust-tan and hide-brown palette. Cheerful, scrappy. Grounded alien sci-fi frontier.

@@ -1,0 +1,7 @@
+VARIANT: Mourner #02 — "Faded Chorus-Keeper"
+SPECIES: The Mourners (ancient soul-keepers).
+FORM / AGE / DENSITY: Tall, thin, half-dissolved; a background chorus member nearly gone to mist.
+DISTINGUISHING FEATURES: Vapor-body so sparse the robe hangs near-empty; the faintest cold-white glow in the face-hollow; only fingertips resolve from the sleeves.
+ROBE / STATE: A heavily tattered, threadbare shroud bleeding fog through every gap.
+COLOR / PALETTE: Pale ash-grey washing to white; faint cold-white inner glow.
+>> IMAGE-PROMPT SUMMARY: A tall thin half-dissolved chorus Mourner nearly gone to mist: a sparse vapor-body hanging a near-empty heavily-tattered threadbare ash-grey shroud that bleeds fog through every gap, with only the faintest cold-white glow in the face-hollow and only fingertips resolving from the sleeves. Pale ash-grey-to-white palette with faint cold-white glow. Ghostly, fading. Cosmic dark sci-fi.

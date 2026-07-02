@@ -1,0 +1,28 @@
+{
+    "asset": "076f3797494e4c046a70c601f1e9d86d",
+    "fileName": "019efa4d-a242-7aaa-bb9a-19ad3dc7c8ec.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A hard collared simmering adult male vesh pit slave-fighter with oxblood pit-scarred chitin, furious banked orange slit-eyes, one filed-off mandible-tusk, a bolted iron slave-collar and deliberately defaced brand-glyphs. Wears a pit-fighter loin-harness with manacle-marks, gripping a chained pit-blade. Oxblood, pit-grime and iron palette with defaced brands. Caged, dangerous. Grounded alien sci-fi raider. Color palette: Oxblood carapace; pit-grime; iron collar and chains; defaced bone-white brands. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

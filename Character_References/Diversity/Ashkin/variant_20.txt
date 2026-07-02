@@ -1,0 +1,8 @@
+VARIANT: Ashkin #20 — "Colony Elder-Chief"
+SPECIES: Ashkin (frontier dust-world settler).
+SEX / AGE / BUILD: Male / elder / tall, commanding despite age.
+ROLE IN WORLD: Elected chief and judge of a dust-world colony.
+DISTINGUISHING FEATURES: Richly cracked deep-terracotta skin; grand heavy ridged brow and shoulder plates; steady authoritative amber ember eyes; a long ash-grey braided beard; a chief brand on the chest plate.
+CLOTHING / GEAR: A ceremonial layered chief-robe with clan tokens, a staff of office, a judgment-stone.
+COLOR / PALETTE: Deep-terracotta skin; ceremonial deep-rust and bone robe; grey ash; bronze tokens.
+>> IMAGE-PROMPT SUMMARY: A tall commanding elder male ashkin colony-chief with richly cracked deep-terracotta skin, grand heavy ridged brow and shoulder keratin-plates, steady authoritative amber ember eyes and a long ash-grey braided beard, a chief-brand on his chest-plate. Wears a ceremonial layered deep-rust-and-bone chief-robe with clan tokens, holding a staff of office and a judgment-stone. Deep-terracotta, deep-rust and bronze palette. Dignified, authoritative. Grounded alien sci-fi frontier.

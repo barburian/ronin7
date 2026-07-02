@@ -1,0 +1,28 @@
+{
+    "asset": "0601f0bf9f64b134b82fca35f5975c55",
+    "fileName": "019efaed-1dbc-7bc5-add5-05bfec5595de.png",
+    "prompt": "Concept art of a single weapon shown complete and centered, isolated on a plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, NO character, no hands, no figure, only the implement by itself. Subject: a thin cruel disciplinary cane, a slender stiff dark rod used by a brutal academy matron, austere and militaristic with a worn grip and a hard tip, plain and sinister, an instrument of punishment not a blade. Color palette: austere iron-grey and dark with a cold tone. Grounded human sci-fi, single weapon prop on neutral background.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

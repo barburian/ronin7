@@ -1,0 +1,8 @@
+VARIANT: Gravelkin #05 — "One-Eyed Pirate"
+SPECIES: Gravelkin (cave-dwelling stoneblood).
+SEX / AGE / BUILD: Male / older adult / heavy, battered, weather-cracked.
+ROLE IN WORLD: Veteran raider of the deep-hold pirate band.
+DISTINGUISHING FEATURES: Basalt hide chipped all over; one quartz eye shattered to a dull crater, the other sharp; one tusk snapped; nodules grown crooked over old fractures.
+CLOTHING / GEAR: A patched plate-coat, a hook-axe, a stone eye-patch lashed over the dead socket, trophy chains.
+COLOR / PALETTE: Dark basalt hide; rust and black iron; dead-cave grey.
+>> IMAGE-PROMPT SUMMARY: A heavy battered older male gravelkin pirate with all-over chipped basalt lithic hide, one quartz eye shattered to a dull crater and one sharp, a snapped tusk and nodules grown crooked over old fractures. Wears a patched iron plate-coat, a lashed stone eye-patch and trophy chains, carrying a hook-axe. Dark-basalt, rust and black-iron palette. Scarred, salty, dangerous. Grounded alien sci-fi.

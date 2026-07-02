@@ -1,0 +1,28 @@
+{
+    "asset": "c3c07c1d58c98194890125c4a5bfaf9d",
+    "fileName": "019efa4a-213f-7bdd-b062-16867de56f7f.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A bowed diminished Drowned-Light Penitent Synod voidform whose fault-seams have almost fully gone dark, only the faintest guttering grey-blue glow remaining, carrying a cracked lightless crown in its hands rather than wearing it, smoke sinking downward like it drowns. Wears a tarnished dull-black mantle. Dull obsidian-grey-black with near-dead grey-blue glow palette. Disgraced, fading. Cosmic dark sci-fi. Color palette: Dull obsidian-grey-black; near-dead grey-blue glow; sinking smoke. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

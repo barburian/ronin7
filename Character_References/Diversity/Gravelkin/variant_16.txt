@@ -1,0 +1,8 @@
+VARIANT: Gravelkin #16 — "Scarred Raid-Captain"
+SPECIES: Gravelkin (cave-dwelling stoneblood).
+SEX / AGE / BUILD: Male / older adult / huge, hard, commanding.
+ROLE IN WORLD: Captains a raider-crew under the hold banner; a minor war-leader.
+DISTINGUISHING FEATURES: Basalt hide mapped with re-mineralized blade-scars; heavy brow and jaw nodules; one tusk gold-capped; sharp commanding quartz eyes; a rank-glyph branded on the chest-plate.
+CLOTHING / GEAR: A captain plate-coat with a banner-clasp, a great war-sword, a signal-horn, a command-baton.
+COLOR / PALETTE: Basalt-grey hide; iron coat; gold tusk-cap; a black-and-red banner accent.
+>> IMAGE-PROMPT SUMMARY: A huge hard commanding older male gravelkin raid-captain with basalt lithic hide mapped in re-mineralized blade-scars, heavy brow and jaw nodules, one gold-capped tusk, sharp commanding quartz eyes and a rank-glyph branded on the chest-plate. Wears an iron captain plate-coat with a banner-clasp, carrying a great war-sword, signal-horn and command-baton. Basalt-grey, iron and black-red palette with a gold tusk-cap. Authoritative, battle-hard. Grounded alien sci-fi.

@@ -1,0 +1,7 @@
+VARIANT: Mourner #06 — "Trailing Wisp-Mourner"
+SPECIES: The Mourners (ancient soul-keepers).
+FORM / AGE / DENSITY: Very low density, more streak than figure; the most dissolved of the ring.
+DISTINGUISHING FEATURES: Barely a shroud at all, just a vertical drift of grey vapor with a suggestion of shoulders; the merest glimmer of light; one half-hand resolving and re-dissolving.
+ROBE / STATE: Shroud almost entirely returned to fog; only a collar-and-shoulder hint remains.
+COLOR / PALETTE: Translucent grey washing to nothing; the faintest glimmer.
+>> IMAGE-PROMPT SUMMARY: A barely-there wisp Mourner, more vertical streak of grey vapor than figure, with only a suggestion of shoulders, a collar-and-shoulder hint of shroud, the merest glimmer of cold light and one half-hand resolving and re-dissolving. Translucent grey-to-nothing palette. The most dissolved keeper, almost gone. Cosmic dark sci-fi.

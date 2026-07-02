@@ -1,0 +1,28 @@
+{
+    "asset": "e98c932974eefe447afec4c7497a867b",
+    "fileName": "019efaec-b04a-7e34-abdc-1488c7ec9338.png",
+    "prompt": "Concept art of a single weapon shown complete and centered, isolated on a plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, NO character, no hands, no figure, only the weapon by itself. Subject: a predatory vesh raider's blade, a jagged scavenged chitin-and-scrap-metal cleaver-sword with a vicious serrated edge, bound with trophy cords and clan tokens, bone-white scarification carved into the blade and kill-notch tallies along the spine, crude lethal and personal. Color palette: dark red-brown-to-charcoal chitin with burning orange accents and bone-white markings. Grounded alien sci-fi, single weapon prop on neutral background.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

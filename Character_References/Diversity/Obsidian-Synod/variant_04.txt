@@ -1,0 +1,7 @@
+VARIANT: Obsidian Synod #04 — "Archivist of the War-Loom"
+SPECIES: Obsidian Synod (shadow-author voidform).
+RANK / FORM: A scholar-office that keeps the cage build-record; hunched, many-armed voidform.
+DISTINGUISHING FEATURES: A stooped obsidian body with several too-jointed arms; a low cold white-blue glow; threads of glowing war-loom strands running through its fingers; a hollow where a heart-core should be, threaded with strands.
+REGALIA / STATE: A loom-mantle strung with glowing strcategy-threads; smoke pooling at the feet.
+COLOR / PALETTE: Obsidian black; cold white-blue glow; pale loom-thread light.
+>> IMAGE-PROMPT SUMMARY: A stooped many-armed Archivist Synod voidform with a hunched obsidian body, several too-jointed arms, a low cold white-blue glow and threads of glowing war-loom strands running through its fingers and through a hollow where a heart-core should be. Wears a loom-mantle strung with glowing strategy-threads, smoke pooling at its feet. Obsidian-black with cold-white-blue and pale-thread-glow palette. Calculating, eldritch. Cosmic dark sci-fi.

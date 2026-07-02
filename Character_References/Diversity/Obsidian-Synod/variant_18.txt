@@ -1,0 +1,7 @@
+VARIANT: Obsidian Synod #18 — "Drowned-Light Penitent"
+SPECIES: Obsidian Synod (shadow-author voidform).
+RANK / FORM: A diminished/disgraced form whose light has nearly gone out; bowed voidform.
+DISTINGUISHING FEATURES: A bowed obsidian body with its fault-seams almost fully dark (a Synod fallen out of favor); only the faintest guttering grey-blue glow; a cracked, lightless crown carried in its hands rather than worn; smoke sinking downward like it drowns.
+REGALIA / STATE: A tarnished dull-black mantle, the crown removed and held low.
+COLOR / PALETTE: Dull obsidian-grey-black; near-dead grey-blue glow; sinking smoke.
+>> IMAGE-PROMPT SUMMARY: A bowed diminished Drowned-Light Penitent Synod voidform whose fault-seams have almost fully gone dark, only the faintest guttering grey-blue glow remaining, carrying a cracked lightless crown in its hands rather than wearing it, smoke sinking downward like it drowns. Wears a tarnished dull-black mantle. Dull obsidian-grey-black with near-dead grey-blue glow palette. Disgraced, fading. Cosmic dark sci-fi.

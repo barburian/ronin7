@@ -1,0 +1,28 @@
+{
+    "asset": "4085954998628d14994eb89bcfdf0ec7",
+    "fileName": "019efaa1-6119-7095-969e-f9e88c02f561.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from the top of the head down to the soles of the feet, the whole figure centered and small within the frame with large empty background margins on all four sides so nothing is cropped, the complete head and feet fully inside the frame and not touching any edge. Front view, neutral upright A-pose, arms slightly away from the body. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no text, no logo, no border, only one character. Subject: a lean, mid-30s human male SCI-FI SPACE-SAMURAI with a hard, flat, haunted face, short dark hair, a long surgical scar across his throat, and faint cybernetic augment-seams under slightly mismatched grafted skin at the neck and forearms with a faint cyan instrument-glint in his eyes. FULLY CLOTHED in sleek stripped-down matte dark-graphite and gunmetal operative armor — close-fit underlayer with segmented lightweight armor panels at chest, shoulders, forearms and shins, and a long worn travel coat over it — all thematically matched to his sword: thin glowing cyan-white energy tech-circuitry lines trace along the armor seams and panels, the same matte-graphite metal and steady cyan glow as the blade. At his hip he wears a single sleek high-tech wrapped katana in a matte-graphite saya, its hilt and blade-line giving off a small steady cyan-white glow. Not bulky, lean and lethal, dead-still economical poise. Color palette: matte black, ash-grey and gunmetal graphite with a steady cyan-white energy accent. Samurai elegy in a dead-tech sci-fi galaxy.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

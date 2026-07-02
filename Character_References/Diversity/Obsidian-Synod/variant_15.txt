@@ -1,0 +1,7 @@
+VARIANT: Obsidian Synod #15 — "Shatter-Form (Broken King)"
+SPECIES: Obsidian Synod (shadow-author voidform).
+RANK / FORM: A damaged/half-destroyed Synod form, held together by will; cracked voidform.
+DISTINGUISHING FEATURES: An obsidian body visibly shattered and floating in suspended fragments, gaps of raw void between the pieces; fault-light leaking from every crack in unstable white-blue and flickering orange; a crown broken in half; one arm a drifting cloud of shards.
+REGALIA / STATE: A cracked mantle of black glass shards held in a suspended halo around the void-core.
+COLOR / PALETTE: Obsidian black shards; leaking unstable white-blue and orange; void gaps.
+>> IMAGE-PROMPT SUMMARY: A damaged Shatter-Form Broken-King Synod voidform held together by will, its obsidian body visibly shattered into suspended floating fragments with gaps of raw void between the pieces, fault-light leaking from every crack in unstable white-blue and flickering orange, a crown broken in half and one arm a drifting cloud of shards. Mantle of black-glass shards orbits the void-core. Obsidian-shard, unstable-white-blue-and-orange palette. Wounded, unstable, dread. Cosmic dark sci-fi.

@@ -1,0 +1,7 @@
+VARIANT: Obsidian Synod #16 — "Lesser Acolyte-Form"
+SPECIES: Obsidian Synod (shadow-author voidform).
+RANK / FORM: The lowest Synod rank; smaller, simpler, less defined voidform.
+DISTINGUISHING FEATURES: A smaller, plainer obsidian body with simpler proportions (the "common" Synod form); a single small dim white-blue dot-seam for a face; an uncrowned smooth head; thin tentative shadow-hands; minimal smoke.
+REGALIA / STATE: A plain undecorated black-glass acolyte-shroud, no crown, no sigils.
+COLOR / PALETTE: Plain obsidian black; small dim white-blue dot-seam.
+>> IMAGE-PROMPT SUMMARY: A smaller plainer lowest-rank Acolyte Synod voidform with simpler proportions, a single small dim white-blue dot-seam for a face, an uncrowned smooth head, thin tentative shadow-hands and minimal smoke. Wears a plain undecorated black-glass acolyte-shroud with no crown or sigils. Plain obsidian-black with a small dim white-blue dot palette. Common, lesser, eerie. Cosmic dark sci-fi.

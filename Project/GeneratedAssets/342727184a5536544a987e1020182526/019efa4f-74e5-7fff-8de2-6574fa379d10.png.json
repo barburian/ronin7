@@ -1,0 +1,28 @@
+{
+    "asset": "342727184a5536544a987e1020182526",
+    "fileName": "019efa4f-74e5-7fff-8de2-6574fa379d10.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A whippet-lean tireless fast young-adult male vesh scout-runner with slim light-banded red-brown chitin shed for speed, bright darting orange slit-eyes, small swept-back mandible-tusks, long digitigrade legs and cheek wind-burn. Wears a stripped-down running-harness with message-thongs, a signal-horn, a light hooked knife and water-skin. Light red-brown, rawhide and dust palette. Swift, alert. Grounded alien sci-fi raider. Color palette: Light red-brown carapace; minimal rawhide; dust; a clan-color message-thong. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

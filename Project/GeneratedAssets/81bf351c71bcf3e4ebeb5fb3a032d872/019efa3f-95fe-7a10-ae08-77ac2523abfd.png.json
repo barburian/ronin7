@@ -1,0 +1,28 @@
+{
+    "asset": "81bf351c71bcf3e4ebeb5fb3a032d872",
+    "fileName": "019efa3f-95fe-7a10-ae08-77ac2523abfd.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: Early-20s human woman, slight and wiry, with a sharp alert face, quick dark eyes, copper hair tied back with a fine dusting of grey ash, and faintly gaunt cheeks from years in captivity. A cut collateral collar-tag worn at the throat as a keepsake. Dressed in a fitted teal-grey utility jumpsuit with tool loops, cable runs, pushed-up sleeves and fingerless gloves, hunched over a glowing hand-screen. Utilitarian palette with small indicator-light accents. Reads as the crew's fast, dry, fearless young hacker-conscience. Grounded human sci-fi. Color palette: Teal/grey utilitarian with warm copper hair; small indicator-light accents from her rig. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

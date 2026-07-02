@@ -1,0 +1,8 @@
+VARIANT: Warren-folk #05 — "Blind Beggar"
+SPECIES: Warren-folk (market underclass)
+SEX / AGE / BUILD: Male / old / gaunt, bent, brittle.
+ROLE IN WORLD: Beggar at the warren gate; trades whispers for coin.
+DISTINGUISHING FEATURES: Both eyes clouded grey; a torn-off frill leaving scar-ridges at the neck; sunken cheeks; trembling padless fingertips.
+CLOTHING / GEAR: A filthy hooded blanket-cloak, a begging bowl, a tapping stick.
+COLOR / PALETTE: Ashen grey-mauve skin; colorless grime-grey rags; the dull metal bowl.
+>> IMAGE-PROMPT SUMMARY: A gaunt bent old male warren-folk beggar with both eyes clouded grey, a torn-off throat-frill leaving neck scar-ridges, sunken cheeks and trembling fingers. Wrapped in a filthy hooded grime-grey blanket-cloak with a begging bowl and tapping stick. Ashen grey-mauve skin, colorless palette. Pitiable, worn. Grounded alien sci-fi.

@@ -1,0 +1,28 @@
+{
+    "asset": "60c5b6a514ebf5244970e06d7bf3f2a2",
+    "fileName": "019efa50-6984-7ed2-8417-1d4133172c74.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A round fast-talking sweaty middle-aged male voll bookmaker with green-grey oily sweat-beaded skin, quick-flicking dewlaps, rapid hooded gold eyes, a chewed stylus in his lipless mouth and odds-glyph tattoos up the forearms. Wears a loud mustard-and-maroon checked bookie-vest with a cash-belt and wrist tally-rig, an odds-board slate beside him. Green-grey, mustard-maroon and chalk palette. Shifty, energetic. Grounded alien sci-fi. Color palette: Green-grey flesh; loud mustard-and-maroon vest; chalk odds-board; lamp-glow. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

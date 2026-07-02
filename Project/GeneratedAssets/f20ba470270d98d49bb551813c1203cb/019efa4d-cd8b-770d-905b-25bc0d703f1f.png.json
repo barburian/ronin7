@@ -1,0 +1,28 @@
+{
+    "asset": "f20ba470270d98d49bb551813c1203cb",
+    "fileName": "019efa4d-cd8b-770d-905b-25bc0d703f1f.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A grotesquely vast indolent adult male voll pleasure-merchant with glossy oiled green-grey skin, enormous jewelry-hung layered dewlaps, heavy-lidded gold eyes, implanted comfort-augments and gilded claw-caps. Draped in loose violet-and-gold silks with gem-chains on a reclining litter, a sweet-smoke censer at hand. Green-grey, violet-gold and jewel-glitter palette in incense-haze. Decadent, oily. Grounded alien sci-fi. Color palette: Green-grey oily flesh; opulent violet and gold silks; jewel-glitter; incense-haze. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

@@ -1,0 +1,334 @@
+{
+    "lines": [
+        {
+            "file": "ep22_approach_00_kessler",
+            "speaker": "Kessler",
+            "text": "That beacon's been pulsing for days. Too old to be recent. Too structured to be debris."
+        },
+        {
+            "file": "ep22_approach_01_cipher",
+            "speaker": "Cipher",
+            "text": "Dominion signature?"
+        },
+        {
+            "file": "ep22_approach_02_kessler",
+            "speaker": "Kessler",
+            "text": "Maybe. Before your time or after it, I can't say. But yes. Dominion built. Dominion abandoned. The galaxy's full of things they made and then forgot."
+        },
+        {
+            "file": "ep22_approach_03_irenesols",
+            "speaker": "Irene Sols",
+            "text": "If you board, you seal our isolation contract."
+        },
+        {
+            "file": "ep22_approach_04_cipher",
+            "speaker": "Cipher",
+            "text": "I acknowledge the contract."
+        },
+        {
+            "file": "ep22_approach_05_irenesols",
+            "speaker": "Irene Sols",
+            "text": "They built us. Then they forgot us. Whether that was mercy or malice, I have not decided."
+        },
+        {
+            "file": "ep22_cargo_barks_00_securitymech1",
+            "speaker": "Security Mech 1",
+            "text": "Unauthorized contact! Deploying countermeasures!"
+        },
+        {
+            "file": "ep22_cargo_barks_01_securitymech2",
+            "speaker": "Security Mech 2",
+            "text": "Thermal signature locked! Engaging!"
+        },
+        {
+            "file": "ep22_cargo_barks_02_cipher",
+            "speaker": "Cipher",
+            "text": "Power core is secure. Moving to bridge access."
+        },
+        {
+            "file": "ep22_recognition_00_irenesols",
+            "speaker": "Irene Sols",
+            "text": "You are one of the Program's operatives."
+        },
+        {
+            "file": "ep22_recognition_01_cipher",
+            "speaker": "Cipher",
+            "text": "Yes."
+        },
+        {
+            "file": "ep22_recognition_02_irenesols",
+            "speaker": "Irene Sols",
+            "text": "I thought we might see you one day. We prepared for it in the records."
+        },
+        {
+            "file": "ep22_recognition_03_irenesols",
+            "speaker": "Irene Sols",
+            "text": "The Meridian was dispatched 200 years ago. Equipped with pre-conditioned subjects in cryo-stasis. The Dominion's own documentation called them \"templates.\" Biological source material."
+        },
+        {
+            "file": "ep22_recognition_04_cipher",
+            "speaker": "Cipher",
+            "text": "Source material for what?"
+        },
+        {
+            "file": "ep22_recognition_05_irenesols",
+            "speaker": "Irene Sols",
+            "text": "For operatives. For weapons. An operative designated Ronin-1 was dispatched to oversee their activation. To review the protocols. To prepare them for programming."
+        },
+        {
+            "file": "ep22_recognition_06_irenesols",
+            "speaker": "Irene Sols",
+            "text": "Instead, he chose differently. He wiped the activation data. Freed the subjects from their scheduled programming. Then vanished."
+        },
+        {
+            "file": "ep22_recognition_07_cipher",
+            "speaker": "Cipher",
+            "text": "And the subjects?"
+        },
+        {
+            "file": "ep22_recognition_08_irenesols",
+            "speaker": "Irene Sols",
+            "text": "They thawed. They woke. They found themselves free in the dark of a ship with no destination. My ancestors grew up around them. We have lived free of the Program ever since. Diminished. Sealed. But free."
+        },
+        {
+            "file": "ep22_recognition_09_irenesols",
+            "speaker": "Irene Sols",
+            "text": "We were meant to be a thousand. We are 143."
+        },
+        {
+            "file": "ep22_vault_barks_00_vaultsecurity",
+            "speaker": "Vault Security",
+            "text": "Unauthorized biometric intrusion! Lethal authorization active!"
+        },
+        {
+            "file": "ep22_vault_aftermath_00_cipher",
+            "speaker": "Cipher",
+            "text": "The ship itself is Dominion architecture."
+        },
+        {
+            "file": "ep22_vault_aftermath_01_irenesols",
+            "speaker": "Irene Sols",
+            "text": "Yes. Designed by them. Forgotten by them. We are the forgotten design, and so are you."
+        },
+        {
+            "file": "ep22_children_below_00_lira",
+            "speaker": "Lira",
+            "text": "Are you the one Ronin-1's logs promised would come back?"
+        },
+        {
+            "file": "ep22_children_below_01_irenesols",
+            "speaker": "Irene Sols",
+            "text": "No, Lira. He is something else."
+        },
+        {
+            "file": "ep22_children_below_02_cipher",
+            "speaker": "Cipher",
+            "text": "How many of these children are biologically descended from the original subjects?"
+        },
+        {
+            "file": "ep22_children_below_03_irenesols",
+            "speaker": "Irene Sols",
+            "text": "All of them. The colony has been carefully managed. Eight generations of bloodlines, all descended from the templates. We are the proof that you can break the conditioning. We are the living archive that Ronin-1's choice preserved."
+        },
+        {
+            "file": "ep22_flood_barks_00_irenesols",
+            "speaker": "Irene Sols",
+            "text": "The lower stacks! Pressure cascade! Get the children to the secondary habitats!"
+        },
+        {
+            "file": "ep22_flood_barks_01_farmoverseer",
+            "speaker": "Farm Overseer",
+            "text": "Primary seals failing! Water containment compromised!"
+        },
+        {
+            "file": "ep22_flood_barks_02_repairdrone1",
+            "speaker": "Repair Drone 1",
+            "text": "Unauthorized presence! Deploying security protocol!"
+        },
+        {
+            "file": "ep22_flood_barks_03_repairdrone2",
+            "speaker": "Repair Drone 2",
+            "text": "Containment failure imminent! Escalating countermeasures!"
+        },
+        {
+            "file": "ep22_children_aftermath_00_lira",
+            "speaker": "Lira",
+            "text": "Ronin-1 saved them. Are you saving us?"
+        },
+        {
+            "file": "ep22_children_aftermath_01_cipher",
+            "speaker": "Cipher",
+            "text": "No. I'm trying to understand what I am."
+        },
+        {
+            "file": "ep22_ronin1_archive_00_ronin1",
+            "speaker": "Ronin-1",
+            "text": "If you are hearing this, the Program sent you. I cannot stop what they will do with you."
+        },
+        {
+            "file": "ep22_ronin1_archive_01_ronin1",
+            "speaker": "Ronin-1",
+            "text": "But I can tell you what they began with. The templates are out there. Dozens of colony ships dispatched across the galaxy before the first operative was trained."
+        },
+        {
+            "file": "ep22_ronin1_archive_02_ronin1",
+            "speaker": "Ronin-1",
+            "text": "The subjects are still in cryo. They do not know what was planned for them. I left their coordinates in this archive, sealed against the Dominion. Use it however you decide is right."
+        },
+        {
+            "file": "ep22_ronin1_archive_03_irenesols",
+            "speaker": "Irene Sols",
+            "text": "What do you believe now?"
+        },
+        {
+            "file": "ep22_ronin1_archive_04_cipher",
+            "speaker": "Cipher",
+            "text": "I believe Ronin-1 answered the question I didn't know to ask. And I believe I have to answer the one he left open."
+        },
+        {
+            "file": "ep22_failsafe_barks_00_cipher",
+            "speaker": "Cipher",
+            "text": "No. No. Not happening. Not again."
+        },
+        {
+            "file": "ep22_failsafe_barks_01_kessler",
+            "speaker": "Kessler",
+            "text": "Hold it. Hold it together. You've beaten this before."
+        },
+        {
+            "file": "ep22_failsafe_barks_02_cipher",
+            "speaker": "Cipher",
+            "text": "It's clear. The broadcast can't go out from here."
+        },
+        {
+            "file": "ep22_younger_chain_00_kessler",
+            "speaker": "Kessler",
+            "text": "That data is worth leverage. Real leverage. Information this old about the Program's origin could purchase allies. Could buy us time."
+        },
+        {
+            "file": "ep22_younger_chain_01_irenesols",
+            "speaker": "Irene Sols",
+            "text": "Or it should be broadcast openly. Made irretrievable. Let the whole galaxy know what the Dominion did in the dark."
+        },
+        {
+            "file": "ep22_younger_chain_02_lira",
+            "speaker": "Lira",
+            "text": "What would Ronin-1 have done?"
+        },
+        {
+            "file": "ep22_younger_chain_03_cipher",
+            "speaker": "Cipher",
+            "text": "He already answered that. He left the archive intact and waited for a successor to choose. The question is what this successor decides."
+        },
+        {
+            "file": "ep22_ronin12_barks_00_ronin12",
+            "speaker": "Ronin-12",
+            "text": "Come back with me. It is mercy."
+        },
+        {
+            "file": "ep22_ronin12_barks_01_cipher",
+            "speaker": "Cipher",
+            "text": "That is what you have been told mercy looks like."
+        },
+        {
+            "file": "ep22_ronin12_barks_02_cipher",
+            "speaker": "Cipher",
+            "text": "Tell Khall what you saw. That the one he is hunting is choosing something other than obedience."
+        },
+        {
+            "file": "ep22_broadcast_00_ronin12",
+            "speaker": "Ronin-12",
+            "text": "Overseer Khall is en route. He will reach you before your failsafe finishes."
+        },
+        {
+            "file": "ep22_broadcast_01_cipher",
+            "speaker": "Cipher",
+            "text": "Then we broadcast first."
+        },
+        {
+            "file": "ep22_broadcast_02_irenesols",
+            "speaker": "Irene Sols",
+            "text": "The transmission is live. The beacon is holding. They'll pick it up at every relay station within three sectors."
+        },
+        {
+            "file": "ep22_boarding_barks_00_dominioncarriercommander",
+            "speaker": "Dominion Carrier Commander",
+            "text": "All boarding teams, prepare for breach! Suppress the communication array!"
+        },
+        {
+            "file": "ep22_boarding_barks_01_khall",
+            "speaker": "Khall",
+            "text": "The broadcast is noted. You have made yourself a permanent target, Cipher. The failsafe is still running. I will reach you before it finishes."
+        },
+        {
+            "file": "ep22_boarding_barks_02_cipher",
+            "speaker": "Cipher",
+            "text": "Reactor corridor clear! Keep transmitting!"
+        },
+        {
+            "file": "ep22_boarding_barks_03_boardingteamleader",
+            "speaker": "Boarding Team Leader",
+            "text": "Target is mobile! Maintaining suppressive fire!"
+        },
+        {
+            "file": "ep22_boarding_barks_04_khall",
+            "speaker": "Khall",
+            "text": "The hunters are already moving. There is no amnesty for what you have done here."
+        },
+        {
+            "file": "ep22_void_inheritors_00_irenesols",
+            "speaker": "Irene Sols",
+            "text": "Ronin-1 scattered seeds. You just told the galaxy where they are."
+        },
+        {
+            "file": "ep22_void_inheritors_01_lira",
+            "speaker": "Lira",
+            "text": "Are you leaving?"
+        },
+        {
+            "file": "ep22_void_inheritors_02_cipher",
+            "speaker": "Cipher",
+            "text": "Yes. The Meridian was never going to hold me."
+        },
+        {
+            "file": "ep22_stellar_dive_barks_00_kessler",
+            "speaker": "Kessler",
+            "text": "Stellar core approaching! You have two minutes to the point of no-return!"
+        },
+        {
+            "file": "ep22_closing_00_kessler",
+            "speaker": "Kessler",
+            "text": "What are you thinking?"
+        },
+        {
+            "file": "ep22_closing_01_cipher",
+            "speaker": "Cipher",
+            "text": "The Program is older than either of us knew. Most of it has not been found yet."
+        },
+        {
+            "file": "ep22_closing_02_cipher",
+            "speaker": "Cipher",
+            "text": "Somewhere in the broadcast now spreading across relay stations, dozens of coordinates wait. Colony ships still adrift and silent. Carrying template operatives in cryo-stasis. Pre-conditioned human beings who never knew what was planned for them."
+        },
+        {
+            "file": "ep22_closing_03_cipher",
+            "speaker": "Cipher",
+            "text": "They are still out there. Scattered. Frozen. Waiting."
+        },
+        {
+            "file": "ep22_closing_04_cipher",
+            "speaker": "Cipher",
+            "text": "That is where the next step begins."
+        },
+        {
+            "file": "ep22_space_ep22_post_00_cipher",
+            "speaker": "Cipher",
+            "text": "The broadcast is out. Ronin-1's archive, the template coordinates, the Program's origin, spreading across every relay in three sectors. The Meridian is ash now. The 143 are free."
+        },
+        {
+            "file": "ep22_space_ep22_post_01_kessler",
+            "speaker": "Kessler",
+            "text": "And we're a permanent target. Khall's hunters are moving. But the galaxy knows where the frozen ones are now. That changes the whole board."
+        }
+    ]
+}

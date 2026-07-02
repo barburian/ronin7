@@ -1,0 +1,45 @@
+==================================================================
+DRILLMASTER CARADOC   (Iron Dojo — the Proving / Trial Tower boss)
+==================================================================
+SPECIES: Human (Dominion/Program master — human per rule).
+
+ROLE & FACTION: Brutal master of the Proving (the Trial Tower), where older children are beaten into
+shape and failures discarded. Believes pain is the only honest teacher. The one master who wants the
+fight — a hands-on boss duel. Ch6 boss; killed (demands the killing blow), no spare condition.
+
+CHAPTERS: Ch6.
+
+AGE / BUILD / HEIGHT: Middle years, carved by decades of training; ~1.95 m. Big, slab-muscled,
+built for violence.
+
+HEAD: Hard, brutal, contemptuous face heavily SCARRED from decades of breaking people; close-shorn
+or bald; a parade-ground voice "built to carry across a yard"; cold proud eyes.
+
+BODY: Powerful, scarred all over (every scar "a lesson"); moves with brutal, drilled efficiency;
+default sneer of contempt.
+
+WEAPONS / PROPS: Hand-to-hand and a heavy training weapon (staff/baton/blunt blade); the Proving's
+trial-yard apparatus, whipping posts, breaking-frames.
+
+CLOTHING / ARMOR: Drillmaster's harness — stripped to scarred torso or a heavy sleeveless training
+gambeson, bracers, a sergeant's half-plate; functional, austere, Program-marked.
+
+COLOR PALETTE: Iron-grey, blood-rust, sweat-dark leather; bare scarred skin.
+
+SILHOUETTE / DISTINGUISHING FEATURES: A huge, bald, scar-covered drill-sergeant; loud, proud,
+brutal; the opposite face of Hespa's quiet horror.
+
+DEMEANOR: Loud, certain, unrepentant; cruelty as virtue; "There's the ones that break and the ones
+that get broke, and somebody has to do the breaking..." (Ch6)
+
+CANON SOURCE QUOTES:
+  - Big, scarred, built for violence; voice built to carry across a yard (Ch6).
+
+>> IMAGE-PROMPT SUMMARY:
+A huge, middle-aged human drill-master, slab-muscled and built for violence, with a hard contemptuous
+heavily-scarred face, shorn or bald head and cold proud eyes. Stripped to a scarred bare torso or a
+heavy sleeveless training gambeson with bracers and a sergeant's half-plate, Program-marked. Wields
+hand-to-hand and a heavy blunt training weapon amid whipping posts and breaking-frames. Iron-grey,
+blood-rust and sweat-dark leather palette with bare scarred skin. Stands loud, proud and brutal, eager
+for the fight. Grounded human sci-fi.
+==================================================================

@@ -1,0 +1,28 @@
+{
+    "asset": "5b98702c4b477fa44a75195837364d4c",
+    "fileName": "019efa45-f3a8-7de8-8cd2-2ac4e0ea756a.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A lean broad-ribbed young male ashkin moisture-farmer with ruddy ochre lightly-plated skin, bright ember eyes behind smoked dust-goggles, a breath-mask and ash in the knuckle-creases. Wears a sand-tan dust-cloak and hood with condenser-tools on his belt. Ochre, sand-tan and grey-ash palette. Hardy, wind-burnt. Grounded alien sci-fi frontier. Color palette: Ochre skin; sand-tan cloak; smoked-glass goggles; grey ash. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

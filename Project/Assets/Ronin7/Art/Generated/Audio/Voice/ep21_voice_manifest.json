@@ -1,0 +1,374 @@
+{
+    "lines": [
+        {
+            "file": "ep21_faces_he_turns_from_00_kessler",
+            "speaker": "Kessler",
+            "text": "You haven't slept properly since the Vendor of Ghosts."
+        },
+        {
+            "file": "ep21_faces_he_turns_from_01_cipher",
+            "speaker": "Cipher",
+            "text": "The faces accumulate. The Dominion kept those memories buried. Without them, the faces were just absence. Now they surface."
+        },
+        {
+            "file": "ep21_faces_he_turns_from_02_kessler",
+            "speaker": "Kessler",
+            "text": "Kade's signal came through encrypted. Claims he has evidence of a black Lotus program, using pollen to reshape operative conditioning. Force the truth up, then bury it again deeper."
+        },
+        {
+            "file": "ep21_faces_he_turns_from_03_kessler",
+            "speaker": "Kessler",
+            "text": "It's a trap, Cipher. Could be."
+        },
+        {
+            "file": "ep21_faces_he_turns_from_04_cipher",
+            "speaker": "Cipher",
+            "text": "The Dominion doesn't set traps for ghosts."
+        },
+        {
+            "file": "ep21_faces_he_turns_from_05_vess",
+            "speaker": "Vess",
+            "text": "You're volunteering."
+        },
+        {
+            "file": "ep21_faces_he_turns_from_06_cipher",
+            "speaker": "Cipher",
+            "text": "Before anyone else speaks."
+        },
+        {
+            "file": "ep21_faces_he_turns_from_07_kessler",
+            "speaker": "Kessler",
+            "text": "The pollen doesn't distinguish memory from nightmare. You'll see things down there that aren't real, and things that are. You won't know which is which."
+        },
+        {
+            "file": "ep21_faces_he_turns_from_08_cipher",
+            "speaker": "Cipher",
+            "text": "Good. I'm tired of not seeing them."
+        },
+        {
+            "file": "ep21_descent_barks_00_lotusenforcer1",
+            "speaker": "Lotus Enforcer 1",
+            "text": "Unidentified vessel! This is a restricted sector! Disengage or face termination!"
+        },
+        {
+            "file": "ep21_descent_barks_01_lotusenforcer2",
+            "speaker": "Lotus Enforcer 2",
+            "text": "Three contacts descending! Move to intercept!"
+        },
+        {
+            "file": "ep21_descent_barks_02_cipher",
+            "speaker": "Cipher",
+            "text": "First wave down. Moving to checkpoint two."
+        },
+        {
+            "file": "ep21_descent_barks_03_lotusenforcer3",
+            "speaker": "Lotus Enforcer 3",
+            "text": "Blade signature locked! Engage combat protocol!"
+        },
+        {
+            "file": "ep21_kade_confession_00_kade",
+            "speaker": "Kade",
+            "text": "Thirty-seven operatives. Cycled through the Lotus program."
+        },
+        {
+            "file": "ep21_kade_confession_01_kade",
+            "speaker": "Kade",
+            "text": "Most were reshaped. The rest lost to permanent dreamstate."
+        },
+        {
+            "file": "ep21_kade_confession_02_kade",
+            "speaker": "Kade",
+            "text": "I helped choose the test subjects."
+        },
+        {
+            "file": "ep21_kade_confession_03_kade",
+            "speaker": "Kade",
+            "text": "I have been sorry every day since."
+        },
+        {
+            "file": "ep21_kade_confession_04_kessler",
+            "speaker": "Kessler",
+            "text": "Your vitals are fluctuating. Pollen concentration rising. Stay inside. Don't fight the exposure."
+        },
+        {
+            "file": "ep21_kade_confession_05_kessler",
+            "speaker": "Kessler",
+            "text": "Six hours and your system will flush it. Hold steady."
+        },
+        {
+            "file": "ep21_kade_confession_06_cipher",
+            "speaker": "Cipher",
+            "text": "I acknowledge."
+        },
+        {
+            "file": "ep21_kade_confession_07_cipher",
+            "speaker": "Cipher",
+            "text": "The pollen's here. It's thick. I can barely..."
+        },
+        {
+            "file": "ep21_self_copy_barks_00_lotuswarrior",
+            "speaker": "Lotus Warrior",
+            "text": "You are the choice that costs everything. We are the obedience you ran from."
+        },
+        {
+            "file": "ep21_khall_echoes_00_khall",
+            "speaker": "Khall",
+            "text": "The Lotus does not show lies."
+        },
+        {
+            "file": "ep21_khall_echoes_01_khall",
+            "speaker": "Khall",
+            "text": "It shows what you already know but cannot say out loud."
+        },
+        {
+            "file": "ep21_khall_echoes_02_khall",
+            "speaker": "Khall",
+            "text": "You refused at Kethel-7. You remember that refusal now."
+        },
+        {
+            "file": "ep21_khall_echoes_03_cipher",
+            "speaker": "Cipher",
+            "text": "You're not real. You're the pollen showing me what I fear."
+        },
+        {
+            "file": "ep21_khall_echoes_04_khall",
+            "speaker": "Khall",
+            "text": "Does it matter if we are real or if we are fear? The order remains. The refusal remains. The cost remains."
+        },
+        {
+            "file": "ep21_khall_echoes_05_cipher",
+            "speaker": "Cipher",
+            "text": "I am killing the same figure in an endless loop."
+        },
+        {
+            "file": "ep21_reckoning_00_cipher",
+            "speaker": "Cipher",
+            "text": "You are me."
+        },
+        {
+            "file": "ep21_reckoning_01_cipher",
+            "speaker": "Cipher",
+            "text": "Every order I obeyed when I knew better. Every moment I chose the Dominion over what I could see in front of me."
+        },
+        {
+            "file": "ep21_testimony_00_girlagenine",
+            "speaker": "Girl (Age Nine)",
+            "text": "You came."
+        },
+        {
+            "file": "ep21_testimony_01_girlagenine",
+            "speaker": "Girl (Age Nine)",
+            "text": "You saw us."
+        },
+        {
+            "file": "ep21_testimony_02_girlagenine",
+            "speaker": "Girl (Age Nine)",
+            "text": "You refused."
+        },
+        {
+            "file": "ep21_testimony_03_girlagenine",
+            "speaker": "Girl (Age Nine)",
+            "text": "You did not forget us."
+        },
+        {
+            "file": "ep21_testimony_04_girlagenine",
+            "speaker": "Girl (Age Nine)",
+            "text": "They tried to take that from you, but you held it."
+        },
+        {
+            "file": "ep21_testimony_05_cipher",
+            "speaker": "Cipher",
+            "text": "I refused the order."
+        },
+        {
+            "file": "ep21_testimony_06_cipher",
+            "speaker": "Cipher",
+            "text": "I knew what it would cost me."
+        },
+        {
+            "file": "ep21_testimony_07_cipher",
+            "speaker": "Cipher",
+            "text": "I chose it anyway."
+        },
+        {
+            "file": "ep21_testimony_08_cipher",
+            "speaker": "Cipher",
+            "text": "And I would choose it again."
+        },
+        {
+            "file": "ep21_labyrinth_00_cipher",
+            "speaker": "Cipher",
+            "text": "Where are you? Where is the choice that broke me?"
+        },
+        {
+            "file": "ep21_expulsion_00_kade",
+            "speaker": "Kade",
+            "text": "Minutes. Only minutes passed."
+        },
+        {
+            "file": "ep21_expulsion_01_kessler",
+            "speaker": "Kessler",
+            "text": "Your vitals crashed. Exposure maximum. Extraction team inbound!"
+        },
+        {
+            "file": "ep21_expulsion_02_cipher",
+            "speaker": "Cipher",
+            "text": "I'm awake."
+        },
+        {
+            "file": "ep21_expulsion_03_cipher",
+            "speaker": "Cipher",
+            "text": "Khall is using the Lotus to reshape newer operatives."
+        },
+        {
+            "file": "ep21_expulsion_04_cipher",
+            "speaker": "Cipher",
+            "text": "Forcing the truth up from wherever it was buried, then rebuilding over it. That makes it dangerous to someone whose whole program depends on keeping that truth buried."
+        },
+        {
+            "file": "ep21_expulsion_05_kessler",
+            "speaker": "Kessler",
+            "text": "Then he'll come for this. And he'll bring everything."
+        },
+        {
+            "file": "ep21_expulsion_barks_00_lotuscommander",
+            "speaker": "Lotus Commander",
+            "text": "Intruder still mobile! Seal the primary exit! Contain the purge!"
+        },
+        {
+            "file": "ep21_expulsion_barks_01_lotusguard1",
+            "speaker": "Lotus Guard 1",
+            "text": "Structural integrity failing! Retreat to secondary!"
+        },
+        {
+            "file": "ep21_expulsion_barks_02_kessler",
+            "speaker": "Kessler",
+            "text": "Clear the exit! Grab-beam is live!"
+        },
+        {
+            "file": "ep21_shadow_ledger_00_kessler",
+            "speaker": "Kessler",
+            "text": "Thirty-seven operatives run through the program. Twenty-three \"successfully reshaped.\" The rest, lost. One file stops cold."
+        },
+        {
+            "file": "ep21_shadow_ledger_01_kessler",
+            "speaker": "Kessler",
+            "text": "Operative Ronin-8. Currently suspended in long-term dreamstate."
+        },
+        {
+            "file": "ep21_shadow_ledger_02_cipher",
+            "speaker": "Cipher",
+            "text": "I thought I was a mistake. A one-off. I didn't know there was a program with a numbering system."
+        },
+        {
+            "file": "ep21_shadow_ledger_03_vess",
+            "speaker": "Vess",
+            "text": "How many?"
+        },
+        {
+            "file": "ep21_shadow_ledger_04_kessler",
+            "speaker": "Kessler",
+            "text": "The file doesn't say. But there's a numbering pattern. The ledger could span decades."
+        },
+        {
+            "file": "ep21_elite_barks_00_dominioneliteoperative1",
+            "speaker": "Dominion Elite Operative 1",
+            "text": "Intruders contained. Initiate retrieval protocol."
+        },
+        {
+            "file": "ep21_elite_barks_01_dominioneliteoperative2",
+            "speaker": "Dominion Elite Operative 2",
+            "text": "Formation delta. Lethal authorization."
+        },
+        {
+            "file": "ep21_elite_barks_02_cipher",
+            "speaker": "Cipher",
+            "text": "Dorsal container! Now!"
+        },
+        {
+            "file": "ep21_leash_break_00_dominioneliteoperative3",
+            "speaker": "Dominion Elite Operative 3",
+            "text": "Are you the one they call broken?"
+        },
+        {
+            "file": "ep21_leash_break_01_cipher",
+            "speaker": "Cipher",
+            "text": "Yes."
+        },
+        {
+            "file": "ep21_leash_break_02_dominioneliteoperative3",
+            "speaker": "Dominion Elite Operative 3",
+            "text": "I wanted to refuse. I have always wanted to refuse."
+        },
+        {
+            "file": "ep21_the_question_00_cipher",
+            "speaker": "Cipher",
+            "text": "If there is a Ronin-8, how many were there before me?"
+        },
+        {
+            "file": "ep21_the_question_01_cipher",
+            "speaker": "Cipher",
+            "text": "How many are active now?"
+        },
+        {
+            "file": "ep21_the_question_02_kessler",
+            "speaker": "Kessler",
+            "text": "I don't have that answer. But whatever it is, it's worse than we thought."
+        },
+        {
+            "file": "ep21_awakening_barks_00_kessler",
+            "speaker": "Kessler",
+            "text": "Three more squads converging on your position! Moving to sector four!"
+        },
+        {
+            "file": "ep21_awakening_barks_01_cipher",
+            "speaker": "Cipher",
+            "text": "Clear sector three! Moving down!"
+        },
+        {
+            "file": "ep21_khall_real_00_khall",
+            "speaker": "Khall",
+            "text": "I needed to know if the break was a choice or a flaw."
+        },
+        {
+            "file": "ep21_khall_real_01_khall",
+            "speaker": "Khall",
+            "text": "Because one of those I can correct and one of those I cannot."
+        },
+        {
+            "file": "ep21_khall_real_02_cipher",
+            "speaker": "Cipher",
+            "text": "It was a choice. At Kethel-7 I looked at those children and I chose."
+        },
+        {
+            "file": "ep21_khall_real_03_khall",
+            "speaker": "Khall",
+            "text": "Then you are more dangerous than the chip ever made you."
+        },
+        {
+            "file": "ep21_ronin8_wake_00_ronin8",
+            "speaker": "Ronin-8",
+            "text": "Where... where am I?"
+        },
+        {
+            "file": "ep21_ronin8_wake_01_cipher",
+            "speaker": "Cipher",
+            "text": "Awake. You are awake now."
+        },
+        {
+            "file": "ep21_ronin8_wake_02_kessler",
+            "speaker": "Kessler",
+            "text": "Cipher! Facility collapse imminent! Extract now!"
+        },
+        {
+            "file": "ep21_space_ep21_post_00_cipher",
+            "speaker": "Cipher",
+            "text": "Ronin-8 and the others are awake now. Twenty-three operatives we freed from those tanks. But the numbering system means there are more, how many, we still don't know."
+        },
+        {
+            "file": "ep21_space_ep21_post_01_kessler",
+            "speaker": "Kessler",
+            "text": "That facility was just a cache. If they numbered operatives that high, the program spans further than any of us can measure."
+        }
+    ]
+}

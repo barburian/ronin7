@@ -1,0 +1,8 @@
+VARIANT: Ashkin #15 — "Forge-Smith"
+SPECIES: Ashkin (frontier dust-world settler).
+SEX / AGE / BUILD: Female / adult / powerfully built, broad-armed.
+ROLE IN WORLD: Colony smith forging tools and scrap-armor from salvage.
+DISTINGUISHING FEATURES: Deep terracotta skin shiny with forge-burns; very thick forearm and chest plates; ember eyes brightened by the forge-glow; singed-short hair.
+CLOTHING / GEAR: A heavy leather forge-apron, gauntlets, hammer and tongs, a spark-scarred face-shield.
+COLOR / PALETTE: Terracotta skin; black scorched leather; forge-orange glow; iron-grey.
+>> IMAGE-PROMPT SUMMARY: A powerfully-built broad-armed adult female ashkin forge-smith with deep terracotta skin shiny with forge-burns, very thick forearm and chest keratin-plates, forge-bright ember eyes and singed-short hair. Wears a heavy black scorched-leather forge-apron and gauntlets, holding hammer and tongs by a spark-scarred face-shield. Terracotta, scorched-black and forge-orange palette. Strong, fiery. Grounded alien sci-fi frontier.

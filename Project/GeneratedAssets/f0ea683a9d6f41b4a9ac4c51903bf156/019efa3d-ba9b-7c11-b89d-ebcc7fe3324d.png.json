@@ -1,0 +1,28 @@
+{
+    "asset": "f0ea683a9d6f41b4a9ac4c51903bf156",
+    "fileName": "019efa3d-ba9b-7c11-b89d-ebcc7fe3324d.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: Slight, upright 50s–60s human woman scientist with a lined austere intelligent face, severely pinned-back grey hair and sharp tired guilt-heavy eyes. Wears a high-collared sterile white-and-pale- grey lab coat / surgical smock over a dark under-suit, gloves, and fine instruments at the belt; clinical, precise posture and careful gloved hands. Surgical-white over charcoal palette with sterile blue light and steel. Reads as a brilliant, cold, conscience-burdened Program engineer. (Alt Ch8 vision form: only her gloved forearms and hands visible out of darkness, working with terrible care over a child's sealed skull, face never shown.) Grounded human sci-fi. Color palette: Surgical white and pale grey over charcoal; sterile blue light; clinical steel. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

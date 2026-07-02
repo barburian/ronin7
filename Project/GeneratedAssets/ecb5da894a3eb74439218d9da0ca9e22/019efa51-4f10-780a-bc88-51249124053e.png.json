@@ -1,0 +1,28 @@
+{
+    "asset": "ecb5da894a3eb74439218d9da0ca9e22",
+    "fileName": "019efa51-4f10-780a-bc88-51249124053e.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: An enormous augment-laden sluggish middle-aged male voll gourmand with oily-green skin stretched over heavy augments, bloated taste-implant dewlaps, small gleeful gold eyes, chrome feeding-ports along the jaw and gilded grinder-teeth. Wears a cream-and-gold bib-like dining-mantle with a jeweled utensil-set, a hover-tray of delicacies before him. Oily-green, cream-gold and chrome palette in warm table-light. Gluttonous, grotesque. Grounded alien sci-fi. Color palette: Oily-green flesh; cream-and-gold dining-mantle; chrome ports; warm table-light. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

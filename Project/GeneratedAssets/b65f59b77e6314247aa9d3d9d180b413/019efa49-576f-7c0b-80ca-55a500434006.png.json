@@ -1,0 +1,28 @@
+{
+    "asset": "b65f59b77e6314247aa9d3d9d180b413",
+    "fileName": "019efa49-576f-7c0b-80ca-55a500434006.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A massive brutal scarred adult male vesh berserker with thick oxblood chitin cracked and re-scarred all over, wild wide orange slit-eyes, broken jagged mandible-tusks, chaotic brands, self-inflicted frenzy-cuts and knuckle-hooks. Wears minimal straps hung with trophy-skulls and blood-red war-paint, wielding twin heavy cleavers with a frenzy-draught flask. Oxblood, chaotic-bone-white and blood-red palette. Frenzied, terrifying. Grounded alien sci-fi raider. Color palette: Oxblood carapace; chaotic bone-white scarring; blood-red war-paint; trophy-bone. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

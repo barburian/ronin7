@@ -1,0 +1,28 @@
+{
+    "asset": "df5205c2643eeab4c8a8f2b1999ad08a",
+    "fileName": "019efa4e-9c03-74ea-b31f-2eff3c2b3dda.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A sagging-immense failing very-old male voll don with greyed sallow slack spotted skin, deflated wattled dewlaps, rheumy dimming gold eyes, toothless lipless gums and an implanted breathing-tube and med-ports. Wears a heavy oxblood fur-trimmed don robe on a life-support throne, an oxygen-rig and a cane-scepter at hand. Greyed-sallow, oxblood-gold and med-blue palette. Decrepit, still dangerous. Grounded alien sci-fi. Color palette: Greyed-sallow flesh; deep oxblood fur-robe; tarnished gold; med-rig blue glow. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

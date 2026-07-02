@@ -1,0 +1,8 @@
+VARIANT: Warren-folk #03 — "Stall Vendor"
+SPECIES: Warren-folk (market underclass)
+SEX / AGE / BUILD: Female / middle-aged / plump-for-the-species, broad-handed.
+ROLE IN WORLD: Runs a cramped market stall of trinkets and salvaged tech.
+DISTINGUISHING FEATURES: Warm mauve skin; a medium frill hung with cheap bangles pierced through it; dye-stained palms; shrewd half-lidded dark eyes.
+CLOTHING / GEAR: Many-pocketed vendor apron, bead strings, a coin-pouch, hand-scale.
+COLOR / PALETTE: Mauve skin; jewel-toned scarves (teal/magenta), brass bangles, market clutter.
+>> IMAGE-PROMPT SUMMARY: A plump middle-aged female warren-folk stall-vendor with warm mauve skin, a bangle-pierced throat-frill, dye-stained palms and shrewd half-lidded dark eyes. Wears a many-pocketed vendor apron, bead strings and a coin-pouch among market clutter. Mauve skin with jewel-toned scarves and brass. Grounded alien sci-fi merchant.

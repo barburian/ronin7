@@ -1,0 +1,28 @@
+{
+    "asset": "63ea5532302b744499937567cfa8d45f",
+    "fileName": "019efa4b-1009-775c-b1c4-cde0fe5423b1.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A grand High Hollow King Synod voidform, the highest council rank below the apex, a vast deepest-black body with a tall intact hollow crown of fused black glass, broad furnace-orange face and chest seams edged in cold-blue, an eyeless face you fall into and a fully hollow chest-throne of cold-and-furnace light. Wears sovereign fractured-black-glass regalia and a heavy mantle, banked smoke like a held storm. Deepest-obsidian, furnace-orange-with-cold-blue and void-purple palette. Near-supreme, sovereign, dread. Cosmic dark sci-fi. Color palette: Deepest obsidian black; broad furnace-orange seams with cold-blue edges; void-purple. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

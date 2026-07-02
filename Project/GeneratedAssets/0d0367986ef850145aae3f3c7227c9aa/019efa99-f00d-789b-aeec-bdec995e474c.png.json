@@ -1,0 +1,28 @@
+{
+    "asset": "0d0367986ef850145aae3f3c7227c9aa",
+    "fileName": "019efa99-f00d-789b-aeec-bdec995e474c.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from the top of the head down to the soles of the feet, the whole figure centered and small within the frame with large empty background margins on all four sides so nothing is cropped, the complete head and feet fully inside the frame and not touching any edge. Front view, neutral upright A-pose, arms slightly away from the body. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no text, no logo, no border, only one character. Subject: FULLY CLOTHED waxen sallow synthetic humanoid construct about 1.8m tall, draped in a sterile lab shroud / robe that completely covers its torso and pelvis, NOT naked, no exposed body, no nudity. Smooth unfinished featureless construct face with dim empty eyes and a soft sterile-blue host-glow behind them, pale grey construct skin, clean steel seating-ports along the skull and spine. Reads as a silent, uncanny mercy-machine. Color palette: sallow waxen-white, pale grey, sterile lab-blue glow, clean steel. Grounded uncanny sci-fi.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

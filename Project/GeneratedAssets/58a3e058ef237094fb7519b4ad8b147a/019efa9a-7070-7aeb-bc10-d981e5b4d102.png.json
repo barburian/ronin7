@@ -1,0 +1,28 @@
+{
+    "asset": "58a3e058ef237094fb7519b4ad8b147a",
+    "fileName": "019efa9a-7070-7aeb-bc10-d981e5b4d102.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from the top of the head down to the soles of the feet, the whole figure centered and small within the frame with large empty background margins on all four sides so nothing is cropped, the complete head and feet fully inside the frame and not touching any edge. Front view, neutral upright A-pose, arms slightly away from the body. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no text, no logo, no border, only one character. Subject: FULLY CLOTHED hunched sallow paranoid alien voll records-fence, wearing grubby tarnished shabby-ornate syndicate finery — a worn ornate coat gone shabby and a fence's many-pocketed apron of data-chits that completely cover his body, NOT naked, no nudity. Mottled yellow-grey oily sickly skin, a permanent flinch in the brow, small darting close-set black-gold eyes behind smeared protective glass, thin nervous throat-dewlaps, stubby ringed fingers. Jittery, sweating, small-time. Color palette: sallow yellow-grey flesh, tarnished gold, dim stall-neon. Grounded alien sci-fi.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

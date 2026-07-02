@@ -1,0 +1,28 @@
+{
+    "asset": "0c39d8772949a74409c1d7040fcdd5de",
+    "fileName": "019efa97-ea30-75d1-946d-40fef52905b7.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from the top of the head down to the soles of the feet, the whole figure centered and small within the frame with large empty background margins on all four sides so nothing is cropped, the complete head and feet fully inside the frame and not touching any edge. Front view, neutral upright A-pose, arms slightly away from the body. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no text, no logo, no border, only one character. Subject: FULLY CLOTHED late-20s/30s human woman archivist, wearing a fitted dark archive-shift garment and a layered top with cinched salvage wraps that completely cover her torso, chest and legs — modest, tidy, NOT naked, no bare chest, no nudity. Ashen skin laced with faint cold green-white data-light veins, short practical hair shaved at the port-points, faint amber ledger-glyphs on her forearms; a trim lattice of black hardware shows only at the spine and shoulders above the collar. Stands with clerk-like precision. Color palette: ashen skin, cold green-white glow, black hardware. Grounded lived-in sci-fi.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

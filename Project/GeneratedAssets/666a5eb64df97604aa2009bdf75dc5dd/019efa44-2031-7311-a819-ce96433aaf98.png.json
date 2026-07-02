@@ -1,0 +1,28 @@
+{
+    "asset": "666a5eb64df97604aa2009bdf75dc5dd",
+    "fileName": "019efa44-2031-7311-a819-ce96433aaf98.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: An unusually lean low quiet-footed young male gravelkin tunnel-scout with smooth dark-slate lithic hide and minimal nodules, large light-drinking quartz eyes, no tusks and climb-smoothed fingertips. Wears a close charcoal climbing-rig with chalk, line, a short pick, a glowing lamp-stone and a tunnel-map slab. Dark-slate and charcoal palette with a pale lamp glow. Stealthy, careful. Grounded alien sci-fi. Color palette: Dark-slate hide; charcoal climbing-rig; pale lamp-stone glow. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

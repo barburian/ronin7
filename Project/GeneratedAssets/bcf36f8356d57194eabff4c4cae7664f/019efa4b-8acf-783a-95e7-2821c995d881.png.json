@@ -1,0 +1,28 @@
+{
+    "asset": "bcf36f8356d57194eabff4c4cae7664f",
+    "fileName": "019efa4b-8acf-783a-95e7-2821c995d881.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A Puppet-Master Synod voidform with an obsidian body and many fine high arms fanned like a puppeteer, countless glowing cold white-blue control-strings descending from the fingertips into the dark, a thin cold seam-smile and a hollow chest where the strings converge. Wears a high-collared control-mantle, strings of cold light instead of smoke. Obsidian-black with cold-white-blue strings palette. Manipulative, eerie. Cosmic dark sci-fi. Color palette: Obsidian black; cold white-blue strings; void-purple. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

@@ -1,0 +1,28 @@
+{
+    "asset": "47ef4a2411be9bb45983ece084ae2fb9",
+    "fileName": "019efa44-43de-787c-b51b-d3b823310297.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A broad flashy sharp middle-aged female gravelkin brawl-pit boss with granite lithic hide oiled to a sheen, mineral nodules inlaid with cut gemstones, shrewd glinting quartz eyes and gold tusk-caps. Wears a gaudy plate-vest hung with winnings, beside a betting-tally board and coin-coffer, a hold-blade at her hip. Oiled granite-grey with gem inlay, gold and crimson palette in lantern-glow. Shrewd, showy. Grounded alien sci-fi. Color palette: Oiled granite-grey hide with gem inlays; flashy gold and crimson; lantern-glow. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

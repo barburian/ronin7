@@ -1,0 +1,28 @@
+{
+    "asset": "71b51c8e70525e24ebe1ce4119688d64",
+    "fileName": "019efae9-1b18-7a4f-a91f-0c830c4981c4.png",
+    "prompt": "Concept art of a single weapon shown complete and centered, isolated on a plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, NO character, no hands, no figure, only the weapon by itself. Subject: an archaic-form sci-fi operative katana of an older heavy generation, a long single-edged blade with sealed dark plating suited to wet caverns, a heavy wrapped hilt with a cold leashed pale hilt-light, gloomy and unmarked, joyless and perfectly balanced. Color palette: drowned grey and deep teal-grey with black plating and a cold leashed hilt-light. Grounded lived-in sci-fi, single weapon prop on neutral background.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

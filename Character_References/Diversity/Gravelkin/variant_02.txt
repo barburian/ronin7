@@ -1,0 +1,8 @@
+VARIANT: Gravelkin #02 — "Young Brawler"
+SPECIES: Gravelkin (cave-dwelling stoneblood).
+SEX / AGE / BUILD: Male / young adult / huge but lean-for-the-species, quick.
+ROLE IN WORLD: Pit-brawler and raider in the pirate hold.
+DISTINGUISHING FEATURES: Smooth slate-grey hide with only early nodules at the brow and knuckles; small bright quartz eyes; budding lower tusks; fresh chip-scars healing on the hide.
+CLOTHING / GEAR: A sleeveless plate-harness, fist-wraps, a heavy cleaver-blade, trophy chains.
+COLOR / PALETTE: Smooth slate-grey hide; iron harness; dark leather; a hold-band accent.
+>> IMAGE-PROMPT SUMMARY: A huge but lean-for-the-species young male gravelkin pit-brawler with smooth slate-grey lithic hide, only early mineral nodules at brow and knuckles, small bright quartz eyes, budding lower tusks and fresh healing chip-scars. Wears a sleeveless iron plate-harness, fist-wraps and trophy chains, carrying a heavy cleaver-blade. Smooth slate-grey, iron and dark-leather palette. Cocky, fast, dangerous. Grounded alien sci-fi.

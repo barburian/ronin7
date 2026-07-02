@@ -1,0 +1,50 @@
+==================================================================
+SALLOW   (the "absolution" construct body)
+==================================================================
+SPECIES: CONSTRUCT / NON-CORPOREAL — a synthetic vessel built by Dr. Heris. Program-derived tech, no
+organic core; not human, not an alien species.
+
+ROLE & FACTION: A failed "absolution" body / mercy-construct: the vessel built to HOST shadow-AIs —
+to give a witness a body so the living don't have to carry the kept dead. Ronin-7's own body was made
+on the same principle (a vessel meant to carry shadow-dead). Ally #10; completes the Ten; unlocks the
+shadow-release mechanics for the Ch16 finale.
+
+CHAPTERS: Ch13–Ch16 (introduced in Heris's lab).
+
+AGE / BUILD / HEIGHT: N/A (constructed); built to a human-operative template — ~1.8 m, humanoid, blank.
+
+HEAD: A smooth, unfinished, blank-featured synthetic face — a vessel, not a person; pale, waxen,
+sallow (its name) construct skin over a visible internal AI-host cradle; sockets/ports where a
+shadow-AI seats; eyes dim and empty until a witness is poured in, then a soft host-glow behind them.
+
+BODY: A clean humanoid host-shell built to contain witness — partially transparent or paneled at the
+chest to show the empty AI-cradle/lattice meant to hold shadow-AIs; seams and ports along the spine
+and skull (echoing the living archives, but sterile and unfilled). Silent, purposeful, slightly
+unfinished.
+
+WEAPONS / PROPS: None — it is the vessel itself; the open host-cradle, seating-ports, and (in Ch16)
+streams of released shadow-light are its visual function.
+
+CLOTHING / ARMOR: Minimal — a sterile lab shroud / unfinished plating; the look of a thing still on
+the workbench, made to be filled.
+
+COLOR PALETTE: Sallow waxen white / pale grey construct skin; sterile lab-blue host-glow; clean steel
+ports; no warmth until witness fills it.
+
+SILHOUETTE / DISTINGUISHING FEATURES: A blank, waxen, port-seamed humanoid vessel with a visible empty
+chest-cradle for shadow-AIs; a body that is a container — built to erase, secretly built to remember.
+
+DEMEANOR: Silent, purposeful, uncanny; a machine that is also a mercy.
+
+CANON SOURCE QUOTES:
+  - "The vessel built to host a shadow-AI — to give a witness a body; completes the ten." (Bible §4 #10)
+
+>> IMAGE-PROMPT SUMMARY:
+A blank, waxen, sallow synthetic humanoid construct ~1.8 m tall — a vessel built to host AI witnesses:
+smooth unfinished featureless construct face with dim empty eyes (a soft sterile-blue host-glow behind
+them once filled), pale grey construct skin over a partially paneled/transparent chest showing an
+empty AI-cradle lattice, and seating-ports along the spine and skull. Draped in a minimal sterile lab
+shroud / unfinished plating, still workbench-fresh. Sallow waxen-white and pale-grey with sterile
+lab-blue glow and clean steel ports, no warmth. Reads as a silent, uncanny mercy-machine, a body that
+is a container for the dead. Grounded sci-fi.
+==================================================================

@@ -1,0 +1,7 @@
+VARIANT: Mourner #15 — "Shroud-Torn Wanderer"
+SPECIES: The Mourners (ancient soul-keepers).
+FORM / AGE / DENSITY: Medium, drifting apart from the ring; storm-tattered.
+DISTINGUISHING FEATURES: A shroud violently torn into streaming ribbons as if by an old wind, fog perpetually streaming off one side; an off-center flickering cold-white glow; one hand lost entirely to mist, the other clenched.
+ROBE / STATE: A storm-shredded shroud streaming into long ragged ribbons of fog.
+COLOR / PALETTE: Ash-grey; flickering off-center cold-white glow; streaming white ribbons.
+>> IMAGE-PROMPT SUMMARY: A medium Shroud-Torn Wanderer Mourner drifting apart from the ring, its shroud violently torn into long streaming ribbons of fog as if by an old wind, an off-center flickering cold-white glow, one hand lost entirely to mist and the other clenched. Ash-grey with flickering cold-white and streaming-white-ribbon palette. Restless, frayed. Cosmic dark sci-fi.

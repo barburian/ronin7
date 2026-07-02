@@ -1,0 +1,28 @@
+{
+    "asset": "f883ab00c4293644d864b821f388c5ff",
+    "fileName": "019efa47-fecf-746a-a67c-597564b7b218.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A medium Cradle-Keeper Mourner hunched tenderly over cupped hands that cradle a small captured soul-light, a soft pale-gold-into-blue glow reflecting up into the face-hollow, the gentlest of the keepers. Wears a close-wrapped ash-grey shroud curved protectively around the cupped hands. Ash-grey with a soft cradled soul-glow palette. Tender, sorrowful. Cosmic dark sci-fi. Color palette: Ash-grey; soft pale-gold-into-blue glow from the cradled soul-light. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

@@ -1,0 +1,28 @@
+{
+    "asset": "130d016536c42d041b0c498fbb76cdd7",
+    "fileName": "019efa50-7e08-7ce6-9376-a06dfa9bbbd6.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A sleek long-limbed young female warren-folk courier with route-map tattoos across her throat-frill and forearms, sharp amber-dark eyes and a wind-scarred cheek. Wears a snug slate courier-suit with a neon route-stripe, message-tubes and a wrist-comm, a grav-board underfoot. Grey-mauve inked skin. Fast, kinetic. Grounded alien sci-fi. Color palette: Grey-mauve skin with dark ink; slate courier-suit; a single neon route-stripe. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

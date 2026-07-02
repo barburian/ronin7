@@ -1,0 +1,28 @@
+{
+    "asset": "66b61dde929af0a43a0f0b6417dc1c1e",
+    "fileName": "019efa49-d8e8-7b2d-a15f-8d46d42b9d88.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A lithe elegant deadly-precise adult female vesh blade-dancer duelist with sleek polished dark-charcoal chitin, bright focused orange slit-eyes, slender filed mandible-tusks, clean rows of honor-brands and long graceful hooked nails. Wears a minimal honor-ribboned duelist-harness with a ranking-cord, wielding paired long curved honor-blades. Polished-charcoal, bone-white and clan-color-ribbon palette. Poised, lethal. Grounded alien sci-fi raider. Color palette: Polished charcoal carapace; clean bone-white brands; honor-ribbons in clan colors. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

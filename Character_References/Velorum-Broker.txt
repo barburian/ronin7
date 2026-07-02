@@ -1,0 +1,47 @@
+==================================================================
+THE VELORUM BROKER   (unnamed records-fence)
+==================================================================
+SPECIES: ALIEN — VOLL (syndicate / black-market profiteer). Non-Dominion; same species as Kerrax,
+but the lean, paranoid, low-rung variant of the crime-species rather than a fat boss.
+
+ROLE & FACTION: Paranoid black-market records-fence on Velorum, trafficking in dead-operative
+termination/disposal manifests — his vault holds Ronin-7's own file. An obstacle/objective, reached
+only via Resh's back-channels; refuses to open for money. Ch2.
+
+CHAPTERS: Ch2.
+
+AGE / BUILD / HEIGHT: Indeterminate adult; ~1.6 m, hunched. Smaller, leaner, sickly voll — a runt of
+the species worn down by fear.
+
+HEAD: Mottled yellow-grey oily voll skin, gone sallow; a permanent flinch in the brow; small darting
+close-set black-gold eyes behind smeared protective glass; thin nervous dewlaps; reedy fast voice.
+Twitchy, sweating.
+
+BODY: Hunched, narrow-for-a-voll, jittery; stubby ringed fingers tapping; never leaves his grille.
+
+WEAPONS / PROPS: A barred, screened records-stall; a sealed vault; surveillance rig; a panic-button;
+deals entirely through a grille. A bodyguard nearby.
+
+CLOTHING / ARMOR: Cheaper, grubbier syndicate finery than Kerrax — a worn ornate coat gone shabby,
+a few rings, a fence's many-pocketed apron of data-chits; the look of small-time greed under siege.
+
+COLOR PALETTE: Sallow yellow-grey oily flesh; grubby tarnished gold, smeared glass, dim stall-neon.
+
+SILHOUETTE / DISTINGUISHING FEATURES: A hunched, flinching, sallow lesser-voll behind smeared glass
+and bars; paranoid small-time fence.
+
+DEMEANOR: Survivalist paranoia, fast-patter, trusts nothing; "You're the kind of question that gets a
+man's stall burned with him inside it." (Ch2)
+
+CANON SOURCE QUOTES:
+  - Paranoid shape behind smeared glass; reedy fast voice; permanent flinch; barred screened stall (Ch2).
+
+>> IMAGE-PROMPT SUMMARY:
+A hunched, sallow, paranoid alien records-fence of the voll (the lean low-rung variant of the
+crime-species): mottled yellow-grey oily sickly skin, a permanent flinch in the brow, small darting
+close-set black-gold eyes behind smeared protective glass, thin nervous throat-dewlaps and stubby
+ringed fingers. Indeterminate age, jittery and sweating. Wears grubby tarnished shabby-ornate
+syndicate finery and a fence's many-pocketed apron of data-chits, hemmed behind a barred screened
+stall with a sealed vault. Sallow-yellow flesh, tarnished gold and dim neon palette. Reads as
+small-time, frightened black-market greed. Grounded alien sci-fi.
+==================================================================

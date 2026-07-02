@@ -1,0 +1,8 @@
+VARIANT: Warren-folk #14 — "Street-Medic"
+SPECIES: Warren-folk (market underclass)
+SEX / AGE / BUILD: Female / middle-aged / steady, compact.
+ROLE IN WORLD: Unlicensed back-alley medic stitching up the warren hurts.
+DISTINGUISHING FEATURES: Calm steady dark eyes; a neat small frill; blood-flecked broad-padded hands; a faint surgical scar of her own across one cheek.
+CLOTHING / GEAR: A stained medic apron, a satchel of improvised instruments, a head-lamp, gloves.
+COLOR / PALETTE: Grey-mauve skin; bloodstained off-white apron; steel instruments, a green lamp-glow.
+>> IMAGE-PROMPT SUMMARY: A steady compact middle-aged female warren-folk street-medic with calm dark eyes, a neat small throat-frill, blood-flecked four-fingered hands and a cheek scar. Wears a stained off-white medic apron, a head-lamp and a satchel of improvised steel instruments. Grey-mauve skin, bloodstained-white and steel palette with a green lamp-glow. Practical, calming. Grounded alien sci-fi.

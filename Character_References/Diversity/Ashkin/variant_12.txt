@@ -1,0 +1,8 @@
+VARIANT: Ashkin #12 — "Dust-Scout / Tracker"
+SPECIES: Ashkin (frontier dust-world settler).
+SEX / AGE / BUILD: Female / young adult / lean, fast, low-profile.
+ROLE IN WORLD: Ranges the wastes scouting raider movements and water.
+DISTINGUISHING FEATURES: Sun-bleached ochre skin; streamlined low cheek-plates; very sharp bright ember eyes; a wind-notched ear; ash-painted camouflage stripes.
+CLOTHING / GEAR: A camouflaged dust-wrap and ghillie-cloak, a scoped marksman rifle, a sand-compass, a water-skin.
+COLOR / PALETTE: Bleached ochre skin; sand and ash camo; grey-rust ghillie; smoked optics.
+>> IMAGE-PROMPT SUMMARY: A lean fast low-profile young female ashkin dust-scout with sun-bleached ochre skin, streamlined low cheek keratin-plates, very sharp bright ember eyes, a wind-notched ear and ash-painted camouflage stripes. Wears a sand-and-ash camo dust-wrap and ghillie-cloak with a scoped marksman rifle, sand-compass and water-skin. Bleached-ochre, sand and ash palette. Stealthy, watchful. Grounded alien sci-fi frontier.

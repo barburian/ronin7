@@ -1,0 +1,8 @@
+VARIANT: Ashkin #01 — "Settler Matriarch"
+SPECIES: Ashkin (frontier dust-world settler). See _SPECIES_BIBLE.txt.
+SEX / AGE / BUILD: Female / elder / lean, hardy, upright.
+ROLE IN WORLD: Matriarch of a dust-world homestead; keeps the colony together.
+DISTINGUISHING FEATURES: Deeply cracked terracotta skin; thick dried-mud keratin plates over cheeks and shoulders; dimming amber ember-eyes; ash-white hair caked grey.
+CLOTHING / GEAR: A layered rust homespun robe, a breath-scarf at the neck, a clan token-belt, a cane.
+COLOR / PALETTE: Terracotta skin, grey ash, deep-rust homespun, bone tokens.
+>> IMAGE-PROMPT SUMMARY: A lean hardy elder female ashkin matriarch with deeply cracked terracotta clay-like skin, thick dried-mud keratin plates over cheeks and shoulders, dimming amber ember-eyes and ash-caked white hair. Wears a layered deep-rust homespun robe, a breath-scarf, a clan token-belt and a cane. Terracotta, grey-ash and rust palette. Weathered, matriarchal. Grounded alien sci-fi frontier.

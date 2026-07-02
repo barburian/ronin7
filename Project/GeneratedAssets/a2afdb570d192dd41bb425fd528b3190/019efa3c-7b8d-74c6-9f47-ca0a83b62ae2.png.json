@@ -1,0 +1,28 @@
+{
+    "asset": "a2afdb570d192dd41bb425fd528b3190",
+    "fileName": "019efa3c-7b8d-74c6-9f47-ca0a83b62ae2.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: An exact human double of the protagonist — same lean mid-30s frame, same hard face, same short dark hair, same throat and skull-base scars — but with dead, flat, leashed eyes and zero hesitation, freshly woken from stasis. Wears clean current-issue black-and-gunmetal Dominion operative armor (the factory version of the hero's salvaged kit), faint stasis-sheen on the plating. Carries the identical wrapped katana with a cold leashed hilt-light. Cold black/gunmetal palette. Stands in the hero's own stance, perfectly certain, utterly hollow — a mirror that did not escape. Grounded human sci-fi. Color palette: Black and gunmetal like Ronin, but cleaner, colder, with stasis-sheen; cold hilt-light. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

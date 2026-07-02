@@ -1,0 +1,439 @@
+{
+    "lines": [
+        {
+            "file": "ep33_gathering_table_00_kessler",
+            "speaker": "Kessler",
+            "text": "Ten syndicate heads, one room, no shooting. If this works I'm framing it."
+        },
+        {
+            "file": "ep33_gathering_table_01_meravoss",
+            "speaker": "Mera Voss",
+            "text": "A table. Neutral ground. That's a choice."
+        },
+        {
+            "file": "ep33_gathering_table_02_captainresh",
+            "speaker": "Captain Resh",
+            "text": "You've summoned the ten."
+        },
+        {
+            "file": "ep33_gathering_table_03_gryph",
+            "speaker": "Gryph",
+            "text": "Ten worst people in the galaxy in one room. This story writes itself."
+        },
+        {
+            "file": "ep33_gathering_table_04_vess",
+            "speaker": "Vess",
+            "text": "I came to kill you, once. Strange, what a table can do instead."
+        },
+        {
+            "file": "ep33_gathering_table_05_coralvex",
+            "speaker": "Coral Vex",
+            "text": "That makes eleven, if we're counting the man standing at the head."
+        },
+        {
+            "file": "ep33_gathering_table_06_soren",
+            "speaker": "Soren",
+            "text": "You've heard the rumors. The Dominion sent a retrieval order that never came home."
+        },
+        {
+            "file": "ep33_gathering_table_07_soren",
+            "speaker": "Soren",
+            "text": "That's because the order was forged by the Hollow Kings to fracture the Ronin Program from inside. Overseer Khall was manipulated into nearly destroying me. But the Dominion's real architect, First Overseer Maelgorn and the Obsidian Synod, still controls the failsafe network that leashes every operative alive."
+        },
+        {
+            "file": "ep33_gathering_table_08_meravoss",
+            "speaker": "Mera Voss",
+            "text": "You hunted us for a decade, Ronin. Now you set a table. Why should ten old enemies share a knife?"
+        },
+        {
+            "file": "ep33_gathering_table_09_soren",
+            "speaker": "Soren",
+            "text": "Because the Dominion taught all of us the same lesson. They took me as a child and made me a sword to point at you. They took your people too, harvested, augmented, sold. We've been fighting each other inside a cage the Dominion built. I mean to break it."
+        },
+        {
+            "file": "ep33_gathering_table_10_coralvex",
+            "speaker": "Coral Vex",
+            "text": "He's not lying. I'd know."
+        },
+        {
+            "file": "ep33_gathering_fight_00_dominionstrikeleader",
+            "speaker": "Dominion Strike Leader",
+            "text": "All units converge! Target is assembled! Breach pattern seven!"
+        },
+        {
+            "file": "ep33_gathering_fight_01_dominiontrooper1",
+            "speaker": "Dominion Trooper 1",
+            "text": "Contact! All targets in assembly! Weapons hot!"
+        },
+        {
+            "file": "ep33_gathering_fight_02_dominiontrooper2",
+            "speaker": "Dominion Trooper 2",
+            "text": "Formation compromised! Retreat, retreat!"
+        },
+        {
+            "file": "ep33_gathering_pact_00_soren",
+            "speaker": "Soren",
+            "text": "You're safe. The collar is dead. You're people again."
+        },
+        {
+            "file": "ep33_gathering_pact_01_meravoss",
+            "speaker": "Mera Voss",
+            "text": "You could have killed those two."
+        },
+        {
+            "file": "ep33_gathering_pact_02_soren",
+            "speaker": "Soren",
+            "text": "They're children with chips in their heads. So was I."
+        },
+        {
+            "file": "ep33_gathering_pact_03_captainresh",
+            "speaker": "Captain Resh",
+            "text": "You're telling me there's a way to end the auction."
+        },
+        {
+            "file": "ep33_gathering_pact_04_soren",
+            "speaker": "Soren",
+            "text": "The failsafe network that controls every operative runs from one place. The Obsidian Synod. We burn the Synod, the Dominion's nervous system dies, and every weapon they ever made stops being a slave."
+        },
+        {
+            "file": "ep33_gathering_pact_05_gryph",
+            "speaker": "Gryph",
+            "text": "Ten syndicates storming the throne of the empire. I'm in for the story alone."
+        },
+        {
+            "file": "ep33_gathering_pact_06_soren",
+            "speaker": "Soren",
+            "text": "The Pact is struck."
+        },
+        {
+            "file": "ep33_map_briefing_00_coralvex",
+            "speaker": "Coral Vex",
+            "text": "Three shells. Outer shield-lattice, a void-dock gauntlet, then the Synod sanctum itself."
+        },
+        {
+            "file": "ep33_map_briefing_01_coralvex",
+            "speaker": "Coral Vex",
+            "text": "And this is the Beacon. The failsafe network's heart. If Maelgorn triggers it during the assault, every chipped operative still alive turns into a weapon aimed at us."
+        },
+        {
+            "file": "ep33_map_briefing_02_soren",
+            "speaker": "Soren",
+            "text": "Then someone has to reach the Beacon and kill it before the rest of us reach Maelgorn."
+        },
+        {
+            "file": "ep33_map_briefing_03_khall",
+            "speaker": "Khall",
+            "text": "I can reach it. I built half of it."
+        },
+        {
+            "file": "ep33_map_briefing_04_soren",
+            "speaker": "Soren",
+            "text": "He stays. He gave me back to myself. Let him pay the rest of what he owes."
+        },
+        {
+            "file": "ep33_map_briefing_05_khall",
+            "speaker": "Khall",
+            "text": "I dismantled what I could from the inside. It was not enough. Let me end the part that still wears my fingerprints."
+        },
+        {
+            "file": "ep33_map_briefing_06_morrigan",
+            "speaker": "Morrigan",
+            "text": "How long to reach the Beacon from the void-dock?"
+        },
+        {
+            "file": "ep33_map_briefing_07_khall",
+            "speaker": "Khall",
+            "text": "If the shields fall, twenty minutes. But the Beacon itself will fight us."
+        },
+        {
+            "file": "ep33_map_briefing_08_soren",
+            "speaker": "Soren",
+            "text": "Then we have twenty minutes to kill a god."
+        },
+        {
+            "file": "ep33_assault_approach_00_kessler",
+            "speaker": "Kessler",
+            "text": "All units, maintain formation. Lattice emitters coming online, gryph, those ramming runs you wanted."
+        },
+        {
+            "file": "ep33_assault_dogfight_00_gryph",
+            "speaker": "Gryph",
+            "text": "That's one! Bring 'em!"
+        },
+        {
+            "file": "ep33_assault_dogfight_01_maelgorn",
+            "speaker": "Maelgorn",
+            "text": "Soren. Yes, I know the name you clawed back. It changes nothing. You are property that learned to talk."
+        },
+        {
+            "file": "ep33_assault_dogfight_02_soren",
+            "speaker": "Soren",
+            "text": "Property doesn't bring nine friends and a fleet."
+        },
+        {
+            "file": "ep33_assault_dogfight_03_maelgorn",
+            "speaker": "Maelgorn",
+            "text": "When I light the Beacon, every operative you spared will finish what I started."
+        },
+        {
+            "file": "ep33_assault_cleared_00_khall",
+            "speaker": "Khall",
+            "text": "He means it. Get me to the core."
+        },
+        {
+            "file": "ep33_creche_divide_00_soren",
+            "speaker": "Soren",
+            "text": "Coral, Morrigan, the data-spine. Seize the Synod's records before they can be purged."
+        },
+        {
+            "file": "ep33_creche_divide_01_soren",
+            "speaker": "Soren",
+            "text": "Dr. Heris, Resh, the Crucible Decks. The Dominion's next harvest sleeps there."
+        },
+        {
+            "file": "ep33_creche_divide_02_soren",
+            "speaker": "Soren",
+            "text": "Mera, Vess, Gryph, Cassie-04, Sable Dross, hold the dock and carve the road to the sanctum. No one gets past you."
+        },
+        {
+            "file": "ep33_creche_divide_03_soren",
+            "speaker": "Soren",
+            "text": "Khall and I are going to the Beacon."
+        },
+        {
+            "file": "ep33_creche_divide_04_captainresh",
+            "speaker": "Captain Resh",
+            "text": "How many children?"
+        },
+        {
+            "file": "ep33_creche_divide_05_soren",
+            "speaker": "Soren",
+            "text": "Thousands. Get them out. That's the whole reason we came."
+        },
+        {
+            "file": "ep33_creche_divide_06_drheris",
+            "speaker": "Dr. Heris",
+            "text": "I put augments into bodies that small for fifteen years. Let me be the one who takes them back out."
+        },
+        {
+            "file": "ep33_creche_combat_00_obsidiantrooper1",
+            "speaker": "Obsidian Trooper 1",
+            "text": "Sector three compromised! Operative-class contact!"
+        },
+        {
+            "file": "ep33_creche_combat_01_dominionguard1",
+            "speaker": "Dominion Guard 1",
+            "text": "Contact on the medical level! Defensive formation!"
+        },
+        {
+            "file": "ep33_creche_rescue_00_drheris",
+            "speaker": "Dr. Heris",
+            "text": "One hundred seventeen in this chamber. Moving to next."
+        },
+        {
+            "file": "ep33_creche_rescue_01_khall",
+            "speaker": "Khall",
+            "text": "Beyond this is the Beacon. And likely her."
+        },
+        {
+            "file": "ep33_creche_rescue_02_soren",
+            "speaker": "Soren",
+            "text": "Samurai-4."
+        },
+        {
+            "file": "ep33_creche_rescue_03_khall",
+            "speaker": "Khall",
+            "text": "She was the finest after you. Maelgorn keeps her closest."
+        },
+        {
+            "file": "ep33_beacon_lit_00_maelgorn",
+            "speaker": "Maelgorn",
+            "text": "Watch, Soren. Watch what loyalty costs."
+        },
+        {
+            "file": "ep33_beacon_lit_01_samurai4",
+            "speaker": "Samurai-4",
+            "text": "Run."
+        },
+        {
+            "file": "ep33_beacon_duel_00_samurai4",
+            "speaker": "Samurai-4",
+            "text": "End this. Please end this."
+        },
+        {
+            "file": "ep33_beacon_freed_00_soren",
+            "speaker": "Soren",
+            "text": "The Beacon is dark. We're coming."
+        },
+        {
+            "file": "ep33_beacon_freed_01_khall",
+            "speaker": "Khall",
+            "text": "It's dark, Seven. The network's dark. No more leashes."
+        },
+        {
+            "file": "ep33_beacon_freed_02_samurai4",
+            "speaker": "Samurai-4",
+            "text": "You came back. You said you would."
+        },
+        {
+            "file": "ep33_beacon_freed_03_soren",
+            "speaker": "Soren",
+            "text": "Always."
+        },
+        {
+            "file": "ep33_khall_death_00_soren",
+            "speaker": "Soren",
+            "text": "The children are walking free. Every operative in the Synod is unplugged now. That's the whole reason we came."
+        },
+        {
+            "file": "ep33_khall_death_01_khall",
+            "speaker": "Khall",
+            "text": "I'm sorry. For all of it."
+        },
+        {
+            "file": "ep33_khall_death_02_soren",
+            "speaker": "Soren",
+            "text": "You gave me the choice in the end. Spend the last of it knowing the children walk free."
+        },
+        {
+            "file": "ep33_throne_confront_00_maelgorn",
+            "speaker": "Maelgorn",
+            "text": "You unplugged my network and killed my handler. Sentiment. The Dominion is not a machine you switch off, Soren. It is an idea, that some are born to be used. Kill me and ten others take my chair."
+        },
+        {
+            "file": "ep33_throne_confront_01_soren",
+            "speaker": "Soren",
+            "text": "That's why I didn't come with only a sword. I came with the ten chairs you used to terrify the galaxy into obedience. Look who's sitting in them now."
+        },
+        {
+            "file": "ep33_throne_fight_00_meravoss",
+            "speaker": "Mera Voss",
+            "text": "Cover left! Moving through!"
+        },
+        {
+            "file": "ep33_throne_fall_00_maelgorn",
+            "speaker": "Maelgorn",
+            "text": "You think criminals will rule better than emperors?"
+        },
+        {
+            "file": "ep33_throne_fall_01_soren",
+            "speaker": "Soren",
+            "text": "No. I think no one should rule the way you did. That's the difference."
+        },
+        {
+            "file": "ep33_throne_fall_02_kessler",
+            "speaker": "Kessler",
+            "text": "Whatever you're doing, do it leaving. This whole tomb is coming down."
+        },
+        {
+            "file": "ep33_exodus_escape_00_sabledross",
+            "speaker": "Sable Dross",
+            "text": "Power vacuum. By tomorrow every warlord and every splinter syndicate will be carving up the worlds we just freed. We didn't end the war. We started ten of them."
+        },
+        {
+            "file": "ep33_exodus_escape_01_soren",
+            "speaker": "Soren",
+            "text": "Then we don't let go. The reach you each built to prey on people, turn it to protect them instead."
+        },
+        {
+            "file": "ep33_convoy_defense_00_privateerscommander",
+            "speaker": "Privateers Commander",
+            "text": "Convoy is undefended! Moving to intercept!"
+        },
+        {
+            "file": "ep33_convoy_defense_01_sallow",
+            "speaker": "Sallow",
+            "text": "Hold formation! No transport is lost!"
+        },
+        {
+            "file": "ep33_convoy_after_00_sallow",
+            "speaker": "Sallow",
+            "text": "My own people did that. The ones who wanted the dark to stay dark."
+        },
+        {
+            "file": "ep33_convoy_after_01_soren",
+            "speaker": "Soren",
+            "text": "Then they're your work now. Every one of you knows your own kind better than any law could. That's the point."
+        },
+        {
+            "file": "ep33_convoy_after_02_coralvex",
+            "speaker": "Coral Vex",
+            "text": "A protector who knows where every body is buried. We'd be... unprecedented."
+        },
+        {
+            "file": "ep33_pact_vows_00_meravoss",
+            "speaker": "Mera Voss",
+            "text": "I take the trade-lanes. The routes of every synced, the hidden channels where children used to move. They move to freedom now, or they move to me."
+        },
+        {
+            "file": "ep33_pact_vows_01_morrigan",
+            "speaker": "Morrigan",
+            "text": "I take the truth. That no lie like the one done to Soren is ever planted in an operative's mind again. The Hollow Kings' greatest strength was secrets. Now secrets are a weapon they never see coming."
+        },
+        {
+            "file": "ep33_pact_vows_02_captainresh",
+            "speaker": "Captain Resh",
+            "text": "I take the children. Every harvest line hunted to its root. Every auction block burned. The Saffron Veil ran black-market operations. Now it runs orphanages."
+        },
+        {
+            "file": "ep33_pact_vows_03_drheris",
+            "speaker": "Dr. Heris",
+            "text": "I take the augmented. To unmake the leashes I once built. The Gilded Maw was the Dominion's surgeon. Now it's the galaxy's healer. Every operative who was chained gets the choice of free will or peace."
+        },
+        {
+            "file": "ep33_pact_vows_04_sallow",
+            "speaker": "Sallow",
+            "text": "I take the dead and the grieving. The monastery's doors open to all who want to learn that even weapons can be unmade. The Pale Choir sang for the powerful. Now we sing for everyone they broke."
+        },
+        {
+            "file": "ep33_pact_vows_05_gryph",
+            "speaker": "Gryph",
+            "text": "I take the lawless rim. The pits, the abandoned stations, the places where hope goes to die. The Rustfangs broke people for sport. Now we defend what's defenseless there."
+        },
+        {
+            "file": "ep33_pact_vows_06_sabledross",
+            "speaker": "Sable Dross",
+            "text": "I take the water and the worlds that thirst. The Tide Barons drowned operatives in the deep. Now the deep protects instead of traps."
+        },
+        {
+            "file": "ep33_pact_vows_07_cassie04",
+            "speaker": "Cassie-04",
+            "text": "I take the freed operatives, my own kind, scattered and waking. The Ninefold Bank measured every life in debt. Now we measure success in how many walk free."
+        },
+        {
+            "file": "ep33_pact_vows_08_vess",
+            "speaker": "Vess",
+            "text": "I take the guns. Every weapon the Dominion ever made. To point them only outward now. The Emberhand remembers fire and loss. Now we burn only what would burn others."
+        },
+        {
+            "file": "ep33_pact_vows_09_coralvex",
+            "speaker": "Coral Vex",
+            "text": "I take the watch. The eyes that never close. The Vellum Exchange trades in secrets, now we trade in truth. Every operation, every command, every scrap of intelligence gets put where it can protect, never prey."
+        },
+        {
+            "file": "ep33_pact_vows_10_soren",
+            "speaker": "Soren",
+            "text": "You spent your lives taking. Spend the rest of them keeping."
+        },
+        {
+            "file": "ep33_pact_vows_11_kessler",
+            "speaker": "Kessler",
+            "text": "The ten worst people in the galaxy and the man they built to kill them, swearing to babysit creation. Nobody is going to believe me."
+        },
+        {
+            "file": "ep33_epilogue_00_samurai4",
+            "speaker": "Samurai-4",
+            "text": "What now, Seven?"
+        },
+        {
+            "file": "ep33_epilogue_01_soren",
+            "speaker": "Soren",
+            "text": "Now they're safe. And I get to find out who I am when no one's pointing me at anything."
+        },
+        {
+            "file": "ep33_epilogue_02_samurai4",
+            "speaker": "Samurai-4",
+            "text": "Then let's go find out."
+        }
+    ]
+}

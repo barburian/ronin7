@@ -1,0 +1,28 @@
+{
+    "asset": "7750cb60fa261364b968ba180a3bcc91",
+    "fileName": "019efa46-b22c-740e-9a14-e96cc7ee99b5.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A tall broad ancient elder-rank Warden-Mourner of the densest near-corporeal fog, with a rare ember-warm cold light banked deep in the face-hollow and skeletal six-fingered hands gone translucent at the bone-tips. Wears a layered age-stiffened grave-dust-weighed double-shroud with unmoving hems. Deep ash-grey with banked grave-ember glow palette. Ancient, weighty, authoritative. Cosmic dark sci-fi. Color palette: Deep ash-grey; banked grave-ember inner light; grave-dust pale. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

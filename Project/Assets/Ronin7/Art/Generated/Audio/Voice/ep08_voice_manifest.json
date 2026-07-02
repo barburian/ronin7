@@ -1,0 +1,264 @@
+{
+    "lines": [
+        {
+            "file": "ep08_introspection_hold_00_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Something in me kept breaking the order. I don't remember doing it."
+        },
+        {
+            "file": "ep08_introspection_hold_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Kethel-7 wasn't the first time something in me cracked. Tessa said there were others. I can feel the shape of them, but they don't have faces."
+        },
+        {
+            "file": "ep08_introspection_hold_02_kessler",
+            "speaker": "Kessler",
+            "text": "Weapons don't hesitate."
+        },
+        {
+            "file": "ep08_introspection_hold_03_kessler",
+            "speaker": "Kessler",
+            "text": "You do."
+        },
+        {
+            "file": "ep08_introspection_hold_04_kessler",
+            "speaker": "Kessler",
+            "text": "The Fringe relay holds. Tessa has the time she needs."
+        },
+        {
+            "file": "ep08_drone_breach_00_lotusdrone1",
+            "speaker": "Lotus Drone 1",
+            "text": "Intruder compromised. Engaging."
+        },
+        {
+            "file": "ep08_drone_breach_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Stand clear."
+        },
+        {
+            "file": "ep08_drone_breach_02_lotusdrone2",
+            "speaker": "Lotus Drone 2",
+            "text": "Shutdown sequence failed. Detonation on count..."
+        },
+        {
+            "file": "ep08_drone_breach_03_kessler",
+            "speaker": "Kessler",
+            "text": "Holding the interceptor at range. Warning shots sent. They're going weapons-cold."
+        },
+        {
+            "file": "ep08_mera_parley_00_meravoss",
+            "speaker": "Mera Voss",
+            "text": "I'm boarding alone. Hands open. I came to pay a debt."
+        },
+        {
+            "file": "ep08_mera_parley_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Who are you?"
+        },
+        {
+            "file": "ep08_mera_parley_02_meravoss",
+            "speaker": "Mera Voss",
+            "text": "Mera Voss. Lieutenant of the Crimson Lotus. Eight years ago on Kerrax Station, you had orders to destroy a facility. You killed the armed guards. But the depot held more than soldiers."
+        },
+        {
+            "file": "ep08_mera_parley_03_meravoss",
+            "speaker": "Mera Voss",
+            "text": "Thirty-two people sheltered there. Children. Runaways from the fringe. You could have killed them. You walked away instead."
+        },
+        {
+            "file": "ep08_mera_parley_04_meravoss",
+            "speaker": "Mera Voss",
+            "text": "I was one of them. Junior lieutenant, sheltering children while running black narcotics to survive. You could have called me a collaborator and killed me with the rest."
+        },
+        {
+            "file": "ep08_mera_parley_05_meravoss",
+            "speaker": "Mera Voss",
+            "text": "Inside the Lotus, they still call you the Architect of Mercy. The operative who chose."
+        },
+        {
+            "file": "ep08_mera_parley_06_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I don't remember."
+        },
+        {
+            "file": "ep08_mera_parley_07_meravoss",
+            "speaker": "Mera Voss",
+            "text": "The Dominion erased you because they feared what you remembered. But you weren't built to break that order. Something in you did anyway, and they couldn't engineer it back out. That fracture was yours. Not installed, not erased. I can show you proof it was real."
+        },
+        {
+            "file": "ep08_enforcer_ambush_00_lotusenforcer1",
+            "speaker": "Lotus Enforcer 1",
+            "text": "Stand down! Step away from the lieutenant!"
+        },
+        {
+            "file": "ep08_enforcer_ambush_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "She's not being held."
+        },
+        {
+            "file": "ep08_enforcer_ambush_02_lotusenforcer3",
+            "speaker": "Lotus Enforcer 3",
+            "text": "Covering detonation! Fall back!"
+        },
+        {
+            "file": "ep08_enforcer_ambush_03_meravoss",
+            "speaker": "Mera Voss",
+            "text": "Still half-man, half-ghost."
+        },
+        {
+            "file": "ep08_enforcer_ambush_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "The choice is mutual now."
+        },
+        {
+            "file": "ep08_descent_terms_00_meravoss",
+            "speaker": "Mera Voss",
+            "text": "I cannot stay inside the Lotus. I have been making the right call too many times."
+        },
+        {
+            "file": "ep08_descent_terms_01_meravoss",
+            "speaker": "Mera Voss",
+            "text": "Deep in Apex Station, I hold a fragment of your pre-wipe neural profile. The fractures the conditioning couldn't seal. The shape of what broke through, before they erased it."
+        },
+        {
+            "file": "ep08_descent_terms_02_meravoss",
+            "speaker": "Mera Voss",
+            "text": "I will hand it over if you grant me passage out of the Lotus and a place aboard this ship."
+        },
+        {
+            "file": "ep08_descent_terms_03_kessler",
+            "speaker": "Kessler",
+            "text": "Done. You have a berth. Welcome to the Corsair."
+        },
+        {
+            "file": "ep08_descent_terms_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then we go down."
+        },
+        {
+            "file": "ep08_canyon_scouts_00_dominionscout1",
+            "speaker": "Dominion Scout 1",
+            "text": "Contact in the ravine! Blocking position!"
+        },
+        {
+            "file": "ep08_canyon_scouts_01_meravoss",
+            "speaker": "Mera Voss",
+            "text": "Left!"
+        },
+        {
+            "file": "ep08_canyon_scouts_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Station entrance is two hundred meters northeast."
+        },
+        {
+            "file": "ep08_canyon_scouts_03_meravoss",
+            "speaker": "Mera Voss",
+            "text": "Before their backup regroups."
+        },
+        {
+            "file": "ep08_vault_core_00_meravoss",
+            "speaker": "Mera Voss",
+            "text": "The vault doesn't hold narrative. No scenes. No faces from your past. What surfaces is the shape of where you broke."
+        },
+        {
+            "file": "ep08_vault_core_01_meravoss",
+            "speaker": "Mera Voss",
+            "text": "The Dominion didn't erase your skills. They erased your reasons. This is proof the reasons were there, and they were yours."
+        },
+        {
+            "file": "ep08_vault_core_02_kessler",
+            "speaker": "Kessler",
+            "text": "Dominion assault shuttles inbound. Ten minutes."
+        },
+        {
+            "file": "ep08_vault_core_03_kessler",
+            "speaker": "Kessler",
+            "text": "Station's flagged. You have to move."
+        },
+        {
+            "file": "ep08_vault_core_04_meravoss",
+            "speaker": "Mera Voss",
+            "text": "I have it. We run."
+        },
+        {
+            "file": "ep08_reaper_duel_00_reaperunit",
+            "speaker": "Reaper Unit",
+            "text": "Rogue asset identified. Lethal engagement authorized."
+        },
+        {
+            "file": "ep08_reaper_duel_01_reaperunit",
+            "speaker": "Reaper Unit",
+            "text": "All systems operational. Combat protocol engage."
+        },
+        {
+            "file": "ep08_collapse_escape_00_meravoss",
+            "speaker": "Mera Voss",
+            "text": "It doesn't give you your memories back."
+        },
+        {
+            "file": "ep08_collapse_escape_01_meravoss",
+            "speaker": "Mera Voss",
+            "text": "It gives you proof they were real."
+        },
+        {
+            "file": "ep08_collapse_escape_02_kessler",
+            "speaker": "Kessler",
+            "text": "Corsair clear! Vault's collapsing behind us!"
+        },
+        {
+            "file": "ep08_frigate_bracket_00_kessler",
+            "speaker": "Kessler",
+            "text": "Portside overwhelmed! Incoming from the bracket!"
+        },
+        {
+            "file": "ep08_frigate_bracket_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Engine array compromised. They're hemorrhaging."
+        },
+        {
+            "file": "ep08_frigate_bracket_02_meravoss",
+            "speaker": "Mera Voss",
+            "text": "Second frigate correcting bearing!"
+        },
+        {
+            "file": "ep08_covenant_epilogue_00_ronin7",
+            "speaker": "Ronin-7",
+            "text": "The profile confirms the shape of who I was. But it's a fragment. The full record is scattered."
+        },
+        {
+            "file": "ep08_covenant_epilogue_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Every syndicate vault in the fringe holds a piece of someone like me."
+        },
+        {
+            "file": "ep08_covenant_epilogue_02_meravoss",
+            "speaker": "Mera Voss",
+            "text": "That's by design. The Dominion keeps the distributed archive as leverage. They've been trading those memories for years."
+        },
+        {
+            "file": "ep08_covenant_epilogue_03_kessler",
+            "speaker": "Kessler",
+            "text": "Then we find the vaults. We recover what was taken."
+        },
+        {
+            "file": "ep08_covenant_epilogue_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "The killswitch is still live. The day they decide I'm worth the trouble, they pull it."
+        },
+        {
+            "file": "ep08_covenant_epilogue_05_meravoss",
+            "speaker": "Mera Voss",
+            "text": "Then we stay ahead of them. And we find the rest of you before it's sold off."
+        },
+        {
+            "file": "ep08_final_pursuit_00_kessler",
+            "speaker": "Kessler",
+            "text": "Bounty-marker on the six! Spinning up FTL!"
+        },
+        {
+            "file": "ep08_final_pursuit_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Engine's cut."
+        }
+    ]
+}

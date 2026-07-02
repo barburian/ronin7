@@ -1,0 +1,191 @@
+using System.Collections;
+using UnityEngine;
+using Ronin7.Combat;
+using Ronin7.Enemies;
+
+namespace Ronin7.World
+{
+    /// <summary>
+    /// Story NPC wandering with pause and enemy-aware behavior.
+    /// Wanders within wanderRadius of an anchor point (captured at spawn).
+    /// When Paused is set true or enemies are nearby, stops wandering, walks back to the anchor,
+    /// and faces the camera. This is used during conversations and when threats approach.
+    /// </summary>
+    public class StoryNpcWander : MonoBehaviour
+    {
+        [Tooltip("Max distance from the spawn point the NPC will wander.")]
+        [SerializeField] private float wanderRadius = 2.5f;
+
+        [SerializeField] private float moveSpeed = 1.2f;
+
+        [Tooltip("Rotate the NPC to face its direction of travel.")]
+        [SerializeField] private bool faceTravel = true;
+
+        [SerializeField] private float arriveThreshold = 0.15f;
+
+        [Tooltip("Seconds to wait at each destination before picking the next one.")]
+        [SerializeField] private Vector2 pauseRange = new Vector2(0.5f, 2.5f);
+
+        [Tooltip("Radius within which nearby live enemies will pause the NPC automatically.")]
+        [SerializeField] private float enemyPauseRadius = 12f;
+
+        public bool Paused { get; set; }
+
+        private Vector3 anchor;
+        private bool enemiesNearby;
+        private Coroutine wanderRoutine;
+        private Coroutine enemyPauseRoutine;
+
+        private void Awake()
+        {
+            anchor = transform.position;
+        }
+
+        private void OnEnable()
+        {
+            wanderRoutine = StartCoroutine(WanderRoutine());
+            enemyPauseRoutine = StartCoroutine(EnemyPauseRoutine());
+        }
+
+        private void OnDisable()
+        {
+            if (wanderRoutine != null)
+            {
+                StopCoroutine(wanderRoutine);
+                wanderRoutine = null;
+            }
+            if (enemyPauseRoutine != null)
+            {
+                StopCoroutine(enemyPauseRoutine);
+                enemyPauseRoutine = null;
+            }
+        }
+
+        private IEnumerator WanderRoutine()
+        {
+            while (true)
+            {
+                // If paused or enemies are nearby, walk back to anchor and face camera.
+                bool shouldPause = Paused || enemiesNearby;
+                if (shouldPause)
+                {
+                    yield return ReturnToAnchor();
+                    yield return FaceCameraRoutine();
+                }
+                else
+                {
+                    // Pick a random destination within wanderRadius of the anchor.
+                    Vector2 offset = Random.insideUnitCircle * wanderRadius;
+                    Vector3 dest = anchor + new Vector3(offset.x, 0f, offset.y);
+
+                    // Walk to destination.
+                    while (Vector3.Distance(transform.position, dest) > arriveThreshold)
+                    {
+                        // Check pause condition each frame.
+                        if (Paused || enemiesNearby)
+                        {
+                            break;
+                        }
+
+                        Vector3 to = dest - transform.position;
+                        if (faceTravel)
+                        {
+                            Vector3 flat = new Vector3(to.x, 0f, to.z);
+                            if (flat.sqrMagnitude > 0.0001f)
+                            {
+                                Quaternion look = Quaternion.LookRotation(flat.normalized, Vector3.up);
+                                transform.rotation = Quaternion.RotateTowards(transform.rotation, look, 360f * Time.deltaTime);
+                            }
+                        }
+
+                        transform.position = Vector3.MoveTowards(transform.position, dest, moveSpeed * Time.deltaTime);
+                        yield return null;
+                    }
+
+                    // Pause at destination.
+                    if (!Paused && !enemiesNearby)
+                    {
+                        yield return new WaitForSeconds(Random.Range(pauseRange.x, pauseRange.y));
+                    }
+                }
+
+                yield return null;
+            }
+        }
+
+        private IEnumerator ReturnToAnchor()
+        {
+            while (Vector3.Distance(transform.position, anchor) > arriveThreshold)
+            {
+                Vector3 to = anchor - transform.position;
+                if (faceTravel)
+                {
+                    Vector3 flat = new Vector3(to.x, 0f, to.z);
+                    if (flat.sqrMagnitude > 0.0001f)
+                    {
+                        Quaternion look = Quaternion.LookRotation(flat.normalized, Vector3.up);
+                        transform.rotation = Quaternion.RotateTowards(transform.rotation, look, 360f * Time.deltaTime);
+                    }
+                }
+
+                transform.position = Vector3.MoveTowards(transform.position, anchor, moveSpeed * Time.deltaTime);
+                yield return null;
+            }
+        }
+
+        private IEnumerator FaceCameraRoutine()
+        {
+            while (Paused || enemiesNearby)
+            {
+                var cam = Camera.main;
+                if (cam != null)
+                {
+                    // Face the camera (yaw only).
+                    Vector3 dirToCamera = cam.transform.position - transform.position;
+                    Vector3 flatDir = new Vector3(dirToCamera.x, 0f, dirToCamera.z);
+                    if (flatDir.sqrMagnitude > 0.0001f)
+                    {
+                        Quaternion targetLook = Quaternion.LookRotation(flatDir.normalized, Vector3.up);
+                        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetLook, 360f * Time.deltaTime);
+                    }
+                }
+                yield return null;
+            }
+        }
+
+        private IEnumerator EnemyPauseRoutine()
+        {
+            while (true)
+            {
+                // Slow ~2 Hz poll: cache the result so the per-frame movement loops never call
+                // FindObjectsByType (which allocates). Independent of the user-set Paused flag.
+                enemiesNearby = AreEnemiesNearby();
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
+
+        private bool AreEnemiesNearby()
+        {
+            var cam = Camera.main;
+            if (cam == null) return false;
+
+            var enemies = FindObjectsByType<Enemy>();
+            foreach (var enemy in enemies)
+            {
+                if (enemy == null || !enemy.gameObject.activeSelf) continue;
+
+                Health health = enemy.GetComponent<Health>();
+                if (health == null || !health.IsAlive) continue;
+
+                Vector3 toEnemy = enemy.transform.position - cam.transform.position;
+                toEnemy.y = 0f;
+                if (toEnemy.magnitude <= enemyPauseRadius)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+}

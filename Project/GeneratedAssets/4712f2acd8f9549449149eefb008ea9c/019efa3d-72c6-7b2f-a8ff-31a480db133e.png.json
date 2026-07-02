@@ -1,0 +1,28 @@
+{
+    "asset": "4712f2acd8f9549449149eefb008ea9c",
+    "fileName": "019efa3d-72c6-7b2f-a8ff-31a480db133e.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: 30s human woman weaponized into a living archive: gaunt and exhausted, ashen-grey skin laced with glowing cold blue-white data-light circuit-veins at temples, throat and arms, hair shaved at the port-points. A half-exposed lattice of black conditioning hardware, cabling and glowing data-conduits is grown into her spine and shoulders, trailing tethers. Wears a torn archive-shift and salvage straps that leave the back-racking exposed. Faint amber archive-glyphs surface on her skin. Ashen grey + cold blue-white glow + black hardware palette. Stands slightly tethered, burdened, reaching for personhood. Tragic human-machine hybrid, grounded sci-fi. Color palette: Ashen grey skin with cold blue-white data-light veins; black hardware; faint archive-amber glyphs. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

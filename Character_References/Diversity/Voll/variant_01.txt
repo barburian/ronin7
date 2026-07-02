@@ -1,0 +1,8 @@
+VARIANT: Voll #01 — "Crime-Boss"
+SPECIES: Voll (syndicate / black-market profiteer). See _SPECIES_BIBLE.txt.
+SEX / AGE / BUILD: Male / middle-aged / vast, bloated, ponderous.
+ROLE IN WORLD: A district crime-boss running rackets from a cushioned den.
+DISTINGUISHING FEATURES: Sickly-green oily-sheened skin; deep throat-dewlaps that inflate when he speaks; small close-set hooded gold eyes; a wide lipless many-toothed mouth with gilded teeth; rings sunk into fat fingers.
+CLOTHING / GEAR: An armored ceremonial coat over rich fabrics, jeweled rings, a hookah-rig, a holdout pistol.
+COLOR / PALETTE: Sickly-green oily flesh; deep wine and gold fabrics; neon syndicate trim.
+>> IMAGE-PROMPT SUMMARY: A vast bloated ponderous middle-aged male voll crime-boss with sickly-green oily-sheened skin, inflating throat-dewlaps, small hooded gold eyes, a wide lipless many-toothed gilded grin and rings sunk into fat fingers. Wears an armored ceremonial coat over rich wine-and-gold fabrics with jeweled rings, a hookah-rig beside him. Sickly-green, wine-gold and neon palette. Smooth, bored menace. Grounded alien sci-fi gangster.

@@ -1,0 +1,8 @@
+VARIANT: Voll #06 — "Debt-Collector / Enforcer"
+SPECIES: Voll (syndicate / black-market profiteer).
+SEX / AGE / BUILD: Male / adult / heavy and slab-muscled under the bulk.
+ROLE IN WORLD: Syndicate muscle who collects debts and breaks fingers.
+DISTINGUISHING FEATURES: Mottled green skin scarred from brawls; thick scar-notched dewlaps; cold flat gold eyes; a broken tooth in the wide mouth; augmented heavy claw-fists.
+CLOTHING / GEAR: A reinforced collector-coat, knuckle-augments, a debt-ledger, a shock-prod, a holstered slug-gun.
+COLOR / PALETTE: Mottled-green flesh; black reinforced coat; dull metal augments; a red syndicate band.
+>> IMAGE-PROMPT SUMMARY: A heavy slab-muscled adult male voll debt-collector with mottled green oily skin scarred from brawls, thick scar-notched dewlaps, cold flat gold eyes, a broken tooth and augmented heavy claw-fists. Wears a reinforced black collector-coat with knuckle-augments and a red syndicate band, carrying a shock-prod, debt-ledger and holstered slug-gun. Mottled-green, black and dull-metal palette. Brutal, transactional. Grounded alien sci-fi.

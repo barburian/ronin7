@@ -1,0 +1,28 @@
+{
+    "asset": "014222eee1c2b0741a8a51535826a00a",
+    "fileName": "019efa9b-ee69-766b-88cf-cec503098c14.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from the top of the head down to the soles of the feet, the whole figure centered and small within the frame with large empty background margins on all four sides so nothing is cropped, the complete head and feet fully inside the frame and not touching any edge. Front view, neutral upright A-pose. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no text, no logo, no border, only one character. Subject: a MENACING, cold, imposing older human woman — the cruel matron-boss of a brutal military academy's child-intake wing. Severe hard piercing eyes, an unsmiling cold cruel expression, tight steel-grey hair pulled back in a harsh bun, standing tall with looming authoritarian, threatening menace. FULLY CLOTHED in austere severe dark warden-matron's robes with a stiff high collar, an iron-grey uniform apron and subtle militaristic insignia, gripping a thin disciplinary cane. Sinister, intimidating, authoritarian — reads as a dangerous villain, NOT a kindly grandmother, no warm smile. Color palette: cold dark slate-grey, iron, muted charcoal, faint cruel steel highlights. Grounded human sci-fi.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

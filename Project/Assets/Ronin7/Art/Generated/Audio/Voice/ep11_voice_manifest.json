@@ -1,0 +1,409 @@
+{
+    "lines": [
+        {
+            "file": "ep11_transit_question_00_kessler",
+            "speaker": "Kessler",
+            "text": "Meredith's question is still with you."
+        },
+        {
+            "file": "ep11_transit_question_01_cipher",
+            "speaker": "Cipher",
+            "text": "She asked why it survived. The program, the purge, all of it, and whatever it is, it held. She spent twenty-five years looking from the outside and couldn't find the answer."
+        },
+        {
+            "file": "ep11_transit_question_02_cipher",
+            "speaker": "Cipher",
+            "text": "Which means the answer is somewhere I haven't looked yet."
+        },
+        {
+            "file": "ep11_transit_question_03_kessler",
+            "speaker": "Kessler",
+            "text": "Six hours ago I found something in the logistics manifests. An entry scrubbed at the sector level but missed at the regional archive. A decommissioned combat training facility on a moon called Verdis Prime."
+        },
+        {
+            "file": "ep11_transit_question_04_kessler",
+            "speaker": "Kessler",
+            "text": "Listed as a meditation monastery now. Long-term residency. One occupant. No Dominion affiliation on record. But the original construction specifications are signed by the Ronin Program's training division."
+        },
+        {
+            "file": "ep11_transit_question_05_cipher",
+            "speaker": "Cipher",
+            "text": "Who's the occupant."
+        },
+        {
+            "file": "ep11_transit_question_06_kessler",
+            "speaker": "Kessler",
+            "text": "The name on the residency record is a ghost, seven aliases deep before it washes out. But I ran a biometric approximation against the original program staff roster."
+        },
+        {
+            "file": "ep11_transit_question_07_kessler",
+            "speaker": "Kessler",
+            "text": "One possible match. An instructor. Listed as killed in a transit accident fifteen years ago."
+        },
+        {
+            "file": "ep11_transit_question_08_cipher",
+            "speaker": "Cipher",
+            "text": "Set course."
+        },
+        {
+            "file": "ep11_monastery_arrival_00_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "You're alive."
+        },
+        {
+            "file": "ep11_monastery_arrival_01_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "I need to know whether I am looking at the boy I trained or at a Dominion construct wearing what remains of him."
+        },
+        {
+            "file": "ep11_monastery_arrival_02_cipher",
+            "speaker": "Cipher",
+            "text": "I don't know enough about who he was to answer that. Neither do you, not from standing here."
+        },
+        {
+            "file": "ep11_recognition_duel_00_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "Your body remembers what they took from your mind."
+        },
+        {
+            "file": "ep11_recognition_duel_01_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "Come inside."
+        },
+        {
+            "file": "ep11_the_confession_00_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "I was the only human contact they permitted. Not a handler, the handlers ran operational conditioning. An instructor. My specific assignment was to teach the children to convert grief into precision."
+        },
+        {
+            "file": "ep11_the_confession_01_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "The theory was that grief, unaddressed, produces hesitation. Hesitation produces mission failure. So the protocol gave the children a channel for it, controlled, disciplined, supervised by someone who was not a machine."
+        },
+        {
+            "file": "ep11_the_confession_02_cipher",
+            "speaker": "Cipher",
+            "text": "You taught them to kill with it instead of despite it."
+        },
+        {
+            "file": "ep11_the_confession_03_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "Yes. And I was good at it. That is the fact I have been living with for fifteen years."
+        },
+        {
+            "file": "ep11_the_confession_04_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "I defected in the program's twelfth year. Took a transit accident as cover. I had been building that cover for four years, a long time to plan a thing you are not certain you will carry through."
+        },
+        {
+            "file": "ep11_the_confession_05_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "I assumed the program continued after I left. I did not assume any of the children survived the purges. The operational record that reached me suggested the program was decommissioning its older cohorts as new ones came through."
+        },
+        {
+            "file": "ep11_the_confession_06_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "I believed you were dead. I have been living in penance for people I believed were dead."
+        },
+        {
+            "file": "ep11_the_confession_07_cipher",
+            "speaker": "Cipher",
+            "text": "The record of my purge says status: UNCONFIRMED. The Dominion sent the kill signal and never verified the result."
+        },
+        {
+            "file": "ep11_hunterdroid_barks_00_kessler",
+            "speaker": "Kessler",
+            "text": "Droids, through the canopy. Four units, heat-track capable, they followed us down from orbit. Moving fast."
+        },
+        {
+            "file": "ep11_hunterdroid_barks_01_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "Left pillar. Now."
+        },
+        {
+            "file": "ep11_hunterdroid_barks_02_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "Together. The load pillar."
+        },
+        {
+            "file": "ep11_the_flaw_00_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "The Ronin Program recruited children. Orphaned, debt-indentured, or acquired through intake sources the Dominion controlled. Age range at acquisition: six to nine years. Old enough for neural implant. Young enough that the conditioning could begin before the architecture of self was fixed."
+        },
+        {
+            "file": "ep11_the_flaw_01_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "The conditioning protocol was chemical and psychological. A twelve-phase regimen administered over three years. The objective was specific: remove the capacity for discretionary refusal. Not the capacity for judgment, the program needed judgment. It needed operatives who could assess a situation and determine the optimal sequence."
+        },
+        {
+            "file": "ep11_the_flaw_02_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "What the protocol removed was the capacity to refuse an order on the grounds of its content. To evaluate a directive, understand it completely, and say: I can do this, but I will not. The program required soldiers capable of executing any directive to any target without the mechanism that would cause them to stop and decide that this particular target crossed a line they would not cross."
+        },
+        {
+            "file": "ep11_the_flaw_03_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "The results were close to perfect. In most subjects, in all but three of the twelve in Ronin cohort, the conditioning achieved the intended outcome."
+        },
+        {
+            "file": "ep11_the_flaw_04_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "Your psychological profile was flagged in the program's first month. \"Subject exhibits persistent empathic response despite full conditioning protocol. Recommend immediate neuroattenuation.\""
+        },
+        {
+            "file": "ep11_the_flaw_05_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "The neuroattenuation was recommended four times over two years. Each time, it was deferred. Program administration decided the flag was within correctable range and that the remaining conditioning phases would resolve it."
+        },
+        {
+            "file": "ep11_the_flaw_06_cipher",
+            "speaker": "Cipher",
+            "text": "And Kethel-7 was the test."
+        },
+        {
+            "file": "ep11_the_flaw_07_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "Kethel-7 was the final conditioning confirmation. Every operative in a cohort received one before deployment, a direct order requiring a terminal action against a specified target. The purpose was to confirm that the conditioning had held. That the mechanism for refusal had been successfully removed."
+        },
+        {
+            "file": "ep11_the_flaw_08_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "You received the confirmation directive. You read the target specifications. And you refused."
+        },
+        {
+            "file": "ep11_the_flaw_09_cipher",
+            "speaker": "Cipher",
+            "text": "The failsafe triggered at Kethel-7. I know that."
+        },
+        {
+            "file": "ep11_the_flaw_10_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "The failsafe is a neural purge. Not a memory wipe, the memory wipe was never the primary function. The primary function was termination. The program built it to eliminate operatives who crossed the deviation threshold. Who demonstrated that the conditioning had failed completely."
+        },
+        {
+            "file": "ep11_the_flaw_11_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "Every other operative who deviated, and in the full program history, across all cohorts, there were three, died within days of the purge signal. Neural cascade. Rapid and total. The chip was engineered to ensure it."
+        },
+        {
+            "file": "ep11_the_flaw_12_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "The empathy was the flaw. Not a flaw in the program's design, the design accounted for it, prescribed a correction, and the correction was not applied in time. But the flaw is precisely, precisely, what should have killed you. Your refusal crossed the threshold. The chip activated. You are the fourth case of deviation in the program's full history."
+        },
+        {
+            "file": "ep11_the_flaw_13_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "The other three are dead. You are not. I have no explanation for that. I have had fifteen years to look for one and I have not found it."
+        },
+        {
+            "file": "ep11_the_flaw_14_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "Neither does the Dominion. That is the only thing that has kept them from finding you. They sent the kill signal. It did not confirm. A purge signal always confirms. An operative who does not die after a purge signal is a category of problem the program has no procedure for."
+        },
+        {
+            "file": "ep11_the_flaw_15_cipher",
+            "speaker": "Cipher",
+            "text": "I am the flaw the program couldn't fix. The deviation it couldn't kill. And it doesn't know why, and you don't know why, and Meredith spent twenty years asking the same question from the outside."
+        },
+        {
+            "file": "ep11_the_flaw_16_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "The empathy and the refusal survived everything the program applied to remove them. That is the fact. The why is a question I cannot answer from where I stand. The why is the question I believe you were meant to never be in a position to ask."
+        },
+        {
+            "file": "ep11_collapse_barks_00_kessler",
+            "speaker": "Kessler",
+            "text": "Seismic charge, orbital deployment. They're bringing the mountain down on the record. Archive chamber is going to be buried in less than four minutes."
+        },
+        {
+            "file": "ep11_collapse_barks_01_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "Archive chamber, east corridor, second door. The cores are shielded but the mounts won't hold when the ceiling goes."
+        },
+        {
+            "file": "ep11_collapse_barks_02_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "West exit, it's clear. Move."
+        },
+        {
+            "file": "ep11_the_archive_00_cipher",
+            "speaker": "Cipher",
+            "text": "What's in it."
+        },
+        {
+            "file": "ep11_the_archive_01_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "The complete Ronin Program file. Operative designations. Termination dates. Recruitment protocols and intake source records. And your full psychological assessment, every annotation, every flagged recommendation, every administrator's overruling of the neuroattenuation order, from acquisition through purge authorization."
+        },
+        {
+            "file": "ep11_the_archive_02_cipher",
+            "speaker": "Cipher",
+            "text": "Come with us."
+        },
+        {
+            "file": "ep11_the_archive_03_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "The Dominion will pull this location's record the moment a field report reaches them. Every logistics entry, every decommission document, every connection to the program that the regional archive missed. They will trace everyone associated with this site."
+        },
+        {
+            "file": "ep11_the_archive_04_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "If I board that ship, I am a thread back to you. The safest thing for you, the only safe thing, is for me to disappear deeper. Not into transit lanes where a face-match surfaces, but into the kind of silence that has worked for fifteen years because it wasn't attached to a fugitive."
+        },
+        {
+            "file": "ep11_the_archive_05_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "Use what's in there the way the program tried to use you. As a precision weapon aimed at the truth of what was done."
+        },
+        {
+            "file": "ep11_the_archive_06_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "They built a machine to produce hollow soldiers. You are the record of the one time the machine failed. That is not nothing. That is the only evidence they cannot destroy without dismantling the whole of what they built."
+        },
+        {
+            "file": "ep11_corvette_barks_00_kessler",
+            "speaker": "Kessler",
+            "text": "Patrol corvette dropping on our signature, two escort fighters detaching. Turret is yours."
+        },
+        {
+            "file": "ep11_corvette_barks_01_cipher",
+            "speaker": "Cipher",
+            "text": "On it."
+        },
+        {
+            "file": "ep11_corvette_barks_02_kessler",
+            "speaker": "Kessler",
+            "text": "Jump in thirty-five seconds, coordinates locked. Hold the approach lane."
+        },
+        {
+            "file": "ep11_corvette_barks_03_cipher",
+            "speaker": "Cipher",
+            "text": "Holding."
+        },
+        {
+            "file": "ep11_the_file_00_cipher",
+            "speaker": "Cipher",
+            "text": "Ronin-1 through Ronin-12. All listed."
+        },
+        {
+            "file": "ep11_the_file_01_cipher",
+            "speaker": "Cipher",
+            "text": "All marked TERMINATED."
+        },
+        {
+            "file": "ep11_the_file_02_cipher",
+            "speaker": "Cipher",
+            "text": "Final entry: \"Failsafe initiated, deviation threshold exceeded. Kethel-7 refusal confirmed. Subject Ronin-7 purge authorized.\""
+        },
+        {
+            "file": "ep11_the_file_03_cipher",
+            "speaker": "Cipher",
+            "text": "\"Purge signal acknowledged. Subject status: UNCONFIRMED.\""
+        },
+        {
+            "file": "ep11_the_file_04_kessler",
+            "speaker": "Kessler",
+            "text": "UNCONFIRMED. They sent the signal. They didn't get the confirmation. So they closed the file."
+        },
+        {
+            "file": "ep11_the_file_05_kessler",
+            "speaker": "Kessler",
+            "text": "They may still think you're dead. The margin we've had, the reason we've gotten this far without a kill-confirmed priority order behind us, that is one word. UNCONFIRMED."
+        },
+        {
+            "file": "ep11_the_file_06_cipher",
+            "speaker": "Cipher",
+            "text": "Kaelen recognized me in three seconds. One face-scan report from any Dominion unit we've passed closes that status. Khall will know the moment he has a field report."
+        },
+        {
+            "file": "ep11_the_file_07_kessler",
+            "speaker": "Kessler",
+            "text": "Then we have to move faster than the reports do."
+        },
+        {
+            "file": "ep11_exit_hunters_barks_00_kessler",
+            "speaker": "Kessler",
+            "text": "Bounty-hunter rig, positioned, not passing. Running a Dominion warrant. Gilded Maw contracted. They know the augmentation profile."
+        },
+        {
+            "file": "ep11_exit_hunters_barks_01_cipher",
+            "speaker": "Cipher",
+            "text": "The interceptor bay."
+        },
+        {
+            "file": "ep11_exit_hunters_barks_02_cipher",
+            "speaker": "Cipher",
+            "text": "Rig is disabled. Returning."
+        },
+        {
+            "file": "ep11_merchant_trail_00_kessler",
+            "speaker": "Kessler",
+            "text": "I'm reading a flagged transmission. Fragmentary, routed through a black-market data exchange somewhere deeper in Galaxy 2. Multiple anonymization hops."
+        },
+        {
+            "file": "ep11_merchant_trail_01_cipher",
+            "speaker": "Cipher",
+            "text": "What's the provenance format on the listed goods."
+        },
+        {
+            "file": "ep11_merchant_trail_02_kessler",
+            "speaker": "Kessler",
+            "text": "That's what, here. Come look at this."
+        },
+        {
+            "file": "ep11_merchant_trail_03_cipher",
+            "speaker": "Cipher",
+            "text": "These are my files. The psychological assessment, the conditioning logs, the reflex architecture the program built into me. Someone has the archive, or a copy significant enough to be selling from."
+        },
+        {
+            "file": "ep11_merchant_trail_04_kessler",
+            "speaker": "Kessler",
+            "text": "Buyers who purchase those files know exactly how you were built. Where the conditioning holds. What triggers the reflexes. Where the remaining vulnerabilities are."
+        },
+        {
+            "file": "ep11_merchant_trail_05_cipher",
+            "speaker": "Cipher",
+            "text": "Whoever holds the source files has access to material Kaelen didn't have. Kaelen spent fifteen years assembling what he could collect secondhand. This seller has the full conditioning map. They've had access to a complete archive longer than Kaelen had this facility."
+        },
+        {
+            "file": "ep11_merchant_trail_06_kessler",
+            "speaker": "Kessler",
+            "text": "Someone already has the archive. They've been selling pieces of you."
+        },
+        {
+            "file": "ep11_merchant_trail_07_cipher",
+            "speaker": "Cipher",
+            "text": "The exchange is operating in Galaxy 2's inner trade corridor. Three hops on a dead merchant relay, routing final through what used to be a Vellum Exchange transit node."
+        },
+        {
+            "file": "ep11_merchant_trail_08_cipher",
+            "speaker": "Cipher",
+            "text": "Find the exchange. Set the course."
+        },
+        {
+            "file": "ep11_merchant_trail_09_kessler",
+            "speaker": "Kessler",
+            "text": "We're going to the Memory Merchant."
+        },
+        {
+            "file": "ep11_space_ep11_post_00_cipher",
+            "speaker": "Cipher",
+            "text": "Kaelen stayed to cover our extraction. The Dominion will erase every record of that monastery the moment they have confirmation."
+        },
+        {
+            "file": "ep11_space_ep11_post_01_kessler",
+            "speaker": "Kessler",
+            "text": "And the archive?"
+        },
+        {
+            "file": "ep11_space_ep11_post_02_cipher",
+            "speaker": "Cipher",
+            "text": "Complete. The full psychological assessment. Every recommendation for neuroattenuation. Every failure of the system."
+        },
+        {
+            "file": "ep11_space_ep11_post_03_kessler",
+            "speaker": "Kessler",
+            "text": "Then we know where to look. Whoever's selling your files, they got them from the same source. And that source has answers."
+        }
+    ]
+}

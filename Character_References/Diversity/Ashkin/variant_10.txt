@@ -1,0 +1,8 @@
+VARIANT: Ashkin #10 — "Storyteller Elder"
+SPECIES: Ashkin (frontier dust-world settler).
+SEX / AGE / BUILD: Female / elder / frail but animated.
+ROLE IN WORLD: Keeps the colony songs and the names of lost settlements alive.
+DISTINGUISHING FEATURES: Crazed pale-ochre skin; thin crumbling plates; milk-dimmed one ember eye; ash-white braids; expressive knotted hands.
+CLOTHING / GEAR: A patchwork song-shawl sewn with settlement-tokens, a hand-drum, a story-staff.
+COLOR / PALETTE: Pale-ochre skin; faded multicolor patchwork shawl; grey ash; bone drum.
+>> IMAGE-PROMPT SUMMARY: A frail animated elder female ashkin storyteller with crazed pale-ochre skin, thin crumbling keratin-plates, one milk-dimmed ember eye, ash-white braids and expressive knotted hands. Wears a faded multicolor patchwork song-shawl sewn with settlement-tokens, holding a bone hand-drum and a story-staff. Pale-ochre, faded-patchwork and grey-ash palette. Warm, lore-keeping. Grounded alien sci-fi frontier.

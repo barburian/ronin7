@@ -1,0 +1,8 @@
+VARIANT: Gravelkin #19 — "Stone-Cracked Cripple"
+SPECIES: Gravelkin (cave-dwelling stoneblood).
+SEX / AGE / BUILD: Male / old / once-huge, now broken and slumped.
+ROLE IN WORLD: A maimed old miner pensioned to the hold hearth.
+DISTINGUISHING FEATURES: Basalt hide with a great crack split across the torso, badly re-mineralized; a crushed, fused leg; dim failing quartz eyes; nodules crumbling to chalk; a tremor in the hands.
+CLOTHING / GEAR: A heavy blanket-shawl, a stone crutch, a hearth-mug, a worn hold-token.
+COLOR / PALETTE: Dull basalt hide; grey blanket; ash and chalk; dim hearth-amber.
+>> IMAGE-PROMPT SUMMARY: A once-huge now-broken slumped old male gravelkin cripple with basalt lithic hide split by a great badly-re-mineralized torso crack, a crushed fused leg, dim failing quartz eyes, crumbling-to-chalk nodules and trembling hands. Wrapped in a grey blanket-shawl with a stone crutch and a hearth-mug, a worn hold-token at his neck. Dull-basalt, grey and chalk palette in hearth-amber. Frail, weathered. Grounded alien sci-fi.

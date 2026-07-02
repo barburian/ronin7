@@ -1,0 +1,28 @@
+{
+    "asset": "6dc3a45f045d59f47bf5ccfb6c7845c9",
+    "fileName": "019efae9-edc3-745e-9cc3-1fde83ddd6d3.png",
+    "prompt": "Concept art of a single weapon shown complete and centered, isolated on a plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, NO character, no hands, no figure, only the weapon by itself. Subject: a huge archaic knightly great-blade, the oldest heaviest operative greatsword gone to fused corroded ruin, an immense long two-handed blade pitted with rust and canyon dust, a massive worn grip with a dim leashed hilt-light flickering with faint broadcast-static, monumental and ancient. Color palette: bone-white, rust and dead-grey with cold static-flicker and a dim hilt-light. Grounded dark sci-fi, single weapon prop on neutral background.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

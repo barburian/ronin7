@@ -1,0 +1,8 @@
+VARIANT: Ashkin #05 — "Well-Keeper Elder"
+SPECIES: Ashkin (frontier dust-world settler).
+SEX / AGE / BUILD: Male / old / stooped, dry, bony.
+ROLE IN WORLD: Tends the colony well and keeps the ledger of the settlement dead.
+DISTINGUISHING FEATURES: Heavily cracked brown skin; thick crumbling cheek-plates; faded ember eyes; long grey ash-matted beard; ink-stained fingers.
+CLOTHING / GEAR: A faded keeper robe, a name-ledger and stylus, a water-dipper, a key-ring.
+COLOR / PALETTE: Bruised-brown skin; faded grey robe; grey ash; bone ledger.
+>> IMAGE-PROMPT SUMMARY: A stooped dry old male ashkin well-keeper with heavily cracked brown skin, thick crumbling cheek keratin-plates, faded ember eyes and a long grey ash-matted beard. Wears a faded grey keeper robe with a name-ledger and stylus, a water-dipper and a key-ring. Bruised-brown, grey and ash palette. Solemn, worn. Grounded alien sci-fi frontier.

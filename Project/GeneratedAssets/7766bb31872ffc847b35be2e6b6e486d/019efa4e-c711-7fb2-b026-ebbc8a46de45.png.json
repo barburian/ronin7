@@ -1,0 +1,28 @@
+{
+    "asset": "7766bb31872ffc847b35be2e6b6e486d",
+    "fileName": "019efa4e-c711-7fb2-b026-ebbc8a46de45.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A lean eager late-teen male warren-folk smuggler apprentice with bright fervent dark eyes, a fear-but-resolve-flushed throat-frill, raw rope-calluses and a manifest hidden at his chest. Wears a muted-grey runner wrap and hood, soft boots, a holdout knife, and a smuggled child ribbon tied to his wrist. Grey-mauve and canvas-grey palette. Nervous idealism. Grounded alien sci-fi. Color palette: Grey-mauve skin; muted canvas greys; a smuggled child kept ribbon tied to his wrist. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

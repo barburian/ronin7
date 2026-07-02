@@ -1,0 +1,8 @@
+VARIANT: Ashkin #02 — "Moisture-Farmer"
+SPECIES: Ashkin (frontier dust-world settler).
+SEX / AGE / BUILD: Male / young adult / lean, broad-ribbed, wind-burnt.
+ROLE IN WORLD: Tends moisture-condensers on the dust flats.
+DISTINGUISHING FEATURES: Ruddy ochre skin lightly plated; bright ember eyes behind dust-goggles; a breath-mask; ash ground into the knuckle-creases.
+CLOTHING / GEAR: A dust-cloak and hood, goggles, breath-mask, condenser-tools on a belt.
+COLOR / PALETTE: Ochre skin; sand-tan cloak; smoked-glass goggles; grey ash.
+>> IMAGE-PROMPT SUMMARY: A lean broad-ribbed young male ashkin moisture-farmer with ruddy ochre lightly-plated skin, bright ember eyes behind smoked dust-goggles, a breath-mask and ash in the knuckle-creases. Wears a sand-tan dust-cloak and hood with condenser-tools on his belt. Ochre, sand-tan and grey-ash palette. Hardy, wind-burnt. Grounded alien sci-fi frontier.

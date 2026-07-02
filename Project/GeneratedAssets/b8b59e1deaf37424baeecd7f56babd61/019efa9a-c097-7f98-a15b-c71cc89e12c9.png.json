@@ -1,0 +1,28 @@
+{
+    "asset": "b8b59e1deaf37424baeecd7f56babd61",
+    "fileName": "019efa9a-c097-7f98-a15b-c71cc89e12c9.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from the top of the head down to the soles of the feet, the whole figure centered and small within the frame with large empty background margins on all four sides so nothing is cropped, the complete head and feet fully inside the frame and not touching any edge. Front view, neutral upright A-pose, arms slightly away from the body. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no text, no logo, no border, only one character. Subject: FULLY CLOTHED lean weathered late-20s alien ashkin frontier woman, dressed in practical dust-world survival wear — a dust-cloak and wrap, layered rust-colored cloth, sun-bleached leather, a breath-scarf and mourning tokens — completely covering her body, NOT naked, no nudity. Ruddy ochre-to-terracotta cracked clay-like skin with raised dried-mud keratin plates on the cheekbones, amber ember-glow eyes squinted against grit, coarse ash-grey hair caked with grey ash, holding a worn settler's rifle. Stands with standing-stone stillness over barely-held grief. Color palette: ochre/terracotta skin, grey ash, rust cloth, bone, sun-bleached leather. Grounded alien sci-fi.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

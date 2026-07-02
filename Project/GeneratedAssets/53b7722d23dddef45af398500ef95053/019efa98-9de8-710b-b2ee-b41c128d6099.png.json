@@ -1,0 +1,28 @@
+{
+    "asset": "53b7722d23dddef45af398500ef95053",
+    "fileName": "019efa98-9de8-710b-b2ee-b41c128d6099.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from the top of the head down to the soles of the feet, the whole figure centered and small within the frame with large empty background margins on all four sides so nothing is cropped, the complete head and feet fully inside the frame and not touching any edge. Front view, neutral upright A-pose, arms slightly away from the body. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no text, no logo, no border, only one character. Subject: FULLY CLOTHED slight 14-year-old alien ashkin girl, dressed in plain frontier child's clothing — a rust-colored tunic, a cloth wrap, worn shoes and a loose breath-scarf, faintly ash-dusted, the clothing completely covering her body, NOT naked, no nudity. Ruddy ochre cracked-clay skin with light just-forming keratin plates on the cheekbones, bright curious amber ember-glow eyes, coarse rust-grey ashy hair. Reads as innocent and curious. Color palette: ochre skin, rust cloth, grey ash, warm soft daylight. Grounded alien sci-fi.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

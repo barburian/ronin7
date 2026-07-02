@@ -1,0 +1,16 @@
+{
+    "name": "Ronin7.Combat",
+    "rootNamespace": "Ronin7.Combat",
+    "references": [
+        "Ronin7.Core"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

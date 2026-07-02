@@ -1,0 +1,28 @@
+{
+    "asset": "575386f535fdb914ca7ab5c93a63a29d",
+    "fileName": "019efa33-5120-7493-b581-2973b8901d6b.png",
+    "prompt": "Full-body video-game character concept of a single figure, front-facing, neutral A-pose with arms held slightly away from the body, the ENTIRE body visible from head to toe, the full head and face clearly in frame and centered (do not crop the head), plain flat light-gray studio background, even soft studio lighting with no harsh shadows, no text, no border, no floating props, one character only. Subject: Late-50s human male salvager, big and broad and worn down, with heavy calloused hands, a weathered deeply-lined face, grey beard stubble, and tired deep-set eyes softened by gallows warmth. Dressed in a heavy grease-stained canvas-and-leather work coat, padded vest and a tool harness hung with a cutting torch and multi-tool, layered thermals underneath. Oil-brown, rust and faded-olive palette. Stands like a tired, protective freighter captain. Grounded, human, lived-in sci-fi salvager. Color palette: Oil-brown, rust, faded olive, worn leather, grey. Grounded lived-in sci-fi.",
+    "negativePrompt": "",
+    "model": "gpt-image-1",
+    "modelName": "GPT Image 1",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

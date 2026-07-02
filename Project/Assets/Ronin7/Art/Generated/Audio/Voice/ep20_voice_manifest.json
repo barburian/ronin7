@@ -1,0 +1,369 @@
+{
+    "lines": [
+        {
+            "file": "ep20_docking_chaos_00_vess",
+            "speaker": "Vess",
+            "text": "Emberhand lost the station two days ago. Syndicates stopped pretending. Everyone here dies by nightfall."
+        },
+        {
+            "file": "ep20_docking_chaos_01_vess",
+            "speaker": "Vess",
+            "text": "I need someone who moves through violence like it's a language."
+        },
+        {
+            "file": "ep20_docking_chaos_02_kessler",
+            "speaker": "Kessler",
+            "text": "That's him. He's what you need."
+        },
+        {
+            "file": "ep20_docking_barks_00_tidebaronsquadlead",
+            "speaker": "Tide Baron Squad Lead",
+            "text": "Unidentified freighter! Transmit registry or we fire!"
+        },
+        {
+            "file": "ep20_docking_barks_01_rustfangenforcer",
+            "speaker": "Rustfang Enforcer",
+            "text": "Corvette's open! Grab the reactor coolant and move!"
+        },
+        {
+            "file": "ep20_docking_barks_02_ninefoldbankcommander",
+            "speaker": "Ninefold Bank Commander",
+            "text": "First squad down! Seal the airlock! Contain the..."
+        },
+        {
+            "file": "ep20_recognition_00_vess",
+            "speaker": "Vess",
+            "text": "You."
+        },
+        {
+            "file": "ep20_recognition_01_vess",
+            "speaker": "Vess",
+            "text": "Six years ago you came with Dominion credentials. Said you were hunting Saffron Veil operatives."
+        },
+        {
+            "file": "ep20_recognition_02_vess",
+            "speaker": "Vess",
+            "text": "You killed seventeen people. You killed my brother."
+        },
+        {
+            "file": "ep20_recognition_03_cipher",
+            "speaker": "Cipher",
+            "text": "I don't remember them."
+        },
+        {
+            "file": "ep20_recognition_04_vess",
+            "speaker": "Vess",
+            "text": "His name was Kess. He wanted to train as a broker. I was saving to buy his freedom from the syndicate before you arrived."
+        },
+        {
+            "file": "ep20_recognition_05_vess",
+            "speaker": "Vess",
+            "text": "You took that. You took him."
+        },
+        {
+            "file": "ep20_recognition_06_cipher",
+            "speaker": "Cipher",
+            "text": "The Dominion took your brother. I was the tool it used."
+        },
+        {
+            "file": "ep20_recognition_07_vess",
+            "speaker": "Vess",
+            "text": "The weapon. The order. The intention. All the same."
+        },
+        {
+            "file": "ep20_lotus_barks_00_crimsonlotuscommander",
+            "speaker": "Crimson Lotus Commander",
+            "text": "Targets acquired! Sweeping formation! Move!"
+        },
+        {
+            "file": "ep20_lotus_barks_01_crimsonlotusenforcer1",
+            "speaker": "Crimson Lotus Enforcer 1",
+            "text": "Neural-disruptor ready! Firing!"
+        },
+        {
+            "file": "ep20_lotus_barks_02_crimsonlotusenforcer2",
+            "speaker": "Crimson Lotus Enforcer 2",
+            "text": "Third operative down! Fallback formation!"
+        },
+        {
+            "file": "ep20_lotus_barks_03_vess",
+            "speaker": "Vess",
+            "text": "Sector seven seal, now!"
+        },
+        {
+            "file": "ep20_lotus_barks_04_crimsonlotusenforcer3",
+            "speaker": "Crimson Lotus Enforcer 3",
+            "text": "Losing integrity! Fall back! Move out!"
+        },
+        {
+            "file": "ep20_graveyard_00_vess",
+            "speaker": "Vess",
+            "text": "The stockpile here isn't just black-market goods. Dominion overflow. Ronin Program supply chains. Never catalogued. Deliberately buried."
+        },
+        {
+            "file": "ep20_graveyard_01_vess",
+            "speaker": "Vess",
+            "text": "Dominion is coming back for it. When they do, witnesses get eliminated. That includes her. That includes you."
+        },
+        {
+            "file": "ep20_vault_descent_00_vess",
+            "speaker": "Vess",
+            "text": "His name was Kess. He wrote letters before he died. Personal reflections. Hopes about what broker training would teach him. All of it stored here."
+        },
+        {
+            "file": "ep20_vault_descent_01_cipher",
+            "speaker": "Cipher",
+            "text": "I don't remember him. I don't remember the choice that led me there."
+        },
+        {
+            "file": "ep20_vault_descent_02_vess",
+            "speaker": "Vess",
+            "text": "But the choice was made."
+        },
+        {
+            "file": "ep20_vault_descent_03_cipher",
+            "speaker": "Cipher",
+            "text": "Yes."
+        },
+        {
+            "file": "ep20_vault_descent_04_dominiondronenetwork",
+            "speaker": "Dominion Drone Network",
+            "text": "OPERATIVE DESIGNATION CIPHER DETECTED. NEUTRALIZATION PROTOCOL ENGAGED."
+        },
+        {
+            "file": "ep20_drone_barks_00_dominiondrone1",
+            "speaker": "Dominion Drone 1",
+            "text": "Target lock. Engaging kinetic fire."
+        },
+        {
+            "file": "ep20_drone_barks_01_dominiondrone2",
+            "speaker": "Dominion Drone 2",
+            "text": "Secondary target acquired. Neutralizing."
+        },
+        {
+            "file": "ep20_drone_barks_02_vess",
+            "speaker": "Vess",
+            "text": "East passage is clear! Move through!"
+        },
+        {
+            "file": "ep20_numbered_weapons_00_kessler",
+            "speaker": "Kessler",
+            "text": "You want to tell me why Vess didn't kill you in that vault."
+        },
+        {
+            "file": "ep20_numbered_weapons_01_vess",
+            "speaker": "Vess",
+            "text": "Because the man who killed Kess was a weapon following orders. The man standing here is something different."
+        },
+        {
+            "file": "ep20_numbered_weapons_02_vess",
+            "speaker": "Vess",
+            "text": "Something that can choose. That terrifies me more than any operative ever did."
+        },
+        {
+            "file": "ep20_numbered_weapons_03_vess",
+            "speaker": "Vess",
+            "text": "But I will take the man who chooses over the machine that obeyed."
+        },
+        {
+            "file": "ep20_numbered_weapons_04_cipher",
+            "speaker": "Cipher",
+            "text": "If I had died when the Dominion meant me to, your brother would still be dead. But you wouldn't be standing next to his ghost."
+        },
+        {
+            "file": "ep20_syndicate_barks_00_tidebaronsquadronleader",
+            "speaker": "Tide Baron Squadron Leader",
+            "text": "All teams converging on the vault! Eliminate anything that moves!"
+        },
+        {
+            "file": "ep20_syndicate_barks_01_rustfangpitcommander",
+            "speaker": "Rustfang Pit Commander",
+            "text": "Frontline assault! Push through their formation! Move!"
+        },
+        {
+            "file": "ep20_syndicate_barks_02_hollowkingsinfiltrator",
+            "speaker": "Hollow Kings Infiltrator",
+            "text": "Neural-static deployed! Targeting systems going dark!"
+        },
+        {
+            "file": "ep20_syndicate_barks_03_cipher",
+            "speaker": "Cipher",
+            "text": "East corridor clear! Cache is moving! Stay with me!"
+        },
+        {
+            "file": "ep20_syndicate_barks_04_vess",
+            "speaker": "Vess",
+            "text": "Vault breach in sector three! Moving the core!"
+        },
+        {
+            "file": "ep20_syndicate_barks_05_kessler",
+            "speaker": "Kessler",
+            "text": "Five seconds to corridor seal! Move faster!"
+        },
+        {
+            "file": "ep20_interdiction_00_khall",
+            "speaker": "Khall",
+            "text": "Emberhand is under interdiction. Non-Dominion forces will disperse immediately."
+        },
+        {
+            "file": "ep20_interdiction_01_khall",
+            "speaker": "Khall",
+            "text": "Resistance will be met with orbital bombardment. This is not a negotiation."
+        },
+        {
+            "file": "ep20_interdiction_02_khall",
+            "speaker": "Khall",
+            "text": "Ronin-7. Your presence has been detected. Command offers full memory restoration. Surrender immediately."
+        },
+        {
+            "file": "ep20_interdiction_03_vess",
+            "speaker": "Vess",
+            "text": "They don't want you dead. They want you back. If you return with the records, everyone on this bazaar dies to keep them classified."
+        },
+        {
+            "file": "ep20_interdiction_04_cipher",
+            "speaker": "Cipher",
+            "text": "All satellite uplinks live! Records are scattered! Can't consolidate them without a full facility!"
+        },
+        {
+            "file": "ep20_interdiction_05_vess",
+            "speaker": "Vess",
+            "text": "Server three is live! Moving to server five! Cipher, buy us two more minutes!"
+        },
+        {
+            "file": "ep20_interdiction_06_cipher",
+            "speaker": "Cipher",
+            "text": "Two minutes. I've got them."
+        },
+        {
+            "file": "ep20_interdiction_07_khall",
+            "speaker": "Khall",
+            "text": "The freighter is mine. Cipher, your capture is assured. Resistance will not extend your timeline."
+        },
+        {
+            "file": "ep20_interdiction_08_cipher",
+            "speaker": "Cipher",
+            "text": "Dorsal turret active! Khall's signature locked!"
+        },
+        {
+            "file": "ep20_interdiction_09_kessler",
+            "speaker": "Kessler",
+            "text": "Evasive maneuvers! Jump coordinates locking! Sixty seconds to jump distance!"
+        },
+        {
+            "file": "ep20_interdiction_10_khall",
+            "speaker": "Khall",
+            "text": "You postpone your extinction, Cipher. Nothing more."
+        },
+        {
+            "file": "ep20_interdiction_11_kessler",
+            "speaker": "Kessler",
+            "text": "Jump in ten! Nine! Eight!"
+        },
+        {
+            "file": "ep20_merchants_choice_00_vess",
+            "speaker": "Vess",
+            "text": "I spent six years hating you. Waiting for you to die so I could stop carrying it."
+        },
+        {
+            "file": "ep20_merchants_choice_01_vess",
+            "speaker": "Vess",
+            "text": "Having you here, alive, broken, choosing, I finally understand what Kess wanted out of this life for."
+        },
+        {
+            "file": "ep20_merchants_choice_02_vess",
+            "speaker": "Vess",
+            "text": "Carrying hate is heavier than any weapon I've ever sold. I'm done carrying it."
+        },
+        {
+            "file": "ep20_merchants_choice_03_vess",
+            "speaker": "Vess",
+            "text": "Kess's last recorded message. Made the night before your mission. Before you arrived."
+        },
+        {
+            "file": "ep20_merchants_choice_04_vess",
+            "speaker": "Vess",
+            "text": "I'm coming with you. As long as you move against the Dominion. Not for vengeance. For what Kess deserved to live long enough to see."
+        },
+        {
+            "file": "ep20_merchants_choice_05_cipher",
+            "speaker": "Cipher",
+            "text": "You understand the Dominion will hunt you now."
+        },
+        {
+            "file": "ep20_merchants_choice_06_vess",
+            "speaker": "Vess",
+            "text": "I understand."
+        },
+        {
+            "file": "ep20_elite_barks_00_dominionelite1",
+            "speaker": "Dominion Elite 1",
+            "text": "Targets acquired. Eliminate on contact. Secure the records."
+        },
+        {
+            "file": "ep20_elite_barks_01_dominionelite2",
+            "speaker": "Dominion Elite 2",
+            "text": "Formation delta. Moving in."
+        },
+        {
+            "file": "ep20_elite_barks_02_vess",
+            "speaker": "Vess",
+            "text": "First operative down! Moving!"
+        },
+        {
+            "file": "ep20_elite_barks_03_dominionelite3",
+            "speaker": "Dominion Elite 3",
+            "text": "Operative is adapting! Formation is compromised!"
+        },
+        {
+            "file": "ep20_elite_barks_04_vess",
+            "speaker": "Vess",
+            "text": "Go. The records are in the satellite network. Safe."
+        },
+        {
+            "file": "ep20_names_are_archive_00_cipher",
+            "speaker": "Cipher",
+            "text": "I killed seventeen people. I do not remember their faces."
+        },
+        {
+            "file": "ep20_names_are_archive_01_cipher",
+            "speaker": "Cipher",
+            "text": "But now their names are in every server I touch. Their brothers. Their children. The Dominion wanted me to forget them."
+        },
+        {
+            "file": "ep20_names_are_archive_02_vess",
+            "speaker": "Vess",
+            "text": "That is not a curse."
+        },
+        {
+            "file": "ep20_names_are_archive_03_vess",
+            "speaker": "Vess",
+            "text": "That is a choice."
+        },
+        {
+            "file": "ep20_kess_message_00_kess",
+            "speaker": "Kess",
+            "text": "If you're hearing this, Vess, I'm probably dead."
+        },
+        {
+            "file": "ep20_kess_message_01_kess",
+            "speaker": "Kess",
+            "text": "I was never a criminal. I was a hostage. And there are thousands like me."
+        },
+        {
+            "file": "ep20_kess_message_02_kess",
+            "speaker": "Kess",
+            "text": "Maybe someday someone will care enough to count us all."
+        },
+        {
+            "file": "ep20_space_ep20_post_00_cipher",
+            "speaker": "Cipher",
+            "text": "Vess is with us now. The bazaar burned, but the records are scattered across a hundred servers, beyond the Dominion's reach."
+        },
+        {
+            "file": "ep20_space_ep20_post_01_kessler",
+            "speaker": "Kessler",
+            "text": "One more name on the manifest. One more reason they can't make us disappear quietly."
+        }
+    ]
+}

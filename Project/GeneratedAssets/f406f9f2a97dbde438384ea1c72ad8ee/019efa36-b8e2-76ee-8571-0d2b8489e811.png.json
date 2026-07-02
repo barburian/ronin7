@@ -1,0 +1,28 @@
+{
+    "asset": "f406f9f2a97dbde438384ea1c72ad8ee",
+    "fileName": "019efa36-b8e2-76ee-8571-0d2b8489e811.png",
+    "prompt": "Full-length head-to-toe character concept of a single figure, standing upright, front-facing, neutral A-pose with arms held slightly away from the body. CRITICAL FRAMING: the COMPLETE body must fit entirely inside the frame with generous empty margin on ALL sides — clear empty space ABOVE the top of the head and clear empty space BELOW the feet. The full head and face AND both feet/boots must be COMPLETELY visible — do NOT crop the head, do NOT crop the feet, do NOT let the figure touch any edge. Wide full-length shot, the whole standing figure centered and a bit small in the frame. Plain flat light-gray studio background, even soft studio lighting, no cast shadow on the ground, no text, no border, no floating props, one character only. Subject: Late-50s human male salvager, big and broad and worn down, with heavy calloused hands, a weathered deeply-lined face, grey beard stubble, and tired deep-set eyes softened by gallows warmth. Dressed in a heavy grease-stained canvas-and-leather work coat, padded vest and a tool harness hung with a cutting torch and multi-tool, layered thermals underneath, sturdy work boots. Oil-brown, rust and faded-olive palette. Stands like a tired, protective freighter captain. Grounded, human, lived-in sci-fi salvager. Color palette: Oil-brown, rust, faded olive, worn leather, grey. Grounded lived-in sci-fi.",
+    "negativePrompt": "",
+    "model": "gpt-image-1",
+    "modelName": "GPT Image 1",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

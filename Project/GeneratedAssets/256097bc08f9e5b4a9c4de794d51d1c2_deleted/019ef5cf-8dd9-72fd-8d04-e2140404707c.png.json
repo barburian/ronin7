@@ -1,0 +1,28 @@
+{
+    "asset": "256097bc08f9e5b4a9c4de794d51d1c2",
+    "fileName": "019ef5cf-8dd9-72fd-8d04-e2140404707c.png",
+    "prompt": "Full-body front-facing character concept of a gritty cyber-fantasy salvager: a weathered middle-aged man with a short rough beard and a glowing amber cybernetic eye, wearing a worn brown leather coat over scavenged dark plated armor, utility belt with tools, sturdy boots. Standing straight in a neutral A-pose, arms slightly away from body, centered, full body head-to-toe visible, plain flat light-gray background, even studio lighting, no shadows on background, stylized-realistic game character.",
+    "negativePrompt": "",
+    "model": "gpt-image-1",
+    "modelName": "GPT Image 1",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

@@ -1,0 +1,7 @@
+VARIANT: Obsidian Synod #05 — "Masked Envoy"
+SPECIES: Obsidian Synod (shadow-author voidform).
+RANK / FORM: A diplomat-office that walks among proxies wearing a near-mortal mask; slender voidform.
+DISTINGUISHING FEATURES: A slender obsidian body that holds a smoother, almost-courtly shape; a smooth featureless porcelain-black mask over the void-face with a single thin white-blue seam at the lips; gloved-seeming shadow hands; the least overtly monstrous of the forms.
+REGALIA / STATE: A refined fitted black-glass envoy-coat; minimal smoke, controlled.
+COLOR / PALETTE: Obsidian black; subtle white-blue seam; restrained void-purple.
+>> IMAGE-PROMPT SUMMARY: A slender almost-courtly Masked-Envoy Synod voidform with a smooth obsidian body, a featureless porcelain-black mask over the void-face split by a single thin white-blue seam at the lips, gloved-seeming shadow hands and only restrained controlled smoke. Wears a refined fitted black-glass envoy-coat. Obsidian-black with subtle white-blue seam and restrained void-purple palette. Suave, sinister, near-mortal. Cosmic dark sci-fi.

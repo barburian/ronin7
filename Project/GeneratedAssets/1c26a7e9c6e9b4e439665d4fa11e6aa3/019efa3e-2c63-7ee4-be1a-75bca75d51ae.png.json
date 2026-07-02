@@ -1,0 +1,28 @@
+{
+    "asset": "1c26a7e9c6e9b4e439665d4fa11e6aa3",
+    "fileName": "019efa3e-2c63-7ee4-be1a-75bca75d51ae.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A huge, middle-aged human drill-master, slab-muscled and built for violence, with a hard contemptuous heavily-scarred face, shorn or bald head and cold proud eyes. Stripped to a scarred bare torso or a heavy sleeveless training gambeson with bracers and a sergeant's half-plate, Program-marked. Wields hand-to-hand and a heavy blunt training weapon amid whipping posts and breaking-frames. Iron-grey, blood-rust and sweat-dark leather palette with bare scarred skin. Stands loud, proud and brutal, eager for the fight. Grounded human sci-fi. Color palette: Iron-grey, blood-rust, sweat-dark leather; bare scarred skin. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

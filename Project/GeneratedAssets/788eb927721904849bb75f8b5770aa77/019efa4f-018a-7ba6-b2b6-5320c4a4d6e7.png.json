@@ -1,0 +1,28 @@
+{
+    "asset": "788eb927721904849bb75f8b5770aa77",
+    "fileName": "019efa4f-018a-7ba6-b2b6-5320c4a4d6e7.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A lean grim methodical adult female vesh headhunter with dark tannin-stained chitin, cold orange slit-eyes, trophy-notched mandible-tusks, skinning-scarred hands and a cloak and belt of cured foe-trophies. Carries curing-tools and a flensing-knife among drying-racks of grim spoils. Tannin-dark, cured-brown, bone-white and dried-blood-red palette. Grim, unsettling. Grounded alien sci-fi raider. Color palette: Tannin-darkened carapace; cured-trophy browns; bone-white; dried-blood red. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

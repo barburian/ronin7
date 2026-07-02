@@ -1,0 +1,46 @@
+==================================================================
+MORRIGAN
+==================================================================
+SPECIES: Human (Dominion/Program engineer — human per rule).
+
+ROLE & FACTION: Rogue Program engineer embedded for nine years inside the Iron Dojo training
+citadel, building the leashes (killswitches, shadow-AI bonding, conditioning hardware) while secretly
+smuggling one child out per season via Resh. The crew's inside informant; Ally #3. Knows empathy is
+the designed flaw and wants proof it can win. Runs the Cairn's analysis bench after joining.
+
+CHAPTERS: Ch6–Ch16 (walks out of the Iron Dojo with the crew, joins).
+
+AGE / BUILD / HEIGHT: 30s into 40s; ~1.72 m. Lean, tired-in-the-bone; engineer's stillness over
+contained fury.
+
+HEAD: Sharp, severe, fatigued face; dark hair, practical and unfussed; flat, blunt eyes that miss
+nothing. No softness in the expression; precision over warmth.
+
+BODY: Spare, controlled movement; the stillness of someone who works delicate hardware all day;
+quiet anger held under it.
+
+WEAPONS / PROPS: Engineer's diagnostic kit, firmware/analysis tools, the Program hardware she knows
+intimately; an analysis bench. A concealed sidearm.
+
+CLOTHING / ARMOR: Program technician's coveralls / field-engineer rig — utility jumpsuit, tool
+harness, magnification visor pushed up on the forehead, ID stripped after defection.
+
+COLOR PALETTE: Slate, oil-grey, muted teal; tool-metal; small diagnostic indicator-lights.
+
+SILHOUETTE / DISTINGUISHING FEATURES: A lean, severe field-engineer with a brow visor and tool
+harness; controlled fury under technical calm.
+
+DEMEANOR: Blunt, technical, dry; no illusions about her complicity; judges plainly. "Whoever cut your
+leash knew the firmware better than the people who shipped it... That's an insider." (Ch6)
+
+CANON SOURCE QUOTES:
+  - Nine years building the leash hardware while smuggling children out (Ch6).
+
+>> IMAGE-PROMPT SUMMARY:
+30s–40s human woman field-engineer, lean and tired-in-the-bone, with a sharp severe fatigued face,
+practical dark hair, blunt all-seeing eyes and no softness. Wears a slate utility jumpsuit / Program
+technician coveralls with a tool harness and a magnification visor pushed up on the forehead, insignia
+stripped. Carries diagnostic and firmware tools and a concealed sidearm. Slate / oil-grey / muted-teal
+palette with tool-metal and small indicator-lights. Stands with an engineer's controlled stillness
+over held-down anger. Grounded human sci-fi.
+==================================================================

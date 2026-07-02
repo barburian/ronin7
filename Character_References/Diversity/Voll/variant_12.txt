@@ -1,0 +1,8 @@
+VARIANT: Voll #12 — "Back-Alley Dealer"
+SPECIES: Voll (syndicate / black-market profiteer).
+SEX / AGE / BUILD: Male / young adult / lean, jittery, hungry-looking.
+ROLE IN WORLD: A low-rung stim-and-contraband dealer working the gutters.
+DISTINGUISHING FEATURES: Sallow thin-for-a-voll skin; underfed loose dewlaps; bloodshot darting gold eyes; chipped grinder-teeth; trembling stubby fingers; a self-dosing port at the neck.
+CLOTHING / GEAR: A grubby hooded coat lined with hidden vials, a credit-skimmer, a shiv, a stash-pouch.
+COLOR / PALETTE: Sallow-grey flesh; grimy black-green coat; sickly stim-vial glows.
+>> IMAGE-PROMPT SUMMARY: A lean jittery hungry-looking young-adult male voll back-alley dealer with sallow thin-for-a-voll oily skin, underfed loose dewlaps, bloodshot darting gold eyes, chipped grinder-teeth, trembling fingers and a self-dosing neck-port. Wears a grubby hooded black-green coat lined with hidden glowing vials, carrying a credit-skimmer and a shiv. Sallow-grey, grimy-green and sickly-vial-glow palette. Strung-out, furtive. Grounded alien sci-fi.

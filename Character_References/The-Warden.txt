@@ -1,0 +1,49 @@
+==================================================================
+THE WARDEN   (Silent Garden boss — a construct, not a person)
+==================================================================
+SPECIES: CONSTRUCT / NON-CORPOREAL — the Silent Garden's physical fist; a grave-construct/spirit,
+not a person and not a species.
+
+ROLE & FACTION: The Garden's final test and guardian — a towering construct assembled from grave-iron,
+headstone, root, and packed fog, wearing the half-shape of the oldest thing buried in the Garden.
+Pure mechanism; cannot be reasoned with. Ch8 sole boss; after defeat it is put back, sinking into the
+barrow rather than destroyed.
+
+CHAPTERS: Ch8.
+
+AGE / BUILD / HEIGHT: Wears the age of the grave itself; monumental, ~3.5 m+; massive and slow.
+
+HEAD: No conventional face — a looming head-mass of fused headstone, grave-iron and root wrapped in
+packed grey fog, a half-formed effigy of the buried ancient; no mouth, it only TOLLS like a deep
+grave-bell. A faint cold light may pulse in its hollows.
+
+BODY: A towering humanoid-ish silhouette built of grave-iron bars, broken headstones, knotted roots
+and compacted fog held together by the Garden's will; immense fists; moves with slow inevitability,
+shedding grave-dirt and mist. Does not tire.
+
+WEAPONS / PROPS: Its own grave-iron fists and mass; the barrow, headstones and roots of the Garden it
+can wield/raise; the toll of the grave-bell.
+
+CLOTHING / ARMOR: None separate — it IS its materials: iron, stone, root, fog, and grave-soil fused
+into a half-shape.
+
+COLOR PALETTE: Grave-grey stone, rusted black iron, dark root-brown, drifting white-grey fog; cold
+blue-grey inner light.
+
+SILHOUETTE / DISTINGUISHING FEATURES: A monumental, faceless, slow guardian of fused headstone, iron,
+root and fog; geology and graveyard made to stand.
+
+DEMEANOR: No voice, no personality — pure mechanism; the Garden's fist; tolls like a grave-bell.
+
+CANON SOURCE QUOTES:
+  - "Assembled from grave-iron, headstone, root, and packed fog; wears the half-shape of the oldest
+    thing buried in the Garden"; tolls like a deep grave-bell; does not tire (Ch8).
+
+>> IMAGE-PROMPT SUMMARY:
+A monumental, faceless grave-construct boss ~3.5+ m tall, assembled from rusted grave-iron bars,
+broken grey headstones, knotted dark roots and packed drifting white-grey fog fused into a slow
+half-humanoid effigy of an ancient buried thing, with no mouth, immense grave-iron fists, and a faint
+cold blue-grey light pulsing in its hollows as it tolls like a deep grave-bell, shedding grave-dirt
+and mist. Grave-grey stone, rusted black iron, root-brown and fog palette with cold blue-grey inner
+light. Reads as pure slow inevitable graveyard mechanism, not a person. Grounded dark sci-fi / gothic.
+==================================================================

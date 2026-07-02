@@ -1,0 +1,544 @@
+{
+    "lines": [
+        {
+            "file": "ch1_ch1_beat1_wake_00_kessler",
+            "speaker": "Kessler",
+            "text": "There it is."
+        },
+        {
+            "file": "ch1_ch1_beat1_wake_01_kessler",
+            "speaker": "Kessler",
+            "text": "Come on. Stay this time."
+        },
+        {
+            "file": "ch1_ch1_beat1_wake_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Where am I."
+        },
+        {
+            "file": "ch1_ch1_beat1_wake_03_kessler",
+            "speaker": "Kessler",
+            "text": "You're on my ship."
+        },
+        {
+            "file": "ch1_ch1_beat1_wake_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "That's not an answer."
+        },
+        {
+            "file": "ch1_ch1_beat1_wake_05_kessler",
+            "speaker": "Kessler",
+            "text": "It's the only one I've got that's true."
+        },
+        {
+            "file": "ch1_ch1_beat1_wake_06_kessler",
+            "speaker": "Kessler",
+            "text": "You can crush my windpipe. You're built for it, I can feel that much. But you already did the hard part."
+        },
+        {
+            "file": "ch1_ch1_beat1_wake_07_ronin7",
+            "speaker": "Ronin-7",
+            "text": "What part."
+        },
+        {
+            "file": "ch1_ch1_beat1_wake_08_kessler",
+            "speaker": "Kessler",
+            "text": "You didn't kill me. Last time we met, you haven't done that either."
+        },
+        {
+            "file": "ch1_ch1_beat1_wake_09_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I don't know you."
+        },
+        {
+            "file": "ch1_ch1_beat1_wake_10_kessler",
+            "speaker": "Kessler",
+            "text": "I know. They took that part out. They're good at it."
+        },
+        {
+            "file": "ch1_ch1_beat1_settle_00_ronin7",
+            "speaker": "Ronin-7",
+            "text": "My hands knew what to do. I didn't tell them."
+        },
+        {
+            "file": "ch1_ch1_beat1_settle_01_kessler",
+            "speaker": "Kessler",
+            "text": "Yeah. I've watched them work for three weeks. They don't ask you much."
+        },
+        {
+            "file": "ch1_ch1_beat1_settle_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "This."
+        },
+        {
+            "file": "ch1_ch1_beat1_settle_03_kessler",
+            "speaker": "Kessler",
+            "text": "That was there when I found you. Not my work. Somebody closed that up clean and then opened it again. I don't know which order."
+        },
+        {
+            "file": "ch1_ch1_beat1_settle_04_kessler",
+            "speaker": "Kessler",
+            "text": "That came out of the box with you. I cleaned the blood off it. Figured it was yours."
+        },
+        {
+            "file": "ch1_ch1_beat1_settle_05_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I don't remember this. But my hands do."
+        },
+        {
+            "file": "ch1_ch1_beat1_settle_06_kessler",
+            "speaker": "Kessler",
+            "text": "That's more than you've given me in three weeks. You want to put it down, or you want to keep holding the one thing in here that feels like yours?"
+        },
+        {
+            "file": "ch1_ch1_beat1_settle_07_ronin7",
+            "speaker": "Ronin-7",
+            "text": "What do I call you."
+        },
+        {
+            "file": "ch1_ch1_beat1_settle_08_kessler",
+            "speaker": "Kessler",
+            "text": "Kessler. And before you ask, no. From what I can tell you were Dominion property and they have thrown you to garbage."
+        },
+        {
+            "file": "ch1_ch1_beat1_settle_09_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then start with where I am. Slowly."
+        },
+        {
+            "file": "ch1_ch1_beat1_settle_10_kessler",
+            "speaker": "Kessler",
+            "text": "Now that I can do."
+        },
+        {
+            "file": "ch1_ch1_beat1_settle_11_kessler",
+            "speaker": "Kessler",
+            "text": "Come on. Walk it off before you fall down and I have to start over."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_00_kessler",
+            "speaker": "Kessler",
+            "text": "You hungry? Thirsty? I don't actually know what you run on yet."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Tell me how I got here."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_02_kessler",
+            "speaker": "Kessler",
+            "text": "Three weeks ago I was working this field. Pulling copper out of a freighter that's been dead longer than my daughter's been alive. And my hook snags something it shouldn't. Off on its own. Nothing for a hundred klicks but it."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "A casket."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_04_kessler",
+            "speaker": "Kessler",
+            "text": "A casket. Sealed. Dominion locks, fresh ones, not salvage-old. A sealed pod drifting clean out here means somebody paid to be sure it never opened."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_05_ronin7",
+            "speaker": "Ronin-7",
+            "text": "And there was no wreck."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_06_kessler",
+            "speaker": "Kessler",
+            "text": "No wreck. Nobody jettisons a sealed military pod into open black by accident. Somebody put you in a box and threw the box away. Took the trouble to lock it first."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_07_ronin7",
+            "speaker": "Ronin-7",
+            "text": "You should have left it shut."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_08_kessler",
+            "speaker": "Kessler",
+            "text": "That's what every smart year of my life told me. Cheap skin over augments somebody spent a fortune on. A throat cut and closed. A man flatlined so long the table kept telling me to stop. My instinct said burn it and don't ask."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_09_ronin7",
+            "speaker": "Ronin-7",
+            "text": "But you opened it."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_10_kessler",
+            "speaker": "Kessler",
+            "text": "I owed it open."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_11_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Owed who."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_12_kessler",
+            "speaker": "Kessler",
+            "text": "You. Though you'll tell me you don't remember, and I'll believe you, because you've been telling me nothing for three weeks straight."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_13_kessler",
+            "speaker": "Kessler",
+            "text": "You've woken before. Did you know that? Four, five times. You'd come up off the table thrashing, eyes wide open and nobody behind them. Once you put me into that wall hard enough I saw the next morning sideways. And then you'd just go back under. Like a tide. No name. Nothing a man could use."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_14_ronin7",
+            "speaker": "Ronin-7",
+            "text": "And this morning?"
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_15_kessler",
+            "speaker": "Kessler",
+            "text": "This morning somebody's home behind the eyes. First time. Three weeks I've been talking to a body, hoping there was still a man in it."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_16_ronin7",
+            "speaker": "Ronin-7",
+            "text": "You said you owed me. These hands cut throats. I felt it tonight, on yours. Why would anyone owe that a debt?"
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_17_kessler",
+            "speaker": "Kessler",
+            "text": "Six years ago you did."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_18_kessler",
+            "speaker": "Kessler",
+            "text": "Six years ago I was on the wrong end of a clean sweep. Nobody walks out. Not the marks, not the witnesses, not the man who hauled the cargo and saw a face he shouldn't have. That last one was me. So they sent a man to close the door."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_19_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Me."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_20_kessler",
+            "speaker": "Kessler",
+            "text": "You. You had me on my knees. Hand on the back of my head. I felt the muzzle. And then, nothing. No shot. I knelt there a full minute waiting to die and it didn't come. When I looked up, you were just standing there. Looking at your own hand."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_21_kessler",
+            "speaker": "Kessler",
+            "text": "Then you left. Reported the sweep clean. Far as the order ever knew, I died that day. I've lived six years on a death they wrote down and never checked. I don't know why you did it. I don't think you knew either. The men who built you, they've got a word for it when it happens. They say one of you went mercy. Like it's a fault in the metal."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_22_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I don't remember sparing you."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_23_kessler",
+            "speaker": "Kessler",
+            "text": "I know."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_24_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I don't remember being a man who would."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_25_kessler",
+            "speaker": "Kessler",
+            "text": "Neither do they. That's the part that matters. Whatever they built you to be, you broke it that day. One time, in front of me. I'm betting a thing that broke once can break again."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_26_ronin7",
+            "speaker": "Ronin-7",
+            "text": "If they sealed me and threw me away, then they think the job's done."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_27_kessler",
+            "speaker": "Kessler",
+            "text": "That'd be my read."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_28_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then when they find out it isn't, they'll come to finish it."
+        },
+        {
+            "file": "ch1_ch1_beat2_adrift_29_kessler",
+            "speaker": "Kessler",
+            "text": "...Sooner than I'd like."
+        },
+        {
+            "file": "ch1_ch1_beat3_board_pre_00_trooper1",
+            "speaker": "Trooper 1",
+            "text": "Salvage registry. We're conducting a sweep. Stand clear of the hatch."
+        },
+        {
+            "file": "ch1_ch1_beat3_board_pre_01_kessler",
+            "speaker": "Kessler",
+            "text": "Sweep for what? I'm licensed in this field. Manifest's logged, tariffs are clean. You can pull it from here."
+        },
+        {
+            "file": "ch1_ch1_beat3_board_pre_02_squadleadervo",
+            "speaker": "Squad Leader (V.O.)",
+            "text": "Manifest doesn't cover what we're looking for. Step back."
+        },
+        {
+            "file": "ch1_ch1_beat3_board_pre_03_kessler",
+            "speaker": "Kessler",
+            "text": "I've got a dead reactor and a hold full of other men's garbage. There's nothing on this rig worth two troopers and a clamp."
+        },
+        {
+            "file": "ch1_ch1_beat3_board_pre_04_trooper1",
+            "speaker": "Trooper 1",
+            "text": "Then it won't take long."
+        },
+        {
+            "file": "ch1_ch1_beat3_board_pre_05_kessler",
+            "speaker": "Kessler",
+            "text": "Hey, listen, there's medical gear back there, half of it live, you go poking it..."
+        },
+        {
+            "file": "ch1_ch1_beat3_board_pre_06_trooper2",
+            "speaker": "Trooper 2",
+            "text": "Stay. There."
+        },
+        {
+            "file": "ch1_ch1_beat3_board_pre_07_trooper1",
+            "speaker": "Trooper 1",
+            "text": "Command. I've got a face-match flagged here."
+        },
+        {
+            "file": "ch1_ch1_beat3_board_pre_08_squadleadervo",
+            "speaker": "Squad Leader (V.O.)",
+            "text": "Match to what."
+        },
+        {
+            "file": "ch1_ch1_beat3_board_pre_09_trooper1",
+            "speaker": "Trooper 1",
+            "text": "Flag says decedent. Repeat. The file says this man is deceased. Closed. He's standing in front of me."
+        },
+        {
+            "file": "ch1_ch1_beat3_board_pre_10_commvo",
+            "speaker": "Comm (V.O.)",
+            "text": "Hold position. Confirm the face. Stream it. Now, to me. Direct."
+        },
+        {
+            "file": "ch1_ch1_beat3_board_pre_11_trooper1",
+            "speaker": "Trooper 1",
+            "text": "...Confirming. Stream is live, sir."
+        },
+        {
+            "file": "ch1_ch1_beat3_board_pre_12_commvo",
+            "speaker": "Comm (V.O.)",
+            "text": "Confirmed. Terminate. Recover the remains intact."
+        },
+        {
+            "file": "ch1_ch1_beat3_board_post_00_kessler",
+            "speaker": "Kessler",
+            "text": "...They mobilized a sweep for a dead man."
+        },
+        {
+            "file": "ch1_ch1_beat3_board_post_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Not a sweep. They were looking for me."
+        },
+        {
+            "file": "ch1_ch1_beat3_board_post_02_kessler",
+            "speaker": "Kessler",
+            "text": "The file said deceased. I heard it. They've got you written down closed and buried, and they still sent armed men aboard the second your face turned up. That's not how you treat a corpse. That's how you treat a mistake you thought you'd already cleaned up."
+        },
+        {
+            "file": "ch1_ch1_beat3_board_post_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "The box didn't hold."
+        },
+        {
+            "file": "ch1_ch1_beat3_board_post_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "They know now."
+        },
+        {
+            "file": "ch1_ch1_beat3_board_post_05_kessler",
+            "speaker": "Kessler",
+            "text": "Yeah. They surely do."
+        },
+        {
+            "file": "ch1_ch1_beat3_board_post_06_kessler",
+            "speaker": "Kessler",
+            "text": "Come on. This conversation's about to get worse, and I'd rather have it sitting down."
+        },
+        {
+            "file": "ch1_ch1_beat4_walk_00_kessler",
+            "speaker": "Kessler",
+            "text": "You understand what just left this ship. Those visors don't record to a chip. They stream. The whole fight, your face, all of it, went up the chain before the last of them hit the deck."
+        },
+        {
+            "file": "ch1_ch1_beat4_walk_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "To the voice. The one that wasn't the squad's."
+        },
+        {
+            "file": "ch1_ch1_beat4_walk_02_kessler",
+            "speaker": "Kessler",
+            "text": "You caught that."
+        },
+        {
+            "file": "ch1_ch1_beat4_walk_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "The others obeyed it without thinking. That's not a commander. That's an owner."
+        },
+        {
+            "file": "ch1_ch1_beat4_walk_04_kessler",
+            "speaker": "Kessler",
+            "text": "Yeah. Whoever built you sold the use of you a long time ago. That voice holds the lease. And whatever doubt it had: is he really standing, is the file wrong. You just answered it. In full color."
+        },
+        {
+            "file": "ch1_ch1_beat4_walk_05_ronin7",
+            "speaker": "Ronin-7",
+            "text": "You said the debt made you open the casket. A man doesn't crack a Dominion seal to repay a kindness. Not unless he needs the kindness to be worth something."
+        },
+        {
+            "file": "ch1_ch1_beat4_walk_06_kessler",
+            "speaker": "Kessler",
+            "text": "I needed to believe a thing like you could exist. A killer that stops. Because if one could, then maybe the galaxy still owes mercy to a man who can't buy it any other way."
+        },
+        {
+            "file": "ch1_ch1_beat4_walk_07_ronin7",
+            "speaker": "Ronin-7",
+            "text": "What man."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_00_drone",
+            "speaker": "Drone",
+            "text": "Message incoming. Priority override. I couldn't refuse it."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_01_kessler",
+            "speaker": "Kessler",
+            "text": "...Of course you couldn't."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_02_handlerhologram",
+            "speaker": "Handler (Hologram)",
+            "text": "Kessler."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_03_handlerhologram",
+            "speaker": "Handler (Hologram)",
+            "text": "The Dominion has a long memory for the men who once served it. Longer than yours, it seems. You've let yourself forget the arrangement. I haven't."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_04_kessler",
+            "speaker": "Kessler",
+            "text": "I paid out of that. Years ago."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_05_handlerhologram",
+            "speaker": "Handler (Hologram)",
+            "text": "No one pays out of it. You hold something of ours. We watched you use it tonight, messily, but effectively. You will return it, intact, within three days."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_06_handlerhologram",
+            "speaker": "Handler (Hologram)",
+            "text": "Three days, Kessler. You know the markets at Velorum. We have taken your daughter there. Deliver the item, or you will never see your daughter."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_07_handlerhologram",
+            "speaker": "Handler (Hologram)",
+            "text": "Iris. She's grown, since you saw her. We've kept the asset in good condition. Whether we continue to is a matter of your arithmetic."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_08_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Iris?"
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_09_kessler",
+            "speaker": "Kessler",
+            "text": "My daughter. They took her to make sure I stayed useful. She was in a Dominion school, but they probably took her in Velorum's markets, where they sell bodies and pasts and call it commerce. Six years I've scraped this dead field for enough to buy her back, before they remembered they could just use her on me again. And tonight they remembered."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_10_ronin7",
+            "speaker": "Ronin-7",
+            "text": "That's the debt you meant. Not the one to me."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_11_kessler",
+            "speaker": "Kessler",
+            "text": "At the start. Maybe. Before there was a man behind the eyes."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_12_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then it's simple. You give them what they came for. Me."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_13_kessler",
+            "speaker": "Kessler",
+            "text": "No."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_14_ronin7",
+            "speaker": "Ronin-7",
+            "text": "My life for hers. A clean trade. I don't remember being a man worth keeping, Kessler. I don't remember the mercy you owe me for. But this I can do."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_15_kessler",
+            "speaker": "Kessler",
+            "text": "It's a bluff."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_16_kessler",
+            "speaker": "Kessler",
+            "text": "You think men like that trade? They don't trade. They collect. You walk into Velorum and hand yourself over, and they don't open her cage and wave goodbye. They put you in a box, again, and they put her in the ground next to it, and they file it tidy."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_17_ronin7",
+            "speaker": "Ronin-7",
+            "text": "You can't know that."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_18_kessler",
+            "speaker": "Kessler",
+            "text": "I served them. I know exactly what their mercy is worth. I've run that math every night for six years."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_19_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then we don't trade."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_20_kessler",
+            "speaker": "Kessler",
+            "text": "No. I didn't pull you out of a coffin to ship you back to one. We go to Velorum, and we take her back, and we make them eat the difference."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_21_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Three days."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_22_kessler",
+            "speaker": "Kessler",
+            "text": "Three days. Velorum's a long burn and a worse welcome. They sell bodies and pasts in those markets. Maybe somebody there sold yours."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_23_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I spared a man I don't remember. I want to know why I went easy."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_24_kessler",
+            "speaker": "Kessler",
+            "text": "Then we ask Velorum."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_25_drone",
+            "speaker": "Drone",
+            "text": "Heading laid. Velorum."
+        },
+        {
+            "file": "ch1_ch1_beat4_ultimatum_26_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Take us out."
+        }
+    ]
+}

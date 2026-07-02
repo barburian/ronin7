@@ -1,0 +1,319 @@
+{
+    "lines": [
+        {
+            "file": "ep07_approach_viewport_00_ronin7",
+            "speaker": "Ronin-7",
+            "text": "They didn't make a mistake."
+        },
+        {
+            "file": "ep07_approach_viewport_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "The erasure. It was deliberate. Punishment."
+        },
+        {
+            "file": "ep07_approach_viewport_02_kessler",
+            "speaker": "Kessler",
+            "text": "We're docked. Salvage crew's expecting us in the hub. We move cargo, we move quiet."
+        },
+        {
+            "file": "ep07_approach_viewport_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "And others. There were others like me."
+        },
+        {
+            "file": "ep07_approach_viewport_04_kessler",
+            "speaker": "Kessler",
+            "text": "We know. Deep-Cache. The Collective. The question is how many more, and where they're sleeping."
+        },
+        {
+            "file": "ep07_market_tessa_00_tessa",
+            "speaker": "Tessa",
+            "text": "You are supposed to be dead."
+        },
+        {
+            "file": "ep07_market_tessa_01_tessa",
+            "speaker": "Tessa",
+            "text": "Follow the red beacon. Come alone. If Dominion shows up, I burn everything, and you never learn who built you."
+        },
+        {
+            "file": "ep07_market_tessa_02_kessler",
+            "speaker": "Kessler",
+            "text": "Well. That wasn't expected."
+        },
+        {
+            "file": "ep07_enforcer_barks_00_yardenforcer1",
+            "speaker": "Yard Enforcer 1",
+            "text": "Contact! Contact in the market! Dominion fugitive!"
+        },
+        {
+            "file": "ep07_enforcer_barks_01_yardenforcer2",
+            "speaker": "Yard Enforcer 2",
+            "text": "Cut off the lower gantry! Don't let him reach the corridor!"
+        },
+        {
+            "file": "ep07_enforcer_barks_02_kessler",
+            "speaker": "Kessler",
+            "text": "Comms jammed! Moving to the dock authority panel!"
+        },
+        {
+            "file": "ep07_enforcer_barks_03_yardenforcer1",
+            "speaker": "Yard Enforcer 1",
+            "text": "He's tearing through our line!"
+        },
+        {
+            "file": "ep07_enforcer_barks_04_yardenforcer3",
+            "speaker": "Yard Enforcer 3",
+            "text": "Fall back! Fall back to the upper rig!"
+        },
+        {
+            "file": "ep07_corridor_choice_00_kessler",
+            "speaker": "Kessler",
+            "text": "This is a Dominion hold. You know that."
+        },
+        {
+            "file": "ep07_corridor_choice_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Yes."
+        },
+        {
+            "file": "ep07_corridor_choice_02_kessler",
+            "speaker": "Kessler",
+            "text": "Then we do this your way. But the moment this goes wrong, we run."
+        },
+        {
+            "file": "ep07_hauler_tessa_00_tessa",
+            "speaker": "Tessa",
+            "text": "You came alone. I'm grateful."
+        },
+        {
+            "file": "ep07_hauler_tessa_01_tessa",
+            "speaker": "Tessa",
+            "text": "My name is Tessa Rin. I was Neural Integration Specialist, Ronin Program, Dominion black-science division."
+        },
+        {
+            "file": "ep07_hauler_tessa_02_tessa",
+            "speaker": "Tessa",
+            "text": "Clearance level I will not name."
+        },
+        {
+            "file": "ep07_hauler_tessa_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then you know what it is doing to me."
+        },
+        {
+            "file": "ep07_hauler_tessa_04_tessa",
+            "speaker": "Tessa",
+            "text": "Yes. I fitted the chip myself. I did it to seventeen operatives of your generation. I was proud of the work until I understood what the work was for."
+        },
+        {
+            "file": "ep07_servitor_fight_00_dominionservitor",
+            "speaker": "Dominion Servitor",
+            "text": "Unidentified biometric signature. Drone network engaged. Neutralize intruder."
+        },
+        {
+            "file": "ep07_servitor_fight_01_tessa",
+            "speaker": "Tessa",
+            "text": "I built them to recognize that signal. I did not think you would ever come here."
+        },
+        {
+            "file": "ep07_kethel_file_00_ronin7recorded",
+            "speaker": "Ronin-7 (recorded)",
+            "text": "Overseer. Kethel-7 is clear. The mission is complete."
+        },
+        {
+            "file": "ep07_kethel_file_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "That's me. I reported it like a cleared floor."
+        },
+        {
+            "file": "ep07_kethel_file_02_tessa",
+            "speaker": "Tessa",
+            "text": "You did. And what they did to you after, that is not what you think."
+        },
+        {
+            "file": "ep07_guard_assault_00_dominionguard1",
+            "speaker": "Dominion Guard 1",
+            "text": "Signature locked! Archive intruders confirmed!"
+        },
+        {
+            "file": "ep07_guard_assault_01_dominionguard2",
+            "speaker": "Dominion Guard 2",
+            "text": "Rappel insertion complete! Forming perimeter!"
+        },
+        {
+            "file": "ep07_guard_assault_02_kessler",
+            "speaker": "Kessler",
+            "text": "The exit's cut off! Moving deeper!"
+        },
+        {
+            "file": "ep07_guard_assault_03_dominionguard1",
+            "speaker": "Dominion Guard 1",
+            "text": "Contact is moving inward! Maintain pressure!"
+        },
+        {
+            "file": "ep07_architecture_dying_00_tessa",
+            "speaker": "Tessa",
+            "text": "The chip in your skull is not a failsafe. The Dominion calls it that. It is a killswitch, a leash with a lethal end. One pulse, fired from the other side of the galaxy, and the operative drops. Clean. Final."
+        },
+        {
+            "file": "ep07_architecture_dying_01_tessa",
+            "speaker": "Tessa",
+            "text": "Yours was pulled. Days after Kethel-7, after you carried out the order, and then stopped being theirs. You broke. You ran. So they fired your switch to put you down."
+        },
+        {
+            "file": "ep07_architecture_dying_02_tessa",
+            "speaker": "Tessa",
+            "text": "It should have killed you where you stood. It did not. It misfired, and took your memory instead of your life."
+        },
+        {
+            "file": "ep07_architecture_dying_03_tessa",
+            "speaker": "Tessa",
+            "text": "A killswitch does not fail like that. Not on its own. Someone altered yours. That is not a malfunction."
+        },
+        {
+            "file": "ep07_architecture_dying_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Who?"
+        },
+        {
+            "file": "ep07_architecture_dying_05_tessa",
+            "speaker": "Tessa",
+            "text": "I cannot tell you. There is a control layer above the killswitch, above my clearance. I fitted the hardware. I never saw the top of it. Whoever reached your chip reached past me."
+        },
+        {
+            "file": "ep07_architecture_dying_06_tessa",
+            "speaker": "Tessa",
+            "text": "Understand this: it is still in you. Still live. Still listening. They can try again."
+        },
+        {
+            "file": "ep07_architecture_dying_07_tessa",
+            "speaker": "Tessa",
+            "text": "I stole the killswitch schematics when I defected, I owed the operatives that much. Then I learned what the Dominion does with the ones it kills."
+        },
+        {
+            "file": "ep07_architecture_dying_08_tessa",
+            "speaker": "Tessa",
+            "text": "Erased operatives do not die. The Dominion does not waste a weapon. The body is recovered, loaded dormant into a vault, and filed away. Living weapons in cold storage. Insurance."
+        },
+        {
+            "file": "ep07_architecture_dying_09_ronin7",
+            "speaker": "Ronin-7",
+            "text": "How many?"
+        },
+        {
+            "file": "ep07_architecture_dying_10_tessa",
+            "speaker": "Tessa",
+            "text": "Seventeen that I know of, your generation. One to a vault, scattered across the galaxy. I have the manifest. I have been waiting for someone who could carry it."
+        },
+        {
+            "file": "ep07_shaft_escape_00_dominionguard1",
+            "speaker": "Dominion Guard 1",
+            "text": "They're ascending! Seal lower levels!"
+        },
+        {
+            "file": "ep07_shaft_escape_01_kessler",
+            "speaker": "Kessler",
+            "text": "Go! Go! I'll hold them!"
+        },
+        {
+            "file": "ep07_shaft_escape_02_dominionguard2",
+            "speaker": "Dominion Guard 2",
+            "text": "Lower section compromised! Shift to upper perimeter!"
+        },
+        {
+            "file": "ep07_shaft_escape_03_kessler",
+            "speaker": "Kessler",
+            "text": "Magnetic locks engaged! Crossing to the ship!"
+        },
+        {
+            "file": "ep07_manifest_transfer_00_kessler",
+            "speaker": "Kessler",
+            "text": "Yard's not pursuing. We're clear for now."
+        },
+        {
+            "file": "ep07_manifest_transfer_01_tessa",
+            "speaker": "Tessa",
+            "text": "The encryption is old Dominion-military grade. You will need to work with someone who understands their cipher architecture."
+        },
+        {
+            "file": "ep07_manifest_transfer_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Why did you stay in the yards? You could have run farther."
+        },
+        {
+            "file": "ep07_manifest_transfer_03_tessa",
+            "speaker": "Tessa",
+            "text": "I needed to know if what broke in you at Kethel-7 was real, a conscience, or just the damage. I could not hand this to a malfunction."
+        },
+        {
+            "file": "ep07_manifest_transfer_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Was it real?"
+        },
+        {
+            "file": "ep07_manifest_transfer_05_tessa",
+            "speaker": "Tessa",
+            "text": "That is the only thing I am certain of."
+        },
+        {
+            "file": "ep07_interceptor_pursuit_00_dominioninterceptorpilot",
+            "speaker": "Dominion Interceptor Pilot",
+            "text": "Target confirmed! Engaging pursuit!"
+        },
+        {
+            "file": "ep07_interceptor_pursuit_01_kessler",
+            "speaker": "Kessler",
+            "text": "Evasive! Now! Tessa, those guns are hot!"
+        },
+        {
+            "file": "ep07_interceptor_pursuit_02_tessa",
+            "speaker": "Tessa",
+            "text": "I'm, adjusting firing solution..."
+        },
+        {
+            "file": "ep07_interceptor_pursuit_03_dominioninterceptorpilot",
+            "speaker": "Dominion Interceptor Pilot",
+            "text": "Contact lost behind wreckage! Shifting targeting grid!"
+        },
+        {
+            "file": "ep07_interceptor_pursuit_04_kessler",
+            "speaker": "Kessler",
+            "text": "Holding position! They've lost us in the shadow!"
+        },
+        {
+            "file": "ep07_interceptor_pursuit_05_kessler",
+            "speaker": "Kessler",
+            "text": "Jump coordinates locked! Now!"
+        },
+        {
+            "file": "ep07_compassion_anomalies_00_tessa",
+            "speaker": "Tessa",
+            "text": "Kethel-7 was not the first time something in you cracked."
+        },
+        {
+            "file": "ep07_compassion_anomalies_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "What do you mean?"
+        },
+        {
+            "file": "ep07_compassion_anomalies_02_tessa",
+            "speaker": "Tessa",
+            "text": "Your training logs show three prior incidents."
+        },
+        {
+            "file": "ep07_compassion_anomalies_03_tessa",
+            "speaker": "Tessa",
+            "text": "Flagged for compassion anomalies. Buried by Khall's adjutant before they could escalate."
+        },
+        {
+            "file": "ep07_compassion_anomalies_04_tessa",
+            "speaker": "Tessa",
+            "text": "Khall buried the flags, you were his finest. Kethel-7 was the one he could not bury. It did not make you refuse. It broke you."
+        },
+        {
+            "file": "ep07_compassion_anomalies_05_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then everything I've done since I woke, was it mercy, or just the damage talking?"
+        }
+    ]
+}

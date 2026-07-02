@@ -1,0 +1,156 @@
+==================================================================
+RONIN-7 — SPECIES BIBLE  (visual reference for 3D art)
+==================================================================
+
+PURPOSE
+This file defines the species used across all character reference sheets.
+RULE (locked by the project lead):
+  - HUMAN  = every Dominion / Program-affiliated character (operatives, handlers,
+             engineers, dojo masters, trackers, couriers) PLUS Kessler and Iris.
+  - ALIEN  = every other (non-Dominion) character, drawn from the 7 recurring
+             species below so the galaxy feels populated and coherent.
+  - CONSTRUCT / NON-CORPOREAL = Echo, Sallow, the Warden (not a species; see their files).
+
+Species names are working suggestions — rename freely; the design notes are what matter.
+Each named-alien and diversity file states which species it belongs to and inherits the
+"CORE ANATOMY" below, then varies within the "VARIATION RANGE."
+
+------------------------------------------------------------------
+HUMAN (baseline — Dominion / Program + Kessler & Iris)
+------------------------------------------------------------------
+Ordinary human anatomy. The Dominion reads as one human empire of engineered killers
+and the people who run them. Operatives share a "manufactured" look: lean-muscular,
+augment-seamed, flat affect, economical movement. Civilians (Kessler, Iris) read as
+worn, lived-in spacers. No alien features on any human. Tech palette: gunmetal, ash-grey,
+matte black, surgical white, dried-blood red accents.
+
+==================================================================
+1. WARREN-FOLK   — market underclass (Velorum / port warrens)
+==================================================================
+Members: Resh, Mira. Diversity: Diversity/Warren-folk/
+CORE ANATOMY
+  - Slight, light-boned, wiry; average height a touch below human, children tiny.
+  - Skin: cool grey-mauve to dusty lavender; thin, faintly translucent at the ears/hands.
+  - Eyes: large, round, very dark (near-black) with a wide reflective tapetum — built to
+    gather light in dim warrens; blink with a sideways nictitating membrane.
+  - A vestigial throat-frill / gill-flap at the sides of the neck (soft, decorative, flushes
+    darker when stressed). Four-fingered nimble hands with broad fingerpads (climbers, pickpockets).
+  - No body hair; a fine sensory down along the forearms. Small flat nose-slits, no protruding nose.
+DEMEANOR / SILHOUETTE: quick, low-shouldered, watchful; the species of runners, smugglers,
+  street-kids and fixers. Reads instantly as "underclass survivor."
+VARIATION RANGE: skin grey→mauve→bruise-purple; frill large/small; eyes black→deep-amber;
+  build from gaunt-starved to ropey-fit; age cues = frill droop + skin crazing.
+PALETTE: grey-mauve flesh; clothing = scavenged market layers, patched canvas, oil-stained.
+
+==================================================================
+2. ASHKIN   — frontier dust-world settlers (ash worlds, dead colonies)
+==================================================================
+Members: Vera Dusk, Kira Dusk. Diversity: Diversity/Ashkin/
+CORE ANATOMY
+  - Human-tall, lean and hardy; broad ribcages (thin-air worlds).
+  - Skin: ruddy ochre to terracotta, dry and finely cracked like sun-baked clay; raised
+    keratin plates across the cheekbones, shoulders and forearms that look like dried mud-flakes.
+  - Eyes: amber to ember-orange with a faint inner glow in low light; double eyelids (a dust
+    membrane closes sideways) — always a little squinted against grit.
+  - Hair: coarse, ash-grey to rust, often matted with literal grey ash; many shave it.
+  - Fine ash perpetually settled in skin creases — a grey patina that never fully washes out.
+DEMEANOR / SILHOUETTE: weathered, grief-hardened frontier folk; standing-stone stillness.
+VARIATION RANGE: ochre→terracotta→bruised-brown; plate coverage light→heavy; ember eyes
+  bright/dim; age = deeper cracking + plate thickening.
+PALETTE: ochre/terracotta flesh, grey ash, rust cloth, bone, sun-bleached leather.
+
+==================================================================
+3. GRAVELKIN   — cave-dwelling stoneblood (pirates, deep-hold dwellers)
+==================================================================
+Members: Gryph, Rook. Diversity: Diversity/Gravelkin/
+CORE ANATOMY
+  - Massive, heavy-framed, tall; slow-aging and long-lived (elders are ancient).
+  - Hide: thick, slate-grey to basalt, with a coarse pebbled/lithic texture; mineral nodules
+    and crystalline growths erupt along the brow, knuckles, spine and shoulders (grow with age,
+    so elders are craggier — "hands like cut stone").
+  - Eyes: small, deep-set, glassy and pale (quartz-white to dim amber), set under a heavy
+    bony brow-ridge. Broad blunt heads, wide jaws, tusk-like lower canines on some.
+  - Slow, deliberate, immensely strong; scars read as chips/fractures in the hide that re-mineralize.
+DEMEANOR / SILHOUETTE: immovable, mountain-like; the species of old warriors and hold-keepers.
+VARIATION RANGE: slate→basalt→granite-flecked; nodule density low (young) → heavy crust (elder);
+  tusks present/absent; body from lean-quarried to boulder-bulked.
+PALETTE: grey/basalt hide, mineral-glint nodules, iron and salvaged plate, old worn leather.
+
+==================================================================
+4. VOLL   — syndicate / black-market profiteers (the Coil, fences, bosses)
+==================================================================
+Members: Kerrax, the Velorum Broker. Diversity: Diversity/Voll/
+CORE ANATOMY
+  - Broad, heavy, soft-bulked over real mass; short thick necks; jowled, multi-folded faces.
+  - Skin: oily-sheened, hairless, in sickly greens / mottled yellow-grey / liver-brown; a wet
+    waxy gloss. Loose dewlaps at throat and jaw that inflate slightly when they speak or gloat.
+  - Eyes: small, sharp, close-set, gold-to-black, half-hooded — calculating. Wide lipless
+    mouths with many small teeth. Stubby clawed fingers, heavy with rings.
+  - Often visibly augmented for indulgence (implanted optics, gilded teeth, comfort-rigs).
+DEMEANOR / SILHOUETTE: bloated authority; the species of crime-bosses, fences and slavers.
+VARIATION RANGE: green→yellow-grey→liver-brown; dewlap size; lean-greedy → grotesquely vast;
+  augment/jewelry load light→ostentatious.
+PALETTE: sickly green/ochre flesh, oily sheen, gaudy gold, rich stolen fabrics, neon syndicate trim.
+
+==================================================================
+5. VESH   — raider nomad clans (revenge-driven hunters)
+==================================================================
+Members: Vess. Diversity: Diversity/Vesh/
+CORE ANATOMY
+  - Lean, tall, predatory; sinewy whipcord muscle; digitigrade-leaning stance, fast.
+  - Skin overlaid with hard chitinous plating in dark red-brown to charcoal — segmented bands
+    over the forearms, shins, chest and skull-cap; matte, scuffed like worn carapace.
+  - Eyes: narrow, set wide, in burning orange/yellow with vertical slit pupils. Lower face
+    framed by small paired mandible-tusks at the jaw corners; scarification carved into the plating.
+  - Long four-fingered hands ending in hard hooked nails; clans brand/notch their plates as tallies.
+DEMEANOR / SILHOUETTE: coiled, lethal, always reading the kill-box; the species of raiders and hunters.
+VARIATION RANGE: red-brown→charcoal→ash-grey plating; mandible size; plate coverage partial→near-full;
+  clan brands and kill-notch patterns differ per individual.
+PALETTE: charcoal/oxblood carapace, bone-white scar-brands, scavenged armor straps, trophy cords.
+
+==================================================================
+6. THE MOURNERS   — ancient soul-keepers (the Silent Garden)
+==================================================================
+Members: the Mourners (collective). Diversity: Diversity/Mourners/
+A people dead for millions of years who persist only as keepers. Not crowd NPCs — they appear
+as a robed ring of near-identical solemn forms; "diversity" = differences of decay, age and rank.
+CORE ANATOMY
+  - Tall, narrow, faceless; bodies of translucent grey vapor packed into long shroud-robes,
+    so only forearms/hands (pale, elongated, six-fingered) ever resolve out of the fog.
+  - Where a face should be: a smooth hollow of drifting grey mist, sometimes a faint cold
+    light deep inside. They speak as one cold voice braided from many throats, from no mouth.
+  - Move by drifting, robes never quite touching the ground; leave no print, cast grave-cold.
+DEMEANOR / SILHOUETTE: implacable, eternal, neither cruel nor kind — examiners.
+VARIATION RANGE: robe length/tatter, density of the fog-body (near-solid → almost gone), depth
+  and color of the inner light (cold white → grave-blue → ember for elders/wardens), hand decay.
+PALETTE: ash-grey, shroud-white, grave-blue inner glow, no warm color anywhere.
+
+==================================================================
+7. OBSIDIAN SYNOD   — shadow authors / true enemy (Maelgorn & the Hollow Kings)
+==================================================================
+Members: Maelgorn, the Hollow Kings. Diversity: Diversity/Obsidian-Synod/
+The intelligence behind the ten syndicates; feeds on perpetual war. Rarely fully seen.
+CORE ANATOMY
+  - Tall, regal, smooth-surfaced voidforms: bodies of polished obsidian-black that seem to
+    drink light, edges faintly fracturing into shadow-smoke. Featureless or near-featureless heads.
+  - Eyeless — instead, hairline cracks of cold inner light (white-blue, or dull furnace-orange
+    for Maelgorn) seam the face/chest like fault-lines in glass. Elongated limbs; too many joints;
+    movement is too smooth, slightly wrong.
+  - The Hollow Kings are crowned/masked variants — emptier, hollow where a core should be.
+    Maelgorn is the apex form: larger, deeper black, the brightest fault-light.
+DEMEANOR / SILHOUETTE: cold sovereignty; the species of puppeteers and forgers; menace by absence.
+VARIATION RANGE: black gloss → matte-void; fault-light white-blue → furnace-orange (rank); crown/mask
+  motifs; degree of "hollowness"; smoke-edge intensity.
+PALETTE: obsidian black, void-purple undertone, cold white-blue or furnace-orange seams, no skin tone.
+
+------------------------------------------------------------------
+CROSS-SPECIES NOTES FOR ARTISTS
+------------------------------------------------------------------
+- Keep humans (Dominion) clearly human so the "engineered human empire vs. alien galaxy"
+  contrast reads at a glance.
+- Operatives (human) all share the augment-seam + flat-affect language; living-archive
+  operatives (Sable, Cassie-04) add data-light glowing under the skin.
+- When a canon line gives a human physical beat to an alien character (e.g. Gryph's "hands
+  like cut stone," Kerrax "heavyset, scarred," Vera/Kira "ash in hair"), translate it onto
+  the species anatomy rather than dropping it.
+==================================================================

@@ -1,0 +1,8 @@
+VARIANT: Gravelkin #03 — "Hold Quartermaster"
+SPECIES: Gravelkin (cave-dwelling stoneblood).
+SEX / AGE / BUILD: Female / middle-aged / broad, solid, shrewd.
+ROLE IN WORLD: Quartermaster who hoards and doles out the pirate hold supplies.
+DISTINGUISHING FEATURES: Granite-flecked grey hide; moderate nodules; sharp quartz eyes; no tusks; a tally-scarred forearm; mineral rings grown around the fingers.
+CLOTHING / GEAR: A many-pouched supply-apron over plate, a ledger-slab, a key-chain, a counting-abacus of stones.
+COLOR / PALETTE: Granite-grey hide; oil-brown apron; iron keys; lantern-amber.
+>> IMAGE-PROMPT SUMMARY: A broad solid shrewd middle-aged female gravelkin quartermaster with granite-flecked grey lithic hide, moderate mineral nodules, sharp quartz eyes and a tally-scarred forearm, mineral rings grown around her fingers. Wears a many-pouched supply-apron over plate with a stone-ledger slab, key-chain and a stone counting-abacus. Granite-grey, oil-brown and iron palette in lantern-amber. Canny, no-nonsense. Grounded alien sci-fi.

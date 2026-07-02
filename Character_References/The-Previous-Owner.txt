@@ -1,0 +1,55 @@
+==================================================================
+THE PREVIOUS OWNER   (feral blade-imprint, mindspace mini-boss)
+==================================================================
+SPECIES: Human (Dominion/Program operative — an old make; human per rule). Encountered as a combat-
+imprint inside a blade's mindspace, not a living body.
+
+ROLE & FACTION: The long-dead operative whose blade is the OLDEST kept shadow in Coral Vex's
+reliquary — decades awake on the rack with nothing left to witness, gone feral. When Cipher grips the
+feral blade to quiet it, its AI bonds to his feed and throws him into the blade's MINDSPACE, where the
+owner's combat-imprint defends the steel, looping the last fight he ever had. Not a villain; a victim
+who was never allowed to stop. Ch7 mini-boss; on defeat he is RELEASED (not killed), and his pacified
+shadow hands its combat-read to Echo (the WEAKPOINT-SIGHT ability).
+
+CHAPTERS: Ch7 (mindspace mini-boss; encountered only inside the blade).
+
+AGE / BUILD / HEIGHT: An old make, generations dead; ~1.8 m. Heavy, archaic operative build — broader
+and more brutal than the lean modern makes; a fighter from an older, cruder doctrine.
+
+HEAD: A worn, hollowed operative face half-dissolving into after-image and scrubbed static; eyes empty
+of any witness, fixed on a fight that ended lifetimes ago. Old augment-seams long corroded; skull-base
+killswitch scar. The face stutters and re-draws as the loop resets.
+
+BODY: Locked in a repeating archaic combat-cycle — the same strikes, the same footwork, over and over,
+trailing ghost after-images of itself. Moves like a recording skipping; powerful, relentless, mindless.
+
+WEAPONS / PROPS: The feral blade itself, rendered in mindspace as a heavy, old-school operative weapon
+(an archaic, brutal cut); echo-duplicates of the blade smear through his loop. A guttering, overcharged
+hilt-light that steadies and dims when he is finally quieted.
+
+CLOTHING / ARMOR: Obsolete operative kit predating the current makes — decayed dark plating and wraps,
+sigils worn illegible, the gear of a program long discontinued; edges fraying into datascape glitch.
+
+COLOR PALETTE: Rust-iron and bone-grey over corroded black, lit by cold ghost-blue mindspace glow and
+threads of scrub-static white.
+
+SILHOUETTE / DISTINGUISHING FEATURES: A looping, after-imaged ancient swordsman dissolving at the
+edges into static; the oldest kept blade made flesh inside the mind; a grave that still swings.
+
+DEMEANOR: Feral, wordless repetition — a kept witness driven past sense by decades with nothing to
+guard. Not malice but unbearable persistence; the win is mercy, the quieting of a man never allowed
+to put the blade down.
+
+CANON SOURCE QUOTES:
+  - No spoken lines (a feral combat-imprint). Framed as "a kept witness gone feral... released, not
+    killed" — pacifying him is itself the mercy, and frees weakpoint-sight (Ch7).
+
+>> IMAGE-PROMPT SUMMARY:
+A feral combat-imprint of a long-dead human operative fought inside a sword's mindspace: a heavy,
+archaic-build swordsman, generations obsolete, his hollowed worn face and corroded dark plating
+dissolving at the edges into cold ghost-blue glow and scrub-static. Old corroded augment-seams and a
+skull-base scar. He swings a heavy old-school blade in an endless repeating loop, trailing ghost
+after-images of himself, eyes empty of any witness. Rust-iron, bone-grey and corroded-black palette lit
+by ghost-blue and static-white. A relentless, mindless grave that still fights — tragic, not evil.
+Stylized sci-fi datascape over grounded human operative design.
+==================================================================

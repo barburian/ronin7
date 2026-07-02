@@ -1,0 +1,28 @@
+{
+    "asset": "c2c32d8cc0863eb44b3dba4967b53373",
+    "fileName": "019efae8-2ff7-74de-986b-c9e5111296cb.png",
+    "prompt": "Concept art of a single weapon shown complete and centered, isolated on a plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, NO character, no hands, no figure, only the weapon by itself. Subject: a current-issue factory sci-fi operative katana, the cold clean mass-produced version of the hero's blade, matte black-and-gunmetal single-edged blade wrapped at the upper hilt, a segmented hilt with a small cold leashed pale-blue hilt-light, crisp clean plating with a faint stasis-sheen, no warmth; sterile and lethal. Color palette: cold black and gunmetal with a cold leashed pale-blue hilt-light. Grounded lived-in sci-fi, single weapon prop on neutral background.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

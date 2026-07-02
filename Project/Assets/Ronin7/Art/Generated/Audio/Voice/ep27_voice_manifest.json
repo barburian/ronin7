@@ -1,0 +1,279 @@
+{
+    "lines": [
+        {
+            "file": "ep27_drek_briefing_00_drek",
+            "speaker": "Drek",
+            "text": "Pale Choir's been running cargo and prisoners through the marrow-tunnels for months. Dominion wants the nest cleared."
+        },
+        {
+            "file": "ep27_drek_briefing_01_drek",
+            "speaker": "Drek",
+            "text": "Station command doesn't care what's in the tunnels. Dead space. Real estate now."
+        },
+        {
+            "file": "ep27_drek_briefing_02_cipher",
+            "speaker": "Cipher",
+            "text": "What was it before the dead space?"
+        },
+        {
+            "file": "ep27_drek_briefing_03_drek",
+            "speaker": "Drek",
+            "text": "Before?"
+        },
+        {
+            "file": "ep27_drek_briefing_04_drek",
+            "speaker": "Drek",
+            "text": "Don't know. Don't ask. The leviathan was a creature. Now it's a resource."
+        },
+        {
+            "file": "ep27_drek_briefing_05_kessler",
+            "speaker": "Kessler",
+            "text": "The Choir. Are they organized?"
+        },
+        {
+            "file": "ep27_drek_briefing_06_drek",
+            "speaker": "Drek",
+            "text": "Religious. Keep to themselves. They're tending something down in the bone-chambers. Not aggressive unless you breach their perimeter."
+        },
+        {
+            "file": "ep27_gate_challenge_00_choircultist1",
+            "speaker": "Choir Cultist 1",
+            "text": "The gate is sealed to the unworthy."
+        },
+        {
+            "file": "ep27_gate_challenge_01_cipher",
+            "speaker": "Cipher",
+            "text": "I'm not leaving."
+        },
+        {
+            "file": "ep27_dying_cultist_00_dyingcultist",
+            "speaker": "Dying Cultist",
+            "text": "Why don't you run?"
+        },
+        {
+            "file": "ep27_dying_cultist_01_cipher",
+            "speaker": "Cipher",
+            "text": "I need to know what you're guarding."
+        },
+        {
+            "file": "ep27_dying_cultist_02_dyingcultist",
+            "speaker": "Dying Cultist",
+            "text": "Because we're already inside the corpse of a god. The Dominion made sure of that. They fed it to death, and we feed it our devotion."
+        },
+        {
+            "file": "ep27_dying_cultist_03_dyingcultist",
+            "speaker": "Dying Cultist",
+            "text": "You're just another ghost, samurai."
+        },
+        {
+            "file": "ep27_meren_intro_00_meren",
+            "speaker": "Meren",
+            "text": "You're Dominion. Or you were."
+        },
+        {
+            "file": "ep27_meren_intro_01_cipher",
+            "speaker": "Cipher",
+            "text": "We're not here for residents."
+        },
+        {
+            "file": "ep27_meren_intro_02_meren",
+            "speaker": "Meren",
+            "text": "You're here for the Choir. They've been running this settlement's water and air-recycle systems for two generations. They came with my grandmother."
+        },
+        {
+            "file": "ep27_meren_intro_03_meren",
+            "speaker": "Meren",
+            "text": "The leviathan was a living oracle. Worshipped. It knew things."
+        },
+        {
+            "file": "ep27_meren_intro_04_meren",
+            "speaker": "Meren",
+            "text": "Forty years ago the Dominion cut off its food supply. Said it was a cultural liability. Let it starve."
+        },
+        {
+            "file": "ep27_meren_intro_05_cipher",
+            "speaker": "Cipher",
+            "text": "And now?"
+        },
+        {
+            "file": "ep27_meren_intro_06_meren",
+            "speaker": "Meren",
+            "text": "Now it's a resource. Its bones are real estate. Its death bought us shelter and employment and the Choir bought us hope that maybe something in this creature would be remembered."
+        },
+        {
+            "file": "ep27_bloodied_elder_00_bloodiedelder",
+            "speaker": "Bloodied Elder",
+            "text": "We have been waiting for the one who fired the Genesis Cannon."
+        },
+        {
+            "file": "ep27_bloodied_elder_01_bloodiedelder",
+            "speaker": "Bloodied Elder",
+            "text": "The leviathan has been calling you home."
+        },
+        {
+            "file": "ep27_sallow_archive_00_sallow",
+            "speaker": "Sallow",
+            "text": "The leviathan was a living records-keeper. An alien species that absorbed and preserved all knowledge it encountered."
+        },
+        {
+            "file": "ep27_sallow_archive_01_sallow",
+            "speaker": "Sallow",
+            "text": "We call them thought-oracles. The Dominion called them a problem."
+        },
+        {
+            "file": "ep27_sallow_archive_02_cipher",
+            "speaker": "Cipher",
+            "text": "Why would it be a problem?"
+        },
+        {
+            "file": "ep27_sallow_archive_03_sallow",
+            "speaker": "Sallow",
+            "text": "Because it remembered everything. Every atrocity. Every order. Every secret the Dominion wanted buried."
+        },
+        {
+            "file": "ep27_sallow_archive_04_sallow",
+            "speaker": "Sallow",
+            "text": "So they took a ship with a Genesis Cannon and killed a god. Then they walked away from what they'd done and called the corpse real estate."
+        },
+        {
+            "file": "ep27_sallow_archive_05_sallow",
+            "speaker": "Sallow",
+            "text": "The Choir has spent four decades keeping its residual neural tissue intact. We are its voice now."
+        },
+        {
+            "file": "ep27_sallow_archive_06_sallow",
+            "speaker": "Sallow",
+            "text": "And it has been singing your designation since the day you pressed the trigger."
+        },
+        {
+            "file": "ep27_sallow_invite_00_sallow",
+            "speaker": "Sallow",
+            "text": "It wants to show you. Put your hand to the thought-fossil."
+        },
+        {
+            "file": "ep27_sallow_invite_01_sallow",
+            "speaker": "Sallow",
+            "text": "Are you ready?"
+        },
+        {
+            "file": "ep27_khall_memory_00_khallmemory",
+            "speaker": "Khall (Memory)",
+            "text": "The oracle has absorbed too many Dominion records. It is a liability."
+        },
+        {
+            "file": "ep27_khall_memory_01_khallmemory",
+            "speaker": "Khall (Memory)",
+            "text": "Purge it. Use the Genesis Cannon."
+        },
+        {
+            "file": "ep27_weight_witness_00_sallow",
+            "speaker": "Sallow",
+            "text": "Now you know what they built you to protect."
+        },
+        {
+            "file": "ep27_kessler_descent_00_kessler",
+            "speaker": "Kessler",
+            "text": "Cipher. A Dominion capital ship is descending. Not to hold the station. To crack the creature open and destroy the Archive."
+        },
+        {
+            "file": "ep27_kessler_descent_01_kessler",
+            "speaker": "Kessler",
+            "text": "One word from command: Khall. You need to move now."
+        },
+        {
+            "file": "ep27_handover_00_cipher",
+            "speaker": "Cipher",
+            "text": "How long until impact?"
+        },
+        {
+            "file": "ep27_handover_01_sallow",
+            "speaker": "Sallow",
+            "text": "Minutes. You need to reach the heart-chamber. The settlement is there. The Dominion will level it."
+        },
+        {
+            "file": "ep27_handler_barks_00_dominionassaultcommander",
+            "speaker": "Dominion Assault Commander",
+            "text": "Structure is hostile! Multiple threats converging!"
+        },
+        {
+            "file": "ep27_handler_barks_01_meren",
+            "speaker": "Meren",
+            "text": "Hold the east corridor! The settlement stays intact!"
+        },
+        {
+            "file": "ep27_khall_confront_00_khall",
+            "speaker": "Khall",
+            "text": "You remember now."
+        },
+        {
+            "file": "ep27_khall_confront_01_cipher",
+            "speaker": "Cipher",
+            "text": "You gave the order."
+        },
+        {
+            "file": "ep27_khall_confront_02_khall",
+            "speaker": "Khall",
+            "text": "I gave you a blank slate. A mercy. The weight of that trigger was mine to carry, not yours."
+        },
+        {
+            "file": "ep27_khall_confront_03_cipher",
+            "speaker": "Cipher",
+            "text": "You wiped me because I refused an order. The blank slate kept your program intact. Not me."
+        },
+        {
+            "file": "ep27_khall_confront_04_khall",
+            "speaker": "Khall",
+            "text": "The cannon fires in fifteen minutes. The only question is whether you spend them here or saving something that matters."
+        },
+        {
+            "file": "ep27_bone_fleet_barks_00_kessler",
+            "speaker": "Kessler",
+            "text": "You've got three minutes before the cannon fires!"
+        },
+        {
+            "file": "ep27_relay_aftermath_00_dominionweaponsofficer",
+            "speaker": "Dominion Weapons Officer",
+            "text": "Targeting relay is non-responsive! Firing solution compromised!"
+        },
+        {
+            "file": "ep27_relay_aftermath_01_sallow",
+            "speaker": "Sallow",
+            "text": "The Archive is secure. The confessions, the schematics, the proof of the cage, all preserved."
+        },
+        {
+            "file": "ep27_relay_aftermath_02_kessler",
+            "speaker": "Kessler",
+            "text": "What comes next?"
+        },
+        {
+            "file": "ep27_relay_aftermath_03_cipher",
+            "speaker": "Cipher",
+            "text": "Kethel-7."
+        },
+        {
+            "file": "ep27_relay_aftermath_04_kessler",
+            "speaker": "Kessler",
+            "text": "The massacre."
+        },
+        {
+            "file": "ep27_relay_aftermath_05_cipher",
+            "speaker": "Cipher",
+            "text": "The original wound. The first order I refused. Everything the Dominion built around that refusal."
+        },
+        {
+            "file": "ep27_relay_aftermath_06_sallow",
+            "speaker": "Sallow",
+            "text": "Then you go there. You face it directly."
+        },
+        {
+            "file": "ep27_space_ep27_post_00_cipher",
+            "speaker": "Cipher",
+            "text": "Leviathan-9 was a living thought-oracle, a sentient archive that absorbed and preserved all knowledge it encountered. The Dominion murdered it forty years ago with a Genesis Cannon because it remembered every atrocity, every order, every secret they wanted buried. The Pale Choir preserved its residual neural tissue in the Archive. When I touched the thought-fossil, I remembered. I fired the cannon. Khall gave the order. But the Archive showed me something deeper, the ten syndicates of the fringe are not rivals. They are a cage. Each bar holding the others in place."
+        },
+        {
+            "file": "ep27_space_ep27_post_01_kessler",
+            "speaker": "Kessler",
+            "text": "So the heading is Kethel-7, the orphanage, the massacre, the first order you ever refused. The original wound. Everything you have been circling leads back to that origin point. This is where they built the cage. Where they designed you to carry a burden that was never yours to bear. Where you face it directly, and where you choose what comes next."
+        }
+    ]
+}

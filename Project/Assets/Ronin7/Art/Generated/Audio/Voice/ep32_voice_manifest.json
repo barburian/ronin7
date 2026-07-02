@@ -1,0 +1,304 @@
+{
+    "lines": [
+        {
+            "file": "ep32_breach_approach_00_kessler",
+            "speaker": "Kessler",
+            "text": "Last chance to turn back. You've got a name now, Soren. People with names have things to lose."
+        },
+        {
+            "file": "ep32_breach_approach_01_soren",
+            "speaker": "Soren",
+            "text": "Then I'll lose them here, or I'll know why I almost did. Khall is in that tower. He knows what Kethel-7 really was."
+        },
+        {
+            "file": "ep32_breach_dogfight_00_dominionpilot1",
+            "speaker": "Dominion Pilot 1",
+            "text": "Interceptors locked! Firing solution active!"
+        },
+        {
+            "file": "ep32_breach_dogfight_01_kessler",
+            "speaker": "Kessler",
+            "text": "Evasive! Soren, gun rig, now!"
+        },
+        {
+            "file": "ep32_breach_dogfight_02_dominionpilot2",
+            "speaker": "Dominion Pilot 2",
+            "text": "Lead element destroyed! Redistributing fire!"
+        },
+        {
+            "file": "ep32_breach_dogfight_03_iris",
+            "speaker": "Iris",
+            "text": "Secondary turret is online! Flanker at nine o'clock!"
+        },
+        {
+            "file": "ep32_breach_dogfight_04_kessler",
+            "speaker": "Kessler",
+            "text": "Hold approach! Fortress outer dock is dilating!"
+        },
+        {
+            "file": "ep32_breach_cleared_00_automatedfortressvoice",
+            "speaker": "Automated Fortress Voice",
+            "text": "Clearance confirmed. Operative Ronin-Seven. Overseer Khall awaits your arrival."
+        },
+        {
+            "file": "ep32_breach_cleared_01_kessler",
+            "speaker": "Kessler",
+            "text": "They opened the door. That is not a welcome. That is a spring trap."
+        },
+        {
+            "file": "ep32_breach_cleared_02_soren",
+            "speaker": "Soren",
+            "text": "Then let's see what it's built to catch."
+        },
+        {
+            "file": "ep32_vale_pa_00_commandervale",
+            "speaker": "Commander Vale",
+            "text": "Khall sent me to retrieve you. Or confirm you. Dominion doesn't say which."
+        },
+        {
+            "file": "ep32_vale_pa_01_soren",
+            "speaker": "Soren",
+            "text": "Vale. You remember the orphanage."
+        },
+        {
+            "file": "ep32_vale_pa_02_commandervale",
+            "speaker": "Commander Vale",
+            "text": "I remember what we were told happened. After you woke me out of the ice at Thermopause, I walked back in through the front door, old rank buys a great deal of blindness. And I stopped trusting the source."
+        },
+        {
+            "file": "ep32_hangar_engage_00_dominionsoldier",
+            "speaker": "Dominion Soldier",
+            "text": "Target engaged! Secure the hangar!"
+        },
+        {
+            "file": "ep32_hangar_engage_01_dominionsoldier2",
+            "speaker": "Dominion Soldier 2",
+            "text": "Units three through seven are compromised! Falling back to secondary..."
+        },
+        {
+            "file": "ep32_vale_aftermath_00_commandervale",
+            "speaker": "Commander Vale",
+            "text": "You haven't forgotten how to bury family. Khall knew you wouldn't. Come. He wants you to see the Vault before you see him."
+        },
+        {
+            "file": "ep32_vault_history_00_commandervale",
+            "speaker": "Commander Vale",
+            "text": "They took us as children. Stripped the names, installed the numbers. I was Operative Two. You were the anomaly, best instinct ever recorded, but you felt things. Khall ran interference when the handlers wanted to cut that out of you."
+        },
+        {
+            "file": "ep32_vault_history_01_soren",
+            "speaker": "Soren",
+            "text": "Then Kethel-7..."
+        },
+        {
+            "file": "ep32_vault_history_02_commandervale",
+            "speaker": "Commander Vale",
+            "text": "Something never fit about that order. The cipher was Dominion-standard but the routing tag ran one protocol cycle ahead of what we were using at the time. A forgery with Hollow Kings access could clear that gap."
+        },
+        {
+            "file": "ep32_vault_combat_00_commandervale",
+            "speaker": "Commander Vale",
+            "text": "Coverage above! Moving to the east catwalk!"
+        },
+        {
+            "file": "ep32_khall_recording_00_commandervale",
+            "speaker": "Commander Vale",
+            "text": "Khall left it. He has been leaving it there for years, I think. Like a confession waiting to be heard."
+        },
+        {
+            "file": "ep32_khall_recording_01_khallrecording",
+            "speaker": "Khall (Recording)",
+            "text": "If you found this, you survived what I did to you, and I owe you the accounting. There was no massacre order from me, only the one they made you believe came from me."
+        },
+        {
+            "file": "ep32_khall_recording_02_khallrecording",
+            "speaker": "Khall (Recording)",
+            "text": "The Hollow Kings forged it in Dominion cipher. I discovered the forgery six days too late. By then you had already been purged."
+        },
+        {
+            "file": "ep32_khall_recording_03_khallrecording",
+            "speaker": "Khall (Recording)",
+            "text": "The only move I had left was to make the Dominion believe the purge held. Faking your death was the only gift I could still give you."
+        },
+        {
+            "file": "ep32_threne_offer_00_revenantthrene",
+            "speaker": "Revenant Threne",
+            "text": "Dominion, your lower levels are ours. We have sealed the manufacturing decks and the creche sublevel chambers."
+        },
+        {
+            "file": "ep32_threne_offer_01_revenantthrene",
+            "speaker": "Revenant Threne",
+            "text": "Operative Seven, your augmentations carry the resonance key to the failsafe network. Surrender yourself, and the children in sublevel creches leave breathing."
+        },
+        {
+            "file": "ep32_threne_offer_02_commandervale",
+            "speaker": "Commander Vale",
+            "text": "The network codes. They want Khall's override architecture."
+        },
+        {
+            "file": "ep32_threne_offer_03_soren",
+            "speaker": "Soren",
+            "text": "No. They want me to choose between myself and innocence. Again. I already know what that choice costs."
+        },
+        {
+            "file": "ep32_choir_engage_00_choiroperative1",
+            "speaker": "Choir Operative 1",
+            "text": "Surrender brings peace."
+        },
+        {
+            "file": "ep32_choir_engage_01_choiroperative2",
+            "speaker": "Choir Operative 2",
+            "text": "We sing for all you've taken. Join us in the absolution."
+        },
+        {
+            "file": "ep32_choir_aftermath_00_revenantthrene",
+            "speaker": "Revenant Threne",
+            "text": "Choose, Operative."
+        },
+        {
+            "file": "ep32_choir_aftermath_01_soren",
+            "speaker": "Soren",
+            "text": "Vale. The children. Are they safe?"
+        },
+        {
+            "file": "ep32_choir_aftermath_02_commandervale",
+            "speaker": "Commander Vale",
+            "text": "Khall moved them twenty minutes ago. They're in orbital sanctuary. Threne is bluffing."
+        },
+        {
+            "file": "ep32_choir_aftermath_03_soren",
+            "speaker": "Soren",
+            "text": "Then Threne has nothing."
+        },
+        {
+            "file": "ep32_throne_confront_00_soren",
+            "speaker": "Soren",
+            "text": "I heard the recording."
+        },
+        {
+            "file": "ep32_throne_confront_01_khall",
+            "speaker": "Khall",
+            "text": "Then you heard what I owed you since Kethel-7. The Hollow Kings forged the order. I was too certain of my own intelligence to question a transmission that fit too perfectly. Until the bodies were already supposed to be cooling."
+        },
+        {
+            "file": "ep32_throne_confront_02_khall",
+            "speaker": "Khall",
+            "text": "I faked your death to pull you out of Dominion reach. I told myself it was mercy. It was also cowardice. I could not face what my credulity had nearly cost you."
+        },
+        {
+            "file": "ep32_throne_confront_03_soren",
+            "speaker": "Soren",
+            "text": "Who else knew?"
+        },
+        {
+            "file": "ep32_throne_confront_04_khall",
+            "speaker": "Khall",
+            "text": "That is the question that should have led you here faster. Because it leads somewhere I cannot follow you."
+        },
+        {
+            "file": "ep32_throne_engage_00_rogueofficer1",
+            "speaker": "Rogue Officer 1",
+            "text": "Stand down, Overseer. Protocol demands containment."
+        },
+        {
+            "file": "ep32_maelgorn_reveal_00_khall",
+            "speaker": "Khall",
+            "text": "There is an authority above the Dominion that the Dominion itself does not name aloud. First Overseer Maelgorn. The Obsidian Synod."
+        },
+        {
+            "file": "ep32_maelgorn_reveal_01_khall",
+            "speaker": "Khall",
+            "text": "They built the failsafe network before you were born. Every operative across four galaxies is still leashed to it, all except you. You burned your own leash out of the Sepulcher and the loop."
+        },
+        {
+            "file": "ep32_maelgorn_reveal_02_khall",
+            "speaker": "Khall",
+            "text": "Maelgorn ordered the Hollow Kings to fracture the Ronin Program the moment it began producing operatives who felt loyalty above obedience. Your refusal at Kethel-7 was the proof of concept they needed eliminated."
+        },
+        {
+            "file": "ep32_maelgorn_reveal_03_soren",
+            "speaker": "Soren",
+            "text": "And now?"
+        },
+        {
+            "file": "ep32_maelgorn_reveal_04_khall",
+            "speaker": "Khall",
+            "text": "Now you are the only loose piece on the board. Maelgorn will come for you, and for everyone standing beside you."
+        },
+        {
+            "file": "ep32_exodus_dock_00_commandervale",
+            "speaker": "Commander Vale",
+            "text": "I am not staying. The Choir, the Hollow Kings, whatever the Synod sends next, they will strip this place clean inside a week."
+        },
+        {
+            "file": "ep32_exodus_dock_01_iris",
+            "speaker": "Iris",
+            "text": "We need her."
+        },
+        {
+            "file": "ep32_exodus_dock_02_kessler",
+            "speaker": "Kessler",
+            "text": "Another sword. Another reason to run."
+        },
+        {
+            "file": "ep32_exodus_dock_03_soren",
+            "speaker": "Soren",
+            "text": "Come with us."
+        },
+        {
+            "file": "ep32_exodus_dock_04_khall",
+            "speaker": "Khall",
+            "text": "My place is here, dismantling what I built, piece by piece, giving every soldier the choice we never had."
+        },
+        {
+            "file": "ep32_exodus_dock_05_khall",
+            "speaker": "Khall",
+            "text": "Go. Finish what I could not start."
+        },
+        {
+            "file": "ep32_blockade_run_00_privateercaptain",
+            "speaker": "Privateer Captain",
+            "text": "Corsair, you are targeted! Lower shields or burn!"
+        },
+        {
+            "file": "ep32_blockade_run_01_kessler",
+            "speaker": "Kessler",
+            "text": "Through them! Maximum burn!"
+        },
+        {
+            "file": "ep32_threshold_call_00_soren",
+            "speaker": "Soren",
+            "text": "The Obsidian Synod controls the failsafe network. Every operative across four galaxies is still leashed except me. And except those who can choose."
+        },
+        {
+            "file": "ep32_threshold_call_01_kessler",
+            "speaker": "Kessler",
+            "text": "That's a war council, not a crew."
+        },
+        {
+            "file": "ep32_threshold_call_02_soren",
+            "speaker": "Soren",
+            "text": "It's both."
+        },
+        {
+            "file": "ep32_threshold_call_03_iris",
+            "speaker": "Iris",
+            "text": "They're coming. All of them. Confirmations still arriving."
+        },
+        {
+            "file": "ep32_threshold_call_04_iris",
+            "speaker": "Iris",
+            "text": "And an eleventh signal, riding under Cassie's band. Tara. She says the survivor network is seventeen strong and standing by, and that you still owe her a war."
+        },
+        {
+            "file": "ep32_threshold_call_05_soren",
+            "speaker": "Soren",
+            "text": "Tell her the debt stands. Her roster fights with us."
+        },
+        {
+            "file": "ep32_threshold_call_06_soren",
+            "speaker": "Soren",
+            "text": "One sword cannot take the Synod. Ten might. Let's go find out."
+        }
+    ]
+}

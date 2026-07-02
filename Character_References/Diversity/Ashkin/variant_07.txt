@@ -1,0 +1,8 @@
+VARIANT: Ashkin #07 — "Grieving Widow"
+SPECIES: Ashkin (frontier dust-world settler).
+SEX / AGE / BUILD: Female / middle-aged / thin, still, hollowed by loss.
+ROLE IN WORLD: A homestead widow in mourning ash after a raid.
+DISTINGUISHING FEATURES: Ochre skin streaked with ritual mourning-ash; dim wet ember eyes; cheek-plates rubbed pale; a shorn head (mourning custom).
+CLOTHING / GEAR: A grey mourning shroud-wrap, an ash-pot, a keepsake token of the dead.
+COLOR / PALETTE: Ochre skin under heavy grey mourning-ash; colorless shroud; one kept rust token.
+>> IMAGE-PROMPT SUMMARY: A thin still middle-aged female ashkin widow in mourning, with ochre skin streaked in ritual grey mourning-ash, dim wet ember eyes, cheek keratin-plates rubbed pale and a shorn head. Wrapped in a grey mourning shroud, holding an ash-pot and a single kept rust keepsake of the dead. Ochre under grey-ash, colorless palette. Grief-stilled. Grounded alien sci-fi frontier.

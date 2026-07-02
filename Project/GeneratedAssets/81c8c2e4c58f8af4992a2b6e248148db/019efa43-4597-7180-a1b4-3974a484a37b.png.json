@@ -1,0 +1,28 @@
+{
+    "asset": "81c8c2e4c58f8af4992a2b6e248148db",
+    "fileName": "019efa43-4597-7180-a1b4-3974a484a37b.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: Older human male assassin, a heavier mirror of the protagonist, with a dead-calm utterly blank face, cold pale unreaching eyes, shaved head, old augment-seams and a skull-base killswitch scar. Wears heavy enclosed older-generation Dominion operative armor with sealed plating suited to wet caverns, unmarked and gloomy. Carries an archaic-form katana with a cold leashed hilt-light. Drowned grey and deep-teal palette with black plating. Stands with joyless, perfectly \"aimed\" lethal poise, no hesitation anywhere. Grounded human sci-fi. Color palette: Drowned greys and deep teal (Tide depths), black plating, cold hilt-light. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

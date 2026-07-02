@@ -1,0 +1,8 @@
+VARIANT: Ashkin #18 — "Water-Rationer"
+SPECIES: Ashkin (frontier dust-world settler).
+SEX / AGE / BUILD: Female / middle-aged / spare, precise, severe.
+ROLE IN WORLD: Colony official who measures and rations the precious water.
+DISTINGUISHING FEATURES: Dry ochre skin; neat angular cheek-plates; cool measuring ember eyes; hair scraped into a tight knot; a tally-brand on the back of one hand.
+CLOTHING / GEAR: A buttoned official robe, a water-ledger, a measuring-dipper, a sealed key-ring.
+COLOR / PALETTE: Ochre skin; austere slate-and-rust robe; brass measures; grey ash.
+>> IMAGE-PROMPT SUMMARY: A spare precise severe middle-aged female ashkin water-rationer with dry ochre skin, neat angular cheek keratin-plates, cool measuring ember eyes, a tight hair-knot and a tally-brand on one hand. Wears a buttoned austere slate-and-rust official robe with a water-ledger, a brass measuring-dipper and a sealed key-ring. Ochre, slate-rust and brass palette. Strict, dutiful. Grounded alien sci-fi frontier.

@@ -1,0 +1,47 @@
+==================================================================
+KHALL  —  "The Overseer"
+==================================================================
+SPECIES: Human (Dominion/Program handler — human per project rule).
+
+ROLE & FACTION: Ronin-7's Program handler / Overseer. Triggered the killswitch that fired and
+failed (Ch2); hunts him through Act I addressing him as "Cipher." Final twist (Ch16): the Kethel-7
+order was forged by the Hollow Kings; Khall was a manipulated victim who faked his death, repents,
+and allies.
+
+CHAPTERS: Ch1 (unnamed hologram), Ch3 (memory playback), Ch4 (named, direct comms), Ch8 (grief
+vision), Ch16 (repentance/alliance).
+
+AGE / BUILD / HEIGHT: Mid-40s; ~1.8 m. Upright, controlled military bearing; lean, disciplined.
+
+HEAD: Composed, even-featured command face; clipped greying hair; clinical calm laid over held-down
+grief — the eyes are the only thing not steady. By Ch16, older and worn hollow by years of faked
+death and guilt.
+
+BODY: Still, precise, unhurried; the steady hand of procedure (only the eyes betray him).
+
+WEAPONS / PROPS: Command sidearm; handler's console/holo-rig; Overseer's authority tokens. In Ch3
+playback, he moves to a console to trigger the switch with a steady hand.
+
+CLOTHING / ARMOR: Dominion handler's uniform — high-collared dark command coat with restrained
+Program insignia, sharp lines, gloves; austere and official. Post-Ch16: stripped, worn, insignia
+removed.
+
+COLOR PALETTE: Deep charcoal/ox-blood Dominion command colors, dull silver insignia, black gloves.
+
+SILHOUETTE / DISTINGUISHING FEATURES: High-collared officer's coat; rigid posture; the controlled
+man with grief behind the eyes.
+
+DEMEANOR: Clinically precise, procedure-bound, audibly guilty; "I am not trying to kill you, Cipher.
+I am trying to bring you home..." (Ch4); "I'm sorry it has come to this." (Ch8 vision).
+
+CANON SOURCE QUOTES:
+  - "I know." (Ch3, agreeing Ronin is right — then pulls the switch anyway).
+
+>> IMAGE-PROMPT SUMMARY:
+Mid-40s human male military handler with a composed, even-featured face, clipped greying hair and a
+clinical calm betrayed only by grief in the eyes. Wears a high-collared dark Dominion command coat
+with sharp lines, restrained dull-silver insignia, and black gloves, standing with rigid disciplined
+posture. Deep charcoal and ox-blood palette. Reads as a trapped officer carrying out an order he
+hates. (Alt Ch16 form: same man, older, hollow, insignia stripped, worn down by guilt.) Grounded
+human sci-fi.
+==================================================================

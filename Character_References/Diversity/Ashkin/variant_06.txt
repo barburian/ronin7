@@ -1,0 +1,8 @@
+VARIANT: Ashkin #06 — "Ore-Miner"
+SPECIES: Ashkin (frontier dust-world settler).
+SEX / AGE / BUILD: Male / adult / heavy, slab-shouldered.
+ROLE IN WORLD: Works the colony ore-pits and tunnels.
+DISTINGUISHING FEATURES: Terracotta skin caked grey with ore-dust; very heavy thick shoulder and forearm plates; squint ember eyes; a pick-scar across one plate.
+CLOTHING / GEAR: A reinforced dust-vest, knee-pads, a heavy pick, a head-lamp, a breath-mask.
+COLOR / PALETTE: Dust-greyed terracotta; iron-grey vest; ore-dust; a yellow lamp-glow.
+>> IMAGE-PROMPT SUMMARY: A heavy slab-shouldered adult male ashkin ore-miner with terracotta skin caked grey in ore-dust, very heavy thick shoulder and forearm keratin-plates, squinting ember eyes and a pick-scar across one plate. Wears a reinforced iron-grey dust-vest, knee-pads, head-lamp and breath-mask, carrying a heavy pick. Dust-greyed terracotta and iron palette with a yellow lamp-glow. Strong, grimy. Grounded alien sci-fi frontier.

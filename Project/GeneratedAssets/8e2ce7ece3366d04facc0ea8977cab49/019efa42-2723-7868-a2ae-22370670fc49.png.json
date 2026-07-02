@@ -1,0 +1,28 @@
+{
+    "asset": "8e2ce7ece3366d04facc0ea8977cab49",
+    "fileName": "019efa42-2723-7868-a2ae-22370670fc49.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A gigantic boulder-bulked dominant prime-adult male gravelkin pit-champion with massive basalt lithic hide armored in dense battle-nodules, great iron-capped curved tusks, cold confident quartz eyes, chiseled victory-marks across the chest and grown mineral knuckle-spikes. Wears a champion harness of trophy-plate and deep-red wraps with a foe-token victory-chain, wielding twin cleavers. Dark-basalt, iron-bronze and deep-red palette. Imposing, dominant. Grounded alien sci-fi. Color palette: Dark-basalt hide; iron and trophy-bronze; deep-red victory wraps. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

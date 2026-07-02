@@ -1,0 +1,7 @@
+VARIANT: Mourner #01 — "First Voice (Lead Speaker)"
+SPECIES: The Mourners (ancient soul-keepers). See _SPECIES_BIBLE.txt.
+FORM / AGE / DENSITY: Tall, near-solid fog-body; eldest-rank; the one whose throat the braided voice centers on.
+DISTINGUISHING FEATURES: Densest vapor of the ring, so the shroud nearly reads as a body; a deeper, brighter grave-blue inner light where a face should be; long pale six-fingered hands fully resolved.
+ROBE / STATE: A long, only lightly-tattered ash-grey shroud-robe, hems trailing into fog.
+COLOR / PALETTE: Ash-grey, shroud-white, deep grave-blue inner glow.
+>> IMAGE-PROMPT SUMMARY: A tall near-solid lead Mourner: a dense ash-grey vapor body packed into a long lightly-tattered shroud-robe so it nearly reads as a figure, with a deeper brighter grave-blue light glowing where a face should be and long fully-resolved pale six-fingered hands. Drifts just off the ground. Ash-grey, shroud-white and grave-blue palette, no warm color. Eldritch, solemn, authoritative. Cosmic dark sci-fi.

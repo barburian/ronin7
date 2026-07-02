@@ -1,0 +1,28 @@
+{
+    "asset": "510bfd013fb9e0e4ca42ed8cf6f551e9",
+    "fileName": "019efa4b-cbec-7e02-a483-c60ac001cc5c.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A lithe swift Herald-of-War Synod voidform with a slimmer obsidian body, a long horn-like masked head split by a cold white-blue seam, a forked smoke-trail behind it and one arm ending in a sheaf of glowing forged-writ glyphs. Wears a fractured-black-glass herald-tabard with war-glyphs orbiting the shoulders. Obsidian-black with cold-white-blue seam and pale glyph-glow palette. Swift, ominous. Cosmic dark sci-fi. Color palette: Obsidian black; cold white-blue seam; pale glyph-glow. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

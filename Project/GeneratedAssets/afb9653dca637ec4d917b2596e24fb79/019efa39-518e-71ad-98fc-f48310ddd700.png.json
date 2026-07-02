@@ -1,0 +1,28 @@
+{
+    "asset": "afb9653dca637ec4d917b2596e24fb79",
+    "fileName": "019efa39-518e-71ad-98fc-f48310ddd700.png",
+    "prompt": "Full-length character concept art of a single complete standing figure, shown entirely from the very top of the head down to the soles of the boots. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the head and clear empty space beneath the feet, so that absolutely nothing is cropped. The complete head, both hands, and both boots/feet are fully inside the frame and not touching any edge. Front view, neutral A-pose, arms held slightly away from the body. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: Late-50s human male salvager, big and broad and worn down, with heavy calloused hands, a weathered deeply-lined face, grey beard stubble, and tired deep-set eyes softened by gallows warmth. Dressed in a heavy grease-stained canvas-and-leather work coat, padded vest and a tool harness hung with a cutting torch and multi-tool, layered thermals underneath, sturdy work boots. Oil-brown, rust and faded-olive palette. Grounded, human, lived-in sci-fi salvager standing at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

@@ -1,0 +1,7 @@
+VARIANT: Obsidian Synod #10 — "The Faceless Scribe-King"
+SPECIES: Obsidian Synod (shadow-author voidform).
+RANK / FORM: A Hollow King of records and forgeries; gaunt, quill-handed voidform.
+DISTINGUISHING FEATURES: A gaunt elongated obsidian body; an utterly smooth seamless faceless head (no seam at all, only void); long fingers tipped with glowing white-blue quill-points; a hollow ribcage stuffed with rolled forged-orders.
+REGALIA / STATE: A scribe-king robe of black glass scaled like overlapping pages; smoke like spilled ink.
+COLOR / PALETTE: Obsidian black; faint white-blue quill-glow; ink-smoke; void-purple.
+>> IMAGE-PROMPT SUMMARY: A gaunt elongated Faceless Scribe-King Synod voidform with a smooth seamless utterly faceless void head, long fingers tipped with glowing white-blue quill-points and a hollow ribcage stuffed with rolled forged-orders. Wears a scribe-king robe of overlapping page-like black glass, trailing ink-smoke. Obsidian-black with faint white-blue quill-glow and ink-smoke palette. Sinister, bureaucratic, eldritch. Cosmic dark sci-fi.

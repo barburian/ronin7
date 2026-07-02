@@ -1,0 +1,28 @@
+{
+    "asset": "dea181e5b3ca89144936cb0e3e61a2ad",
+    "fileName": "019efa45-df7d-77d3-b8a8-804e4998cada.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A tall near-solid lead Mourner: a dense ash-grey vapor body packed into a long lightly-tattered shroud-robe so it nearly reads as a figure, with a deeper brighter grave-blue light glowing where a face should be and long fully-resolved pale six-fingered hands. Drifts just off the ground. Ash-grey, shroud-white and grave-blue palette, no warm color. Eldritch, solemn, authoritative. Cosmic dark sci-fi. Color palette: Ash-grey, shroud-white, deep grave-blue inner glow. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

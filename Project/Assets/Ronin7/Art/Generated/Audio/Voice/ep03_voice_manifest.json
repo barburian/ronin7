@@ -1,0 +1,484 @@
+{
+    "lines": [
+        {
+            "file": "ep03_hauler_hum_00_ronin7",
+            "speaker": "Ronin-7",
+            "text": "It's not stopping."
+        },
+        {
+            "file": "ep03_hauler_hum_01_kessler",
+            "speaker": "Kessler",
+            "text": "What's not?"
+        },
+        {
+            "file": "ep03_hauler_hum_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "The implant under my collarbone. It was quiet at Velorum. Since the boarding party it won't settle, like something keeps reaching for it."
+        },
+        {
+            "file": "ep03_hauler_hum_03_kessler",
+            "speaker": "Kessler",
+            "text": "That came from the hold. Stay here."
+        },
+        {
+            "file": "ep03_hauler_found_00_iris",
+            "speaker": "Iris",
+            "text": "Oh gods. Oh gods, Kessler, she's..."
+        },
+        {
+            "file": "ep03_hauler_found_01_mira",
+            "speaker": "Mira",
+            "text": "Don't touch me."
+        },
+        {
+            "file": "ep03_hauler_found_02_kessler",
+            "speaker": "Kessler",
+            "text": "No one's hurting you. We found you. You're safe now."
+        },
+        {
+            "file": "ep03_hauler_found_03_mira",
+            "speaker": "Mira",
+            "text": "They said people would come. They said that's how you know it's the extraction."
+        },
+        {
+            "file": "ep03_hauler_found_04_iris",
+            "speaker": "Iris",
+            "text": "We're not extraction. We're salvage. And we're getting you out."
+        },
+        {
+            "file": "ep03_hauler_boarding_00_dominionenforcer1",
+            "speaker": "Dominion Enforcer 1",
+            "text": "Boarding initiated. All station personnel, standby for manifest verification."
+        },
+        {
+            "file": "ep03_hauler_boarding_01_kessler",
+            "speaker": "Kessler",
+            "text": "Iris. The lock. Now."
+        },
+        {
+            "file": "ep03_hauler_fight_barks_00_dominionenforcer2",
+            "speaker": "Dominion Enforcer 2",
+            "text": "Man down! Contact in Bay Seven! Non-compliance!"
+        },
+        {
+            "file": "ep03_hauler_fight_barks_01_dominionenforcer3",
+            "speaker": "Dominion Enforcer 3",
+            "text": "Requesting backup! Requesting immediate backup!"
+        },
+        {
+            "file": "ep03_hauler_clear_00_kessler",
+            "speaker": "Kessler",
+            "text": "Clear. You're clear. Get back to the ship."
+        },
+        {
+            "file": "ep03_hauler_pod_00_mira",
+            "speaker": "Mira",
+            "text": "You have the same eyes. Did they take yours too?"
+        },
+        {
+            "file": "ep03_hauler_pod_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I don't remember."
+        },
+        {
+            "file": "ep03_hauler_pod_02_mira",
+            "speaker": "Mira",
+            "text": "My name is Mira. They were going to take me for augmentation extraction. That's what the Overseer said. That's what I ran from."
+        },
+        {
+            "file": "ep03_hauler_pod_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I'm taking you somewhere safe."
+        },
+        {
+            "file": "ep03_hauler_pod_04_mira",
+            "speaker": "Mira",
+            "text": "What's your name?"
+        },
+        {
+            "file": "ep03_hauler_pod_05_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I don't have one."
+        },
+        {
+            "file": "ep03_hauler_fury_00_kessler",
+            "speaker": "Kessler",
+            "text": "You can't keep her. The moment we move off-station with a child in the hold, we become everything the Dominion hunts."
+        },
+        {
+            "file": "ep03_hauler_fury_01_iris",
+            "speaker": "Iris",
+            "text": "I'm not leaving her."
+        },
+        {
+            "file": "ep03_hauler_fury_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then we don't move off-station."
+        },
+        {
+            "file": "ep03_hauler_fury_03_kessler",
+            "speaker": "Kessler",
+            "text": "Undock in ten seconds or the soldiers board the bridge. We have exactly one move."
+        },
+        {
+            "file": "ep03_hauler_fury_04_kessler",
+            "speaker": "Kessler",
+            "text": "Gods. They already know."
+        },
+        {
+            "file": "ep03_hauler_fury_05_iris",
+            "speaker": "Iris",
+            "text": "Know what?"
+        },
+        {
+            "file": "ep03_hauler_fury_06_kessler",
+            "speaker": "Kessler",
+            "text": "A child with partial Dominion augmentation is a library to them. Memories to strip. Neural patterns to replicate. She's not cargo to them, she's a research specimen."
+        },
+        {
+            "file": "ep03_hauler_fury_07_kessler",
+            "speaker": "Kessler",
+            "text": "And they know she's here."
+        },
+        {
+            "file": "ep03_hauler_corvette_00_kessler",
+            "speaker": "Kessler",
+            "text": "They're launching from the fringe. Corvette class. They want her alive."
+        },
+        {
+            "file": "ep03_hauler_corvette_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then we don't stop."
+        },
+        {
+            "file": "ep03_hauler_corvette_02_kessler",
+            "speaker": "Kessler",
+            "text": "They've got lock! Evasive!"
+        },
+        {
+            "file": "ep03_hauler_corvette_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I've got the cannon. Banking left."
+        },
+        {
+            "file": "ep03_hauler_corvette_04_hollowkingspilot",
+            "speaker": "Hollow Kings Pilot",
+            "text": "Target is evading. Sustained pursuit authorized."
+        },
+        {
+            "file": "ep03_hauler_corvette_05_kessler",
+            "speaker": "Kessler",
+            "text": "Corvette is repositioning. You've got maybe sixty seconds."
+        },
+        {
+            "file": "ep03_hauler_corvette_06_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Twenty-eight seconds remaining."
+        },
+        {
+            "file": "ep03_hauler_corvette_07_kessler",
+            "speaker": "Kessler",
+            "text": "Nice work. Come home."
+        },
+        {
+            "file": "ep03_engine_return_00_mira",
+            "speaker": "Mira",
+            "text": "They told me I'd never see outside. That the only view that mattered was the target reticle."
+        },
+        {
+            "file": "ep03_engine_return_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I know that language."
+        },
+        {
+            "file": "ep03_engine_return_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "We're going to the Fringe colonies. You'll be safe there."
+        },
+        {
+            "file": "ep03_engine_scar_00_kessler",
+            "speaker": "Kessler",
+            "text": "Sit. Let me look at it."
+        },
+        {
+            "file": "ep03_engine_scar_01_kessler",
+            "speaker": "Kessler",
+            "text": "I've seen this mark before. On other operatives. Never on one still walking around to ask about it."
+        },
+        {
+            "file": "ep03_engine_scar_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "What is it?"
+        },
+        {
+            "file": "ep03_engine_clock_00_kessler",
+            "speaker": "Kessler",
+            "text": "It's not a kill-switch waiting to be thrown. It's one that was already thrown."
+        },
+        {
+            "file": "ep03_engine_clock_01_kessler",
+            "speaker": "Kessler",
+            "text": "On Kethel-7, whatever you did there, they tried to put you down. This fired. It should have stopped your heart. Instead it burned out your memory and left you breathing."
+        },
+        {
+            "file": "ep03_engine_clock_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then why am I alive?"
+        },
+        {
+            "file": "ep03_engine_clock_03_kessler",
+            "speaker": "Kessler",
+            "text": "I don't know. Somebody built this wrong, or built it to fail. You didn't survive the Dominion. You survived your own execution."
+        },
+        {
+            "file": "ep03_engine_clock_04_kessler",
+            "speaker": "Kessler",
+            "text": "They built you to end crime syndicates, not to collect children."
+        },
+        {
+            "file": "ep03_engine_clock_05_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then whatever they made me for, it's done. The rest is mine."
+        },
+        {
+            "file": "ep03_engine_hunter_challenge_00_dominionhunter",
+            "speaker": "Dominion Hunter",
+            "text": "Stand down. This is a retrieval authorization."
+        },
+        {
+            "file": "ep03_engine_hunter_after_00_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I'm sorry."
+        },
+        {
+            "file": "ep03_engine_brief_00_ronin7",
+            "speaker": "Ronin-7",
+            "text": "She was never going to the Ronin Program."
+        },
+        {
+            "file": "ep03_engine_brief_01_kessler",
+            "speaker": "Kessler",
+            "text": "The Dominion doesn't care which syndicate holds the children. They feed them all and look the other way."
+        },
+        {
+            "file": "ep03_engine_brief_02_kessler",
+            "speaker": "Kessler",
+            "text": "She was collateral to that arrangement."
+        },
+        {
+            "file": "ep03_engine_lotus_decision_00_kessler",
+            "speaker": "Kessler",
+            "text": "It's a lure. False distress. But the records it's broadcasting are real."
+        },
+        {
+            "file": "ep03_engine_lotus_decision_01_mira",
+            "speaker": "Mira",
+            "text": "They're from Block Seven. Senna. Lyric. Keph. The others. They're all on that list."
+        },
+        {
+            "file": "ep03_engine_lotus_decision_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "We turn away from this. We sail dark and hope no one's tracking us."
+        },
+        {
+            "file": "ep03_engine_lotus_decision_03_mira",
+            "speaker": "Mira",
+            "text": "I won't leave them."
+        },
+        {
+            "file": "ep03_engine_lotus_decision_04_kessler",
+            "speaker": "Kessler",
+            "text": "If you care about the girl, you care about the rest of them."
+        },
+        {
+            "file": "ep03_lotus_guidance_00_mira",
+            "speaker": "Mira",
+            "text": "Left corridor. The second door on your right is clear. The chamber after has three of them. Can you see the air vents?"
+        },
+        {
+            "file": "ep03_lotus_fight_barks_00_crimsonlotusenforcer1",
+            "speaker": "Crimson Lotus Enforcer 1",
+            "text": "Intruder in medical! Blade response!"
+        },
+        {
+            "file": "ep03_lotus_podbay_00_mira",
+            "speaker": "Mira",
+            "text": "Rescue pod bay ahead. Third corridor, door marked 7-C. That's where they are."
+        },
+        {
+            "file": "ep03_lotus_senna_00_senna",
+            "speaker": "Senna",
+            "text": "Are you Dominion?"
+        },
+        {
+            "file": "ep03_lotus_senna_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "No."
+        },
+        {
+            "file": "ep03_lotus_senna_02_senna",
+            "speaker": "Senna",
+            "text": "Then you're one of us. Some things come back, when you're ready, they come back."
+        },
+        {
+            "file": "ep03_lotus_khall_00_khall",
+            "speaker": "Khall",
+            "text": "You are my finest instrument. Return the children and submit to retrieval. I will make you useful again, and you will not remember refusing."
+        },
+        {
+            "file": "ep03_lotus_khall_01_khall",
+            "speaker": "Khall",
+            "text": "Refuse, and I stop hunting the weapon and start hunting the man who hides it. How long does your salvager last?"
+        },
+        {
+            "file": "ep03_lotus_khall_02_kessler",
+            "speaker": "Kessler",
+            "text": "He's in your head. Don't listen."
+        },
+        {
+            "file": "ep03_lotus_khall_03_khall",
+            "speaker": "Khall",
+            "text": "Five minutes, Seven. Then I choose for you."
+        },
+        {
+            "file": "ep03_lotus_khall_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Let me go back."
+        },
+        {
+            "file": "ep03_lotus_khall_05_kessler",
+            "speaker": "Kessler",
+            "text": "No."
+        },
+        {
+            "file": "ep03_lotus_khall_06_kessler",
+            "speaker": "Kessler",
+            "text": "I said no. We've come too far for you to give yourself back to them."
+        },
+        {
+            "file": "ep03_lotus_reunion_00_kessler",
+            "speaker": "Kessler",
+            "text": "Come home. Now."
+        },
+        {
+            "file": "ep03_lotus_reunion_01_mira",
+            "speaker": "Mira",
+            "text": "You came back for us."
+        },
+        {
+            "file": "ep03_lotus_reunion_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Yes."
+        },
+        {
+            "file": "ep03_lotus_reunion_03_mira",
+            "speaker": "Mira",
+            "text": "If they told you we don't matter, they lied."
+        },
+        {
+            "file": "ep03_lotus_reunion_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I know."
+        },
+        {
+            "file": "ep03_sanctuary_doctor_00_resistancedoctor",
+            "speaker": "Resistance Doctor",
+            "text": "The switch in you is dead as a trigger, it already fired. But it's still wired to their network; they can try to throw it again from anywhere."
+        },
+        {
+            "file": "ep03_sanctuary_doctor_01_resistancedoctor",
+            "speaker": "Resistance Doctor",
+            "text": "I can't cut it out, I don't have the tools. But I can jam its carrier signal. Stay inside the field and they can't reach it. Step outside, and you're exposed."
+        },
+        {
+            "file": "ep03_sanctuary_doctor_02_resistancedoctor",
+            "speaker": "Resistance Doctor",
+            "text": "There's a small school here. A garden. People who won't ask where you came from. The children can stay."
+        },
+        {
+            "file": "ep03_sanctuary_assault_barks_00_rustfangraider",
+            "speaker": "Rustfang Raider",
+            "text": "Dominion contract says this sanctuary burns! Move in!"
+        },
+        {
+            "file": "ep03_sanctuary_assault_barks_01_rustfangraider",
+            "speaker": "Rustfang Raider",
+            "text": "Hold the platform! The bounty's worth the blood!"
+        },
+        {
+            "file": "ep03_sanctuary_quiet_00_mira",
+            "speaker": "Mira",
+            "text": "What will you do now?"
+        },
+        {
+            "file": "ep03_sanctuary_quiet_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I don't know."
+        },
+        {
+            "file": "ep03_sanctuary_quiet_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "That used to sound like failure."
+        },
+        {
+            "file": "ep03_sanctuary_quiet_03_mira",
+            "speaker": "Mira",
+            "text": "Doesn't it now?"
+        },
+        {
+            "file": "ep03_sanctuary_quiet_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "No. Not anymore."
+        },
+        {
+            "file": "ep03_sanctuary_file_00_mira",
+            "speaker": "Mira",
+            "text": "I found it in the station's secondary vault. I think it's about you."
+        },
+        {
+            "file": "ep03_sanctuary_file_01_mira",
+            "speaker": "Mira",
+            "text": "I can try to decode it. I learned enough about neural security before I ran. If you want me to."
+        },
+        {
+            "file": "ep03_sanctuary_file_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Try."
+        },
+        {
+            "file": "ep03_sanctuary_observatory_00_iris",
+            "speaker": "Iris",
+            "text": "You're thinking about the file."
+        },
+        {
+            "file": "ep03_sanctuary_observatory_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I am."
+        },
+        {
+            "file": "ep03_sanctuary_observatory_02_iris",
+            "speaker": "Iris",
+            "text": "If they wiped you to make you useful, is who you were before still in there to find? Some part they couldn't burn out?"
+        },
+        {
+            "file": "ep03_sanctuary_observatory_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I don't know."
+        },
+        {
+            "file": "ep03_space_ep03_post_00_kessler",
+            "speaker": "Kessler",
+            "text": "Doctor's jammer is holding. As long as we stay in the field, they can't reach the switch. We're safe, for now."
+        },
+        {
+            "file": "ep03_space_ep03_post_01_kessler",
+            "speaker": "Kessler",
+            "text": "Mira's still working that encrypted file. Kethel-7. If anything's left of who you were, it's in there."
+        },
+        {
+            "file": "ep03_space_ep03_post_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then we find out who I was, and why they couldn't kill me."
+        }
+    ]
+}

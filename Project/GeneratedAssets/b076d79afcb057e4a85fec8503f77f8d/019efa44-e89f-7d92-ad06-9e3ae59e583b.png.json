@@ -1,0 +1,28 @@
+{
+    "asset": "b076d79afcb057e4a85fec8503f77f8d",
+    "fileName": "019efa44-e89f-7d92-ad06-9e3ae59e583b.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A lanky tireless ash-caked adult male ashkin gravedigger with grey-brown skin entirely powdered in grave-ash, blunt worn keratin-plates, tired patient ember eyes and calloused spade-hands. Wears a grime-grey work-shroud and knee-wraps, carrying a long grave-spade and a lantern. Ash-grey, colorless palette with dim lantern-amber. Quiet, solemn. Grounded alien sci-fi frontier. Color palette: Ash-grey over grey-brown skin; colorless work-shroud; dim lantern-amber. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

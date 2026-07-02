@@ -1,0 +1,8 @@
+VARIANT: Warren-folk #12 — "Dye-Worker"
+SPECIES: Warren-folk (market underclass)
+SEX / AGE / BUILD: Female / adult / sturdy, strong-armed.
+ROLE IN WORLD: Vat-dyer in the cloth-quarter; arms stained to the elbow.
+DISTINGUISHING FEATURES: Skin permanently blotched blue-and-violet from dye; a frill streaked with color; squinting dark eyes; broad calloused hands.
+CLOTHING / GEAR: A rubberized dye-apron, arm-wraps, a stirring paddle, hanging dyed skeins.
+COLOR / PALETTE: Mauve skin blotched indigo/violet; oilcloth apron; vivid hanging dyed cloth.
+>> IMAGE-PROMPT SUMMARY: A sturdy strong-armed adult female warren-folk dye-worker with skin permanently blotched blue-and-violet from the vats, a color-streaked throat-frill, squinting dark eyes and broad calloused dye-stained hands. Wears a rubberized dye-apron and arm-wraps among vivid hanging dyed skeins, holding a stirring paddle. Dye-blotched mauve palette. Laboring, vivid. Grounded alien sci-fi.

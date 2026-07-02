@@ -1,0 +1,474 @@
+{
+    "lines": [
+        {
+            "file": "ep05_market_recognition_00_ronin9",
+            "speaker": "Ronin-9",
+            "text": "I know that scar."
+        },
+        {
+            "file": "ep05_market_recognition_01_ronin9",
+            "speaker": "Ronin-9",
+            "text": "Behind your ear. The neural anchor. I was supposed to get one like it, before they decided I was defective."
+        },
+        {
+            "file": "ep05_market_recognition_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Who are you?"
+        },
+        {
+            "file": "ep05_market_recognition_03_ronin9",
+            "speaker": "Ronin-9",
+            "text": "Ronin-9. Fifth-ranked in our cohort. And you don't remember me. That's the whole design, isn't it."
+        },
+        {
+            "file": "ep05_market_recognition_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "The Rust Collective isn't safe for this conversation."
+        },
+        {
+            "file": "ep05_market_recognition_05_ronin9",
+            "speaker": "Ronin-9",
+            "text": "No place is. But the cargo warrens have corridors Khall's reach hasn't mapped yet. Come on."
+        },
+        {
+            "file": "ep05_warrens_enforcer_barks_00_enforcer1",
+            "speaker": "Enforcer 1",
+            "text": "Hold it! Station restricted zone!"
+        },
+        {
+            "file": "ep05_warrens_enforcer_barks_01_enforcer2",
+            "speaker": "Enforcer 2",
+            "text": "You refugees don't run this deep, understand?"
+        },
+        {
+            "file": "ep05_warrens_enforcer_barks_02_enforcer3",
+            "speaker": "Enforcer 3",
+            "text": "What the!"
+        },
+        {
+            "file": "ep05_warrens_after_00_ronin9",
+            "speaker": "Ronin-9",
+            "text": "You still move like him."
+        },
+        {
+            "file": "ep05_warrens_after_01_ronin9",
+            "speaker": "Ronin-9",
+            "text": "We trained together for seventeen years. Same cohort. Same handlers. Your real name, the conditioning locked it away from me. But I remember your face. I was watching the day they chose you for Kethel-7."
+        },
+        {
+            "file": "ep05_warrens_after_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Kethel-7."
+        },
+        {
+            "file": "ep05_warrens_after_03_ronin9",
+            "speaker": "Ronin-9",
+            "text": "Come on. We need to move. And I need to tell you what they erased."
+        },
+        {
+            "file": "ep05_kethel_explained_00_ronin9",
+            "speaker": "Ronin-9",
+            "text": "Kethel-7 is a planet. A welfare orphanage, off the beaten routes. It's where they sent you to do the unthinkable."
+        },
+        {
+            "file": "ep05_kethel_explained_01_ronin9",
+            "speaker": "Ronin-9",
+            "text": "Overseer Khall's order named a Hollow Kings cell hiding inside, sheltering among the residents. Infiltrate. Confirm. Eliminate. Clean work."
+        },
+        {
+            "file": "ep05_kethel_explained_02_ronin9",
+            "speaker": "Ronin-9",
+            "text": "There was no cell. Just children. And you were the finest weapon the program ever forged."
+        },
+        {
+            "file": "ep05_kethel_explained_03_ronin9",
+            "speaker": "Ronin-9",
+            "text": "You carried it out. Every one of them. That's the part you don't get to forget for free."
+        },
+        {
+            "file": "ep05_kethel_explained_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I don't remember."
+        },
+        {
+            "file": "ep05_kethel_explained_05_ronin9",
+            "speaker": "Ronin-9",
+            "text": "Then let me. Because what you did after is why you're standing here, and why I'm the only one left who'll say it to your face."
+        },
+        {
+            "file": "ep05_lock_alert_00_stationcomms",
+            "speaker": "Station Comms",
+            "text": "Alert. Hunter-team deployed to Pressure-Lock District."
+        },
+        {
+            "file": "ep05_lock_hunter_barks_00_hunter1",
+            "speaker": "Hunter 1",
+            "text": "Target's venting atmo. Sealing secondary locks!"
+        },
+        {
+            "file": "ep05_lock_hunter_barks_01_ronin9",
+            "speaker": "Ronin-9",
+            "text": "Access code Delta-Nine. Killing reinforcement lock on your left. You've got thirty seconds before the magnetic containment resets."
+        },
+        {
+            "file": "ep05_lock_hunter_barks_02_hunter2",
+            "speaker": "Hunter 2",
+            "text": "Command, I've lost..."
+        },
+        {
+            "file": "ep05_purge_truth_00_ronin7",
+            "speaker": "Ronin-7",
+            "text": "What Khall did to me."
+        },
+        {
+            "file": "ep05_purge_truth_01_ronin9",
+            "speaker": "Ronin-9",
+            "text": "You walked out of that facility and something came apart. You'd killed before, but never children, never the helpless. The conditioning held right up until it didn't."
+        },
+        {
+            "file": "ep05_purge_truth_02_ronin9",
+            "speaker": "Ronin-9",
+            "text": "You broke. First operative in the program's history to break all the way through, to turn on them instead of dying on command. And then you ran."
+        },
+        {
+            "file": "ep05_purge_truth_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "And Khall?"
+        },
+        {
+            "file": "ep05_purge_truth_04_ronin9",
+            "speaker": "Ronin-9",
+            "text": "Every operative carries a killswitch, a kill order wired into the skull, fired from the Beacon. Khall sent yours. It was meant to stop your heart."
+        },
+        {
+            "file": "ep05_purge_truth_05_ronin9",
+            "speaker": "Ronin-9",
+            "text": "It didn't. It misfired, burned through your memory instead of your life. They dumped you in the dark for dead. You survived your own execution. That's why Kethel-7 is gone from you, and why you're still breathing."
+        },
+        {
+            "file": "ep05_defective_generation_00_ronin9",
+            "speaker": "Ronin-9",
+            "text": "There were seven of us. Seven operatives in our cohort who showed anomalies."
+        },
+        {
+            "file": "ep05_defective_generation_01_ronin9",
+            "speaker": "Ronin-9",
+            "text": "Ranked fifth, I was. Stripped of augmentations one piece at a time for asking the wrong questions about the names we were forbidden to remember."
+        },
+        {
+            "file": "ep05_defective_generation_02_ronin9",
+            "speaker": "Ronin-9",
+            "text": "Left on the Collective to die slowly. Knowing too much to be killed cleanly."
+        },
+        {
+            "file": "ep05_defective_generation_03_ronin9",
+            "speaker": "Ronin-9",
+            "text": "Khall called us the defective generation. Seven who cracked in one cycle, asking questions, hesitating, remembering names we weren't allowed to keep. But cracking just gets you stripped and dumped here, like me. You did what no operative ever had, you broke clean through and turned on them. The rest of us they could afford to throw away. You, they had to put down."
+        },
+        {
+            "file": "ep05_defective_generation_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Where are the others?"
+        },
+        {
+            "file": "ep05_defective_generation_05_ronin9",
+            "speaker": "Ronin-9",
+            "text": "Some in the vaults, sleeping. Some here on the Collective, hiding. Some..."
+        },
+        {
+            "file": "ep05_defective_generation_06_ronin9",
+            "speaker": "Ronin-9",
+            "text": "being hunted by Dominion silencers."
+        },
+        {
+            "file": "ep05_deck_silencer_barks_00_silencer1",
+            "speaker": "Silencer 1",
+            "text": "Ronin-9 identified. Authorizing termination."
+        },
+        {
+            "file": "ep05_deck_silencer_barks_01_silencer2",
+            "speaker": "Silencer 2",
+            "text": "Ronin-7. Stand down. You are not the target."
+        },
+        {
+            "file": "ep05_deck_silencer_barks_02_ronin9",
+            "speaker": "Ronin-9",
+            "text": "Your two! Collapse the walkway, magnetic lock is failing!"
+        },
+        {
+            "file": "ep05_deck_wounded_00_ronin9",
+            "speaker": "Ronin-9",
+            "text": "There are others still hiding in the Collective. And Khall is moving personally."
+        },
+        {
+            "file": "ep05_deck_wounded_01_ronin9",
+            "speaker": "Ronin-9",
+            "text": "He wants you brought in alive, he wants to study why the programming failed."
+        },
+        {
+            "file": "ep05_deck_wounded_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "We need to reach Kessler."
+        },
+        {
+            "file": "ep05_deck_wounded_03_ronin9",
+            "speaker": "Ronin-9",
+            "text": "Yes. We do."
+        },
+        {
+            "file": "ep05_medbay_kessler_00_kessler",
+            "speaker": "Kessler",
+            "text": "Either of you want to tell me what just happened out there?"
+        },
+        {
+            "file": "ep05_medbay_kessler_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I have a past I don't remember. She's part of it."
+        },
+        {
+            "file": "ep05_medbay_kessler_02_kessler",
+            "speaker": "Kessler",
+            "text": "I thought you were a casualty of war. I didn't know you were a weapon that had learned to break."
+        },
+        {
+            "file": "ep05_medbay_kessler_03_ronin9",
+            "speaker": "Ronin-9",
+            "text": "He is not broken. The programming is. He is proof it isn't absolute, that something in a person can survive seventeen years of conditioning and still choose."
+        },
+        {
+            "file": "ep05_medbay_kessler_04_ronin9",
+            "speaker": "Ronin-9",
+            "text": "That is what Khall cannot accept."
+        },
+        {
+            "file": "ep05_medbay_kessler_05_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Or is whatever broke in me just another layer of what they built?"
+        },
+        {
+            "file": "ep05_rotunda_alert_00_khall",
+            "speaker": "Khall",
+            "text": "Ronin-7. Stand down. A defective operative has fed you fabricated memories."
+        },
+        {
+            "file": "ep05_rotunda_strike_barks_00_dominionofficer",
+            "speaker": "Dominion Officer",
+            "text": "All units converge on the reactor core!"
+        },
+        {
+            "file": "ep05_rotunda_strike_barks_01_kessler",
+            "speaker": "Kessler",
+            "text": "Suppression systems are down! You've got maybe forty seconds before they cycle back online!"
+        },
+        {
+            "file": "ep05_rotunda_strike_barks_02_khall",
+            "speaker": "Khall",
+            "text": "Surrender, and I will restore what the misfire cost you. Memories. Identity. A place in the Program that was always yours."
+        },
+        {
+            "file": "ep05_rotunda_strike_barks_03_ronin9",
+            "speaker": "Ronin-9",
+            "text": "He is lying. You were never broken. You were just finally awake."
+        },
+        {
+            "file": "ep05_rotunda_choice_00_ronin9",
+            "speaker": "Ronin-9",
+            "text": "You think they gave you the capacity to choose. They did not."
+        },
+        {
+            "file": "ep05_rotunda_choice_01_ronin9",
+            "speaker": "Ronin-9",
+            "text": "Choice is not something the Dominion installs. It surfaced on Kethel-7 when the killing was done and you finally saw what your hands had done."
+        },
+        {
+            "file": "ep05_rotunda_choice_02_ronin9",
+            "speaker": "Ronin-9",
+            "text": "It broke you, and breaking was the most human thing you ever did. Khall thinks he can condition that out. But the part of you that cracked, that is the part the killswitch could not reach."
+        },
+        {
+            "file": "ep05_bridge_boarders_barks_00_dominionboarder1",
+            "speaker": "Dominion Boarder 1",
+            "text": "Bridge breached! Suppress the reactor access!"
+        },
+        {
+            "file": "ep05_bridge_boarders_barks_01_kessler",
+            "speaker": "Kessler",
+            "text": "Divert auxiliary power to starboard seals! Buy him time!"
+        },
+        {
+            "file": "ep05_bridge_boarders_barks_02_dominionboarder2",
+            "speaker": "Dominion Boarder 2",
+            "text": "Contact lost. Reactor breach imminent. All units evacuate..."
+        },
+        {
+            "file": "ep05_bridge_boarders_barks_03_kessler",
+            "speaker": "Kessler",
+            "text": "Report!"
+        },
+        {
+            "file": "ep05_bridge_boarders_barks_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "The bridge is secure. Reactors stable."
+        },
+        {
+            "file": "ep05_bridge_others_00_ronin9",
+            "speaker": "Ronin-9",
+            "text": "The others heard. They are coming."
+        },
+        {
+            "file": "ep05_bridge_others_01_ronin9",
+            "speaker": "Ronin-9",
+            "text": "The defective generation is gathering."
+        },
+        {
+            "file": "ep05_bridge_others_02_kessler",
+            "speaker": "Kessler",
+            "text": "Khall will know. He'll move faster."
+        },
+        {
+            "file": "ep05_bridge_others_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then we don't wait. We move first."
+        },
+        {
+            "file": "ep05_archive_reading_00_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Subject Ronin-7, elimination order executed in full. Post-action: catastrophic conditioning failure. Subject defected."
+        },
+        {
+            "file": "ep05_archive_reading_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "First recorded conscience-break in program history. Recommended: execute killswitch, archive behavioral data, reassess conditioning parameters."
+        },
+        {
+            "file": "ep05_archive_reading_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Kethel-7 residents, civilian roster. Seventy-three children. Ages four through sixteen."
+        },
+        {
+            "file": "ep05_hull_elite_barks_00_eliteoperative1",
+            "speaker": "Elite Operative 1",
+            "text": "Ronin-7 acquired. Preparing extraction."
+        },
+        {
+            "file": "ep05_hull_elite_barks_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Ronin-9. Can you collapse the structural supports on my signal?"
+        },
+        {
+            "file": "ep05_hull_elite_barks_02_ronin9",
+            "speaker": "Ronin-9",
+            "text": "Already prepped. You've got three seconds from mark."
+        },
+        {
+            "file": "ep05_hull_elite_barks_03_eliteoperative2",
+            "speaker": "Elite Operative 2",
+            "text": "Mission failure. Operatives lost..."
+        },
+        {
+            "file": "ep05_hull_reinforcements_00_ronin9",
+            "speaker": "Ronin-9",
+            "text": "The others are all aboard. Both vessels secure."
+        },
+        {
+            "file": "ep05_hull_reinforcements_01_kessler",
+            "speaker": "Kessler",
+            "text": "He's coming for you personally. Khall. I've got a trace on his flagship entering the approach corridor."
+        },
+        {
+            "file": "ep05_hull_reinforcements_02_ronin9",
+            "speaker": "Ronin-9",
+            "text": "Then we need to be ready."
+        },
+        {
+            "file": "ep05_khall_duel_open_00_khall",
+            "speaker": "Khall",
+            "text": "Seventeen years. Every generation before yours, the conditioning held without exception. Then your cohort. Seven of you, cracked in a single cycle."
+        },
+        {
+            "file": "ep05_khall_duel_open_01_khall",
+            "speaker": "Khall",
+            "text": "I gave you Kethel-7 because you were my finest. No hesitation, nothing flagged in seventeen years. You walked in and did exactly as ordered."
+        },
+        {
+            "file": "ep05_khall_duel_barks_00_khall",
+            "speaker": "Khall",
+            "text": "And then you broke. First one ever to walk out and turn on us. So I fired your killswitch. I believed it would end you cleanly. I was wrong."
+        },
+        {
+            "file": "ep05_khall_duel_after_00_khall",
+            "speaker": "Khall",
+            "text": "I can restore what was taken. Complete memories. A full self. You will simply owe the Dominion one more debt."
+        },
+        {
+            "file": "ep05_khall_duel_after_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Or I stay as I am."
+        },
+        {
+            "file": "ep05_khall_duel_after_02_khall",
+            "speaker": "Khall",
+            "text": "That is what they all choose. It is why I always have to start again."
+        },
+        {
+            "file": "ep05_spare_choice_00_ronin9",
+            "speaker": "Ronin-9",
+            "text": "Don't."
+        },
+        {
+            "file": "ep05_spare_choice_01_ronin9",
+            "speaker": "Ronin-9",
+            "text": "If you kill him now you become what they built you to be. If you let him go, you become what you chose to be."
+        },
+        {
+            "file": "ep05_escape_threat_00_khall",
+            "speaker": "Khall",
+            "text": "You have bought yourself a grave, Ronin-7. The Dominion does not leave its broken tools to rust in peace."
+        },
+        {
+            "file": "ep05_escape_threat_01_ronin9",
+            "speaker": "Ronin-9",
+            "text": "He was telling the truth, you know. About that last part."
+        },
+        {
+            "file": "ep05_space_ep05_approach_00_kessler",
+            "speaker": "Kessler",
+            "text": "The Rust Collective orbits a dying neutron star. Salvagers, refugees, Dominion discards looking for oblivion. It's where broken things go to disappear."
+        },
+        {
+            "file": "ep05_space_ep05_approach_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "You think the others are there?"
+        },
+        {
+            "file": "ep05_space_ep05_approach_02_kessler",
+            "speaker": "Kessler",
+            "text": "The signal Katana found came from somewhere in those corridors. We dock, we trade salvage for information, we find them before Khall does."
+        },
+        {
+            "file": "ep05_space_ep05_fighters_00_dominionfighter1",
+            "speaker": "Dominion Fighter 1",
+            "text": "Picket line to all wings: the salvager does not reach the Collective."
+        },
+        {
+            "file": "ep05_space_ep05_fighters_01_dominionfighter2",
+            "speaker": "Dominion Fighter 2",
+            "text": "All units weapons hot. Engage on intercept."
+        },
+        {
+            "file": "ep05_space_ep05_post_00_kessler",
+            "speaker": "Kessler",
+            "text": "Khall escaped. But he's just the blade. Someone above him sanctioned Kethel-7. Someone still walking free in Dominion Command."
+        },
+        {
+            "file": "ep05_space_ep05_post_01_ronin9",
+            "speaker": "Ronin-9",
+            "text": "And the others who answered, they're aboard. The rest of the defective generation, scattered across the fringe, are starting to hear what happened here."
+        },
+        {
+            "file": "ep05_space_ep05_post_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then we move toward them. We don't wait for Khall to find us."
+        }
+    ]
+}

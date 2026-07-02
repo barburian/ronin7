@@ -1,0 +1,339 @@
+{
+    "lines": [
+        {
+            "file": "ep30_mera_intro_00_meravoss",
+            "speaker": "Mera Voss",
+            "text": "Subject 7. Still breathing."
+        },
+        {
+            "file": "ep30_mera_intro_01_cipher",
+            "speaker": "Cipher",
+            "text": "Mera."
+        },
+        {
+            "file": "ep30_mera_intro_02_meravoss",
+            "speaker": "Mera Voss",
+            "text": "You should be dead three times over. Dominion burns through purged operatives like fuel. But here you stand."
+        },
+        {
+            "file": "ep30_mera_intro_03_meravoss",
+            "speaker": "Mera Voss",
+            "text": "That makes you either the most durable artifact they ever built, or the one they all need dead the most. Both possibilities are lucrative."
+        },
+        {
+            "file": "ep30_mera_intro_04_kessler",
+            "speaker": "Kessler",
+            "text": "Mera. Took your time finding your way back to us."
+        },
+        {
+            "file": "ep30_mera_intro_05_meravoss",
+            "speaker": "Mera Voss",
+            "text": "Kessler. Still moving cargo for the lost?"
+        },
+        {
+            "file": "ep30_mera_intro_06_meravoss",
+            "speaker": "Mera Voss",
+            "text": "I have the access codes for Tier 3 of the Iron Sepulcher. Your sealed file is logged there as SUBJECT 7. Has been since your purge."
+        },
+        {
+            "file": "ep30_mera_intro_07_meravoss",
+            "speaker": "Mera Voss",
+            "text": "But the price is not currency. I enter with you. I read the file at the same moment you do."
+        },
+        {
+            "file": "ep30_mera_intro_08_kessler",
+            "speaker": "Kessler",
+            "text": "That's not protocol for a retrieval. That's leverage."
+        },
+        {
+            "file": "ep30_mera_intro_09_meravoss",
+            "speaker": "Mera Voss",
+            "text": "Old habits. The Lotus fenced pieces of his mind once, before I knew whose they were. I owe him my own eyes on the whole of it."
+        },
+        {
+            "file": "ep30_mera_intro_10_cipher",
+            "speaker": "Cipher",
+            "text": "I accept."
+        },
+        {
+            "file": "ep30_corvette_dogfight_00_stationcontrol",
+            "speaker": "Station Control",
+            "text": "Unauthorized vessels! Power down immediately or we burn you!"
+        },
+        {
+            "file": "ep30_corvette_dogfight_01_kessler",
+            "speaker": "Kessler",
+            "text": "Engines to full! Now!"
+        },
+        {
+            "file": "ep30_corvette_dogfight_02_cipher",
+            "speaker": "Cipher",
+            "text": "Two minutes of fire to clear them."
+        },
+        {
+            "file": "ep30_corvette_dogfight_03_kessler",
+            "speaker": "Kessler",
+            "text": "Third is breaking pursuit!"
+        },
+        {
+            "file": "ep30_corvette_dogfight_04_kessler",
+            "speaker": "Kessler",
+            "text": "They know our heading now. The Sepulcher's location is already logged."
+        },
+        {
+            "file": "ep30_corvette_dogfight_05_cipher",
+            "speaker": "Cipher",
+            "text": "Then we move fast."
+        },
+        {
+            "file": "ep30_sepulcher_briefing_00_meravoss",
+            "speaker": "Mera Voss",
+            "text": "The Sepulcher is a tomb for classified files. Operative memories. Purge records. Things the Dominion does not want circulating."
+        },
+        {
+            "file": "ep30_sepulcher_briefing_01_meravoss",
+            "speaker": "Mera Voss",
+            "text": "No conventional docking. We breach through the thermal exhaust maintenance lock. Ninety-second spoofed signature window before every alarm in the station goes active."
+        },
+        {
+            "file": "ep30_sepulcher_briefing_02_kessler",
+            "speaker": "Kessler",
+            "text": "And if we miss the window?"
+        },
+        {
+            "file": "ep30_sepulcher_briefing_03_meravoss",
+            "speaker": "Mera Voss",
+            "text": "Then we burn to cinder and the file stays buried."
+        },
+        {
+            "file": "ep30_sepulcher_briefing_04_meravoss",
+            "speaker": "Mera Voss",
+            "text": "Your file is locked in Tier 3. The deepest vault level. The only way to stop your neural purge is to reach the edit console and delete the killswitch protocol from the archive record directly. If the Dominion's remote trigger has no reference to activate, it severs the link to your chip."
+        },
+        {
+            "file": "ep30_sepulcher_briefing_05_cipher",
+            "speaker": "Cipher",
+            "text": "And if the deletion does not work?"
+        },
+        {
+            "file": "ep30_sepulcher_briefing_06_meravoss",
+            "speaker": "Mera Voss",
+            "text": "Then you are still dying. Just slower now. Without anyone on the other end of the trigger ordering it."
+        },
+        {
+            "file": "ep30_sepulcher_briefing_07_cipher",
+            "speaker": "Cipher",
+            "text": "That is enough."
+        },
+        {
+            "file": "ep30_sepulcher_briefing_08_kessler",
+            "speaker": "Kessler",
+            "text": "Signature spoof is active. Window is now."
+        },
+        {
+            "file": "ep30_sepulcher_briefing_09_kessler",
+            "speaker": "Kessler",
+            "text": "Weapons lock! Evasive!"
+        },
+        {
+            "file": "ep30_sepulcher_briefing_10_cipher",
+            "speaker": "Cipher",
+            "text": "Four seconds to the lock."
+        },
+        {
+            "file": "ep30_khall_welcome_00_khall",
+            "speaker": "Khall",
+            "text": "Cipher. Welcome to the Sepulcher."
+        },
+        {
+            "file": "ep30_khall_welcome_01_khall",
+            "speaker": "Khall",
+            "text": "I have been expecting this approach for six cycles. The vault is sealed ahead of you."
+        },
+        {
+            "file": "ep30_khall_welcome_02_khall",
+            "speaker": "Khall",
+            "text": "Read what is there. Then decide if you still want to keep surviving."
+        },
+        {
+            "file": "ep30_khall_welcome_03_meravoss",
+            "speaker": "Mera Voss",
+            "text": "Move fast."
+        },
+        {
+            "file": "ep30_khall_hologram_00_meravoss",
+            "speaker": "Mera Voss",
+            "text": "You're three corridors from Tier 3. Left at the main junction. The cryogenic chamber is beyond the secondary bulkhead."
+        },
+        {
+            "file": "ep30_khall_hologram_01_khallhologram",
+            "speaker": "Khall (Hologram)",
+            "text": "You were the only operative I believed could understand what the Dominion actually was."
+        },
+        {
+            "file": "ep30_khall_hologram_02_khallhologram",
+            "speaker": "Khall (Hologram)",
+            "text": "The orphanage test was designed to break your conditioning. To see if the Program's mercy could fracture under pressure."
+        },
+        {
+            "file": "ep30_khall_hologram_03_khallhologram",
+            "speaker": "Khall (Hologram)",
+            "text": "When it did not break, when you chose to refuse, I knew what you were."
+        },
+        {
+            "file": "ep30_khall_hologram_04_khallhologram",
+            "speaker": "Khall (Hologram)",
+            "text": "I armed the killswitch as ordered. But I made certain you survived anyway. Because I was not ready to accept what your refusal meant."
+        },
+        {
+            "file": "ep30_khall_hologram_05_khallhologram",
+            "speaker": "Khall (Hologram)",
+            "text": "I do not expect forgiveness. I expect you to understand that I was trapped in the same cage you are escaping."
+        },
+        {
+            "file": "ep30_warden_clear_00_meravoss",
+            "speaker": "Mera Voss",
+            "text": "You're clear. The vault is ahead."
+        },
+        {
+            "file": "ep30_file_speaks_00_cipherrecordingyounger",
+            "speaker": "Cipher (Recording - Younger)",
+            "text": "My name is Soren. I chose to stop."
+        },
+        {
+            "file": "ep30_file_speaks_01_cipher",
+            "speaker": "Cipher",
+            "text": "My name is Soren."
+        },
+        {
+            "file": "ep30_file_speaks_02_katanainteriorvo",
+            "speaker": "Katana (Interior VO)",
+            "text": "Soren. Yes. I have kept it for you since before the wipe. Take it back. Take everything back."
+        },
+        {
+            "file": "ep30_docking_escape_00_kessler",
+            "speaker": "Kessler",
+            "text": "Now! Go!"
+        },
+        {
+            "file": "ep30_hollow_kings_offer_00_brokerhollowkings",
+            "speaker": "Broker (Hollow Kings)",
+            "text": "Operative Cipher. A name has cleared from the Dominion's purged list. Remarkable."
+        },
+        {
+            "file": "ep30_hollow_kings_offer_01_brokerhollowkings",
+            "speaker": "Broker (Hollow Kings)",
+            "text": "We offer one transaction. Scrub all Dominion server records of the Sepulcher vault heist. Delete every trace of what occurred in Tier 3."
+        },
+        {
+            "file": "ep30_hollow_kings_offer_02_brokerhollowkings",
+            "speaker": "Broker (Hollow Kings)",
+            "text": "In exchange, you take one contract. Small retrieval. Classified location. One target. Alive."
+        },
+        {
+            "file": "ep30_hollow_kings_offer_03_soren",
+            "speaker": "Soren",
+            "text": "I did not come this far to trade one leash for another."
+        },
+        {
+            "file": "ep30_hollow_kings_offer_04_soren",
+            "speaker": "Soren",
+            "text": "The Carnival's ledgers said the stolen shards of my memory moved through Lotus hands before Morrigan bought them back. Your hands, Mera?"
+        },
+        {
+            "file": "ep30_hollow_kings_offer_05_meravoss",
+            "speaker": "Mera Voss",
+            "text": "Then we are even on the subject of things neither of us will explain."
+        },
+        {
+            "file": "ep30_hollow_kings_offer_06_soren",
+            "speaker": "Soren",
+            "text": "That is acceptable."
+        },
+        {
+            "file": "ep30_debris_evade_00_kessler",
+            "speaker": "Kessler",
+            "text": "Contact closing! Weapons hot!"
+        },
+        {
+            "file": "ep30_debris_evade_01_soren",
+            "speaker": "Soren",
+            "text": "We are clear."
+        },
+        {
+            "file": "ep30_name_remains_00_kessler",
+            "speaker": "Kessler",
+            "text": "The killswitch is confirmed gone. The remote trigger is severed."
+        },
+        {
+            "file": "ep30_name_remains_01_kessler",
+            "speaker": "Kessler",
+            "text": "The neural purge has stopped."
+        },
+        {
+            "file": "ep30_name_remains_02_kessler",
+            "speaker": "Kessler",
+            "text": "But the diagnostic is showing something else."
+        },
+        {
+            "file": "ep30_name_remains_03_kessler",
+            "speaker": "Kessler",
+            "text": "Deeper in the architecture. Below the purge systems. A second layer. Older. It has different construction patterns."
+        },
+        {
+            "file": "ep30_name_remains_04_kessler",
+            "speaker": "Kessler",
+            "text": "A time-lock. Dormant. Structured completely differently from the killswitch. It did not activate when the remote trigger died."
+        },
+        {
+            "file": "ep30_name_remains_05_kessler",
+            "speaker": "Kessler",
+            "text": "It is still waiting. Timing toward something none of us can identify."
+        },
+        {
+            "file": "ep30_name_remains_06_kessler",
+            "speaker": "Kessler",
+            "text": "Tessa Rin would need to see this. Even then I do not know how fast she could answer."
+        },
+        {
+            "file": "ep30_name_remains_07_meravoss",
+            "speaker": "Mera Voss",
+            "text": "That architecture is not Khall's. It is older than him."
+        },
+        {
+            "file": "ep30_name_remains_08_meravoss",
+            "speaker": "Mera Voss",
+            "text": "That is foundational Dominion work. Oldest generation."
+        },
+        {
+            "file": "ep30_name_remains_09_soren",
+            "speaker": "Soren",
+            "text": "The killswitch is gone. The remote trigger is severed. The neural purge has stopped."
+        },
+        {
+            "file": "ep30_name_remains_10_soren",
+            "speaker": "Soren",
+            "text": "But there is another layer. Older. Deeper. Still armed."
+        },
+        {
+            "file": "ep30_name_remains_11_soren",
+            "speaker": "Soren",
+            "text": "Whatever the time-lock holds, I carry it forward now knowing who I am."
+        },
+        {
+            "file": "ep30_name_remains_12_soren",
+            "speaker": "Soren",
+            "text": "I am Soren. Not a designation handed down. Not a codename. Mine, from before all the conditioning and the purge and the years of not knowing."
+        },
+        {
+            "file": "ep30_space_ep30_post_00_cipher",
+            "speaker": "Cipher",
+            "text": "We breached the Iron Sepulcher, the Dominion's black-archive, anchored in a dead nebula at the galaxy's cold rim. Mera Voss came back for this, trading her access codes for her own eyes on my file. Inside Tier 3, the vault opened my sealed record: SUBJECT 7. And underneath the designation was a name I was never supposed to hear again. I deleted the killswitch protocol from the archive. The remote trigger is severed. The neural purge has gone quiet. I have my name back. I am Soren."
+        },
+        {
+            "file": "ep30_space_ep30_post_01_kessler",
+            "speaker": "Kessler",
+            "text": "But the diagnostic found something underneath all of it. A second layer in your chip, older than the killswitch, built differently, dormant. A time-lock. It did not die when the trigger did. It is still counting toward something none of us can read, and Mera says that architecture is older than Khall, foundational Dominion work, oldest generation. So we are not finished. Whatever they buried deepest in you is still armed, and we need to find what it is waiting for before it finds us."
+        }
+    ]
+}

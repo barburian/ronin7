@@ -1,0 +1,28 @@
+{
+    "asset": "040417eeefd79fd4ebb22bdfc7ff422b",
+    "fileName": "019efa3f-c11c-7583-89d2-9baabe1d039b.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A human woman weaponized into a broken living archive and half-fused into an ancient fossilized arkship hull: ageless and bloodless-grey, gaunt past Sable, a slack dreaming face with half-open inward-rolled eyes and thick cold blue-white data-light crawling under temples, throat and limbs, hair lost at dense port-points. A heavy black lattice of corroded conditioning hardware and glowing conduits is grown through her spine and ribs and into the hull; she barely moves. Around her leaks a pale dream-haze of ghost-faces and faint amber archive-glyphs — the canyon \"air\" that shows the dead. Ashen grey + dim blue-white glow + corroded black + amber haze palette. A tragic, unsalvageable human-machine node lost to her own broadcast. Grounded sci-fi with a surreal dream-leak. Color palette: Ashen, bloodless grey skin; cold blue-white data-light veins guttering toward sickly dim;. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

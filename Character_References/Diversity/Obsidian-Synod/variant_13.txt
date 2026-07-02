@@ -1,0 +1,7 @@
+VARIANT: Obsidian Synod #13 — "Veil-Walker (Half-Manifest)"
+SPECIES: Obsidian Synod (shadow-author voidform).
+RANK / FORM: A scout-office barely present in the material world; faint, flickering voidform.
+DISTINGUISHING FEATURES: An obsidian body only half-manifested, flickering in and out of solidity; edges constantly fraying to smoke and re-forming; a dim intermittent white-blue seam; one fully-formed hand, the rest ghosting.
+REGALIA / STATE: A barely-there veil of black glass phasing between solid and smoke.
+COLOR / PALETTE: Obsidian black flickering to translucent smoke; dim white-blue seam.
+>> IMAGE-PROMPT SUMMARY: A half-manifested Veil-Walker Synod voidform flickering in and out of solidity, its obsidian edges constantly fraying to smoke and re-forming, a dim intermittent white-blue seam for a face, one fully-formed hand and the rest ghosting. Wears a barely-there black-glass veil phasing between solid and smoke. Obsidian-black-flickering-to-translucent palette with a dim white-blue seam. Spectral, scouting. Cosmic dark sci-fi.

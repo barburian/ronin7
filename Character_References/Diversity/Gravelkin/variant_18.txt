@@ -1,0 +1,8 @@
+VARIANT: Gravelkin #18 — "Brawl-Pit Boss"
+SPECIES: Gravelkin (cave-dwelling stoneblood).
+SEX / AGE / BUILD: Female / middle-aged / broad, flashy, sharp.
+ROLE IN WORLD: Runs the hold fight-pit and takes the bets.
+DISTINGUISHING FEATURES: Granite hide polished and oiled to a sheen; nodules inlaid with cut gemstones (her wealth on display); shrewd glinting quartz eyes; gold tusk-caps.
+CLOTHING / GEAR: A gaudy plate-vest hung with winnings, a betting-tally board, a coin-coffer, a hold-blade.
+COLOR / PALETTE: Oiled granite-grey hide with gem inlays; flashy gold and crimson; lantern-glow.
+>> IMAGE-PROMPT SUMMARY: A broad flashy sharp middle-aged female gravelkin brawl-pit boss with granite lithic hide oiled to a sheen, mineral nodules inlaid with cut gemstones, shrewd glinting quartz eyes and gold tusk-caps. Wears a gaudy plate-vest hung with winnings, beside a betting-tally board and coin-coffer, a hold-blade at her hip. Oiled granite-grey with gem inlay, gold and crimson palette in lantern-glow. Shrewd, showy. Grounded alien sci-fi.

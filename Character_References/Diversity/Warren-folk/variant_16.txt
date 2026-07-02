@@ -1,0 +1,8 @@
+VARIANT: Warren-folk #16 — "Fortune-Reader"
+SPECIES: Warren-folk (market underclass)
+SEX / AGE / BUILD: Female / elder / slight, theatrical, beringed.
+ROLE IN WORLD: Veiled fortune-reader and rumor-trader in a curtained nook.
+DISTINGUISHING FEATURES: A frill draped in thin veils and chains; kohl-ringed dark eyes; many rings on padded fingers; mauve skin lined and powdered pale.
+CLOTHING / GEAR: Layered gauzy veils, a scrying-bowl, charm-strings, incense smoke.
+COLOR / PALETTE: Powder-pale mauve skin; smoky violet and gold veils; candle-amber glow.
+>> IMAGE-PROMPT SUMMARY: A slight theatrical elder female warren-folk fortune-reader with a veil-and-chain-draped throat-frill, kohl-ringed dark eyes, many rings on padded fingers and lined powder-pale mauve skin. Swathed in smoky violet-and-gold gauzy veils in a curtained incense-hazed nook with a scrying-bowl and charm-strings. Candle-amber glow. Mystical, sly. Grounded alien sci-fi.

@@ -1,0 +1,28 @@
+{
+    "asset": "6511d985d10116641b4b9ff8e8c2984d",
+    "fileName": "019efa4f-9cb0-7fe5-ac1d-e5dedb61979a.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A slight weary young female warren-folk mother with a fatigue-flushed throat-frill and large tired dark eyes, carrying a huge-eyed tiny-frilled warren-folk infant in a woven chest-sling. Wears a faded rose-and-grey wrap-dress, soap-cracked hands, a water-pail at her side. Grey-mauve skin. Tender, exhausted. Grounded alien sci-fi tenement life. Color palette: Grey-mauve skin; faded rose and grey cloth; the pale infant against her chest. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

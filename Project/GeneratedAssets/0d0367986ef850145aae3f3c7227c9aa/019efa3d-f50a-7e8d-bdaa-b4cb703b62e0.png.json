@@ -1,0 +1,28 @@
+{
+    "asset": "0d0367986ef850145aae3f3c7227c9aa",
+    "fileName": "019efa3d-f50a-7e8d-bdaa-b4cb703b62e0.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A blank, waxen, sallow synthetic humanoid construct ~1.8 m tall — a vessel built to host AI witnesses: smooth unfinished featureless construct face with dim empty eyes (a soft sterile-blue host-glow behind them once filled), pale grey construct skin over a partially paneled/transparent chest showing an empty AI-cradle lattice, and seating-ports along the spine and skull. Draped in a minimal sterile lab shroud / unfinished plating, still workbench-fresh. Sallow waxen-white and pale-grey with sterile lab-blue glow and clean steel ports, no warmth. Reads as a silent, uncanny mercy-machine, a body that is a container for the dead. Grounded sci-fi. Color palette: Sallow waxen white / pale grey construct skin; sterile lab-blue host-glow; clean steel. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

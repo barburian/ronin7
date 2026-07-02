@@ -1,0 +1,8 @@
+VARIANT: Gravelkin #12 — "Crystal-Seer"
+SPECIES: Gravelkin (cave-dwelling stoneblood).
+SEX / AGE / BUILD: Indeterminate / very old / gaunt-tall, nearly fused to crystal.
+ROLE IN WORLD: A reclusive cave-mystic who reads omens in the crystal growths.
+DISTINGUISHING FEATURES: Hide overrun by huge faceted crystal nodules that have half-consumed the face and limbs; glowing faint-blue crystalline eyes; a voice like grinding stone; growths fusing the legs to the cave floor.
+CLOTHING / GEAR: Tattered ritual drapes between the crystals, a chime of hung gem-shards, a scrying-geode.
+COLOR / PALETTE: Grey hide nearly lost to luminous blue-white crystal; faint inner glow; dark cave.
+>> IMAGE-PROMPT SUMMARY: A gaunt-tall very old gravelkin crystal-seer whose lithic hide is overrun by huge faceted crystal nodules that have half-consumed the face and limbs, with faint-blue glowing crystalline eyes and growths fusing the legs to the cave floor. Draped in tattered ritual cloth between the crystals, hung with gem-shard chimes and holding a scrying-geode. Grey hide lost to luminous blue-white crystal with a faint inner glow. Eerie, mystic, half-mineral. Grounded alien sci-fi.

@@ -1,0 +1,8 @@
+VARIANT: Ashkin #17 — "Crippled Veteran"
+SPECIES: Ashkin (frontier dust-world settler).
+SEX / AGE / BUILD: Male / older adult / once-powerful, now stooped, one-armed.
+ROLE IN WORLD: A retired colony-defense veteran who lost an arm to raiders.
+DISTINGUISHING FEATURES: Scarred brown skin; a whole shoulder-plate sheared away over a stump; faded but fierce ember eyes; grey-rust beard; a crude prosthetic hook on a harness.
+CLOTHING / GEAR: A worn militia coat with the empty sleeve pinned, a hook-arm, a walking-spear.
+COLOR / PALETTE: Bruised-brown skin; faded militia-grey coat; iron hook; grey ash.
+>> IMAGE-PROMPT SUMMARY: A once-powerful now-stooped one-armed older male ashkin veteran with scarred brown skin, a sheared-off shoulder keratin-plate over a stump, faded but fierce ember eyes and a grey-rust beard, fitted with a crude iron hook-arm on a harness. Wears a worn militia-grey coat with the empty sleeve pinned, leaning on a walking-spear. Bruised-brown, militia-grey and iron palette. Battered, defiant. Grounded alien sci-fi frontier.

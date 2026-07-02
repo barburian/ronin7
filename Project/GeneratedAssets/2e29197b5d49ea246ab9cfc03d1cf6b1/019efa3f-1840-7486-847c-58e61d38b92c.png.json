@@ -1,0 +1,28 @@
+{
+    "asset": "2e29197b5d49ea246ab9cfc03d1cf6b1",
+    "fileName": "019efa3f-1840-7486-847c-58e61d38b92c.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A massive, ancient alien warrior of the gravelkin: thick slate-to-basalt lithic hide crusted with crystalline mineral nodules across brow, jaw, knuckles and spine, small deep-set glassy pale eyes under a heavy bony brow, tusk-like lower canines, and old re-mineralized fracture-scars. Over two meters, boulder-built, with hands like cut stone. Wears scavenged heavy iron plate and dark leather over the stone hide with a worn captain's mantle, hauling an enormous old war-sword. Slate-grey/basalt hide with mineral glints, rust and dead-cave tones. Stands immovable, gruff and old. Grounded alien sci-fi. Color palette: Slate-grey/basalt hide with mineral glints; rust iron, dark leather, dead-cave tones. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

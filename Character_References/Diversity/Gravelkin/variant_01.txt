@@ -1,0 +1,8 @@
+VARIANT: Gravelkin #01 — "Ancient Hold-Elder"
+SPECIES: Gravelkin (cave-dwelling stoneblood). See _SPECIES_BIBLE.txt.
+SEX / AGE / BUILD: Male / ancient / colossal, crystal-crusted, slow.
+ROLE IN WORLD: The oldest of the deep-hold; living memory of the caves.
+DISTINGUISHING FEATURES: Basalt hide gone thick with age, erupting crystalline nodules along brow, spine and knuckles; tiny dim quartz-white eyes; great tusks worn down; mineral growth nearly sealing one ear.
+CLOTHING / GEAR: A vast hide-and-iron mantle, a stone staff, age-tokens hung on chains.
+COLOR / PALETTE: Basalt-grey hide; crystal-glint nodules; rust iron; deep-cave shadow.
+>> IMAGE-PROMPT SUMMARY: A colossal ancient male gravelkin hold-elder with thick basalt lithic hide erupting crystalline nodules along brow, spine and knuckles, tiny dim quartz-white eyes, worn-down tusks and mineral growth sealing one ear. Wears a vast hide-and-iron mantle with age-token chains, leaning on a stone staff. Basalt-grey hide with crystal-glint and rust palette in deep-cave shadow. Immense, immovable, ancient. Grounded alien sci-fi.

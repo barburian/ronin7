@@ -1,0 +1,8 @@
+VARIANT: Warren-folk #06 — "Warren Muscle"
+SPECIES: Warren-folk (market underclass)
+SEX / AGE / BUILD: Male / adult / unusually broad and ropey for the species.
+ROLE IN WORLD: Hired muscle and debt-collector for a market boss.
+DISTINGUISHING FEATURES: A heavy frill scarred and notched from fights; bruise-purple skin; a flat broken nose-slit; cold flat dark eyes; thick-padded knuckles.
+CLOTHING / GEAR: A studded leather chest-wrap, knuckle-guards, a shock-baton, a boss token tag.
+COLOR / PALETTE: Bruise-purple skin; black studded leather; dull metal guards.
+>> IMAGE-PROMPT SUMMARY: An unusually broad ropey adult male warren-folk enforcer with a scarred notched throat-frill, bruise-purple skin, a broken flat nose-slit, cold dark eyes and thick-padded knuckles. Wears a studded black-leather chest-wrap, knuckle-guards and carries a shock-baton. Bruise-purple and black leather palette. Menacing, low-shouldered. Grounded alien sci-fi.

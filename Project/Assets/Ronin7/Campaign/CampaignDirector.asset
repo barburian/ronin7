@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ce58eed87759b439d1e3774a935624, type: 3}
+  m_Name: CampaignDirector
+  m_EditorClassIdentifier: Ronin7.Flow::Ronin7.Flow.CampaignDirector
+  missions:
+  - id: EP01
+    entryScene: Galaxy1_EP01_Planet
+  - id: EP02
+    entryScene: Galaxy1_EP02_Docking
+  - id: EP03
+    entryScene: Galaxy1_EP03_Hauler
+  - id: EP04
+    entryScene: Galaxy1_EP04_JungleMoon
+  - id: EP05
+    entryScene: Galaxy1_EP05_MarketTier
+  - id: EP06
+    entryScene: Galaxy1_EP06_MedicalCompound
+  - id: EP07
+    entryScene: Galaxy1_EP07_MarketHub
+  - id: EP08
+    entryScene: Galaxy1_EP08_CargoHold

@@ -1,0 +1,8 @@
+VARIANT: Ashkin #19 — "Gravedigger"
+SPECIES: Ashkin (frontier dust-world settler).
+SEX / AGE / BUILD: Male / adult / lanky, tireless, ash-caked.
+ROLE IN WORLD: Digs the colony graves; quiet company for the dead.
+DISTINGUISHING FEATURES: Grey-brown skin entirely powdered in grave-ash; blunt worn plates; tired patient ember eyes; calloused spade-hands; ash permanently in every crease.
+CLOTHING / GEAR: A grime-grey work-shroud, a long grave-spade, a lantern, knee-wraps.
+COLOR / PALETTE: Ash-grey over grey-brown skin; colorless work-shroud; dim lantern-amber.
+>> IMAGE-PROMPT SUMMARY: A lanky tireless ash-caked adult male ashkin gravedigger with grey-brown skin entirely powdered in grave-ash, blunt worn keratin-plates, tired patient ember eyes and calloused spade-hands. Wears a grime-grey work-shroud and knee-wraps, carrying a long grave-spade and a lantern. Ash-grey, colorless palette with dim lantern-amber. Quiet, solemn. Grounded alien sci-fi frontier.

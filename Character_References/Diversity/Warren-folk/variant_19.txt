@@ -1,0 +1,8 @@
+VARIANT: Warren-folk #19 — "The Down-and-Out"
+SPECIES: Warren-folk (market underclass)
+SEX / AGE / BUILD: Male / adult / gaunt, trembling, hollowed.
+ROLE IN WORLD: Stim-addicted dock-castoff drifting the warren gutters.
+DISTINGUISHING FEATURES: Skin gone ashen-grey and slack; a withered shrinking frill; sunken bloodshot dark eyes with a tremor; needle-marks along the forearm down.
+CLOTHING / GEAR: Filthy castoff layers, a broken stim-injector, one mismatched boot.
+COLOR / PALETTE: Ashen grey-mauve skin; colorless filthy rags; sickly green stim-vial glow.
+>> IMAGE-PROMPT SUMMARY: A gaunt trembling hollowed adult male warren-folk addict with ashen-grey slack skin, a withered shrinking throat-frill, sunken bloodshot tremoring dark eyes and needle-marks on the forearm. Wears filthy colorless castoff layers and one mismatched boot, clutching a broken sickly-green stim-injector. Ashen grey-mauve palette. Wretched, frail. Grounded alien sci-fi.

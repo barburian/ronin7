@@ -1,0 +1,43 @@
+==================================================================
+VANE  /  WRAITH-6   (leashed node-keeper)
+==================================================================
+SPECIES: Human (Dominion/Program operative — Wraith make; human per rule).
+
+ROLE & FACTION: Fully-conditioned survivor of the WRAITH program, posted by the Dominion to keep
+Sable's node in the Tide depths. Same make as Coral Vex, except his leash never broke. Unreachable;
+can't be talked down. Ch9 boss; his death frees the OVERDRIVE (time-slow) ability.
+
+CHAPTERS: Ch9 (Tide-depths boss).
+
+AGE / BUILD / HEIGHT: Older than Ronin (an earlier make); ~1.8 m. Operative frame, worn hard by
+decades of conditioning; powerful, still.
+
+HEAD: Dead-calm face, utterly blank with conditioning; pale, cold eyes that don't reach for anything.
+Short hair or shaved; old augment-seams; killswitch scar at the skull base. No hesitation in it.
+
+BODY: Perfect, joyless economy — "aimed," not standing. Older, heavier operative technique than Ronin.
+
+WEAPONS / PROPS: An older-form operative blade (an archaic ancestor of Ronin's school) housing a
+LEASHED blade-shadow — a hilt-light that flares free and bright at his death.
+
+CLOTHING / ARMOR: Older-generation Dominion operative armor — heavier, more enclosed than Ronin's;
+sealed plating suited to the wet Tide depths; functional, gloomy, unmarked.
+
+COLOR PALETTE: Drowned greys and deep teal (Tide depths), black plating, cold hilt-light.
+
+SILHOUETTE / DISTINGUISHING FEATURES: A heavier, older armored mirror of Ronin with utterly dead
+eyes; the conditioning that never cracked — Ronin's possible future.
+
+DEMEANOR: Dead-calm, unreachable, certain; "I don't stand. I'm aimed. The asset stays." (Ch9)
+
+CANON SOURCE QUOTES:
+  - Same Wraith make as Coral; leash intact; older form of Cipher's own technique (Ch9).
+
+>> IMAGE-PROMPT SUMMARY:
+Older human male assassin, a heavier mirror of the protagonist, with a dead-calm utterly blank
+face, cold pale unreaching eyes, shaved head, old augment-seams and a skull-base killswitch scar.
+Wears heavy enclosed older-generation Dominion operative armor with sealed plating suited to wet
+caverns, unmarked and gloomy. Carries an archaic-form katana with a cold leashed hilt-light. Drowned
+grey and deep-teal palette with black plating. Stands with joyless, perfectly "aimed" lethal poise,
+no hesitation anywhere. Grounded human sci-fi.
+==================================================================

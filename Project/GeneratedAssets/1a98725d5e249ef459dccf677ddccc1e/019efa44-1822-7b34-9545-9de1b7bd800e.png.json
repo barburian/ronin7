@@ -1,0 +1,28 @@
+{
+    "asset": "1a98725d5e249ef459dccf677ddccc1e",
+    "fileName": "019efa44-1822-7b34-9545-9de1b7bd800e.png",
+    "prompt": "Full-length character concept art of a single complete figure, shown entirely from its topmost point down to its lowest point. This is a LONG WIDE FULL-BODY SHOT: the whole figure is centered and appears SMALL within a tall frame, surrounded by large empty background margins on all four sides — clear empty space above the top of the figure and clear empty space below its base, so that absolutely nothing is cropped. The complete head/top and the feet/base are fully inside the frame and not touching any edge. Front view, neutral upright A-pose with limbs held slightly away from the body where applicable. Plain flat light-gray studio backdrop, even soft lighting, no harsh shadows, no cast shadow, no text, no logo, no border, only one character. Subject: A spare precise severe middle-aged female ashkin water-rationer with dry ochre skin, neat angular cheek keratin-plates, cool measuring ember eyes, a tight hair-knot and a tally-brand on one hand. Wears a buttoned austere slate-and-rust official robe with a water-ledger, a brass measuring-dipper and a sealed key-ring. Ochre, slate-rust and brass palette. Strict, dutiful. Grounded alien sci-fi frontier. Color palette: Ochre skin; austere slate-and-rust robe; brass measures; grey ash. Grounded lived-in sci-fi, shown at full height.",
+    "negativePrompt": "",
+    "model": "flux-2-dev",
+    "modelName": "Flux 2 (Dev)",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1792
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

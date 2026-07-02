@@ -1,0 +1,8 @@
+VARIANT: Warren-folk #01 — "The Herbalist Crone"
+SPECIES: Warren-folk (market underclass)
+SEX / AGE / BUILD: Female / elder / frail, stooped, light-boned.
+ROLE IN WORLD: Back-alley herbalist and poultice-seller in the warren market.
+DISTINGUISHING FEATURES: Deeply crazed grey-mauve skin; large throat-frill gone droopy and pale with age; one eye filmed milky-white, the other still dark and reflective; stained fingertips.
+CLOTHING / GEAR: Layered shawls, an apron of drying herbs, bottle-strung belt, walking cane.
+COLOR / PALETTE: Faded mauve-grey skin; dusty olive and bruise-purple shawls; amber bottle-glints.
+>> IMAGE-PROMPT SUMMARY: A frail elder female warren-folk herbalist with deeply crazed pale grey-mauve skin, a large droopy aged throat-frill, one milky-white blind eye and one dark reflective eye, stained fingertips, stooped over a cane. Wears layered dusty-olive shawls and a herb-strung apron. Faded mauve-grey + bruise-purple palette. Grounded alien sci-fi market elder.
