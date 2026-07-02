@@ -36,6 +36,7 @@ Ch14 cut, Ch15 merged into Ch16 — never built. Completion flags: `chN_complete
 | Ch01 retrofit (Echo on rig, rewire gap closed, Ep01 batch deleted) | 450 (±0 — no Ep01LinesTests existed) | 450 / 0 failed / 3 skipped | PASS 2026-07-02 |
 | Ch02 (Auction + ProtectNpcObjective) | 461 (+11) | 461 / 0 failed / 3 skipped | PASS 2026-07-02 |
 | Ch02 leftovers + Ch03 fixtures (post Ep02–04 deletion −15, Ch03 +21) | 467 | 467 / 0 failed / 3 skipped | PASS 2026-07-03 |
+| Ch03 (post Ep05–07 deletion −15) | 452 | 452 / 0 failed / 3 skipped | PASS 2026-07-03 |
 
 ## Legacy deletion batches
 
@@ -43,7 +44,7 @@ Ch14 cut, Ch15 merged into Ch16 — never built. Completion flags: `chN_complete
 |---|---|---|
 | Ch01 retrofit | Ep01 (Builder+VoiceManifest deleted; Ep01Lines KEPT — live dep of Galaxy1Builder + EnemyWarningBuilder) | 2026-07-02 |
 | Ch02 | Ep02–Ep04 (builders+manifests+LinesTests; Ep02/03/04 Lines KEPT — live Galaxy1Builder deps; Ep04 scene builders moved to shared) | 2026-07-03 |
-| Ch03 | Ep05–Ep07 | |
+| Ch03 | Ep05–Ep07 (8 builders incl. surprise Ep07BuilderSpace + 3 manifests + 3 LinesTests; Lines KEPT — live Galaxy1Builder/EnemyWarningBuilder deps; Ep05–07 scene builders moved to shared) | 2026-07-03 |
 | Ch04 | Ep08–Ep09 | |
 | Ch05 | Ep10–Ep11 | |
 | Ch06 | Ep12–Ep13 | |

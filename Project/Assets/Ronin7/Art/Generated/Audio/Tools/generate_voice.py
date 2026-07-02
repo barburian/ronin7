@@ -55,6 +55,10 @@ SPEAKER_VOICES = {
     # Chapter 2 (Galaxy 1) speakers
     "Resh": ("en-US-EricNeural", "+0%", "-5Hz"),
     "Broker": ("en-US-JasonNeural", "+18%", "+4Hz"),
+    # Chapter 3 (Galaxy 1) speakers — the katana shadow-AI: "Shadow" pre-naming, "Echo" after.
+    # Same voice both ways (it IS the same being), slightly warmer once named.
+    "Shadow": ("en-US-AriaNeural", "-8%", "-6Hz"),
+    "Echo": ("en-US-AriaNeural", "-4%", "-4Hz"),
     # EP02 speakers
     "Station Traffic Control": ("en-US-JennyNeural", "+0%", "+0Hz"),
     "Captain Resh": ("en-GB-SoniaNeural", "-5%", "-5Hz"),
