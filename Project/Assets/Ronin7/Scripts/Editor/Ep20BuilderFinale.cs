@@ -143,7 +143,7 @@ namespace Ronin7.EditorTools
                 syndicateWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var syndicateSpawner = BuildEp03WaveSpawner("SyndicateSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var syndicateSpawner = BuildWaveSpawner("SyndicateSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { syndicateWaveHealths },
                 new[] { BuildEp20DialoguePlayer("Dialogue_SyndicateBarks", new Vector3(0f, 1.5f, 8f), "syndicate_barks") });
 
@@ -503,7 +503,7 @@ namespace Ronin7.EditorTools
                 eliteWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var eliteSpawner = BuildEp03WaveSpawner("EliteSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var eliteSpawner = BuildWaveSpawner("EliteSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { eliteWaveHealths },
                 new[] { BuildEp20DialoguePlayer("Dialogue_EliteBarks", new Vector3(0f, 1.5f, 8f), "elite_barks") });
 

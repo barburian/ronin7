@@ -179,7 +179,7 @@ namespace Ronin7.EditorTools
                 wave1Healths.Add(enemy.GetComponent<Health>());
             }
 
-            var wave1Spawner = BuildEp03WaveSpawner("Wave1Spawner", new Vector3(0f, 1f, 13f), 2.5f,
+            var wave1Spawner = BuildWaveSpawner("Wave1Spawner", new Vector3(0f, 1f, 13f), 2.5f,
                 new List<List<Health>> { wave1Healths }, new[] { scoutBarkDialogue });
 
             // Wave 2: 4 scouts.
@@ -207,7 +207,7 @@ namespace Ronin7.EditorTools
                 wave2Healths.Add(enemy.GetComponent<Health>());
             }
 
-            var wave2Spawner = BuildEp03WaveSpawner("Wave2Spawner", new Vector3(0f, 1f, 16f), 2.5f,
+            var wave2Spawner = BuildWaveSpawner("Wave2Spawner", new Vector3(0f, 1f, 16f), 2.5f,
                 new List<List<Health>> { wave2Healths }, new[] { scoutBarkDialogue });
 
             // Reach trigger at command platform.

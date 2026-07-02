@@ -151,7 +151,7 @@ namespace Ronin7.EditorTools
                 wave1Healths.Add(enemy.GetComponent<Health>());
             }
 
-            var wave1Spawner = BuildEp03WaveSpawner("Wave1Spawner", new Vector3(0f, 1f, 16f), 3f,
+            var wave1Spawner = BuildWaveSpawner("Wave1Spawner", new Vector3(0f, 1f, 16f), 3f,
                 new List<List<Health>> { wave1Healths }, new[] { enforcerBarksDialogue });
 
             var wave2Positions = new Vector3[]
@@ -170,7 +170,7 @@ namespace Ronin7.EditorTools
                 wave2Healths.Add(enemy.GetComponent<Health>());
             }
 
-            var wave2Spawner = BuildEp03WaveSpawner("Wave2Spawner", new Vector3(0f, 1f, 21f), 3f,
+            var wave2Spawner = BuildWaveSpawner("Wave2Spawner", new Vector3(0f, 1f, 21f), 3f,
                 new List<List<Health>> { wave2Healths }, new[] { enforcerBarksDialogue });
 
             // Reach trigger near corridor entry.

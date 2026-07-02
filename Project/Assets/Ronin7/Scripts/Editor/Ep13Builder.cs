@@ -156,7 +156,7 @@ namespace Ronin7.EditorTools
                 grinderWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var grinderSpawner = BuildEp03WaveSpawner("GrinderSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var grinderSpawner = BuildWaveSpawner("GrinderSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { grinderWaveHealths },
                 new[] { BuildEp13DialoguePlayer("Dialogue_CarouselBarks", new Vector3(0f, 1.5f, 8f), "carousel_barks") });
 
@@ -540,7 +540,7 @@ namespace Ronin7.EditorTools
                 guardWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var guardSpawner = BuildEp03WaveSpawner("GuardSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var guardSpawner = BuildWaveSpawner("GuardSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { guardWaveHealths },
                 new[] { BuildEp13DialoguePlayer("Dialogue_ExtractionBarks", new Vector3(0f, 1.5f, 8f), "extraction_barks") });
 
@@ -749,7 +749,7 @@ namespace Ronin7.EditorTools
                 sentryWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var sentrySpawner = BuildEp03WaveSpawner("SentrySpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var sentrySpawner = BuildWaveSpawner("SentrySpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { sentryWaveHealths },
                 new[] { BuildEp13DialoguePlayer("Dialogue_VerathBarks", new Vector3(0f, 1.5f, 8f), "verath_barks") });
 

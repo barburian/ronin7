@@ -217,7 +217,7 @@ namespace Ronin7.EditorTools
             };
             var waveC = BuildEp25ZeroGWave(waveCPositions, playerHealth, enemyDef, Ep25MercTint);
 
-            var mercSpawner = BuildEp03WaveSpawner("MercSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var mercSpawner = BuildWaveSpawner("MercSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { waveA, waveB, waveC },
                 new[] { BuildEp25DialoguePlayer("Dialogue_CargoBarks", new Vector3(0f, 1.5f, 8f), "cargo_barks") });
 
@@ -320,7 +320,7 @@ namespace Ronin7.EditorTools
                 enforcerHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var enforcerSpawner = BuildEp03WaveSpawner("EnforcerSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var enforcerSpawner = BuildWaveSpawner("EnforcerSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { enforcerHealths },
                 new DialoguePlayer[0]);
 
@@ -430,7 +430,7 @@ namespace Ronin7.EditorTools
                 commandoHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var commandoSpawner = BuildEp03WaveSpawner("CommandoSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var commandoSpawner = BuildWaveSpawner("CommandoSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { commandoHealths },
                 new[] { BuildEp25DialoguePlayer("Dialogue_CommandoBarks", new Vector3(0f, 1.5f, 8f), "commando_barks") });
 

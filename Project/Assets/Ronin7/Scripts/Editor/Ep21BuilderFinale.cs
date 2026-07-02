@@ -278,7 +278,7 @@ namespace Ronin7.EditorTools
                 lotusWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var lotusSpawner = BuildEp03WaveSpawner("LotusSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var lotusSpawner = BuildWaveSpawner("LotusSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { lotusWaveHealths },
                 new[] { BuildEp21DialoguePlayer("Dialogue_ExpulsionBarks", new Vector3(0f, 1.5f, 8f), "expulsion_barks") });
 
@@ -448,7 +448,7 @@ namespace Ronin7.EditorTools
                 eliteWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var eliteSpawner = BuildEp03WaveSpawner("EliteSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var eliteSpawner = BuildWaveSpawner("EliteSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { eliteWaveHealths },
                 new[] { BuildEp21DialoguePlayer("Dialogue_EliteBarks", new Vector3(0f, 1.5f, 8f), "elite_barks") });
 
@@ -641,7 +641,7 @@ namespace Ronin7.EditorTools
                 lotusWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var lotusSpawner = BuildEp03WaveSpawner("LotusSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var lotusSpawner = BuildWaveSpawner("LotusSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { lotusWaveHealths },
                 new[] { BuildEp21DialoguePlayer("Dialogue_AwakeningBarks", new Vector3(0f, 1.5f, 8f), "awakening_barks") });
 

@@ -185,7 +185,7 @@ namespace Ronin7.EditorTools
                 scanAgentHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var scanAgentSpawner = BuildEp03WaveSpawner("ScanAgentSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var scanAgentSpawner = BuildWaveSpawner("ScanAgentSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { scanAgentHealths },
                 new[] { BuildEp28DialoguePlayer("Dialogue_ScanAgents", new Vector3(0f, 1.5f, 8f), "scan_agents") });
 
@@ -286,7 +286,7 @@ namespace Ronin7.EditorTools
                 droneHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var droneSpawner = BuildEp03WaveSpawner("DroneSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var droneSpawner = BuildWaveSpawner("DroneSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { droneHealths },
                 new DialoguePlayer[0]); // No spawn dialogue for phantoms
 
@@ -419,7 +419,7 @@ namespace Ronin7.EditorTools
                 waveB.Add(enemy.GetComponent<Health>());
             }
 
-            var soldierSpawner = BuildEp03WaveSpawner("SoldierSpawner", new Vector3(0f, 0.5f, 11f), 2f,
+            var soldierSpawner = BuildWaveSpawner("SoldierSpawner", new Vector3(0f, 0.5f, 11f), 2f,
                 new List<List<Health>> { waveA, waveB },
                 new[] { BuildEp28DialoguePlayer("Dialogue_ExtractionCombat", new Vector3(0f, 1.5f, 11f), "extraction_combat") });
 
@@ -509,7 +509,7 @@ namespace Ronin7.EditorTools
                 droneHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var droneSpawner = BuildEp03WaveSpawner("ContainmentSpawner", new Vector3(0f, 0.5f, 9.5f), 2f,
+            var droneSpawner = BuildWaveSpawner("ContainmentSpawner", new Vector3(0f, 0.5f, 9.5f), 2f,
                 new List<List<Health>> { droneHealths },
                 new DialoguePlayer[0]); // No spawn dialogue
 

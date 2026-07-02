@@ -181,7 +181,7 @@ namespace Ronin7.EditorTools
                 assaultHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var assaultSpawner = BuildEp03WaveSpawner("AssaultSpawner", new Vector3(0f, 0.5f, 12.5f), 2f,
+            var assaultSpawner = BuildWaveSpawner("AssaultSpawner", new Vector3(0f, 0.5f, 12.5f), 2f,
                 new List<List<Health>> { assaultHealths },
                 new[] { BuildEp27DialoguePlayer("Dialogue_HandlerBarks", new Vector3(0f, 1.5f, 12.5f), "handler_barks") });
 

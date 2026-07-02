@@ -272,7 +272,7 @@ namespace Ronin7.EditorTools
 
             // ---- Chapter-complete canvas (worldspace) + outro driver. ----
             var completeCanvasGo = BuildCompleteCanvas(new Vector3(0f, 1.4f, 30f));
-            var outroGo = new GameObject("Chapter1Outro");
+            var outroGo = new GameObject("ChapterOutro");
             outroGo.transform.position = new Vector3(0f, 1f, 30f);
             var flagSetter = outroGo.AddComponent<CampaignFlagSetter>();
             var flagSo = new SerializedObject(flagSetter);
@@ -280,7 +280,7 @@ namespace Ronin7.EditorTools
             flagsProp.arraySize = 1;
             flagsProp.GetArrayElementAtIndex(0).stringValue = "ch1_complete";
             flagSo.ApplyModifiedPropertiesWithoutUndo();
-            var outro = outroGo.AddComponent<Chapter1Outro>();
+            var outro = outroGo.AddComponent<ChapterOutro>();
             var outroSo = new SerializedObject(outro);
             SetObjectRef(outroSo, "completeCanvas", completeCanvasGo);
             outroSo.ApplyModifiedPropertiesWithoutUndo();
@@ -326,6 +326,10 @@ namespace Ronin7.EditorTools
 
             mdSo.ApplyModifiedPropertiesWithoutUndo();
 
+            // ---- Hub mode: the persistent-hub half of this scene (console + gated future-chapter rooms).
+            // The startLocked doors are handed over so hub mode can activate them without the mission. ----
+            BuildHubMode(gameGo, missionGo, new[] { medbayDoor, commandDoor });
+
             // ---- XR UI infrastructure. ----
             if (Object.FindAnyObjectByType<XRInteractionManager>() == null)
                 new GameObject("XR Interaction Manager").AddComponent<XRInteractionManager>();
@@ -346,55 +350,6 @@ namespace Ronin7.EditorTools
                       "boarding alarm, board pre-VO, 3-trooper fight, board aftermath, unlock + Kessler walks, walk, " +
                       "reach command, Khall reveal, ultimatum, chapter outro (sets ch1_complete + fade + canvas). " +
                       "Medbay door starts locked until the fight is won.");
-        }
-
-        // ---- Mission-step authoring helpers (mirror Ep01Builder's SerializedObject wiring). ----
-
-        private static void AuthorDialogueStep(SerializedProperty steps, int i, string label, DialoguePlayer dialogue)
-        {
-            var s = steps.GetArrayElementAtIndex(i);
-            s.FindPropertyRelative("kind").enumValueIndex = (int)MissionStepKind.Dialogue;
-            s.FindPropertyRelative("label").stringValue = label;
-            s.FindPropertyRelative("dialogue").objectReferenceValue = dialogue;
-        }
-
-        private static void AuthorPromptStep(SerializedProperty steps, int i, string label, GameObject promptObject)
-        {
-            var s = steps.GetArrayElementAtIndex(i);
-            s.FindPropertyRelative("kind").enumValueIndex = (int)MissionStepKind.Prompt;
-            s.FindPropertyRelative("label").stringValue = label;
-            s.FindPropertyRelative("promptObject").objectReferenceValue = promptObject;
-        }
-
-        private static void AuthorReachStep(SerializedProperty steps, int i, string label, Transform reachPoint, float radius)
-        {
-            var s = steps.GetArrayElementAtIndex(i);
-            s.FindPropertyRelative("kind").enumValueIndex = (int)MissionStepKind.ReachTrigger;
-            s.FindPropertyRelative("label").stringValue = label;
-            s.FindPropertyRelative("reachPoint").objectReferenceValue = reachPoint;
-            s.FindPropertyRelative("reachRadius").floatValue = radius;
-        }
-
-        private static void AuthorTriggerStep(SerializedProperty steps, int i, string label, params GameObject[] objs)
-        {
-            var s = steps.GetArrayElementAtIndex(i);
-            s.FindPropertyRelative("kind").enumValueIndex = (int)MissionStepKind.Trigger;
-            s.FindPropertyRelative("label").stringValue = label;
-            var t = s.FindPropertyRelative("triggerObjects");
-            t.arraySize = objs.Length;
-            for (int k = 0; k < objs.Length; k++)
-                t.GetArrayElementAtIndex(k).objectReferenceValue = objs[k];
-        }
-
-        private static void AuthorDefeatStep(SerializedProperty steps, int i, string label, List<Object> enemyHealths)
-        {
-            var s = steps.GetArrayElementAtIndex(i);
-            s.FindPropertyRelative("kind").enumValueIndex = (int)MissionStepKind.DefeatEnemies;
-            s.FindPropertyRelative("label").stringValue = label;
-            var en = s.FindPropertyRelative("enemies");
-            en.arraySize = enemyHealths.Count;
-            for (int k = 0; k < enemyHealths.Count; k++)
-                en.GetArrayElementAtIndex(k).objectReferenceValue = enemyHealths[k];
         }
 
         // ---- Dialogue: build via the shared helper, then wire ch1 voice clips ourselves. ----

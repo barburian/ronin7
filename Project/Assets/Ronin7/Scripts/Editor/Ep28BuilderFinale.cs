@@ -117,7 +117,7 @@ namespace Ronin7.EditorTools
                 operativeHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var operativeSpawner = BuildEp03WaveSpawner("OperativeSpawner", new Vector3(0f, 0.5f, 12f), 2f,
+            var operativeSpawner = BuildWaveSpawner("OperativeSpawner", new Vector3(0f, 0.5f, 12f), 2f,
                 new List<List<Health>> { operativeHealths },
                 new[] { BuildEp28DialoguePlayer("Dialogue_CommanderRecognition", new Vector3(0f, 1.5f, 12f), "commander_recognition") });
 
@@ -241,7 +241,7 @@ namespace Ronin7.EditorTools
             terminator.gameObject.SetActive(false);
             var terminatorHealth = terminator.GetComponent<Health>();
 
-            var terminatorSpawner = BuildEp03WaveSpawner("TerminatorSpawner", new Vector3(0f, 0.5f, 12f), 1f,
+            var terminatorSpawner = BuildWaveSpawner("TerminatorSpawner", new Vector3(0f, 0.5f, 12f), 1f,
                 new List<List<Health>> { new List<Health> { terminatorHealth } },
                 new[] { BuildEp28DialoguePlayer("Dialogue_BreakingBarks", new Vector3(0f, 1.5f, 12f), "breaking_barks") });
 

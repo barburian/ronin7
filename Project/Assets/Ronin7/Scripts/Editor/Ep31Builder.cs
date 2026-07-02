@@ -230,7 +230,7 @@ namespace Ronin7.EditorTools
             echo.gameObject.SetActive(false);
             var echoHealth = echo.GetComponent<Health>();
 
-            var echoSpawner = BuildEp03WaveSpawner("EchoSpawner", new Vector3(0f, 0.5f, 12f), 1f,
+            var echoSpawner = BuildWaveSpawner("EchoSpawner", new Vector3(0f, 0.5f, 12f), 1f,
                 new List<List<Health>> { new List<Health> { echoHealth } },
                 new DialoguePlayer[0]);
 
@@ -341,7 +341,7 @@ namespace Ronin7.EditorTools
                 droneHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var droneSpawner = BuildEp03WaveSpawner("DroneSpawner", new Vector3(0f, 0.5f, 9f), 2f,
+            var droneSpawner = BuildWaveSpawner("DroneSpawner", new Vector3(0f, 0.5f, 9f), 2f,
                 new List<List<Health>> { droneHealths },
                 new DialoguePlayer[0]);
 
@@ -441,7 +441,7 @@ namespace Ronin7.EditorTools
                 selfEchoHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var selfEchoSpawner = BuildEp03WaveSpawner("SelfEchoSpawner", new Vector3(0f, 0.5f, 9f), 2f,
+            var selfEchoSpawner = BuildWaveSpawner("SelfEchoSpawner", new Vector3(0f, 0.5f, 9f), 2f,
                 new List<List<Health>> { selfEchoHealths },
                 new DialoguePlayer[0]);
 
@@ -541,7 +541,7 @@ namespace Ronin7.EditorTools
                 scientistHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var scientistSpawner = BuildEp03WaveSpawner("ScientistSpawner", new Vector3(0f, 0.5f, 9f), 2f,
+            var scientistSpawner = BuildWaveSpawner("ScientistSpawner", new Vector3(0f, 0.5f, 9f), 2f,
                 new List<List<Health>> { scientistHealths },
                 new DialoguePlayer[0]);
 
@@ -662,7 +662,7 @@ namespace Ronin7.EditorTools
                 swarmHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var nexusWaveSpawner = BuildEp03WaveSpawner("NexusWaveSpawner", new Vector3(0f, 0.5f, 10f), 2f,
+            var nexusWaveSpawner = BuildWaveSpawner("NexusWaveSpawner", new Vector3(0f, 0.5f, 10f), 2f,
                 new List<List<Health>> { phantomHealths, swarmHealths },
                 new DialoguePlayer[0]);
 

@@ -183,7 +183,7 @@ namespace Ronin7.EditorTools
                 droneHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var droneSpawner = BuildEp03WaveSpawner("DroneSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var droneSpawner = BuildWaveSpawner("DroneSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { droneHealths },
                 new[] { BuildEp29DialoguePlayer("Dialogue_SisterSignal", new Vector3(0f, 1.5f, 8f), "sister_signal") });
 
@@ -394,7 +394,7 @@ namespace Ronin7.EditorTools
                 acolyteHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var acolyteSpawner = BuildEp03WaveSpawner("AcolyteSpawner", new Vector3(0f, 0.5f, 9f), 2f,
+            var acolyteSpawner = BuildWaveSpawner("AcolyteSpawner", new Vector3(0f, 0.5f, 9f), 2f,
                 new List<List<Health>> { acolyteHealths },
                 new DialoguePlayer[0]); // No spawn dialogue for archive guardians
 

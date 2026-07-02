@@ -230,7 +230,7 @@ namespace Ronin7.EditorTools
                 runnerHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var runnerSpawner = BuildEp03WaveSpawner("RunnerSpawner", new Vector3(0f, 0.5f, 12f), 2.5f,
+            var runnerSpawner = BuildWaveSpawner("RunnerSpawner", new Vector3(0f, 0.5f, 12f), 2.5f,
                 new List<List<Health>> { runnerHealths }, new[] { BuildEp09DialoguePlayer("Dialogue_CorridorRunners", new Vector3(0f, 1.5f, 12f), "corridor_runners") });
 
             // Tavern entrance reach trigger.
@@ -487,7 +487,7 @@ namespace Ronin7.EditorTools
                 scoutHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var scoutSpawner = BuildEp03WaveSpawner("ScoutSpawner", new Vector3(0f, 3.5f, 13f), 2f,
+            var scoutSpawner = BuildWaveSpawner("ScoutSpawner", new Vector3(0f, 3.5f, 13f), 2f,
                 new List<List<Health>> { scoutHealths }, new[] { BuildEp09DialoguePlayer("Dialogue_DominionBreach", new Vector3(0f, 3.5f, 13f), "dominion_breach") });
 
             // Transition box: "INTO THE MEMORY".

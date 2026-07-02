@@ -338,7 +338,7 @@ namespace Ronin7.EditorTools
                 securityWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var securitySpawner = BuildEp03WaveSpawner("RustfangSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var securitySpawner = BuildWaveSpawner("RustfangSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { securityWaveHealths },
                 new[] { BuildEp17DialoguePlayer("Dialogue_EscapeBarks", new Vector3(0f, 1.5f, 8f), "arena_barks") });
 
@@ -519,7 +519,7 @@ namespace Ronin7.EditorTools
                 enemyWaveHealths.Add(operative.GetComponent<Health>());
             }
 
-            var waveSpawner = BuildEp03WaveSpawner("FinaleSpawner", new Vector3(0f, 0.5f, 10f), 3f,
+            var waveSpawner = BuildWaveSpawner("FinaleSpawner", new Vector3(0f, 0.5f, 10f), 3f,
                 new List<List<Health>> { enemyWaveHealths },
                 new[] { BuildEp17DialoguePlayer("Dialogue_SurfaceBarks", new Vector3(0f, 1.5f, 10f), "arena_barks") });
 

@@ -269,7 +269,7 @@ namespace Ronin7.EditorTools
                 wave1Healths.Add(enemy.GetComponent<Health>());
             }
 
-            var wave1Spawner = BuildEp03WaveSpawner("Wave1Spawner", new Vector3(0f, 0.5f, 6.5f), 2.5f,
+            var wave1Spawner = BuildWaveSpawner("Wave1Spawner", new Vector3(0f, 0.5f, 6.5f), 2.5f,
                 new List<List<Health>> { wave1Healths }, new[] { rescueRunDialogue });
 
             // Wave 2: 3 troopers.
@@ -296,7 +296,7 @@ namespace Ronin7.EditorTools
                 wave2Healths.Add(enemy.GetComponent<Health>());
             }
 
-            var wave2Spawner = BuildEp03WaveSpawner("Wave2Spawner", new Vector3(0f, 0.5f, 12.5f), 2.5f,
+            var wave2Spawner = BuildWaveSpawner("Wave2Spawner", new Vector3(0f, 0.5f, 12.5f), 2.5f,
                 new List<List<Health>> { wave2Healths }, new[] { BuildEp10DialoguePlayer("Dialogue_RescueRun2", new Vector3(0f, 1.5f, 12f), "rescue_run") });
 
             // Reach point at sealed chamber door.
@@ -619,7 +619,7 @@ namespace Ronin7.EditorTools
                 wave1aHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var wave1aSpawner = BuildEp03WaveSpawner("Wave1aSpawner", new Vector3(0f, 0.5f, 10.5f), 2.5f,
+            var wave1aSpawner = BuildWaveSpawner("Wave1aSpawner", new Vector3(0f, 0.5f, 10.5f), 2.5f,
                 new List<List<Health>> { wave1aHealths }, new[] { lzBarksDialogue });
 
             // Wave 1b: 3 more heavies.
@@ -646,7 +646,7 @@ namespace Ronin7.EditorTools
                 wave1bHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var wave1bSpawner = BuildEp03WaveSpawner("Wave1bSpawner", new Vector3(0f, 0.5f, 13.5f), 2.5f,
+            var wave1bSpawner = BuildWaveSpawner("Wave1bSpawner", new Vector3(0f, 0.5f, 13.5f), 2.5f,
                 new List<List<Health>> { wave1bHealths }, new[] { BuildEp10DialoguePlayer("Dialogue_LZBarks2", new Vector3(0f, 1.5f, 13f), "lz_barks") });
 
             // Wave 2: 4 enemies.
@@ -674,7 +674,7 @@ namespace Ronin7.EditorTools
                 wave2Healths.Add(enemy.GetComponent<Health>());
             }
 
-            var wave2Spawner = BuildEp03WaveSpawner("Wave2Spawner", new Vector3(0f, 0.5f, 15.5f), 2.5f,
+            var wave2Spawner = BuildWaveSpawner("Wave2Spawner", new Vector3(0f, 0.5f, 15.5f), 2.5f,
                 new List<List<Health>> { wave2Healths }, new[] { BuildEp10DialoguePlayer("Dialogue_Wave2Barks", new Vector3(0f, 1.5f, 15f), "lz_barks") });
 
             // Reach point at evacuation pod.

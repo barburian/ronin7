@@ -159,7 +159,7 @@ namespace Ronin7.EditorTools
                 droneWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var droneSpawner = BuildEp03WaveSpawner("RelaySpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var droneSpawner = BuildWaveSpawner("RelaySpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { droneWaveHealths },
                 new[] { BuildEp15DialoguePlayer("Dialogue_RelayBarks", new Vector3(0f, 1.5f, 8f), "relay_barks") });
 
@@ -501,7 +501,7 @@ namespace Ronin7.EditorTools
                 enforcerWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var enforcerSpawner = BuildEp03WaveSpawner("EmberhandSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var enforcerSpawner = BuildWaveSpawner("EmberhandSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { enforcerWaveHealths },
                 new[] { BuildEp15DialoguePlayer("Dialogue_EmberhandBarks", new Vector3(0f, 1.5f, 8f), "emberhand_barks") });
 
@@ -679,7 +679,7 @@ namespace Ronin7.EditorTools
                 assassinWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var assassinSpawner = BuildEp03WaveSpawner("PaleChoirSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var assassinSpawner = BuildWaveSpawner("PaleChoirSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { assassinWaveHealths },
                 new[] { BuildEp15DialoguePlayer("Dialogue_PaleChoirBarks", new Vector3(0f, 1.5f, 8f), "pale_choir_barks") });
 
@@ -890,7 +890,7 @@ namespace Ronin7.EditorTools
             }
 
             // Build wave spawner with all 6 units.
-            var factionSpawner = BuildEp03WaveSpawner("DesertSpawner", new Vector3(0f, 0.5f, 10f), 3f,
+            var factionSpawner = BuildWaveSpawner("DesertSpawner", new Vector3(0f, 0.5f, 10f), 3f,
                 new List<List<Health>> { factionWaveHealths },
                 new[] { BuildEp15DialoguePlayer("Dialogue_DesertBarks", new Vector3(0f, 1.5f, 10f), "desert_barks") });
 

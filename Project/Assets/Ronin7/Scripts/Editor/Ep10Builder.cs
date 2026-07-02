@@ -191,7 +191,7 @@ namespace Ronin7.EditorTools
                     droneWave3Healths.Add(enemy.GetComponent<Health>());
             }
 
-            var droneSpawner = BuildEp03WaveSpawner("DroneSpawner", new Vector3(0f, 0.5f, 14f), 2f,
+            var droneSpawner = BuildWaveSpawner("DroneSpawner", new Vector3(0f, 0.5f, 14f), 2f,
                 new List<List<Health>> { droneWave1Healths, droneWave2Healths, droneWave3Healths },
                 new[] { BuildEp10DialoguePlayer("Dialogue_GauntletBarks", new Vector3(0f, 1.5f, 14f), "gauntlet_barks") });
 
@@ -445,7 +445,7 @@ namespace Ronin7.EditorTools
                 spawner1Wave2Healths.Add(enemy.GetComponent<Health>());
             }
 
-            var spawner1 = BuildEp03WaveSpawner("Spawner1", new Vector3(0f, 0.5f, 9.5f), 2f,
+            var spawner1 = BuildWaveSpawner("Spawner1", new Vector3(0f, 0.5f, 9.5f), 2f,
                 new List<List<Health>> { spawner1Wave1Healths, spawner1Wave2Healths },
                 new[] { BuildEp10DialoguePlayer("Dialogue_FirstBreach", new Vector3(0f, 1.5f, 9f), "first_breach") });
 
@@ -517,7 +517,7 @@ namespace Ronin7.EditorTools
                 spawner2Wave3Healths.Add(enemy.GetComponent<Health>());
             }
 
-            var spawner2 = BuildEp03WaveSpawner("Spawner2", new Vector3(0f, 0.5f, 6.75f), 1.5f,
+            var spawner2 = BuildWaveSpawner("Spawner2", new Vector3(0f, 0.5f, 6.75f), 1.5f,
                 new List<List<Health>> { spawner2Wave1Healths, spawner2Wave2Healths, spawner2Wave3Healths },
                 new[] { BuildEp10DialoguePlayer("Dialogue_ChokepointBarks", new Vector3(0f, 1.5f, 6.5f), "chokepoint_barks") });
 
@@ -733,7 +733,7 @@ namespace Ronin7.EditorTools
                 soldierWave2Healths.Add(enemy.GetComponent<Health>());
             }
 
-            var soldierSpawner = BuildEp03WaveSpawner("SoldierSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var soldierSpawner = BuildWaveSpawner("SoldierSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { soldierWave1Healths, soldierWave2Healths },
                 new[] { BuildEp10DialoguePlayer("Dialogue_SoldierBarks", new Vector3(0f, 1.5f, 8f), "") });
 

@@ -260,7 +260,7 @@ namespace Ronin7.EditorTools
             s2.FindPropertyRelative("label").stringValue = "DefeatWaves: Zones 2+3+4 Hollow Kings (3/4/3)";
             // Note: Wave spawner expects all waves in a single spawner. We'll combine them.
             var allWaveHealths = new List<List<Health>> { zone2Healths, zone3Healths, zone4Healths };
-            var combinedSpawner = BuildEp03WaveSpawner("AllWavesSpawner", new Vector3(0f, 1f, 20f), 3f,
+            var combinedSpawner = BuildWaveSpawner("AllWavesSpawner", new Vector3(0f, 1f, 20f), 3f,
                 allWaveHealths, new[] { archiveBarksDialogue });
             s2.FindPropertyRelative("waveSpawner").objectReferenceValue = combinedSpawner;
 

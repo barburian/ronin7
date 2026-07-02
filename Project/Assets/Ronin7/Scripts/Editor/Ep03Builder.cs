@@ -63,44 +63,6 @@ namespace Ronin7.EditorTools
             return go;
         }
 
-        /// <summary>Builds an EnemyWaveSpawner with a trigger point, wave sting SFX, audio source, and
-        /// the given waves (one enemy-health list + optional bark per wave).</summary>
-        private static EnemyWaveSpawner BuildEp03WaveSpawner(string name, Vector3 triggerPos, float triggerRadius,
-            List<List<Health>> waves, DialoguePlayer[] barks)
-        {
-            var spawnerGo = new GameObject(name);
-            var spawner = spawnerGo.AddComponent<EnemyWaveSpawner>();
-            var triggerGo = new GameObject(name + "_Trigger");
-            triggerGo.transform.position = triggerPos;
-
-            var so = new SerializedObject(spawner);
-            SetObjectRef(so, "triggerPoint", triggerGo.transform);
-            so.FindProperty("triggerRadius").floatValue = triggerRadius;
-            var waveSting = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Ronin7/Audio/WaveAlarm.wav");
-            if (waveSting != null)
-                so.FindProperty("waveSting").objectReferenceValue = waveSting;
-
-            var wavesProp = so.FindProperty("waves");
-            wavesProp.arraySize = waves.Count;
-            for (int w = 0; w < waves.Count; w++)
-            {
-                var wave = wavesProp.GetArrayElementAtIndex(w);
-                var enemiesProp = wave.FindPropertyRelative("enemies");
-                enemiesProp.arraySize = waves[w].Count;
-                for (int i = 0; i < waves[w].Count; i++)
-                    enemiesProp.GetArrayElementAtIndex(i).objectReferenceValue = waves[w][i];
-                if (barks != null && w < barks.Length && barks[w] != null)
-                    wave.FindPropertyRelative("bark").objectReferenceValue = barks[w];
-            }
-
-            var audio = spawnerGo.AddComponent<AudioSource>();
-            audio.spatialBlend = 0f;
-            audio.playOnAwake = false;
-            SetObjectRef(so, "audioSource", audio);
-            so.ApplyModifiedPropertiesWithoutUndo();
-            return spawner;
-        }
-
         /// <summary>Builds a parented, initially-inactive pair of red alarm point lights (EP02 Core pattern).</summary>
         private static GameObject BuildEp03AlarmLights(Vector3 pos1, Vector3 pos2)
         {
@@ -272,7 +234,7 @@ namespace Ronin7.EditorTools
                 boardingHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var boardingWaveSpawner = BuildEp03WaveSpawner("BoardingWaveSpawner", new Vector3(0f, 1f, 11f), 3f,
+            var boardingWaveSpawner = BuildWaveSpawner("BoardingWaveSpawner", new Vector3(0f, 1f, 11f), 3f,
                 new List<List<Health>> { boardingHealths }, new[] { haulerFightBarksDialogue });
 
             // Reach triggers.
@@ -541,7 +503,7 @@ namespace Ronin7.EditorTools
             }
             hunter.gameObject.SetActive(false);
 
-            var hunterWaveSpawner = BuildEp03WaveSpawner("HunterWaveSpawner", new Vector3(0f, 1f, 13f), 3f,
+            var hunterWaveSpawner = BuildWaveSpawner("HunterWaveSpawner", new Vector3(0f, 1f, 13f), 3f,
                 new List<List<Health>> { new List<Health> { hunterHealth } }, new[] { hunterChallengeDialogue });
 
             // Reach triggers.
@@ -836,9 +798,9 @@ namespace Ronin7.EditorTools
                 medicalHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var corridorWaveSpawner = BuildEp03WaveSpawner("CorridorWaveSpawner", new Vector3(0f, 1f, 8f), 3f,
+            var corridorWaveSpawner = BuildWaveSpawner("CorridorWaveSpawner", new Vector3(0f, 1f, 8f), 3f,
                 new List<List<Health>> { corridorHealths }, new[] { lotusFightBarksDialogue });
-            var medicalWaveSpawner = BuildEp03WaveSpawner("MedicalWaveSpawner", new Vector3(0f, 1f, 22f), 3f,
+            var medicalWaveSpawner = BuildWaveSpawner("MedicalWaveSpawner", new Vector3(0f, 1f, 22f), 3f,
                 new List<List<Health>> { medicalHealths }, null);
 
             // Reach triggers.
@@ -1169,7 +1131,7 @@ namespace Ronin7.EditorTools
             var assaultWave1Healths = BuildRustfangs(assaultWave1Positions);
             var assaultWave2Healths = BuildRustfangs(assaultWave2Positions);
 
-            var assaultWaveSpawner = BuildEp03WaveSpawner("AssaultWaveSpawner", new Vector3(0f, 1f, 30f), 3.5f,
+            var assaultWaveSpawner = BuildWaveSpawner("AssaultWaveSpawner", new Vector3(0f, 1f, 30f), 3.5f,
                 new List<List<Health>> { assaultWave1Healths, assaultWave2Healths },
                 new DialoguePlayer[] { assaultBarksDialogue, null });
 

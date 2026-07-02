@@ -173,7 +173,7 @@ namespace Ronin7.EditorTools
                 enforcerHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var enforcerWaveSpawner = BuildEp03WaveSpawner("EnforcerWaveSpawner", new Vector3(0f, 1f, 13f), 3f,
+            var enforcerWaveSpawner = BuildWaveSpawner("EnforcerWaveSpawner", new Vector3(0f, 1f, 13f), 3f,
                 new List<List<Health>> { enforcerHealths }, new[] { warrensEnforcerBarksDialogue });
 
             // Reach triggers.
@@ -399,7 +399,7 @@ namespace Ronin7.EditorTools
                 hunterHealths.Add(hunterHealth);
             }
 
-            var hunterWaveSpawner = BuildEp03WaveSpawner("HunterWaveSpawner", new Vector3(0f, 1f, 15f), 3f,
+            var hunterWaveSpawner = BuildWaveSpawner("HunterWaveSpawner", new Vector3(0f, 1f, 15f), 3f,
                 new List<List<Health>> { hunterHealths }, new[] { lockHunterBarksDialogue });
 
             // Reach triggers.

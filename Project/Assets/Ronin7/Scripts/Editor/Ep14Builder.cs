@@ -131,7 +131,7 @@ namespace Ronin7.EditorTools
                 droneWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var droneSpawner = BuildEp03WaveSpawner("SecuritySpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var droneSpawner = BuildWaveSpawner("SecuritySpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { droneWaveHealths },
                 new[] { BuildEp14DialoguePlayer("Dialogue_SecurityBarks", new Vector3(0f, 1.5f, 8f), "security_barks") });
 
@@ -429,7 +429,7 @@ namespace Ronin7.EditorTools
                 hunterWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var hunterSpawner = BuildEp03WaveSpawner("HunterSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var hunterSpawner = BuildWaveSpawner("HunterSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { hunterWaveHealths },
                 new[] { BuildEp14DialoguePlayer("Dialogue_HunterBarks", new Vector3(0f, 1.5f, 8f), "hunter_barks") });
 

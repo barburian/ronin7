@@ -463,7 +463,7 @@ namespace Ronin7.EditorTools
             }
 
             var droneBarksDialogue = BuildEp19DialoguePlayer("Dialogue_DroneBarks", new Vector3(0f, 1.5f, 8f), "drone_barks");
-            var droneSpawner = BuildEp03WaveSpawner("DroneSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var droneSpawner = BuildWaveSpawner("DroneSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { droneWaveHealths },
                 new[] { droneBarksDialogue });
 

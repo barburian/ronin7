@@ -173,7 +173,7 @@ namespace Ronin7.EditorTools
                 operativeWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var operativeSpawner = BuildEp03WaveSpawner("VaultOperativeSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var operativeSpawner = BuildWaveSpawner("VaultOperativeSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { operativeWaveHealths },
                 new[] { BuildEp19DialoguePlayer("Dialogue_VaultBarks", new Vector3(0f, 1.5f, 8f), "vault_barks") });
 
@@ -357,7 +357,7 @@ namespace Ronin7.EditorTools
                 guardWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var guardSpawner = BuildEp03WaveSpawner("GuardSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var guardSpawner = BuildWaveSpawner("GuardSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { guardWaveHealths },
                 new[] { BuildEp19DialoguePlayer("Dialogue_GuardBarks", new Vector3(0f, 1.5f, 8f), "guard_barks") });
 

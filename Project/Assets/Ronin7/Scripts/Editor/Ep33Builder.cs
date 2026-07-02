@@ -159,7 +159,7 @@ namespace Ronin7.EditorTools
                 wave2Healths.Add(enemy.GetComponent<Health>());
             }
 
-            var strikeTeamSpawner = BuildEp03WaveSpawner("StrikeTeamSpawner", new Vector3(0f, 0.5f, 10f), 2f,
+            var strikeTeamSpawner = BuildWaveSpawner("StrikeTeamSpawner", new Vector3(0f, 0.5f, 10f), 2f,
                 new List<List<Health>> { wave1Healths, wave2Healths },
                 new DialoguePlayer[0]);
 
@@ -360,7 +360,7 @@ namespace Ronin7.EditorTools
                 wave2Healths.Add(enemy.GetComponent<Health>());
             }
 
-            var obsidianSpawner = BuildEp03WaveSpawner("ObsidianSpawner", new Vector3(0f, 0.5f, 10f), 2f,
+            var obsidianSpawner = BuildWaveSpawner("ObsidianSpawner", new Vector3(0f, 0.5f, 10f), 2f,
                 new List<List<Health>> { wave1Healths, wave2Healths },
                 new DialoguePlayer[0]);
 
@@ -639,7 +639,7 @@ namespace Ronin7.EditorTools
 
             var maelgornList = new List<Health> { maelgornHealthComponent };
 
-            var synodSpawner = BuildEp03WaveSpawner("WardenSpawner", new Vector3(0f, 0.5f, 10f), 2f,
+            var synodSpawner = BuildWaveSpawner("WardenSpawner", new Vector3(0f, 0.5f, 10f), 2f,
                 new List<List<Health>> { wardenHealths, maelgornList },
                 new DialoguePlayer[0]);
 

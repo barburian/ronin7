@@ -72,7 +72,7 @@ namespace Ronin7.EditorTools
                 priestHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var priestSpawner = BuildEp03WaveSpawner("PriestSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var priestSpawner = BuildWaveSpawner("PriestSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { priestHealths },
                 new[] { BuildEp26DialoguePlayer("Dialogue_ArchiveBarks", new Vector3(0f, 1.5f, 8f), "archive_barks") });
 

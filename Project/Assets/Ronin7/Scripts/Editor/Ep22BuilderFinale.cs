@@ -133,7 +133,7 @@ namespace Ronin7.EditorTools
                 selfWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var selfSpawner = BuildEp03WaveSpawner("SelfSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var selfSpawner = BuildWaveSpawner("SelfSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { selfWaveHealths },
                 new[] { BuildEp22DialoguePlayer("Dialogue_FailsafeBarks", new Vector3(0f, 1.5f, 8f), "failsafe_barks") });
 
@@ -302,7 +302,7 @@ namespace Ronin7.EditorTools
             ronin12.gameObject.SetActive(false);
             ronin12Healths.Add(ronin12.GetComponent<Health>());
 
-            var ronin12Spawner = BuildEp03WaveSpawner("Ronin12Spawner", new Vector3(0f, 0.5f, 9f), 2f,
+            var ronin12Spawner = BuildWaveSpawner("Ronin12Spawner", new Vector3(0f, 0.5f, 9f), 2f,
                 new List<List<Health>> { ronin12Healths },
                 new[] { BuildEp22DialoguePlayer("Dialogue_Ronin12Barks", new Vector3(0f, 1.5f, 9f), "ronin12_barks") });
 
@@ -496,7 +496,7 @@ namespace Ronin7.EditorTools
                 wave2Healths.Add(enemy.GetComponent<Health>());
             }
 
-            var boarderSpawner = BuildEp03WaveSpawner("BoarderSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var boarderSpawner = BuildWaveSpawner("BoarderSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { wave1Healths, wave2Healths },
                 new[] { BuildEp22DialoguePlayer("Dialogue_BoardingBarks", new Vector3(0f, 1.5f, 8f), "boarding_barks") });
 
@@ -700,7 +700,7 @@ namespace Ronin7.EditorTools
                 securityWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var securitySpawner = BuildEp03WaveSpawner("SecuritySpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var securitySpawner = BuildWaveSpawner("SecuritySpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { securityWaveHealths },
                 new[] { BuildEp22DialoguePlayer("Dialogue_StellarDiveBarks", new Vector3(0f, 1.5f, 8f), "stellar_dive_barks") });
 

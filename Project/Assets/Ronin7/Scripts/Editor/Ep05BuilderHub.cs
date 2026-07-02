@@ -162,7 +162,7 @@ namespace Ronin7.EditorTools
             officer.gameObject.SetActive(false);
             wave1Healths.Add(officerHealth);
 
-            var wave1Spawner = BuildEp03WaveSpawner("Wave1Spawner", new Vector3(0f, 1f, 10f), 3f,
+            var wave1Spawner = BuildWaveSpawner("Wave1Spawner", new Vector3(0f, 1f, 10f), 3f,
                 new List<List<Health>> { wave1Healths }, new[] { rotundaStrikeBarksDialogue });
 
             // ---- Enemies: Rotunda Wave 2 (2 boarders) ----
@@ -183,7 +183,7 @@ namespace Ronin7.EditorTools
                 wave2Healths.Add(enemy.GetComponent<Health>());
             }
 
-            var wave2Spawner = BuildEp03WaveSpawner("Wave2Spawner", new Vector3(0f, 1f, 24f), 3f,
+            var wave2Spawner = BuildWaveSpawner("Wave2Spawner", new Vector3(0f, 1f, 24f), 3f,
                 new List<List<Health>> { wave2Healths }, new[] { bridgeBoardersBarksDialogue });
 
             // Reach triggers.
@@ -474,7 +474,7 @@ namespace Ronin7.EditorTools
                 hullWaveHealths.Add(enemyHealth);
             }
 
-            var hullWaveSpawner = BuildEp03WaveSpawner("HullWaveSpawner", new Vector3(0f, 1f, 12f), 3f,
+            var hullWaveSpawner = BuildWaveSpawner("HullWaveSpawner", new Vector3(0f, 1f, 12f), 3f,
                 new List<List<Health>> { hullWaveHealths }, new[] { hullEliteBarksDialogue });
 
             // ---- Enemy: Khall Duel (dark-crimson/black tint, 5x health, single wave) ----
@@ -491,7 +491,7 @@ namespace Ronin7.EditorTools
             }
             khall.gameObject.SetActive(false);
 
-            var khallWaveSpawner = BuildEp03WaveSpawner("KhallWaveSpawner", new Vector3(0f, 1f, 28f), 3f,
+            var khallWaveSpawner = BuildWaveSpawner("KhallWaveSpawner", new Vector3(0f, 1f, 28f), 3f,
                 new List<List<Health>> { new List<Health> { khallHealth } }, new[] { khallDuelBarksDialogue });
 
             // Reach triggers.

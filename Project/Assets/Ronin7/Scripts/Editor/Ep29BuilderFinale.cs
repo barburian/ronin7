@@ -96,7 +96,7 @@ namespace Ronin7.EditorTools
                 waveB.Add(enemy.GetComponent<Health>());
             }
 
-            var boarderSpawner = BuildEp03WaveSpawner("BoarderSpawner", new Vector3(0f, 0.5f, 11f), 2f,
+            var boarderSpawner = BuildWaveSpawner("BoarderSpawner", new Vector3(0f, 0.5f, 11f), 2f,
                 new List<List<Health>> { waveA, waveB },
                 new DialoguePlayer[0]); // no spawn bark; wrist_sacrifice plays on start
 

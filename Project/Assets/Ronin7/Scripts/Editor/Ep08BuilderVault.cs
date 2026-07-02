@@ -162,7 +162,7 @@ namespace Ronin7.EditorTools
             reaper.gameObject.SetActive(false);
 
             // Build wave spawner for the single REAPER-9.
-            var reaperSpawner = BuildEp03WaveSpawner("ReaperSpawner", new Vector3(0f, 1f, 6f), 1f,
+            var reaperSpawner = BuildWaveSpawner("ReaperSpawner", new Vector3(0f, 1f, 6f), 1f,
                 new List<List<Health>> { new List<Health> { reaper.GetComponent<Health>() } }, new[] { reaperDuelDialogue });
 
             // Reach trigger at vault back.

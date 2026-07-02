@@ -138,7 +138,7 @@ namespace Ronin7.EditorTools
                 salvageWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var salvageSpawner = BuildEp03WaveSpawner("SalvageSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var salvageSpawner = BuildWaveSpawner("SalvageSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { salvageWaveHealths },
                 new[] { BuildEp16DialoguePlayer("Dialogue_SalvageBarks", new Vector3(0f, 1.5f, 8f), "salvage_barks") });
 
@@ -588,7 +588,7 @@ namespace Ronin7.EditorTools
                 soldierWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var soldierSpawner = BuildEp03WaveSpawner("DominionSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var soldierSpawner = BuildWaveSpawner("DominionSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { soldierWaveHealths },
                 new[] { BuildEp16DialoguePlayer("Dialogue_CorvetteBarks", new Vector3(0f, 1.5f, 8f), "corvette_barks") });
 

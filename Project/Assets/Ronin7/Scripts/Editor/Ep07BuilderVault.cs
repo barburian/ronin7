@@ -242,7 +242,7 @@ namespace Ronin7.EditorTools
             s1.FindPropertyRelative("kind").enumValueIndex = (int)MissionStepKind.DefeatWaves;
             s1.FindPropertyRelative("label").stringValue = "DefeatWaves: Guard Assault (3/4/3)";
             var allWaveHealths = new List<List<Health>> { wave1Healths, wave2Healths, wave3Healths };
-            var combinedSpawner = BuildEp03WaveSpawner("GuardAssaultSpawner", new Vector3(0f, 1f, 16f), 3.5f,
+            var combinedSpawner = BuildWaveSpawner("GuardAssaultSpawner", new Vector3(0f, 1f, 16f), 3.5f,
                 allWaveHealths, new[] { guardAssaultBarksDialogue });
             s1.FindPropertyRelative("waveSpawner").objectReferenceValue = combinedSpawner;
 

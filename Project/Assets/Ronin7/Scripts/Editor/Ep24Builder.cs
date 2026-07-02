@@ -195,7 +195,7 @@ namespace Ronin7.EditorTools
             };
             var cloneHealths = BuildEp24CloneWave(clonePositions, playerHealth, enemyDef, Ep24CloneTint, trained: false);
 
-            var cloneSpawner = BuildEp03WaveSpawner("CloneSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var cloneSpawner = BuildWaveSpawner("CloneSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { cloneHealths },
                 new[] { BuildEp24DialoguePlayer("Dialogue_DockingBarks", new Vector3(0f, 1.5f, 8f), "docking_barks") });
 
@@ -289,7 +289,7 @@ namespace Ronin7.EditorTools
             };
             var cloneHealths = BuildEp24CloneWave(clonePositions, playerHealth, enemyDef, Ep24CloneTint, trained: false);
 
-            var cloneSpawner = BuildEp03WaveSpawner("CloneSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var cloneSpawner = BuildWaveSpawner("CloneSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { cloneHealths },
                 new[] { BuildEp24DialoguePlayer("Dialogue_ColonyBarks", new Vector3(0f, 1.5f, 8f), "colony_barks") });
 
@@ -386,7 +386,7 @@ namespace Ronin7.EditorTools
             };
             var cloneHealths = BuildEp24CloneWave(clonePositions, playerHealth, enemyDef, Ep24CloneTint, trained: true);
 
-            var cloneSpawner = BuildEp03WaveSpawner("CloneSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var cloneSpawner = BuildWaveSpawner("CloneSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { cloneHealths },
                 new[] { BuildEp24DialoguePlayer("Dialogue_VaultBarks", new Vector3(0f, 1.5f, 8f), "vault_barks") });
 

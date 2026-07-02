@@ -147,7 +147,7 @@ namespace Ronin7.EditorTools
                 raiderWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var raiderSpawner = BuildEp03WaveSpawner("RaiderSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var raiderSpawner = BuildWaveSpawner("RaiderSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { raiderWaveHealths },
                 new[] { BuildEp20DialoguePlayer("Dialogue_DockingBarks", new Vector3(0f, 1.5f, 8f), "docking_barks") });
 
@@ -324,7 +324,7 @@ namespace Ronin7.EditorTools
                 lotusWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var lotusSpawner = BuildEp03WaveSpawner("LotusSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var lotusSpawner = BuildWaveSpawner("LotusSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { lotusWaveHealths },
                 new[] { BuildEp20DialoguePlayer("Dialogue_LotusBarks", new Vector3(0f, 1.5f, 8f), "lotus_barks") });
 
@@ -492,7 +492,7 @@ namespace Ronin7.EditorTools
                 droneWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var droneSpawner = BuildEp03WaveSpawner("DroneSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var droneSpawner = BuildWaveSpawner("DroneSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { droneWaveHealths },
                 new[] { BuildEp20DialoguePlayer("Dialogue_DroneBarks", new Vector3(0f, 1.5f, 8f), "drone_barks") });
 

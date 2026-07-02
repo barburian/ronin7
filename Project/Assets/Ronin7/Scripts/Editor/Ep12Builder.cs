@@ -203,7 +203,7 @@ namespace Ronin7.EditorTools
                 enforcerWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var enforcerSpawner = BuildEp03WaveSpawner("EnforcerSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var enforcerSpawner = BuildWaveSpawner("EnforcerSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { enforcerWaveHealths },
                 new DialoguePlayer[0]); // No canonical enforcer barks.
 
@@ -394,7 +394,7 @@ namespace Ronin7.EditorTools
                 purifierWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var purifierSpawner = BuildEp03WaveSpawner("PurifierSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var purifierSpawner = BuildWaveSpawner("PurifierSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { purifierWaveHealths },
                 new[] { BuildEp12DialoguePlayer("Dialogue_PurifierBarks", new Vector3(0f, 1.5f, 8f), "purifier_barks") });
 
@@ -587,7 +587,7 @@ namespace Ronin7.EditorTools
                 shardbornWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var shardbornSpawner = BuildEp03WaveSpawner("ShardbornSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var shardbornSpawner = BuildWaveSpawner("ShardbornSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { shardbornWaveHealths },
                 new DialoguePlayer[0]);
 
@@ -781,7 +781,7 @@ namespace Ronin7.EditorTools
                 echoWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var echoSpawner = BuildEp03WaveSpawner("EchoSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var echoSpawner = BuildWaveSpawner("EchoSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { echoWaveHealths },
                 new DialoguePlayer[0]);
 

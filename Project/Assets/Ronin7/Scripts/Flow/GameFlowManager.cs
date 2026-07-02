@@ -36,7 +36,7 @@ namespace Ronin7.Flow
         [SerializeField] private string mainMenuScene = "Phase6_Boot";
         [Tooltip("Kessler's salvage ship — the persistent on-foot hub the player stages missions from. " +
                  "Never counts as a completed mission.")]
-        [SerializeField] private string shipHubScene = "Galaxy1_EP01_Ship";
+        [SerializeField] private string shipHubScene = "Galaxy1_Ch1_Hub";
 
         [Header("Boot")]
         [Tooltip("Load the hub automatically on start (used for quick-boot / in-editor testing).")]

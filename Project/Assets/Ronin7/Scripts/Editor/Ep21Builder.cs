@@ -171,7 +171,7 @@ namespace Ronin7.EditorTools
                 wave3Healths.Add(enemy.GetComponent<Health>());
             }
 
-            var lotusSpawner = BuildEp03WaveSpawner("LotusSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var lotusSpawner = BuildWaveSpawner("LotusSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { wave1Healths, wave2Healths, wave3Healths },
                 new[] { BuildEp21DialoguePlayer("Dialogue_DescentBarks", new Vector3(0f, 1.5f, 8f), "descent_barks") });
 
@@ -330,7 +330,7 @@ namespace Ronin7.EditorTools
                 selfCopyHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var selfCopySpawner = BuildEp03WaveSpawner("SelfCopySpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var selfCopySpawner = BuildWaveSpawner("SelfCopySpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { selfCopyHealths },
                 new[] { BuildEp21DialoguePlayer("Dialogue_SelfCopyBarks", new Vector3(0f, 1.5f, 8f), "self_copy_barks") });
 

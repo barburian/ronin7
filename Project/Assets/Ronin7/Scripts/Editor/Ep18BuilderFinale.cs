@@ -155,7 +155,7 @@ namespace Ronin7.EditorTools
                 constructWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var constructSpawner = BuildEp03WaveSpawner("ConstructSpawner", new Vector3(0f, 0.5f, 10f), 2f,
+            var constructSpawner = BuildWaveSpawner("ConstructSpawner", new Vector3(0f, 0.5f, 10f), 2f,
                 new List<List<Health>> { constructWaveHealths },
                 new[] { BuildEp18DialoguePlayer("Dialogue_ConstructBarks", new Vector3(0f, 1.5f, 10f), "construct_barks") });
 

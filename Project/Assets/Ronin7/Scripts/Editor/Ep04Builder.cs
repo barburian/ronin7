@@ -168,7 +168,7 @@ namespace Ronin7.EditorTools
                 scoutHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var scoutWaveSpawner = BuildEp03WaveSpawner("ScoutWaveSpawner", new Vector3(0f, 1f, 11f), 3f,
+            var scoutWaveSpawner = BuildWaveSpawner("ScoutWaveSpawner", new Vector3(0f, 1f, 11f), 3f,
                 new List<List<Health>> { scoutHealths }, new[] { jungleFightBarksDialogue });
 
             // Reach triggers.
@@ -383,7 +383,7 @@ namespace Ronin7.EditorTools
                 sentryHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var sentryWaveSpawner = BuildEp03WaveSpawner("SentryWaveSpawner", new Vector3(0f, 1f, 20f), 3f,
+            var sentryWaveSpawner = BuildWaveSpawner("SentryWaveSpawner", new Vector3(0f, 1f, 20f), 3f,
                 new List<List<Health>> { sentryHealths }, new[] { archiveSentryBarksDialogue });
 
             // ---- Enemy: Dominion Enforcer duel (silver, 3.5x health) — folded in from the merged Archive Heart;
@@ -401,7 +401,7 @@ namespace Ronin7.EditorTools
             }
             enforcer.gameObject.SetActive(false);
 
-            var enforcerWaveSpawner = BuildEp03WaveSpawner("EnforcerWaveSpawner", new Vector3(0f, 1f, 28f), 3f,
+            var enforcerWaveSpawner = BuildWaveSpawner("EnforcerWaveSpawner", new Vector3(0f, 1f, 28f), 3f,
                 new List<List<Health>> { new List<Health> { enforcerHealth } }, new[] { heartEnforcerChallengeDialogue });
 
             // ---- Heart props (folded in): Khall's video screen on the nave back wall, the records terminal in

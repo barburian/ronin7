@@ -151,7 +151,7 @@ namespace Ronin7.EditorTools
                 enforcerHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var enforcerSpawner = BuildEp03WaveSpawner("EnforcerSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var enforcerSpawner = BuildWaveSpawner("EnforcerSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { enforcerHealths },
                 new[] { BuildEp25DialoguePlayer("Dialogue_CorridorBarks", new Vector3(0f, 1.5f, 8f), "corridor_barks") });
 

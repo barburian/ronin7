@@ -182,7 +182,7 @@ namespace Ronin7.EditorTools
             warden.gameObject.SetActive(false);
             var wardenHealth = warden.GetComponent<Health>();
 
-            var wardenSpawner = BuildEp03WaveSpawner("WardenSpawner", new Vector3(0f, 0.5f, 12f), 1f,
+            var wardenSpawner = BuildWaveSpawner("WardenSpawner", new Vector3(0f, 0.5f, 12f), 1f,
                 new List<List<Health>> { new List<Health> { wardenHealth } },
                 new DialoguePlayer[0]); // No spawn dialogue for the Warden
 
@@ -281,7 +281,7 @@ namespace Ronin7.EditorTools
                 soldierHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var soldierSpawner = BuildEp03WaveSpawner("SoldierSpawner", new Vector3(0f, 0.5f, 11f), 2f,
+            var soldierSpawner = BuildWaveSpawner("SoldierSpawner", new Vector3(0f, 0.5f, 11f), 2f,
                 new List<List<Health>> { soldierHealths },
                 new[] { BuildEp30DialoguePlayer("Dialogue_DockingEscape", new Vector3(0f, 1.5f, 11f), "docking_escape") });
 

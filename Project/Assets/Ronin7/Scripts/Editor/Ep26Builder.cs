@@ -211,7 +211,7 @@ namespace Ronin7.EditorTools
                 waveB.Add(enemy.GetComponent<Health>());
             }
 
-            var operativeSpawner = BuildEp03WaveSpawner("OperativeSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var operativeSpawner = BuildWaveSpawner("OperativeSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { waveA, waveB },
                 new[] { BuildEp26DialoguePlayer("Dialogue_AshenBarks", new Vector3(0f, 1.5f, 8f), "ashen_barks") });
 
@@ -313,7 +313,7 @@ namespace Ronin7.EditorTools
                 assassinHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var assassinSpawner = BuildEp03WaveSpawner("AssassinSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var assassinSpawner = BuildWaveSpawner("AssassinSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { assassinHealths },
                 new[] { BuildEp26DialoguePlayer("Dialogue_DockingBarks", new Vector3(0f, 1.5f, 8f), "docking_barks") });
 

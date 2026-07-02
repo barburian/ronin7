@@ -148,7 +148,7 @@ namespace Ronin7.EditorTools
             }
 
             var stationBarksDialogue = BuildEp18DialoguePlayer("Dialogue_StationBarks", new Vector3(0f, 1.5f, 8f), "station_enforcer_barks");
-            var enforcerSpawner = BuildEp03WaveSpawner("EnforcerSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var enforcerSpawner = BuildWaveSpawner("EnforcerSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { enforcerWaveHealths },
                 new[] { stationBarksDialogue });
 
@@ -535,7 +535,7 @@ namespace Ronin7.EditorTools
             }
 
             var extractionBarksDialogue = BuildEp18DialoguePlayer("Dialogue_ExtractionBarks", new Vector3(0f, 1.5f, 8f), "extraction_barks");
-            var researcherSpawner = BuildEp03WaveSpawner("ResearcherSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var researcherSpawner = BuildWaveSpawner("ResearcherSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { researcherWaveHealths },
                 new[] { extractionBarksDialogue });
 

@@ -136,7 +136,7 @@ namespace Ronin7.EditorTools
             }
 
             var intakeBarksDialogue = BuildEp17DialoguePlayer("Dialogue_IntakeBarks", new Vector3(0f, 1.5f, 8f), "intake_barks");
-            var breakerSpawner = BuildEp03WaveSpawner("BreackerSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var breakerSpawner = BuildWaveSpawner("BreackerSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { breakerWaveHealths },
                 new[] { intakeBarksDialogue });
 
@@ -392,7 +392,7 @@ namespace Ronin7.EditorTools
             waves.Add(wave3Healths);
 
             // Build wave spawner with all 4 waves (barks array reuses same DialoguePlayer for all 4).
-            var arenaSpawner = BuildEp03WaveSpawner("ArenaSpawner", new Vector3(0f, 0.5f, 8f), 2f, waves,
+            var arenaSpawner = BuildWaveSpawner("ArenaSpawner", new Vector3(0f, 0.5f, 8f), 2f, waves,
                 new[] { arenaBarksDialogue, arenaBarksDialogue, arenaBarksDialogue, arenaBarksDialogue });
 
             // Transition box: "DESCEND — THE LOWER PIT".
@@ -576,7 +576,7 @@ namespace Ronin7.EditorTools
 
             // Reuse arena_barks dialogue set for lower pit barks (no dedicated set exists).
             var lowerPitBarksDialogue = BuildEp17DialoguePlayer("Dialogue_LowerPitBarks", new Vector3(0f, 1.5f, 8f), "arena_barks");
-            var guardSpawner = BuildEp03WaveSpawner("GuardSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var guardSpawner = BuildWaveSpawner("GuardSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { guardWaveHealths },
                 new[] { lowerPitBarksDialogue });
 

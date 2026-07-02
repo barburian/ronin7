@@ -125,7 +125,7 @@ namespace Ronin7.EditorTools
                 droneWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var droneSpawner = BuildEp03WaveSpawner("DroneSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var droneSpawner = BuildWaveSpawner("DroneSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { droneWaveHealths },
                 new[] { BuildEp23DialoguePlayer("Dialogue_DroneBarks", new Vector3(0f, 1.5f, 8f), "drone_barks") });
 
@@ -303,7 +303,7 @@ namespace Ronin7.EditorTools
                 sentinelWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var sentinelSpawner = BuildEp03WaveSpawner("SentinelSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var sentinelSpawner = BuildWaveSpawner("SentinelSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { sentinelWaveHealths },
                 new[] { BuildEp23DialoguePlayer("Dialogue_SentinelBarks", new Vector3(0f, 1.5f, 8f), "sentinel_barks") });
 
@@ -489,7 +489,7 @@ namespace Ronin7.EditorTools
                 cryoWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var cryoSpawner = BuildEp03WaveSpawner("CryoSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var cryoSpawner = BuildWaveSpawner("CryoSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { cryoWaveHealths },
                 new[] { BuildEp23DialoguePlayer("Dialogue_CryoBarks", new Vector3(0f, 1.5f, 8f), "cryo_barks") });
 

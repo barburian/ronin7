@@ -64,7 +64,7 @@ namespace Ronin7.EditorTools
             };
             var cloneHealths = BuildEp24CloneWave(clonePositions, playerHealth, enemyDef, Ep24CloneTint, trained: false);
 
-            var cloneSpawner = BuildEp03WaveSpawner("CloneSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var cloneSpawner = BuildWaveSpawner("CloneSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { cloneHealths },
                 new[] { BuildEp24DialoguePlayer("Dialogue_BroadcastBarks", new Vector3(0f, 1.5f, 8f), "broadcast_barks") });
 
@@ -175,7 +175,7 @@ namespace Ronin7.EditorTools
                 operativeHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var strikeSpawner = BuildEp03WaveSpawner("StrikeSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var strikeSpawner = BuildWaveSpawner("StrikeSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { operativeHealths },
                 new[] { BuildEp24DialoguePlayer("Dialogue_StrikeBarks", new Vector3(0f, 1.5f, 8f), "strike_barks") });
 

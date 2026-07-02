@@ -157,7 +157,7 @@ namespace Ronin7.EditorTools
                 droneWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var droneSpawner = BuildEp03WaveSpawner("DroneSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var droneSpawner = BuildWaveSpawner("DroneSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { droneWaveHealths },
                 new[] { BuildEp23DialoguePlayer("Dialogue_DefenseBarks", new Vector3(0f, 1.5f, 8f), "defense_barks") });
 
@@ -330,7 +330,7 @@ namespace Ronin7.EditorTools
                 cryoWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var cryoSpawner = BuildEp03WaveSpawner("CryoSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var cryoSpawner = BuildWaveSpawner("CryoSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { cryoWaveHealths },
                 new[] { BuildEp23DialoguePlayer("Dialogue_DefectiveBarks", new Vector3(0f, 1.5f, 8f), "defective_barks") });
 
@@ -534,7 +534,7 @@ namespace Ronin7.EditorTools
                 wave2Healths.Add(enemy.GetComponent<Health>());
             }
 
-            var boarderSpawner = BuildEp03WaveSpawner("BoarderSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var boarderSpawner = BuildWaveSpawner("BoarderSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { wave1Healths, wave2Healths },
                 new[] { BuildEp23DialoguePlayer("Dialogue_BoardingBarks", new Vector3(0f, 1.5f, 8f), "boarding_barks") });
 
@@ -699,7 +699,7 @@ namespace Ronin7.EditorTools
                 pursuitWaveHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var pursuitSpawner = BuildEp03WaveSpawner("PursuitSpawner", new Vector3(0f, 0.5f, 8f), 2f,
+            var pursuitSpawner = BuildWaveSpawner("PursuitSpawner", new Vector3(0f, 0.5f, 8f), 2f,
                 new List<List<Health>> { pursuitWaveHealths },
                 new[] { BuildEp23DialoguePlayer("Dialogue_GhostBarks", new Vector3(0f, 1.5f, 8f), "ghost_barks") });
 

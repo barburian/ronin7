@@ -212,7 +212,7 @@ namespace Ronin7.EditorTools
                 wave2Healths.Add(enemy.GetComponent<Health>());
             }
 
-            var soldierSpawner = BuildEp03WaveSpawner("SoldierSpawner", new Vector3(0f, 0.5f, 10f), 2f,
+            var soldierSpawner = BuildWaveSpawner("SoldierSpawner", new Vector3(0f, 0.5f, 10f), 2f,
                 new List<List<Health>> { wave1Healths, wave2Healths },
                 new DialoguePlayer[0]);
 
@@ -321,7 +321,7 @@ namespace Ronin7.EditorTools
                 droneHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var droneSpawner = BuildEp03WaveSpawner("DroneSpawner", new Vector3(0f, 1.5f, 10f), 2f,
+            var droneSpawner = BuildWaveSpawner("DroneSpawner", new Vector3(0f, 1.5f, 10f), 2f,
                 new List<List<Health>> { droneHealths },
                 new DialoguePlayer[0]);
 
@@ -445,7 +445,7 @@ namespace Ronin7.EditorTools
                 wave2Healths.Add(enemy.GetComponent<Health>());
             }
 
-            var choirSpawner = BuildEp03WaveSpawner("ChoirSpawner", new Vector3(0f, 0.5f, 10f), 2f,
+            var choirSpawner = BuildWaveSpawner("ChoirSpawner", new Vector3(0f, 0.5f, 10f), 2f,
                 new List<List<Health>> { wave1Healths, wave2Healths },
                 new DialoguePlayer[0]);
 
@@ -546,7 +546,7 @@ namespace Ronin7.EditorTools
                 officerHealths.Add(enemy.GetComponent<Health>());
             }
 
-            var officerSpawner = BuildEp03WaveSpawner("OfficerSpawner", new Vector3(0f, 0.5f, 10f), 2f,
+            var officerSpawner = BuildWaveSpawner("OfficerSpawner", new Vector3(0f, 0.5f, 10f), 2f,
                 new List<List<Health>> { officerHealths },
                 new DialoguePlayer[0]);
 
