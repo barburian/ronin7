@@ -34,13 +34,15 @@ Ch14 cut, Ch15 merged into Ch16 — never built. Completion flags: `chN_complete
 | Phase 0 (chapter flow foundation) | 426 (+8: HubStateControllerTests, ChapterOutroTests) | 426 / 0 failed / 3 skipped | PASS 2026-07-02 |
 | Phase 1 (ability framework + Echo + placeholders) | 450 (+24: CampaignStateAbility 11, EchoCalloutSelector 7, EchoLines 6) | 450 / 0 failed / 3 skipped | PASS 2026-07-02 |
 | Ch01 retrofit (Echo on rig, rewire gap closed, Ep01 batch deleted) | 450 (±0 — no Ep01LinesTests existed) | 450 / 0 failed / 3 skipped | PASS 2026-07-02 |
+| Ch02 (Auction + ProtectNpcObjective) | 461 (+11) | 461 / 0 failed / 3 skipped | PASS 2026-07-02 |
+| Ch02 leftovers + Ch03 fixtures (post Ep02–04 deletion −15, Ch03 +21) | 467 | 467 / 0 failed / 3 skipped | PASS 2026-07-03 |
 
 ## Legacy deletion batches
 
 | After | Delete | Done |
 |---|---|---|
 | Ch01 retrofit | Ep01 (Builder+VoiceManifest deleted; Ep01Lines KEPT — live dep of Galaxy1Builder + EnemyWarningBuilder) | 2026-07-02 |
-| Ch02 | Ep02–Ep04 | |
+| Ch02 | Ep02–Ep04 (builders+manifests+LinesTests; Ep02/03/04 Lines KEPT — live Galaxy1Builder deps; Ep04 scene builders moved to shared) | 2026-07-03 |
 | Ch03 | Ep05–Ep07 | |
 | Ch04 | Ep08–Ep09 | |
 | Ch05 | Ep10–Ep11 | |
@@ -67,6 +69,10 @@ Before deleting any EpNN file: grep it for methods still called by Chapter*/Hub*
   PromptInputAdvancers, and SettingsMenuToggle before save (gap closed in Ch01 retrofit).
 - `console-clear-logs` MCP tool broken (file lock, HTTP 500) — use `lastMinutes` filtering instead.
 - 4× `EnvironmentDependencyValues`/`graphicsApiMask 4 -> 262148` on playmode transitions — Unity 6 infra noise.
+- `Assets/AI Toolkit/Temp/*.glb` IOException import-loop spam — pre-existing AI Toolkit scratch-file lock;
+  path is gitignored. Console **Error Pause is disabled** (it froze automated playmode runs on this spam).
+- ai-game.dev cloud bridge intermittently drops to 401 after long playmode sessions; refresh via plugin
+  window (Ctrl+Alt+A) or editor restart. The unity-mcp relay bridge keeps working — use it as fallback.
 
 ## Perf reference bar (Ch1 hub scene, edit-mode UnityStats at greybox)
 
