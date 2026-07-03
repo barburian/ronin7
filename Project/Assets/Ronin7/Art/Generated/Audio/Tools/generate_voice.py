@@ -184,6 +184,14 @@ SPEAKER_VOICES = {
     "Drillmaster Caradoc": ("en-US-ChristopherNeural", "-18%", "-16Hz"),
     # Chapter 7 (Galaxy 1) speakers. Coral Vex reuses her EP13 entry below.
     "The Previous Owner": ("en-US-RogerNeural", "-16%", "-16Hz"),
+    # Chapter 8 (Galaxy 1) speakers. Khall/Coral Vex/Mera Voss/Morrigan reuse their entries above.
+    # Roger is the saga's established "ancient/synthetic oracle" casting (PROTOCOL-VERITY, Automated
+    # Defense System, the Sentinel Platforms) — a natural fit for the Mourners' braided, impersonal voice.
+    "The Mourners": ("en-US-RogerNeural", "-12%", "-14Hz"),
+    # The Silent Garden's faceless killswitch-maker (seen, not named this chapter — the Ch13 named
+    # reveal is Dr. Heris). Softer/warmer than her later "Dr. Heris" casting below: this is the tender
+    # moment years before the woman who forges Cipher's file hardens into who Ch13/25 shows her as.
+    "The Woman": ("en-GB-SoniaNeural", "-4%", "-4Hz"),
     # EP12 speakers
     "Morrigan": ("en-US-MichelleNeural", "-8%", "-6Hz"),
     "Dominion Purifier Lead": ("en-US-SteffanNeural", "-3%", "-8Hz"),
