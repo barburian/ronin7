@@ -59,6 +59,7 @@ namespace Ronin7.EditorTools
             Ch7FillArchiveHolds(archiveHolds); // Ch7 increment: kept-blade rack, warm hilt light, idle Coral Vex — still gated by ch7_complete below
             var warRoomTable = BuildDarkRoomShell(gatesGo.transform, "WarRoomTable", new Vector3(-20f, 0f, 28f));
             Ch9FillWarRoomTable(warRoomTable); // Ch9 increment (war-room pt1): holo-table + idle Gryph/Sable — still gated by ch9_complete below
+            var warRoomTablePt2 = Ch10FillWarRoomTablePt2(warRoomTable); // Ch10 increment (war-room pt2): idle Cassie-04/Vess — its OWN ch10_complete gate below, nested under the ch9_complete-gated room
             var surgeryReactor = BuildDarkRoomShell(gatesGo.transform, "SurgeryReactor", new Vector3(-20f, 0f, 36f));
             var fullyLit = BuildFullyLitRoot(gatesGo.transform, new Vector3(-20f, 0f, 44f));
 
@@ -77,6 +78,7 @@ namespace Ronin7.EditorTools
                 ("ch6_complete", ironDojoBay),
                 ("ch7_complete", archiveHolds),
                 ("ch9_complete", warRoomTable),
+                ("ch10_complete", warRoomTablePt2),
                 ("ch13_complete", surgeryReactor),
                 ("ch16_complete", fullyLit),
             };
@@ -263,6 +265,37 @@ namespace Ronin7.EditorTools
                 so.FindProperty("displayName").stringValue = name;
                 so.ApplyModifiedPropertiesWithoutUndo();
             }
+        }
+
+        /// <summary>Ch10 increment (war-room pt2): a nested child root under the WarRoomTable dark-shell
+        /// gate room, holding idle Cassie-04 (Ally #7) and Vess (Ally #8) — the second wave of allies who
+        /// crowd around the war-room from Ch10 on. Returned (not filled in place) because it needs its
+        /// OWN ch10_complete room-gate entry, separate from the room's ch9_complete gate — when ch9 isn't
+        /// complete the whole room (and this child) stays hidden as before; once ch9 is complete but ch10
+        /// isn't, the room shows Gryph/Sable only, and this increment stays off until ch10_complete too.</summary>
+        private static GameObject Ch10FillWarRoomTablePt2(GameObject root)
+        {
+            var incrementGo = new GameObject("Ch10Increment");
+            incrementGo.transform.SetParent(root.transform, false);
+
+            (string prefab, Vector3 pos, string name)[] cast =
+            {
+                (Ch10CassiePrefab, root.transform.position + new Vector3(-1.6f, 0f, -1.2f), "Cassie-04"),
+                (Ch10VessPrefab, root.transform.position + new Vector3(1.6f, 0f, -1.2f), "Vess"),
+            };
+            foreach (var (prefab, pos, name) in cast)
+            {
+                var npc = InstantiateNpc(prefab, pos, name);
+                if (npc == null) continue;
+                FitNamedCharacter(npc);
+                npc.transform.SetParent(incrementGo.transform, true); // parent under the increment so the ch10_complete gate covers it
+                var storyNpc = npc.AddComponent<StoryNpc>();
+                var so = new SerializedObject(storyNpc);
+                so.FindProperty("displayName").stringValue = name;
+                so.ApplyModifiedPropertiesWithoutUndo();
+            }
+
+            return incrementGo;
         }
 
         /// <summary>ch16's gate: not a room shell but an empty root holding a few bright lights (an

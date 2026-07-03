@@ -351,7 +351,7 @@
                     "id": "a3000000000000000000000000000108",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold(duration=0.6)",
+                    "interactions": "Hold(duration=0.35)",
                     "initialStateCheck": false
                 },
                 {
@@ -385,6 +385,15 @@
                     "name": "Activate Overdrive",
                     "type": "Button",
                     "id": "a300000000000000000000000000010c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Phase Step",
+                    "type": "Button",
+                    "id": "a300000000000000000000000000010e",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -477,6 +486,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Recenter",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a300000000000000000000000000020e",
+                    "path": "<XRController>{RightHand}/secondaryButton",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Phase Step",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

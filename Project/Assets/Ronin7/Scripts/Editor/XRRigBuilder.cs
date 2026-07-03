@@ -2104,6 +2104,19 @@ namespace Ronin7.EditorTools
                 objects.Add(overdrive.gameObject);
             }
 
+            // Phase-step (Ch10+ ability): same asset-import-race null-out as Toggle Weakpoint
+            // Sight/Overdrive above (PhaseStepController self-disables when locked, so this is a
+            // harmless no-op wire on scenes where the ability isn't unlocked yet — the Ch7 bug).
+            foreach (var phaseStep in Object.FindObjectsByType<PhaseStepController>(FindObjectsInactive.Include))
+            {
+                var so = new SerializedObject(phaseStep);
+                SetObjectRef(so, "activateAction", FindRef(refs, "Right Hand", "Phase Step"));
+                so.ApplyModifiedPropertiesWithoutUndo();
+                EditorUtility.SetDirty(phaseStep);
+                components++;
+                objects.Add(phaseStep.gameObject);
+            }
+
             // Prompt advancers are built inactive like dialogue panels and share the Talk action.
             foreach (var prompt in Object.FindObjectsByType<PromptInputAdvancer>(FindObjectsInactive.Include))
             {

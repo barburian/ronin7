@@ -198,6 +198,8 @@ SPEAKER_VOICES = {
     "Rook": ("en-US-DavisNeural", "-4%", "-6Hz"),              # Gryph's second, hard/fast/loyal
     "Sable": ("en-US-JennyNeural", "-8%", "-6Hz"),             # Tide-depths living archive, doubled/tired
     "Vane": ("en-US-SteffanNeural", "-18%", "-16Hz"),          # Wraith-6, an older/flatter cast of Ronin-7's own voice
+    # Chapter 10 (Galaxy 1) speakers. Cassie-04/Vess/Gryph/Sable/Morrigan/Coral Vex reuse entries above.
+    "Sever": ("en-US-EricNeural", "-10%", "-14Hz"),            # Ninja-2, Cassie's leashed keeper — an older make of the same cage as Ronin-7, distinct casting from Vane's Steffan
     # EP12 speakers
     "Morrigan": ("en-US-MichelleNeural", "-8%", "-6Hz"),
     "Dominion Purifier Lead": ("en-US-SteffanNeural", "-3%", "-8Hz"),

@@ -3687,6 +3687,18 @@ namespace Ronin7.EditorTools
                 if (vrRig != null) SetObjectRef(odSo, "anchor", vrRig.RightHand);
                 odSo.ApplyModifiedPropertiesWithoutUndo();
             }
+
+            // Ch10 — Phase-step (right-secondaryButton Tap activation; shares the button with Recenter's
+            // Hold(0.35s) — tap blinks, hold recenters). Direction is the head's horizontal forward.
+            if (rig.GetComponent<PhaseStepController>() == null)
+            {
+                var phaseStep = rig.AddComponent<PhaseStepController>();
+                var psSo = new SerializedObject(phaseStep);
+                SetObjectRef(psSo, "activateAction", FindRef(refs, "Right Hand", "Phase Step"));
+                var vrRig = rig.GetComponent<VRRig>();
+                if (vrRig != null) SetObjectRef(psSo, "headTransform", vrRig.Head);
+                psSo.ApplyModifiedPropertiesWithoutUndo();
+            }
         }
     }
 }

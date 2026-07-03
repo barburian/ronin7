@@ -43,6 +43,7 @@ Ch14 cut, Ch15 merged into Ch16 — never built. Completion flags: `chN_complete
 | Ch07 (+21 fixtures: WeakpointSightLogic, PlayerCombatModifiers, Chapter7Lines, BladeDamager multiplier ×3; post Ep14–15 deletion −10) | 475 | 475 (472 pass / 3 skip) / 0 failed | PASS 2026-07-03 |
 | Ch08 (+15 fixtures: RiddleTrialLogic 8, Chapter8Lines 7; post Ep16–17 deletion −10) | 480 | 480 (477 pass / 3 skip) / 0 failed | PASS 2026-07-03 |
 | Ch09 (+22 fixtures: OverdriveLogic 15, Chapter9Lines 7; post Ep18–19 deletion −10) | 492 | 492 (489 pass / 3 skip) / 0 failed | PASS 2026-07-03 |
+| Ch10 (+14 fixtures: PhaseStepSolver 7, Chapter10Lines 7; post Ep20–21 deletion −10) | 496 | 496 (493 pass / 3 skip) / 0 failed | PASS 2026-07-03 |
 
 ## Legacy deletion batches
 
@@ -57,7 +58,7 @@ Ch14 cut, Ch15 merged into Ch16 — never built. Completion flags: `chN_complete
 | Ch07 | Ep14–Ep15 (4 builders incl. finales + 2 VoiceManifests + 2 LinesTests; Ep14/15 Lines KEPT — live Galaxy2Builder space_ep1N_post deps) | 2026-07-03 |
 | Ch08 | Ep16–Ep17 (4 builders incl. finales + 2 VoiceManifests + 2 LinesTests; Ep16Lines KEPT — Galaxy2Builder dep; Ep17Lines KEPT — Galaxy3Builder dep) | 2026-07-03 |
 | Ch09 | Ep18–Ep19 (4 builders incl. finales + 2 VoiceManifests + 2 LinesTests; Ep18/19Lines KEPT — live Galaxy3Builder space_ep1N_post deps) | 2026-07-03 |
-| Ch10 | Ep20–Ep21 | |
+| Ch10 | Ep20–Ep21 (4 builders incl. finales + 2 VoiceManifests + 2 LinesTests; Ep20/21Lines KEPT — live Galaxy3Builder space_ep2N_post deps) | 2026-07-03 |
 | Ch11 | Ep22–Ep23 | |
 | Ch12 | Ep24–Ep25 | |
 | Ch13 | Ep26–Ep28 | |
@@ -88,9 +89,12 @@ Before deleting any EpNN file: grep it for methods still called by Chapter*/Hub*
 - `Camera "Main Camera" does not use a Tracked Pose Driver (Input System)` — rig uses custom PoseFollower
 - `XR: Error setting active audio output driver` + `OculusLoader.EditorLoadOVRPlugin` NRE — no headset attached
 - Test-generated expected logs: SaveSystem error paths, GeminiClient aspect fallback, ProjectilePool starvation, ArtPrefabRegistry greybox fallback (Hand_L/R)
-- 15× `[Space Samurai] Input action not found` during any scene rebuild (14 legacy + 1 "Left Hand/Talk") —
-  pre-existing builder race; `RewireOpenScene()` repairs rig components, DialoguePlayers,
-  PromptInputAdvancers, and SettingsMenuToggle before save (gap closed in Ch01 retrofit).
+- `[Space Samurai] Input action not found` during any scene rebuild — pre-existing builder race;
+  `RewireOpenScene()` repairs rig components, DialoguePlayers, PromptInputAdvancers, SettingsMenuToggle,
+  and each ability's InputActionReference before save. Baseline 15 (14 legacy + "Left Hand/Talk"); the
+  count grows by ONE per shipped ability action (Toggle Weakpoint Sight, Activate Overdrive, Phase Step,
+  …) — expected, not a defect. Phase-step ground probe uses layer mask `~0` (can snap onto a dynamic
+  body top; no-fall guarantee still holds) — give it a proper ground layer in the in-headset tuning pass.
 - `console-clear-logs` MCP tool broken (file lock, HTTP 500) — use `lastMinutes` filtering instead.
 - 4× `EnvironmentDependencyValues`/`graphicsApiMask 4 -> 262148` on playmode transitions — Unity 6 infra noise.
 - `Assets/AI Toolkit/Temp/*.glb` IOException import-loop spam — pre-existing AI Toolkit scratch-file lock;
