@@ -38,6 +38,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Ronin7/Scenes/Ch11_GhostsAndOrigins.unity
     guid: 724bd5445ef79bd4bba483e4c0c7a7a8
+  - enabled: 1
+    path: Assets/Ronin7/Scenes/Ch12_TheFracture.unity
+    guid: 8f31283a542fdfa4f882bef7255bf9a1
+  - enabled: 1
+    path: Assets/Ronin7/Scenes/Ch13_SterileReckoning.unity
+    guid: 90f1f7b38049f7c4294b00a22a817b70
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 9b706728c01987b43bdf3acac015b69a, type: 2}
     com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}

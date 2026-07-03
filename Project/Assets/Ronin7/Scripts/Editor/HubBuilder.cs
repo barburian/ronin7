@@ -61,6 +61,7 @@ namespace Ronin7.EditorTools
             Ch9FillWarRoomTable(warRoomTable); // Ch9 increment (war-room pt1): holo-table + idle Gryph/Sable — still gated by ch9_complete below
             var warRoomTablePt2 = Ch10FillWarRoomTablePt2(warRoomTable); // Ch10 increment (war-room pt2): idle Cassie-04/Vess — its OWN ch10_complete gate below, nested under the ch9_complete-gated room
             var surgeryReactor = BuildDarkRoomShell(gatesGo.transform, "SurgeryReactor", new Vector3(-20f, 0f, 36f));
+            Ch13FillSurgeryReactor(surgeryReactor); // Ch13 increment: sterile table, cool accent light, idle Dr. Heris/Sallow — still gated by ch13_complete below
             var fullyLit = BuildFullyLitRoot(gatesGo.transform, new Vector3(-20f, 0f, 44f));
 
             // ---- HubStateController: switches the scene between the Ch1 mission and the hub, and
@@ -296,6 +297,44 @@ namespace Ronin7.EditorTools
             }
 
             return incrementGo;
+        }
+
+        /// <summary>Ch13 increment: fills the SurgeryReactor dark-shell gate room (built by
+        /// <see cref="BuildDarkRoomShell"/> just above) with a small sterile table, a cool accent light,
+        /// and idle Dr. Heris (Ally #9) + Sallow (Ally #10) — the last two allies aboard, the surgery/
+        /// reactor bay Heris keeps to service the Engine-sabotage tools she brought with her. Shell
+        /// geometry and the ch13_complete room-gate wiring below are unchanged.</summary>
+        private static void Ch13FillSurgeryReactor(GameObject root)
+        {
+            var tableColor = new Color(0.75f, 0.8f, 0.88f);
+            BuildProp(root.transform, "SterileTable", new Vector3(0f, 0.5f, 0f), new Vector3(1.4f, 0.1f, 0.7f), tableColor);
+
+            var lightGo = new GameObject("ReactorLight");
+            lightGo.transform.SetParent(root.transform, false);
+            lightGo.transform.localPosition = new Vector3(0f, 2.4f, 0f);
+            var light = lightGo.AddComponent<Light>();
+            light.type = LightType.Point;
+            light.color = new Color(0.55f, 0.75f, 1f);
+            light.intensity = 2f;
+            light.range = 8f;
+            light.shadows = LightShadows.None;
+
+            (string prefab, Vector3 pos, string name)[] cast =
+            {
+                (Ch13HerisPrefab, root.transform.position + new Vector3(-1.2f, 0f, 1.4f), "Dr. Heris"),
+                (Ch13SallowPrefab, root.transform.position + new Vector3(1.2f, 0f, 1.4f), "Sallow"),
+            };
+            foreach (var (prefab, pos, name) in cast)
+            {
+                var npc = InstantiateNpc(prefab, pos, name);
+                if (npc == null) continue;
+                FitNamedCharacter(npc);
+                npc.transform.SetParent(root.transform, true); // parent under the room so the ch13_complete gate covers it
+                var storyNpc = npc.AddComponent<StoryNpc>();
+                var so = new SerializedObject(storyNpc);
+                so.FindProperty("displayName").stringValue = name;
+                so.ApplyModifiedPropertiesWithoutUndo();
+            }
         }
 
         /// <summary>ch16's gate: not a room shell but an empty root holding a few bright lights (an

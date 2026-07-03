@@ -389,6 +389,10 @@ SPEAKER_VOICES = {
     # Chapter 12 (Galaxy 1) speakers. Cassie-04/Sable/Mera Voss/Kessler/Morrigan/Coral Vex/Vess/Echo/
     # Ronin-7/Gryph reuse entries above; "Vale" (EP23 block) reuses his existing casting as Commander Vale.
     "Ronin-7 Edition": ("en-US-SteffanNeural", "-15%", "-18Hz"),  # the leashed clone boss, Ronin-7's own voice with the person gone: same actor as Ronin-7, flatter/colder, zero inflection
+    # Chapter 13 (Galaxy 1) speakers. Cassie-04/Sable/Kessler/Morrigan/Coral Vex/Mera Voss/Vess/Echo/
+    # Ronin-7 reuse entries above; "Dr. Heris" (EP25 block above) and "Sallow" (EP26 block above) reuse
+    # their existing castings verbatim; "Enforcer" (EP05 block above) reuses its existing casting for the
+    # Redactor-class mini-boss's erasure-cant. No new speakers introduced this chapter.
 }
 
 DEFAULT_VOICE = ("en-US-AriaNeural", "+0%", "+0Hz")
