@@ -63,6 +63,7 @@ namespace Ronin7.EditorTools
             var surgeryReactor = BuildDarkRoomShell(gatesGo.transform, "SurgeryReactor", new Vector3(-20f, 0f, 36f));
             Ch13FillSurgeryReactor(surgeryReactor); // Ch13 increment: sterile table, cool accent light, idle Dr. Heris/Sallow — still gated by ch13_complete below
             var fullyLit = BuildFullyLitRoot(gatesGo.transform, new Vector3(-20f, 0f, 44f));
+            Ch16FillFullyLit(fullyLit); // Ch16 increment: galaxy1_complete state - idle Samurai-4 (family) + Khall (allied) among the bright lights - still gated by ch16_complete below
 
             // ---- HubStateController: switches the scene between the Ch1 mission and the hub, and
             // gates each future-chapter room on its own completion flag. ----
@@ -337,8 +338,8 @@ namespace Ronin7.EditorTools
             }
         }
 
-        /// <summary>ch16's gate: not a room shell but an empty root holding a few bright lights (an
-        /// unsubtle "fully lit" marker until the real Ch16 pass replaces it).</summary>
+        /// <summary>ch16's gate: an empty root holding a few bright lights — the "fully lit" galaxy1_complete
+        /// marker. Filled by <see cref="Ch16FillFullyLit"/> just below.</summary>
         private static GameObject BuildFullyLitRoot(Transform parent, Vector3 center)
         {
             var root = new GameObject("FullyLit");
@@ -360,6 +361,31 @@ namespace Ronin7.EditorTools
             }
 
             return root;
+        }
+
+        /// <summary>Ch16 increment (THE FINALE — galaxy1_complete): fills the FullyLit dark-shell gate
+        /// root (built by <see cref="BuildFullyLitRoot"/> just above) with the saga's last two recruits
+        /// idling in the bright light — Samurai-4 (family, beyond the numbered ten) and Khall (allied) —
+        /// mirroring the Ch2/Ch6/Ch7/Ch9/Ch10/Ch13 increments exactly. Shell geometry and the
+        /// ch16_complete room-gate wiring below are unchanged.</summary>
+        private static void Ch16FillFullyLit(GameObject root)
+        {
+            (string prefab, Vector3 pos, string name)[] cast =
+            {
+                (Ch16Samurai4Prefab, root.transform.position + new Vector3(-1.2f, 0f, 1.4f), "Samurai-4"),
+                (Ch16KhallPrefab, root.transform.position + new Vector3(1.2f, 0f, 1.4f), "Khall"),
+            };
+            foreach (var (prefab, pos, name) in cast)
+            {
+                var npc = InstantiateNpc(prefab, pos, name);
+                if (npc == null) continue;
+                FitNamedCharacter(npc);
+                npc.transform.SetParent(root.transform, true); // parent under the room so the ch16_complete gate covers it
+                var storyNpc = npc.AddComponent<StoryNpc>();
+                var so = new SerializedObject(storyNpc);
+                so.FindProperty("displayName").stringValue = name;
+                so.ApplyModifiedPropertiesWithoutUndo();
+            }
         }
 
         /// <summary>Creates or updates the Data/ChapterCampaign.asset CampaignDirector with the 13
