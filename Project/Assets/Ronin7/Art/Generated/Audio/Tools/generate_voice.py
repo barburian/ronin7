@@ -386,6 +386,9 @@ SPEAKER_VOICES = {
     "Obsidian Trooper 1": ("en-US-ChristopherNeural", "+2%", "-7Hz"),    # Synod fortress trooper, emotionless Beacon-command
     "Dominion Guard 1": ("en-US-ChristopherNeural", "+6%", "-4Hz"),      # Crucible medical-level guard, precise
     "Privateers Commander": ("en-US-EricNeural", "-6%", "-10Hz"),        # power-vacuum opportunist hitting the refugee convoy
+    # Chapter 12 (Galaxy 1) speakers. Cassie-04/Sable/Mera Voss/Kessler/Morrigan/Coral Vex/Vess/Echo/
+    # Ronin-7/Gryph reuse entries above; "Vale" (EP23 block) reuses his existing casting as Commander Vale.
+    "Ronin-7 Edition": ("en-US-SteffanNeural", "-15%", "-18Hz"),  # the leashed clone boss, Ronin-7's own voice with the person gone: same actor as Ronin-7, flatter/colder, zero inflection
 }
 
 DEFAULT_VOICE = ("en-US-AriaNeural", "+0%", "+0Hz")

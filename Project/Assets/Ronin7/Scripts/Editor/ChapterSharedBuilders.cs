@@ -3709,6 +3709,20 @@ namespace Ronin7.EditorTools
                 // GetComponent<Health>() on the same rig GameObject when its own serialized field is
                 // left unset (see UnbrokenWard.Awake).
             }
+
+            // Ch12 — Mirror (right-secondaryButton Hold(0.4s) activation; shares the button with
+            // Phase-step's Tap and the dead Recenter binding — see MirrorSummonController's class
+            // summary). Summons a ghost-tinted AllyCombatant double for a limited duration. Direction is
+            // the head's horizontal forward, same idiom as Phase-step.
+            if (rig.GetComponent<MirrorSummonController>() == null)
+            {
+                var mirror = rig.AddComponent<MirrorSummonController>();
+                var mirrorSo = new SerializedObject(mirror);
+                SetObjectRef(mirrorSo, "activateAction", FindRef(refs, "Right Hand", "Summon Mirror"));
+                var vrRig = rig.GetComponent<VRRig>();
+                if (vrRig != null) SetObjectRef(mirrorSo, "headTransform", vrRig.Head);
+                mirrorSo.ApplyModifiedPropertiesWithoutUndo();
+            }
         }
     }
 }

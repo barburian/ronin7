@@ -45,6 +45,7 @@ Ch14 cut, Ch15 merged into Ch16 — never built. Completion flags: `chN_complete
 | Ch09 (+22 fixtures: OverdriveLogic 15, Chapter9Lines 7; post Ep18–19 deletion −10) | 492 | 492 (489 pass / 3 skip) / 0 failed | PASS 2026-07-03 |
 | Ch10 (+14 fixtures: PhaseStepSolver 7, Chapter10Lines 7; post Ep20–21 deletion −10) | 496 | 496 (493 pass / 3 skip) / 0 failed | PASS 2026-07-03 |
 | Ch11 (+20 fixtures: UnbrokenWard 8, Chapter11Lines 8, HealthTests interceptor ×4; post Ep22–23 deletion −10) | 506 | 506 (503 pass / 3 skip) / 0 failed | PASS 2026-07-03 |
+| Ch12 (+19 fixtures: MirrorSummonLogic 11, Chapter12Lines 8; post Ep24 + Ep25-partial deletion −10) | 515 | 515 (512 pass / 3 skip) / 0 failed | PASS 2026-07-03 |
 
 ## Legacy deletion batches
 
@@ -61,12 +62,16 @@ Ch14 cut, Ch15 merged into Ch16 — never built. Completion flags: `chN_complete
 | Ch09 | Ep18–Ep19 (4 builders incl. finales + 2 VoiceManifests + 2 LinesTests; Ep18/19Lines KEPT — live Galaxy3Builder space_ep1N_post deps) | 2026-07-03 |
 | Ch10 | Ep20–Ep21 (4 builders incl. finales + 2 VoiceManifests + 2 LinesTests; Ep20/21Lines KEPT — live Galaxy3Builder space_ep2N_post deps) | 2026-07-03 |
 | Ch11 | Ep22–Ep23 (4 builders incl. finales + 2 VoiceManifests + 2 LinesTests; Ep22/23Lines KEPT — live Galaxy3Builder space_ep2N_post deps) | 2026-07-03 |
-| Ch12 | Ep24–Ep25 | |
+| Ch12 | Ep24 (4 builders incl. finale + VoiceManifest + LinesTests; Ep24Lines KEPT — Galaxy3Builder dep). Ep25: ONLY VoiceManifest + LinesTests deleted — **Ep25Builder + Ep25BuilderFinale + Ep25Lines ALL KEPT**: the Ep25 builders host `Galaxy4Ep25*` scene-path CONSTANTS that Galaxy4Builder.cs references (a partial-class const dep the Lines/BuildMethod grep misses). Caught by a compile break on first delete. | 2026-07-03 |
 | Ch13 | Ep26–Ep28 | |
 | Ch16 | Ep29–Ep33 + repo-wide `Ep\d` sweep | |
 
 Each batch = builders + Lines + VoiceManifests + LinesTests + all `.meta` files.
-Before deleting any EpNN file: grep it for methods still called by Chapter*/Hub*/shared files.
+Before deleting any EpNN file: grep for (1) `EpNNLines` refs, (2) `BuildEpNN*` method callers, AND
+(3) **`Galaxy\dEpNN*` partial-class CONSTANTS** the EpNN*Builder files may define and later Galaxy
+builders consume (Ep25Builder/Finale host `Galaxy4Ep25*` scene-path consts used by Galaxy4Builder —
+deleting them breaks compile). When in doubt, delete only VoiceManifest + LinesTests and keep the
+builders; the EditMode gate compile-check is the backstop.
 
 ## Ability-framework wiring (from Ch07 onward)
 

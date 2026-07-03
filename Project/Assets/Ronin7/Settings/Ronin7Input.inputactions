@@ -398,6 +398,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Summon Mirror",
+                    "type": "Button",
+                    "id": "a300000000000000000000000000010d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -552,6 +561,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Activate Overdrive",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a300000000000000000000000000020f",
+                    "path": "<XRController>{RightHand}/secondaryButton",
+                    "interactions": "Hold(duration=0.4)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Summon Mirror",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

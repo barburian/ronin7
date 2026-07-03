@@ -2117,6 +2117,20 @@ namespace Ronin7.EditorTools
                 objects.Add(phaseStep.gameObject);
             }
 
+            // Mirror (Ch12+ ability): same asset-import-race null-out as Toggle Weakpoint
+            // Sight/Overdrive/Phase Step above (MirrorSummonController self-disables when locked, so
+            // this is a harmless no-op wire on scenes where the ability isn't unlocked yet — the Ch7
+            // bug).
+            foreach (var mirror in Object.FindObjectsByType<MirrorSummonController>(FindObjectsInactive.Include))
+            {
+                var so = new SerializedObject(mirror);
+                SetObjectRef(so, "activateAction", FindRef(refs, "Right Hand", "Summon Mirror"));
+                so.ApplyModifiedPropertiesWithoutUndo();
+                EditorUtility.SetDirty(mirror);
+                components++;
+                objects.Add(mirror.gameObject);
+            }
+
             // Prompt advancers are built inactive like dialogue panels and share the Talk action.
             foreach (var prompt in Object.FindObjectsByType<PromptInputAdvancer>(FindObjectsInactive.Include))
             {

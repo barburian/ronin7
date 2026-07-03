@@ -5,6 +5,8 @@
         "Ronin7.Core",
         "Ronin7.Combat",
         "Ronin7.Ship",
+        "Ronin7.Enemies",
+        "Ronin7.World",
         "Unity.XR.Interaction.Toolkit",
         "Unity.XR.CoreUtils",
         "Unity.InputSystem"
