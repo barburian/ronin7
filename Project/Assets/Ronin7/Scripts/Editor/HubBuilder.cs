@@ -54,6 +54,7 @@ namespace Ronin7.EditorTools
             var crewCommons = BuildDarkRoomShell(gatesGo.transform, "CrewCommons", new Vector3(-20f, 0f, 4f));
             Ch2FillCrewCommons(crewCommons); // Ch2 increment: table, seats, warm light, idle Resh/Iris/Mira — still gated by ch2_complete below
             var ironDojoBay = BuildDarkRoomShell(gatesGo.transform, "IronDojoBay", new Vector3(-20f, 0f, 12f));
+            Ch6FillIronDojoBay(ironDojoBay); // Ch6 increment: dummy + rack, warm light, idle Morrigan — still gated by ch6_complete below
             var archiveHolds = BuildDarkRoomShell(gatesGo.transform, "ArchiveHolds", new Vector3(-20f, 0f, 20f));
             var warRoomTable = BuildDarkRoomShell(gatesGo.transform, "WarRoomTable", new Vector3(-20f, 0f, 28f));
             var surgeryReactor = BuildDarkRoomShell(gatesGo.transform, "SurgeryReactor", new Vector3(-20f, 0f, 36f));
@@ -153,6 +154,41 @@ namespace Ronin7.EditorTools
                 var storyNpc = npc.AddComponent<StoryNpc>();
                 var so = new SerializedObject(storyNpc);
                 so.FindProperty("displayName").stringValue = name;
+                so.ApplyModifiedPropertiesWithoutUndo();
+            }
+        }
+
+        /// <summary>Ch6 increment: fills the IronDojoBay dark-shell gate room (built by
+        /// <see cref="BuildDarkRoomShell"/> just above) with a training dummy, a weapon rack, a warm
+        /// accent light, and an idle Morrigan (Ally #3) — the training/engineering bay she names aboard
+        /// the Cairn after the citadel she helped bring down. Shell geometry and the ch6_complete
+        /// room-gate wiring below are unchanged.</summary>
+        private static void Ch6FillIronDojoBay(GameObject root)
+        {
+            var dummyColor = new Color(0.35f, 0.32f, 0.28f);
+            BuildProp(root.transform, "TrainingDummy", new Vector3(-1.2f, 0.9f, -0.8f), new Vector3(0.4f, 1.8f, 0.4f), dummyColor);
+
+            var rackColor = new Color(0.25f, 0.22f, 0.2f);
+            BuildProp(root.transform, "WeaponRack", new Vector3(1.4f, 0.7f, -1.2f), new Vector3(1.2f, 1.4f, 0.3f), rackColor);
+
+            var lightGo = new GameObject("DojoLight");
+            lightGo.transform.SetParent(root.transform, false);
+            lightGo.transform.localPosition = new Vector3(0f, 2.4f, 0f);
+            var light = lightGo.AddComponent<Light>();
+            light.type = LightType.Point;
+            light.color = new Color(1f, 0.85f, 0.6f);
+            light.intensity = 2f;
+            light.range = 8f;
+            light.shadows = LightShadows.None;
+
+            var npc = InstantiateNpc(Ch6MorriganPrefab, root.transform.position + new Vector3(0f, 0f, 1.4f), "Morrigan");
+            if (npc != null)
+            {
+                FitNamedCharacter(npc);
+                npc.transform.SetParent(root.transform, true); // parent under the room so the ch6_complete gate covers it
+                var storyNpc = npc.AddComponent<StoryNpc>();
+                var so = new SerializedObject(storyNpc);
+                so.FindProperty("displayName").stringValue = "Morrigan";
                 so.ApplyModifiedPropertiesWithoutUndo();
             }
         }

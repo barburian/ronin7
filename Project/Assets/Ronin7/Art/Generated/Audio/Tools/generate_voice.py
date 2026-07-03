@@ -179,6 +179,9 @@ SPEAKER_VOICES = {
     "Teenager 2": ("en-US-AnaNeural", "-4%", "+2Hz"),
     # EP11 speakers
     "Master Kaelen": ("en-US-RogerNeural", "-10%", "-8Hz"),
+    # Chapter 6 (Galaxy 1) speakers. Master Kaelen/Morrigan reuse their EP11/EP12 entries above.
+    "Matron Hespa": ("en-GB-SoniaNeural", "-8%", "+2Hz"),
+    "Drillmaster Caradoc": ("en-US-ChristopherNeural", "-18%", "-16Hz"),
     # EP12 speakers
     "Morrigan": ("en-US-MichelleNeural", "-8%", "-6Hz"),
     "Dominion Purifier Lead": ("en-US-SteffanNeural", "-3%", "-8Hz"),
