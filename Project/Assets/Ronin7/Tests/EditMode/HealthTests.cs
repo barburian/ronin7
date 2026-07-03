@@ -151,5 +151,76 @@ namespace Ronin7.Tests.EditMode
             Assert.IsTrue(captured.HasValue);
             Assert.AreSame(_go, captured.Value.Entity);
         }
+
+        // ---- DeathInterceptor (Ch11 Unbroken ward hook). ----
+
+        [Test]
+        public void ApplyDamage_InterceptorNull_DiesAsBefore()
+        {
+            int diedCount = 0;
+            _health.Died += () => diedCount++;
+
+            _health.ApplyDamage(MakeDamage(100f));
+
+            Assert.AreEqual(1, diedCount);
+            Assert.AreEqual(0f, _health.Current);
+            Assert.IsFalse(_health.IsAlive);
+        }
+
+        [Test]
+        public void ApplyDamage_InterceptorReturnsFalse_Dies()
+        {
+            int diedCount = 0;
+            _health.Died += () => diedCount++;
+            _health.DeathInterceptor = () => false;
+
+            _health.ApplyDamage(MakeDamage(100f));
+
+            Assert.AreEqual(1, diedCount);
+            Assert.AreEqual(0f, _health.Current);
+            Assert.IsFalse(_health.IsAlive);
+        }
+
+        [Test]
+        public void ApplyDamage_InterceptorReturnsTrue_SurvivesAtOneHp_DiedNotInvoked()
+        {
+            int diedCount = 0;
+            EntityDied? diedEvent = null;
+            _health.Died += () => diedCount++;
+            EventBus.Subscribe<EntityDied>(e => diedEvent = e);
+            _health.DeathInterceptor = () => true;
+
+            _health.ApplyDamage(MakeDamage(100f));
+
+            Assert.AreEqual(0, diedCount);
+            Assert.IsFalse(diedEvent.HasValue);
+            Assert.AreEqual(1f, _health.Current);
+            Assert.IsTrue(_health.IsAlive);
+        }
+
+        [Test]
+        public void ApplyDamage_InterceptorSpendsOnce_SecondLethalBlowKills()
+        {
+            int diedCount = 0;
+            _health.Died += () => diedCount++;
+            bool used = false;
+            // Mirrors UnbrokenWard's once-per-life contract: the interceptor itself flips to "spent"
+            // after firing once.
+            _health.DeathInterceptor = () =>
+            {
+                if (used) return false;
+                used = true;
+                return true;
+            };
+
+            _health.ApplyDamage(MakeDamage(100f)); // first lethal blow: survives at 1 HP
+            Assert.AreEqual(0, diedCount);
+            Assert.AreEqual(1f, _health.Current);
+
+            _health.ApplyDamage(MakeDamage(100f)); // second lethal blow: ward already spent, dies
+            Assert.AreEqual(1, diedCount);
+            Assert.AreEqual(0f, _health.Current);
+            Assert.IsFalse(_health.IsAlive);
+        }
     }
 }

@@ -200,6 +200,10 @@ SPEAKER_VOICES = {
     "Vane": ("en-US-SteffanNeural", "-18%", "-16Hz"),          # Wraith-6, an older/flatter cast of Ronin-7's own voice
     # Chapter 10 (Galaxy 1) speakers. Cassie-04/Vess/Gryph/Sable/Morrigan/Coral Vex reuse entries above.
     "Sever": ("en-US-EricNeural", "-10%", "-14Hz"),            # Ninja-2, Cassie's leashed keeper — an older make of the same cage as Ronin-7, distinct casting from Vane's Steffan
+    # Chapter 11 (Galaxy 1) speakers. Cassie-04/Sable/Coral Vex/Vess/Echo/Ronin-7/Gryph reuse entries above.
+    "Aldric": ("en-US-DavisNeural", "-22%", "-20Hz"),          # Knight-1, the eldest keeper, half-dissolved into the broadcast; the slowest/heaviest voice in the saga
+    "Kira": ("en-US-JennyNeural", "+2%", "+2Hz"),              # Ch5 dead, voiced only here as the dreamscape's gentlest lure
+    "Younger Self": ("en-US-SteffanNeural", "+0%", "+4Hz"),    # Ronin-7 before the Program: same actor as Ronin-7, lighter/clearer, never named Soren
     # EP12 speakers
     "Morrigan": ("en-US-MichelleNeural", "-8%", "-6Hz"),
     "Dominion Purifier Lead": ("en-US-SteffanNeural", "-3%", "-8Hz"),

@@ -37,6 +37,12 @@ namespace Ronin7.Combat
         public event Action<DamageInfo> Damaged;
         public event Action Died;
 
+        /// <summary>Optional death-interceptor hook (e.g. Ch11's Unbroken ward). When set and a lethal
+        /// blow lands, this is invoked BEFORE the death fires; returning true survives the blow at 1 HP
+        /// and Died/EntityDied are never raised for it. Null (the default) preserves current behavior
+        /// exactly, so every scene/test that never sets this is unaffected.</summary>
+        public Func<bool> DeathInterceptor { get; set; }
+
         private void Awake() => Current = maxHealth;
 
         /// <summary>Set the max pool and refill (used by data-driven enemies / respawns).</summary>
@@ -59,6 +65,12 @@ namespace Ronin7.Combat
 
             if (Current <= 0f)
             {
+                if (DeathInterceptor != null && DeathInterceptor.Invoke())
+                {
+                    Current = 1f;
+                    return;
+                }
+
                 Died?.Invoke();
                 EventBus.Publish(new EntityDied(gameObject));
             }

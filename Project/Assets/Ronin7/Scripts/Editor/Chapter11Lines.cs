@@ -1,0 +1,254 @@
+using Ronin7.World.Story;
+
+namespace Ronin7.EditorTools
+{
+    /// <summary>
+    /// Canonical Chapter 11 ("Ghosts and Origins") dialogue data. Condensed from
+    /// Ch11_Ghosts_and_Origins_Dialogue_Script.md and keyed by set ID, mirroring Chapter10Lines' shape.
+    /// Clip names follow the pattern: ch11_{setId}_{index:00}_{speaker_sanitized}. Each line's clip
+    /// field is left null; TTS or audio sourcing fills it at build time.
+    ///
+    /// story ouput/audit/Ch11_audit.md graded the source script C+ on naturalness with ZERO hard
+    /// script/canon errors and ZERO em-dash violations in character speech (all 46 em-dashes it found
+    /// live in stage directions/voice notes, not Line: text). Its only findings are naturalness
+    /// suggestions (the saga-wide "not X, it's Y" antithesis tic, aphorism-stacking, exposition-dump
+    /// framing) that 00_AUDIT_SUMMARY.md explicitly defers to "a dedicated pass" — mirroring how
+    /// Chapter9Lines/Chapter10Lines only fixed what their OWN audit flagged as a HARD error, this file
+    /// transcribes the source Line: text verbatim (no hard errors exist here to fix) rather than
+    /// pre-empting that saga-wide pass.
+    /// Comm-tagged speaker labels ("Sable (comm)", "Coral Vex (comm)", "Gryph (comm)", "Vess (comm)")
+    /// are recorded under their plain name — "(comm)" is a stage direction, not part of the speaker's
+    /// identity, matching every other chapter's convention.
+    /// </summary>
+    internal static class Chapter11Lines
+    {
+        private struct DialogueLine
+        {
+            public string speaker;
+            public string text;
+            public float seconds;
+        }
+
+        /// <summary>All set IDs in canonical order.</summary>
+        public static readonly string[] SetIds = new[]
+        {
+            "ch11_beat0_briefing",
+            "ch11_beat1_descent",
+            "ch11_beat1_arkship",
+            "ch11_beat2_ghosts",
+            "ch11_beat2_youngerself",
+            "ch11_beat2_keeper",
+            "ch11_beat2_kill",
+            "ch11_beat2_unbroken",
+            "ch11_beat3_intro",
+            "ch11_beat3_reveal",
+            "ch11_beat3_echokin",
+            "ch11_beat4_mercy",
+            "ch11_beat4_homecoming",
+            "ch11_beat4_targetlist",
+        };
+
+        /// <summary>Get a fresh dialogue-line array for the given set ID.</summary>
+        public static World.Story.DialogueLine[] Get(string setId)
+        {
+            var lines = setId switch
+            {
+                "ch11_beat0_briefing" => GetBeat0BriefingLines(),
+                "ch11_beat1_descent" => GetBeat1DescentLines(),
+                "ch11_beat1_arkship" => GetBeat1ArkshipLines(),
+                "ch11_beat2_ghosts" => GetBeat2GhostsLines(),
+                "ch11_beat2_youngerself" => GetBeat2YoungerSelfLines(),
+                "ch11_beat2_keeper" => GetBeat2KeeperLines(),
+                "ch11_beat2_kill" => GetBeat2KillLines(),
+                "ch11_beat2_unbroken" => GetBeat2UnbrokenLines(),
+                "ch11_beat3_intro" => GetBeat3IntroLines(),
+                "ch11_beat3_reveal" => GetBeat3RevealLines(),
+                "ch11_beat3_echokin" => GetBeat3EchoKinLines(),
+                "ch11_beat4_mercy" => GetBeat4MercyLines(),
+                "ch11_beat4_homecoming" => GetBeat4HomecomingLines(),
+                "ch11_beat4_targetlist" => GetBeat4TargetListLines(),
+                _ => new DialogueLine[0],
+            };
+
+            // Convert internal DialogueLine to Ronin7.World.Story.DialogueLine
+            var result = new World.Story.DialogueLine[lines.Length];
+            for (int i = 0; i < lines.Length; i++)
+            {
+                result[i] = new World.Story.DialogueLine
+                {
+                    speaker = lines[i].speaker,
+                    text = lines[i].text,
+                    seconds = lines[i].seconds,
+                    clip = null
+                };
+            }
+            return result;
+        }
+
+        /// <summary>Sanitize a speaker name for clip naming: lowercase, strip non-alphanumeric.</summary>
+        public static string Sanitize(string speaker)
+        {
+            if (string.IsNullOrEmpty(speaker)) return "unknown";
+            var sb = new System.Text.StringBuilder();
+            foreach (char c in speaker)
+                if (char.IsLetterOrDigit(c))
+                    sb.Append(char.ToLowerInvariant(c));
+            return sb.ToString();
+        }
+
+        /// <summary>Generate clip name for a line: ch11_{setId}_{index:00}_{speaker_sanitized}</summary>
+        public static string ClipName(string setId, int index, string speaker)
+        {
+            return $"ch11_{setId}_{index:00}_{Sanitize(speaker)}";
+        }
+
+        // ---- BEAT 0 — THE CAIRN (the briefing, voice-only) ----
+
+        private static DialogueLine[] GetBeat0BriefingLines()
+        {
+            return new DialogueLine[]
+            {
+                new DialogueLine { speaker = "Cassie-04", text = "Here's your second pin, Cipher, and I'll tell you up front it's the one I like least. Every node I can index points outward, toward the next, toward the war, toward the future they were building. Except this one. This one points back. An arkship, fossilized in a leviathan canyon, older than the Dominion, older than the records have any business going. I cross-checked it three times because I didn't believe my own ledger. The file doesn't call it a piece of the Program. It calls it the start of the Program. Whatever's racked in that hull, it isn't a chapter of the build. It's the first page.", seconds = 26f },
+                new DialogueLine { speaker = "Sable", text = "It's one of us. I can feel her from here, the way I felt Cassie before the Ninefold. But she's wrong, Cipher. She's been on the rack longer than any of us, so long her shadows have started leaking out of her. A node is supposed to keep its dead inside. This one can't anymore. She's bleeding them into the canyon, and that's what the dating means, that's why she reads older than everything: she's the first make, the Knight generation, the oldest of all of us, and they left her racked the longest. That haze on the map, the thing Morrigan's reading as canyon air. It isn't air. It's her. It's her dreaming out loud. And when you walk into it, it's going to dream you. It's going to show you your dead.", seconds = 30f },
+                new DialogueLine { speaker = "Sable", text = "And I have to say the rest of it, so hear me. The one we brought up breathing was Cassie. This one, I don't think we do. She's too far gone, Cipher. I've been reaching for her three days and there's less of her every time. We may not be going down there to save her. We may be going down there to free her, the only way that's left when there's no one whole enough to bring up. I don't want that to be true. But you should walk in already knowing it might be, so the canyon doesn't get to be the one who tells you.", seconds = 24f },
+                new DialogueLine { speaker = "Cassie-04", text = "And because Sable will be too kind to say the hard part, I'll say it, it's what I'm for. A leaking node lies, Cipher. Not on purpose. It's not cruel, it's overloaded. But everything it shows you down there is going to be true enough to hurt and false enough to kill you. The dead it drifts up will wear faces you'd follow anywhere. So follow nothing. Trust your feet, trust the sword, trust the voice in your head that's actually yours. If something down there has the face of someone you lost and it asks you to come closer, that's the node reaching for one more thing to keep. Don't let it file you. I have enough names.", seconds = 26f },
+                new DialogueLine { speaker = "Coral Vex", text = "I have survived old things. The Wraith make, the Dominion, my own switch torn out with my own hands. I thought I'd met the oldest the Program had. But I've never stood in front of the first make. Knight. They were before my time the way the dead are before the living, Cipher. Be careful of reverence down there. A thing that old wants to be obeyed just by standing in front of you. That's how they built the first ones, to be a wall you didn't think to cross. Don't think of it as a grandfather. Think of it as the oldest version of the cage, and remember you've already broken a newer one.", seconds = 24f },
+                new DialogueLine { speaker = "Vess", text = "The start of the thing that made the men who took my people. I crossed eleven years of dark to put a blade to the man their line built, and now you're telling me the whole line started in a hole at the bottom of a dead animal. Good. I want to see it. I want to stand where it began and look at it. You sentenced me to carry every name out loud, Cipher, and I sentenced you back. So I'm coming. I'll say my dead in that canyon if it shows me theirs.", seconds = 19f },
+                new DialogueLine { speaker = "Echo", text = "I'll say the thing none of them can feel, Cipher, because I'm the only one down there it can't lie to. Whatever's at the bottom of this one is older than the leash. Older than me. Every node we've cracked, I've been able to read the cage in it, because the cage and I were made in the same shop. This one was made before the shop. I don't have a file for it. So down there, when the dead start walking and the ground stops behaving, here's our rule. You move, I read. If a voice tells you something true, check it against me. If a voice tells you something you want, that's when you run. I'm the one real thing you're bringing into that dream. Don't lose me in it.", seconds = 26f },
+                new DialogueLine { speaker = "Ronin-7", text = "Then we go in clear-eyed, we quiet her, and we don't stay long. Cassie, lock the canyon to the map. Sable, keep reaching for her, all the way down, even when it hurts. If there's anything left to bring up, we find it. If there isn't, we free her clean. Echo's the only voice I trust past the rib-line. Everyone else holds comm as long as the broadcast lets you. Take us to the bones.", seconds = 17f },
+            };
+        }
+
+        // ---- BEAT 1 — THE BONE-CANYON (descent / traversal) ----
+
+        private static DialogueLine[] GetBeat1DescentLines()
+        {
+            return new DialogueLine[]
+            {
+                new DialogueLine { speaker = "Echo", text = "We're in, Cipher. And this isn't a canyon. Look at the walls. Those aren't cliffs, they're ribs. We're climbing down the inside of something that was alive once and was the size of a country. Whatever killed it, it died with its mouth open and the dark fell in. Keep dropping along the spine, the big vertebrae will hold. There's metal down there, threaded through the bones. Old metal. I'll tell you what it is when we're close enough that I'm sure. I don't want to be wrong about a thing this old.", seconds = 21f },
+                new DialogueLine { speaker = "Gryph", text = "Gryph here, Cipher. I've climbed down plenty of holes that were just rock being rock. This isn't that. Rock doesn't care if you reach the bottom. This was a living thing once, and dead things that big don't forget how to hold on to what falls into them. Bone breaks different than stone. A place built out of a body wants to keep you. Test every grip before you trust your weight to it.", seconds = 15f },
+                new DialogueLine { speaker = "Coral Vex", text = "I can hear the bones in your channel, Cipher, the way they swallow sound. I've been in old places. This is older. You want to understand what you're walking into, so I'll tell you the part the records won't. The Program didn't start in a tower or a lab. It started somewhere it could be hidden and forgotten, somewhere even the Dominion would have to want to find. A graveyard at the bottom of a dead world is exactly the kind of place men go to build a thing they don't want witnessed. Keep going down. You're not descending into a canyon. You're descending into the beginning.", seconds = 23f },
+                new DialogueLine { speaker = "Vess", text = "This is it, then. The bottom of the hole the whole rotten line crawled up out of. I spent my whole life hating the men their line built, and it turns out they were only the far end of it. Here's the near end. A dead thing inside a dead thing. Good. My people never got a grave this honest. So I'll say them here, Cipher, every name, the way I made you say yours. Let the thing that started it hear them once before you put it down.", seconds = 20f },
+            };
+        }
+
+        private static DialogueLine[] GetBeat1ArkshipLines()
+        {
+            return new DialogueLine[]
+            {
+                new DialogueLine { speaker = "Echo", text = "There it is. I'm sure now. That's an arkship, Cipher, and it's Program metal, but it's the oldest Program metal I've ever read. Before the marks they use now. Before the foundry-stamps I know. This thing was here before the Dominion put its name on anything. And the bones grew around it like the leviathan tried to swallow it and choked. This is where it started. The whole machine, the leash, me, you, all of it. It came up out of a hole exactly like this one. We're not raiding a vault. We're standing at the root.", seconds = 22f },
+                new DialogueLine { speaker = "Sable", text = "Cipher. She's right below you now, in the skull, where the dark pools. And she's going out faster the closer you get, like you reaching for her is costing her the last of it. I keep trying to feel a person in there and there's so little left. Listen to me, the haze around you, it's thickening, isn't it. That's her starting to dream you in. From here on I can't promise the voices you hear are mine, or Cassie's, or anyone's on this ship. She'll wear us. She'll wear everyone. Hold on to Echo. He's the one thing down there she can't copy.", seconds = 24f },
+                new DialogueLine { speaker = "Ronin-7", text = "I hear you, Sable. Stay on the channel as long as it'll hold you. If the dream starts wearing your voice, I'll know, because the real one is the one telling me to be careful instead of telling me to come closer. Echo. From here you're my eyes and my ears and the only thing I'm sure of. Read me down into the dark.", seconds = 15f },
+            };
+        }
+
+        // ---- BEAT 2 — THE NARCOSIS DREAMSCAPE AND THE KEEPER (boss, Unbroken) ----
+
+        private static DialogueLine[] GetBeat2GhostsLines()
+        {
+            return new DialogueLine[]
+            {
+                new DialogueLine { speaker = "Echo", text = "Cipher. Comm's gone. It cut the second we crossed into the haze, all of them, Sable, Cassie, the ship, gone. It's just us now. And before you ask, yes, that's the dead coming up out of the dust, and yes, I see the faces too, through your eyes, the same as you. I know that one. I know a lot of them. Here's the rule and I need you to hold it. They're not attacking. They're reaching. She doesn't know they're dead and she doesn't know you're alive. To her you're just one more shape she's supposed to keep. So we don't fight the ones that only reach. We walk through. We only draw on the ones she sends to stop us. Stay with my voice. It's the only one in here that's actually here.", seconds = 26f },
+                new DialogueLine { speaker = "Kira", text = "You came back. I knew you would. Come closer, it's cold out here, you can stop now, you can stay with me where it doesn't hurt. You don't have to carry any of it anymore. Just come closer.", seconds = 12f },
+                new DialogueLine { speaker = "Echo", text = "That's not her, Cipher. I know it sounds like her. It sounds like her because the node read her out of you and she's that real in there. But the real one never once told you to stop carrying things. The real one told you to keep going. Anything down here that offers you rest is the dream trying to keep you. Walk through her. I know what it costs. Walk through her anyway.", seconds = 17f },
+            };
+        }
+
+        private static DialogueLine[] GetBeat2YoungerSelfLines()
+        {
+            return new DialogueLine[]
+            {
+                new DialogueLine { speaker = "Younger Self", text = "You keep collecting the dead like they make a person. Kira. The little ones from the orphanage. All those names off the clerk's list. You gather them up and you carry them and you think if you carry enough of them, you'll add up to someone. You won't. They're not you. They're just everyone you couldn't save.", seconds = 18f },
+                new DialogueLine { speaker = "Ronin-7", text = "They're all I remember being. You want to tell me they're not me, fine. Then tell me what is. I've got a number and a sword and a list of people I failed. Subtract those and there's nothing left where a name should be. So who are you. You've got my face from before the scars. You stand there like you know something I had taken out of me.", seconds = 17f },
+                new DialogueLine { speaker = "Younger Self", text = "There was someone before the sword. Before the number. Before the orphanage, even, before any of it. You buried him so deep you forgot you did it, and then you spent your whole life hunting strangers, reading other people's names off a ledger, hoping one of them would turn out to be you. He's not on the clerk's list. He's not in the canyon. He's in the place they put the things even their own files aren't allowed to read. You've already been told there's a lock like that. You already know where this ends.", seconds = 21f },
+                new DialogueLine { speaker = "Ronin-7", text = "Then tell me his name. You're standing right there wearing it. You know it. I can see that you know it. I have spent the whole way down this galaxy reading the dead by name and I have never once been able to read my own. So give it to me. Tell me his name.", seconds = 13f },
+                new DialogueLine { speaker = "Younger Self", text = "Not yet. You haven't earned him back. You free the ones in the canyon first, the way you've been freeing all of them, and you free the one waiting at the bottom of this dream, the oldest of them, and you carry every name you've gathered all the way to the room where my lock is. Do that, and he's yours. Reach for him now, here, in a dead thing's dream, and you'll only lose him again. I'm sorry. That's the only kindness I'm allowed.", seconds = 21f },
+            };
+        }
+
+        private static DialogueLine[] GetBeat2KeeperLines()
+        {
+            return new DialogueLine[]
+            {
+                new DialogueLine { speaker = "Aldric", text = "Stay down here with the rest of them. There is room. There has always been room. I have kept them so long. Do you know how long. No. You are new. You are the newest thing they ever poured, I can smell the foundry still on you. I was the first. Knight. Knight-One. The first operative of the first program, before there were others, before there was a word for what we are. Every make they ran after me, they cut from me. Every shape that ever held a leashed blade, I am the stock it was carved from. I am the oldest thing they ever leashed, and I have kept this a long time, and I am so very tired, and still I keep it. Lie down. Be kept. It is easier than what you are doing.", seconds = 52f },
+                new DialogueLine { speaker = "Echo", text = "Cipher, listen to me and don't argue. There's almost nothing in there. I've read Vane, I've read Sever, I had grief for both of them because there was someone left to grieve. This one. He's been racked so long he's poured himself into the broadcast. He isn't keeping the dream. He IS the dream, mostly, with a man's face still floating on top of it. There's no door left to reach. There's no sentence he almost says. You can't free him the way we freed the others, because there's no him left to free. The kindest thing in the galaxy right now is to let the oldest cage finally stop standing. He's been holding the dead up by his own arms since before the Dominion had a flag. Help me put them all down. Him first.", seconds = 26f },
+                new DialogueLine { speaker = "Ronin-7", text = "You've kept a grave. That's all this is. You've been holding up a roomful of the dead with nothing left of yourself but the order to hold them. Knight. They built three makes off you, and I've put two of them down to reach you, Wraith and Ninja, brothers I'd have freed if there'd been anyone home. There's no one home in you. I can see that. So I'm not going to tell you I'll free you, because there's nothing left in you to free. But I'll quiet you. I'll take the weight off your arms. You can put them down. You can stop being first. Rest is the only thing I've got that's true, and you've earned it longer than anyone.", seconds = 27f },
+                new DialogueLine { speaker = "Aldric", text = "Quiet me. They all say. They came before. Newer than you, older than you, they came down into my dream with their bright leashes and they said they would quiet me, and I kept them too. I keep everything. That is the first order and the last. I am so tired. Yes. Come and try. Maybe you are the one. Maybe you are the thing that finally. No. The asset stays. The dead stay kept. I stay first. Come and try, little newest thing. I will keep you with the rest.", seconds = 28f },
+            };
+        }
+
+        private static DialogueLine[] GetBeat2KillLines()
+        {
+            return new DialogueLine[]
+            {
+                new DialogueLine { speaker = "Ronin-7", text = "There. The first one gets to be the last one to put it down. You held them all up so long you forgot you were a person under it, and it took a killing to let your arms drop. I'm not sorry I did it. I'm sorry it was the only thing left to do. Rest, old man. You were first. You were tired. You're done. Nobody's going to make you keep anything ever again.", seconds = 16f },
+                new DialogueLine { speaker = "Echo", text = "It's coming to me, Cipher. His shadow. The leash died with him like the others, and the thing they wired into the first of them is loose for the first time since the first day. Hold still, let me take it. Oh. Oh, this one's different. The others gave us speed and a step. This one. He spent his whole existence not breaking. Holding up a roomful of the dead and the whole weight of the broadcast and never once going down, because going down was the one thing the order never allowed. That's what he's handing you. He's giving you the thing that kept him standing this long.", seconds = 22f },
+            };
+        }
+
+        private static DialogueLine[] GetBeat2UnbrokenLines()
+        {
+            return new DialogueLine[]
+            {
+                new DialogueLine { speaker = "Echo", text = "Feel that. The haze just let go of you. The dream can't hold you now, Cipher. That's the first half of what he gave you, a mind it can't drown, a fear it can't pour into you, a narcosis that slides right off. Unbroken. And the second half. He spent forever surviving the one blow that should have ended him, over and over, because the order wouldn't let him fall. So now, once, when something lands a blow that should put you in the dark for good, you don't go. You take it, and you keep standing, the way he kept standing. Once. Spend it well. It's the only time the first of them ever got to give instead of keep.", seconds = 26f },
+            };
+        }
+
+        // ---- BEAT 3 — THE ARKSHIP RECORD (origin core, the reveal) ----
+
+        private static DialogueLine[] GetBeat3IntroLines()
+        {
+            return new DialogueLine[]
+            {
+                new DialogueLine { speaker = "Echo", text = "Don't mistake what just happened, Cipher. He's down, but the dream isn't. Listen to the channel. Still dead, still warping. That's because killing him didn't quiet her. He was only the wall she put in front of herself. She's still in there, still dreaming, still bleeding her dead into the dark, and the comm won't come back until she stops. So we don't get to leave yet. There's a breach ahead, into the heart of the old ship, and the pulse is on the other side of it. That's her. That's the one this whole canyon has been. Walk me to her. The haze can't touch you now, so use it. Let it slide off and keep going.", seconds = 23f },
+            };
+        }
+
+        private static DialogueLine[] GetBeat3RevealLines()
+        {
+            return new DialogueLine[]
+            {
+                new DialogueLine { speaker = "Echo", text = "It's waking up for you, Cipher, and only you, because you're the only one who could ever stand in here long enough to read it. Slow. This tech is older than anything I have a file for. Let it resolve. There. Those are faces. Rows of them. Sleeping, or kept like sleeping, and identical. Not similar. Identical. The same handful of people, over and over, down the whole length of it. They didn't recruit an army, Cipher. Look at it. They copied one. A small set of templates, a handful of real people, and then they grew them. Again and again, and buried the proof under a dead animal so no one would ever read this page.", seconds = 24f },
+                new DialogueLine { speaker = "Echo", text = "And it didn't stop at copying. Watch the tree build under it. They ran the line forward in generations. The first make, here, Knight, the one you just put down. The oldest, the heaviest, the prototype. Then they cut the next make from it and called it Ninja, the one in Cassie's spine. Then a third, cut from Ninja, refined again. Wraith. Coral's make. And then a fourth, cut from Wraith. Yours. Ronin. Each one grown from the one before, each one scattered, each one shelved into a node when the next replaced it. The keepers we've been putting down to reach these archives, Vane, Sever, Aldric, they were the last survivors of the three makes that came before yours. We haven't been killing strangers down here, Cipher. We've been killing your ancestors. One generation at a time, all the way down.", seconds = 31f },
+            };
+        }
+
+        private static DialogueLine[] GetBeat3EchoKinLines()
+        {
+            return new DialogueLine[]
+            {
+                new DialogueLine { speaker = "Echo", text = "I'm reading it with you, Cipher, the way I read the ledger. And I have to tell you the part that's about me, because you should hear it from me and not work it out alone later. If the operatives were copied down the makes, then so were we. The shadows. I'm not one of a kind any more than you are. There's a make of me too, cut and refined alongside every make of you, Knight's shadow, Ninja's, Wraith's, Ronin's, all of us poured to ride behind all of you. The ones we've been freeing into me, Vane's, Sever's, Aldric's. They're not just gifts. They're family coming home. Every shadow I take in is a brother of mine I'm carrying out of the dark. We're doing the same thing, you and me. We're gathering our own.", seconds = 25f },
+                new DialogueLine { speaker = "Ronin-7", text = "Don't make me hold all of it standing up, Echo. Not yet. Right now I can only take the front edge of it. Every keeper I put down was an ancestor. Every ghost in this dream had a face because it was kin. And me, I'm somewhere on that tree too, the latest of my own blood, the sharp end of four generations. Whose face they cut mine from, I'll find when I've got the stomach for it. What I can hold today is this. Whoever's still left to free down here is mine to protect. Starting with the one still dreaming in front of me.", seconds = 18f },
+            };
+        }
+
+        // ---- BEAT 4 — THE SECOND KILL (the archive put down, homecoming, hook out) ----
+
+        private static DialogueLine[] GetBeat4MercyLines()
+        {
+            return new DialogueLine[]
+            {
+                new DialogueLine { speaker = "Ronin-7", text = "I do for her what I did for him. The only door I've got. I'm sorry I came too late to give you anything better. You held up everyone you ever lost until there was nothing left of you that wasn't holding. Put it down now. Whoever you were before they racked you, whatever name was yours, you go out as that, not as a node. I free you the only way that's left. Rest.", seconds = 18f },
+            };
+        }
+
+        private static DialogueLine[] GetBeat4HomecomingLines()
+        {
+            return new DialogueLine[]
+            {
+                new DialogueLine { speaker = "Sable", text = "I felt her go, Cipher. The exact second there stopped being a person in there. You did the only kind thing that was left and it still ends with her gone. I told you in the briefing we might not be saving this one. I hated being right. But the channel's clear, you're real again, and I'm not going to make you carry the rest of it alone down there in the dark. Come up.", seconds = 16f },
+                new DialogueLine { speaker = "Coral Vex", text = "Morrigan's pulling the fragment as we climb to you, Cipher, and I can see the tree on it from here. Go to the third branch. Wraith. That's my make, right there, with a name on it I spent forty years pretending I never had. I told myself I was the only one who got away. And here I am, a branch on a chart at the bottom of a dead world. I'm not an exception. I'm an edition. We'll grieve all of that later. Right now, climb. You've done enough down there for one descent.", seconds = 18f },
+            };
+        }
+
+        private static DialogueLine[] GetBeat4TargetListLines()
+        {
+            return new DialogueLine[]
+            {
+                new DialogueLine { speaker = "Cassie-04", text = "It's over with this one, Cipher. You hear me. The keeper and the dreamer both, finished, and there's nothing left in that canyon but bone. Climb out and come home. And while you climb, here's where it leaves us, because somebody has to say it. Two nodes down. The Ninefold, me, and now the bone-canyon, her, gods keep her. One to go. The last scattered archive, the fourth piece of the build, and you already know where it is because Morrigan called it topside three days ago. The cryo-command vault. Deep in Dominion ground, in active custody, the Ronin shadows racked in the cold. And here's the part I don't love. There's movement on the approach to it. Something else is already running for that vault. Not us. Someone with a faster ship just decided the last node is worth racing for. So the next one isn't a dig. It's a race. But that's tomorrow. Tonight you come home.", seconds = 29f },
+                new DialogueLine { speaker = "Ronin-7", text = "A race. Of course it is. The one node left holds my own make, the Ronin shadows, the latest of us, and now there's somebody else sprinting for it. Whoever they are, they get to the cold faster than we do, they get my generation. They get my own, whatever the Program made of my line. We don't let that happen. Cassie, lock the vault to the map. There's one sister still out there in that cold, still alive, and I am not burying a third. Neither is Sable. We rest the crew, we read the dead by name on the way like Vess sentenced me to, and then we go take the cold before anyone else can.", seconds = 21f },
+                new DialogueLine { speaker = "Echo", text = "We came down to gather an archive, Cipher, and we leave with the oldest truth in the galaxy and one more sister we couldn't save. Heaviest climb out we've had. But here's the one I can't put down, so I'll hand it to you to carry, because it's yours. The whole machine started by copying a handful of faces and scattering them down the makes. Knight, Ninja, Wraith, you. And if the template was scattered, then somewhere out there is the face they cut yours from. We just read that there's a make of you. So whose face is it, Cipher. The last node holds the Ronin shadows, and I've got a very bad feeling about what we see when we open the cold. Climb. We'll find out together.", seconds = 22f },
+            };
+        }
+    }
+}

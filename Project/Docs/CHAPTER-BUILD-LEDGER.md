@@ -44,6 +44,7 @@ Ch14 cut, Ch15 merged into Ch16 — never built. Completion flags: `chN_complete
 | Ch08 (+15 fixtures: RiddleTrialLogic 8, Chapter8Lines 7; post Ep16–17 deletion −10) | 480 | 480 (477 pass / 3 skip) / 0 failed | PASS 2026-07-03 |
 | Ch09 (+22 fixtures: OverdriveLogic 15, Chapter9Lines 7; post Ep18–19 deletion −10) | 492 | 492 (489 pass / 3 skip) / 0 failed | PASS 2026-07-03 |
 | Ch10 (+14 fixtures: PhaseStepSolver 7, Chapter10Lines 7; post Ep20–21 deletion −10) | 496 | 496 (493 pass / 3 skip) / 0 failed | PASS 2026-07-03 |
+| Ch11 (+20 fixtures: UnbrokenWard 8, Chapter11Lines 8, HealthTests interceptor ×4; post Ep22–23 deletion −10) | 506 | 506 (503 pass / 3 skip) / 0 failed | PASS 2026-07-03 |
 
 ## Legacy deletion batches
 
@@ -59,7 +60,7 @@ Ch14 cut, Ch15 merged into Ch16 — never built. Completion flags: `chN_complete
 | Ch08 | Ep16–Ep17 (4 builders incl. finales + 2 VoiceManifests + 2 LinesTests; Ep16Lines KEPT — Galaxy2Builder dep; Ep17Lines KEPT — Galaxy3Builder dep) | 2026-07-03 |
 | Ch09 | Ep18–Ep19 (4 builders incl. finales + 2 VoiceManifests + 2 LinesTests; Ep18/19Lines KEPT — live Galaxy3Builder space_ep1N_post deps) | 2026-07-03 |
 | Ch10 | Ep20–Ep21 (4 builders incl. finales + 2 VoiceManifests + 2 LinesTests; Ep20/21Lines KEPT — live Galaxy3Builder space_ep2N_post deps) | 2026-07-03 |
-| Ch11 | Ep22–Ep23 | |
+| Ch11 | Ep22–Ep23 (4 builders incl. finales + 2 VoiceManifests + 2 LinesTests; Ep22/23Lines KEPT — live Galaxy3Builder space_ep2N_post deps) | 2026-07-03 |
 | Ch12 | Ep24–Ep25 | |
 | Ch13 | Ep26–Ep28 | |
 | Ch16 | Ep29–Ep33 + repo-wide `Ep\d` sweep | |
@@ -80,6 +81,12 @@ Before deleting any EpNN file: grep it for methods still called by Chapter*/Hub*
 - Weakpoint-sight input: Left-X hosts Crouch (Tap) + Toggle Weakpoint Sight (Hold 0.6s) as two
   interactions on one control; both read via `WasPerformedThisFrame`. Follow this tap/hold overload
   pattern for future ability buttons (rig is input-saturated).
+- EditMode tests do NOT auto-run MonoBehaviour lifecycle (`Awake`/`OnEnable`/`OnDisable`) on
+  `AddComponent` — `SetActive(false)→AddComponent→SetActive(true)` does not fire them either. To test a
+  component's real registration path, drive the lifecycle explicitly via reflection (`GetMethod(...,
+  NonPublic|Instance).Invoke`), mirroring Unity's order (Awake, then OnEnable only if still enabled), or
+  test pure seams only (`ShouldIntercept`/`OverdriveLogic`/`PhaseStepSolver`). `Health.Configure(max)`
+  sets `Current` without needing `Awake`. See `UnbrokenWardTests`.
 - `BladeDamager` reads the wielder's `PlayerCombatModifiers.DamageMultiplier` (resolved lazily at hit
   time — the sword is an unparented world Grabbable at Awake, so it must resolve from `transform.root`
   on the hit, not in Awake). Default 1.0 when absent, so pre-Ch7 scenes are unaffected.

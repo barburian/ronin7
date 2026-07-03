@@ -3699,6 +3699,16 @@ namespace Ronin7.EditorTools
                 if (vrRig != null) SetObjectRef(psSo, "headTransform", vrRig.Head);
                 psSo.ApplyModifiedPropertiesWithoutUndo();
             }
+
+            // Ch11 — Unbroken (passive: no input action, no toggle). Registers itself as the rig's
+            // Health.DeathInterceptor on enable; survives one otherwise-lethal blow per life.
+            if (rig.GetComponent<UnbrokenWard>() == null)
+            {
+                rig.AddComponent<UnbrokenWard>();
+                // No SerializedObject wiring needed: UnbrokenWard resolves its Health via
+                // GetComponent<Health>() on the same rig GameObject when its own serialized field is
+                // left unset (see UnbrokenWard.Awake).
+            }
         }
     }
 }
