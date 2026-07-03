@@ -2078,6 +2078,19 @@ namespace Ronin7.EditorTools
                 objects.Add(toggle.gameObject);
             }
 
+            // Weakpoint-sight (Ch7+ ability): its Hold-toggle InputActionReference is nulled by the same
+            // asset-import race, so re-wire it here (WeakpointSight self-disables when locked, so this is
+            // a no-op wire on scenes where the ability isn't unlocked yet — harmless).
+            foreach (var weakpoint in Object.FindObjectsByType<WeakpointSight>(FindObjectsInactive.Include))
+            {
+                var so = new SerializedObject(weakpoint);
+                SetObjectRef(so, "toggleAction", FindRef(refs, "Left Hand", "Toggle Weakpoint Sight"));
+                so.ApplyModifiedPropertiesWithoutUndo();
+                EditorUtility.SetDirty(weakpoint);
+                components++;
+                objects.Add(weakpoint.gameObject);
+            }
+
             // Prompt advancers are built inactive like dialogue panels and share the Talk action.
             foreach (var prompt in Object.FindObjectsByType<PromptInputAdvancer>(FindObjectsInactive.Include))
             {

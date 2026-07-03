@@ -3651,5 +3651,30 @@ namespace Ronin7.EditorTools
                       "on cleared, EncounterClearedActivator plays nothing + sets extraFlag 'galaxy1_complete' + " +
                       "reveals JUMP — RETURN TO GALAXY MAP (ReturnToSpace, marks galaxy1 complete).");
         }
+
+        /// <summary>
+        /// Attaches every permanent player ability shipped so far onto the rig root, each self-gating in
+        /// its own Awake on <c>CampaignState.HasAbility</c> so it is inert until unlocked. Chapter
+        /// builders from Ch7 on call this instead of hand-adding ability components, so a later chapter
+        /// can't silently drop an ability the player already earned (the abilities live on the rig in
+        /// EVERY scene from their unlock chapter onward; the unlock itself stays per-chapter via
+        /// <c>AbilityGranter</c>). Grow this list as each ability ships:
+        /// weakpoint-sight (Ch7) → Overdrive (Ch9) → Phase-step (Ch10) → Unbroken (Ch11) → Mirror (Ch12).
+        /// </summary>
+        private static void AttachPlayerAbilities(GameObject rig, Object[] refs)
+        {
+            var combatMods = rig.GetComponent<PlayerCombatModifiers>();
+            if (combatMods == null) combatMods = rig.AddComponent<PlayerCombatModifiers>();
+
+            // Ch7 — weakpoint-sight (X-button Hold toggle; 2x damage + weakpoint markers).
+            if (rig.GetComponent<WeakpointSight>() == null)
+            {
+                var weakpointSight = rig.AddComponent<WeakpointSight>();
+                var wpSo = new SerializedObject(weakpointSight);
+                SetObjectRef(wpSo, "toggleAction", FindRef(refs, "Left Hand", "Toggle Weakpoint Sight"));
+                SetObjectRef(wpSo, "combatModifiers", combatMods);
+                wpSo.ApplyModifiedPropertiesWithoutUndo();
+            }
+        }
     }
 }

@@ -87,5 +87,25 @@ namespace Ronin7.Tests.EditMode
             Assert.AreEqual(7f, BladeDamager.SmoothSpeed(Vector3.zero, Vector3.right, 0f, 7f, 0.5f));
             Assert.AreEqual(7f, BladeDamager.SmoothSpeed(Vector3.zero, Vector3.right, -0.01f, 7f, 0.5f));
         }
+
+        // Guards the Ch7 weakpoint-sight damage-multiplier hook: absent an ability, the multiplier
+        // must be a no-op (1) so every pre-Ch7 scene/test is unaffected.
+        [Test]
+        public void ApplyWielderMultiplier_DefaultMultiplierOfOne_LeavesDamageUnchanged()
+        {
+            Assert.AreEqual(15f, BladeDamager.ApplyWielderMultiplier(15f, 1f));
+        }
+
+        [Test]
+        public void ApplyWielderMultiplier_WeakpointSightMultiplier_DoublesDamage()
+        {
+            Assert.AreEqual(30f, BladeDamager.ApplyWielderMultiplier(15f, 2f));
+        }
+
+        [Test]
+        public void ApplyWielderMultiplier_ZeroDamage_StaysZero()
+        {
+            Assert.AreEqual(0f, BladeDamager.ApplyWielderMultiplier(0f, 2f));
+        }
     }
 }

@@ -143,6 +143,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Toggle Weakpoint Sight",
+                    "type": "Button",
+                    "id": "a200000000000000000000000000010b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -238,7 +247,7 @@
                     "name": "",
                     "id": "a2000000000000000000000000000209",
                     "path": "<XRController>{LeftHand}/primaryButton",
-                    "interactions": "",
+                    "interactions": "Tap",
                     "processors": "",
                     "groups": "",
                     "action": "Crouch",
@@ -253,6 +262,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a200000000000000000000000000020b",
+                    "path": "<XRController>{LeftHand}/primaryButton",
+                    "interactions": "Hold(duration=0.6)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Toggle Weakpoint Sight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

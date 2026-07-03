@@ -199,7 +199,9 @@ namespace Ronin7.Player
         private void HandlePostureToggles()
         {
             bool runPressed = runAction != null && runAction.action != null && runAction.action.WasPressedThisFrame();
-            bool crouchPressed = crouchAction != null && crouchAction.action != null && crouchAction.action.WasPressedThisFrame();
+            // Crouch (Left X) carries a Tap interaction so it separates from weakpoint-sight's Hold on
+            // the same button — read WasPerformedThisFrame so a long hold (weakpoint) doesn't also crouch.
+            bool crouchPressed = crouchAction != null && crouchAction.action != null && crouchAction.action.WasPerformedThisFrame();
             if (!runPressed && !crouchPressed) return;
 
             (isRunning, isCrouching) = ResolvePosture(isRunning, isCrouching, runPressed, crouchPressed, IsActionLocked);

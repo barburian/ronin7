@@ -182,6 +182,8 @@ SPEAKER_VOICES = {
     # Chapter 6 (Galaxy 1) speakers. Master Kaelen/Morrigan reuse their EP11/EP12 entries above.
     "Matron Hespa": ("en-GB-SoniaNeural", "-8%", "+2Hz"),
     "Drillmaster Caradoc": ("en-US-ChristopherNeural", "-18%", "-16Hz"),
+    # Chapter 7 (Galaxy 1) speakers. Coral Vex reuses her EP13 entry below.
+    "The Previous Owner": ("en-US-RogerNeural", "-16%", "-16Hz"),
     # EP12 speakers
     "Morrigan": ("en-US-MichelleNeural", "-8%", "-6Hz"),
     "Dominion Purifier Lead": ("en-US-SteffanNeural", "-3%", "-8Hz"),

@@ -56,6 +56,7 @@ namespace Ronin7.EditorTools
             var ironDojoBay = BuildDarkRoomShell(gatesGo.transform, "IronDojoBay", new Vector3(-20f, 0f, 12f));
             Ch6FillIronDojoBay(ironDojoBay); // Ch6 increment: dummy + rack, warm light, idle Morrigan — still gated by ch6_complete below
             var archiveHolds = BuildDarkRoomShell(gatesGo.transform, "ArchiveHolds", new Vector3(-20f, 0f, 20f));
+            Ch7FillArchiveHolds(archiveHolds); // Ch7 increment: kept-blade rack, warm hilt light, idle Coral Vex — still gated by ch7_complete below
             var warRoomTable = BuildDarkRoomShell(gatesGo.transform, "WarRoomTable", new Vector3(-20f, 0f, 28f));
             var surgeryReactor = BuildDarkRoomShell(gatesGo.transform, "SurgeryReactor", new Vector3(-20f, 0f, 36f));
             var fullyLit = BuildFullyLitRoot(gatesGo.transform, new Vector3(-20f, 0f, 44f));
@@ -189,6 +190,38 @@ namespace Ronin7.EditorTools
                 var storyNpc = npc.AddComponent<StoryNpc>();
                 var so = new SerializedObject(storyNpc);
                 so.FindProperty("displayName").stringValue = "Morrigan";
+                so.ApplyModifiedPropertiesWithoutUndo();
+            }
+        }
+
+        /// <summary>Ch7 increment: fills the ArchiveHolds dark-shell gate room (built by
+        /// <see cref="BuildDarkRoomShell"/> just above) with a small kept-blade rack, a warm hilt-light
+        /// accent, and an idle Coral Vex (Ally #4) — the archive-holds she asks to keep aboard the
+        /// Cairn once the reliquary's dead lanes are behind her. Shell geometry and the ch7_complete
+        /// room-gate wiring below are unchanged.</summary>
+        private static void Ch7FillArchiveHolds(GameObject root)
+        {
+            var rackColor = new Color(0.3f, 0.28f, 0.2f);
+            BuildProp(root.transform, "KeptBladeRack", new Vector3(-1.2f, 1.1f, -0.8f), new Vector3(0.4f, 2.2f, 1.2f), rackColor);
+
+            var lightGo = new GameObject("ArchiveLight");
+            lightGo.transform.SetParent(root.transform, false);
+            lightGo.transform.localPosition = new Vector3(0f, 2.4f, 0f);
+            var light = lightGo.AddComponent<Light>();
+            light.type = LightType.Point;
+            light.color = new Color(1f, 0.9f, 0.65f);
+            light.intensity = 2f;
+            light.range = 8f;
+            light.shadows = LightShadows.None;
+
+            var npc = InstantiateNpc(Ch7CoralPrefab, root.transform.position + new Vector3(0f, 0f, 1.4f), "Coral Vex");
+            if (npc != null)
+            {
+                FitNamedCharacter(npc);
+                npc.transform.SetParent(root.transform, true); // parent under the room so the ch7_complete gate covers it
+                var storyNpc = npc.AddComponent<StoryNpc>();
+                var so = new SerializedObject(storyNpc);
+                so.FindProperty("displayName").stringValue = "Coral Vex";
                 so.ApplyModifiedPropertiesWithoutUndo();
             }
         }

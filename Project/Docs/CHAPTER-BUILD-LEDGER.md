@@ -40,6 +40,7 @@ Ch14 cut, Ch15 merged into Ch16 — never built. Completion flags: `chN_complete
 | Ch04 (+18 fixtures; post Ep08–09 deletion −10) | 460 | 460 / 0 failed / 3 skipped | PASS 2026-07-03 |
 | Ch05 (+7 fixtures; post Ep10–11 deletion −10) | 457 | 457 / 0 failed / 3 skipped | PASS 2026-07-03 |
 | Ch06 (+17 fixtures: MultiObjectiveLogic 8, ActivationRelay 2, Chapter6Lines 7; post Ep12–13 deletion −10) | 464 | 464 (461 pass / 3 skip) / 0 failed | PASS 2026-07-03 |
+| Ch07 (+21 fixtures: WeakpointSightLogic, PlayerCombatModifiers, Chapter7Lines, BladeDamager multiplier ×3; post Ep14–15 deletion −10) | 475 | 475 (472 pass / 3 skip) / 0 failed | PASS 2026-07-03 |
 
 ## Legacy deletion batches
 
@@ -51,7 +52,7 @@ Ch14 cut, Ch15 merged into Ch16 — never built. Completion flags: `chN_complete
 | Ch04 | Ep08–Ep09 (5 builders incl. Ep08BuilderSpace + 2 manifests + 2 LinesTests; Lines KEPT — Galaxy1/Galaxy2Builder deps; Ep08 space builders moved to shared; PlayMode MechanicsTests kept — test generic components. Orphan candidates: Data/Ep08Reaper.asset, Data/Ep09Vera.asset) | 2026-07-03 |
 | Ch05 | Ep10–Ep11 (4 builders + 2 manifests + 2 LinesTests; Lines KEPT — Galaxy2Builder deps; nothing needed moving; PlayMode MechanicsTests kept. Orphan candidate: Data/Ep10Enforcer.asset) | 2026-07-03 |
 | Ch06 | Ep12–Ep13 (4 builders incl. Ep12/13BuilderFinale + 2 VoiceManifests + 2 LinesTests; Ep12/13 Lines KEPT — live Galaxy2Builder `space_ep12_post`/`space_ep13_post` deps) | 2026-07-03 |
-| Ch07 | Ep14–Ep15 | |
+| Ch07 | Ep14–Ep15 (4 builders incl. finales + 2 VoiceManifests + 2 LinesTests; Ep14/15 Lines KEPT — live Galaxy2Builder space_ep1N_post deps) | 2026-07-03 |
 | Ch08 | Ep16–Ep17 | |
 | Ch09 | Ep18–Ep19 | |
 | Ch10 | Ep20–Ep21 | |
@@ -62,6 +63,23 @@ Ch14 cut, Ch15 merged into Ch16 — never built. Completion flags: `chN_complete
 
 Each batch = builders + Lines + VoiceManifests + LinesTests + all `.meta` files.
 Before deleting any EpNN file: grep it for methods still called by Chapter*/Hub*/shared files.
+
+## Ability-framework wiring (from Ch07 onward)
+
+- Permanent abilities live on the rig via the shared `XRRigBuilder.AttachPlayerAbilities(rig, refs)`
+  helper (ChapterSharedBuilders.cs) — every chapter builder from Ch07 on calls it so a later chapter
+  can't drop an already-earned ability. GROW that helper's list as each ability ships (Overdrive Ch9,
+  Phase-step Ch10, Unbroken Ch11, Mirror Ch12). Each ability component self-gates in Awake on
+  `CampaignState.HasAbility`. Unlock stays per-chapter via an `AbilityGranter` on a Trigger/outro GO.
+- Any new ability with an `InputActionReference` MUST get a repair loop in `XRRigBuilder.RewireOpenScene`
+  (the input-import race nulls the wire at build time; RewireOpenScene re-wires before save). Ch07's
+  `WeakpointSight.toggleAction` needed this — without it the toggle is null in the saved scene.
+- Weakpoint-sight input: Left-X hosts Crouch (Tap) + Toggle Weakpoint Sight (Hold 0.6s) as two
+  interactions on one control; both read via `WasPerformedThisFrame`. Follow this tap/hold overload
+  pattern for future ability buttons (rig is input-saturated).
+- `BladeDamager` reads the wielder's `PlayerCombatModifiers.DamageMultiplier` (resolved lazily at hit
+  time — the sword is an unparented world Grabbable at Awake, so it must resolve from `transform.root`
+  on the hit, not in Awake). Default 1.0 when absent, so pre-Ch7 scenes are unaffected.
 
 ## Known-warning whitelist (console noise accepted during verification)
 

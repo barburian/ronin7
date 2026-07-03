@@ -25,6 +25,7 @@ namespace Ronin7.Combat
         private Vector3 lastPos;
         private float speed;
         private float lastHitTime = -999f;
+        private PlayerCombatModifiers wielderMods;
 
         /// <summary>Current blade speed in m/s (world), exponentially smoothed.</summary>
         public float Speed => speed;
@@ -35,6 +36,9 @@ namespace Ronin7.Combat
                 ? definitionOverride
                 : GetComponentInParent<Sword>()?.Definition;
             lastPos = transform.position;
+            // NOTE: the wielder's PlayerCombatModifiers is resolved lazily in OnTriggerEnter, not here.
+            // At Awake the sword is an unparented world Grabbable (transform.root == the sword itself),
+            // so there is no rig above it to find yet; it is only reparented under the hand on grab.
         }
 
         private void FixedUpdate()
@@ -56,6 +60,13 @@ namespace Ronin7.Combat
             return Mathf.Lerp(instantaneous, previousSpeed, smoothing);
         }
 
+        /// <summary>
+        /// Applies the wielder's <see cref="PlayerCombatModifiers.DamageMultiplier"/> to a base damage
+        /// amount. Pure/stateless so the multiplier math (e.g. Ch7's weakpoint-sight 2x) is
+        /// unit-testable without a physics trigger, mirroring <see cref="SmoothSpeed"/>.
+        /// </summary>
+        internal static float ApplyWielderMultiplier(float baseDamage, float multiplier) => baseDamage * multiplier;
+
         private void OnTriggerEnter(Collider other)
         {
             if (definition == null) return;
@@ -69,6 +80,10 @@ namespace Ronin7.Combat
             if (Time.time - lastHitTime < definition.hitCooldown) return;
 
             float dmg = definition.DamageForSpeed(speed);
+            // Resolve the wielder's modifiers at hit time: while held, transform.root is the rig, so its
+            // PlayerCombatModifiers (e.g. Ch7 weakpoint-sight) is reachable. Null (unheld / no rig) => 1x.
+            if (wielderMods == null) wielderMods = transform.root.GetComponentInParent<PlayerCombatModifiers>();
+            dmg = ApplyWielderMultiplier(dmg, wielderMods != null ? wielderMods.DamageMultiplier : 1f);
             if (dmg <= 0f) return;
 
             lastHitTime = Time.time;
