@@ -153,6 +153,10 @@ namespace Ronin7.World.Story
         /// waits indefinitely. Y is an optional early-skip: after a short minimum dwell (which debounces
         /// the press that opened the line), a fresh Y press advances immediately and stops any playing
         /// audio. Falls back to a plain timed wait of the same total when no advance action is wired.
+        ///
+        /// Ch9 overdrive audit: every wait here runs on unscaled time (WaitForSecondsRealtime,
+        /// Time.unscaledDeltaTime) so subtitles hold their authored real-world duration instead of
+        /// lingering ~3x longer while Time.timeScale is slowed by the Overdrive burst.
         /// </summary>
         private IEnumerator WaitForAdvance(float lineSeconds)
         {
@@ -160,13 +164,13 @@ namespace Ronin7.World.Story
 
             if (advanceResolved == null)
             {
-                yield return new WaitForSeconds(total);
+                yield return new WaitForSecondsRealtime(total);
                 yield break;
             }
 
             // Debounce the press that started this line; counts toward the total so the full wait is honored.
             float dwell = Mathf.Min(total, MinLineDwell);
-            yield return new WaitForSeconds(dwell);
+            yield return new WaitForSecondsRealtime(dwell);
 
             float elapsed = dwell;
             while (elapsed < total)
@@ -182,7 +186,7 @@ namespace Ronin7.World.Story
                     }
                     yield break;
                 }
-                elapsed += Time.deltaTime;
+                elapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
         }
@@ -270,7 +274,9 @@ namespace Ronin7.World.Story
             Quaternion targetRot = Quaternion.LookRotation(targetPos - camT.position, camT.up);
 
             var t = textMesh.transform;
-            float k = justShown ? 1f : 1f - Mathf.Exp(-followLerp * Time.deltaTime);
+            // Ch9 overdrive audit: unscaled so the subtitle keeps pace with real head motion during a
+            // time-slowed burst instead of visibly lagging/detaching from the view.
+            float k = justShown ? 1f : 1f - Mathf.Exp(-followLerp * Time.unscaledDeltaTime);
             justShown = false;
             t.position = Vector3.Lerp(t.position, targetPos, k);
             t.rotation = Quaternion.Slerp(t.rotation, targetRot, k);

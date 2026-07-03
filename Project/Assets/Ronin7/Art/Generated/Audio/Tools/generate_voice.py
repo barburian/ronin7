@@ -192,6 +192,12 @@ SPEAKER_VOICES = {
     # reveal is Dr. Heris). Softer/warmer than her later "Dr. Heris" casting below: this is the tender
     # moment years before the woman who forges Cipher's file hardens into who Ch13/25 shows her as.
     "The Woman": ("en-GB-SoniaNeural", "-4%", "-4Hz"),
+    # Chapter 9 (Galaxy 1) speakers. "Gryph" below (EP17 block, Galaxy 3 "Pit Master") is an unrelated
+    # earlier-draft name reused for Ch9's Rustfang pirate-captain; its gravelly/deep casting already
+    # fits him, so Ch9 reuses that entry as-is rather than adding a colliding second "Gryph" key.
+    "Rook": ("en-US-DavisNeural", "-4%", "-6Hz"),              # Gryph's second, hard/fast/loyal
+    "Sable": ("en-US-JennyNeural", "-8%", "-6Hz"),             # Tide-depths living archive, doubled/tired
+    "Vane": ("en-US-SteffanNeural", "-18%", "-16Hz"),          # Wraith-6, an older/flatter cast of Ronin-7's own voice
     # EP12 speakers
     "Morrigan": ("en-US-MichelleNeural", "-8%", "-6Hz"),
     "Dominion Purifier Lead": ("en-US-SteffanNeural", "-3%", "-8Hz"),

@@ -42,6 +42,7 @@ Ch14 cut, Ch15 merged into Ch16 — never built. Completion flags: `chN_complete
 | Ch06 (+17 fixtures: MultiObjectiveLogic 8, ActivationRelay 2, Chapter6Lines 7; post Ep12–13 deletion −10) | 464 | 464 (461 pass / 3 skip) / 0 failed | PASS 2026-07-03 |
 | Ch07 (+21 fixtures: WeakpointSightLogic, PlayerCombatModifiers, Chapter7Lines, BladeDamager multiplier ×3; post Ep14–15 deletion −10) | 475 | 475 (472 pass / 3 skip) / 0 failed | PASS 2026-07-03 |
 | Ch08 (+15 fixtures: RiddleTrialLogic 8, Chapter8Lines 7; post Ep16–17 deletion −10) | 480 | 480 (477 pass / 3 skip) / 0 failed | PASS 2026-07-03 |
+| Ch09 (+22 fixtures: OverdriveLogic 15, Chapter9Lines 7; post Ep18–19 deletion −10) | 492 | 492 (489 pass / 3 skip) / 0 failed | PASS 2026-07-03 |
 
 ## Legacy deletion batches
 
@@ -55,7 +56,7 @@ Ch14 cut, Ch15 merged into Ch16 — never built. Completion flags: `chN_complete
 | Ch06 | Ep12–Ep13 (4 builders incl. Ep12/13BuilderFinale + 2 VoiceManifests + 2 LinesTests; Ep12/13 Lines KEPT — live Galaxy2Builder `space_ep12_post`/`space_ep13_post` deps) | 2026-07-03 |
 | Ch07 | Ep14–Ep15 (4 builders incl. finales + 2 VoiceManifests + 2 LinesTests; Ep14/15 Lines KEPT — live Galaxy2Builder space_ep1N_post deps) | 2026-07-03 |
 | Ch08 | Ep16–Ep17 (4 builders incl. finales + 2 VoiceManifests + 2 LinesTests; Ep16Lines KEPT — Galaxy2Builder dep; Ep17Lines KEPT — Galaxy3Builder dep) | 2026-07-03 |
-| Ch09 | Ep18–Ep19 | |
+| Ch09 | Ep18–Ep19 (4 builders incl. finales + 2 VoiceManifests + 2 LinesTests; Ep18/19Lines KEPT — live Galaxy3Builder space_ep1N_post deps) | 2026-07-03 |
 | Ch10 | Ep20–Ep21 | |
 | Ch11 | Ep22–Ep23 | |
 | Ch12 | Ep24–Ep25 | |

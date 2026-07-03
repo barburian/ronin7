@@ -58,6 +58,7 @@ namespace Ronin7.EditorTools
             var archiveHolds = BuildDarkRoomShell(gatesGo.transform, "ArchiveHolds", new Vector3(-20f, 0f, 20f));
             Ch7FillArchiveHolds(archiveHolds); // Ch7 increment: kept-blade rack, warm hilt light, idle Coral Vex — still gated by ch7_complete below
             var warRoomTable = BuildDarkRoomShell(gatesGo.transform, "WarRoomTable", new Vector3(-20f, 0f, 28f));
+            Ch9FillWarRoomTable(warRoomTable); // Ch9 increment (war-room pt1): holo-table + idle Gryph/Sable — still gated by ch9_complete below
             var surgeryReactor = BuildDarkRoomShell(gatesGo.transform, "SurgeryReactor", new Vector3(-20f, 0f, 36f));
             var fullyLit = BuildFullyLitRoot(gatesGo.transform, new Vector3(-20f, 0f, 44f));
 
@@ -222,6 +223,44 @@ namespace Ronin7.EditorTools
                 var storyNpc = npc.AddComponent<StoryNpc>();
                 var so = new SerializedObject(storyNpc);
                 so.FindProperty("displayName").stringValue = "Coral Vex";
+                so.ApplyModifiedPropertiesWithoutUndo();
+            }
+        }
+
+        /// <summary>Ch9 increment (war-room pt1): fills the WarRoomTable dark-shell gate room (built by
+        /// <see cref="BuildDarkRoomShell"/> just above) with a small holo-table prop, a cool accent
+        /// light, and idle Gryph (Ally #5) + Sable (Ally #6) — the war-room the Cairn's roster finally
+        /// crowds around from Ch9 on. Shell geometry and the ch9_complete room-gate wiring below are
+        /// unchanged.</summary>
+        private static void Ch9FillWarRoomTable(GameObject root)
+        {
+            var tableColor = new Color(0.22f, 0.24f, 0.28f);
+            BuildProp(root.transform, "HoloTable", new Vector3(0f, 0.5f, 0f), new Vector3(1.6f, 0.1f, 1.6f), tableColor);
+
+            var lightGo = new GameObject("WarRoomLight");
+            lightGo.transform.SetParent(root.transform, false);
+            lightGo.transform.localPosition = new Vector3(0f, 2.4f, 0f);
+            var light = lightGo.AddComponent<Light>();
+            light.type = LightType.Point;
+            light.color = new Color(0.6f, 0.75f, 1f);
+            light.intensity = 2f;
+            light.range = 8f;
+            light.shadows = LightShadows.None;
+
+            (string prefab, Vector3 pos, string name)[] cast =
+            {
+                (Ch9GryphPrefab, root.transform.position + new Vector3(-1.2f, 0f, 1.4f), "Gryph"),
+                (Ch9SablePrefab, root.transform.position + new Vector3(1.2f, 0f, 1.4f), "Sable"),
+            };
+            foreach (var (prefab, pos, name) in cast)
+            {
+                var npc = InstantiateNpc(prefab, pos, name);
+                if (npc == null) continue;
+                FitNamedCharacter(npc);
+                npc.transform.SetParent(root.transform, true); // parent under the room so the ch9_complete gate covers it
+                var storyNpc = npc.AddComponent<StoryNpc>();
+                var so = new SerializedObject(storyNpc);
+                so.FindProperty("displayName").stringValue = name;
                 so.ApplyModifiedPropertiesWithoutUndo();
             }
         }

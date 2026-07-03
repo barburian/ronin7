@@ -3675,6 +3675,18 @@ namespace Ronin7.EditorTools
                 SetObjectRef(wpSo, "combatModifiers", combatMods);
                 wpSo.ApplyModifiedPropertiesWithoutUndo();
             }
+
+            // Ch9 — Overdrive (right-A Hold(0.4s) activation once the sword-hit meter is full; time-slow
+            // burst). Wrist meter anchors to the right hand (the same hand that activates it).
+            if (rig.GetComponent<OverdriveController>() == null)
+            {
+                var overdrive = rig.AddComponent<OverdriveController>();
+                var odSo = new SerializedObject(overdrive);
+                SetObjectRef(odSo, "activateAction", FindRef(refs, "Right Hand", "Activate Overdrive"));
+                var vrRig = rig.GetComponent<VRRig>();
+                if (vrRig != null) SetObjectRef(odSo, "anchor", vrRig.RightHand);
+                odSo.ApplyModifiedPropertiesWithoutUndo();
+            }
         }
     }
 }

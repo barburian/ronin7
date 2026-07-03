@@ -380,6 +380,15 @@
                     "processors": "",
                     "interactions": "Hold(duration=0.6)",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Activate Overdrive",
+                    "type": "Button",
+                    "id": "a300000000000000000000000000010c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -453,7 +462,7 @@
                     "name": "",
                     "id": "a3000000000000000000000000000207",
                     "path": "<XRController>{RightHand}/primaryButton",
-                    "interactions": "",
+                    "interactions": "Tap",
                     "processors": "",
                     "groups": "",
                     "action": "Dash",
@@ -512,6 +521,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Recenter Cockpit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a300000000000000000000000000020d",
+                    "path": "<XRController>{RightHand}/primaryButton",
+                    "interactions": "Hold(duration=0.4)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Activate Overdrive",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

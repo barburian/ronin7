@@ -2091,6 +2091,19 @@ namespace Ronin7.EditorTools
                 objects.Add(weakpoint.gameObject);
             }
 
+            // Overdrive (Ch9+ ability): same asset-import-race null-out as Toggle Weakpoint Sight above
+            // (OverdriveController self-disables when locked, so this is a harmless no-op wire on scenes
+            // where the ability isn't unlocked yet).
+            foreach (var overdrive in Object.FindObjectsByType<OverdriveController>(FindObjectsInactive.Include))
+            {
+                var so = new SerializedObject(overdrive);
+                SetObjectRef(so, "activateAction", FindRef(refs, "Right Hand", "Activate Overdrive"));
+                so.ApplyModifiedPropertiesWithoutUndo();
+                EditorUtility.SetDirty(overdrive);
+                components++;
+                objects.Add(overdrive.gameObject);
+            }
+
             // Prompt advancers are built inactive like dialogue panels and share the Talk action.
             foreach (var prompt in Object.FindObjectsByType<PromptInputAdvancer>(FindObjectsInactive.Include))
             {

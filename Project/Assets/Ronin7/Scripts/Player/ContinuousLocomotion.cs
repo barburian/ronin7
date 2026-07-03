@@ -253,7 +253,10 @@ namespace Ronin7.Player
         private void TryStartDash()
         {
             if (dashAction == null || dashAction.action == null) return;
-            if (!dashAction.action.WasPressedThisFrame()) return;
+            // Dash (Right A) carries a Tap interaction so it separates from Overdrive's Hold(0.4s) on
+            // the same button (Ch9) — read WasPerformedThisFrame so a held press (Overdrive) doesn't
+            // also dash.
+            if (!dashAction.action.WasPerformedThisFrame()) return;
             if (Time.time < nextDashTime) return;
 
             Vector2 input = moveAction != null && moveAction.action != null

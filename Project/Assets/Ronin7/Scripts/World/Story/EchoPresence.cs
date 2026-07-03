@@ -87,16 +87,18 @@ namespace Ronin7.World.Story
         private void TrySpeak(string eventKind)
         {
             if (missionDialogue != null && missionDialogue.IsPlaying) return;
-            if (!selector.TryPick(eventKind, Time.time, out string line)) return;
+            // Ch9 overdrive audit: callout cooldown/display run on unscaled time so an Echo line called
+            // out during a time-slowed burst still shows for its real 2.5s, not 3x that.
+            if (!selector.TryPick(eventKind, Time.unscaledTime, out string line)) return;
 
             textMesh.text = line;
-            hideAtTime = Time.time + displaySeconds;
+            hideAtTime = Time.unscaledTime + displaySeconds;
         }
 
         private void Update()
         {
             if (hideAtTime < 0f) return;
-            if (Time.time >= hideAtTime)
+            if (Time.unscaledTime >= hideAtTime)
             {
                 textMesh.text = "";
                 hideAtTime = -1f;
@@ -117,7 +119,9 @@ namespace Ronin7.World.Story
             Quaternion targetRot = Quaternion.LookRotation(targetPos - camT.position, camT.up);
 
             var t = textMesh.transform;
-            float k = 1f - Mathf.Exp(-followLerp * Time.deltaTime);
+            // Ch9 overdrive audit: unscaled so the subtitle keeps pace with real head motion during a
+            // time-slowed burst instead of visibly lagging/detaching from the view.
+            float k = 1f - Mathf.Exp(-followLerp * Time.unscaledDeltaTime);
             t.position = Vector3.Lerp(t.position, targetPos, k);
             t.rotation = Quaternion.Slerp(t.rotation, targetRot, k);
         }
