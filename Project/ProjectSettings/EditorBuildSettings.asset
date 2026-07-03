@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Ronin7/Scenes/Ch02_Auction.unity
     guid: a41370cf5b2b15e47971e72c832d712b
   - enabled: 1
+    path: Assets/Ronin7/Scenes/Ch03_SwordRemembers.unity
+    guid: 87e8b064c13b57744b2429af3205dbca
+  - enabled: 1
     path: Assets/Ronin7/Scenes/Ch04_OverseersHunt.unity
     guid: 55fdc5a683e194f41b5269e5a4b888c1
   - enabled: 1
