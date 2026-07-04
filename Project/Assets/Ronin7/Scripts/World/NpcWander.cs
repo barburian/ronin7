@@ -33,6 +33,7 @@ namespace Ronin7.World
         private void OnEnable()
         {
             home = transform.position;
+            NpcWalkAnimator.EnsureOn(gameObject);
             StartCoroutine(WanderRoutine());
         }
 

@@ -36,6 +36,8 @@ namespace Ronin7.World
         private Coroutine wanderRoutine;
         private Coroutine enemyPauseRoutine;
 
+        private static readonly WaitForSeconds EnemyPollInterval = new WaitForSeconds(0.5f); // ~2 Hz
+
         private void Awake()
         {
             anchor = transform.position;
@@ -43,6 +45,7 @@ namespace Ronin7.World
 
         private void OnEnable()
         {
+            NpcWalkAnimator.EnsureOn(gameObject);
             wanderRoutine = StartCoroutine(WanderRoutine());
             enemyPauseRoutine = StartCoroutine(EnemyPauseRoutine());
         }
@@ -160,7 +163,7 @@ namespace Ronin7.World
                 // Slow ~2 Hz poll: cache the result so the per-frame movement loops never call
                 // FindObjectsByType (which allocates). Independent of the user-set Paused flag.
                 enemiesNearby = AreEnemiesNearby();
-                yield return new WaitForSeconds(0.5f);
+                yield return EnemyPollInterval;
             }
         }
 

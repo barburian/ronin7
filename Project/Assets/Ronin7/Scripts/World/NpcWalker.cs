@@ -38,6 +38,7 @@ namespace Ronin7.World
                 {
                     wander.enabled = false;
                 }
+                NpcWalkAnimator.EnsureOn(target.gameObject);
             }
 
             StartCoroutine(WalkRoutine());
