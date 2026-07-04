@@ -1,4 +1,5 @@
 using System.Collections;
+using Ronin7.Combat;
 using Ronin7.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -61,6 +62,7 @@ namespace Ronin7.Player
         private CharacterController controller;
         private float cooldownRemaining;
         private bool blinking;
+        private static readonly RaycastHit[] _probeHits = new RaycastHit[16];
 
         /// <summary>True while the fade-hidden teleport coroutine is running.</summary>
         public bool IsBlinking => blinking;
@@ -102,11 +104,23 @@ namespace Ronin7.Player
             // would strand the rig over the shaft and drop it — a fall is a sickness trigger. Probe
             // straight down at the destination; snap to the floor if found, REFUSE the blink (refund the
             // cooldown so the player can re-aim) if there is no landable ground beneath it.
+            // The project defines no gameplay layers (Tags & Layers holds only Unity defaults, so every
+            // Layers.*Mask falls back to ~0) — the probe discriminates by component instead: skip hits
+            // that are not landable ground (enemies, loose physics props — see IsLandableGround) and
+            // land on the nearest remaining hit.
             Vector3 probeStart = destination + Vector3.up * groundProbeUp;
-            if (Physics.Raycast(probeStart, Vector3.down, out var groundHit, groundProbeUp + groundProbeDown,
-                    ~0, QueryTriggerInteraction.Ignore))
+            int hitCount = Physics.RaycastNonAlloc(probeStart, Vector3.down, _probeHits,
+                groundProbeUp + groundProbeDown, ~0, QueryTriggerInteraction.Ignore);
+            int ground = -1;
+            for (int i = 0; i < hitCount; i++)
             {
-                destination.y = groundHit.point.y;
+                if (!IsLandableGround(_probeHits[i].collider)) continue;
+                if (ground < 0 || _probeHits[i].distance < _probeHits[ground].distance) ground = i;
+            }
+
+            if (ground >= 0)
+            {
+                destination.y = _probeHits[ground].point.y;
             }
             else
             {
@@ -137,6 +151,20 @@ namespace Ronin7.Player
 
             yield return fader.FadeIn(fadeDuration);
             blinking = false;
+        }
+
+        /// <summary>
+        /// Is this probe hit a floor the rig may land on? Living entities (anything with a
+        /// <see cref="Health"/> in its hierarchy — the ability's fantasy is phasing THROUGH enemies,
+        /// not perching on their heads) and loose non-kinematic physics props (they topple underfoot)
+        /// are not ground. Kinematic movers (platforms/elevators) remain landable.
+        /// </summary>
+        internal static bool IsLandableGround(Collider collider)
+        {
+            if (collider == null) return false;
+            var body = collider.attachedRigidbody;
+            if (body != null && !body.isKinematic) return false;
+            return collider.GetComponentInParent<Health>() == null;
         }
     }
 }

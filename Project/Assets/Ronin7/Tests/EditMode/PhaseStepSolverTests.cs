@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using Ronin7.Combat;
 using Ronin7.Player;
 using UnityEngine;
 
@@ -68,6 +69,83 @@ namespace Ronin7.Tests.EditMode
             var origin = new Vector3(1f, 1f, 1f);
             var dest = PhaseStepSolver.ComputeDestination(origin, Vector3.forward, 0f);
             Assert.AreEqual(origin, dest);
+        }
+    }
+
+    /// <summary>
+    /// Guards <see cref="PhaseStepController.IsLandableGround"/>: the ground probe must land on world
+    /// geometry only — never on enemies (anything with a <see cref="Health"/> in its hierarchy) or on
+    /// loose non-kinematic physics props. The project defines no gameplay layers, so this component
+    /// discrimination IS the probe's filtering.
+    /// </summary>
+    public class PhaseStepGroundProbeTests
+    {
+        private GameObject _go;
+
+        [TearDown]
+        public void TearDown()
+        {
+            if (_go != null) Object.DestroyImmediate(_go);
+            _go = null;
+        }
+
+        [Test]
+        public void IsLandableGround_PlainStaticCollider_IsLandable()
+        {
+            _go = new GameObject("Floor");
+            var collider = _go.AddComponent<BoxCollider>();
+
+            Assert.IsTrue(PhaseStepController.IsLandableGround(collider));
+        }
+
+        [Test]
+        public void IsLandableGround_ColliderWithHealth_IsNotLandable()
+        {
+            _go = new GameObject("Enemy");
+            _go.AddComponent<Health>();
+            var collider = _go.AddComponent<BoxCollider>();
+
+            Assert.IsFalse(PhaseStepController.IsLandableGround(collider));
+        }
+
+        [Test]
+        public void IsLandableGround_ColliderUnderHealthParent_IsNotLandable()
+        {
+            _go = new GameObject("EnemyRoot");
+            _go.AddComponent<Health>();
+            var limb = new GameObject("Limb");
+            limb.transform.SetParent(_go.transform);
+            var collider = limb.AddComponent<BoxCollider>();
+
+            Assert.IsFalse(PhaseStepController.IsLandableGround(collider));
+        }
+
+        [Test]
+        public void IsLandableGround_DynamicRigidbodyProp_IsNotLandable()
+        {
+            _go = new GameObject("Crate");
+            var collider = _go.AddComponent<BoxCollider>();
+            var body = _go.AddComponent<Rigidbody>();
+            body.isKinematic = false;
+
+            Assert.IsFalse(PhaseStepController.IsLandableGround(collider));
+        }
+
+        [Test]
+        public void IsLandableGround_KinematicRigidbodyMover_IsLandable()
+        {
+            _go = new GameObject("Platform");
+            var collider = _go.AddComponent<BoxCollider>();
+            var body = _go.AddComponent<Rigidbody>();
+            body.isKinematic = true;
+
+            Assert.IsTrue(PhaseStepController.IsLandableGround(collider));
+        }
+
+        [Test]
+        public void IsLandableGround_NullCollider_IsNotLandable()
+        {
+            Assert.IsFalse(PhaseStepController.IsLandableGround(null));
         }
     }
 }
