@@ -21216,6 +21216,8 @@ GameObject:
   - component: {fileID: 1476576468}
   - component: {fileID: 1476576467}
   - component: {fileID: 1476576476}
+  - component: {fileID: 1476576478}
+  - component: {fileID: 1476576477}
   m_Layer: 0
   m_Name: XR Origin (Space Samurai)
   m_TagString: Untagged
@@ -21445,6 +21447,34 @@ MonoBehaviour:
   minAmplitude: 0.15
   maxAmplitude: 0.6
   pulseDuration: 0.06
+--- !u!114 &1476576477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1476576464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4820909f096e96a438f4be661815e083, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Player::Ronin7.Player.ComboMomentumController
+  combatModifiers: {fileID: 1476576469}
+  comboWindowSeconds: 1.2
+  maxCombo: 4
+--- !u!114 &1476576478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1476576464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51066eb6df6027f43ae3ff04c504e427, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Player::Ronin7.Player.ParryFlowController
+  combatModifiers: {fileID: 1476576469}
 --- !u!1 &1486385243
 GameObject:
   m_ObjectHideFlags: 0

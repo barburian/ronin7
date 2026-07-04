@@ -14031,6 +14031,8 @@ GameObject:
   - component: {fileID: 1029920584}
   - component: {fileID: 1029920583}
   - component: {fileID: 1029920597}
+  - component: {fileID: 1029920599}
+  - component: {fileID: 1029920598}
   m_Layer: 0
   m_Name: XR Origin (Space Samurai)
   m_TagString: Untagged
@@ -14328,6 +14330,34 @@ MonoBehaviour:
   minAmplitude: 0.15
   maxAmplitude: 0.6
   pulseDuration: 0.06
+--- !u!114 &1029920598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029920581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4820909f096e96a438f4be661815e083, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Player::Ronin7.Player.ComboMomentumController
+  combatModifiers: {fileID: 1029920589}
+  comboWindowSeconds: 1.2
+  maxCombo: 4
+--- !u!114 &1029920599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029920581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51066eb6df6027f43ae3ff04c504e427, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Player::Ronin7.Player.ParryFlowController
+  combatModifiers: {fileID: 1029920589}
 --- !u!1 &1029946426
 GameObject:
   m_ObjectHideFlags: 0
@@ -21285,6 +21315,7 @@ GameObject:
   - component: {fileID: 1674636304}
   - component: {fileID: 1674636302}
   - component: {fileID: 1674636303}
+  - component: {fileID: 1674636305}
   m_Layer: 0
   m_Name: Redactor
   m_TagString: Untagged
@@ -21345,6 +21376,23 @@ Transform:
   - {fileID: 2018753077}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1674636305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1674636301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5b64314a1b70f646b5ee5b5197af3fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Enemies::Ronin7.Enemies.PostureMeter
+  postureMax: 100
+  gainPerDamage: 0.9
+  decayDelay: 1
+  decayPerSecond: 40
+  breakBonusDamage: 12
 --- !u!1 &1681227837
 GameObject:
   m_ObjectHideFlags: 0

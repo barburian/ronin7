@@ -6598,6 +6598,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 145958343118567485, guid: 7e9b2d988d02c094f80746f6cda0c3e6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 391674758}
+    - targetCorrespondingSourceObject: {fileID: 145958343118567485, guid: 7e9b2d988d02c094f80746f6cda0c3e6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 391674760}
   m_SourcePrefab: {fileID: 100100000, guid: 7e9b2d988d02c094f80746f6cda0c3e6, type: 3}
 --- !u!1 &391674754 stripped
 GameObject:
@@ -6669,6 +6672,23 @@ CapsuleCollider:
   m_Height: 2.4
   m_Direction: 1
   m_Center: {x: 0, y: 1.1, z: 0}
+--- !u!114 &391674760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 391674754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5b64314a1b70f646b5ee5b5197af3fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Enemies::Ronin7.Enemies.PostureMeter
+  postureMax: 100
+  gainPerDamage: 0.9
+  decayDelay: 1
+  decayPerSecond: 40
+  breakBonusDamage: 12
 --- !u!1 &395868141
 GameObject:
   m_ObjectHideFlags: 0
@@ -18822,6 +18842,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 145958343118567485, guid: 7e9b2d988d02c094f80746f6cda0c3e6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 996154114}
+    - targetCorrespondingSourceObject: {fileID: 145958343118567485, guid: 7e9b2d988d02c094f80746f6cda0c3e6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 996154116}
   m_SourcePrefab: {fileID: 100100000, guid: 7e9b2d988d02c094f80746f6cda0c3e6, type: 3}
 --- !u!1 &996154110 stripped
 GameObject:
@@ -18893,6 +18916,23 @@ CapsuleCollider:
   m_Height: 2.4
   m_Direction: 1
   m_Center: {x: 0, y: 1.1, z: 0}
+--- !u!114 &996154116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 996154110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5b64314a1b70f646b5ee5b5197af3fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Enemies::Ronin7.Enemies.PostureMeter
+  postureMax: 100
+  gainPerDamage: 0.9
+  decayDelay: 1
+  decayPerSecond: 40
+  breakBonusDamage: 12
 --- !u!1 &999826092
 GameObject:
   m_ObjectHideFlags: 0
@@ -20099,6 +20139,8 @@ GameObject:
   - component: {fileID: 1102832724}
   - component: {fileID: 1102832723}
   - component: {fileID: 1102832737}
+  - component: {fileID: 1102832739}
+  - component: {fileID: 1102832738}
   m_Layer: 0
   m_Name: XR Origin (Space Samurai)
   m_TagString: Untagged
@@ -20396,6 +20438,34 @@ MonoBehaviour:
   minAmplitude: 0.15
   maxAmplitude: 0.6
   pulseDuration: 0.06
+--- !u!114 &1102832738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102832721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4820909f096e96a438f4be661815e083, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Player::Ronin7.Player.ComboMomentumController
+  combatModifiers: {fileID: 1102832729}
+  comboWindowSeconds: 1.2
+  maxCombo: 4
+--- !u!114 &1102832739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102832721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51066eb6df6027f43ae3ff04c504e427, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Player::Ronin7.Player.ParryFlowController
+  combatModifiers: {fileID: 1102832729}
 --- !u!21 &1106795757
 Material:
   serializedVersion: 8
@@ -34746,6 +34816,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 145958343118567485, guid: 7e9b2d988d02c094f80746f6cda0c3e6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1930440332}
+    - targetCorrespondingSourceObject: {fileID: 145958343118567485, guid: 7e9b2d988d02c094f80746f6cda0c3e6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1930440334}
   m_SourcePrefab: {fileID: 100100000, guid: 7e9b2d988d02c094f80746f6cda0c3e6, type: 3}
 --- !u!1 &1930440328 stripped
 GameObject:
@@ -34817,6 +34890,23 @@ CapsuleCollider:
   m_Height: 2.4
   m_Direction: 1
   m_Center: {x: 0, y: 1.1, z: 0}
+--- !u!114 &1930440334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1930440328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5b64314a1b70f646b5ee5b5197af3fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Enemies::Ronin7.Enemies.PostureMeter
+  postureMax: 100
+  gainPerDamage: 0.9
+  decayDelay: 1
+  decayPerSecond: 40
+  breakBonusDamage: 12
 --- !u!1001 &1935580969
 PrefabInstance:
   m_ObjectHideFlags: 0

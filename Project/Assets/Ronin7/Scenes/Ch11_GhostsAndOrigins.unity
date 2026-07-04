@@ -8575,6 +8575,8 @@ GameObject:
   - component: {fileID: 745332271}
   - component: {fileID: 745332270}
   - component: {fileID: 745332282}
+  - component: {fileID: 745332284}
+  - component: {fileID: 745332283}
   m_Layer: 0
   m_Name: XR Origin (Space Samurai)
   m_TagString: Untagged
@@ -8855,6 +8857,34 @@ MonoBehaviour:
   minAmplitude: 0.15
   maxAmplitude: 0.6
   pulseDuration: 0.06
+--- !u!114 &745332283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 745332267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4820909f096e96a438f4be661815e083, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Player::Ronin7.Player.ComboMomentumController
+  combatModifiers: {fileID: 745332275}
+  comboWindowSeconds: 1.2
+  maxCombo: 4
+--- !u!114 &745332284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 745332267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51066eb6df6027f43ae3ff04c504e427, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Player::Ronin7.Player.ParryFlowController
+  combatModifiers: {fileID: 745332275}
 --- !u!1 &754487138
 GameObject:
   m_ObjectHideFlags: 0
@@ -21656,6 +21686,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3145663699351249748, guid: f24df9805676f754ea62e1e8a2decd35, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1617019133}
+    - targetCorrespondingSourceObject: {fileID: 3145663699351249748, guid: f24df9805676f754ea62e1e8a2decd35, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1617019136}
   m_SourcePrefab: {fileID: 100100000, guid: f24df9805676f754ea62e1e8a2decd35, type: 3}
 --- !u!4 &1617019130 stripped
 Transform:
@@ -21727,6 +21760,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Ronin7.Combat::Ronin7.Combat.Health
   maxHealth: 100
+--- !u!114 &1617019136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1617019132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5b64314a1b70f646b5ee5b5197af3fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Enemies::Ronin7.Enemies.PostureMeter
+  postureMax: 100
+  gainPerDamage: 0.9
+  decayDelay: 1
+  decayPerSecond: 40
+  breakBonusDamage: 12
 --- !u!21 &1631871221
 Material:
   serializedVersion: 8
