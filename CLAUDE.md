@@ -60,8 +60,9 @@ the dedicated Unity skill over `script-execute`-everything:
 
 - **Orphan materials:** ~288 unreferenced material variants exist but are regenerable via
   `Editor/Art/ArtGenerationMenu`. Reversible cleanup only — **do not auto-delete.**
-- **MeshColliders in 7 scenes** (on-foot zones / planet terrain) flagged for an in-editor pass;
-  replacing needs per-scene validation (audit in progress).
+- **MeshColliders: resolved** — the 7 flagged scenes were deleted in the chapter migration; a
+  2026-07-04 audit found zero MeshColliders in the current 14 scenes (all primitive colliders).
+  Prevention only: reject any future import that introduces one (e.g. FBX "Generate Colliders").
 - **Sun-nav** (`SunGravityWell` / `SunGlare` / `SunCompass`) is unit-tested but **additive and
   off by default** pending in-headset tuning. See `Project/Docs/SunNavigation-Design.md`.
 - **Combat juice** infra exists (`CombatFeedbackController`, `Haptics`, `AudioDirector`) — needs

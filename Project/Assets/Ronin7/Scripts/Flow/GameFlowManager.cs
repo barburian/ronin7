@@ -52,6 +52,7 @@ namespace Ronin7.Flow
 
         private bool transitioning;
         private bool gameOverInProgress;
+        private bool pendingGameOver;
 
         private void Awake()
         {
@@ -122,14 +123,56 @@ namespace Ronin7.Flow
         {
             if (VRRig.Instance == null) return;
             if (evt.Entity != VRRig.Instance.gameObject) return; // only the on-foot player rig
-            if (gameOverInProgress || transitioning) return;
-            StartCoroutine(GameOverRoutine());
+            TriggerGameOver();
         }
 
         private void OnPlayerShipDestroyed(PlayerShipDestroyed _)
         {
-            if (gameOverInProgress || transitioning) return;
-            StartCoroutine(GameOverRoutine());
+            TriggerGameOver();
+        }
+
+        /// <summary>
+        /// Single funnel for both death sources (on-foot EntityDied, ship PlayerShipDestroyed).
+        /// A death can land while `transitioning` is true (mid fade+load, e.g. a hazard/DoT tick
+        /// during a hub&lt;-&gt;mission hop); previously that was dropped for good by the transitioning
+        /// guard and the player arrived in the next scene "alive". Latch it instead and let the
+        /// finishing transition fire it (see ConsumePendingGameOver).
+        /// </summary>
+        private void TriggerGameOver()
+        {
+            switch (ResolveGameOver(gameOverInProgress, transitioning))
+            {
+                case GameOverAction.Latch:
+                    pendingGameOver = true;
+                    break;
+                case GameOverAction.FireNow:
+                    StartCoroutine(GameOverRoutine());
+                    break;
+                // Ignore: a game over is already in flight, nothing to do.
+            }
+        }
+
+        /// <summary>
+        /// Decision for what a death event should do given the current game-over/transition state.
+        /// Pure, so it is unit-testable.
+        /// </summary>
+        internal enum GameOverAction { Ignore, Latch, FireNow }
+
+        internal static GameOverAction ResolveGameOver(bool gameOverInProgress, bool transitioning)
+            => gameOverInProgress ? GameOverAction.Ignore : (transitioning ? GameOverAction.Latch : GameOverAction.FireNow);
+
+        /// <summary>
+        /// Read-and-clear step for the latch set by <see cref="TriggerGameOver"/>: called once a
+        /// transition's fade+load fully completes, after `transitioning` has already flipped back to
+        /// false. Returns true (and clears the latch) at most once per latched death, so callers can't
+        /// double-fire the game-over path. Internal so it is unit-testable without spinning the
+        /// coroutine.
+        /// </summary>
+        internal bool ConsumePendingGameOver()
+        {
+            if (!pendingGameOver) return false;
+            pendingGameOver = false;
+            return true;
         }
 
         /// <summary>Fade out, swap scenes, set the new mode, fade back in. Re-entrancy guarded.</summary>
@@ -139,6 +182,15 @@ namespace Ronin7.Flow
             transitioning = true;
             yield return FadeLoadFade(scene, mode, runUnloadAfter: true, quickBoot: quickBoot);
             transitioning = false;
+
+            // Ordering: consume the latch only after `transitioning` is already false, and only after
+            // FadeLoadFade has fully returned — which means its arrival autosave (step 5 inside
+            // FadeLoadFade) already ran. That autosave persists CampaignState (scene/mission progress)
+            // only; it has no "alive/dead" field, so a death that happened mid-fade can't corrupt it.
+            // Consuming here just means the game-over path starts right after the player is safely
+            // parked in the arrival scene instead of racing the in-flight transition. Clearing the flag
+            // inside ConsumePendingGameOver before starting GameOverRoutine rules out a double-fire.
+            if (ConsumePendingGameOver()) StartCoroutine(GameOverRoutine());
         }
 
         /// <summary>Public entry point used by the in-game settings panel's "Return to Main Menu" button.</summary>

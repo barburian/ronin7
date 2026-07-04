@@ -27,6 +27,11 @@ and validated headless via Unity 6000.3.2f1 EditMode tests. **Test suite: 356 �
 - **0 missing-script references** across 292 prefabs / 212 scenes — clean.
 - **MeshColliders in 7 scenes** (Galaxy-1 on-foot zone/planet terrain + Phase4_Zone) — flag for an
   in-editor pass; on static terrain, replacing with primitives/simplified colliders needs per-scene validation.
+  **RESOLVED 2026-07-04 (by scene deletion):** all 7 flagged scenes were removed in the EP→chapter
+  migration. A full audit of the current 14 scenes (grep + live in-editor scan + .meta addCollider
+  check) found **zero MeshColliders** — content is exclusively Box/Capsule/Sphere/CharacterController
+  (837/98/1/14). Going forward this is a prevention item (review any import enabling
+  "Generate Colliders"), not a remediation task.
 
 ## Hand-off — requires Unity Editor / Quest hardware (cannot be done headless)
 1. **Sun-nav integration & tuning (Phase 4):** wire `SunGravityWell` boost→`ShipController` (universe-frame
@@ -77,7 +82,7 @@ plus an editor-wide immersion pass. **Test suite: 400 → 639 EditMode (0 skips)
   (leftover from deleted EP-scenes) — discard vs. keep is a pending user decision.
 - Orphan materials note still applies (~288 unreferenced, regenerable via `Editor/Art/ArtGenerationMenu`,
   reversible cleanup only).
-- MeshCollider pass (7 scenes, see hygiene findings above) — audit in progress.
+- ~~MeshCollider pass~~ — closed 2026-07-04: resolved by scene deletion, zero MeshColliders in current content (see Hygiene above).
 - Sun-nav still additive / off by default pending in-headset tuning.
 - Combat juice infra still needs hardware tuning.
 - A5 death-latch fix in progress.
