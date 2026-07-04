@@ -1,0 +1,394 @@
+{
+    "lines": [
+        {
+            "file": "ch4_ch4_beat0_briefing_00_resh",
+            "speaker": "Resh",
+            "text": "Drovis. Coil free-port, built straight down a canyon of dead capital hulls. No Dominion garrison anywhere in it. That's why our courier ran there."
+        },
+        {
+            "file": "ch4_ch4_beat0_briefing_01_iris",
+            "speaker": "Iris",
+            "text": "Tessa Rin. Program logistics, gone to ground with a slate of internals she's trying to sell before someone closes the account on her. If anything names who cut your leash, it's in what she's carrying."
+        },
+        {
+            "file": "ch4_ch4_beat0_briefing_02_kessler",
+            "speaker": "Kessler",
+            "text": "Neutral ground. They can't march troopers in after you. They'll sell you instead, and right now you're a Program weapon walking around breathing."
+        },
+        {
+            "file": "ch4_ch4_beat0_briefing_03_echo",
+            "speaker": "Echo",
+            "text": "You're about to walk the most wanted face you own into a city that buys and sells faces for a living. I'll watch the exits, Cipher. Somebody has to."
+        },
+        {
+            "file": "ch4_ch4_beat0_briefing_04_mira",
+            "speaker": "Mira",
+            "text": "Is it like Velorum. The loud part."
+        },
+        {
+            "file": "ch4_ch4_beat0_briefing_05_kessler",
+            "speaker": "Kessler",
+            "text": "Louder. Which is why you're staying sealed on this ship with the comm open. You're done with markets."
+        },
+        {
+            "file": "ch4_ch4_beat0_briefing_06_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then we reach her first. Take us down."
+        },
+        {
+            "file": "ch4_ch4_beat1_throat_00_echo",
+            "speaker": "Echo",
+            "text": "That's your face on his slate. And on the drone. Whole city's been handed your picture. Welcome to Drovis."
+        },
+        {
+            "file": "ch4_ch4_beat1_throat_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then we keep moving and we don't look up."
+        },
+        {
+            "file": "ch4_ch4_beat1_throat_02_resh",
+            "speaker": "Resh",
+            "text": "Drone overhead, two scanners on the rail. Coil's got the chokes plugged and they're checking faces, not papers."
+        },
+        {
+            "file": "ch4_ch4_beat1_throat_03_resh",
+            "speaker": "Resh",
+            "text": "Coil doesn't pay for a customs sweep. Somebody's funding this."
+        },
+        {
+            "file": "ch4_ch4_beat1_throat_04_echo",
+            "speaker": "Echo",
+            "text": "Rail. High left. The one not buying anything."
+        },
+        {
+            "file": "ch4_ch4_beat1_throat_05_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Saw it."
+        },
+        {
+            "file": "ch4_ch4_beat1_throat_06_echo",
+            "speaker": "Echo",
+            "text": "That one wasn't reading a slate. That one already knew your face before the bounty. Different kind of trouble."
+        },
+        {
+            "file": "ch4_ch4_beat1_throat_07_kessler",
+            "speaker": "Kessler",
+            "text": "Enforcer?"
+        },
+        {
+            "file": "ch4_ch4_beat1_throat_08_ronin7",
+            "speaker": "Ronin-7",
+            "text": "No. Enforcers stand where the bounty tells them. That one chose the rail. Leave it. We have a courier to reach."
+        },
+        {
+            "file": "ch4_ch4_beat2_tessa_meet_00_tessarin",
+            "speaker": "Tessa Rin",
+            "text": "Whatever you're buying, I'm sold out and I'm leaving. Try the next stall."
+        },
+        {
+            "file": "ch4_ch4_beat2_tessa_meet_01_resh",
+            "speaker": "Resh",
+            "text": "We're not Coil. You're Tessa Rin, you're carrying Program internals, and there's a snatch-team two aisles back moving like they already bought you. We can get you out."
+        },
+        {
+            "file": "ch4_ch4_beat2_tessa_meet_02_tessarin",
+            "speaker": "Tessa Rin",
+            "text": "Everybody says they can get me out. Then I'm in a Coil cell counting my own teeth."
+        },
+        {
+            "file": "ch4_ch4_beat2_tessa_meet_03_tessarin",
+            "speaker": "Tessa Rin",
+            "text": "That's the face on the bounty. You're the recovery. You're the thing the whole port's hunting tonight."
+        },
+        {
+            "file": "ch4_ch4_beat2_tessa_meet_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then for the next few minutes the Coil wants me more than they want you. Walk behind me. Decide now."
+        },
+        {
+            "file": "ch4_ch4_beat2_tessa_meet_05_echo",
+            "speaker": "Echo",
+            "text": "That's the team. Four. The second they read your face that bounty triples and you're the prize."
+        },
+        {
+            "file": "ch4_ch4_beat2_tessa_meet_06_kessler",
+            "speaker": "Kessler",
+            "text": "Iris, get her and the slate behind the plate-stacks. Resh, with me."
+        },
+        {
+            "file": "ch4_ch4_beat2_sabotage_00_tessarin",
+            "speaker": "Tessa Rin",
+            "text": "You really aren't them. Fine. The data's real, it's Program disposal internals, and it's the last thing I'm ever selling. Take it."
+        },
+        {
+            "file": "ch4_ch4_beat2_sabotage_01_iris",
+            "speaker": "Iris",
+            "text": "This is your termination record. The real one, not the manifest."
+        },
+        {
+            "file": "ch4_ch4_beat2_sabotage_02_iris",
+            "speaker": "Iris",
+            "text": "Hold on. This is wrong."
+        },
+        {
+            "file": "ch4_ch4_beat2_sabotage_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Wrong how."
+        },
+        {
+            "file": "ch4_ch4_beat2_sabotage_04_iris",
+            "speaker": "Iris",
+            "text": "Your killswitch didn't fail. I called it a fault after Velorum, a switch that misfired and quit. It didn't misfire. Somebody got inside the firmware and broke it on purpose."
+        },
+        {
+            "file": "ch4_ch4_beat2_sabotage_05_echo",
+            "speaker": "Echo",
+            "text": "I told you it quit before it finished and I didn't know why. There's your why. I had a front-row seat to your execution, Cipher, and I missed that."
+        },
+        {
+            "file": "ch4_ch4_beat2_sabotage_06_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then it wasn't luck. Someone wanted me walking."
+        },
+        {
+            "file": "ch4_ch4_beat2_sabotage_07_kessler",
+            "speaker": "Kessler",
+            "text": "Who?"
+        },
+        {
+            "file": "ch4_ch4_beat2_sabotage_08_iris",
+            "speaker": "Iris",
+            "text": "The record doesn't say. Whoever did it scrubbed themselves out of it cleaner than they scrubbed your switch. That takes someone high."
+        },
+        {
+            "file": "ch4_ch4_beat2_sabotage_09_tessarin",
+            "speaker": "Tessa Rin",
+            "text": "And that's exactly why I'm not standing here while you talk about who in the Program has long arms. I was never in this aisle."
+        },
+        {
+            "file": "ch4_ch4_beat2_sabotage_10_resh",
+            "speaker": "Resh",
+            "text": "Go to ground deep. If we found you in an afternoon, the Coil will too."
+        },
+        {
+            "file": "ch4_ch4_beat2_sabotage_11_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Pack it. The relay on the Mast is feeding the whole city my face. We trace it back to the man holding the leash."
+        },
+        {
+            "file": "ch4_ch4_beat3_khall_00_khall",
+            "speaker": "Khall",
+            "text": "Cipher. You are listed terminated. You are making that a difficult fiction to maintain."
+        },
+        {
+            "file": "ch4_ch4_beat3_khall_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "That's not my name."
+        },
+        {
+            "file": "ch4_ch4_beat3_khall_02_khall",
+            "speaker": "Khall",
+            "text": "It is the one I gave you."
+        },
+        {
+            "file": "ch4_ch4_beat3_khall_03_khall",
+            "speaker": "Khall",
+            "text": "I am your Overseer. My name is Khall. I am not trying to kill you, Cipher. I am trying to bring you home before someone with less patience than I have finds you first."
+        },
+        {
+            "file": "ch4_ch4_beat3_khall_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Home doesn't put a switch in your skull."
+        },
+        {
+            "file": "ch4_ch4_beat3_khall_05_khall",
+            "speaker": "Khall",
+            "text": "No. It doesn't."
+        },
+        {
+            "file": "ch4_ch4_beat3_khall_06_echo",
+            "speaker": "Echo",
+            "text": "That's him. That's the voice from the bay, the one that pulled your switch and couldn't watch you fall. He's older now."
+        },
+        {
+            "file": "ch4_ch4_beat3_khall_07_ronin7",
+            "speaker": "Ronin-7",
+            "text": "You couldn't look at me when you did it. I watched you. So tell me what home is, that you'd switch me off for refusing an order, and then chase me across a free-port to switch me back on."
+        },
+        {
+            "file": "ch4_ch4_beat3_khall_08_khall",
+            "speaker": "Khall",
+            "text": "You were not meant to remember the bay. We will discuss what you're owed when you're home, and not before. The bounty stands. For your sake, end this and let me bring you in."
+        },
+        {
+            "file": "ch4_ch4_beat3_khall_09_ronin7",
+            "speaker": "Ronin-7",
+            "text": "The man at the bottom of these caves is selling me to you. I'm going to go and ask him why he thinks I'm his to sell."
+        },
+        {
+            "file": "ch4_ch4_beat3_aftermath_00_iris",
+            "speaker": "Iris",
+            "text": "Cipher. That's what it kept calling you. And the handler, Khall."
+        },
+        {
+            "file": "ch4_ch4_beat3_aftermath_01_resh",
+            "speaker": "Resh",
+            "text": "Cipher. Suits you better than nothing did. Easier to shout across a fight, anyway."
+        },
+        {
+            "file": "ch4_ch4_beat3_aftermath_02_kessler",
+            "speaker": "Kessler",
+            "text": "That's no manhunt. He's trying to take something back, and grief like that gets people killed. I don't trust it."
+        },
+        {
+            "file": "ch4_ch4_beat3_aftermath_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Cipher."
+        },
+        {
+            "file": "ch4_ch4_beat3_aftermath_04_echo",
+            "speaker": "Echo",
+            "text": "They named you to own you. Doesn't mean it's theirs. Come on. Khall's bought a man, and that man's at the bottom of this rock."
+        },
+        {
+            "file": "ch4_ch4_beat4_descent_intro_00_kessler",
+            "speaker": "Kessler",
+            "text": "We've got the line anchored up top. Past the first drop we lose your light. After that it's you and the sword."
+        },
+        {
+            "file": "ch4_ch4_beat4_descent_intro_01_echo",
+            "speaker": "Echo",
+            "text": "Then it's you and me, which is the same thing they've never understood. I can see the whole shape of this place through your eyes. Let me drive the feet, you keep the blade."
+        },
+        {
+            "file": "ch4_ch4_beat4_descent_calls_00_echo",
+            "speaker": "Echo",
+            "text": "Footing's loose on the left. Stay to the rock."
+        },
+        {
+            "file": "ch4_ch4_beat4_descent_calls_01_echo",
+            "speaker": "Echo",
+            "text": "Drone, your three. Hold there till it passes."
+        },
+        {
+            "file": "ch4_ch4_beat4_descent_calls_02_echo",
+            "speaker": "Echo",
+            "text": "Water's rising ahead. Shallow yet. Keep moving."
+        },
+        {
+            "file": "ch4_ch4_beat4_descent_calls_03_echo",
+            "speaker": "Echo",
+            "text": "Crowd's long gone. Just us and the dark now."
+        },
+        {
+            "file": "ch4_ch4_beat4_descent_end_00_echo",
+            "speaker": "Echo",
+            "text": "That's his light down there. Dominion blue, Coil money. He's home. Last drop, Cipher. No more route to call after this."
+        },
+        {
+            "file": "ch4_ch4_beat5_kerrax_confront_00_kerrax",
+            "speaker": "Kerrax",
+            "text": "The recovery walks in on its own legs. Saves me the finder's fee. You've cost me four good enforcers and a courier I had three-quarters sold, operative."
+        },
+        {
+            "file": "ch4_ch4_beat5_kerrax_confront_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "You're selling a man you've never met to a man you've never met. Both of them want me for reasons you don't know. That should worry you more than it does."
+        },
+        {
+            "file": "ch4_ch4_beat5_kerrax_confront_02_kerrax",
+            "speaker": "Kerrax",
+            "text": "Reasons are for buyers. I just collect."
+        },
+        {
+            "file": "ch4_ch4_beat5_mercy_00_echo",
+            "speaker": "Echo",
+            "text": "This is the part they built into your hands. The order says finish it. You don't have to listen to your hands, Cipher. Not anymore."
+        },
+        {
+            "file": "ch4_ch4_beat5_mercy_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Tell them what you saw."
+        },
+        {
+            "file": "ch4_ch4_beat5_mercy_02_kerrax",
+            "speaker": "Kerrax",
+            "text": "They'll say you malfunctioned. A killer that stops is a broken killer."
+        },
+        {
+            "file": "ch4_ch4_beat5_mercy_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then I'll keep malfunctioning."
+        },
+        {
+            "file": "ch4_ch4_beat5_mercy_04_meravoss",
+            "speaker": "Mera Voss",
+            "text": "A machine doesn't choose twice."
+        },
+        {
+            "file": "ch4_ch4_beat5_mercy_05_echo",
+            "speaker": "Echo",
+            "text": "The rail. The one who already knew your face."
+        },
+        {
+            "file": "ch4_ch4_beat5_mercy_06_meravoss",
+            "speaker": "Mera Voss",
+            "text": "I'm Mera Voss. I tracked operatives for the Dominion. They sent me to confirm a kill, yours or his, didn't matter which. Not one ever stopped."
+        },
+        {
+            "file": "ch4_ch4_beat5_mercy_07_ronin7",
+            "speaker": "Ronin-7",
+            "text": "And now one stopped."
+        },
+        {
+            "file": "ch4_ch4_beat5_mercy_08_meravoss",
+            "speaker": "Mera Voss",
+            "text": "Metal doesn't hesitate like that. You did."
+        },
+        {
+            "file": "ch4_ch4_beat5_mera_recruit_00_kessler",
+            "speaker": "Kessler",
+            "text": "We've got movement up top, the Coil's regrouping. Whatever's happening down there, happen faster."
+        },
+        {
+            "file": "ch4_ch4_beat5_mera_recruit_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "You came to confirm a kill. Go back and report a man instead, or come down the rest of the way with us. I'm not putting a gun to it. They do that. I don't."
+        },
+        {
+            "file": "ch4_ch4_beat5_mera_recruit_02_meravoss",
+            "speaker": "Mera Voss",
+            "text": "If I report this they'll send someone who won't hesitate the way I just did. I'd rather be on the side that hesitates. I'm in. I can read a trail no one else on your crew can."
+        },
+        {
+            "file": "ch4_ch4_beat5_mera_recruit_03_echo",
+            "speaker": "Echo",
+            "text": "Ally number two. And this one came to kill you. I'd say the day's improving."
+        },
+        {
+            "file": "ch4_ch4_beat5_mera_recruit_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then you berth aboard the Cairn with the rest of us. Everyone we take in lives on the ship."
+        },
+        {
+            "file": "ch4_ch4_beat5_mera_recruit_05_meravoss",
+            "speaker": "Mera Voss",
+            "text": "A turned weapon and a smuggler and a salvage man's kid. All of you, holed up in a dead leviathan."
+        },
+        {
+            "file": "ch4_ch4_beat5_mera_recruit_06_kessler",
+            "speaker": "Kessler",
+            "text": "She's coming up with you?"
+        },
+        {
+            "file": "ch4_ch4_beat5_mera_recruit_07_ronin7",
+            "speaker": "Ronin-7",
+            "text": "She's crew. She'll explain on the way. Leave Kerrax for the Coil to find."
+        },
+        {
+            "file": "ch4_ch4_beat5_mera_recruit_08_echo",
+            "speaker": "Echo",
+            "text": "He'll tell it wrong. Let him. The woman behind you saw what really happened, and so did I. It was never a glitch, Cipher. That part's just you."
+        }
+    ]
+}
