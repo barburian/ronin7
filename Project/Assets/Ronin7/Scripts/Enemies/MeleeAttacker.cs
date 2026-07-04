@@ -37,6 +37,10 @@ namespace Ronin7.Enemies
         [SerializeField] protected Vector3 strikeEuler = new Vector3(55f, 0f, 0f);
         [SerializeField] protected Vector3 recoilEuler = new Vector3(-120f, 0f, 0f);
 
+        // Sunder Beat: a deflect landing within this many seconds of entering State.Active counts as
+        // "perfect" (see Deflect / ParryTiming.ParryQuality).
+        private const float PerfectParryWindow = 0.12f;
+
         protected static readonly Color IdleColor = Color.white;
         protected static readonly Color TelegraphColor = new Color(1f, 0.4f, 0.25f);
         protected static readonly Color StaggerColor = new Color(0.4f, 0.6f, 1f);
@@ -213,6 +217,15 @@ namespace Ronin7.Enemies
 
         protected void Deflect(Vector3 point)
         {
+            // Sunder Beat: only a deflect that lands while this enemy is actually Active (mid-swing) can
+            // be "perfect" — Enemy also widens the parry window into late Windup, but pre-empting a
+            // telegraph isn't a timing feat and shouldn't feed the streak.
+            if (state == State.Active)
+            {
+                float quality = ParryTiming.ParryQuality(timer, PerfectParryWindow);
+                if (quality > 0f) EventBus.Publish(new PerfectParry(point, gameObject, quality));
+            }
+
             deflectedThisSwing = true;
             staggerFromEuler = currentEuler;
             Tint(StaggerColor);
@@ -220,6 +233,10 @@ namespace Ronin7.Enemies
             EventBus.Publish(new SwordDeflected(point, gameObject));
             Enter(State.Stagger);
         }
+
+        /// <summary>Test/system hook: force this enemy into Stagger as if its swing had just been
+        /// deflected (e.g. a posture-meter break). Mirrors DuelYield's Force* hooks.</summary>
+        public void ForceStagger() => Deflect(transform.position);
 
         protected void LandHit()
         {
