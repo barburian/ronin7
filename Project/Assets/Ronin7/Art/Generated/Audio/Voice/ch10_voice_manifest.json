@@ -1,0 +1,249 @@
+{
+    "lines": [
+        {
+            "file": "ch10_ch10_beat0_briefing_00_morrigan",
+            "speaker": "Morrigan",
+            "text": "Sable gave us the gap in the Engine, so here's the gap. The build-record was never one book. They never trusted the whole of it to a single shelf, because a single shelf can be taken. So they split it. Sections of the build, filed into living archives like her, scattered and buried across the chart. No one capture gives you the whole machine. And the nearest piece, Cipher, is filed down there. The Ninefold shafts. Nine tiers, and it gets older every level you drop."
+        },
+        {
+            "file": "ch10_ch10_beat0_briefing_01_sable",
+            "speaker": "Sable",
+            "text": "Down there is one of my own kind. Racked the way I was racked, awake inside all of it. They seated the Wraith dead in me; in her, the Ninja, a whole make of us, two programs older than yours, fused into one woman. And where I carried the shape of the Engine, she carries the count: not just her own generation, but every operative they ever erased, read across the server through the cross-index in her spine. The true names, Cipher, and where the bodies went, and the index to the other two nodes after her. I can feel her from here, the way you feel a held breath in another room. She is the first of three I can feel. And she is the only one I think we bring up breathing."
+        },
+        {
+            "file": "ch10_ch10_beat0_briefing_02_sable",
+            "speaker": "Sable",
+            "text": "The other two I can feel are wrong. One's faint, like a voice going out. The other's locked and angry, but still there. This one, the Ninefold one, she's still whole. If we're ever going to get one of us up out of the dark alive instead of carrying her ledger off a corpse, it's her, and it's now. Don't make me bury all three."
+        },
+        {
+            "file": "ch10_ch10_beat0_briefing_03_echo",
+            "speaker": "Echo",
+            "text": "All right. Down again. We've got Overdrive in our pocket and a sister on the ship and a map in her head. We are not the thing that went down into the Tide with nothing but a sword and a bad feeling. So let's free my sister, Cipher, and bring one of her kind up out of the ground breathing for once."
+        },
+        {
+            "file": "ch10_ch10_beat0_briefing_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Morrigan, plot the Ninefold. Gryph, you're on the descent. Take us down."
+        },
+        {
+            "file": "ch10_ch10_beat1_descent_00_echo",
+            "speaker": "Echo",
+            "text": "We're in, Cipher. First tier. It's a mine, an honest one, or it was. Dead lift-cages, carts gone to rust, ore-seams picked clean a long time ago. The syndicate squatters up here think they're sitting on a played-out hole they can charge tolls through. Keep dropping. Gryph says it stays a mine for a while yet. I'll tell you the second it stops being one."
+        },
+        {
+            "file": "ch10_ch10_beat1_descent_01_gryph",
+            "speaker": "Gryph",
+            "text": "This is good rock, Cipher. I mean it. Honest dig, the kind men did because there was ore in it. Follow the old cuts and they'll hold. It's when the cuts stop and the smooth starts that you slow down and you trust nothing. A mine that's still a mine wants to give up its ore. A mine that's turned into something else wants to keep you out, and it'll drop a tier on your head to do it. We're not there yet. Drop the next two cages and watch the shoring."
+        },
+        {
+            "file": "ch10_ch10_beat1_strongroom_00_echo",
+            "speaker": "Echo",
+            "text": "Stop. There it is. The rust ends right here, see the line of it, like a tide-mark in the stone. Below that it's machined. Sealed. Signal-dead. And that door, Cipher, no handle. Not on our side. They built it so the only way through is from inside, with permission. That's not how you lock up ore. Nobody steals a mountain of rock. That's how you lock up something you're terrified somebody will read. We just crossed out of the mine and into the vault."
+        },
+        {
+            "file": "ch10_ch10_beat1_strongroom_01_coralvex",
+            "speaker": "Coral Vex",
+            "text": "A handle-less door. I know those. They put them on the places where the Program keeps the things that would hang it. You're past the part anyone was meant to reach. Everything below that line was built by people who assumed no one would ever be standing where you're standing. That's their mistake, Cipher. They built it for a galaxy too afraid to walk down. Keep going. The deeper it gets, the closer you are to the count."
+        },
+        {
+            "file": "ch10_ch10_beat1_strongroom_02_sable",
+            "speaker": "Sable",
+            "text": "You are close now. Three tiers, maybe less. She knows we're coming, Cipher. She's been awake down there the whole time, filing the dead, and she just felt another archive reaching back for the first time in years. Whatever's between us and her, it'll be standing right at her rack. They never leave a node like her unguarded. Get to her."
+        },
+        {
+            "file": "ch10_ch10_beat1_strongroom_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Gryph, find me the way down past a door with no handle."
+        },
+        {
+            "file": "ch10_ch10_beat2_keeper_00_cassie04",
+            "speaker": "Cassie-04",
+            "text": "Oh, good. Another one come to die on the rack-room floor. You'd be the seventh this year, and it's a slow year. Let me save you the trouble of a heroic speech, since I've filed a lot of them. The armored gentleman between us doesn't blink, doesn't bargain, and doesn't lose. I should know. I've catalogued every single body he's put down at my feet, in order, with timestamps, because that's the one job they left me. So unless you've got something the last six didn't, turn around. I'd hate to have to write you up."
+        },
+        {
+            "file": "ch10_ch10_beat2_keeper_01_sever",
+            "speaker": "Sever",
+            "text": "The asset stays on the rack. That is the order. I have kept it through six. I will keep it through you."
+        },
+        {
+            "file": "ch10_ch10_beat2_keeper_02_cassie04",
+            "speaker": "Cassie-04",
+            "text": "Listen to him. Six words, every time. The asset stays on the rack. He's said it to me eleven thousand times, I counted, because counting is what I do, and every single time there's a half-second where I swear something behind his eyes wants to say a different sentence and can't. They scooped him out and left the guard-dog. I've watched him stand in this cold for years and never sit, never sleep, never speak a word that wasn't the order. If you can do anything for him, Cipher, it isn't winning. It's ending. Trust the clerk on this one. I've read his whole file."
+        },
+        {
+            "file": "ch10_ch10_beat2_keeper_03_echo",
+            "speaker": "Echo",
+            "text": "She's right, Cipher. I can feel him from here, same as I felt Vane, except this one's worse to feel. Vane was empty. There was nobody home to grieve. This one. There's somebody in there pressing against the leash, has been for years, and it never gives. Older make than you, the Ninja run, two programs before yours, but the cage is the same cage, just an earlier year of it, and they left just enough of him in there to know what they did. That's him. You can't talk to the part that's still alive. The order won't let it answer. The only door left to open is the last one. I'm sorry. Run the read with me."
+        },
+        {
+            "file": "ch10_ch10_beat2_keeper_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Ninja-2. You came two makes before me; they built mine out of yours. Mine got cut loose. And this rack you're dying to protect, it's your own. Every Ninja they ever shelved, seated in her, the whole make you came from. They set you to guard your own generation's grave and never told you. I know there's someone still in there, because there was someone still in me when they fired the switch and I lived. I can't reach you through the order. I wish to every dead thing in this room that I could. So I'm going to do the only kind thing the Program left on the table. I'm sorry, brother. Rest is the only door I've got."
+        },
+        {
+            "file": "ch10_ch10_beat2_keeper_05_sever",
+            "speaker": "Sever",
+            "text": "The asset stays on the. The asset. Stays. I almost. No. The asset stays on the rack. That is the order."
+        },
+        {
+            "file": "ch10_ch10_beat2_kill_00_ronin7",
+            "speaker": "Ronin-7",
+            "text": "There it is. The first time your face has been quiet. They held you against your own door for years and it took a killing to open it. That's the whole evil of them in one man. I'm sorry it was me. Rest, brother. You finally get to."
+        },
+        {
+            "file": "ch10_ch10_beat2_kill_01_echo",
+            "speaker": "Echo",
+            "text": "His shadow's free, Cipher. The leash died with him, same as Vane, and the thing they wired behind his eyes just came loose. It's coming to me. I can feel it reaching. This one's different, though. Vane gave us time. This one. Hold still, let me read what he's carrying. Oh. Oh, that's a good one. He left you a step through walls."
+        },
+        {
+            "file": "ch10_ch10_beat2_phasestep_00_echo",
+            "speaker": "Echo",
+            "text": "Feel that. You just stepped through a wall like it owed you the right of way. That's his gift, Cipher, the one thing they ever let him do that wasn't standing still in front of a cage. Phase-step. A short blink, through matter, through bodies, through anything between you and where you need to be. They built him to be the wall nobody got past. So his last act is to make you the man no wall can hold. Use it gently. It's the only soft thing he had to give."
+        },
+        {
+            "file": "ch10_ch10_beat2_recruit_00_cassie04",
+            "speaker": "Cassie-04",
+            "text": "Well. Eleven thousand and one. Except that one doesn't go in the column it always goes in, does it. Six years I've timestamped that man killing everyone who came for me, and you just. Filed him under something else. You killed him like you were sorry. Do you know how long it's been since anyone did anything in this room that I didn't already have a category for. I'm a ledger, Cipher. I have a column for everything. I did not have a column for that."
+        },
+        {
+            "file": "ch10_ch10_beat2_recruit_01_sable",
+            "speaker": "Sable",
+            "text": "Cassie. It's Sable. Listen to my voice, you remember it, we were racked two vaults apart before they scattered us. I came off mine three days ago. Off it. On my own feet, on a ship, with a name people use. You can be more than the thing they made you. I know that's the cruelest sentence in the galaxy to a node, because we are the thing they made us, all the way through. But it isn't all we are. I came up. So can you. Let him pull the wires, Cassie. Come up with us."
+        },
+        {
+            "file": "ch10_ch10_beat2_recruit_02_cassie04",
+            "speaker": "Cassie-04",
+            "text": "More than the thing they made me. You always did talk like a poet, Sable, even racked. I'm the dry one, remember. But. All right. I felt you go quiet on the lattice three days ago and I thought they'd finally disposed of you, and I filed you, I actually filed you, and now you're a voice on a comm telling me to walk. So. Pull the wires, Cipher. Carefully, I've got the dead of an entire program seated in my spine, the whole Ninja make, and I would prefer not to drop any of them. And then, gods help all of you, let me show you what I've been counting."
+        },
+        {
+            "file": "ch10_ch10_beat3_ninja_history_00_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Before the names. The one I just put down. He called himself Ninja-2, and you say his whole make is seated in you. Tell me what the Ninja program was. I want to know what I killed, and what you're carrying."
+        },
+        {
+            "file": "ch10_ch10_beat3_ninja_history_01_cassie04",
+            "speaker": "Cassie-04",
+            "text": "The Ninja program. Two builds before your Ronin line, Cipher, the Dominion's first real attempt at a blade nobody could trace. They made your make to be seen, to be the thing worlds surrendered to before you ever drew. They made the Ninja for the opposite job. Single operatives slipped in quiet, one cut, gone before anybody knew a war had walked through the room. No banner, no serial that ever lived to be reported. And they were good. That was the problem. A weapon you can't see is a weapon you can't be sure you still own. The Dominion got more afraid of its own ghosts than of anything it pointed them at, so it did what it always does with a thing it can't control. It erased the make. Every Ninja they ever ran, struck off the books and racked, here, in me. Sever was the last one still on his feet, and they didn't even let him be a man at the end. They turned their last invisible blade into a locked door and set him to guard the grave of everyone he came from. That's the Ninja program. You just gave the last of them the only rest the Dominion ever left on the shelf."
+        },
+        {
+            "file": "ch10_ch10_beat3_reading_00_cassie04",
+            "speaker": "Cassie-04",
+            "text": "All right. Watch the light. This is the part they buried a mine on top of so it could never be read aloud. Here they are, Cipher. Not numbers. Not assets. Names. The make seated in my spine is Ninja, my own generation, but the count I keep reaches every node and every make: every operative the Program ever erased, the true name they were given before they were given a serial, and the place they put the body after. I have been keeping this count alone in the cold for six years and never once been allowed to say a single one of them out loud to a living soul who cared. So. Where do you want to start."
+        },
+        {
+            "file": "ch10_ch10_beat3_reading_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "From the start. The oldest first. Read them like they mattered, because somebody on my ship made me promise they would. And every name you read, I want the line. Were they Program. Were they a child. Were they someone like me."
+        },
+        {
+            "file": "ch10_ch10_beat3_reading_02_cassie04",
+            "speaker": "Cassie-04",
+            "text": "The oldest first. Then you'll want to sit, metaphorically, because the old ones are the worst. Here. This one was a teacher before they took her. This one was twelve. This one cut his own leash and lasted nine days before they filed him. This one. Cipher, half of these are children, and the other half are people who were children when the Program took them. You weren't an exception. You were a line-item. And every single one of them went into the dark with no one ever saying the name their mother gave them. Until now. So I'll keep reading, and you keep standing there taking it, because somebody finally should."
+        },
+        {
+            "file": "ch10_ch10_beat3_reading_03_echo",
+            "speaker": "Echo",
+            "text": "I'm reading with you, Cipher. I can't not. Every one of these had a shadow, and every shadow is one of me, filed in this index like a thing in a drawer. There. And there. The kept I promised we'd come back for, half of them are in this list with a disposal-site next to the name. We didn't just find the count. We found the address of everyone we're trying to save. Keep listening. I know it's heavy. This is the heaviest thing we'll ever carry and it's also the only map that gets us to them."
+        },
+        {
+            "file": "ch10_ch10_beat3_reading_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Find me one more. Find me mine. If everyone in this room has a name their mother gave them, I want to know if I had one too, before they made me a number."
+        },
+        {
+            "file": "ch10_ch10_beat3_reading_05_cassie04",
+            "speaker": "Cassie-04",
+            "text": "I was waiting for you to ask. I've had your file flagged since the second you walked in, because the index knew your face before I did. Here it is. Ronin-7. And. Hm. That's. Give me a moment. No. Cipher, I'm sorry. Your entry's here, it's the only one in the whole ledger that's sealed from the inside, locked at a depth even I can't read from where I'm standing. Everyone else, I can hand you. You, they buried twice. There's a name in there. I just can't open it from this room. Whatever they did to you, they didn't want it read even by their own clerk."
+        },
+        {
+            "file": "ch10_ch10_beat3_reading_06_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Sealed from the inside. Of course it is. They made me the one thing in their own ledger even they were afraid to read back. Mark it, Cassie. Flag it and carry it up with the rest. Somewhere there's a room deeper than this one where that lock opens. I'll find it. Not today. Today we read the others."
+        },
+        {
+            "file": "ch10_ch10_beat3_reading_07_cassie04",
+            "speaker": "Cassie-04",
+            "text": "Then I'm not staying down here to wait for you to carry me up like the last of the furniture. Six years bolted to a wall, reading the dead to no one. I can walk, Cipher, and I can read on the move. Wherever this crew goes next, the ledger goes with it, and the ledger doesn't leave my spine, so that's settled. I'm coming with you. Now get me up out of this hole. I've got a galaxy of names to say out loud and I'd like to start before the next century."
+        },
+        {
+            "file": "ch10_ch10_beat3_reading_08_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then you're with us. Stay on Gryph's shoulder and keep reading. We climb."
+        },
+        {
+            "file": "ch10_ch10_beat4_ambush_00_vess",
+            "speaker": "Vess",
+            "text": "Don't move. Don't you dare move that blade. Eleven years I crossed the chart for this exact half-second, and I mean to have it clean. You don't know my face. Why would you. But I've known yours since I was a child pulling my family out of the rubble your line left behind. So look at me. Understand it's a person doing this. Give me one reason. You took everyone I had."
+        },
+        {
+            "file": "ch10_ch10_beat4_ambush_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I won't give you one. You're right. My line came down on your world and I was the kind of thing they pointed at worlds. If you've got the truth of it, then you've got the right to it. Kill me. It's fair."
+        },
+        {
+            "file": "ch10_ch10_beat4_ambush_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "But know what dies with me before you do it. The names of everyone they took are in her, the archive we just carried up out of the dark. Every one of them. The true names, the children, your people, filed where no one was ever meant to read them. I'm the one who can read them out loud to the galaxy. Open my throat and the count stays buried, and the shadows still on the racks stay on the racks. Your revenge is real. It's just very, very small next to what we could do with my life instead of my death."
+        },
+        {
+            "file": "ch10_ch10_beat4_choice_00_vess",
+            "speaker": "Vess",
+            "text": "Don't. Don't you tell me you're the champion of the galaxy. I am not buying it."
+        },
+        {
+            "file": "ch10_ch10_beat4_choice_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I was built to be that. I'm not it anymore, and I'm trying to pay for what I was. Let me put down the thing the Dominion's building, and then my life's yours."
+        },
+        {
+            "file": "ch10_ch10_beat4_choice_02_vess",
+            "speaker": "Vess",
+            "text": "Then you carry them too. All of them, mine and his and yours, every name in that rack. You don't get to die until every last one has been spoken out loud to the whole galaxy. That's a longer sentence than the one I came down here to give you, and it's heavier, and you'll wear it every day until it's done. That's worse than killing you. Good. Take the blade. If I'm putting it down, I'm putting it in the hand that has the most names to answer for. Don't make me regret the worst mercy I've ever shown."
+        },
+        {
+            "file": "ch10_ch10_beat4_choice_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I'll wear it. Every name, out loud, until the dark gives all of them back. That's the work anyway, Vess. You didn't sentence me to anything I wasn't already carrying down this hole. But I'll carry yours by name now, with the rest. Take a berth on my ship. The strays read the dead together up there. There's room for one more."
+        },
+        {
+            "file": "ch10_ch10_beat4_choice_04_gryph",
+            "speaker": "Gryph",
+            "text": "A year ago I'd have called that the stupidest thing I ever watched a man do, taking a live blade off someone who came to kill him. I threw in with him over the same kind of stupid. Raider. I don't know your war. But I know that choice when I see it twice in one day. You'll do."
+        },
+        {
+            "file": "ch10_ch10_beat4_choice_05_echo",
+            "speaker": "Echo",
+            "text": "She spared you, Cipher. Took the killing blow and chose not to land it. Do you feel the size of that. Every keeper down here this whole saga, Vane, Sever, every leashed brother of every make before yours, the only mercy on offer was a clean death. And this one, who had every right in the galaxy to take your life, looked at the names and put the blade in your hand instead. That's the chapter, right there. We've been putting down the cages that came before you all the way down. She's the first one that chose to spare you back."
+        },
+        {
+            "file": "ch10_ch10_beat5_targetlist_00_cassie04",
+            "speaker": "Cassie-04",
+            "text": "Now for the part I've actually been looking forward to. Hand me that Engine schematic your engineer pulled out of the Tide. There. Watch what happens when you lay a ledger over a machine. You already know the build was split across my kind so no single capture gives you the whole. Here's the part you don't have. The cross-index in my spine knows exactly where the other two are kept. So. There's your target list, Cipher. Two more of me, out there in the dark, each a different make of the dead racked into a different node, each one a piece of the instructions for taking this thing apart."
+        },
+        {
+            "file": "ch10_ch10_beat5_targetlist_01_morrigan",
+            "speaker": "Morrigan",
+            "text": "I see them. Two nodes, lit against the Engine frame. Give me the first. There, the nearer one. That's. Cipher, that reads as a bone-canyon, a leviathan graveyard, and the dating on it is wrong, it's older than the Dominion, older than the Program's records should go. If there's an archive wrecked out there, it isn't filed under the Engine's construction. It's filed under the Engine's origin. Whatever's in that canyon goes back to where all of this started. We don't just have a node out there. We have the beginning of it."
+        },
+        {
+            "file": "ch10_ch10_beat5_targetlist_02_morrigan",
+            "speaker": "Morrigan",
+            "text": "And the second. Deeper inside Dominion ground, not buried in the wild but wired into a cryo-command vault, one of their cold strongholds where they freeze the things they're not ready to use yet. That node's not lost, Cipher. It's in active custody, in the heart of their machine. The bone-canyon one we go and find. The cryo one we'll have to go in and take. Two more archives. Two more of her kind. Then the build-record's whole and the Engine comes apart."
+        },
+        {
+            "file": "ch10_ch10_beat5_targetlist_03_sable",
+            "speaker": "Sable",
+            "text": "I've felt them the whole time you've been down there, Cipher, the way I told you in the briefing. Two more, after Cassie. And now Cassie's map gives them a place, and I can lay my feeling over her index, and. The cryo one I can feel clean. Cold, locked, alive, angry. We can reach her. But the bone-canyon one. Listen to me. She reads wrong. Faint, and getting fainter, like a voice going out under deep water, like she's already half gone and doesn't know it. Cassie's the one we brought up breathing. The next one. I don't think she'll wait for us. I think I'm going to lose a sister before I ever reach her, and I think the canyon is where it happens."
+        },
+        {
+            "file": "ch10_ch10_beat5_targetlist_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then the canyon's first. If she's going out, we go to her before she does, not after. Cassie, lock both nodes to the map and keep the ledger reading the whole way. Vess, your sentence starts now, every name out loud as we go. Gryph, get us aboard the rig. We came down to read the dead by name and bring one of them up breathing. We did both. Now we do it twice more, and the next one's running out of time. Take us up."
+        },
+        {
+            "file": "ch10_ch10_beat5_targetlist_05_echo",
+            "speaker": "Echo",
+            "text": "Up, for once, and not empty-handed. We came down for a count and we're climbing out with the names of everyone we ever lost, a step through walls, two more strays on the ship, and a target list with two pins in it. That's a win that walks out on its own legs, Cipher, the one I asked for. Enjoy it for the length of the lift-ride, because the next pin reads wrong, and Sable's scared, and you and I both know what it means when she's scared. We made the rebellion a plan today. The canyon's going to make it a race. But that's tomorrow's hole. Today we ride up clean."
+        }
+    ]
+}
