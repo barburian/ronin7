@@ -30,7 +30,7 @@ namespace Ronin7.Enemies
         protected override float ActiveTime => definition.activeTime;
         protected override float RecoverTime => definition.recoverTime;
         protected override float StaggerTime => definition.staggerTime;
-        protected override float AttackDamage => definition.damage;
+        protected override float AttackDamage => definition.ScaledDamage(CampaignState.GalaxiesCompleted);
 
         // After Recover/Stagger, drop back into Chase rather than Idle — the Idle state's
         // 0.2s settle gate is meant for the very first spawn only.
@@ -55,7 +55,12 @@ namespace Ronin7.Enemies
                 definition = ScriptableObject.CreateInstance<EnemyDefinition>();
             }
             base.Awake();
-            health.Configure(definition.maxHealth);
+            health.Configure(definition.ScaledMaxHealth(CampaignState.GalaxiesCompleted));
+            if (definition.postureMaxFraction > 0f)
+            {
+                var posture = GetComponent<PostureMeter>();
+                if (posture != null) posture.Configure(definition.maxHealth * definition.postureMaxFraction);
+            }
             if (bladeTip == null)
                 Debug.LogError("[Enemy] bladeTip not wired — parry detection disabled.", this);
             groundY = transform.position.y;
@@ -127,7 +132,7 @@ namespace Ronin7.Enemies
         /// <summary>Revive and reposition for a fresh duel.</summary>
         public void Respawn(Vector3 position)
         {
-            if (definition != null) health.Configure(definition.maxHealth);
+            if (definition != null) health.Configure(definition.ScaledMaxHealth(CampaignState.GalaxiesCompleted));
             transform.SetPositionAndRotation(position, Quaternion.identity);
             groundY = position.y;
             currentEuler = restEuler;
