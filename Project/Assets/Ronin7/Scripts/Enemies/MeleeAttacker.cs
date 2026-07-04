@@ -155,6 +155,7 @@ namespace Ronin7.Enemies
             if (target == null) target = FindPlayer();
             currentEuler = restEuler;
             if (weapon != null) weapon.localRotation = Quaternion.Euler(restEuler);
+            EnemySwordVisual.EnsureVisible(weapon); // placeholder katana so the chop has something to swing
             Tint(IdleColor);
         }
 
