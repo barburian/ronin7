@@ -75,6 +75,11 @@ namespace Ronin7.Ship
 
         public bool IsAlive => health != null && health.IsAlive && state != State.Dead && state != State.Disabled;
 
+        /// <summary>Pure check: should the ship transition to Disabled at its current health? Extracted so the
+        /// threshold logic can be unit-tested without a live Health component.</summary>
+        public static bool ShouldDisable(bool disableInsteadOfDestroy, float currentHealth, float maxHealth, float disableFraction) =>
+            disableInsteadOfDestroy && maxHealth > 0f && (currentHealth / maxHealth) <= disableFraction;
+
         /// <summary>This ship's position in the universe frame (matches the frame ShipPosition lives in).</summary>
         public Vector3 UniversePosition =>
             universe != null ? universe.InverseTransformPoint(transform.position) : transform.position;
@@ -155,8 +160,7 @@ namespace Ronin7.Ship
             timer += Time.deltaTime;
 
             // Check if ship should be disabled at low health
-            if (disableInsteadOfDestroy && health != null && health.Max > 0f
-                && (health.Current / health.Max) <= disableHealthFraction)
+            if (health != null && ShouldDisable(disableInsteadOfDestroy, health.Current, health.Max, disableHealthFraction))
             {
                 Disable();
                 return;

@@ -36,28 +36,32 @@ namespace Ronin7.Player
         private Vector3 lastGrabbedHandPos = Vector3.zero;
         private CircularBuffer<Vector3> handVelocityHistory;
 
-        private class CircularBuffer<T>
+        internal class CircularBuffer<T>
         {
             private T[] buffer;
             private int head = 0;
+            private int count = 0;
 
             public CircularBuffer(int capacity)
             {
-                buffer = new T[capacity];
+                buffer = new T[Mathf.Max(1, capacity)];
             }
 
             public void Add(T value)
             {
                 buffer[head] = value;
                 head = (head + 1) % buffer.Length;
+                if (count < buffer.Length) count++;
             }
 
             public T Average(System.Func<T, T, T> add, System.Func<T, float, T> scale)
             {
+                if (count == 0) return default;
+
                 T result = buffer[0];
-                for (int i = 1; i < buffer.Length; i++)
+                for (int i = 1; i < count; i++)
                     result = add(result, buffer[i]);
-                return scale(result, 1f / buffer.Length);
+                return scale(result, 1f / count);
             }
         }
 

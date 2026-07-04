@@ -11,6 +11,7 @@
         "Ronin7.Flow",
         "Ronin7.Audio",
         "Ronin7.Editor",
+        "Unity.InputSystem",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"
     ],

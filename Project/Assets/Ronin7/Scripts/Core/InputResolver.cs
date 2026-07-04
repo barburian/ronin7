@@ -62,8 +62,15 @@ namespace Ronin7.Core
                 }
             }
 
-            Debug.LogError($"[{ownerTag}] Could not resolve input action '{mapName}/{actionName}'. " +
-                           $"Assign the InputActionReference on the component.");
+            string message = $"[{ownerTag}] Could not resolve input action '{mapName}/{actionName}'. " +
+                              $"Assign the InputActionReference on the component.";
+            // Callers with no map/action name to fall back to (e.g. CockpitRecenter, LandingApproach)
+            // treat the reference as an optional binding — an unassigned optional binding is expected
+            // configuration, not an error.
+            if (string.IsNullOrEmpty(mapName) && string.IsNullOrEmpty(actionName))
+                Debug.LogWarning(message);
+            else
+                Debug.LogError(message);
             return null;
         }
     }

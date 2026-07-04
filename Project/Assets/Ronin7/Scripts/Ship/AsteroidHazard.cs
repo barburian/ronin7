@@ -59,6 +59,14 @@ namespace Ronin7.Ship
             playerHullRadius = hullRadius;
         }
 
+        /// <summary>Pure sphere-overlap check shared by <see cref="ScanPlayer"/> and <see cref="ScanEnemies"/>:
+        /// true when two spheres (given by center + radius) are touching or overlapping.</summary>
+        public static bool InRange(Vector3 centerA, float radiusA, Vector3 centerB, float radiusB)
+        {
+            float reach = radiusA + radiusB;
+            return (centerA - centerB).sqrMagnitude <= reach * reach;
+        }
+
         private void Update()
         {
             float now = Time.time;
@@ -78,8 +86,7 @@ namespace Ronin7.Ship
                 var a = list[i];
                 if (a == null || !a.IsAlive) continue;
 
-                float reach = playerHullRadius + a.WorldRadius;
-                if ((a.WorldCenter - hullCenter).sqrMagnitude > reach * reach) continue;
+                if (!InRange(hullCenter, playerHullRadius, a.WorldCenter, a.WorldRadius)) continue;
 
                 Vector3 point = a.WorldCenter;
                 Vector3 dir = (hullCenter - point).normalized;
@@ -117,8 +124,7 @@ namespace Ronin7.Ship
                     var a = rocks[r];
                     if (a == null || !a.IsAlive) continue;
 
-                    float reach = enemyRadius + a.WorldRadius;
-                    if ((a.WorldCenter - enemyPos).sqrMagnitude > reach * reach) continue;
+                    if (!InRange(enemyPos, enemyRadius, a.WorldCenter, a.WorldRadius)) continue;
 
                     Vector3 point = a.WorldCenter;
                     Vector3 dir = (enemyPos - point).normalized;
