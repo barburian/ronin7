@@ -73,6 +73,18 @@ namespace Ronin7.Combat
     }
 
     /// <summary>
+    /// Sunder Beat perfect-parry streak advanced (see <see cref="Ronin7.Player.ParryFlowController"/>).
+    /// Published only when the streak count increases — never on a player-hit/idle-expiry reset — so
+    /// subscribers (e.g. campaign stat tracking for "best parry streak reached") only see forward
+    /// progress. Mirrors <see cref="KillStreakAdvanced"/>.
+    /// </summary>
+    public readonly struct ParryStreakAdvanced
+    {
+        public readonly int Count;
+        public ParryStreakAdvanced(int count) => Count = count;
+    }
+
+    /// <summary>
     /// G4 "Blade Clash": a deflect landed where BOTH the player's and the enemy's blade were
     /// genuinely moving hard (see <see cref="ParryTiming.IsClash"/>) — a true mutual clash, not just
     /// a well-timed parry against a slow swing. Published in addition to <see cref="SwordDeflected"/>

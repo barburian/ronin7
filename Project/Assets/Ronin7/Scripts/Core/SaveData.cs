@@ -33,6 +33,7 @@ namespace Ronin7.Core
         public int statsBestCombo;
         public int statsBestKillStreak;
         public int statsBestNearMissStreak;
+        public int statsBestParryStreak;
 
         // Ronin7.Core.DrillBestScores ledger. Forward-compat: JsonUtility leaves an absent list at
         // its initializer value (empty), so old save files load with no drill scores instead of throwing

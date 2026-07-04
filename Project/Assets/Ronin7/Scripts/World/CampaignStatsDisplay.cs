@@ -21,15 +21,19 @@ namespace Ronin7.World
             nextRefreshTime = Time.time + 1f;
 
             string text = Format(CampaignStats.EnemiesDefeated, CampaignStats.PerfectParries,
-                CampaignStats.PostureBreaks, CampaignStats.BestCombo);
+                CampaignStats.PostureBreaks, CampaignStats.BestCombo, CampaignStats.BestKillStreak,
+                CampaignStats.BestNearMissStreak, CampaignStats.BestParryStreak);
             if (text == lastDisplayed) return;
 
             lastDisplayed = text;
             if (target != null) target.text = text;
         }
 
-        /// <summary>Pure formatter — "DEFEATED n / PERFECT PARRIES n / GUARD BREAKS n / BEST COMBO n".</summary>
-        public static string Format(int enemiesDefeated, int perfectParries, int postureBreaks, int bestCombo) =>
-            $"DEFEATED {enemiesDefeated} / PERFECT PARRIES {perfectParries} / GUARD BREAKS {postureBreaks} / BEST COMBO {bestCombo}";
+        /// <summary>Pure formatter — "DEFEATED n / PERFECT PARRIES n / GUARD BREAKS n / BEST COMBO n /
+        /// BEST KILL STREAK n / BEST NEAR MISS STREAK n / BEST PARRY STREAK n".</summary>
+        public static string Format(int enemiesDefeated, int perfectParries, int postureBreaks, int bestCombo,
+            int bestKillStreak, int bestNearMissStreak, int bestParryStreak) =>
+            $"DEFEATED {enemiesDefeated} / PERFECT PARRIES {perfectParries} / GUARD BREAKS {postureBreaks} / BEST COMBO {bestCombo} / " +
+            $"BEST KILL STREAK {bestKillStreak} / BEST NEAR MISS STREAK {bestNearMissStreak} / BEST PARRY STREAK {bestParryStreak}";
     }
 }

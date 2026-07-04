@@ -69,10 +69,15 @@ namespace Ronin7.Player
 
         private void OnPerfectParry(PerfectParry e)
         {
+            int previousStreak = streak;
             streak = ParryTiming.NextStreak(streak, e.Quality, MaxStreak);
             lastPerfectParryUnscaledTime = Time.unscaledTime;
             ApplyMultiplier();
             Haptics.Pulse(XRNode.LeftHand, 0.3f + 0.1f * streak, HapticDuration);
+
+            // H1 campaign-stats hook: publish only on forward progress, mirroring
+            // ComboMomentumController's ComboChained hook.
+            if (streak > previousStreak) EventBus.Publish(new ParryStreakAdvanced(streak));
         }
 
         private void OnPlayerHit(PlayerHit e)
