@@ -7,6 +7,7 @@
         "Ronin7.Combat",
         "Ronin7.Ship",
         "Unity.XR.Interaction.Toolkit",
+        "Unity.XR.Oculus",
         "UnityEngine.UI",
         "Unity.RenderPipelines.Core.Runtime",
         "Unity.RenderPipelines.Universal.Runtime"
