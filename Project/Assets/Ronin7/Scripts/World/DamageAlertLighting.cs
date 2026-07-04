@@ -11,6 +11,9 @@ namespace Ronin7.World
     /// but Health publishes EntityDamaged for every damageable entity including the player's ship, so
     /// no damage source is missed. Comfort: the envelope always ramps smoothly, never snaps or
     /// strobes, so it reads as a warning light rather than an epilepsy risk.
+    ///
+    /// Deliberately not gated by <see cref="Ronin7.Core.LightBudget"/> — damage alerts are gameplay
+    /// feedback and must animate on every tier.
     /// </summary>
     public class DamageAlertLighting : MonoBehaviour
     {

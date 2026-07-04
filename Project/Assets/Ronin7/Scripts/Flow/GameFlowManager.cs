@@ -86,30 +86,35 @@ namespace Ronin7.Flow
         {
             if (loadFlightOnStart)
             {
-                StartCoroutine(Transition(shipHubScene, GameMode.OnFoot));
+                // Quick-boot skips the menu (no New/Load choice was made), so arriving must not
+                // autosave — it would clobber MostRecentSlot with a blank campaign.
+                StartCoroutine(Transition(shipHubScene, GameMode.OnFoot, quickBoot: true));
             }
         }
 
         private void OnLandingRequested(LandingRequested evt)
         {
+            if (transitioning) return;
+
             string dest = string.IsNullOrEmpty(evt.DestinationScene) ? onFootScene : evt.DestinationScene;
             // A mission is launched from the hub; that hub -> mission hop is the boundary that repoints
-            // "which mission am I on" and triggers an autosave. Interior scene hops within a mission
-            // (e.g. market -> hideout) republish LandingRequested while already in the mission and must
-            // NOT repoint it — they are not launched from the hub.
+            // "which mission am I on". Interior scene hops within a mission (e.g. market -> hideout)
+            // republish LandingRequested while already in the mission and must NOT repoint it — they
+            // are not launched from the hub. Persistence happens on arrival: every scene reach
+            // autosaves inside FadeLoadFade, after this state change lands.
             bool fromHub = SceneManager.GetActiveScene().name == shipHubScene;
             CampaignState.NoteLanding(dest, fromHub);
-            if (fromHub) SaveSystem.Autosave(CampaignState.ToSaveData());
             StartCoroutine(Transition(dest, GameMode.OnFoot));
         }
 
         private void OnZoneCompleted(ZoneCompleted _)
         {
+            if (transitioning) return;
+
             // A mission's terminal scene published ZoneCompleted: mark the mission (its entry scene,
             // held in LastPlanetScene since the hub launch) complete and return to the hub. The hub is
             // passed as the "never completes" guard so a stray ZoneCompleted in the hub is ignored.
             CampaignState.NoteZoneCompleted(shipHubScene);
-            SaveSystem.Autosave(CampaignState.ToSaveData());
             StartCoroutine(Transition(shipHubScene, GameMode.OnFoot));
         }
 
@@ -128,11 +133,11 @@ namespace Ronin7.Flow
         }
 
         /// <summary>Fade out, swap scenes, set the new mode, fade back in. Re-entrancy guarded.</summary>
-        private IEnumerator Transition(string scene, GameMode mode)
+        private IEnumerator Transition(string scene, GameMode mode, bool quickBoot = false)
         {
             if (transitioning) yield break;
             transitioning = true;
-            yield return FadeLoadFade(scene, mode, runUnloadAfter: true);
+            yield return FadeLoadFade(scene, mode, runUnloadAfter: true, quickBoot: quickBoot);
             transitioning = false;
         }
 
@@ -192,8 +197,17 @@ namespace Ronin7.Flow
         internal static bool ShouldReveal(bool cameraPresent, int framesWaited, int maxFrames)
             => cameraPresent || framesWaited >= maxFrames;
 
-        /// <summary>Shared inner body of every scene transition: fade out → load → mode → camera → fade in.</summary>
-        private IEnumerator FadeLoadFade(string scene, GameMode mode, bool runUnloadAfter)
+        /// <summary>
+        /// Arrival-autosave gate, checked once per completed scene load: reaching any player scene
+        /// is a checkpoint. Excluded: Boot arrivals (main menu, via Return-to-Menu or game over —
+        /// nothing new to persist there) and the quick-boot hub load (it runs before the player
+        /// chose New/Load, so saving would clobber MostRecentSlot). Pure, so it is unit-testable.
+        /// </summary>
+        internal static bool ShouldAutosaveOnArrival(GameMode mode, bool quickBoot)
+            => !quickBoot && mode != GameMode.Boot;
+
+        /// <summary>Shared inner body of every scene transition: fade out → load → mode → autosave → camera → fade in.</summary>
+        private IEnumerator FadeLoadFade(string scene, GameMode mode, bool runUnloadAfter, bool quickBoot = false)
         {
             if (string.IsNullOrEmpty(scene))
             {
@@ -226,7 +240,13 @@ namespace Ronin7.Flow
             // 4. Announce the new mode so per-scene systems react (ShipController also self-sets).
             if (GameState.Instance != null) GameState.Instance.SetMode(mode);
 
-            // 5. Wait (budgeted, ShouldReveal) for the new scene's head camera, then re-establish
+            // 5. Autosave: the player has reached a new scene — persist campaign progress to the
+            //    active slot. Runs while still under the black fade so the save-file write can
+            //    never hitch a visible frame (VR 90 FPS budget).
+            if (ShouldAutosaveOnArrival(mode, quickBoot))
+                SaveSystem.Autosave(CampaignState.ToSaveData());
+
+            // 6. Wait (budgeted, ShouldReveal) for the new scene's head camera, then re-establish
             //    black before fading in. Normally the camera arrives — including one that appears
             //    mid-wait — and the fade-in below reveals it; the budget only bounds the wait so a
             //    never-arriving camera can't spin here forever.

@@ -8,6 +8,9 @@ namespace Ronin7.World
     /// <see cref="outerRadius"/>. Intensity eases toward the target via
     /// <see cref="Mathf.MoveTowards"/> so it never pops. Null-safe if <see cref="targetLight"/> is
     /// unassigned or no listener can be resolved.
+    ///
+    /// Deliberately not gated by <see cref="Ronin7.Core.LightBudget"/> — proximity glow is a
+    /// wayfinding signal.
     /// </summary>
     public class ProximityGlowLight : MonoBehaviour
     {

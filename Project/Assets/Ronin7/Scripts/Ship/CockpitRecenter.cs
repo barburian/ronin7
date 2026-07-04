@@ -44,7 +44,29 @@ namespace Ronin7.Ship
             if (head == null || cockpit == null) return;
             Vector3 p = head.position;
             cockpit.position = new Vector3(p.x, cockpit.position.y, p.z);
-            cockpit.rotation = Quaternion.Euler(0f, head.eulerAngles.y, 0f);
+            if (TryFlattenYaw(head.forward, out Quaternion yaw)) cockpit.rotation = yaw;
+        }
+
+        /// <summary>
+        /// Flattens a head-forward vector onto the horizontal (XZ) plane and returns the yaw-only
+        /// look rotation for it. Using <c>head.eulerAngles.y</c> directly (the old approach) reads
+        /// the Euler decomposition's yaw component, which can jump when the head is pitched/rolled
+        /// (gimbal-order artifacts); projecting the forward vector onto the up plane before deriving
+        /// yaw avoids that. Returns false (leaving <paramref name="yawOnly"/> at identity) when the
+        /// head looks straight up/down — a flattened-to-zero forward has no defined yaw, so the
+        /// caller should leave the cockpit's rotation unchanged rather than snap to an arbitrary
+        /// heading. Pure, so it is unit-testable.
+        /// </summary>
+        internal static bool TryFlattenYaw(Vector3 headForward, out Quaternion yawOnly)
+        {
+            Vector3 flat = Vector3.ProjectOnPlane(headForward, Vector3.up);
+            if (flat.sqrMagnitude <= 1e-6f)
+            {
+                yawOnly = Quaternion.identity;
+                return false;
+            }
+            yawOnly = Quaternion.LookRotation(flat, Vector3.up);
+            return true;
         }
     }
 }

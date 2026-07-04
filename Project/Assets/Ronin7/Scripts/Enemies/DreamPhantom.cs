@@ -76,6 +76,8 @@ namespace Ronin7.Enemies
         /// </summary>
         public void Tick(float dt)
         {
+            if (phaseInterval <= 0f) return;
+
             phaseTimer += dt;
             while (phaseTimer >= phaseInterval)
             {

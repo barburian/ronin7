@@ -120,8 +120,9 @@ namespace Ronin7.Ship
         private Vector3 shipPos;
         private Quaternion shipRot = Quaternion.identity;
 
-        // Smoothed steering rates (deg/sec) so flicks don't jerk the world.
-        private float pitchRate, yawRate, rollRate;
+        // Smoothed steering rates (deg/sec) so flicks don't jerk the world. Internal (not private)
+        // so Teleport's rate-zeroing can be covered by an EditMode test.
+        internal float pitchRate, yawRate, rollRate;
         private bool snapArmed = true;
 
         private ComfortVignette vignette;
@@ -203,7 +204,7 @@ namespace Ronin7.Ship
             universe.SetPositionAndRotation(inv * (-shipPos), inv);
 
             // --- Comfort vignette: strongest of the rotation/acceleration provocations. ---
-            if (vignette != null)
+            if (ShouldDriveVignette(useComfortVignette, vignette != null))
             {
                 // Continuous rotation magnitude this frame (deg/sec); snap yaw spikes briefly.
                 float rotMag = (Mathf.Abs(pitchRate) + Mathf.Abs(yawRate) + Mathf.Abs(rollRate));
@@ -227,6 +228,14 @@ namespace Ronin7.Ship
         }
 
         /// <summary>
+        /// Pure gate for the comfort-vignette drive in <see cref="Update"/>: only push intensity
+        /// updates when the feature is enabled AND a vignette rig exists. Without the flag check,
+        /// <see cref="SetComfortVignette"/>(false) (which zeroes intensity once) was immediately
+        /// overridden back up by the very next frame's Update. Pure, so it is unit-testable.
+        /// </summary>
+        internal static bool ShouldDriveVignette(bool useFlag, bool hasVignette) => useFlag && hasVignette;
+
+        /// <summary>
         /// Wormhole jump entry point: instantly relocates the virtual ship to a new universe-local
         /// position, keeping the player's facing (<see cref="shipRot"/>) intact. Because the rig stays
         /// at the origin and the world is rendered as the inverse of the ship pose, moving the ship's
@@ -238,6 +247,9 @@ namespace Ronin7.Ship
         {
             shipPos = universeLocalPosition;
             CurrentSpeed = 0f;
+            pitchRate = 0f;
+            yawRate = 0f;
+            rollRate = 0f;
 
             if (universe == null) return;
             Quaternion inv = Quaternion.Inverse(shipRot);

@@ -1,3 +1,4 @@
+using System.Reflection;
 using NUnit.Framework;
 using UnityEngine;
 using Ronin7.Combat;
@@ -57,6 +58,35 @@ namespace Ronin7.Tests.EditMode
 
             phantom.Tick(2f);
             Assert.IsFalse(phantom.IsPhased);
+        }
+
+        private void SetPhaseInterval(float value)
+        {
+            typeof(DreamPhantom).GetField("phaseInterval", BindingFlags.NonPublic | BindingFlags.Instance)
+                .SetValue(phantom, value);
+        }
+
+        [Test]
+        public void Tick_ZeroPhaseInterval_ReturnsWithoutTogglingOrHanging()
+        {
+            // phaseInterval == 0 used to spin `while (phaseTimer >= phaseInterval)` forever.
+            BuildPhantom();
+            SetPhaseInterval(0f);
+
+            phantom.Tick(1f);
+
+            Assert.AreEqual(DreamPhantom.Phase.Solid, phantom.CurrentPhase);
+        }
+
+        [Test]
+        public void Tick_NegativePhaseInterval_ReturnsWithoutToggling()
+        {
+            BuildPhantom();
+            SetPhaseInterval(-1f);
+
+            phantom.Tick(1f);
+
+            Assert.AreEqual(DreamPhantom.Phase.Solid, phantom.CurrentPhase);
         }
 
         // NOTE: Tests that exercise Health-event integration (damage refund while Phased, and

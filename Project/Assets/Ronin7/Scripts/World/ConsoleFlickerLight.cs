@@ -1,3 +1,4 @@
+using Ronin7.Core;
 using UnityEngine;
 
 namespace Ronin7.World
@@ -26,10 +27,20 @@ namespace Ronin7.World
         [SerializeField] private float seed;
 
         private float accumulator;
+        private bool wasAnimating = true;
 
         private void Update()
         {
             if (targetLight == null) return;
+
+            if (!LightBudget.ShouldAnimate(GraphicsRuntime.Quality, isGameplaySignal: false))
+            {
+                if (wasAnimating) targetLight.intensity = (minIntensity + maxIntensity) * 0.5f;
+                wasAnimating = false;
+                return;
+            }
+            wasAnimating = true;
+
             accumulator += Time.deltaTime;
             targetLight.intensity = FlickerIntensity(accumulator, speed, seed, minIntensity, maxIntensity);
         }
