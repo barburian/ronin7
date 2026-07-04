@@ -828,7 +828,7 @@ namespace Ronin7.EditorTools
             canvasGo.AddComponent<TrackedDeviceGraphicRaycaster>(); // makes the canvas hittable by XR rays
 
             var canvasRt = canvas.GetComponent<RectTransform>();
-            canvasRt.sizeDelta = new Vector2(600f, 860f);  // Expanded from 600 to make room for LOAD GAME section
+            canvasRt.sizeDelta = new Vector2(600f, 700f);
             canvasRt.localScale = Vector3.one * 0.001f; // 1px = 1mm → 0.6m wide
             canvasRt.position = new Vector3(0f, 1.2f, 1.0f);
 
@@ -836,85 +836,41 @@ namespace Ronin7.EditorTools
             bg.color = new Color(0.05f, 0.06f, 0.09f, 0.85f);
 
             // Title — anchored near the top of the canvas.
-            var title = MenuNewText(canvasRt, "SPACE SAMURAI", new Vector2(0f, 230f),
+            var title = MenuNewText(canvasRt, "RONIN 7", new Vector2(0f, 270f),
                 new Vector2(560f, 70f), 44, TextAnchor.MiddleCenter);
             title.fontStyle = FontStyle.Bold;
 
-            // Three stacked buttons. ~110 px vertical spacing keeps the action methods on the
+            // Four stacked buttons. ~110 px vertical spacing keeps the action methods on the
             // controller (no fragile per-button wiring beyond the onClick listener).
             var controller = canvasGo.AddComponent<MainMenuController>();
-            var startBtn = MenuMakeButton(canvasRt, "START NEW GAME", new Vector2(0f, 80f));
-            var recalBtn = MenuMakeButton(canvasRt, "RECALIBRATE HEIGHT", new Vector2(0f, -30f));
-            var exitBtn = MenuMakeButton(canvasRt, "EXIT GAME", new Vector2(0f, -140f));
+            var startBtn = MenuMakeButton(canvasRt, "START NEW GAME", new Vector2(0f, 130f));
+            var continueBtn = MenuMakeButton(canvasRt, "CONTINUE", new Vector2(0f, 20f));
+            var recalBtn = MenuMakeButton(canvasRt, "RECALIBRATE HEIGHT", new Vector2(0f, -90f));
+            var exitBtn = MenuMakeButton(canvasRt, "EXIT GAME", new Vector2(0f, -200f));
 
             // Persistent listeners — survive serialization so the buttons actually work at runtime.
-            // Campaign entry: Start launches EP01 at the mother-ship interior (ship-select bypassed).
+            // Start overwrites the current save (arrival autosave writes the most-recent slot);
+            // Continue resumes from that same slot.
             UnityEventTools.AddPersistentListener(startBtn.onClick,
                 new UnityEngine.Events.UnityAction(controller.OnStartCampaignClicked));
+            UnityEventTools.AddPersistentListener(continueBtn.onClick,
+                new UnityEngine.Events.UnityAction(controller.OnContinueClicked));
             UnityEventTools.AddPersistentListener(recalBtn.onClick,
                 new UnityEngine.Events.UnityAction(controller.OnRecalibrateClicked));
             UnityEventTools.AddPersistentListener(exitBtn.onClick,
                 new UnityEngine.Events.UnityAction(controller.OnExitGameClicked));
 
-            // LOAD GAME section: label + 3 buttons side-by-side + wired to SaveSlotMenuView.
-            var loadLabel = MenuNewText(canvasRt, "LOAD GAME", new Vector2(0f, -220f),
-                new Vector2(560f, 50f), 34, TextAnchor.MiddleCenter);
-            var loadSlotButtons = new Button[3];
-            var loadSlotLabels = new Text[3];
-            float[] loadSlotX = { -165f, 0f, 165f };
-            for (int i = 0; i < 3; i++)
-            {
-                var loadGo = new GameObject("LoadSlot" + (i + 1), typeof(RectTransform));
-                var loadRt = loadGo.GetComponent<RectTransform>();
-                loadRt.SetParent(canvasRt, false);
-                MenuAnchor(loadRt, new Vector2(loadSlotX[i], -310f), new Vector2(150f, 60f));
-                var img = loadGo.AddComponent<Image>();
-                img.color = new Color(0.15f, 0.18f, 0.25f, 1f);
-                var btn = loadGo.AddComponent<Button>();
-                btn.targetGraphic = img;
-                loadSlotButtons[i] = btn;
-
-                var labelGo = new GameObject("Text", typeof(RectTransform));
-                var labelRt = labelGo.GetComponent<RectTransform>();
-                labelRt.SetParent(loadRt, false);
-                labelRt.anchorMin = Vector2.zero;
-                labelRt.anchorMax = Vector2.one;
-                labelRt.pivot = new Vector2(0.5f, 0.5f);
-                labelRt.anchoredPosition = Vector2.zero;
-                labelRt.sizeDelta = Vector2.zero;
-                var labelText = labelGo.AddComponent<Text>();
-                labelText.text = "SLOT " + (i + 1);
-                labelText.font = MenuLegacyFont();
-                labelText.fontSize = 24;
-                labelText.fontStyle = FontStyle.Bold;
-                labelText.color = Color.white;
-                labelText.alignment = TextAnchor.MiddleCenter;
-                loadSlotLabels[i] = labelText;
-
-                UnityEventTools.AddIntPersistentListener(btn.onClick,
-                    new UnityEngine.Events.UnityAction<int>(controller.OnLoadSlotClicked), i + 1);
-            }
-
-            var slotMenuView = canvasGo.AddComponent<Ronin7.Flow.SaveSlotMenuView>();
-            var slotViewSo = new SerializedObject(slotMenuView);
-            var slotButtonsProperty = slotViewSo.FindProperty("slotButtons");
-            if (slotButtonsProperty != null)
-            {
-                slotButtonsProperty.arraySize = 3;
-                for (int i = 0; i < 3; i++)
-                    slotButtonsProperty.GetArrayElementAtIndex(i).objectReferenceValue = loadSlotButtons[i];
-            }
-            var slotLabelsProperty = slotViewSo.FindProperty("slotLabels");
-            if (slotLabelsProperty != null)
-            {
-                slotLabelsProperty.arraySize = 3;
-                for (int i = 0; i < 3; i++)
-                    slotLabelsProperty.GetArrayElementAtIndex(i).objectReferenceValue = loadSlotLabels[i];
-            }
-            slotViewSo.ApplyModifiedPropertiesWithoutUndo();
+            // The controller greys CONTINUE out when the most recent slot is empty.
+            var controllerSo = new SerializedObject(controller);
+            var continueProp = controllerSo.FindProperty("continueButton");
+            if (continueProp != null) continueProp.objectReferenceValue = continueBtn;
+            controllerSo.ApplyModifiedPropertiesWithoutUndo();
 
             // 6. Right-hand ray interactor on the rig we just built (UI Press = Right Hand/Select).
             WireRightHandRayInteractorMenu();
+
+            // 6.5. Sci-fi dressing around the boot zone (skybox, glowing RONIN 7 backdrop, props).
+            BuildBootDressing();
 
             // 7. Save the scene and register every scene the flow can swap into.
             EnsureFolder(SceneFolder);
@@ -928,7 +884,7 @@ namespace Ronin7.EditorTools
                 Ep01ShipScenePath, Galaxy1Ep01PlanetScenePath, Galaxy1Ep01HideoutScenePath);
 
             Debug.Log($"[Space Samurai] Phase 6 main menu built at {BootScenePath} (rig + worldspace " +
-                      $"canvas with Start/Recalibrate/Exit buttons). Start New Game now launches Galaxy 1. " +
+                      $"canvas with Start/Continue/Recalibrate/Exit buttons + sci-fi boot-zone dressing). " +
                       $"Build the other phase scenes too " +
                       $"if you haven't ({ZoneScenePath}, {SpaceCombatScenePath}). " +
                       "VERIFY in the Inspector: the Right Hand's XR Ray Interactor → UI Press Input → " +
@@ -1011,6 +967,157 @@ namespace Ronin7.EditorTools
             var font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
             if (font == null) font = Font.CreateDynamicFontFromOSFont("Arial", 16);
             return font;
+        }
+
+        // ---- Boot-zone sci-fi dressing. Primitives + scene-embedded materials only (no new assets);
+        // HDR emissive colors ride the global techno-noir bloom grade (NeonPostFx, threshold 0.9). ----
+
+        private static void BuildBootDressing()
+        {
+            // The menu floats in open space: nebula skybox + dark cool ambient.
+            var skybox = AssetDatabase.LoadAssetAtPath<Material>(NeonSkyboxPath)
+                         ?? AssetDatabase.LoadAssetAtPath<Material>(SpaceSkyboxPath);
+            if (skybox != null) RenderSettings.skybox = skybox;
+            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
+            RenderSettings.ambientLight = new Color(0.10f, 0.11f, 0.16f);
+
+            var root = new GameObject("Boot Zone Dressing");
+            var cyan = new Color(0.35f, 0.9f, 1f);
+
+            // Big glowing "RONIN 7" backdrop behind and above the menu canvas. TMP 3D text: 1 font
+            // point ≈ 0.1 m, so size 22 → ~2.2 m tall letters at 10 m. HDR face color drives bloom.
+            var titleGo = new GameObject("Ronin7 Backdrop Title");
+            titleGo.transform.SetParent(root.transform, false);
+            titleGo.transform.position = new Vector3(0f, 3.4f, 10f);
+            var tmp = titleGo.AddComponent<TMPro.TextMeshPro>();
+            tmp.text = "RONIN 7";
+            tmp.fontSize = 22;
+            tmp.fontStyle = TMPro.FontStyles.Bold;
+            tmp.characterSpacing = 8f;
+            tmp.alignment = TMPro.TextAlignmentOptions.Center;
+            tmp.rectTransform.sizeDelta = new Vector2(40f, 8f); // wide enough that nothing wraps
+            tmp.color = Color.white;
+            var titleMat = new Material(tmp.fontSharedMaterial);
+            // 1.6× keeps a visibly cyan core while still clearing the 0.9 bloom threshold for glow.
+            titleMat.SetColor("_FaceColor", cyan * 1.6f);
+            tmp.fontSharedMaterial = titleMat;
+
+            // Starfield: a static shell of soft dots well outside the boot zone.
+            var starsGo = new GameObject("Starfield");
+            starsGo.transform.SetParent(root.transform, false);
+            var stars = starsGo.AddComponent<ParticleSystem>();
+            var main = stars.main;
+            main.loop = true;
+            main.prewarm = true;
+            main.startLifetime = 1000f;
+            main.startSpeed = 0f;
+            main.startSize = new ParticleSystem.MinMaxCurve(0.15f, 0.4f);
+            main.startColor = new ParticleSystem.MinMaxGradient(Color.white, new Color(0.7f, 0.85f, 1f));
+            main.maxParticles = 800;
+            var emission = stars.emission;
+            emission.rateOverTime = 0f;
+            emission.SetBursts(new[] { new ParticleSystem.Burst(0f, 800) });
+            var shape = stars.shape;
+            shape.shapeType = ParticleSystemShapeType.Sphere;
+            shape.radius = 60f;
+            shape.radiusThickness = 0.15f; // shell, not volume — keeps dots off the boot zone
+            var starsRenderer = starsGo.GetComponent<ParticleSystemRenderer>();
+            var starMat = new Material(Shader.Find("Universal Render Pipeline/Particles/Unlit"));
+            var starTex = AssetDatabase.GetBuiltinExtraResource<Texture2D>("Default-Particle.psd");
+            if (starTex != null) starMat.SetTexture("_BaseMap", starTex);
+            starsRenderer.material = starMat;
+
+            // Distant planet on the horizon — the directional light gives it a crescent.
+            var planet = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            planet.name = "Distant Planet";
+            planet.transform.SetParent(root.transform, false);
+            planet.transform.position = new Vector3(26f, 11f, 55f); // clear of the backdrop title
+            planet.transform.localScale = Vector3.one * 18f;
+            planet.GetComponent<Renderer>().sharedMaterial =
+                MenuDressingMat(new Color(0.16f, 0.22f, 0.34f), Color.black);
+            Object.DestroyImmediate(planet.GetComponent<Collider>());
+
+            // Boot deck: dark landing disc under the player with a neon rim.
+            var deck = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            deck.name = "Boot Deck";
+            deck.transform.SetParent(root.transform, false);
+            deck.transform.position = new Vector3(0f, -0.06f, 0f);
+            deck.transform.localScale = new Vector3(7f, 0.05f, 7f);
+            deck.GetComponent<Renderer>().sharedMaterial =
+                MenuDressingMat(new Color(0.10f, 0.11f, 0.14f), Color.black);
+            Object.DestroyImmediate(deck.GetComponent<Collider>());
+
+            var rim = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            rim.name = "Deck Rim";
+            rim.transform.SetParent(root.transform, false);
+            rim.transform.position = new Vector3(0f, -0.09f, 0f);
+            rim.transform.localScale = new Vector3(7.4f, 0.02f, 7.4f);
+            rim.GetComponent<Renderer>().sharedMaterial =
+                MenuDressingMat(Color.black, cyan * 2.5f);
+            Object.DestroyImmediate(rim.GetComponent<Collider>());
+
+            // Four pillars flanking the boot zone, each with an emissive strip on the inner face.
+            var pillarMat = MenuDressingMat(new Color(0.13f, 0.14f, 0.18f), Color.black);
+            var stripMat = MenuDressingMat(Color.black, cyan * 2.2f);
+            Vector3[] pillarPos =
+            {
+                new Vector3(-3f, 1.2f, 3f), new Vector3(3f, 1.2f, 3f),
+                new Vector3(-3f, 1.2f, -2f), new Vector3(3f, 1.2f, -2f),
+            };
+            foreach (var pos in pillarPos)
+            {
+                var pillar = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                pillar.name = "Pillar";
+                pillar.transform.SetParent(root.transform, false);
+                pillar.transform.position = pos;
+                pillar.transform.localScale = new Vector3(0.35f, 2.4f, 0.35f);
+                pillar.GetComponent<Renderer>().sharedMaterial = pillarMat;
+                Object.DestroyImmediate(pillar.GetComponent<Collider>());
+
+                var strip = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                strip.name = "Pillar Strip";
+                strip.transform.SetParent(root.transform, false);
+                // Strip sits just proud of the pillar face that looks at the player.
+                var inward = new Vector3(-Mathf.Sign(pos.x), 0f, 0f);
+                strip.transform.position = pos + inward * 0.19f;
+                strip.transform.localScale = new Vector3(0.06f, 2.0f, 0.08f);
+                strip.GetComponent<Renderer>().sharedMaterial = stripMat;
+                Object.DestroyImmediate(strip.GetComponent<Collider>());
+            }
+
+            // Slow-rotating holographic ring of data motes around the boot zone (reuses the
+            // ship-select turntable spinner).
+            var holoRing = new GameObject("Holo Ring");
+            holoRing.transform.SetParent(root.transform, false);
+            holoRing.transform.position = new Vector3(0f, 0.05f, 0f);
+            holoRing.AddComponent<TurntableRotator>();
+            var moteMat = MenuDressingMat(Color.black, cyan * 2f);
+            const int motes = 12;
+            for (int i = 0; i < motes; i++)
+            {
+                float angle = i * Mathf.PI * 2f / motes;
+                var mote = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                mote.name = "Mote";
+                mote.transform.SetParent(holoRing.transform, false);
+                mote.transform.localPosition = new Vector3(Mathf.Sin(angle) * 2.6f,
+                    i % 2 == 0 ? 0.05f : 0.4f, Mathf.Cos(angle) * 2.6f);
+                mote.transform.localScale = Vector3.one * 0.06f;
+                mote.GetComponent<Renderer>().sharedMaterial = moteMat;
+                Object.DestroyImmediate(mote.GetComponent<Collider>());
+            }
+        }
+
+        /// <summary>URP Lit material (scene-embedded, not an asset). Pass a non-black emission for glow.</summary>
+        private static Material MenuDressingMat(Color baseColor, Color emission)
+        {
+            var m = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+            m.SetColor("_BaseColor", baseColor);
+            if (emission.maxColorComponent > 0f)
+            {
+                m.EnableKeyword("_EMISSION");
+                m.SetColor("_EmissionColor", emission);
+            }
+            return m;
         }
 
         /// <summary>Find the rig's right hand and add an XRRayInteractor wired to fire UI on Right Hand/Select.</summary>

@@ -1,4 +1,6 @@
+using Ronin7.Core;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Ronin7.Flow
 {
@@ -10,6 +12,15 @@ namespace Ronin7.Flow
     {
         [Tooltip("Eye height (metres) the Recalibrate button calibrates the player's viewpoint to.")]
         [SerializeField] private float targetEyeHeight = 1.6f;
+
+        [Tooltip("Optional CONTINUE button — disabled when the most recent save slot is empty.")]
+        [SerializeField] private Button continueButton;
+
+        private void OnEnable()
+        {
+            if (continueButton != null)
+                continueButton.interactable = SaveSystem.SlotExists(SaveSystem.MostRecentSlot);
+        }
 
         public void OnStartNewGameClicked()
         {
@@ -27,6 +38,12 @@ namespace Ronin7.Flow
         public void OnLoadSlotClicked(int slot)
         {
             GameFlowManager.Instance?.LoadGame(slot);
+        }
+
+        /// <summary>Menu "CONTINUE": resume from the most recently used save slot.</summary>
+        public void OnContinueClicked()
+        {
+            GameFlowManager.Instance?.LoadGame(SaveSystem.MostRecentSlot);
         }
 
         /// <summary>
