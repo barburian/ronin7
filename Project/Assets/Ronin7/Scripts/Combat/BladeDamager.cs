@@ -23,10 +23,19 @@ namespace Ronin7.Combat
                  "Rejects single-frame tracking spikes so a stutter can't inflate damage.")]
         [SerializeField, Range(0f, 1f)] private float speedSmoothing = 0.5f;
 
+        // Once the per-target debounce map grows past this many entries, opportunistically prune it
+        // (see PruneStale) so destroyed/long-cold targets don't retain Health refs for the scene's
+        // lifetime. Small enough that a normal swing (a handful of targets) never triggers it.
+        private const int PruneCheckThreshold = 16;
+        // Entries older than this many cooldowns are considered cold and safe to drop.
+        private const float StaleAfterCooldowns = 4f;
+
         private WeaponDefinition definition;
         private Vector3 lastPos;
         private float speed;
         private readonly Dictionary<Health, float> lastHitTimes = new();
+        // Reusable scratch buffer for PruneStale so pruning never allocates.
+        private static readonly List<Health> pruneScratch = new();
         private PlayerCombatModifiers wielderMods;
 
         /// <summary>Current blade speed in m/s (world), exponentially smoothed.</summary>
@@ -82,6 +91,27 @@ namespace Ronin7.Combat
             return true;
         }
 
+        /// <summary>
+        /// Removes entries from <paramref name="lastHitTimes"/> that are either stale (last hit at
+        /// least <paramref name="staleAfter"/> seconds ago) or destroyed (Unity's overloaded null
+        /// check on the <see cref="Health"/> key). Without this, a debounce map keyed by every enemy
+        /// a blade has ever touched would retain destroyed Health refs for the scene's duration.
+        /// Uses a shared scratch list so it never allocates. Pure/stateless over the passed-in map,
+        /// mirroring <see cref="SmoothSpeed"/>.
+        /// </summary>
+        internal static void PruneStale(Dictionary<Health, float> lastHitTimes, float now, float staleAfter)
+        {
+            pruneScratch.Clear();
+            foreach (var kv in lastHitTimes)
+            {
+                if (kv.Key == null || now - kv.Value >= staleAfter)
+                    pruneScratch.Add(kv.Key);
+            }
+            for (int i = 0; i < pruneScratch.Count; i++)
+                lastHitTimes.Remove(pruneScratch[i]);
+            pruneScratch.Clear();
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (definition == null) return;
@@ -91,6 +121,11 @@ namespace Ronin7.Combat
 
             // Don't damage whoever is holding the sword (sword is parented under them).
             if (((Component)health).transform.root == transform.root) return;
+
+            // Opportunistic prune: only bother once the map has grown enough for it to matter, so a
+            // normal swing never pays for it.
+            if (lastHitTimes.Count > PruneCheckThreshold)
+                PruneStale(lastHitTimes, Time.time, definition.hitCooldown * StaleAfterCooldowns);
 
             if (!TryRegisterHit(lastHitTimes, health, Time.time, definition.hitCooldown)) return;
 

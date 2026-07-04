@@ -1,5 +1,8 @@
+using System.Reflection;
 using NUnit.Framework;
+using Ronin7.Combat;
 using Ronin7.World;
+using UnityEngine;
 
 namespace Ronin7.Tests.EditMode
 {
@@ -79,5 +82,45 @@ namespace Ronin7.Tests.EditMode
         {
             Assert.DoesNotThrow(() => DamageAlertLighting.DecayEnvelope(0.5f, -1f, 0.25f, -1f));
         }
+
+        // ---- watchTarget destroyed => silent (not react-to-everything). ----
+        // Guards the fix for a bug where a watchTarget destroyed after OnEnable made the null-check
+        // filter fall through, so the light started reacting to every entity's damage instead of none.
+
+        [Test]
+        public void WatchTargetDestroyed_GoesSilentInsteadOfReactingToEverything()
+        {
+            var lightGo = new GameObject("Light");
+            var alert = lightGo.AddComponent<DamageAlertLighting>();
+            var watchGo = new GameObject("Watched");
+            var otherGo = new GameObject("Other");
+
+            SetPrivateField(alert, "watchTarget", watchGo);
+            // Mirrors what OnEnable snapshots while watchGo is still alive, without going through
+            // EventBus.Subscribe (avoids leaking a real subscription past this test).
+            SetPrivateField(alert, "hasWatchTarget", true);
+
+            Object.DestroyImmediate(watchGo);
+
+            InvokePrivate(alert, "OnEntityDamaged", new EntityDamaged(otherGo, default, 0f, 0f));
+
+            Assert.IsFalse((bool)GetPrivateField(alert, "isPulsing"),
+                "A watcher whose subject was destroyed must stay silent, not react to unrelated entities.");
+
+            Object.DestroyImmediate(otherGo);
+            Object.DestroyImmediate(lightGo);
+        }
+
+        private static void InvokePrivate(object target, string method, params object[] args) =>
+            target.GetType().GetMethod(method, BindingFlags.NonPublic | BindingFlags.Instance)
+                .Invoke(target, args);
+
+        private static void SetPrivateField(object target, string field, object value) =>
+            target.GetType().GetField(field, BindingFlags.NonPublic | BindingFlags.Instance)
+                .SetValue(target, value);
+
+        private static object GetPrivateField(object target, string field) =>
+            target.GetType().GetField(field, BindingFlags.NonPublic | BindingFlags.Instance)
+                .GetValue(target);
     }
 }

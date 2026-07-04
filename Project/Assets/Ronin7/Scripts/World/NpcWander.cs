@@ -61,7 +61,13 @@ namespace Ronin7.World
                     yield return null;
                 }
 
-                yield return new WaitForSeconds(Random.Range(pauseRange.x, pauseRange.y));
+                float pauseTimer = 0f;
+                float pauseDuration = Random.Range(pauseRange.x, pauseRange.y);
+                while (pauseTimer < pauseDuration)
+                {
+                    pauseTimer += Time.deltaTime;
+                    yield return null;
+                }
             }
         }
     }

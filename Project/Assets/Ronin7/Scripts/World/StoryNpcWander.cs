@@ -38,6 +38,33 @@ namespace Ronin7.World
 
         private static readonly WaitForSeconds EnemyPollInterval = new WaitForSeconds(0.5f); // ~2 Hz
 
+        // Shared across every StoryNpcWander instance so a scene with N story NPCs doesn't run N
+        // separate FindObjectsByType<Enemy> scans at 2Hz — the first instance to poll past the
+        // interval rescans, the rest reuse its result.
+        private static Enemy[] cachedEnemies = System.Array.Empty<Enemy>();
+        private static float lastEnemyScanTime = -1f;
+        private const float EnemyScanInterval = 0.5f;
+
+        // Enter Play Mode (no domain reload) sessions keep static state across Play cycles, which
+        // would carry a stale scan/timestamp into the next run (mirrors Health.Active's reset).
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetEnemyScanCache()
+        {
+            cachedEnemies = System.Array.Empty<Enemy>();
+            lastEnemyScanTime = -1f;
+        }
+
+        private static Enemy[] GetCachedEnemies()
+        {
+            float now = Time.time;
+            if (lastEnemyScanTime < 0f || now - lastEnemyScanTime >= EnemyScanInterval)
+            {
+                cachedEnemies = FindObjectsByType<Enemy>();
+                lastEnemyScanTime = now;
+            }
+            return cachedEnemies;
+        }
+
         private void Awake()
         {
             anchor = transform.position;
@@ -108,7 +135,13 @@ namespace Ronin7.World
                     // Pause at destination.
                     if (!Paused && !enemiesNearby)
                     {
-                        yield return new WaitForSeconds(Random.Range(pauseRange.x, pauseRange.y));
+                        float pauseTimer = 0f;
+                        float pauseDuration = Random.Range(pauseRange.x, pauseRange.y);
+                        while (pauseTimer < pauseDuration)
+                        {
+                            pauseTimer += Time.deltaTime;
+                            yield return null;
+                        }
                     }
                 }
 
@@ -172,7 +205,7 @@ namespace Ronin7.World
             var cam = Camera.main;
             if (cam == null) return false;
 
-            var enemies = FindObjectsByType<Enemy>();
+            var enemies = GetCachedEnemies();
             foreach (var enemy in enemies)
             {
                 if (enemy == null || !enemy.gameObject.activeSelf) continue;

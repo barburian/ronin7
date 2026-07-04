@@ -150,5 +150,54 @@ namespace Ronin7.Tests.EditMode
             Object.DestroyImmediate(targetA.gameObject);
             Object.DestroyImmediate(targetB.gameObject);
         }
+
+        // ---- PruneStale (per-target debounce map cleanup). ----
+        // Guards the fix for a bug where lastHitTimes never shrank, retaining destroyed Health refs
+        // for the scene's duration.
+
+        [Test]
+        public void PruneStale_RemovesEntriesOlderThanStaleAfter()
+        {
+            var lastHitTimes = new Dictionary<Health, float>();
+            var stale = new GameObject("Stale").AddComponent<Health>();
+            var fresh = new GameObject("Fresh").AddComponent<Health>();
+            lastHitTimes[stale] = 0f;
+            lastHitTimes[fresh] = 9f;
+
+            BladeDamager.PruneStale(lastHitTimes, now: 10f, staleAfter: 5f);
+
+            Assert.IsFalse(lastHitTimes.ContainsKey(stale), "Entry last hit 10s ago (>= 5s stale window) should be pruned.");
+            Assert.IsTrue(lastHitTimes.ContainsKey(fresh), "Entry last hit 1s ago should survive the 5s stale window.");
+
+            Object.DestroyImmediate(stale.gameObject);
+            Object.DestroyImmediate(fresh.gameObject);
+        }
+
+        [Test]
+        public void PruneStale_DoesNotEvictTargetStillWithinCooldown()
+        {
+            var lastHitTimes = new Dictionary<Health, float>();
+            var target = new GameObject("Target").AddComponent<Health>();
+            lastHitTimes[target] = 9.8f;
+
+            BladeDamager.PruneStale(lastHitTimes, now: 10f, staleAfter: 5f);
+
+            Assert.IsTrue(lastHitTimes.ContainsKey(target));
+
+            Object.DestroyImmediate(target.gameObject);
+        }
+
+        [Test]
+        public void PruneStale_DestroyedKey_IsRemovedEvenIfRecentlyHit()
+        {
+            var lastHitTimes = new Dictionary<Health, float>();
+            var target = new GameObject("Target").AddComponent<Health>();
+            lastHitTimes[target] = 10f;
+            Object.DestroyImmediate(target.gameObject);
+
+            BladeDamager.PruneStale(lastHitTimes, now: 10f, staleAfter: 5f);
+
+            Assert.AreEqual(0, lastHitTimes.Count);
+        }
     }
 }

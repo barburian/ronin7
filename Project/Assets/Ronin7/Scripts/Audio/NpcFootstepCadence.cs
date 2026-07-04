@@ -47,6 +47,15 @@ namespace Ronin7.Audio
             lastPos = transform.position;
         }
 
+        private void OnEnable()
+        {
+            // Reset so a disable→teleport→re-enable can't read a huge position delta as speed and
+            // fire a footstep burst, and can't replay a stale phase past a foot-plant boundary.
+            lastPos = transform.position;
+            smoothedSpeed = 0f;
+            phase = 0f;
+        }
+
         private void Update()
         {
             float dt = Time.deltaTime;

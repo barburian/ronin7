@@ -58,13 +58,24 @@ namespace Ronin7.World
 
         private bool isPulsing;
         private float pulseStartTime;
+        // Snapshot of "was a watchTarget assigned at all", taken once in OnEnable. Lets the handler
+        // tell "never wired up (react to any entity)" apart from "was wired up, but the subject has
+        // since been destroyed" (go silent) instead of the destroyed reference silently reading as
+        // unassigned and reacting to everything again.
+        private bool hasWatchTarget;
 
-        private void OnEnable() => EventBus.Subscribe<EntityDamaged>(OnEntityDamaged);
+        private void OnEnable()
+        {
+            hasWatchTarget = watchTarget != null;
+            EventBus.Subscribe<EntityDamaged>(OnEntityDamaged);
+        }
+
         private void OnDisable() => EventBus.Unsubscribe<EntityDamaged>(OnEntityDamaged);
 
         private void OnEntityDamaged(EntityDamaged evt)
         {
-            if (watchTarget != null && evt.Entity != watchTarget) return;
+            // Destroyed subject => stay silent. Never assigned => original room-wide behavior.
+            if (hasWatchTarget && (watchTarget == null || evt.Entity != watchTarget)) return;
             pulseStartTime = Time.unscaledTime;
             isPulsing = true;
         }
