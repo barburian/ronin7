@@ -103,5 +103,19 @@ namespace Ronin7.Tests.EditMode
         {
             Assert.IsFalse(manager.ConsumePendingGameOver());
         }
+
+        [Test]
+        public void DiscardPendingGameOver_WhenPending_ClearsLatchWithoutFiring()
+        {
+            // Guards ReturnToMainMenuRoutine / StartNewGame / StartCampaign / LoadGame: a death
+            // latched during a deliberate menu exit (or left stale from before a fresh/loaded
+            // session) must be dropped, not fired later by the next Transition()'s consume step.
+            SetField("pendingGameOver", true);
+
+            manager.DiscardPendingGameOver();
+
+            Assert.IsFalse(manager.ConsumePendingGameOver(),
+                "Discard must clear the latch so a later transition can't consume and fire it.");
+        }
     }
 }

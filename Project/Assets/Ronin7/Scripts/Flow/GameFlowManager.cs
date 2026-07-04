@@ -175,6 +175,14 @@ namespace Ronin7.Flow
             return true;
         }
 
+        /// <summary>
+        /// Drops a pending latch without firing it. Used where a mid-fade death must not survive
+        /// past the point it latched at: a deliberate return-to-menu supersedes it (the player is
+        /// no longer in that session), and starting/loading a session must not inherit it either.
+        /// Internal so it is unit-testable.
+        /// </summary>
+        internal void DiscardPendingGameOver() => pendingGameOver = false;
+
         /// <summary>Fade out, swap scenes, set the new mode, fade back in. Re-entrancy guarded.</summary>
         private IEnumerator Transition(string scene, GameMode mode, bool quickBoot = false)
         {
@@ -205,12 +213,18 @@ namespace Ronin7.Flow
             transitioning = true;
             yield return FadeLoadFade(mainMenuScene, GameMode.Boot, runUnloadAfter: true);
             transitioning = false;
+
+            // A death that latched mid-fade during this deliberate menu exit belongs to the session
+            // just left, not to whatever the player does next at the menu — discard, don't consume.
+            DiscardPendingGameOver();
         }
 
         /// <summary>Menu "Start New Game": reset progress and drop into the ship hub on-foot.</summary>
         public void StartNewGame()
         {
             if (transitioning) return;
+            // Defensive: a fresh session must never inherit a stale latch from whatever came before it.
+            DiscardPendingGameOver();
             Galaxy1Progress.Reset();
             CampaignState.Reset();
             StartCoroutine(Transition(shipHubScene, GameMode.OnFoot));
@@ -220,6 +234,7 @@ namespace Ronin7.Flow
         public void StartCampaign()
         {
             if (transitioning) return;
+            DiscardPendingGameOver();
             Galaxy1Progress.Reset();
             CampaignState.Reset();
             StartCoroutine(Transition(shipHubScene, GameMode.OnFoot));
@@ -235,6 +250,7 @@ namespace Ronin7.Flow
                 Debug.LogWarning($"[Flow] Load requested for empty/unreadable slot {slot}.");
                 return;
             }
+            DiscardPendingGameOver();
             CampaignState.ApplyFrom(data);
             SaveSystem.MostRecentSlot = slot;
             StartCoroutine(Transition(shipHubScene, GameMode.OnFoot));
