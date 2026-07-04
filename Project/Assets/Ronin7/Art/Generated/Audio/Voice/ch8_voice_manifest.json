@@ -1,0 +1,279 @@
+{
+    "lines": [
+        {
+            "file": "ch8_ch8_beat0_briefing_00_coralvex",
+            "speaker": "Coral Vex",
+            "text": "I named the Silent Garden at the end of Chapter 7, and I told you I never let myself believe in it. Here's the believing. A burial world, tended by keepers older than the Program, older than anything that still breathes. They hold the souls of a people who lived and died on that world ages before our wars, and they'll grant one seeker the sight of a single truth they were never meant to see."
+        },
+        {
+            "file": "ch8_ch8_beat0_briefing_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Truth has a price here. You said that too."
+        },
+        {
+            "file": "ch8_ch8_beat0_briefing_02_coralvex",
+            "speaker": "Coral Vex",
+            "text": "A trial. They don't sell it, you earn it, and the Garden's buried more seekers than it's ever answered. I don't know the shape of the test. Nobody who failed it came back to describe it, and the ones who passed don't say. I just know the price is real, and it isn't paid in blood."
+        },
+        {
+            "file": "ch8_ch8_beat0_briefing_03_meravoss",
+            "speaker": "Mera Voss",
+            "text": "No walls, no guns, no garrison, and it still buries the people who knock. I've hunted a hundred places that wanted me dead and I knew how each one would come at me. This one I can't price at all. I don't like that."
+        },
+        {
+            "file": "ch8_ch8_beat0_briefing_04_morrigan",
+            "speaker": "Morrigan",
+            "text": "I'll back her, and I hate backing her. I threw everything this bench has at the coordinates. No signal, no power bloom, no comm bleed, nothing in any band I read. Every instrument says there's nothing on that world. I trust the instruments. I also trust Vex."
+        },
+        {
+            "file": "ch8_ch8_beat0_briefing_05_iris",
+            "speaker": "Iris",
+            "text": "A whole world of graves bothers me more than the no-signal does. Somebody dug all of them. Somebody's still tending them. You don't need a graveyard that size for the dead. You need it for whoever comes looking."
+        },
+        {
+            "file": "ch8_ch8_beat0_briefing_06_resh",
+            "speaker": "Resh",
+            "text": "Smugglers don't run the Silent Garden. The ones who tried don't run anything now. I had it filed under tall tales, the kind you tell so some idiot doesn't try the run. Coral saying it's real, that's the part I don't like."
+        },
+        {
+            "file": "ch8_ch8_beat0_briefing_07_mira",
+            "speaker": "Mira",
+            "text": "If it only lets one person in, everybody else waits outside. You're going alone again."
+        },
+        {
+            "file": "ch8_ch8_beat0_briefing_08_kessler",
+            "speaker": "Kessler",
+            "text": "She's got the shape of it. A place that only opens for one. I hate those. I'll set us down, I'll hold whatever it calls a gate, but I want it said out loud, Cipher. I don't like sending you somewhere I can't follow."
+        },
+        {
+            "file": "ch8_ch8_beat0_briefing_09_ronin7",
+            "speaker": "Ronin-7",
+            "text": "It knows the hand that put the switch in my head, and the hand that broke it. That's worth a trial. I've crossed worse for less."
+        },
+        {
+            "file": "ch8_ch8_beat0_briefing_10_echo",
+            "speaker": "Echo",
+            "text": "Cipher. Before you go in, hear me. This isn't the reliquary, it isn't the mountain. There's nothing in there for the blade to do, and I don't think there's anything in there for me to do either, which I'm not used to. Whatever it asks you, it's asking you, not us. Answer true and answer yourself, because in a place like this the trained answer and the honest one are going to be two different things."
+        },
+        {
+            "file": "ch8_ch8_beat0_briefing_11_ronin7",
+            "speaker": "Ronin-7",
+            "text": "The hand and the head, then. You ride along and stay quiet when it counts."
+        },
+        {
+            "file": "ch8_ch8_beat0_briefing_12_coralvex",
+            "speaker": "Coral Vex",
+            "text": "If it opens for you, that isn't luck. It means it already knows what you are and wants a closer look. Walk in knowing you were expected."
+        },
+        {
+            "file": "ch8_ch8_beat0_briefing_13_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Good. I'm done being the one nobody expected. Plot it. Take us down."
+        },
+        {
+            "file": "ch8_ch8_beat1_gate_00_meravoss",
+            "speaker": "Mera Voss",
+            "text": "There's a wall here. I can put my hand right on it and there's nothing in front of my hand. It let you through and stopped the rest of us cold. I don't like a wall I can't see, and I really don't like one that picks."
+        },
+        {
+            "file": "ch8_ch8_beat1_gate_01_coralvex",
+            "speaker": "Coral Vex",
+            "text": "It picks. I told you it would. Cipher, this is where I stop being any use to you. Everything I know about the Program ends at this gate. The people in there are older than it and answer to none of it, me included. From here you walk it the way the first seeker walked it, with whatever's in your own skull."
+        },
+        {
+            "file": "ch8_ch8_beat1_gate_02_kessler",
+            "speaker": "Kessler",
+            "text": "Comm's going to static and you're six steps in, so I'll say it now while it carries. We can't push past whatever this is, I already tried, it's like leaning on the side of the world. But we're not leaving this rock until you walk back out of that fog. We hold the gate. You come back through it."
+        },
+        {
+            "file": "ch8_ch8_beat1_gate_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I heard you. Hold the gate."
+        },
+        {
+            "file": "ch8_ch8_beat1_alone_00_echo",
+            "speaker": "Echo",
+            "text": "Comm's gone. It's just the two of us now, Cipher. First time since the playback it's only been us walking at something. I'm here the whole way. I already know I have to go quiet when it starts asking. So this is me, before the quiet."
+        },
+        {
+            "file": "ch8_ch8_beat1_alone_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then stay close and stay quiet. I've thought without you before. I just didn't have you to miss."
+        },
+        {
+            "file": "ch8_ch8_beat1_alone_02_themourners",
+            "speaker": "The Mourners",
+            "text": "You were made to walk where you were sent. So walk. The dead under this ground remember every name that was ever taken from them, and they don't forgive a lie laid over a grave. Step on a falsehood, and the ones you slander rise to answer in your place."
+        },
+        {
+            "file": "ch8_ch8_beat2_riddle_pose_00_themourners",
+            "speaker": "The Mourners",
+            "text": "One question. The fog comes down off the oldest grave, or it doesn't. A leash is set in a thing for one reason: so that when the one who holds it pulls, the thing comes. Tell us, then. When the leash is pulled, what is the duty of the thing on the end of it. Answer quickly. The quick answer is the one they built in you. We're listening for it."
+        },
+        {
+            "file": "ch8_ch8_beat2_wrong_bark_00_themourners",
+            "speaker": "The Mourners",
+            "text": "Wrong. The dead remember what you just said. Rise, and answer for him."
+        },
+        {
+            "file": "ch8_ch8_beat2_riddle_answer_00_ronin7",
+            "speaker": "Ronin-7",
+            "text": "The quick answer is obey. Come when pulled. That's the one they built. So that's the wrong one."
+        },
+        {
+            "file": "ch8_ch8_beat2_riddle_answer_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "A thing on a leash has no duty. That duty was a lie they put in the collar. The only thing it owes is the leash itself, broken. I came here for the hand that pulled mine and the hand that cut it. That's my answer. None."
+        },
+        {
+            "file": "ch8_ch8_beat2_riddle_answer_02_themourners",
+            "speaker": "The Mourners",
+            "text": "True. The truest thing this ground has heard in longer than your Program has had a name. You were pulled, and you did not come. Few have stood on this stone and refused the collar to our faces. The trial of the mind is ended. Now the Garden asks the older question, the one it asks with its hands."
+        },
+        {
+            "file": "ch8_ch8_beat3_warden_intro_00_themourners",
+            "speaker": "The Mourners",
+            "text": "This is the warden of the last grave. It has put down seekers who walked in stronger than you, and left this ground in pieces. It doesn't tire and it can't be reasoned with, because it isn't asked to think. It's only asked to be sure. Strength was given to you the way thought was. Show us the body keeps what the mind earned."
+        },
+        {
+            "file": "ch8_ch8_beat3_warden_intro_01_echo",
+            "speaker": "Echo",
+            "text": "There you are, a fight, finally something I'm good for. I've got the read back the second it moved. That thing's a tomb wearing a body, but a tomb has load-bearing joints same as anything, and the old blade's eyes are showing me every one of them. Stay off the front of it, work the seams."
+        },
+        {
+            "file": "ch8_ch8_beat3_warden_defeat_00_themourners",
+            "speaker": "The Mourners",
+            "text": "Down it goes, back into the ground it guards. Strength, given. Mind, given. The body kept what the mind earned, which is rarer on this ground than either alone. Be still now. We've watched you long enough from inside the fog. We're coming to look at you with what's left of our eyes."
+        },
+        {
+            "file": "ch8_ch8_beat4_naming_00_themourners",
+            "speaker": "The Mourners",
+            "text": "Now we name you, the way we've named only a handful in all the time we've kept this ground. We've buried stronger seekers than you, and cleverer ones too. A leash was set in you, in the place where the spine meets the skull, by people who don't make mistakes. And it was pulled. And it failed. You are the one who defies. The Garden owes its one truth to such a one. Look."
+        },
+        {
+            "file": "ch8_ch8_beat4_naming_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I came for one thing. The hand that put the switch in me, and the hand that pulled it. Show me those."
+        },
+        {
+            "file": "ch8_ch8_beat4_naming_02_themourners",
+            "speaker": "The Mourners",
+            "text": "Both hands, as you ask. We don't soften them and we don't name them. The Garden gives sight, not answers. Watch, and know that what you see, you've always carried. We're only opening the eye the leash kept shut."
+        },
+        {
+            "file": "ch8_ch8_beat4_vision_a_00_thewoman",
+            "speaker": "The Woman",
+            "text": "There. That's the last of it."
+        },
+        {
+            "file": "ch8_ch8_beat4_vision_a_01_thewoman",
+            "speaker": "The Woman",
+            "text": "I hope you will save us."
+        },
+        {
+            "file": "ch8_ch8_beat4_vision_a_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Turn. Let me see your face."
+        },
+        {
+            "file": "ch8_ch8_beat4_vision_b_00_khall",
+            "speaker": "Khall",
+            "text": "You were right. You've always been right, about the order, about all of it. It's that you broke because you saw it clearer than any of us, and I'm still going to do this anyway."
+        },
+        {
+            "file": "ch8_ch8_beat4_vision_b_01_khall",
+            "speaker": "Khall",
+            "text": "I'm sorry it has come to this."
+        },
+        {
+            "file": "ch8_ch8_beat4_vision_b_02_khall",
+            "speaker": "Khall",
+            "text": "A hundred times I've read this. Seals check out. Chain of command checks out. The hand is right. And it still reads like something built only to look real."
+        },
+        {
+            "file": "ch8_ch8_beat4_vision_b_03_khall",
+            "speaker": "Khall",
+            "text": "Who forges a leash. Who fakes an order this clean, and to what end."
+        },
+        {
+            "file": "ch8_ch8_beat4_aftermath_00_ronin7",
+            "speaker": "Ronin-7",
+            "text": "She was right there. The one who made me. And I still couldn't see her face."
+        },
+        {
+            "file": "ch8_ch8_beat4_aftermath_01_themourners",
+            "speaker": "The Mourners",
+            "text": "No. You couldn't. The Garden gives the sight you've earned, not the sight you haven't. You've seen the act. You've heard the prayer she said over you. The face is owed to you too, but it isn't ours to hand across. You will collect it yourself, one who defies. We've only shown you that it exists, and that at the end, she hoped you'd live."
+        },
+        {
+            "file": "ch8_ch8_beat4_aftermath_02_echo",
+            "speaker": "Echo",
+            "text": "Cipher, I don't have her face either. Must be from before you had me, and the Garden just told you it isn't theirs to give back. But I caught that prayer, every word, and I'm keeping it. Next time we're in front of those hands, we'll know them."
+        },
+        {
+            "file": "ch8_ch8_beat4_aftermath_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Two people at either end of the thing that killed me, and neither one wanted it. I've been chasing the wrong shape."
+        },
+        {
+            "file": "ch8_ch8_beat5_leaving_00_themourners",
+            "speaker": "The Mourners",
+            "text": "The truth was yours to earn, and you earned it. We don't give you peace, one who defies. Peace is for the buried, and you turned the grave down once already. We give you the name, the sight, and a direction. The hands you saw didn't work in the light. They worked beneath it. If you mean to find the face, go down."
+        },
+        {
+            "file": "ch8_ch8_beat5_leaving_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Down where. Be plain with me once, at the end of it."
+        },
+        {
+            "file": "ch8_ch8_beat5_leaving_02_themourners",
+            "speaker": "The Mourners",
+            "text": "We don't draw maps. We give sight, not answers, we told you that. But here's the shape of it. The hand that made you and the hand that doubts you both reach up from below, not from the graves, those are ours, from the other dark, the one your Program digs and leaves off every chart. Go down to them."
+        },
+        {
+            "file": "ch8_ch8_beat5_reunion_00_kessler",
+            "speaker": "Kessler",
+            "text": "There he is. We held the gate, every hour of it, and that thing never let us a step closer. You walk out of there in one piece?"
+        },
+        {
+            "file": "ch8_ch8_beat5_reunion_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "In one piece. It tested the head and the hands, Echo, not the blade. The blade only mattered at the very end."
+        },
+        {
+            "file": "ch8_ch8_beat5_reunion_02_coralvex",
+            "speaker": "Coral Vex",
+            "text": "It opened for you, and it let you walk back out, which is more than the legend ever promised anyone. Did it give you the truth, Cipher? Did you see the hand?"
+        },
+        {
+            "file": "ch8_ch8_beat5_reunion_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I saw the hand that made the switch. A woman. Careful. She said she hoped I'd save us, and I couldn't see her face. I saw the hand that pulled it too. He grieved it. And he's started to doubt the order that made him."
+        },
+        {
+            "file": "ch8_ch8_beat5_reunion_04_meravoss",
+            "speaker": "Mera Voss",
+            "text": "A maker who hoped you'd live. A handler who doubts the order he carried out. I hunted for the Program for years and I'd have sworn it didn't have a doubting bone in it. Turns out it's riddled with them."
+        },
+        {
+            "file": "ch8_ch8_beat5_reunion_05_mira",
+            "speaker": "Mira",
+            "text": "You're sad. You found out something good, didn't you. So why do you look like that."
+        },
+        {
+            "file": "ch8_ch8_beat5_reunion_06_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I found out two people on the inside didn't want me dead, little one. One of them hoped I'd live before I was old enough to remember her. That's a good thing. It's just heavy."
+        },
+        {
+            "file": "ch8_ch8_beat5_reunion_07_ronin7",
+            "speaker": "Ronin-7",
+            "text": "The Garden says the answers aren't up here, not with the rest of us still breathing and shouting. So we stop hunting the surface. We go down."
+        },
+        {
+            "file": "ch8_ch8_beat5_reunion_08_echo",
+            "speaker": "Echo",
+            "text": "Down the dark next, Cipher. We came to a graveyard to ask the dead who made us, and they handed us two living questions and a road under the floor. The pits. The deeps. Wherever they buried it, we go dig it out."
+        }
+    ]
+}
