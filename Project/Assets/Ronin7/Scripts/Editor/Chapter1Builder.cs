@@ -64,6 +64,12 @@ namespace Ronin7.EditorTools
             RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
             RenderSettings.ambientLight = new Color(0.15f, 0.16f, 0.19f);
 
+            // Faint cold haze inside the dead leviathan — subtle, matches the cool ambient tone.
+            RenderSettings.fog = true;
+            RenderSettings.fogMode = FogMode.Exponential;
+            RenderSettings.fogColor = new Color(0.16f, 0.17f, 0.20f);
+            RenderSettings.fogDensity = 0.018f;
+
             BuildAccentPointLight("MedbayLight", new Vector3(0f, 2.6f, 0f), new Color(1f, 0.82f, 0.6f), 2.2f, 11f);   // warm revival bay
             BuildAccentPointLight("HoldLight", new Vector3(0f, 2.8f, 10f), new Color(0.72f, 0.82f, 0.95f), 1.8f, 16f); // neutral hold
             BuildAccentPointLight("AirlockLight", new Vector3(0f, 2.6f, 21f), new Color(0.6f, 0.78f, 1f), 1.5f, 12f);  // cool corridor
@@ -331,6 +337,15 @@ namespace Ronin7.EditorTools
                 new GameObject("XR Interaction Manager").AddComponent<XRInteractionManager>();
             EnsureXRUIEventSystemMenu();
             WireRightHandRayInteractorMenu();
+
+            // ---- Immersion retrofit: room reverb, revival-bay ambience bed, console/mood light beats. ----
+            var medbayAmbience = BuildAmbienceLayer("MedbayAmbience", new Vector3(3f, 1f, -3.3f), 2f, 6f, 0.45f);
+            var medbayAmbienceSource = medbayAmbience.GetComponent<AudioSource>();
+            medbayAmbienceSource.clip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Ronin7/Art/Generated/Audio/SFX/medbay_hum.wav");
+            AddConsoleFlicker("CommandLight", seed: 11f);
+            AddAmbientPulse("MedbayLight", periodSeconds: 7f);
+            ReverbZonePlacer.AutoTagInteriorVolumes();
+            ReverbZonePlacer.PlaceReverbZonesForInteriorVolumes();
 
             // ---- Save + register. ----
             EnsureFolder(SceneFolder);

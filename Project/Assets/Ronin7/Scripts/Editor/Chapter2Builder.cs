@@ -356,6 +356,15 @@ namespace Ronin7.EditorTools
             EnsureXRUIEventSystemMenu();
             WireRightHandRayInteractorMenu();
 
+            // ---- Immersion retrofit: room reverb, dock ambience bed, console/mood light beats. ----
+            var dockAmbience = BuildAmbienceLayer("DockAmbience", new Vector3(0f, 2.6f, 83f), 2f, 8f, 0.4f);
+            dockAmbience.GetComponent<AudioSource>().clip =
+                AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Ronin7/Art/Generated/Audio/SFX/dock_wind.wav");
+            AddConsoleFlicker("BrokerLight", seed: 22f);
+            AddAmbientPulse("VaultLight", periodSeconds: 6.5f);
+            ReverbZonePlacer.AutoTagInteriorVolumes();
+            ReverbZonePlacer.PlaceReverbZonesForInteriorVolumes();
+
             // ---- Save + register. ----
             EnsureFolder(SceneFolder);
             SettingsPanelBuilder.BuildSettingsPanel();

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Ronin7.Combat;
 using Ronin7.Core;
+using Ronin7.Editor.Art;
 using Ronin7.Enemies;
 using Ronin7.Player;
 using Ronin7.World;
@@ -356,6 +357,15 @@ namespace Ronin7.EditorTools
                 new GameObject("XR Interaction Manager").AddComponent<XRInteractionManager>();
             EnsureXRUIEventSystemMenu();
             WireRightHandRayInteractorMenu();
+
+            // ---- Immersion retrofit: room reverb, tier/throne ambience beds, console/mood lights. ----
+            BuildAmbienceLayer("FractureTierAmbience", new Vector3(2f, 1.2f, 26f), 5f, 18f, 0.4f);
+            BuildAmbienceLayer("FractureThroneDreadAmbience", new Vector3(-4f, -2.4f, 74f), 5f, 18f, 0.4f);
+            ProceduralAudioClipBuilder.AssignGeneratedClips();
+            AddConsoleFlicker("ThroneLight1", seed: 131f);
+            AddAmbientPulse("ThroneLight0", periodSeconds: 7.4f); // "the node's amber pulse"
+            ReverbZonePlacer.AutoTagInteriorVolumes();
+            ReverbZonePlacer.PlaceReverbZonesForInteriorVolumes();
 
             // ---- Save + register. ----
             EnsureFolder(SceneFolder);

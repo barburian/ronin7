@@ -1,4 +1,5 @@
 using Ronin7.Core;
+using Ronin7.Editor.Art;
 using Ronin7.Player;
 using Ronin7.World;
 using Ronin7.World.Story;
@@ -258,6 +259,15 @@ namespace Ronin7.EditorTools
                 new GameObject("XR Interaction Manager").AddComponent<XRInteractionManager>();
             EnsureXRUIEventSystemMenu();
             WireRightHandRayInteractorMenu();
+
+            // ---- Immersion retrofit: room reverb, hold + playback ambience beds, console/mood lights. ----
+            BuildAmbienceLayer("HoldAmbience", new Vector3(0f, 1.5f, 3f), 3f, 10f, 0.4f);
+            BuildAmbienceLayer("PlaybackDreadAmbience", new Vector3(0f, 1.5f, 62f), 3f, 12f, 0.4f);
+            ProceduralAudioClipBuilder.AssignGeneratedClips();
+            AddConsoleFlicker("HoldLampBench", seed: 33f);
+            AddAmbientPulse("HoldLampSeat", periodSeconds: 6f);
+            ReverbZonePlacer.AutoTagInteriorVolumes();
+            ReverbZonePlacer.PlaceReverbZonesForInteriorVolumes();
 
             // ---- Save + register. ----
             EnsureFolder(SceneFolder);

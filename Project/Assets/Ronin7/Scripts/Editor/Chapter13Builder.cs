@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Ronin7.Combat;
 using Ronin7.Core;
+using Ronin7.Editor.Art;
 using Ronin7.Enemies;
 using Ronin7.Player;
 using Ronin7.World;
@@ -297,6 +298,15 @@ namespace Ronin7.EditorTools
                 new GameObject("XR Interaction Manager").AddComponent<XRInteractionManager>();
             EnsureXRUIEventSystemMenu();
             WireRightHandRayInteractorMenu();
+
+            // ---- Immersion retrofit: room reverb, lab-core ambience bed, console/mood lights. ----
+            var labCoreAmbience = BuildAmbienceLayer("LabCoreAmbience", new Vector3(0f, 1f, 70f), 3f, 10f, 0.5f);
+            labCoreAmbience.GetComponent<AudioSource>().clip =
+                AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Ronin7/Art/Generated/Audio/SFX/labcore_hum.wav");
+            AddConsoleFlicker("CoreLight0", seed: 141f); // "brightest, most surgical"
+            AddAmbientPulse("NurseryLight0", periodSeconds: 7.6f);
+            ReverbZonePlacer.AutoTagInteriorVolumes();
+            ReverbZonePlacer.PlaceReverbZonesForInteriorVolumes();
 
             // ---- Save + register. ----
             EnsureFolder(SceneFolder);

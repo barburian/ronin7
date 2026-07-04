@@ -134,6 +134,71 @@ namespace Ronin7.Editor.Art
             reverb.maxDistance = maxDistance;
         }
 
+        /// <summary>Name of the marker child this tool creates on each enclosed room's floor.</summary>
+        public const string GeneratedVolumeChildName = "AutoInteriorVolume";
+
+        /// <summary>
+        /// Bridges the gap between chapter geometry and <see cref="PlaceReverbZonesForInteriorVolumes"/>:
+        /// every enclosed room built via <c>BuildFloorCeiling</c> (and its per-chapter Y-aware variants,
+        /// e.g. Chapter16's <c>Ch16BuildTier</c>) leaves a same-named "X_Floor" + "X_Ceiling" cube pair
+        /// under a common parent — the only reliable, chapter-agnostic signal that a room is actually
+        /// enclosed (an open platform built with "floor only" has no matching "_Ceiling" and is
+        /// correctly skipped). For each such pair found in the open scene, creates/updates an
+        /// <see cref="InteriorVolume"/> marker as a child of the floor sized to the floor's horizontal
+        /// footprint and the floor-to-ceiling height. Idempotent like its sibling menu items — safe to
+        /// re-run after geometry edits.
+        /// </summary>
+        [MenuItem("Tools/Space Samurai/Art/Auto-Tag Interior Volumes From Floor+Ceiling Pairs (Open Scene)")]
+        public static void AutoTagInteriorVolumes()
+        {
+            Scene scene = SceneManager.GetActiveScene();
+            GameObject[] roots = scene.GetRootGameObjects();
+
+            Undo.SetCurrentGroupName("Auto-Tag Interior Volumes");
+            int undoGroup = Undo.GetCurrentGroup();
+            int placed = 0, updated = 0;
+
+            foreach (GameObject root in roots)
+            {
+                foreach (Transform t in root.GetComponentsInChildren<Transform>(true))
+                {
+                    const string suffix = "_Floor";
+                    if (!t.name.EndsWith(suffix) || t.parent == null) continue;
+
+                    string prefix = t.name.Substring(0, t.name.Length - suffix.Length);
+                    Transform ceiling = t.parent.Find(prefix + "_Ceiling");
+                    if (ceiling == null) continue; // open platform, not an enclosed room -- no reverb
+
+                    float height = Mathf.Max(ceiling.localPosition.y - t.localPosition.y, 0.1f);
+                    Vector3 size = new Vector3(t.localScale.x, height, t.localScale.z);
+
+                    Transform existing = t.Find(GeneratedVolumeChildName);
+                    GameObject volumeGo;
+                    if (existing != null) { volumeGo = existing.gameObject; updated++; }
+                    else
+                    {
+                        volumeGo = new GameObject(GeneratedVolumeChildName);
+                        Undo.RegisterCreatedObjectUndo(volumeGo, "Auto-Tag Interior Volumes");
+                        volumeGo.transform.SetParent(t, false);
+                        placed++;
+                    }
+
+                    var volume = volumeGo.GetComponent<InteriorVolume>();
+                    if (volume == null) volume = Undo.AddComponent<InteriorVolume>(volumeGo);
+                    Undo.RecordObject(volume, "Auto-Tag Interior Volumes");
+                    volume.centerOffset = new Vector3(0f, height * 0.5f, 0f);
+                    volume.size = size;
+                }
+            }
+
+            if (placed + updated > 0)
+                EditorSceneManager.MarkSceneDirty(scene);
+
+            Undo.CollapseUndoOperations(undoGroup);
+            Debug.Log($"[ReverbZonePlacer] '{scene.name}': tagged {placed} new interior volume(s), " +
+                      $"updated {updated}. Scene marked dirty — save manually.");
+        }
+
         [MenuItem("Tools/Space Samurai/Art/Remove Reverb Zones (Open Scene)")]
         public static void RemoveReverbZones()
         {

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Ronin7.Audio;
 using Ronin7.Combat;
 using Ronin7.Core;
 using Ronin7.Enemies;
@@ -220,6 +221,65 @@ namespace Ronin7.EditorTools
             l.intensity = intensity;
             l.range = range;
             l.shadows = LightShadows.None; // keep it cheap on Quest
+        }
+
+        /// <summary>Builds a root-level looping ambience bed: AudioSource + <see cref="ProximityAmbienceLayer"/>
+        /// at a world position. Wire the clip afterward with a single scene-wide
+        /// <see cref="Ronin7.Editor.Art.ProceduralAudioClipBuilder.AssignGeneratedClips"/> call — it infers
+        /// the theme (HangarHum/GardenWind/DreadDrone) from this object's own <paramref name="name"/>, so
+        /// name accordingly (e.g. containing "garden"/"wind" or "dread"/"throne"/"vault" picks those themes;
+        /// anything else defaults to HangarHum).</summary>
+        private static GameObject BuildAmbienceLayer(string name, Vector3 position, float innerRadius, float outerRadius, float maxVolume)
+        {
+            var go = new GameObject(name);
+            go.transform.position = position;
+            var source = go.AddComponent<AudioSource>();
+            source.loop = true;
+            source.playOnAwake = true;
+            source.spatialBlend = 0f; // ProximityAmbienceLayer drives its own distance-based volume
+            var layer = go.AddComponent<ProximityAmbienceLayer>();
+            var so = new SerializedObject(layer);
+            SetObjectRef(so, "source", source);
+            so.FindProperty("innerRadius").floatValue = innerRadius;
+            so.FindProperty("outerRadius").floatValue = outerRadius;
+            so.FindProperty("maxVolume").floatValue = maxVolume;
+            so.ApplyModifiedPropertiesWithoutUndo();
+            return go;
+        }
+
+        /// <summary>Adds a <see cref="ConsoleFlickerLight"/> to an existing root-level accent light found
+        /// by <paramref name="lightName"/> (as built by <see cref="BuildAccentPointLight"/>). No-op if the
+        /// light isn't found. <paramref name="seed"/> should differ across lights in the same scene so
+        /// they don't flicker in lockstep.</summary>
+        private static void AddConsoleFlicker(string lightName, float seed)
+        {
+            var light = GameObject.Find(lightName)?.GetComponent<Light>();
+            if (light == null) return;
+            if (light.gameObject.GetComponent<ConsoleFlickerLight>() != null) return; // idempotent
+            var flicker = light.gameObject.AddComponent<ConsoleFlickerLight>();
+            var so = new SerializedObject(flicker);
+            SetObjectRef(so, "targetLight", light);
+            so.FindProperty("minIntensity").floatValue = light.intensity * 0.75f;
+            so.FindProperty("maxIntensity").floatValue = light.intensity * 1.2f;
+            so.FindProperty("seed").floatValue = seed;
+            so.ApplyModifiedPropertiesWithoutUndo();
+        }
+
+        /// <summary>Adds an <see cref="AmbientLightPulse"/> to an existing root-level accent light found
+        /// by <paramref name="lightName"/> (as built by <see cref="BuildAccentPointLight"/>). No-op if the
+        /// light isn't found.</summary>
+        private static void AddAmbientPulse(string lightName, float periodSeconds = 6f)
+        {
+            var light = GameObject.Find(lightName)?.GetComponent<Light>();
+            if (light == null) return;
+            if (light.gameObject.GetComponent<AmbientLightPulse>() != null) return; // idempotent
+            var pulse = light.gameObject.AddComponent<AmbientLightPulse>();
+            var so = new SerializedObject(pulse);
+            SetObjectRef(so, "targetLight", light);
+            so.FindProperty("periodSeconds").floatValue = periodSeconds;
+            so.FindProperty("minIntensity").floatValue = light.intensity * 0.6f;
+            so.FindProperty("maxIntensity").floatValue = light.intensity * 1.15f;
+            so.ApplyModifiedPropertiesWithoutUndo();
         }
 
         private static void BuildProp(Transform parent, string name, Vector3 pos, Vector3 scale, Color color)

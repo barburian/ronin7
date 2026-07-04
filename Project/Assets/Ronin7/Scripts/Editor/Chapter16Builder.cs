@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Ronin7.Combat;
 using Ronin7.Core;
+using Ronin7.Editor.Art;
 using Ronin7.Enemies;
 using Ronin7.Player;
 using Ronin7.World;
@@ -539,6 +540,15 @@ namespace Ronin7.EditorTools
                 new GameObject("XR Interaction Manager").AddComponent<XRInteractionManager>();
             EnsureXRUIEventSystemMenu();
             WireRightHandRayInteractorMenu();
+
+            // ---- Immersion retrofit: room reverb, throne-core ambience bed, console/mood lights. ----
+            var throneCoreAmbience = BuildAmbienceLayer("ThroneCoreAmbience", new Vector3(0f, -29f, 270f), 5f, 18f, 0.5f);
+            throneCoreAmbience.GetComponent<AudioSource>().clip =
+                AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Ronin7/Art/Generated/Audio/SFX/throne_rumble.wav");
+            AddConsoleFlicker("ThroneCoreLight0", seed: 151f); // "lattice violet"
+            AddAmbientPulse("SepulcherFloorLight", periodSeconds: 7.8f); // sepulcher = tomb beat
+            ReverbZonePlacer.AutoTagInteriorVolumes();
+            ReverbZonePlacer.PlaceReverbZonesForInteriorVolumes();
 
             // ---- Save + register. ----
             EnsureFolder(SceneFolder);

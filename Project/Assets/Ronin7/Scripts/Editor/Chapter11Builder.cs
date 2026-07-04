@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Ronin7.Combat;
 using Ronin7.Core;
+using Ronin7.Editor.Art;
 using Ronin7.Enemies;
 using Ronin7.Player;
 using Ronin7.World;
@@ -393,6 +394,15 @@ namespace Ronin7.EditorTools
                 new GameObject("XR Interaction Manager").AddComponent<XRInteractionManager>();
             EnsureXRUIEventSystemMenu();
             WireRightHandRayInteractorMenu();
+
+            // ---- Immersion retrofit: room reverb, arkship/cradle ambience beds, console/mood lights. ----
+            BuildAmbienceLayer("ArkshipCoreAmbience", new Vector3(0f, 2.4f, 42f), 5f, 16f, 0.4f);
+            BuildAmbienceLayer("CradleDreadAmbience", new Vector3(0f, 1.6f, 57f), 4f, 14f, 0.4f);
+            ProceduralAudioClipBuilder.AssignGeneratedClips();
+            AddConsoleFlicker("ArkshipCoreLight", seed: 121f);
+            AddAmbientPulse("CradleLight", periodSeconds: 7.2f);
+            ReverbZonePlacer.AutoTagInteriorVolumes();
+            ReverbZonePlacer.PlaceReverbZonesForInteriorVolumes();
 
             // ---- Save + register. ----
             EnsureFolder(SceneFolder);

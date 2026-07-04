@@ -1,4 +1,5 @@
 using Ronin7.Core;
+using Ronin7.Editor.Art;
 using Ronin7.Player;
 using Ronin7.World;
 using Ronin7.World.Story;
@@ -255,6 +256,17 @@ namespace Ronin7.EditorTools
                 new GameObject("XR Interaction Manager").AddComponent<XRInteractionManager>();
             EnsureXRUIEventSystemMenu();
             WireRightHandRayInteractorMenu();
+
+            // ---- Immersion retrofit: ash-world wind + ghost-village dread ambience, grave mood lights.
+            // (No enclosed rooms here -- this chapter is all open ash-world/settlement, so the reverb
+            // pass below is a harmless no-op that stays correct if a future revision adds an interior.) ----
+            BuildAmbienceLayer("AshWorldGardenAmbience", new Vector3(0f, 1.5f, 40f), 6f, 30f, 0.4f);
+            BuildAmbienceLayer("GhostVillageDreadAmbience", new Vector3(0f, 1.5f, 170f), 6f, 25f, 0.4f);
+            ProceduralAudioClipBuilder.AssignGeneratedClips();
+            AddAmbientPulse("GraveEmber0", periodSeconds: 5f);
+            AddAmbientPulse("GraveEmber1", periodSeconds: 5.7f);
+            ReverbZonePlacer.AutoTagInteriorVolumes();
+            ReverbZonePlacer.PlaceReverbZonesForInteriorVolumes();
 
             // ---- Save + register. ----
             EnsureFolder(SceneFolder);
