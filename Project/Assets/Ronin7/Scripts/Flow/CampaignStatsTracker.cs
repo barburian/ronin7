@@ -10,8 +10,8 @@ namespace Ronin7.Flow
     /// Bridges combat EventBus events into <see cref="CampaignStats"/>. Presence-in-scene is the
     /// switch (mirrors the <c>Ronin7.Ship.SunHeatDamage</c>/<c>AsteroidHazard</c> precedent) — drop one
     /// instance anywhere persistent (e.g. alongside <see cref="GameFlowManager"/>) and every subsequent
-    /// kill/perfect-parry/posture-break/combo-peak/kill-streak-peak/near-miss-streak-peak/parry-streak-peak
-    /// counts toward the campaign stats.
+    /// kill/perfect-parry/posture-break/combo-peak/kill-streak-peak/near-miss-streak-peak/parry-streak-peak/
+    /// flawless-encounter counts toward the campaign stats.
     ///
     /// Player-death exclusion mirrors <see cref="GameFlowManager.OnEntityDied"/>'s own test:
     /// <c>EntityDied</c> fires for both the on-foot player rig and enemies through the same Health
@@ -28,6 +28,7 @@ namespace Ronin7.Flow
             EventBus.Subscribe<KillStreakAdvanced>(OnKillStreakAdvanced);
             EventBus.Subscribe<NearMissStreakAdvanced>(OnNearMissStreakAdvanced);
             EventBus.Subscribe<ParryStreakAdvanced>(OnParryStreakAdvanced);
+            EventBus.Subscribe<FlawlessEncounterCleared>(OnFlawlessEncounterCleared);
         }
 
         private void OnDisable()
@@ -39,6 +40,7 @@ namespace Ronin7.Flow
             EventBus.Unsubscribe<KillStreakAdvanced>(OnKillStreakAdvanced);
             EventBus.Unsubscribe<NearMissStreakAdvanced>(OnNearMissStreakAdvanced);
             EventBus.Unsubscribe<ParryStreakAdvanced>(OnParryStreakAdvanced);
+            EventBus.Unsubscribe<FlawlessEncounterCleared>(OnFlawlessEncounterCleared);
         }
 
         private void OnEntityDied(EntityDied evt)
@@ -62,5 +64,7 @@ namespace Ronin7.Flow
         private void OnNearMissStreakAdvanced(NearMissStreakAdvanced evt) => CampaignStats.RecordNearMissStreak(evt.Count);
 
         private void OnParryStreakAdvanced(ParryStreakAdvanced evt) => CampaignStats.RecordParryStreak(evt.Count);
+
+        private void OnFlawlessEncounterCleared(FlawlessEncounterCleared _) => CampaignStats.RecordFlawlessEncounter();
     }
 }

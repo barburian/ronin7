@@ -260,6 +260,7 @@ namespace Ronin7.Tests.EditMode
             Assert.AreEqual(0, loaded.statsBestKillStreak);
             Assert.AreEqual(0, loaded.statsBestNearMissStreak);
             Assert.AreEqual(0, loaded.statsBestParryStreak);
+            Assert.AreEqual(0, loaded.statsFlawlessEncounters);
         }
 
         [Test]

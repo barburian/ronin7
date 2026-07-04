@@ -141,6 +141,15 @@ namespace Ronin7.Tests.EditMode
         }
 
         [Test]
+        public void RecordFlawlessEncounter_IncrementsCount()
+        {
+            CampaignStats.RecordFlawlessEncounter();
+            CampaignStats.RecordFlawlessEncounter();
+
+            Assert.AreEqual(2, CampaignStats.FlawlessEncounters);
+        }
+
+        [Test]
         public void Reset_ZeroesAllCounters()
         {
             CampaignStats.RecordEnemyDefeated();
@@ -150,6 +159,7 @@ namespace Ronin7.Tests.EditMode
             CampaignStats.RecordKillStreak(3);
             CampaignStats.RecordNearMissStreak(3);
             CampaignStats.RecordParryStreak(3);
+            CampaignStats.RecordFlawlessEncounter();
 
             CampaignStats.Reset();
 
@@ -160,6 +170,7 @@ namespace Ronin7.Tests.EditMode
             Assert.AreEqual(0, CampaignStats.BestKillStreak);
             Assert.AreEqual(0, CampaignStats.BestNearMissStreak);
             Assert.AreEqual(0, CampaignStats.BestParryStreak);
+            Assert.AreEqual(0, CampaignStats.FlawlessEncounters);
         }
     }
 }

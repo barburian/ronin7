@@ -109,4 +109,17 @@ namespace Ronin7.Ship
         public readonly int Count;
         public NearMissStreakAdvanced(int count) => Count = count;
     }
+
+    /// <summary>
+    /// Published when a FINITE space encounter (waveCount > 0) fully clears — every wave, not just
+    /// one — with the player ship having taken zero <see cref="PlayerShipDamaged"/> hits the entire
+    /// time. Endless encounters (waveCount == 0) never reach the "all waves cleared" transition this
+    /// is published from, so it never fires for them. Mirrors <see cref="NearMissStreakAdvanced"/>'s
+    /// campaign-stat hook pattern.
+    /// </summary>
+    public readonly struct FlawlessEncounterCleared
+    {
+        public readonly int WaveCount;
+        public FlawlessEncounterCleared(int waveCount) => WaveCount = waveCount;
+    }
 }

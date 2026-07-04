@@ -163,6 +163,7 @@ namespace Ronin7.Core
             save.statsBestKillStreak = CampaignStats.BestKillStreak;
             save.statsBestNearMissStreak = CampaignStats.BestNearMissStreak;
             save.statsBestParryStreak = CampaignStats.BestParryStreak;
+            save.statsFlawlessEncounters = CampaignStats.FlawlessEncounters;
 
             save.drillScores = DrillBestScores.ToSaveList();
 
@@ -221,7 +222,7 @@ namespace Ronin7.Core
             ShipSelection.SelectedHullIndex = data.shipHullIndex;
 
             CampaignStats.LoadFrom(data.statsEnemiesDefeated, data.statsPerfectParries, data.statsPostureBreaks, data.statsBestCombo,
-                data.statsBestKillStreak, data.statsBestNearMissStreak, data.statsBestParryStreak);
+                data.statsBestKillStreak, data.statsBestNearMissStreak, data.statsBestParryStreak, data.statsFlawlessEncounters);
 
             DrillBestScores.ApplyFrom(data.drillScores);
         }

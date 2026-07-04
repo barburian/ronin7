@@ -85,6 +85,10 @@ namespace Ronin7.Ship
         private float nextWaveTime;
         private bool encounterComplete;
         private bool gateOpened;
+        // True from the encounter's start until the player ship takes a hit (see OnPlayerShipDamaged).
+        // Consumed once, at the finite "all waves cleared" transition, to decide whether to publish
+        // FlawlessEncounterCleared for the campaign-stats hook.
+        private bool encounterFlawless;
         // Player's virtual position when the last wave cleared; the next wave is gated on flying
         // 'travelBetweenWaves' away from this point so encounters are paced by travel, not just time.
         private Vector3 travelAnchor;
@@ -101,13 +105,23 @@ namespace Ronin7.Ship
             }
         }
 
-        private void OnEnable() => EventBus.Subscribe<EnemyShipDestroyed>(OnEnemyDestroyed);
-        private void OnDisable() => EventBus.Unsubscribe<EnemyShipDestroyed>(OnEnemyDestroyed);
+        private void OnEnable()
+        {
+            EventBus.Subscribe<EnemyShipDestroyed>(OnEnemyDestroyed);
+            EventBus.Subscribe<PlayerShipDamaged>(OnPlayerShipDamaged);
+        }
+
+        private void OnDisable()
+        {
+            EventBus.Unsubscribe<EnemyShipDestroyed>(OnEnemyDestroyed);
+            EventBus.Unsubscribe<PlayerShipDamaged>(OnPlayerShipDamaged);
+        }
 
         private void Start()
         {
             nextWaveTime = Time.time + initialDelay;
             travelAnchor = player != null ? player.ShipPosition : Vector3.zero;
+            encounterFlawless = true;
         }
 
         private void Update()
@@ -146,6 +160,8 @@ namespace Ronin7.Ship
             {
                 encounterComplete = true;
                 EventBus.Publish(new SpaceEncounterCleared(waveIndex));
+                if (ShouldPublishFlawless(waveCount > 0, encounterFlawless))
+                    EventBus.Publish(new FlawlessEncounterCleared(waveCount));
                 Log.Info("[SpaceEncounter] All waves cleared.");
                 return;
             }
@@ -206,6 +222,15 @@ namespace Ronin7.Ship
                 : 0;
             return total;
         }
+
+        /// <summary>
+        /// Pure decision: does the just-finished encounter qualify as "flawless" for the campaign-stats
+        /// hook (<see cref="FlawlessEncounterCleared"/>)? Only FINITE encounters
+        /// (<paramref name="finiteEncounter"/> — i.e. waveCount > 0) can ever be flawless: endless
+        /// arenas never reach the "all waves cleared" transition this is evaluated at, so they must
+        /// never publish regardless of damage taken. Internal + unit-tested.
+        /// </summary>
+        internal static bool ShouldPublishFlawless(bool finiteEncounter, bool tookNoDamage) => finiteEncounter && tookNoDamage;
 
         /// <summary>
         /// Spawn one enemy at a universe-LOCAL position under <c>universe</c>, facing roughly toward
@@ -292,5 +317,9 @@ namespace Ronin7.Ship
                 Log.Info($"[SpaceEncounter] Wave {waveIndex} cleared.");
             }
         }
+
+        // H1 campaign-stats hook: any hit on the player ship during the encounter disqualifies the
+        // flawless-encounter stat, no matter which wave it happens in.
+        private void OnPlayerShipDamaged(PlayerShipDamaged _) => encounterFlawless = false;
     }
 }
