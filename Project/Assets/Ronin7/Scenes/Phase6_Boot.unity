@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 10323483}
   - component: {fileID: 10323482}
   - component: {fileID: 10323481}
+  - component: {fileID: 10323489}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -273,6 +274,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &10323489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10323480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08cc3b4d273be434b86fef2e117f8f83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Flow::Ronin7.Flow.CampaignStatsTracker
 --- !u!21 &33023978
 Material:
   serializedVersion: 8
@@ -6499,7 +6512,7 @@ ParticleSystem:
           m_PostInfinity: 2
           m_RotationOrder: 4
       cycleCount: 1
-      repeatInterval: 0.0001
+      repeatInterval: 0.01
       probability: 1
   SizeModule:
     enabled: 0
@@ -10557,7 +10570,7 @@ MonoBehaviour:
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 10
-    m_MaxSize: 40
+    m_MaxSize: 44
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
