@@ -68,8 +68,9 @@ namespace Ronin7.Enemies
                 Layers.BladeMask, QueryTriggerInteraction.Collide);
             for (int i = 0; i < n; i++)
             {
-                if (_bladeHits[i].GetComponentInParent<BladeDamager>() == null) continue;
-                Deflect(guard);
+                var blade = _bladeHits[i].GetComponentInParent<BladeDamager>();
+                if (blade == null) continue;
+                Deflect(guard, blade);
                 return;
             }
         }

@@ -58,5 +58,37 @@ namespace Ronin7.Tests.EditMode
             Assert.AreEqual(1f, ParryTiming.FlowMultiplier(0, 0.08f), 1e-5f);
             Assert.AreEqual(1.4f, ParryTiming.FlowMultiplier(5, 0.08f), 1e-5f);
         }
+
+        // ---- IsClash (G4 Blade Clash: a genuine mutual clash needs BOTH blades hitting the threshold). ----
+
+        [Test]
+        public void IsClash_BothAboveThreshold_IsTrue()
+        {
+            Assert.IsTrue(ParryTiming.IsClash(5f, 5f, 4.5f));
+        }
+
+        [Test]
+        public void IsClash_PlayerBelowThreshold_IsFalse()
+        {
+            Assert.IsFalse(ParryTiming.IsClash(4f, 5f, 4.5f));
+        }
+
+        [Test]
+        public void IsClash_EnemyBelowThreshold_IsFalse()
+        {
+            Assert.IsFalse(ParryTiming.IsClash(5f, 4f, 4.5f));
+        }
+
+        [Test]
+        public void IsClash_BothBelowThreshold_IsFalse()
+        {
+            Assert.IsFalse(ParryTiming.IsClash(2f, 2f, 4.5f));
+        }
+
+        [Test]
+        public void IsClash_ExactlyAtThreshold_IsTrue()
+        {
+            Assert.IsTrue(ParryTiming.IsClash(4.5f, 4.5f, 4.5f));
+        }
     }
 }

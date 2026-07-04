@@ -48,4 +48,17 @@ namespace Ronin7.Combat
         public readonly GameObject Entity;
         public PostureBroken(GameObject entity) => Entity = entity;
     }
+
+    /// <summary>
+    /// G4 "Blade Clash": a deflect landed where BOTH the player's and the enemy's blade were
+    /// genuinely moving hard (see <see cref="ParryTiming.IsClash"/>) — a true mutual clash, not just
+    /// a well-timed parry against a slow swing. Published in addition to <see cref="SwordDeflected"/>
+    /// (and <see cref="PerfectParry"/> when timing also qualifies), never instead of them.
+    /// </summary>
+    public readonly struct BladeClash
+    {
+        public readonly Vector3 Point;
+        public readonly GameObject Attacker;
+        public BladeClash(Vector3 point, GameObject attacker) { Point = point; Attacker = attacker; }
+    }
 }

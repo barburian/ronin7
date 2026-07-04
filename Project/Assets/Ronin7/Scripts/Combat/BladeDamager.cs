@@ -63,8 +63,12 @@ namespace Ronin7.Combat
         /// stateless so it can be unit-tested without the physics loop. A single spurious tracking
         /// spike only contributes (1 - <paramref name="smoothing"/>) to the result, so a stutter
         /// frame can't inflate the speed (and therefore the damage) it feeds.
+        ///
+        /// DEVIATION: public rather than internal (unlike this class's other pure helpers) so
+        /// <c>Ronin7.Enemies.MeleeAttacker</c>'s enemy-side swing-speed tracker (G4 Blade Clash) can
+        /// reuse the exact same math instead of duplicating it — Enemies cannot see Combat internals.
         /// </summary>
-        internal static float SmoothSpeed(Vector3 from, Vector3 to, float dt, float previousSpeed, float smoothing)
+        public static float SmoothSpeed(Vector3 from, Vector3 to, float dt, float previousSpeed, float smoothing)
         {
             if (dt <= 0f) return previousSpeed;
             float instantaneous = (to - from).magnitude / dt;

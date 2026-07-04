@@ -33,5 +33,14 @@ namespace Ronin7.Combat
 
         /// <summary>Damage multiplier from the current streak: +<paramref name="perStackBonus"/> per stack.</summary>
         public static float FlowMultiplier(int streak, float perStackBonus) => 1f + streak * perStackBonus;
+
+        /// <summary>
+        /// G4 "Blade Clash": true only when BOTH the player's blade and the enemy's blade were moving
+        /// at or above <paramref name="threshold"/> at the moment of the deflect — a genuine mutual
+        /// clash, not just a well-timed parry against a slow/telegraphed swing. Pure/stateless,
+        /// mirroring the rest of this class.
+        /// </summary>
+        public static bool IsClash(float playerBladeSpeed, float enemySwingSpeed, float threshold)
+            => playerBladeSpeed >= threshold && enemySwingSpeed >= threshold;
     }
 }

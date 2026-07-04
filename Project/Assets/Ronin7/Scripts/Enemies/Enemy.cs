@@ -42,6 +42,11 @@ namespace Ronin7.Enemies
             => state == State.Active
             || (state == State.Windup && timer >= TelegraphTime * 0.75f);
 
+        // bladeTip is the point that actually sweeps through the chop (weapon is the static pivot) —
+        // the same point already used for the parry capsule below, so it doubles as the G4 Blade
+        // Clash swing-speed tracker's sample point.
+        protected override Transform SwingTrackPoint => bladeTip != null ? bladeTip : weapon;
+
         protected override void Awake()
         {
             if (definition == null)
@@ -99,8 +104,9 @@ namespace Ronin7.Enemies
                 parryRadius, _bladeHits, Layers.BladeMask, QueryTriggerInteraction.Collide);
             for (int i = 0; i < n; i++)
             {
-                if (_bladeHits[i].GetComponentInParent<BladeDamager>() == null) continue;
-                Deflect(bladeTip.position);
+                var blade = _bladeHits[i].GetComponentInParent<BladeDamager>();
+                if (blade == null) continue;
+                Deflect(bladeTip.position, blade);
                 return;
             }
         }

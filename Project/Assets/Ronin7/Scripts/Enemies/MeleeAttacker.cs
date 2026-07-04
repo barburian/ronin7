@@ -41,6 +41,15 @@ namespace Ronin7.Enemies
         // "perfect" (see Deflect / ParryTiming.ParryQuality).
         private const float PerfectParryWindow = 0.12f;
 
+        // G4 Blade Clash: both blades must be at/above this speed (m/s) for a deflect to also publish
+        // BladeClash. WeaponDefinition.referenceSwingSpeed defaults to 6 (max-damage swing); 4.5 sits
+        // below that so a committed swing — not necessarily a maxed one — still counts on both sides.
+        private const float ClashThreshold = 4.5f;
+
+        [Tooltip("Exponential smoothing on this enemy's tracked swing speed — same idiom as " +
+                 "BladeDamager's speedSmoothing.")]
+        [SerializeField, Range(0f, 1f)] private float swingSmoothing = 0.5f;
+
         protected static readonly Color IdleColor = Color.white;
         protected static readonly Color TelegraphColor = new Color(1f, 0.4f, 0.25f);
         protected static readonly Color StaggerColor = new Color(0.4f, 0.6f, 1f);
@@ -52,6 +61,10 @@ namespace Ronin7.Enemies
         protected Vector3 currentEuler;
         protected Vector3 staggerFromEuler;
         private bool aggroCounted;
+
+        // G4 Blade Clash: EMA-smoothed speed of SwingTrackPoint, using BladeDamager's exact math.
+        private Vector3 lastSwingPos;
+        private float swingSpeed;
 
         // ---- Per-subclass tuning (sourced from SO or inline fields) ----
         protected abstract float TelegraphTime { get; }
@@ -96,6 +109,20 @@ namespace Ronin7.Enemies
         /// <summary>True when this frame is inside the parry window. Default: <see cref="State.Active"/>.
         /// Subclasses may widen — e.g. Enemy also lets late Windup parry.</summary>
         protected virtual bool IsInParryWindow() => state == State.Active;
+
+        /// <summary>
+        /// Point whose world-space velocity approximates this enemy's blade-tip speed (G4 Blade
+        /// Clash). Default is <see cref="weapon"/> itself, but that transform only rotates in these
+        /// rigs (the chop is animated via <see cref="PoseWeapon"/> changing localRotation, not
+        /// position) so its own position barely moves. Subclasses with a real swinging tip at a fixed
+        /// offset from the pivot — e.g. Enemy's bladeTip, the same point used for its parry capsule —
+        /// should override this to return that point instead.
+        /// </summary>
+        protected virtual Transform SwingTrackPoint => weapon;
+
+        /// <summary>Smoothed enemy blade-tip speed (m/s); 0 outside Windup/Active. Feeds
+        /// <see cref="ParryTiming.IsClash"/> via the <see cref="Deflect(Vector3, BladeDamager)"/> overload.</summary>
+        protected float SwingSpeed => swingSpeed;
 
         /// <summary>State to land in once Recover completes.</summary>
         protected virtual State StateAfterRecover => State.Idle;
@@ -200,9 +227,29 @@ namespace Ronin7.Enemies
 
         protected virtual void FixedUpdate()
         {
-            if (state == State.Dead || deflectedThisSwing) return;
+            if (state == State.Dead) return;
+            UpdateSwingSpeed();
+            if (deflectedThisSwing) return;
             if (!IsInParryWindow()) return;
             TryDetectParry();
+        }
+
+        /// <summary>
+        /// G4 Blade Clash: one EMA step (BladeDamager.SmoothSpeed) over SwingTrackPoint while
+        /// Windup/Active, so <see cref="SwingSpeed"/> reflects how hard this enemy is actually
+        /// swinging. Zeroed outside those states — cheap, and a clash can't be measured against a
+        /// weapon that isn't mid-swing.
+        /// </summary>
+        private void UpdateSwingSpeed()
+        {
+            Transform tip = SwingTrackPoint;
+            if (tip == null) { swingSpeed = 0f; return; }
+
+            bool tracking = state == State.Windup || state == State.Active;
+            swingSpeed = tracking
+                ? BladeDamager.SmoothSpeed(lastSwingPos, tip.position, Time.fixedDeltaTime, swingSpeed, swingSmoothing)
+                : 0f;
+            lastSwingPos = tip.position;
         }
 
         // ---- Shared helpers ----
@@ -215,7 +262,18 @@ namespace Ronin7.Enemies
             Enter(State.Windup);
         }
 
-        protected void Deflect(Vector3 point)
+        protected void Deflect(Vector3 point) => Deflect(point, null);
+
+        /// <summary>
+        /// Overload used when the incoming attack's <see cref="BladeDamager"/> is known — the normal
+        /// parry path (Enemy/TrainingDummy resolve it while probing for a deflect). Same
+        /// deflect/PerfectParry flow as <see cref="Deflect(Vector3)"/>, plus: if the attacker's blade
+        /// was known and both blades were genuinely moving hard (see <see cref="ParryTiming.IsClash"/>),
+        /// also publishes <see cref="BladeClash"/> — a true mutual clash, not just a well-timed parry
+        /// against a slow swing. <paramref name="attackerBlade"/> null (e.g. <see cref="ForceStagger"/>'s
+        /// posture-break path) skips the clash check entirely.
+        /// </summary>
+        protected void Deflect(Vector3 point, BladeDamager attackerBlade)
         {
             // Sunder Beat: only a deflect that lands while this enemy is actually Active (mid-swing) can
             // be "perfect" — Enemy also widens the parry window into late Windup, but pre-empting a
@@ -225,6 +283,9 @@ namespace Ronin7.Enemies
                 float quality = ParryTiming.ParryQuality(timer, PerfectParryWindow);
                 if (quality > 0f) EventBus.Publish(new PerfectParry(point, gameObject, quality));
             }
+
+            if (attackerBlade != null && ParryTiming.IsClash(attackerBlade.Speed, swingSpeed, ClashThreshold))
+                EventBus.Publish(new BladeClash(point, gameObject));
 
             deflectedThisSwing = true;
             staggerFromEuler = currentEuler;
