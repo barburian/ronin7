@@ -103,6 +103,11 @@ namespace Ronin7.Ship
 
         private void Update()
         {
+            // Misconfigured/unwired (no ship health to measure from, no controller to trim): skip the
+            // whole scan rather than paying per-frame dictionary bookkeeping for a no-op — mirrors
+            // SunHeatDamage's early-out guard.
+            if (shipHealth == null && shipController == null) return;
+
             ScanNearMisses();
 
             // Idle decay, unscaled so an unrelated slow-mo elsewhere can't stretch/shrink it (mirrors

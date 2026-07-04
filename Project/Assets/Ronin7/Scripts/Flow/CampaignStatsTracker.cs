@@ -36,6 +36,10 @@ namespace Ronin7.Flow
         private void OnEntityDied(EntityDied evt)
         {
             if (VRRig.Instance != null && evt.Entity == VRRig.Instance.gameObject) return;
+            // Practice targets don't count as defeats — a player grinding the dojo dummy to zero
+            // outside a drill would otherwise inflate the career stat. String-based GetComponent
+            // keeps Flow decoupled from the Ronin7.Enemies assembly (rare event, cost is fine).
+            if (evt.Entity != null && evt.Entity.GetComponent("TrainingDummy") != null) return;
             CampaignStats.RecordEnemyDefeated();
         }
 

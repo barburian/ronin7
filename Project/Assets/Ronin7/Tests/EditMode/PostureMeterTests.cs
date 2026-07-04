@@ -93,6 +93,28 @@ namespace Ronin7.Tests.EditMode
         }
 
         [Test]
+        public void OnDamaged_LethalBreakBonus_DoesNotStaggerTheDead()
+        {
+            // Regression: Health fires Died synchronously inside ApplyDamage, so a break bonus that
+            // kills used to be followed by ForceStagger() overwriting State.Dead — resurrecting the
+            // enemy into its post-stagger state and leaking the CombatActivity aggro count.
+            _go = new GameObject("PostureMeterLethalTestTarget");
+            var health = _go.AddComponent<Health>();
+            health.Configure(125f);
+            var dummy = _go.AddComponent<TrainingDummy>(); // concrete MeleeAttacker; lifecycle NOT driven
+            var meter = StartMeter(_go);
+
+            // 120 dmg: leaves 5 HP (alive), posture 120*0.9=108 >= 100 breaks, bonus 12 kills.
+            health.ApplyDamage(new DamageInfo(120f, Vector3.zero, Vector3.forward, null));
+
+            Assert.IsFalse(health.IsAlive, "Break bonus should have been lethal in this setup.");
+            var stateField = typeof(MeleeAttacker).GetField("state", BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.IsNotNull(stateField, "MeleeAttacker.state field not found — update this test.");
+            Assert.AreNotEqual("Stagger", stateField.GetValue(dummy).ToString(),
+                "A dead enemy must not be forced into Stagger by the posture break.");
+        }
+
+        [Test]
         public void OnDamaged_BelowThreshold_AccumulatesWithoutBreaking()
         {
             _go = new GameObject("PostureMeterTestTarget");

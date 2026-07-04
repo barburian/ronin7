@@ -74,7 +74,11 @@ namespace Ronin7.Enemies
             health.ApplyDamage(new DamageInfo(breakBonusDamage, transform.position, info.Direction, info.Source));
             applyingBonus = false;
 
-            GetComponent<MeleeAttacker>()?.ForceStagger();
+            // The bonus damage can be lethal, and Health fires Died synchronously inside ApplyDamage —
+            // by this line the FSM may already be in State.Dead. Forcing Stagger then would overwrite
+            // Dead and resurrect the enemy into its post-stagger state (Chase for Enemy), leaking the
+            // CombatActivity aggro count and blocking saves. Only stagger the living.
+            if (health.IsAlive) GetComponent<MeleeAttacker>()?.ForceStagger();
             EventBus.Publish(new PostureBroken(gameObject));
         }
 
