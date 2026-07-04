@@ -61,19 +61,19 @@ namespace Ronin7.Editor.Art
             foreach (var job in AmbienceJobs)
             {
                 float[] samples = ProceduralAudioSynth.GenerateAmbienceBed(SampleRate, AmbienceDuration, job.seed, job.theme);
-                CreateOrUpdateClip($"{AmbienceFolder}/{job.name}.asset", job.name, samples);
+                CreateOrUpdateClip($"{AmbienceFolder}/{job.name}.wav", samples);
                 ambienceCount++;
             }
             foreach (var job in FootstepHardJobs)
             {
                 float[] samples = ProceduralAudioSynth.GenerateFootstepThud(SampleRate, FootstepDuration, job.seed, FootstepSurface.Hard);
-                CreateOrUpdateClip($"{FootstepFolder}/{job.name}.asset", job.name, samples);
+                CreateOrUpdateClip($"{FootstepFolder}/{job.name}.wav", samples);
                 footstepCount++;
             }
             foreach (var job in FootstepSoftJobs)
             {
                 float[] samples = ProceduralAudioSynth.GenerateFootstepThud(SampleRate, FootstepDuration, job.seed, FootstepSurface.Soft);
-                CreateOrUpdateClip($"{FootstepFolder}/{job.name}.asset", job.name, samples);
+                CreateOrUpdateClip($"{FootstepFolder}/{job.name}.wav", samples);
                 footstepCount++;
             }
 
@@ -88,12 +88,12 @@ namespace Ronin7.Editor.Art
         {
             var ambienceClips = new Dictionary<AmbienceTheme, AudioClip>();
             foreach (var job in AmbienceJobs)
-                ambienceClips[job.theme] = AssetDatabase.LoadAssetAtPath<AudioClip>($"{AmbienceFolder}/{job.name}.asset");
+                ambienceClips[job.theme] = AssetDatabase.LoadAssetAtPath<AudioClip>($"{AmbienceFolder}/{job.name}.wav");
 
             var footstepClips = new List<AudioClip>();
             foreach (var job in FootstepHardJobs)
             {
-                var clip = AssetDatabase.LoadAssetAtPath<AudioClip>($"{FootstepFolder}/{job.name}.asset");
+                var clip = AssetDatabase.LoadAssetAtPath<AudioClip>($"{FootstepFolder}/{job.name}.wav");
                 if (clip != null) footstepClips.Add(clip);
             }
 
@@ -121,6 +121,7 @@ namespace Ronin7.Editor.Art
                     AmbienceTheme theme = InferTheme(layer.gameObject.name);
                     if (!ambienceClips.TryGetValue(theme, out var clip) || clip == null) continue;
                     if (source.clip == clip && source.loop) continue; // already assigned
+                    if (source.clip != null) continue; // hand-authored clip present -- don't clobber it
 
                     Undo.RecordObject(source, "Assign Generated Clips");
                     source.clip = clip;
@@ -147,6 +148,13 @@ namespace Ronin7.Editor.Art
                         }
                     }
                     if (alreadyAssigned) continue;
+
+                    bool hasRealClips = false;
+                    for (int i = 0; i < clipsProp.arraySize; i++)
+                    {
+                        if (clipsProp.GetArrayElementAtIndex(i).objectReferenceValue != null) { hasRealClips = true; break; }
+                    }
+                    if (hasRealClips) continue; // hand-authored/pipeline clips present -- don't clobber them
 
                     Undo.RecordObject(cadence, "Assign Generated Clips");
                     clipsProp.arraySize = footstepClips.Count;
@@ -175,23 +183,39 @@ namespace Ronin7.Editor.Art
             return AmbienceTheme.HangarHum;
         }
 
-        /// <summary>Refills an existing clip's PCM data in place when its format still matches
-        /// (preserves the asset GUID -- scene/prefab references survive); otherwise recreates it.</summary>
-        private static void CreateOrUpdateClip(string path, string clipName, float[] samples)
+        /// <summary>Writes a 16-bit PCM .wav file to disk at <paramref name="path"/> and (re)imports it
+        /// through Unity's AudioImporter -- AudioClip.Create + AssetDatabase.CreateAsset does NOT persist
+        /// PCM data to disk, which previously produced empty (m_Length: 0) clip stubs. Overwriting the same
+        /// path on repeat runs keeps the same asset GUID, so existing scene/prefab references survive.</summary>
+        private static void CreateOrUpdateClip(string path, float[] samples)
         {
-            var existing = AssetDatabase.LoadAssetAtPath<AudioClip>(path);
-            if (existing != null && existing.samples == samples.Length && existing.channels == 1 && existing.frequency == SampleRate)
+            string fullPath = Path.Combine(Path.GetDirectoryName(Application.dataPath), path);
+            using (var stream = new FileStream(fullPath, FileMode.Create))
+            using (var writer = new BinaryWriter(stream))
             {
-                existing.SetData(samples, 0);
-                EditorUtility.SetDirty(existing);
-                return;
+                const int channels = 1, bitsPerSample = 16;
+                int byteRate = SampleRate * channels * bitsPerSample / 8;
+                short blockAlign = (short)(channels * bitsPerSample / 8);
+                int dataSize = samples.Length * channels * bitsPerSample / 8;
+
+                writer.Write(System.Text.Encoding.ASCII.GetBytes("RIFF"));
+                writer.Write(36 + dataSize);
+                writer.Write(System.Text.Encoding.ASCII.GetBytes("WAVE"));
+                writer.Write(System.Text.Encoding.ASCII.GetBytes("fmt "));
+                writer.Write(16); // fmt chunk size
+                writer.Write((short)1); // PCM
+                writer.Write((short)channels);
+                writer.Write(SampleRate);
+                writer.Write(byteRate);
+                writer.Write(blockAlign);
+                writer.Write((short)bitsPerSample);
+                writer.Write(System.Text.Encoding.ASCII.GetBytes("data"));
+                writer.Write(dataSize);
+                foreach (float s in samples)
+                    writer.Write((short)Mathf.Clamp(Mathf.RoundToInt(s * short.MaxValue), short.MinValue, short.MaxValue));
             }
 
-            if (existing != null) AssetDatabase.DeleteAsset(path);
-
-            var clip = AudioClip.Create(clipName, samples.Length, 1, SampleRate, false);
-            clip.SetData(samples, 0);
-            AssetDatabase.CreateAsset(clip, path);
+            AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceSynchronousImport);
         }
 
         private static void EnsureFolder(string assetPath)

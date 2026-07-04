@@ -231,6 +231,9 @@ namespace Ronin7.EditorTools
         /// anything else defaults to HangarHum).</summary>
         private static GameObject BuildAmbienceLayer(string name, Vector3 position, float innerRadius, float outerRadius, float maxVolume)
         {
+            var existing = GameObject.Find(name);
+            if (existing != null) return existing; // idempotent
+
             var go = new GameObject(name);
             go.transform.position = position;
             var source = go.AddComponent<AudioSource>();
