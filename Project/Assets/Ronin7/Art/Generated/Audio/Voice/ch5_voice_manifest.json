@@ -1,0 +1,269 @@
+{
+    "lines": [
+        {
+            "file": "ch5_ch5_beat0_briefing_00_meravoss",
+            "speaker": "Mera Voss",
+            "text": "I've read a hundred of these. Pacification logs. This one carries your old line's signature. In and out clean. A settlement scoured, and somebody rounded the count off after."
+        },
+        {
+            "file": "ch5_ch5_beat0_briefing_01_iris",
+            "speaker": "Iris",
+            "text": "The operative-of-record is named Kael Vor. I've run it against everything we have and the name won't resolve. No file, no line, nothing under it. It's a wall."
+        },
+        {
+            "file": "ch5_ch5_beat0_briefing_02_resh",
+            "speaker": "Resh",
+            "text": "So let me say the part everyone's circling. We'd be flying to a graveyard to read his name off the kill-record that put people in it. That's not a rescue. You sure this is the one we pick?"
+        },
+        {
+            "file": "ch5_ch5_beat0_briefing_03_kessler",
+            "speaker": "Kessler",
+            "text": "We've buried a lot to get this crew breathing. Now you want me to fly us to a field of graves. Tell me what's worth the climb back out."
+        },
+        {
+            "file": "ch5_ch5_beat0_briefing_04_meravoss",
+            "speaker": "Mera Voss",
+            "text": "The truth's at the bottom. You don't have to like digging for it. It's the work."
+        },
+        {
+            "file": "ch5_ch5_beat0_briefing_05_mira",
+            "speaker": "Mira",
+            "text": "Is it the bad place?"
+        },
+        {
+            "file": "ch5_ch5_beat0_briefing_06_kessler",
+            "speaker": "Kessler",
+            "text": "It's a sad place, little one. Not a loud one. You stay close to me the whole time. This one isn't for small eyes."
+        },
+        {
+            "file": "ch5_ch5_beat0_briefing_07_echo",
+            "speaker": "Echo",
+            "text": "I'll say the quiet part, since nobody at that table will. You don't save this place, Cipher. You answer for it. The records have your hands in them. I was there for it, and I'll be with you in it again."
+        },
+        {
+            "file": "ch5_ch5_beat0_briefing_08_ronin7",
+            "speaker": "Ronin-7",
+            "text": "No. I don't want this one."
+        },
+        {
+            "file": "ch5_ch5_beat0_briefing_09_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Set the course anyway. If my name was buried somewhere, it was buried with them."
+        },
+        {
+            "file": "ch5_ch5_beat0_briefing_10_kessler",
+            "speaker": "Kessler",
+            "text": "We go careful. Quiet. And nothing of ours stays down there. Iris, plot it, then you and Mera stay on the Cairn and keep tearing into those records."
+        },
+        {
+            "file": "ch5_ch5_beat1_approach_00_echo",
+            "speaker": "Echo",
+            "text": "She's not a scavenger, not a picker. She's been standing at that grave since before we landed. Careful, Cipher. This isn't a fight. It's worse than one."
+        },
+        {
+            "file": "ch5_ch5_beat1_approach_01_echo",
+            "speaker": "Echo",
+            "text": "Doors all open. Nobody left to close them."
+        },
+        {
+            "file": "ch5_ch5_beat1_accusation_00_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "Don't. Don't say you're sorry, and don't say you're here to help. The last people who walked out of the sky carried that wrapped thing on your hip, and they didn't help. They counted us and they left."
+        },
+        {
+            "file": "ch5_ch5_beat1_accusation_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I'm not going to say either of those."
+        },
+        {
+            "file": "ch5_ch5_beat1_accusation_02_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "You logged this as pacification. A clean word so the men who did it could sleep. There were children in that count."
+        },
+        {
+            "file": "ch5_ch5_beat1_accusation_03_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "This one was my sister. Kira. She was fourteen. She kept lists of the ships that came through, because she liked the names. And then a ship came through that didn't have a name, and it had you on it."
+        },
+        {
+            "file": "ch5_ch5_beat1_accusation_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I won't lie to you. I don't remember her. I don't remember any of them. They took it out of me when it was finished. I won't dress that up as anything but what it is."
+        },
+        {
+            "file": "ch5_ch5_beat1_kira_named_00_ronin7",
+            "speaker": "Ronin-7",
+            "text": "What I have is the sword. It remembers what I can't. It says I was there. It says I was late. And late doesn't help her. Or you."
+        },
+        {
+            "file": "ch5_ch5_beat1_kira_named_01_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "Late. You stood in my square with that sword and you were late. What does a thing like you even mean by late."
+        },
+        {
+            "file": "ch5_ch5_beat1_kira_named_02_echo",
+            "speaker": "Echo",
+            "text": "She wants to and she can't. Give her the truth. It's all you've got that's worth anything to her."
+        },
+        {
+            "file": "ch5_ch5_beat1_kira_named_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I can tell you what late meant. No one sees inside this but me and the blade. I'll walk it again and say every second out loud as I see it. If you want that, I won't make you."
+        },
+        {
+            "file": "ch5_ch5_beat1_kira_named_04_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "Tell me, then. I've spent ten years not knowing how she went. Whatever it is, it can't be worse than the version I built in the dark."
+        },
+        {
+            "file": "ch5_ch5_beat2_dive_intro_00_echo",
+            "speaker": "Echo",
+            "text": "This is the part I never wanted to play back for you. I rode behind those eyes when they did this. I logged every second and couldn't stop a single one of them. Stay with me, Cipher. We only have to watch."
+        },
+        {
+            "file": "ch5_ch5_beat2_dive_intro_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "The square's full. Stalls up, people trading. There's a girl by the well with a slate, counting ships. I come up the lane with the blade, and I'm not hurrying. I'm telling you what I see, Vera."
+        },
+        {
+            "file": "ch5_ch5_beat2_counting_stock_00_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "You say it so flat. Like stock. That was a market. Those were people. That was my sister. And you walked through it counting."
+        },
+        {
+            "file": "ch5_ch5_beat2_counting_stock_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I felt nothing. I know how that sounds. They built me so this would feel like nothing."
+        },
+        {
+            "file": "ch5_ch5_beat2_counting_stock_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "There's no monster here to find, Vera. Just a hand that did what it was told and never asked."
+        },
+        {
+            "file": "ch5_ch5_beat2_hesitation_00_echo",
+            "speaker": "Echo",
+            "text": "Here. This is the second you've been carrying without knowing the shape of it. Watch his hand. Forget the blade. The hand."
+        },
+        {
+            "file": "ch5_ch5_beat2_hesitation_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "There. That's late. Something in me moved for the first time, and it moved a half second after it could have mattered. One breath too slow to save her."
+        },
+        {
+            "file": "ch5_ch5_beat2_hesitation_02_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "You hesitated."
+        },
+        {
+            "file": "ch5_ch5_beat2_hesitation_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "For the first time in my life. And it didn't save her. I've spared people since because of what started in this square."
+        },
+        {
+            "file": "ch5_ch5_beat2_hesitation_04_echo",
+            "speaker": "Echo",
+            "text": "I logged this as a fault for years, Cipher. It was the first true thing you ever did. And it was too late to matter. I can't make that into one thing."
+        },
+        {
+            "file": "ch5_ch5_beat3_ledger_00_iris",
+            "speaker": "Iris",
+            "text": "Cipher. I need you to hear this now, it changes the shape of what you just told her. We finished cross-checking the command records against your own Program file. They don't match."
+        },
+        {
+            "file": "ch5_ch5_beat3_ledger_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Match how."
+        },
+        {
+            "file": "ch5_ch5_beat3_ledger_02_iris",
+            "speaker": "Iris",
+            "text": "The operative-of-record for this massacre is logged as Kael Vor. The name I flagged at the briefing. It still won't resolve, because there's nothing under it to resolve to. Nobody misfiled this. They planted it."
+        },
+        {
+            "file": "ch5_ch5_beat3_ledger_03_meravoss",
+            "speaker": "Mera Voss",
+            "text": "She's right, and I've seen the trick a hundred times without turning it over. We logged kills under cover-names so the count would belong to a man who didn't exist. Kael Vor was a coat the Program hung the bodies on."
+        },
+        {
+            "file": "ch5_ch5_beat3_ledger_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "So the name they hung this on isn't even mine."
+        },
+        {
+            "file": "ch5_ch5_beat3_ledger_05_iris",
+            "speaker": "Iris",
+            "text": "It was never yours, Cipher. Someone printed Kael Vor to carry the blame so the hand that did this could be wiped clean and kept."
+        },
+        {
+            "file": "ch5_ch5_beat3_ledger_06_echo",
+            "speaker": "Echo",
+            "text": "I carried that name behind your eyes for years and logged it as fact. They leave you a fake to hold so you never go looking for the real one. We go looking now."
+        },
+        {
+            "file": "ch5_ch5_beat3_ledger_07_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Even the name on it was a lie. They couldn't tell the truth about who killed her."
+        },
+        {
+            "file": "ch5_ch5_beat4_demand_00_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "I've imagined this with a thousand faces on you. Now I have the real one, and I have what you did, and I have a gun. Give me one reason this isn't the simplest thing I've ever done."
+        },
+        {
+            "file": "ch5_ch5_beat4_demand_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I won't give you one. You don't owe me a reason. If my life is what clears it, take it. I won't lift the blade and I won't ask you not to."
+        },
+        {
+            "file": "ch5_ch5_beat4_demand_02_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "I came here to kill you. I've planned it for ten years. And I just listened to you walk back into the worst second of her life and tell me every piece of it without flinching."
+        },
+        {
+            "file": "ch5_ch5_beat4_verdict_00_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "They built a hand that doesn't feel. And it felt something in my square. No wonder they were afraid of you. And killing it won't raise her."
+        },
+        {
+            "file": "ch5_ch5_beat4_verdict_01_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "Dying's easy. You'd be gone in a second and I'd still be standing here. So you don't get easy. You stay alive, and every day you do, you owe her. You won't ever be done."
+        },
+        {
+            "file": "ch5_ch5_beat4_verdict_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I'll carry it. I won't pretend I can earn it down to nothing, because I can't. But I'll carry her name as long as I've got a hand to carry it. That much I can actually promise."
+        },
+        {
+            "file": "ch5_ch5_beat4_verdict_03_meravoss",
+            "speaker": "Mera Voss",
+            "text": "Twice now. Kerrax in the caves, this one over a grave. I spent nine years certain the metal couldn't choose twice. I don't know what I'm sure of anymore."
+        },
+        {
+            "file": "ch5_ch5_beat4_release_00_resh",
+            "speaker": "Resh",
+            "text": "Do we take her with us. We don't leave people standing alone in a place like this."
+        },
+        {
+            "file": "ch5_ch5_beat4_release_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "No. She's not crew. She's got her dead to stay with, and that's hers."
+        },
+        {
+            "file": "ch5_ch5_beat4_release_02_veradusk",
+            "speaker": "Vera Dusk",
+            "text": "He's right. I'm not joining your war. I'm staying with her, and the others under this ash, until I know they're remembered by someone who isn't a record. But I'll know your name when it's a true one. Come back and tell me, when you've dug it up."
+        },
+        {
+            "file": "ch5_ch5_beat4_hook_00_ronin7",
+            "speaker": "Ronin-7",
+            "text": "If the name they hung on me was a lie, then everything behind it is too. The grave, the file, the man I thought I half-remembered. None of it real."
+        },
+        {
+            "file": "ch5_ch5_beat4_hook_01_echo",
+            "speaker": "Echo",
+            "text": "Forget who they told you you were. We find who's under it. I've got nothing but time, Cipher, and I was there for the start of it. We'll find the rest."
+        }
+    ]
+}
