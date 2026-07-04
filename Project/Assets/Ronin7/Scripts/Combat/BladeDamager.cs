@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Ronin7.Core;
 using UnityEngine;
@@ -9,7 +10,8 @@ namespace Ronin7.Combat
     /// <summary>
     /// Sits on the blade collider (a trigger). Samples its own speed and, on contact with a
     /// <see cref="Health"/>, deals damage scaled by swing speed. Ignores the wielder so you
-    /// can't cut yourself, and rate-limits hits so one swing lands once.
+    /// can't cut yourself, and rate-limits hits per target so one swing can't multi-hit the
+    /// same enemy, while still landing on every other target it touches in that swing.
     /// </summary>
     [RequireComponent(typeof(Collider))]
     public class BladeDamager : MonoBehaviour
@@ -24,7 +26,7 @@ namespace Ronin7.Combat
         private WeaponDefinition definition;
         private Vector3 lastPos;
         private float speed;
-        private float lastHitTime = -999f;
+        private readonly Dictionary<Health, float> lastHitTimes = new();
         private PlayerCombatModifiers wielderMods;
 
         /// <summary>Current blade speed in m/s (world), exponentially smoothed.</summary>
@@ -67,6 +69,19 @@ namespace Ronin7.Combat
         /// </summary>
         internal static float ApplyWielderMultiplier(float baseDamage, float multiplier) => baseDamage * multiplier;
 
+        /// <summary>
+        /// Per-target hit debounce: registers a hit for <paramref name="target"/> at <paramref name="now"/>
+        /// if its last hit was at least <paramref name="cooldown"/> ago (or never), returning whether the
+        /// hit should land. Keyed per target so one swing can hit multiple enemies while still rate-limiting
+        /// repeat hits on the same one. Pure/stateless over the passed-in map, mirroring <see cref="SmoothSpeed"/>.
+        /// </summary>
+        internal static bool TryRegisterHit(Dictionary<Health, float> lastHitTimes, Health target, float now, float cooldown)
+        {
+            if (lastHitTimes.TryGetValue(target, out float last) && now - last < cooldown) return false;
+            lastHitTimes[target] = now;
+            return true;
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (definition == null) return;
@@ -77,7 +92,7 @@ namespace Ronin7.Combat
             // Don't damage whoever is holding the sword (sword is parented under them).
             if (((Component)health).transform.root == transform.root) return;
 
-            if (Time.time - lastHitTime < definition.hitCooldown) return;
+            if (!TryRegisterHit(lastHitTimes, health, Time.time, definition.hitCooldown)) return;
 
             float dmg = definition.DamageForSpeed(speed);
             // Resolve the wielder's modifiers at hit time: while held, transform.root is the rig, so its
@@ -86,7 +101,6 @@ namespace Ronin7.Combat
             dmg = ApplyWielderMultiplier(dmg, wielderMods != null ? wielderMods.DamageMultiplier : 1f);
             if (dmg <= 0f) return;
 
-            lastHitTime = Time.time;
             Vector3 point = other.ClosestPoint(transform.position);
             Vector3 dir = (other.transform.position - transform.position).normalized;
             health.ApplyDamage(new DamageInfo(dmg, point, dir, transform.root.gameObject));

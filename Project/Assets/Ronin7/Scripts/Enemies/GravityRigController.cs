@@ -44,9 +44,11 @@ namespace Ronin7.Enemies
             StateChanged?.Invoke(state);
         }
 
-        /// <summary>Advance to the next state in the cycle (wrapping).</summary>
+        /// <summary>Advance to the next state in the cycle (wrapping). No-op if the cycle is empty
+        /// (e.g. a designer cleared it), which would otherwise divide by zero.</summary>
         public void Advance()
         {
+            if (cycle == null || cycle.Length == 0) return;
             cycleIndex = (cycleIndex + 1) % cycle.Length;
             SetState(cycle[cycleIndex]);
         }
@@ -97,7 +99,9 @@ namespace Ronin7.Enemies
         private void Awake()
         {
             cycleIndex = 0;
-            CurrentState = cycle[0];
+            // Fall back to Normal when the cycle is empty (e.g. a designer cleared it) instead of
+            // crashing on cycle[0].
+            CurrentState = (cycle != null && cycle.Length > 0) ? cycle[0] : GravityState.Normal;
             stateTimer = 0f;
 
             foreach (var body in affectedBodies)

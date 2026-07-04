@@ -198,6 +198,50 @@ namespace Ronin7.Tests.EditMode
             Assert.IsTrue(_health.IsAlive);
         }
 
+        // ---- Heal guard (mirrors ApplyDamage's non-positive/NaN guard). ----
+
+        [Test]
+        public void Heal_NegativeAmount_IsIgnored()
+        {
+            _health.ApplyDamage(MakeDamage(40f)); // drop below max so a heal would be observable: Current = 60
+
+            _health.Heal(-10f);
+
+            Assert.AreEqual(60f, _health.Current);
+        }
+
+        [Test]
+        public void Heal_NaNAmount_IsIgnored()
+        {
+            _health.ApplyDamage(MakeDamage(40f));
+
+            _health.Heal(float.NaN);
+
+            Assert.AreEqual(60f, _health.Current);
+        }
+
+        [Test]
+        public void Heal_ZeroAmount_IsIgnored()
+        {
+            _health.ApplyDamage(MakeDamage(40f));
+
+            _health.Heal(0f);
+
+            Assert.AreEqual(60f, _health.Current);
+        }
+
+        [Test]
+        public void Heal_PositiveAmount_IncreasesCurrent_ClampsAtMax()
+        {
+            _health.ApplyDamage(MakeDamage(40f)); // Current = 60
+
+            _health.Heal(30f);
+            Assert.AreEqual(90f, _health.Current);
+
+            _health.Heal(30f); // would overshoot to 120, must clamp at max
+            Assert.AreEqual(100f, _health.Current);
+        }
+
         [Test]
         public void ApplyDamage_InterceptorSpendsOnce_SecondLethalBlowKills()
         {

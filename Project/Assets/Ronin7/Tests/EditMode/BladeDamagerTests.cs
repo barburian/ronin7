@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using NUnit.Framework;
 using Ronin7.Combat;
 using UnityEngine;
@@ -106,6 +107,48 @@ namespace Ronin7.Tests.EditMode
         public void ApplyWielderMultiplier_ZeroDamage_StaysZero()
         {
             Assert.AreEqual(0f, BladeDamager.ApplyWielderMultiplier(0f, 2f));
+        }
+
+        // ---- TryRegisterHit (per-target hit debounce). ----
+        // Guards the fix for a bug where a single global lastHitTime meant one swing could only ever
+        // hit one enemy: every other target touched in the same swing was silently debounced away.
+
+        [Test]
+        public void TryRegisterHit_SameTargetWithinCooldown_ReturnsFalse()
+        {
+            var lastHitTimes = new Dictionary<Health, float>();
+            var target = new GameObject("Target").AddComponent<Health>();
+
+            Assert.IsTrue(BladeDamager.TryRegisterHit(lastHitTimes, target, 0f, 0.5f));
+            Assert.IsFalse(BladeDamager.TryRegisterHit(lastHitTimes, target, 0.2f, 0.5f));
+
+            Object.DestroyImmediate(target.gameObject);
+        }
+
+        [Test]
+        public void TryRegisterHit_SameTargetAfterCooldown_ReturnsTrue()
+        {
+            var lastHitTimes = new Dictionary<Health, float>();
+            var target = new GameObject("Target").AddComponent<Health>();
+
+            Assert.IsTrue(BladeDamager.TryRegisterHit(lastHitTimes, target, 0f, 0.5f));
+            Assert.IsTrue(BladeDamager.TryRegisterHit(lastHitTimes, target, 0.6f, 0.5f));
+
+            Object.DestroyImmediate(target.gameObject);
+        }
+
+        [Test]
+        public void TryRegisterHit_DifferentTargetsSameFrame_BothReturnTrue()
+        {
+            var lastHitTimes = new Dictionary<Health, float>();
+            var targetA = new GameObject("TargetA").AddComponent<Health>();
+            var targetB = new GameObject("TargetB").AddComponent<Health>();
+
+            Assert.IsTrue(BladeDamager.TryRegisterHit(lastHitTimes, targetA, 1f, 0.5f));
+            Assert.IsTrue(BladeDamager.TryRegisterHit(lastHitTimes, targetB, 1f, 0.5f));
+
+            Object.DestroyImmediate(targetA.gameObject);
+            Object.DestroyImmediate(targetB.gameObject);
         }
     }
 }

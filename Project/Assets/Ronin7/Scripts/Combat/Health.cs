@@ -83,6 +83,8 @@ namespace Ronin7.Combat
         public void Heal(float amount)
         {
             if (!IsAlive) return;
+            // Reject non-positive or NaN amounts: mirrors ApplyDamage's guard. !(amount > 0) also rejects NaN.
+            if (!(amount > 0f)) return;
             Current = Mathf.Min(Current + amount, maxHealth);
         }
     }
