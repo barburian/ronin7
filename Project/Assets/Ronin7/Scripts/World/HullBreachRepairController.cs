@@ -24,7 +24,7 @@ namespace Ronin7.World
         [Tooltip("Seconds between each damage pulse from an unsealed breach.")]
         [SerializeField] private float breachInterval = 5f;
 
-        private List<Breach> breaches = new List<Breach>();
+        [SerializeField] private List<Breach> breaches = new List<Breach>();
 
         /// <summary>Number of registered breaches.</summary>
         public int BreachCount => breaches.Count;
@@ -127,6 +127,28 @@ namespace Ronin7.World
             return pulsesApplied;
         }
 
+        private void Start()
+        {
+            ResetPulseClock(Time.time);
+        }
+
+        /// <summary>
+        /// Rebase every breach's pulse clock to <paramref name="now"/>. Without this, a breach added
+        /// with lastPulseTime left at its 0f default fires an instant damage pulse the moment
+        /// Tick() is next called with a large "now" — e.g. a controller enabled minutes into a scene.
+        /// Called from Start() so authored breaches always get a fresh breachInterval grace window
+        /// from activation instead of inheriting a stale absolute timestamp.
+        /// </summary>
+        public void ResetPulseClock(float now)
+        {
+            for (int i = 0; i < breaches.Count; i++)
+            {
+                Breach b = breaches[i];
+                b.lastPulseTime = now;
+                breaches[i] = b;
+            }
+        }
+
         private void Update()
         {
             if (!AllSealed)
@@ -134,6 +156,7 @@ namespace Ronin7.World
         }
 
         /// <summary>Private inner class representing one hull breach.</summary>
+        [System.Serializable]
         private struct Breach
         {
             public string id;

@@ -34,7 +34,13 @@ namespace Ronin7.World.Story
             {
                 int index = i; // capture a per-iteration copy for the closure
                 handlers[i] = () => OnObjectiveDied(index);
-                if (objectives[i] != null) objectives[i].Died += handlers[i];
+                if (objectives[i] != null)
+                    objectives[i].Died += handlers[i];
+                else
+                    // A null/pre-destroyed slot can never die, so it would otherwise block
+                    // onAllComplete forever. Resolve it immediately as already-complete; Complete()
+                    // is idempotent per index so this can't double-fire.
+                    OnObjectiveDied(index);
             }
         }
 

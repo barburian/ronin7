@@ -35,6 +35,9 @@ namespace Ronin7.World
         private bool isActive;
         private float damageTimer;
         private float startCountdown = -1f;
+        /// <summary>The duration actually in effect for the current pulse (may differ from the
+        /// configured pulseDuration when TriggerPulse was called with an explicit override).</summary>
+        private float activeDuration = 1f;
 
         /// <summary>True while the erosion pulse is active.</summary>
         public bool IsActive => isActive;
@@ -43,7 +46,7 @@ namespace Ronin7.World
         /// Vision degradation in [0,1]: 0 when inactive, 1 at pulse start, easing linearly to 0
         /// as the pulse expires. Used by a camera-space overlay to degrade the player's vision.
         /// </summary>
-        public float VisionDegradation => isActive ? Mathf.Clamp01(remaining / pulseDuration) : 0f;
+        public float VisionDegradation => isActive ? Mathf.Clamp01(remaining / activeDuration) : 0f;
 
         /// <summary>Damage multiplier while the pulse is active; 1.0 when inactive.</summary>
         public float DamageTakenMultiplier => isActive ? damageTakenMultiplierWhileActive : 1f;
@@ -86,7 +89,8 @@ namespace Ronin7.World
         public void TriggerPulse(float duration = -1f)
         {
             bool wasActive = isActive;
-            remaining = duration > 0f ? duration : pulseDuration;
+            activeDuration = Mathf.Max(0.0001f, duration > 0f ? duration : pulseDuration);
+            remaining = activeDuration;
             isActive = true;
             damageTimer = 0f;
             if (!wasActive)
