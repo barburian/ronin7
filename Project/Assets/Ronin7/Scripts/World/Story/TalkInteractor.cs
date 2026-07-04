@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Ronin7.Core;
+using Ronin7.World;
 
 namespace Ronin7.World.Story
 {
@@ -72,6 +73,9 @@ namespace Ronin7.World.Story
 
             activeDialogue = npc.Dialogue;
             if (activeDialogue == null) return;
+
+            // Lazily attach the talk-nod animator so it samples this NPC's dialogue audio while it plays.
+            NpcTalkAnimator.EnsureOn(npc.gameObject);
 
             // Pause the NPC's wandering if it has a StoryNpcWander component.
             activeNpcWander = npc.GetComponent<StoryNpcWander>();

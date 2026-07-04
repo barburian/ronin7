@@ -43,6 +43,9 @@ namespace Ronin7.World.Story
         /// <summary>True while a line is currently on screen — i.e. this dialogue is actively playing.</summary>
         public bool IsPlaying => isShowing;
 
+        /// <summary>The audio source lines are played through (read-only; used by NpcTalkAnimator to sample amplitude).</summary>
+        public AudioSource AudioSource => audioSource;
+
         private InputAction advanceResolved;
         private InputAction ownedAdvance; // created when no asset reference resolves (mirrors SettingsMenuToggle)
         private Coroutine playCoroutine;
