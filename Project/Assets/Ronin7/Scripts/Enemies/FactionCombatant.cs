@@ -108,10 +108,12 @@ namespace Ronin7.Enemies
             currentTarget = null;
             float bestDistSq = float.MaxValue;
 
-            foreach (var h in Object.FindObjectsByType<Health>())
+            var active = Health.Active;
+            for (int i = 0; i < active.Count; i++)
             {
-                // Must be alive
-                if (!h.IsAlive) continue;
+                var h = active[i];
+                // Must exist and be alive
+                if (h == null || !h.IsAlive) continue;
 
                 // Skip self
                 if (h.gameObject == gameObject) continue;

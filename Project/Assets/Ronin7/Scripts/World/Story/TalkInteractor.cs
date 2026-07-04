@@ -106,9 +106,10 @@ namespace Ronin7.World.Story
 
             StoryNpc best = null;
             float bestDist = float.MaxValue;
-            var npcs = Object.FindObjectsByType<StoryNpc>();
-            foreach (var npc in npcs)
+            var npcs = StoryNpc.Active;
+            for (int i = 0; i < npcs.Count; i++)
             {
+                var npc = npcs[i];
                 if (npc == null || npc.Talked || npc.Remote || npc.Dialogue == null) continue;
 
                 Vector3 toNpc = npc.transform.position - cam.transform.position;

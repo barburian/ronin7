@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Ronin7.Core;
 using UnityEngine;
 
@@ -27,6 +28,11 @@ namespace Ronin7.Combat
     /// <summary>Standard health pool. Implements the Core damage contract so any system can hurt it.</summary>
     public class Health : MonoBehaviour, IDamageable
     {
+        /// <summary>All enabled Health components, for cheap lookups (nearest-target retargeting,
+        /// weakpoint-sight scans) without a scene-wide FindObjectsByType every frame/interval. Mirrors
+        /// the Ronin7.Ship EnemyShip.Active/Asteroid.Active idiom.</summary>
+        public static readonly List<Health> Active = new();
+
         [SerializeField] private float maxHealth = 100f;
 
         public float Max => maxHealth;
@@ -44,6 +50,15 @@ namespace Ronin7.Combat
         public Func<bool> DeathInterceptor { get; set; }
 
         private void Awake() => Current = maxHealth;
+
+        private void OnEnable() { if (!Active.Contains(this)) Active.Add(this); }
+        private void OnDisable() => Active.Remove(this);
+
+        // Editor sessions with "Enter Play Mode (no domain reload)" keep static state across Play
+        // cycles, which would leak stale entries from a previous run into the next (mirrors EventBus's
+        // reset).
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetOnDomainReload() => Active.Clear();
 
         /// <summary>Set the max pool and refill (used by data-driven enemies / respawns).</summary>
         public void Configure(float max)

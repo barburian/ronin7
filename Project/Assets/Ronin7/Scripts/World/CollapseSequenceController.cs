@@ -48,6 +48,7 @@ namespace Ronin7.World
         private Vector3[] corridorAxis;
         private float corridorLength;
         private bool[] segmentDropped;
+        private float[] segmentThresholds;
         private int segmentsCompleted = 0;
 
         private void Awake()
@@ -68,6 +69,11 @@ namespace Ronin7.World
             }
 
             segmentDropped = new bool[segments.Length];
+
+            // Segment thresholds are immutable after Awake; build the array once instead of per-Update.
+            segmentThresholds = new float[segments.Length];
+            for (int i = 0; i < segments.Length; i++)
+                segmentThresholds[i] = segments[i].triggerProgress;
         }
 
         private void Update()
@@ -79,13 +85,8 @@ namespace Ronin7.World
             Vector3 playerRelative = playerTransform.position - corridorStart.position;
             float progress = Mathf.Clamp01(Vector3.Dot(playerRelative, corridorVec.normalized) / corridorLength);
 
-            // Build threshold array from segments.
-            float[] thresholds = new float[segments.Length];
-            for (int i = 0; i < segments.Length; i++)
-                thresholds[i] = segments[i].triggerProgress;
-
             // Find highest droppable segment.
-            int highest = HighestDroppableSegment(progress, thresholds);
+            int highest = HighestDroppableSegment(progress, segmentThresholds);
 
             // Drop any segments up to and including the highest droppable.
             for (int i = 0; i <= highest; i++)

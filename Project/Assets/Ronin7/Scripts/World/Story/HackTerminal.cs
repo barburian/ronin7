@@ -40,6 +40,7 @@ namespace Ronin7.World.Story
         private bool done;
         private float holdTimer;
         private bool isHolding;
+        private int lastDisplayedPct = -1;
 
         private void OnEnable()
         {
@@ -78,6 +79,7 @@ namespace Ronin7.World.Story
             if (!inRange)
             {
                 holdTimer = 0f;
+                lastDisplayedPct = -1;
                 if (isHolding && audioSource != null)
                 {
                     audioSource.Stop();
@@ -105,8 +107,12 @@ namespace Ronin7.World.Story
                     CompleteHack();
                     return;
                 }
-                float pct = Mathf.RoundToInt(Mathf.Clamp01(holdTimer / hackDuration) * 100f);
-                ShowPrompt($"Hacking… {pct}%");
+                int pct = Mathf.RoundToInt(Mathf.Clamp01(holdTimer / hackDuration) * 100f);
+                if (pct != lastDisplayedPct)
+                {
+                    lastDisplayedPct = pct;
+                    ShowPrompt($"Hacking… {pct}%");
+                }
             }
             else
             {
@@ -117,6 +123,7 @@ namespace Ronin7.World.Story
                     isHolding = false;
                 }
                 holdTimer = 0f;
+                lastDisplayedPct = -1;
                 ShowPrompt("Hold B to hack");
             }
         }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Ronin7.World.Story
@@ -7,6 +8,11 @@ namespace Ronin7.World.Story
     /// </summary>
     public class StoryNpc : MonoBehaviour
     {
+        /// <summary>All enabled StoryNpcs, for cheap nearest-talkable lookups without a scene-wide
+        /// FindObjectsByType every frame. Mirrors the Ronin7.Ship EnemyShip.Active/Asteroid.Active
+        /// idiom.</summary>
+        public static readonly List<StoryNpc> Active = new();
+
         [SerializeField] private string displayName;
         [SerializeField] private string role;
         [SerializeField] private DialoguePlayer dialogue;
@@ -18,6 +24,15 @@ namespace Ronin7.World.Story
         public DialoguePlayer Dialogue => dialogue;
         public bool Remote => remote;
         public bool Talked { get; private set; }
+
+        private void OnEnable() { if (!Active.Contains(this)) Active.Add(this); }
+        private void OnDisable() => Active.Remove(this);
+
+        // Editor sessions with "Enter Play Mode (no domain reload)" keep static state across Play
+        // cycles, which would leak stale entries from a previous run into the next (mirrors EventBus's
+        // reset).
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetOnDomainReload() => Active.Clear();
 
         /// <summary>Mark this NPC as talked-to: hides its arrow so it no longer reads as a target.</summary>
         public void MarkTalked()

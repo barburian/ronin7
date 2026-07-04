@@ -15,6 +15,7 @@ namespace Ronin7.World.Story
 
         private float remainingTime;
         private bool active;
+        private int lastDisplayedTotalSeconds = -1;
 
         private void OnEnable()
         {
@@ -54,6 +55,9 @@ namespace Ronin7.World.Story
             if (textMesh == null) return;
 
             int totalSeconds = Mathf.CeilToInt(remainingTime);
+            if (totalSeconds == lastDisplayedTotalSeconds) return;
+            lastDisplayedTotalSeconds = totalSeconds;
+
             int minutes = totalSeconds / 60;
             int seconds = totalSeconds % 60;
 

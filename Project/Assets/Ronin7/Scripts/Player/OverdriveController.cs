@@ -62,6 +62,7 @@ namespace Ronin7.Player
 
         private Renderer quadRenderer;
         private TextMesh percentText;
+        private int lastDisplayedPercent = -1;
 
         /// <summary>True while the time-dilation burst is running.</summary>
         public bool IsActive => logic != null && logic.IsActive;
@@ -191,7 +192,15 @@ namespace Ronin7.Player
                 ? new Color(0.4f, 0.95f, 1f)
                 : Color.Lerp(new Color(0.15f, 0.2f, 0.4f), new Color(0.5f, 0.6f, 1f), logic.Charge);
             RendererTint.Apply(quadRenderer, tint);
-            if (percentText != null) percentText.text = Mathf.RoundToInt(logic.Charge * 100f) + "%";
+            if (percentText != null)
+            {
+                int pct = Mathf.RoundToInt(logic.Charge * 100f);
+                if (pct != lastDisplayedPercent)
+                {
+                    lastDisplayedPercent = pct;
+                    percentText.text = pct + "%";
+                }
+            }
         }
     }
 }

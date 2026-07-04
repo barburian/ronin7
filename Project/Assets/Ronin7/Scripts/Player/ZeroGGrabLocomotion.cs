@@ -36,6 +36,9 @@ namespace Ronin7.Player
         private Vector3 lastGrabbedHandPos = Vector3.zero;
         private CircularBuffer<Vector3> handVelocityHistory;
 
+        // Reused per-call buffer for OverlapSphereNonAlloc so grab detection costs no GC (mirrors Grabber.cs).
+        private static readonly Collider[] _overlapBuf = new Collider[8];
+
         internal class CircularBuffer<T>
         {
             private T[] buffer;
@@ -142,10 +145,10 @@ namespace Ronin7.Player
 
         private bool IsHandOverHandle(Transform hand)
         {
-            var hits = Physics.OverlapSphere(hand.position, grabDetectRadius, grabLayerMask, QueryTriggerInteraction.Collide);
-            foreach (var hit in hits)
+            int n = Physics.OverlapSphereNonAlloc(hand.position, grabDetectRadius, _overlapBuf, grabLayerMask, QueryTriggerInteraction.Collide);
+            for (int i = 0; i < n; i++)
             {
-                if (hit.GetComponentInParent<ZeroGHandle>() != null)
+                if (_overlapBuf[i].GetComponentInParent<ZeroGHandle>() != null)
                     return true;
             }
             return false;

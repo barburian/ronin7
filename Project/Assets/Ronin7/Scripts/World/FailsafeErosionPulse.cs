@@ -38,6 +38,10 @@ namespace Ronin7.World
         /// <summary>The duration actually in effect for the current pulse (may differ from the
         /// configured pulseDuration when TriggerPulse was called with an explicit override).</summary>
         private float activeDuration = 1f;
+        /// <summary>Vignette RGB captured once from the shared material so per-frame updates only vary alpha.</summary>
+        private Color vignetteBaseColor = Color.black;
+        /// <summary>Last alpha written to the vignette MPB; UpdateVignette no-ops when unchanged.</summary>
+        private float lastVignetteAlpha = -1f;
 
         /// <summary>True while the erosion pulse is active.</summary>
         public bool IsActive => isActive;
@@ -58,6 +62,9 @@ namespace Ronin7.World
         {
             // Auto-wire the player's Health when placed on the rig and left unset in the inspector.
             if (playerHealth == null) playerHealth = GetComponent<Health>();
+            // Read via sharedMaterial (not .material) so this doesn't clone a material instance.
+            if (vignetteRenderer != null && vignetteRenderer.sharedMaterial != null)
+                vignetteBaseColor = vignetteRenderer.sharedMaterial.color;
         }
 
         private void Start()
@@ -129,15 +136,16 @@ namespace Ronin7.World
             }
         }
 
-        /// <summary>Update the vignette renderer's material alpha to match the vision degradation value.</summary>
+        /// <summary>Update the vignette renderer's alpha (via MPB, no material clone) to match the vision degradation value.</summary>
         public void UpdateVignette()
         {
-            if (vignetteRenderer != null && vignetteRenderer.material != null)
-            {
-                Color color = vignetteRenderer.material.color;
-                color.a = VisionDegradation;
-                vignetteRenderer.material.color = color;
-            }
+            if (vignetteRenderer == null) return;
+            float alpha = VisionDegradation;
+            if (Mathf.Approximately(alpha, lastVignetteAlpha)) return;
+            lastVignetteAlpha = alpha;
+            Color color = vignetteBaseColor;
+            color.a = alpha;
+            RendererTint.Apply(vignetteRenderer, color);
         }
 
         /// <summary>Reset the pulse to inactive and clear all timers (fires onPulseEnd once if it was active).</summary>

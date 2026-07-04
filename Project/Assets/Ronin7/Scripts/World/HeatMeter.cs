@@ -35,6 +35,7 @@ namespace Ronin7.World
         private HeatLogic logic;
         private Renderer quadRenderer;
         private TextMesh percentText;
+        private int lastDisplayedPercent = -1;
 
         public float Value => logic != null ? logic.Value : 0f;
 
@@ -95,7 +96,15 @@ namespace Ronin7.World
         private void RefreshUi()
         {
             if (quadRenderer != null) RendererTint.Apply(quadRenderer, Color.Lerp(Color.green, Color.red, logic.Value));
-            if (percentText != null) percentText.text = Mathf.RoundToInt(logic.Value * 100f) + "%";
+            if (percentText != null)
+            {
+                int pct = Mathf.RoundToInt(logic.Value * 100f);
+                if (pct != lastDisplayedPercent)
+                {
+                    lastDisplayedPercent = pct;
+                    percentText.text = pct + "%";
+                }
+            }
         }
     }
 }

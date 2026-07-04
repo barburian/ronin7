@@ -46,6 +46,8 @@ namespace Ronin7.Player
         private WeakpointSightState state;
         private readonly List<Transform> markerPool = new List<Transform>();
         private readonly List<Health> targetsInRange = new List<Health>();
+        private readonly List<Health> candidateHealth = new List<Health>();
+        private readonly List<Vector3> candidatePositions = new List<Vector3>();
         private float nextScanTime;
 
         private void Awake()
@@ -119,21 +121,22 @@ namespace Ronin7.Player
 
         private void RefreshMarkers()
         {
-            var allHealth = FindObjectsByType<Health>(FindObjectsSortMode.None);
-            var candidates = new List<Health>(allHealth.Length);
-            var positions = new List<Vector3>(allHealth.Length);
-            foreach (var h in allHealth)
+            var active = Health.Active;
+            candidateHealth.Clear();
+            candidatePositions.Clear();
+            for (int i = 0; i < active.Count; i++)
             {
+                var h = active[i];
                 if (h == null || !h.IsAlive) continue;
                 if (h.transform.root == transform.root) continue; // skip the player's own Health
-                candidates.Add(h);
-                positions.Add(h.transform.position);
+                candidateHealth.Add(h);
+                candidatePositions.Add(h.transform.position);
             }
 
-            var inRange = WeakpointSightMarkers.SelectInRange(transform.position, positions, markerRadius);
+            var inRange = WeakpointSightMarkers.SelectInRange(transform.position, candidatePositions, markerRadius);
             targetsInRange.Clear();
             for (int i = 0; i < inRange.Count && i < markerPool.Count; i++)
-                targetsInRange.Add(candidates[inRange[i]]);
+                targetsInRange.Add(candidateHealth[inRange[i]]);
 
             for (int i = 0; i < markerPool.Count; i++)
             {
