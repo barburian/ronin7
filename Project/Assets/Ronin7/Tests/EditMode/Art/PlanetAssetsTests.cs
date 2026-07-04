@@ -28,7 +28,6 @@ namespace Ronin7.Tests.EditMode.Art
         }
 
         [Test]
-        [Ignore("Content wiped for new storyline — Planet_VariantA.prefab pending regeneration.")]
         public void PlanetPrefab_Loads_AndHasMeshRendererWithPlanetMaterial()
         {
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PlanetPrefabPath);

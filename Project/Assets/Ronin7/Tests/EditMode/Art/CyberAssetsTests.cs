@@ -45,7 +45,6 @@ namespace Ronin7.Tests.EditMode.Art
         }
 
         [Test]
-        [Ignore("Content wiped for new storyline — CyberNinja.prefab pending regeneration.")]
         public void CyberNinjaPrefab_HasVrRig_AndNoOverlappingColliders()
         {
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabPath);
@@ -63,7 +62,6 @@ namespace Ronin7.Tests.EditMode.Art
         }
 
         [Test]
-        [Ignore("Content wiped for new storyline — CyberNinja.prefab pending regeneration.")]
         public void CyberNinjaPrefab_UsesBothPipelineShaders()
         {
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabPath);
