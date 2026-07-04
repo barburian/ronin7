@@ -161,6 +161,8 @@ namespace Ronin7.Core
             save.statsPostureBreaks = CampaignStats.PostureBreaks;
             save.statsBestCombo = CampaignStats.BestCombo;
 
+            save.drillScores = DrillBestScores.ToSaveList();
+
             return save;
         }
 
@@ -216,6 +218,8 @@ namespace Ronin7.Core
             ShipSelection.SelectedHullIndex = data.shipHullIndex;
 
             CampaignStats.LoadFrom(data.statsEnemiesDefeated, data.statsPerfectParries, data.statsPostureBreaks, data.statsBestCombo);
+
+            DrillBestScores.ApplyFrom(data.drillScores);
         }
 
         /// <summary>

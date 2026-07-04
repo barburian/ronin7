@@ -228,6 +228,7 @@ namespace Ronin7.Flow
             Galaxy1Progress.Reset();
             CampaignState.Reset();
             CampaignStats.Reset();
+            DrillBestScores.Reset();
             StartCoroutine(Transition(shipHubScene, GameMode.OnFoot));
         }
 
@@ -239,6 +240,7 @@ namespace Ronin7.Flow
             Galaxy1Progress.Reset();
             CampaignState.Reset();
             CampaignStats.Reset();
+            DrillBestScores.Reset();
             StartCoroutine(Transition(shipHubScene, GameMode.OnFoot));
         }
 

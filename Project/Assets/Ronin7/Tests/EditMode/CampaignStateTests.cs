@@ -18,6 +18,7 @@ namespace Ronin7.Tests.EditMode
             // Reset campaign state to clean slate
             CampaignState.Reset();
             CampaignStats.Reset();
+            DrillBestScores.Reset();
         }
 
         [TearDown]
@@ -26,6 +27,7 @@ namespace Ronin7.Tests.EditMode
             // Reset state again for cleanliness
             CampaignState.Reset();
             CampaignStats.Reset();
+            DrillBestScores.Reset();
 
             // Restore Galaxy1Progress and ShipSelection
             Galaxy1Progress.FirstPlanetDeparted = savedFirstPlanetDeparted;
@@ -303,6 +305,21 @@ namespace Ronin7.Tests.EditMode
             Assert.AreEqual(1, CampaignStats.PerfectParries);
             Assert.AreEqual(1, CampaignStats.PostureBreaks);
             Assert.AreEqual(3, CampaignStats.BestCombo);
+        }
+
+        [Test]
+        public void ToSaveData_AndApplyFrom_RoundTripsDrillScores()
+        {
+            // Arrange
+            DrillBestScores.RecordIfBetter("hub_dojo", 180);
+
+            // Act
+            SaveData save = CampaignState.ToSaveData();
+            DrillBestScores.Reset();
+            CampaignState.ApplyFrom(save);
+
+            // Assert
+            Assert.AreEqual(180, DrillBestScores.BestFor("hub_dojo"));
         }
 
         [Test]
