@@ -62,5 +62,23 @@ namespace Ronin7.Tests.EditMode
             float w = NpcTalkSolver.SmoothTalkWeight(1f, 0f, 0.1f, 6f);
             Assert.AreEqual(0.4f, w, 1e-4f);
         }
+
+        [Test]
+        public void FallbackTalkWeight_StaysInUnitRangeAndOscillates()
+        {
+            float min = 1f, max = 0f;
+            for (float t = 0f; t < 2f; t += 0.01f)
+            {
+                float w = NpcTalkSolver.FallbackTalkWeight(t);
+                Assert.GreaterOrEqual(w, 0f);
+                Assert.LessOrEqual(w, 1f);
+                if (w < min) min = w;
+                if (w > max) max = w;
+            }
+            // A cadence, not a constant: it must visibly rise and fall over a 2s window.
+            Assert.Greater(max - min, 0.3f);
+            // And it must always clear the driving threshold's neighborhood at its peak so the nod shows.
+            Assert.Greater(max, 0.5f);
+        }
     }
 }

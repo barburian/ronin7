@@ -28,6 +28,15 @@ namespace Ronin7.World
         {
             return Mathf.MoveTowards(current, targetWeight, speedPerSecond * deltaTime);
         }
+
+        /// <summary>Speech-cadence stand-in weight (~3.5 Hz nod around a mid amplitude) used while VO is
+        /// audibly playing but the AudioSource yields no output samples — e.g. hardware where FMOD
+        /// virtualizes voices (no active audio endpoint). Guarantees the talk nod reads on every device;
+        /// real amplitude takes over as soon as a non-zero sample arrives.</summary>
+        public static float FallbackTalkWeight(float time)
+        {
+            return Mathf.Clamp01(0.4f + 0.3f * Mathf.Sin(time * 22f));
+        }
     }
 
     /// <summary>
@@ -60,6 +69,7 @@ namespace Ronin7.World
         private float[] sampleBuffer;
         private float weight;
         private bool driving;
+        private bool heardSamples; // GetOutputData has returned real data at least once — trust it from then on
 
         /// <summary>Adds (or finds) a talk animator on the given NPC root.</summary>
         public static NpcTalkAnimator EnsureOn(GameObject npc)
@@ -99,7 +109,10 @@ namespace Ronin7.World
                     sumSq += s * s;
                 }
                 float rms = Mathf.Sqrt(sumSq / sampleBuffer.Length);
-                targetWeight = NpcTalkSolver.ComputeTalkWeight(rms, noiseFloor, saturateRms);
+                if (rms > 0f) heardSamples = true;
+                targetWeight = heardSamples
+                    ? NpcTalkSolver.ComputeTalkWeight(rms, noiseFloor, saturateRms)
+                    : NpcTalkSolver.FallbackTalkWeight(Time.time);
             }
 
             weight = NpcTalkSolver.SmoothTalkWeight(weight, targetWeight, Time.deltaTime, smoothSpeed);
