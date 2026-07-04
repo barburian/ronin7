@@ -36,7 +36,8 @@ and validated headless via Unity 6000.3.2f1 EditMode tests. **Test suite: 356 �
 2. **Combat juice (T3.4):** hit/kill haptics, reticle hit-confirm, audio stingers — infra exists
    (`CombatFeedbackController`, `Haptics`, `AudioDirector`); tune in-headset (no camera shake).
 3. **Quest profiling (T0.3/T2.5):** capture frame-time/draw-calls/GC on-device to confirm the 90 FPS floor
-   and quantify the bloom/instancing wins. Static baseline: 635 materials (288 orphan), suite 400 tests.
+   and quantify the bloom/instancing wins. Static baseline: 635 materials (288 orphan), suite 639
+   EditMode tests (0 skips), PlayMode 70/70.
 4. **PlayMode stress test (T6.2):** worst-case projectiles+enemies asserting frame budget (needs graphics).
 5. **Scene smoke + dual-platform build (T7):** menu→ship-select→combat→sun-nav→save/load→game-over;
    Quest + PCVR builds.
@@ -49,3 +50,34 @@ and validated headless via Unity 6000.3.2f1 EditMode tests. **Test suite: 356 �
 `Unity.exe -runTests -batchmode -projectPath "<proj>" -testPlatform EditMode -testResults res.xml`
 (On Windows `Unity.exe` forks the editor and the launcher returns early — wait for the results XML, not the
 launcher exit.)
+
+## 2026-07-04 — Continuous studio pipeline (chapter-build sprints)
+
+Since the audit pass above, ~11 sprints of chapter-build work landed via the same
+implement→review→test agent loop, shipping chapters Ch02 through Ch16 (Galaxy1 saga complete)
+plus an editor-wide immersion pass. **Test suite: 400 → 639 EditMode (0 skips); PlayMode 70/70 green.**
+
+### What shipped
+- **Immersion component pass** — all 14 scenes (`Galaxy1_Ch1_Hub`, `Ch02`..`Ch13`, `Ch16`) now carry
+  `HeartbeatHaptics`, `NpcGazeGlance`, `AmbientLightPulse`, `ConsoleFlickerLight`, `ProximityGlowLight`,
+  `DamageAlertLighting`. `ProximityAmbienceLayer` and `NpcFootstepCadence` exist but are unwired,
+  pending audio clips.
+- **Core infra** — `Health.Active` / `StoryNpc.Active` static registries replace per-frame
+  `FindObjectsByType` lookups; `LightBudget.ShouldAnimate` gates decorative lights on Quest tier;
+  per-target `BladeDamager` cooldown (fixes cleave over-damage); `ZeroG` fixes; `InputResolver`
+  severity split; `GravityRig` / `DreamPhantom` guards; `GameFlowManager` transition guards +
+  arrival autosave (`ShouldAutosaveOnArrival`).
+- **Repo hygiene** — `UnityYAMLMerge` merge driver configured repo-locally; `.gitattributes` macros
+  fixed (root file; the `lfs` macro is deliberately left undefined until a remote LFS store exists).
+- **Restored test content** — `Planet_VariantA.prefab`, `CyberNinja.prefab` (`[Ignore]`s removed).
+- NPC walk rig (procedural 5-bone skinning) and voice-over for all 13 story chapters committed.
+
+### Still open
+- `ProjectSettings/EditorBuildSettings.asset` carries 12 dangling zero-GUID scene entries
+  (leftover from deleted EP-scenes) — discard vs. keep is a pending user decision.
+- Orphan materials note still applies (~288 unreferenced, regenerable via `Editor/Art/ArtGenerationMenu`,
+  reversible cleanup only).
+- MeshCollider pass (7 scenes, see hygiene findings above) — audit in progress.
+- Sun-nav still additive / off by default pending in-headset tuning.
+- Combat juice infra still needs hardware tuning.
+- A5 death-latch fix in progress.

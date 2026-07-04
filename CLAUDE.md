@@ -27,7 +27,7 @@ and the EP01 combat intro — idling there is a game-over state, not a safe menu
 
 ## Build / Run / Test
 
-EditMode gate (baseline: **400 tests green**):
+EditMode gate (baseline: **639 tests green, 0 skips**; PlayMode: **70/70 green**):
 
 ```
 Unity.exe -runTests -batchmode -projectPath "Project" -testPlatform EditMode -testResults res.xml
@@ -61,12 +61,14 @@ the dedicated Unity skill over `script-execute`-everything:
 - **Orphan materials:** ~288 unreferenced material variants exist but are regenerable via
   `Editor/Art/ArtGenerationMenu`. Reversible cleanup only — **do not auto-delete.**
 - **MeshColliders in 7 scenes** (on-foot zones / planet terrain) flagged for an in-editor pass;
-  replacing needs per-scene validation.
+  replacing needs per-scene validation (audit in progress).
 - **Sun-nav** (`SunGravityWell` / `SunGlare` / `SunCompass`) is unit-tested but **additive and
   off by default** pending in-headset tuning. See `Project/Docs/SunNavigation-Design.md`.
 - **Combat juice** infra exists (`CombatFeedbackController`, `Haptics`, `AudioDirector`) — needs
   tuning on hardware, no camera shake.
-- **Reuse, don't reinvent:** `ProjectilePool` (pooling), `RendererTint` (MPB batching), `SaveSystem`.
+- **Reuse, don't reinvent:** `ProjectilePool` (pooling), `RendererTint` (MPB batching), `SaveSystem`,
+  `Health.Active` / `StoryNpc.Active` (static registries — no per-frame `FindObjectsByType`),
+  `LightBudget.ShouldAnimate` (Quest-tier decorative-light gating).
 
 ## Conventions
 
