@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Ronin7.Combat;
 using Ronin7.Core;
 using UnityEngine;
+using UnityEngine.XR;
 
 namespace Ronin7.Ship
 {
@@ -47,6 +48,8 @@ namespace Ronin7.Ship
         // destroyed/no-longer-active keys (see PruneStale). A normal belt pass never has this many
         // asteroids simultaneously close, so this never triggers in the common case.
         private const int PruneCheckThreshold = 16;
+        // Mirrors ParryFlowController's HapticDuration — a short confirmation tick, not a rumble.
+        private const float HapticDuration = 0.06f;
 
         [Header("Refs")]
         [Tooltip("The ship this trims. Left empty, resolved via GetComponent on this object.")]
@@ -135,6 +138,23 @@ namespace Ronin7.Ship
         /// FORMULA — feel needs an in-headset pass (flagged by design).</summary>
         public static float SpeedMultiplier(int streak, float perStack) => 1f + streak * perStack;
 
+        /// <summary>Haptic pulse amplitude for the current streak, mirroring
+        /// <see cref="Ronin7.Player.ParryFlowController"/>'s own per-stack ramp (base 0.3, +0.1 per
+        /// stack), clamped to the valid [0, 1] amplitude range.</summary>
+        public static float AmplitudeForStreak(int streak) => Mathf.Clamp01(0.3f + 0.1f * streak);
+
+        /// <summary>Fire-and-forget controller haptic impulse. Duplicated from
+        /// <see cref="Ronin7.Player.Haptics"/> rather than referenced: <c>Ronin7.Player</c> already
+        /// references <c>Ronin7.Ship</c> (this assembly), so a reference the other way would be
+        /// circular. Body is an exact mirror of <see cref="Ronin7.Player.Haptics.Pulse"/>.</summary>
+        private static void Pulse(XRNode node, float amplitude, float duration)
+        {
+            var device = InputDevices.GetDeviceAtXRNode(node);
+            if (!device.isValid) return;
+            if (device.TryGetHapticCapabilities(out var caps) && caps.supportsImpulse)
+                device.SendHapticImpulse(0u, amplitude, duration);
+        }
+
         /// <summary>Scans every live asteroid against the ship hull, exactly mirroring
         /// AsteroidHazard.ScanPlayer's world-space distance check, and advances each asteroid's
         /// per-approach state (see the class summary's state machine).</summary>
@@ -181,6 +201,12 @@ namespace Ronin7.Ship
             streak = NextStreak(streak, maxStreak);
             lastNearMissUnscaledTime = Time.unscaledTime;
             ApplyMultiplier();
+
+            // Confirmation tick on every clean pass — both hands, since piloting has no off-hand
+            // convention the way melee does (see ParryFlowController). Amplitude ramps with streak.
+            float amplitude = AmplitudeForStreak(streak);
+            Pulse(XRNode.LeftHand, amplitude, HapticDuration);
+            Pulse(XRNode.RightHand, amplitude, HapticDuration);
 
             // H1 campaign-stats hook: publish only on forward progress, mirroring
             // ComboMomentumController's ComboChained hook.

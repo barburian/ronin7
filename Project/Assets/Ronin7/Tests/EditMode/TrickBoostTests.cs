@@ -83,5 +83,26 @@ namespace Ronin7.Tests.EditMode
             // Shipped defaults: perStack = 0.04, maxStreak = 5 -> 1 + 5 * 0.04 = 1.2.
             Assert.AreEqual(1.2f, TrickBoostController.SpeedMultiplier(5, 0.04f), Eps);
         }
+
+        // ---- AmplitudeForStreak ----
+
+        [Test]
+        public void AmplitudeForStreak_ZeroStreak_IsBaseAmplitude()
+        {
+            Assert.AreEqual(0.3f, TrickBoostController.AmplitudeForStreak(0), Eps);
+        }
+
+        [Test]
+        public void AmplitudeForStreak_RampsWithStreak()
+        {
+            Assert.AreEqual(0.4f, TrickBoostController.AmplitudeForStreak(1), Eps);
+            Assert.AreEqual(0.8f, TrickBoostController.AmplitudeForStreak(5), Eps);
+        }
+
+        [Test]
+        public void AmplitudeForStreak_CapsAtOne()
+        {
+            Assert.AreEqual(1f, TrickBoostController.AmplitudeForStreak(20), Eps);
+        }
     }
 }
