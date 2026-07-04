@@ -4214,6 +4214,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4496556393134157515, guid: 21c99cc5bdda9fc4595a5e87e0988b91, type: 3}
       insertIndex: -1
       addedObject: {fileID: 388742320}
+    - targetCorrespondingSourceObject: {fileID: 4496556393134157515, guid: 21c99cc5bdda9fc4595a5e87e0988b91, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 388742321}
   m_SourcePrefab: {fileID: 100100000, guid: 21c99cc5bdda9fc4595a5e87e0988b91, type: 3}
 --- !u!1 &388742317 stripped
 GameObject:
@@ -4270,6 +4273,25 @@ MonoBehaviour:
   proximityRadius: 4
   maxYawDegrees: 35
   turnSpeedDegPerSec: 120
+--- !u!114 &388742321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 388742317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 739fa5c3de0a0ab41adc01ed6e94fb09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Audio::Ronin7.Audio.NpcFootstepCadence
+  strideLength: 0.65
+  volume: 0.4
+  footstepClips:
+  - {fileID: 8300000, guid: 9100f69170f69604a87116c56ee3b265, type: 3}
+  - {fileID: 8300000, guid: cdde21244f5a405429171c017eb2f6e7, type: 3}
+  - {fileID: 8300000, guid: c40ee6fa86d544541a62a3140765dbaa, type: 3}
+  - {fileID: 8300000, guid: 02aeaeeac28b5f14e89c363f441cc778, type: 3}
 --- !u!1 &392221732
 GameObject:
   m_ObjectHideFlags: 0
@@ -11563,6 +11585,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 130355206466819925, guid: 3edeae5a2f6393645922e35b9313a99b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 904364488}
+    - targetCorrespondingSourceObject: {fileID: 130355206466819925, guid: 3edeae5a2f6393645922e35b9313a99b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 904364489}
   m_SourcePrefab: {fileID: 100100000, guid: 3edeae5a2f6393645922e35b9313a99b, type: 3}
 --- !u!1 &904364485 stripped
 GameObject:
@@ -11619,6 +11644,25 @@ MonoBehaviour:
   proximityRadius: 4
   maxYawDegrees: 35
   turnSpeedDegPerSec: 120
+--- !u!114 &904364489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904364485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 739fa5c3de0a0ab41adc01ed6e94fb09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Audio::Ronin7.Audio.NpcFootstepCadence
+  strideLength: 0.65
+  volume: 0.4
+  footstepClips:
+  - {fileID: 8300000, guid: 9100f69170f69604a87116c56ee3b265, type: 3}
+  - {fileID: 8300000, guid: cdde21244f5a405429171c017eb2f6e7, type: 3}
+  - {fileID: 8300000, guid: c40ee6fa86d544541a62a3140765dbaa, type: 3}
+  - {fileID: 8300000, guid: 02aeaeeac28b5f14e89c363f441cc778, type: 3}
 --- !u!21 &922794233
 Material:
   serializedVersion: 8
@@ -16449,6 +16493,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1672489758723789487, guid: 2882c95547208e94cb7531886c87303f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1294281064}
+    - targetCorrespondingSourceObject: {fileID: 1672489758723789487, guid: 2882c95547208e94cb7531886c87303f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1294281065}
   m_SourcePrefab: {fileID: 100100000, guid: 2882c95547208e94cb7531886c87303f, type: 3}
 --- !u!1 &1294281061 stripped
 GameObject:
@@ -16505,6 +16552,25 @@ MonoBehaviour:
   proximityRadius: 4
   maxYawDegrees: 35
   turnSpeedDegPerSec: 120
+--- !u!114 &1294281065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1294281061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 739fa5c3de0a0ab41adc01ed6e94fb09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Audio::Ronin7.Audio.NpcFootstepCadence
+  strideLength: 0.65
+  volume: 0.4
+  footstepClips:
+  - {fileID: 8300000, guid: 9100f69170f69604a87116c56ee3b265, type: 3}
+  - {fileID: 8300000, guid: cdde21244f5a405429171c017eb2f6e7, type: 3}
+  - {fileID: 8300000, guid: c40ee6fa86d544541a62a3140765dbaa, type: 3}
+  - {fileID: 8300000, guid: 02aeaeeac28b5f14e89c363f441cc778, type: 3}
 --- !u!21 &1303297674
 Material:
   serializedVersion: 8
