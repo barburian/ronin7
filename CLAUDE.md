@@ -27,7 +27,7 @@ and the EP01 combat intro — idling there is a game-over state, not a safe menu
 
 ## Build / Run / Test
 
-EditMode gate (baseline: **639 tests green, 0 skips**; PlayMode: **70/70 green**):
+EditMode gate (baseline: **842 tests green, 0 skips**; PlayMode: **70/70 green**):
 
 ```
 Unity.exe -runTests -batchmode -projectPath "Project" -testPlatform EditMode -testResults res.xml

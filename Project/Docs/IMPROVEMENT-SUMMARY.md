@@ -86,3 +86,42 @@ plus an editor-wide immersion pass. **Test suite: 400 → 639 EditMode (0 skips)
 - Sun-nav still additive / off by default pending in-headset tuning.
 - Combat juice infra still needs hardware tuning.
 - A5 death-latch fix in progress.
+
+## 2026-07-05 — Objectives run (5-team agent loop)
+
+Continuous diagnose→implement→QA→commit loop over five objectives plus review passes.
+**Test suite: 639 → 842 EditMode (0 skips); PlayMode 70/70 green.** 13 commits, `e07824a`..`392d397`.
+
+### What shipped
+- **Kessler floor-clip fix (critical)** — Ch1 NpcWalker waypoints hard-coded Y=0 vs his grounded
+  centered-pivot root at y≈0.9; builder parameterized + shipped scene patched + regression tests.
+- **VO wiring** — all 839 Ch2-16 dialogue clips existed on disk but 0 were wired in scenes;
+  new `ChapterVoiceWirer` (additive open→wire→save) resolved 839/839. **Project law learned:**
+  chapter Build menu items destructively `NewScene`-rebuild — never rebuild a shipped scene;
+  patch additively AND mirror in builder source.
+- **Enemy combat readability** — `EnemySwordVisual` runtime placeholder katanas under the existing
+  `weapon` pivot (blade tip on the (0,0,0.5) parry contract); blade joins the windup/stagger/death
+  telegraph tint. `PoseWeapon`'s rotation lerp gives the swing for free.
+- **Enemy variety** — previously zero-call-site mechanics wired: Ch7 3v3 `FactionCombatant` gang-war
+  wave; Ch12 `HiveCascadeController` sentinel squad + `Ch12SentinelDuelist` elite (first
+  `postureMaxFraction` use) via additive `ChapterEnemyVarietyWirer`.
+- **Talk animation** — `NpcTalkAnimator` amplitude-driven pitch nod on `Rig_Body` during VO
+  (no jaw/blendshapes on Tripo rigs); DialoguePlayer VO switched `PlayOneShot`→`clip`+`Play()`
+  (one-shots are invisible to `GetOutputData` and ignore `Stop`); cadence fallback when a device
+  yields no output samples (this rig virtualizes all voices with no audio endpoint).
+- **Immersion retrofit** — all 14 scenes: 52 auto-placed `AudioReverbZone`s (new
+  `ReverbZonePlacer.AutoTagInteriorVolumes`), `ProximityAmbienceLayer` beds, conservative
+  `ConsoleFlickerLight`/`AmbientLightPulse`, fog retrofit Hub+Ch2-7; all mirrored into builders.
+  `TintShared` material-clone perf bug fixed (shared cache; was 50-164 embedded materials/scene);
+  env primitives now use `LowPolyMeshes` per ArtDirection-Spec.
+- **Silent-audio fix (audit catch)** — the 9 procedural clip `.asset`s were zero-length stubs
+  (`AudioClip.Create`+`CreateAsset` never persists PCM); `ProceduralAudioClipBuilder` now writes
+  real 16-bit WAVs through the AudioImporter; 47 scene refs rewired, hand-authored ambiences preserved.
+
+### Still open (this run)
+- Reverb preset variety collapses to Hallway/Hangar (`ReverbPresetSelector.RoomMaxSpan=6` is below
+  real 8-20 m rooms) — ear-tune on hardware before changing.
+- Talk-nod amplitude path needs an in-headset check (falls back to cadence until samples arrive).
+- Two pre-existing ambience sources baked with `m_Volume: 0` (Hub Medbay, Ch02 Dock) — self-correct
+  at runtime within ~2 s; evidence of play-mode state leaking into saved scenes.
+- Prop variety beyond the 3-prop room template (survey rank 8) — needs new low-poly prop meshes.
