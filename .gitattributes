@@ -1,0 +1,18 @@
+# Macro attribute definitions used by Project/.gitattributes.
+#
+# Git only allows `[attr]name ...` macro definitions in the top-level
+# .gitattributes of the repo (or $GIT_DIR/info/attributes) — not in a
+# subdirectory .gitattributes such as Project/.gitattributes. Defining
+# them here lets pattern rules anywhere in the tree, including in
+# Project/.gitattributes, reference them and have them actually expand.
+
+[attr]unity-json        eol=lf linguist-language=json
+[attr]unity-yaml        merge=unityyamlmerge eol=lf linguist-language=yaml
+
+# Deliberately NOT defining [attr]lfs here. git-lfs is installed locally,
+# but this repo has no remote yet, so there is nowhere to push LFS objects
+# and nothing to gain from converting binaries to pointers today — doing
+# so would risk stranding new binary content in the local-only
+# .git/lfs/objects cache. The `lfs`-tagged rules in Project/.gitattributes
+# are left in place but inert (same as their current behavior) until a
+# remote + LFS storage target exists; add the macro here to activate them.
