@@ -74,6 +74,13 @@ namespace Ronin7.EditorTools
             RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
             RenderSettings.ambientLight = new Color(0.1f, 0.09f, 0.09f);
 
+            // Near-black fog: covers the dock haze but reads heaviest in the unwalled Deepworks cave
+            // descent, where there's no ceiling geometry to otherwise imply enclosure.
+            RenderSettings.fog = true;
+            RenderSettings.fogMode = FogMode.Exponential;
+            RenderSettings.fogColor = new Color(0.05f, 0.045f, 0.045f);
+            RenderSettings.fogDensity = 0.04f;
+
             BuildAccentPointLight("ThroatLight0", new Vector3(-4f, 2.6f, 4f), new Color(0.7f, 0.5f, 0.9f), 1.6f, 12f);
             BuildAccentPointLight("ThroatLight1", new Vector3(4f, 2.6f, 10f), new Color(1f, 0.7f, 0.3f), 1.8f, 14f);
             BuildAccentPointLight("SinkLight0", new Vector3(-5f, 2.4f, 24f), new Color(1f, 0.3f, 0.6f), 2f, 14f);

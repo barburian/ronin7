@@ -113,6 +113,12 @@ namespace Ronin7.EditorTools
             RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
             RenderSettings.ambientLight = new Color(0.28f, 0.26f, 0.22f);
 
+            // Soft golden daylight haze over the citadel.
+            RenderSettings.fog = true;
+            RenderSettings.fogMode = FogMode.Exponential;
+            RenderSettings.fogColor = new Color(0.55f, 0.5f, 0.4f);
+            RenderSettings.fogDensity = 0.018f;
+
             BuildAccentPointLight("ForestLight0", new Vector3(-4f, 2.2f, 8f), new Color(1f, 0.9f, 0.6f), 1f, 12f);
             BuildAccentPointLight("SpineLight0", new Vector3(-3f, Ch6UpperY + 2.4f, 92f), new Color(0.6f, 0.75f, 1f), 1.2f, 12f);
             BuildAccentPointLight("SpineLight1", new Vector3(3f, Ch6UpperY + 2.4f, 98f), new Color(0.6f, 0.75f, 1f), 1.2f, 12f);

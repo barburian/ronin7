@@ -81,6 +81,13 @@ namespace Ronin7.EditorTools
             RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
             RenderSettings.ambientLight = new Color(0.16f, 0.15f, 0.15f);
 
+            // Pale ash-gray overcast: a dense, sourceless pall standing in for open sky over the
+            // whole exterior run (landing site, ruins, mass grave).
+            RenderSettings.fog = true;
+            RenderSettings.fogMode = FogMode.Exponential;
+            RenderSettings.fogColor = new Color(0.5f, 0.48f, 0.46f);
+            RenderSettings.fogDensity = 0.042f;
+
             BuildAccentPointLight("LandingEmber0", new Vector3(-4f, 1.6f, 6f), new Color(1f, 0.45f, 0.2f), 1.2f, 10f);
             BuildAccentPointLight("LandingEmber1", new Vector3(4f, 1.6f, 10f), new Color(1f, 0.5f, 0.25f), 1.2f, 10f);
             BuildAccentPointLight("RuinsEmber0", new Vector3(-5f, 1.8f, 26f), new Color(0.9f, 0.4f, 0.15f), 1.4f, 12f);

@@ -67,6 +67,12 @@ namespace Ronin7.EditorTools
             RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
             RenderSettings.ambientLight = new Color(0.12f, 0.10f, 0.09f);
 
+            // Grimy amber undermarket haze.
+            RenderSettings.fog = true;
+            RenderSettings.fogMode = FogMode.Exponential;
+            RenderSettings.fogColor = new Color(0.18f, 0.14f, 0.10f);
+            RenderSettings.fogDensity = 0.022f;
+
             BuildAccentPointLight("AlleyLight", new Vector3(0f, 2.6f, 0f), new Color(0.6f, 0.75f, 0.9f), 1.6f, 12f);
             BuildAccentPointLight("MarketLight0", new Vector3(-3f, 2.8f, 10f), new Color(1f, 0.25f, 0.7f), 2f, 14f);
             BuildAccentPointLight("MarketLight1", new Vector3(3f, 2.8f, 16f), new Color(0.2f, 0.9f, 1f), 2f, 14f);

@@ -121,6 +121,12 @@ namespace Ronin7.EditorTools
             RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
             RenderSettings.ambientLight = new Color(0.08f, 0.09f, 0.13f);
 
+            // Cold frost-blue archive haze.
+            RenderSettings.fog = true;
+            RenderSettings.fogMode = FogMode.Exponential;
+            RenderSettings.fogColor = new Color(0.1f, 0.12f, 0.16f);
+            RenderSettings.fogDensity = 0.022f;
+
             BuildAccentPointLight("SpawnLight", new Vector3(0f, 2.4f, 4f), new Color(0.55f, 0.7f, 0.9f), 1f, 10f);
             BuildAccentPointLight("OuterStacksLight", new Vector3(0f, 2.4f, 28f), new Color(0.55f, 0.7f, 0.9f), 1.2f, 14f);
             BuildAccentPointLight("TendedCoreLight0", new Vector3(-4f, 2.6f, 65f), new Color(1f, 0.88f, 0.6f), 1.6f, 16f);

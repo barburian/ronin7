@@ -66,6 +66,12 @@ namespace Ronin7.EditorTools
             RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
             RenderSettings.ambientLight = new Color(0.14f, 0.12f, 0.10f);
 
+            // Quiet warm hold haze — calm, barely-there.
+            RenderSettings.fog = true;
+            RenderSettings.fogMode = FogMode.Exponential;
+            RenderSettings.fogColor = new Color(0.17f, 0.14f, 0.11f);
+            RenderSettings.fogDensity = 0.018f;
+
             BuildAccentPointLight("HoldLampBench", new Vector3(-3f, 1.6f, 2f), new Color(1f, 0.8f, 0.55f), 1.6f, 8f);   // Iris's single work lamp
             BuildAccentPointLight("HoldLampSeat", new Vector3(0f, 2.4f, 8f), new Color(1f, 0.75f, 0.5f), 1.2f, 9f);     // the playback seat corner
             BuildAccentPointLight("HoldLampRack", new Vector3(4f, 2.2f, 6f), new Color(0.85f, 0.8f, 0.7f), 1f, 7f);     // the weapon rack
