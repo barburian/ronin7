@@ -97,4 +97,16 @@ namespace Ronin7.Ship
         public readonly Vector3 UniversePosition;
         public WormholeTraversed(Vector3 universePosition) => UniversePosition = universePosition;
     }
+
+    /// <summary>
+    /// TrickBoostController's clean near-miss streak advanced. Published only when a clean pass
+    /// extends the streak — never on a collision/idle reset — so subscribers (e.g. campaign stat
+    /// tracking for "best near-miss streak reached") only see forward progress. Mirrors
+    /// <see cref="Ronin7.Combat.ComboChained"/>.
+    /// </summary>
+    public readonly struct NearMissStreakAdvanced
+    {
+        public readonly int Count;
+        public NearMissStreakAdvanced(int count) => Count = count;
+    }
 }

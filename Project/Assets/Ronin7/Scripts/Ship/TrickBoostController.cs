@@ -177,9 +177,14 @@ namespace Ronin7.Ship
 
         private void RegisterNearMiss()
         {
+            int previousStreak = streak;
             streak = NextStreak(streak, maxStreak);
             lastNearMissUnscaledTime = Time.unscaledTime;
             ApplyMultiplier();
+
+            // H1 campaign-stats hook: publish only on forward progress, mirroring
+            // ComboMomentumController's ComboChained hook.
+            if (streak > previousStreak) EventBus.Publish(new NearMissStreakAdvanced(streak));
         }
 
         private void ApplyMultiplier()

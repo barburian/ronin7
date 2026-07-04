@@ -160,6 +160,8 @@ namespace Ronin7.Core
             save.statsPerfectParries = CampaignStats.PerfectParries;
             save.statsPostureBreaks = CampaignStats.PostureBreaks;
             save.statsBestCombo = CampaignStats.BestCombo;
+            save.statsBestKillStreak = CampaignStats.BestKillStreak;
+            save.statsBestNearMissStreak = CampaignStats.BestNearMissStreak;
 
             save.drillScores = DrillBestScores.ToSaveList();
 
@@ -217,7 +219,8 @@ namespace Ronin7.Core
             Galaxy1Progress.FirstPlanetDeparted = data.firstPlanetDeparted;
             ShipSelection.SelectedHullIndex = data.shipHullIndex;
 
-            CampaignStats.LoadFrom(data.statsEnemiesDefeated, data.statsPerfectParries, data.statsPostureBreaks, data.statsBestCombo);
+            CampaignStats.LoadFrom(data.statsEnemiesDefeated, data.statsPerfectParries, data.statsPostureBreaks, data.statsBestCombo,
+                data.statsBestKillStreak, data.statsBestNearMissStreak);
 
             DrillBestScores.ApplyFrom(data.drillScores);
         }

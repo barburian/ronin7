@@ -61,6 +61,18 @@ namespace Ronin7.Combat
     }
 
     /// <summary>
+    /// Adrenaline Flow kill streak advanced (see <c>Ronin7.Player.AdrenalineFlow</c>). Published only
+    /// when the streak count increases — never on a window-expiry reset — so subscribers (e.g.
+    /// campaign stat tracking for "best kill streak reached") only see forward progress. Mirrors
+    /// <see cref="ComboChained"/>.
+    /// </summary>
+    public readonly struct KillStreakAdvanced
+    {
+        public readonly int Count;
+        public KillStreakAdvanced(int count) => Count = count;
+    }
+
+    /// <summary>
     /// G4 "Blade Clash": a deflect landed where BOTH the player's and the enemy's blade were
     /// genuinely moving hard (see <see cref="ParryTiming.IsClash"/>) — a true mutual clash, not just
     /// a well-timed parry against a slow swing. Published in addition to <see cref="SwordDeflected"/>

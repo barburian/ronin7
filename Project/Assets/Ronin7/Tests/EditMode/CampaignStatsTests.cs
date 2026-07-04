@@ -63,12 +63,66 @@ namespace Ronin7.Tests.EditMode
         }
 
         [Test]
+        public void RecordKillStreak_TracksHighestReached()
+        {
+            CampaignStats.RecordKillStreak(2);
+            CampaignStats.RecordKillStreak(4);
+
+            Assert.AreEqual(4, CampaignStats.BestKillStreak);
+        }
+
+        [Test]
+        public void RecordKillStreak_LowerValueDoesNotLowerBest()
+        {
+            CampaignStats.RecordKillStreak(4);
+            CampaignStats.RecordKillStreak(1);
+
+            Assert.AreEqual(4, CampaignStats.BestKillStreak);
+        }
+
+        [Test]
+        public void NextBestKillStreak_ReturnsMax()
+        {
+            Assert.AreEqual(5, CampaignStats.NextBestKillStreak(5, 3));
+            Assert.AreEqual(7, CampaignStats.NextBestKillStreak(5, 7));
+            Assert.AreEqual(5, CampaignStats.NextBestKillStreak(5, 5));
+        }
+
+        [Test]
+        public void RecordNearMissStreak_TracksHighestReached()
+        {
+            CampaignStats.RecordNearMissStreak(2);
+            CampaignStats.RecordNearMissStreak(4);
+
+            Assert.AreEqual(4, CampaignStats.BestNearMissStreak);
+        }
+
+        [Test]
+        public void RecordNearMissStreak_LowerValueDoesNotLowerBest()
+        {
+            CampaignStats.RecordNearMissStreak(4);
+            CampaignStats.RecordNearMissStreak(1);
+
+            Assert.AreEqual(4, CampaignStats.BestNearMissStreak);
+        }
+
+        [Test]
+        public void NextBestNearMissStreak_ReturnsMax()
+        {
+            Assert.AreEqual(5, CampaignStats.NextBestNearMissStreak(5, 3));
+            Assert.AreEqual(7, CampaignStats.NextBestNearMissStreak(5, 7));
+            Assert.AreEqual(5, CampaignStats.NextBestNearMissStreak(5, 5));
+        }
+
+        [Test]
         public void Reset_ZeroesAllCounters()
         {
             CampaignStats.RecordEnemyDefeated();
             CampaignStats.RecordPerfectParry();
             CampaignStats.RecordPostureBreak();
             CampaignStats.RecordCombo(3);
+            CampaignStats.RecordKillStreak(3);
+            CampaignStats.RecordNearMissStreak(3);
 
             CampaignStats.Reset();
 
@@ -76,6 +130,8 @@ namespace Ronin7.Tests.EditMode
             Assert.AreEqual(0, CampaignStats.PerfectParries);
             Assert.AreEqual(0, CampaignStats.PostureBreaks);
             Assert.AreEqual(0, CampaignStats.BestCombo);
+            Assert.AreEqual(0, CampaignStats.BestKillStreak);
+            Assert.AreEqual(0, CampaignStats.BestNearMissStreak);
         }
     }
 }

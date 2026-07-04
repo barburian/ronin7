@@ -65,7 +65,12 @@ namespace Ronin7.Player
             if (VRRig.Instance != null && evt.Entity == VRRig.Instance.gameObject) return;
             if (playerHealth == null || !playerHealth.IsAlive) return;
 
+            int previousStreakCount = streak.Count;
             streak = RegisterKill(streak, Time.time, killWindowSeconds, maxStreak);
+
+            // H1 campaign-stats hook: publish only on forward progress (never on a window-expiry
+            // reset), mirroring ComboMomentumController's ComboChained hook.
+            if (streak.Count > previousStreakCount) EventBus.Publish(new KillStreakAdvanced(streak.Count));
 
             float amount = HealForStreak(streak.Count, healPerStreakFraction, playerHealth.Max, minStreakToHeal);
             if (amount <= 0f) return;

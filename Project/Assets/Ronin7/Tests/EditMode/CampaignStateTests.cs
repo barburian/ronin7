@@ -294,6 +294,8 @@ namespace Ronin7.Tests.EditMode
             CampaignStats.RecordPerfectParry();
             CampaignStats.RecordPostureBreak();
             CampaignStats.RecordCombo(3);
+            CampaignStats.RecordKillStreak(4);
+            CampaignStats.RecordNearMissStreak(5);
 
             // Act
             SaveData save = CampaignState.ToSaveData();
@@ -305,6 +307,8 @@ namespace Ronin7.Tests.EditMode
             Assert.AreEqual(1, CampaignStats.PerfectParries);
             Assert.AreEqual(1, CampaignStats.PostureBreaks);
             Assert.AreEqual(3, CampaignStats.BestCombo);
+            Assert.AreEqual(4, CampaignStats.BestKillStreak);
+            Assert.AreEqual(5, CampaignStats.BestNearMissStreak);
         }
 
         [Test]
