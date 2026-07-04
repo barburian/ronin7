@@ -62,5 +62,24 @@ namespace Ronin7.Tests.EditMode
             Assert.IsFalse(HasSubscriber<PostureBroken>());
             Assert.DoesNotThrow(() => EventBus.Publish(new PostureBroken(_go)));
         }
+
+        [Test]
+        public void OnEnable_SubscribesToPostureNearBreak_PublishDoesNotThrow()
+        {
+            StartController();
+
+            Assert.IsTrue(HasSubscriber<PostureNearBreak>());
+            Assert.DoesNotThrow(() => EventBus.Publish(new PostureNearBreak(_go)));
+        }
+
+        [Test]
+        public void OnDisable_UnsubscribesFromPostureNearBreak()
+        {
+            var controller = StartController();
+            Life(controller, "OnDisable");
+
+            Assert.IsFalse(HasSubscriber<PostureNearBreak>());
+            Assert.DoesNotThrow(() => EventBus.Publish(new PostureNearBreak(_go)));
+        }
     }
 }

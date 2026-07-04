@@ -57,6 +57,52 @@ namespace Ronin7.Tests.EditMode
             Assert.IsTrue(PostureMeter.IsBroken(150f, 100f));
         }
 
+        // ---- CrossedNearBreak pure static. ----
+
+        [Test]
+        public void CrossedNearBreak_BelowToAboveThreshold_Fires()
+        {
+            Assert.IsTrue(PostureMeter.CrossedNearBreak(70f, 90f, 0.8f, 100f, armed: true, broken: false));
+        }
+
+        [Test]
+        public void CrossedNearBreak_StayingAbove_DoesNotRefire()
+        {
+            // Already crossed once (armed is now false) — staying above must not fire again.
+            Assert.IsFalse(PostureMeter.CrossedNearBreak(85f, 90f, 0.8f, 100f, armed: false, broken: false));
+        }
+
+        [Test]
+        public void CrossedNearBreak_DecayBelowThreshold_DoesNotFire_ButReArmsForNextTime()
+        {
+            // Decaying back down is not itself a "crossing from below" — no fire on the way down.
+            Assert.IsFalse(PostureMeter.CrossedNearBreak(90f, 70f, 0.8f, 100f, armed: false, broken: false));
+        }
+
+        [Test]
+        public void CrossedNearBreak_SameHitAlsoBreaks_Suppressed()
+        {
+            Assert.IsFalse(PostureMeter.CrossedNearBreak(50f, 150f, 0.8f, 100f, armed: true, broken: true));
+        }
+
+        [Test]
+        public void CrossedNearBreak_NotArmed_DoesNotFireEvenIfCrossing()
+        {
+            Assert.IsFalse(PostureMeter.CrossedNearBreak(70f, 90f, 0.8f, 100f, armed: false, broken: false));
+        }
+
+        [Test]
+        public void CrossedNearBreak_ExactlyAtThreshold_Fires()
+        {
+            Assert.IsTrue(PostureMeter.CrossedNearBreak(79f, 80f, 0.8f, 100f, armed: true, broken: false));
+        }
+
+        [Test]
+        public void CrossedNearBreak_ZeroMax_NeverFires()
+        {
+            Assert.IsFalse(PostureMeter.CrossedNearBreak(0f, 0f, 0.8f, 0f, armed: true, broken: false));
+        }
+
         // ---- Component-level integration. EditMode doesn't auto-run MonoBehaviour lifecycle methods
         // on AddComponent, so drive Awake/OnEnable explicitly via reflection, mirroring
         // UnbrokenWardTests' StartWard/Life helpers. ----
@@ -210,6 +256,52 @@ namespace Ronin7.Tests.EditMode
             Assert.AreEqual(45f, meter.Current, 1e-5f);
             Assert.AreEqual(950f, health.Current);
             Assert.AreEqual(0, brokenCount);
+        }
+
+        // ---- PostureNearBreak (near-break haptic warning cue). ----
+
+        [Test]
+        public void OnDamaged_AccumulatingTo85Percent_PublishesExactlyOneNearBreak()
+        {
+            _go = new GameObject("PostureMeterNearBreakTarget");
+            var health = _go.AddComponent<Health>();
+            health.Configure(1000f);
+            var meter = StartMeter(_go);
+
+            int nearBreakCount = 0;
+            EventBus.Subscribe<PostureNearBreak>(_ => nearBreakCount++);
+
+            // 50*0.9=45 (below the 80 threshold) -> no fire yet.
+            health.ApplyDamage(new DamageInfo(50f, Vector3.zero, Vector3.forward, null));
+            Assert.AreEqual(0, nearBreakCount);
+
+            // +45 -> 90 total, crosses the 80 threshold -> fires once.
+            health.ApplyDamage(new DamageInfo(50f, Vector3.zero, Vector3.forward, null));
+            Assert.AreEqual(1, nearBreakCount);
+
+            // Still above threshold -> must not refire.
+            health.ApplyDamage(new DamageInfo(5f, Vector3.zero, Vector3.forward, null));
+            Assert.AreEqual(1, nearBreakCount);
+        }
+
+        [Test]
+        public void OnDamaged_BreakInOneHitFromLowPosture_PublishesBrokenButNotNearBreak()
+        {
+            _go = new GameObject("PostureMeterBreakNoNearBreakTarget");
+            var health = _go.AddComponent<Health>();
+            health.Configure(1000f);
+            var meter = StartMeter(_go);
+
+            int brokenCount = 0;
+            int nearBreakCount = 0;
+            EventBus.Subscribe<PostureBroken>(_ => brokenCount++);
+            EventBus.Subscribe<PostureNearBreak>(_ => nearBreakCount++);
+
+            // 120*0.9=108 clamped to 100 -> breaks straight from 0 in one hit.
+            health.ApplyDamage(new DamageInfo(120f, Vector3.zero, Vector3.forward, null));
+
+            Assert.AreEqual(1, brokenCount);
+            Assert.AreEqual(0, nearBreakCount);
         }
     }
 }

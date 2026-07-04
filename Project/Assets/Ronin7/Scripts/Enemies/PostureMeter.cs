@@ -33,11 +33,13 @@ namespace Ronin7.Enemies
         [SerializeField] private float decayDelay = 1f;
         [SerializeField] private float decayPerSecond = 40f;
         [SerializeField] private float breakBonusDamage = 12f;
+        [SerializeField] private float nearBreakFraction = 0.8f;
 
         private Health health;
         private float current;
         private float lastDamageTime = float.NegativeInfinity;
         private bool applyingBonus;
+        private bool nearBreakArmed = true;
 
         /// <summary>Current posture (0..postureMax), for UI/inspection.</summary>
         public float Current => current;
@@ -49,6 +51,7 @@ namespace Ronin7.Enemies
         {
             postureMax = max;
             current = 0f;
+            nearBreakArmed = true;
         }
 
         private void Awake() => health = GetComponent<Health>();
@@ -68,6 +71,7 @@ namespace Ronin7.Enemies
             if (current <= 0f) return;
             if (Time.time - lastDamageTime < decayDelay) return;
             current = Decay(current, Time.deltaTime, decayPerSecond);
+            if (!nearBreakArmed && current < nearBreakFraction * postureMax) nearBreakArmed = true;
         }
 
         private void OnDamaged(DamageInfo info)
@@ -75,10 +79,20 @@ namespace Ronin7.Enemies
             if (applyingBonus) return; // ignore the bonus hit's own re-entrant Damaged callback
 
             lastDamageTime = Time.time;
+            float previous = current;
             current = Accumulate(current, info.Amount, gainPerDamage, postureMax);
-            if (!IsBroken(current, postureMax)) return;
+            bool broken = IsBroken(current, postureMax);
+
+            if (CrossedNearBreak(previous, current, nearBreakFraction, postureMax, nearBreakArmed, broken))
+            {
+                nearBreakArmed = false;
+                EventBus.Publish(new PostureNearBreak(gameObject));
+            }
+
+            if (!broken) return;
 
             current = 0f;
+            nearBreakArmed = true; // meter reset on break -> re-arm for the next approach
             applyingBonus = true;
             health.ApplyDamage(new DamageInfo(breakBonusDamage, transform.position, info.Direction, info.Source));
             applyingBonus = false;
@@ -101,5 +115,19 @@ namespace Ronin7.Enemies
 
         /// <summary>True once posture has reached (or passed) the break threshold.</summary>
         internal static bool IsBroken(float current, float max) => current >= max;
+
+        /// <summary>
+        /// True the instant posture crosses <paramref name="threshold"/> (a fraction of
+        /// <paramref name="max"/>) from below — the "near-break" haptic cue. Fires only while
+        /// <paramref name="armed"/> (re-armed by the caller once posture decays back below the
+        /// threshold), and never on a hit that also crosses through to <paramref name="broken"/> —
+        /// the break's own stronger haptic already covers that hit, no double stacking.
+        /// </summary>
+        internal static bool CrossedNearBreak(float previous, float current, float threshold, float max, bool armed, bool broken)
+        {
+            if (broken || !armed) return false;
+            float thresholdValue = threshold * max;
+            return previous < thresholdValue && current >= thresholdValue;
+        }
     }
 }

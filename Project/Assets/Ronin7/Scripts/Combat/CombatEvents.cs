@@ -50,6 +50,18 @@ namespace Ronin7.Combat
     }
 
     /// <summary>
+    /// An entity's posture meter (see <c>Ronin7.Enemies.PostureMeter</c>) crossed its configurable
+    /// near-break fraction (default 0.8) of postureMax — "one more hit and this enemy staggers".
+    /// Fires once per approach to the threshold; re-arms only once posture decays back below it.
+    /// Never published on the same hit that also crosses through to <see cref="PostureBroken"/>.
+    /// </summary>
+    public readonly struct PostureNearBreak
+    {
+        public readonly GameObject Entity;
+        public PostureNearBreak(GameObject entity) => Entity = entity;
+    }
+
+    /// <summary>
     /// Follow-Through combo chain advanced (see <c>Ronin7.Player.ComboMomentumController</c>).
     /// Published only when the chain's Count increases — never on a same-target reset to 0 — so
     /// subscribers (e.g. campaign stat tracking for "best combo reached") only see forward progress.

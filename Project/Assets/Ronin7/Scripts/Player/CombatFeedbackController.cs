@@ -27,6 +27,7 @@ namespace Ronin7.Player
             EventBus.Subscribe<PlayerHit>(OnPlayerHit);
             EventBus.Subscribe<SwordImpact>(OnImpact);
             EventBus.Subscribe<PostureBroken>(OnPostureBroken);
+            EventBus.Subscribe<PostureNearBreak>(OnPostureNearBreak);
             EventBus.Subscribe<GameModeChanged>(OnModeChanged);
         }
 
@@ -36,6 +37,7 @@ namespace Ronin7.Player
             EventBus.Unsubscribe<PlayerHit>(OnPlayerHit);
             EventBus.Unsubscribe<SwordImpact>(OnImpact);
             EventBus.Unsubscribe<PostureBroken>(OnPostureBroken);
+            EventBus.Unsubscribe<PostureNearBreak>(OnPostureNearBreak);
             EventBus.Unsubscribe<GameModeChanged>(OnModeChanged);
             RestoreTime();
         }
@@ -73,6 +75,10 @@ namespace Ronin7.Player
         // should read as distinctly bigger than the deflect pulse. No slow-mo here (unlike OnDeflect):
         // the break's own stagger/bonus-damage feedback already lands, timescale is not this event's job.
         private void OnPostureBroken(PostureBroken e) => PulseBoth(1.0f, 0.2f);
+
+        // Short, weak tick — "one more hit and this enemy staggers". Clearly below the break's
+        // 1.0f/0.2f pulse so the player never confuses the warning for the payoff itself.
+        private void OnPostureNearBreak(PostureNearBreak e) => PulseBoth(0.4f, 0.06f);
 
         private void RestoreTime()
         {
