@@ -83,6 +83,7 @@ namespace Ronin7.Enemies
             var col = go.GetComponent<Collider>();
             if (col != null)
             {
+                col.enabled = false; // Destroy defers to end of frame — disable so no physics query ever sees it
                 if (Application.isPlaying) Object.Destroy(col);
                 else Object.DestroyImmediate(col);
             }

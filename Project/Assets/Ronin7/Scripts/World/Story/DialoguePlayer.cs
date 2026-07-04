@@ -135,7 +135,11 @@ namespace Ronin7.World.Story
 
                 if (line.clip != null && audioSource != null)
                 {
-                    audioSource.PlayOneShot(line.clip);
+                    // Play via the source's primary voice (not PlayOneShot): one-shot voices are
+                    // invisible to AudioSource.GetOutputData (NpcTalkAnimator samples it for the
+                    // talk nod) and ignore AudioSource.Stop (the Y-skip cutoff below).
+                    audioSource.clip = line.clip;
+                    audioSource.Play();
                 }
 
                 // Calculate effective display duration: max of line.seconds or (clip.length + grace period).
