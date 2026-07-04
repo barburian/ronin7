@@ -1623,7 +1623,7 @@ MonoBehaviour:
     text: She was right there. The one who made me. And I still couldn't see her
       face.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a33bdbe13b76b2c4e98a77d4ad726d16, type: 3}
   - speaker: The Mourners
     text: No. You couldn't. The Garden gives the sight you've earned, not the sight
       you haven't. You've seen the act. You've heard the prayer she said over you.
@@ -1631,19 +1631,19 @@ MonoBehaviour:
       it yourself, one who defies. We've only shown you that it exists, and that
       at the end, she hoped you'd live.
     seconds: 20
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e49f055544546554ba1f3f74fef2afdf, type: 3}
   - speaker: Echo
     text: Cipher, I don't have her face either. Must be from before you had me, and
       the Garden just told you it isn't theirs to give back. But I caught that prayer,
       every word, and I'm keeping it. Next time we're in front of those hands, we'll
       know them.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 73e9cd44bd6f1e6468350c27ea00e531, type: 3}
   - speaker: Ronin-7
     text: Two people at either end of the thing that killed me, and neither one wanted
       it. I've been chasing the wrong shape.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 5a308903c81f01045846af2caacc9574, type: 3}
   textMesh: {fileID: 953040272}
   panelRoot: {fileID: 1139467859}
   audioSource: {fileID: 61438881}
@@ -5224,15 +5224,15 @@ MonoBehaviour:
   - speaker: The Woman
     text: There. That's the last of it.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: be8f71ad8da3c9b4aaeb10403a15153c, type: 3}
   - speaker: The Woman
     text: I hope you will save us.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: dfa6e561ae87b3b468de54a792075707, type: 3}
   - speaker: Ronin-7
     text: Turn. Let me see your face.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: fcc6099709957e6459f3bca212fbe3db, type: 3}
   textMesh: {fileID: 1878194295}
   panelRoot: {fileID: 1880130980}
   audioSource: {fileID: 395575797}
@@ -5707,20 +5707,20 @@ MonoBehaviour:
     text: The quick answer is obey. Come when pulled. That's the one they built.
       So that's the wrong one.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 76724f5207630b14087831478cad6920, type: 3}
   - speaker: Ronin-7
     text: A thing on a leash has no duty. That duty was a lie they put in the collar.
       The only thing it owes is the leash itself, broken. I came here for the hand
       that pulled mine and the hand that cut it. That's my answer. None.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 99758034c341c094abccc165f2348282, type: 3}
   - speaker: The Mourners
     text: True. The truest thing this ground has heard in longer than your Program
       has had a name. You were pulled, and you did not come. Few have stood on this
       stone and refused the collar to our faces. The trial of the mind is ended.
       Now the Garden asks the older question, the one it asks with its hands.
     seconds: 20
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 66cc873d126bbce41b7cca87bd4615cf, type: 3}
   textMesh: {fileID: 486743668}
   panelRoot: {fileID: 1945705609}
   audioSource: {fileID: 431473433}
@@ -6578,52 +6578,52 @@ MonoBehaviour:
     text: There he is. We held the gate, every hour of it, and that thing never let
       us a step closer. You walk out of there in one piece?
     seconds: 10
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 337e1b984dfa20d4cbfc9f1a913378a4, type: 3}
   - speaker: Ronin-7
     text: In one piece. It tested the head and the hands, Echo, not the blade. The
       blade only mattered at the very end.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d5bd7c7d372821044b102643ef61b340, type: 3}
   - speaker: Coral Vex
     text: It opened for you, and it let you walk back out, which is more than the
       legend ever promised anyone. Did it give you the truth, Cipher? Did you see
       the hand?
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b25d2c75d109a5742ad62a91d28f4c3a, type: 3}
   - speaker: Ronin-7
     text: I saw the hand that made the switch. A woman. Careful. She said she hoped
       I'd save us, and I couldn't see her face. I saw the hand that pulled it too.
       He grieved it. And he's started to doubt the order that made him.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d86b75e86d5aa4d478880a42f1090e41, type: 3}
   - speaker: Mera Voss
     text: A maker who hoped you'd live. A handler who doubts the order he carried
       out. I hunted for the Program for years and I'd have sworn it didn't have a
       doubting bone in it. Turns out it's riddled with them.
     seconds: 12
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 1cfad9656ca396843ac598af69d22710, type: 3}
   - speaker: Mira
     text: You're sad. You found out something good, didn't you. So why do you look
       like that.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 60b0114334beafa4aa077f5b4051944e, type: 3}
   - speaker: Ronin-7
     text: I found out two people on the inside didn't want me dead, little one. One
       of them hoped I'd live before I was old enough to remember her. That's a good
       thing. It's just heavy.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0458a6196a3de41458708e5684917fd3, type: 3}
   - speaker: Ronin-7
     text: The Garden says the answers aren't up here, not with the rest of us still
       breathing and shouting. So we stop hunting the surface. We go down.
     seconds: 10
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: eac6480eb68a643408c226fd2c2b5d52, type: 3}
   - speaker: Echo
     text: Down the dark next, Cipher. We came to a graveyard to ask the dead who
       made us, and they handed us two living questions and a road under the floor.
       The pits. The deeps. Wherever they buried it, we go dig it out.
     seconds: 12
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: dfe5741b209c1634b96dba7ada3b0775, type: 3}
   textMesh: {fileID: 1781717915}
   panelRoot: {fileID: 2046516062}
   audioSource: {fileID: 475304022}
@@ -7442,18 +7442,18 @@ MonoBehaviour:
       by people who don't make mistakes. And it was pulled. And it failed. You are
       the one who defies. The Garden owes its one truth to such a one. Look.
     seconds: 24
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: df7b09c0ff295ae4297b752a40cae5c7, type: 3}
   - speaker: Ronin-7
     text: I came for one thing. The hand that put the switch in me, and the hand
       that pulled it. Show me those.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: fb4d4d3ca48f7994abeda7e5b3ce8ddd, type: 3}
   - speaker: The Mourners
     text: Both hands, as you ask. We don't soften them and we don't name them. The
       Garden gives sight, not answers. Watch, and know that what you see, you've
       always carried. We're only opening the eye the leash kept shut.
     seconds: 16
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 083146ec7c97a4840bb4c4898bedf83a, type: 3}
   textMesh: {fileID: 1958338266}
   panelRoot: {fileID: 217097829}
   audioSource: {fileID: 515367025}
@@ -10767,14 +10767,14 @@ MonoBehaviour:
       be sure. Strength was given to you the way thought was. Show us the body keeps
       what the mind earned.
     seconds: 18
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b527b19b17aa75547bac5aa4a721450b, type: 3}
   - speaker: Echo
     text: There you are, a fight, finally something I'm good for. I've got the read
       back the second it moved. That thing's a tomb wearing a body, but a tomb has
       load-bearing joints same as anything, and the old blade's eyes are showing
       me every one of them. Stay off the front of it, work the seams.
     seconds: 18
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: cda5b5544041ef94c8030c9069d6bf8d, type: 3}
   textMesh: {fileID: 1226108946}
   panelRoot: {fileID: 736132290}
   audioSource: {fileID: 781960368}
@@ -11133,21 +11133,21 @@ MonoBehaviour:
       it. It's that you broke because you saw it clearer than any of us, and I'm
       still going to do this anyway.
     seconds: 10
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e45f50acde6f3864aa4341f0125933df, type: 3}
   - speaker: Khall
     text: I'm sorry it has come to this.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a3c147988a327fd4f9333d1bd1551cf5, type: 3}
   - speaker: Khall
     text: A hundred times I've read this. Seals check out. Chain of command checks
       out. The hand is right. And it still reads like something built only to look
       real.
     seconds: 10
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 98c9f22be63bddd4289d6692af59dba2, type: 3}
   - speaker: Khall
     text: Who forges a leash. Who fakes an order this clean, and to what end.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: cefdc5ee3f498f14da353a6355c72ecd, type: 3}
   textMesh: {fileID: 1074523871}
   panelRoot: {fileID: 165713976}
   audioSource: {fileID: 804975210}
@@ -13684,18 +13684,18 @@ MonoBehaviour:
       didn't work in the light. They worked beneath it. If you mean to find the face,
       go down.
     seconds: 20
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7ebbd85bbe122d647b5c8906bf88bac4, type: 3}
   - speaker: Ronin-7
     text: Down where. Be plain with me once, at the end of it.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 4ddc25567b2e44f4081c548ce9c661a1, type: 3}
   - speaker: The Mourners
     text: We don't draw maps. We give sight, not answers, we told you that. But here's
       the shape of it. The hand that made you and the hand that doubts you both reach
       up from below, not from the graves, those are ours, from the other dark, the
       one your Program digs and leaves off every chart. Go down to them.
     seconds: 20
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 4219883e570e3c240a91b1db929ae5a4, type: 3}
   textMesh: {fileID: 679113906}
   panelRoot: {fileID: 1424526257}
   audioSource: {fileID: 916976041}
@@ -14147,7 +14147,7 @@ MonoBehaviour:
   - speaker: The Mourners
     text: Wrong. The dead remember what you just said. Rise, and answer for him.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9ae4831428128174fb066ba1b2e0b21c, type: 3}
   textMesh: {fileID: 394767301}
   panelRoot: {fileID: 1969254744}
   audioSource: {fileID: 950205656}
@@ -15466,7 +15466,7 @@ MonoBehaviour:
       duty of the thing on the end of it. Answer quickly. The quick answer is the
       one they built in you. We''re listening for it.'
     seconds: 22
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c7fe903ecbee2e9449a310c16228af51, type: 3}
   textMesh: {fileID: 1833508987}
   panelRoot: {fileID: 1748786072}
   audioSource: {fileID: 1048830300}
@@ -17447,59 +17447,59 @@ MonoBehaviour:
       and they'll grant one seeker the sight of a single truth they were never meant
       to see.
     seconds: 20
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 668e04af05d0e76439acbc425e9188a2, type: 3}
   - speaker: Ronin-7
     text: Truth has a price here. You said that too.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3857230ea2f0ec3459d6ff73b02a7ea9, type: 3}
   - speaker: Coral Vex
     text: A trial. They don't sell it, you earn it, and the Garden's buried more
       seekers than it's ever answered. I don't know the shape of the test. Nobody
       who failed it came back to describe it, and the ones who passed don't say.
       I just know the price is real, and it isn't paid in blood.
     seconds: 18
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: eb104e1907e44124db25c1199b8870c2, type: 3}
   - speaker: Mera Voss
     text: No walls, no guns, no garrison, and it still buries the people who knock.
       I've hunted a hundred places that wanted me dead and I knew how each one would
       come at me. This one I can't price at all. I don't like that.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c8330cf15edcd3e40bf65f68e4aff53f, type: 3}
   - speaker: Morrigan
     text: I'll back her, and I hate backing her. I threw everything this bench has
       at the coordinates. No signal, no power bloom, no comm bleed, nothing in any
       band I read. Every instrument says there's nothing on that world. I trust the
       instruments. I also trust Vex.
     seconds: 16
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 53043e915074b2048a10642f095f9f40, type: 3}
   - speaker: Iris
     text: A whole world of graves bothers me more than the no-signal does. Somebody
       dug all of them. Somebody's still tending them. You don't need a graveyard
       that size for the dead. You need it for whoever comes looking.
     seconds: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: df942bfcf340e154bba0f06cec4b82ce, type: 3}
   - speaker: Resh
     text: Smugglers don't run the Silent Garden. The ones who tried don't run anything
       now. I had it filed under tall tales, the kind you tell so some idiot doesn't
       try the run. Coral saying it's real, that's the part I don't like.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f53479dd24796c14f9c38b363c480943, type: 3}
   - speaker: Mira
     text: If it only lets one person in, everybody else waits outside. You're going
       alone again.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: fcf915e9999c98f4cb31818e877e1711, type: 3}
   - speaker: Kessler
     text: She's got the shape of it. A place that only opens for one. I hate those.
       I'll set us down, I'll hold whatever it calls a gate, but I want it said out
       loud, Cipher. I don't like sending you somewhere I can't follow.
     seconds: 16
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 287dc92edbc50184c89672fcedb20284, type: 3}
   - speaker: Ronin-7
     text: It knows the hand that put the switch in my head, and the hand that broke
       it. That's worth a trial. I've crossed worse for less.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 54ad40e233c3e2240ac4fa9d7aa5cdcf, type: 3}
   - speaker: Echo
     text: Cipher. Before you go in, hear me. This isn't the reliquary, it isn't the
       mountain. There's nothing in there for the blade to do, and I don't think there's
@@ -17508,20 +17508,20 @@ MonoBehaviour:
       place like this the trained answer and the honest one are going to be two different
       things.
     seconds: 20
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: fddbe794ae1770c488386285a775ac49, type: 3}
   - speaker: Ronin-7
     text: The hand and the head, then. You ride along and stay quiet when it counts.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d1d36e88c12ad0e4fbd365dbdb4e4e52, type: 3}
   - speaker: Coral Vex
     text: If it opens for you, that isn't luck. It means it already knows what you
       are and wants a closer look. Walk in knowing you were expected.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 4301608809edd7c498f7a8b91ceea8c1, type: 3}
   - speaker: Ronin-7
     text: Good. I'm done being the one nobody expected. Plot it. Take us down.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 2b1c29357fcf4314794ee97763888e12, type: 3}
   textMesh: {fileID: 68376607}
   panelRoot: {fileID: 759804304}
   audioSource: {fileID: 1177433241}
@@ -18923,19 +18923,19 @@ MonoBehaviour:
       already know I have to go quiet when it starts asking. So this is me, before
       the quiet.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 819ba539a25a52b4a82682335ab11409, type: 3}
   - speaker: Ronin-7
     text: Then stay close and stay quiet. I've thought without you before. I just
       didn't have you to miss.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 25433018b99ce6846b10cd47f002ec60, type: 3}
   - speaker: The Mourners
     text: You were made to walk where you were sent. So walk. The dead under this
       ground remember every name that was ever taken from them, and they don't forgive
       a lie laid over a grave. Step on a falsehood, and the ones you slander rise
       to answer in your place.
     seconds: 20
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 21739def4a7cf6047865303ad6b969a6, type: 3}
   textMesh: {fileID: 1257006978}
   panelRoot: {fileID: 1854066743}
   audioSource: {fileID: 1322118290}
@@ -20566,7 +20566,7 @@ MonoBehaviour:
       alone. Be still now. We've watched you long enough from inside the fog. We're
       coming to look at you with what's left of our eyes.
     seconds: 16
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7d13e0037f662044b8fcdc9af06b4151, type: 3}
   textMesh: {fileID: 493874993}
   panelRoot: {fileID: 147566898}
   audioSource: {fileID: 1451890087}
@@ -24837,25 +24837,25 @@ MonoBehaviour:
       in front of my hand. It let you through and stopped the rest of us cold. I
       don't like a wall I can't see, and I really don't like one that picks.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 4edb45917d9390a45863b37846b9124d, type: 3}
   - speaker: Coral Vex
     text: It picks. I told you it would. Cipher, this is where I stop being any use
       to you. Everything I know about the Program ends at this gate. The people in
       there are older than it and answer to none of it, me included. From here you
       walk it the way the first seeker walked it, with whatever's in your own skull.
     seconds: 20
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: bb2b8813865ec56459d7b9dbab92c46b, type: 3}
   - speaker: Kessler
     text: Comm's going to static and you're six steps in, so I'll say it now while
       it carries. We can't push past whatever this is, I already tried, it's like
       leaning on the side of the world. But we're not leaving this rock until you
       walk back out of that fog. We hold the gate. You come back through it.
     seconds: 18
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0fc8a1ee7c1aece4284926ba7510a545, type: 3}
   - speaker: Ronin-7
     text: I heard you. Hold the gate.
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f9ca846832c8fe146836da607b694de3, type: 3}
   textMesh: {fileID: 1527664573}
   panelRoot: {fileID: 1919949076}
   audioSource: {fileID: 1766138151}

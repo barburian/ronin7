@@ -611,7 +611,7 @@ MonoBehaviour:
       it, and you keep standing, the way he kept standing. Once. Spend it well. It's
       the only time the first of them ever got to give instead of keep.
     seconds: 26
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 68657a6dfd75d534eafefe1e3ef5f33b, type: 3}
   textMesh: {fileID: 1299807582}
   panelRoot: {fileID: 1733059173}
   audioSource: {fileID: 51935429}
@@ -1086,7 +1086,7 @@ MonoBehaviour:
       of mine I'm carrying out of the dark. We're doing the same thing, you and me.
       We're gathering our own.
     seconds: 25
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a1c795edfe92aac4f914a34387555faa, type: 3}
   - speaker: Ronin-7
     text: Don't make me hold all of it standing up, Echo. Not yet. Right now I can
       only take the front edge of it. Every keeper I put down was an ancestor. Every
@@ -1096,7 +1096,7 @@ MonoBehaviour:
       What I can hold today is this. Whoever's still left to free down here is mine
       to protect. Starting with the one still dreaming in front of me.
     seconds: 18
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 6ed4a0ea0a051c14d9ebd2175c0b7cda, type: 3}
   textMesh: {fileID: 1279375456}
   panelRoot: {fileID: 787056994}
   audioSource: {fileID: 75722587}
@@ -3940,13 +3940,13 @@ MonoBehaviour:
       only reach. We walk through. We only draw on the ones she sends to stop us.
       Stay with my voice. It's the only one in here that's actually here.
     seconds: 26
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 8fb03985ce855854891a8846a772f978, type: 3}
   - speaker: Kira
     text: You came back. I knew you would. Come closer, it's cold out here, you can
       stop now, you can stay with me where it doesn't hurt. You don't have to carry
       any of it anymore. Just come closer.
     seconds: 12
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 2820661f3a5785241a260e0c3ae48872, type: 3}
   - speaker: Echo
     text: That's not her, Cipher. I know it sounds like her. It sounds like her because
       the node read her out of you and she's that real in there. But the real one
@@ -3954,7 +3954,7 @@ MonoBehaviour:
       going. Anything down here that offers you rest is the dream trying to keep
       you. Walk through her. I know what it costs. Walk through her anyway.
     seconds: 17
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: db0630d0bfa72634ea2a79bef0a63f59, type: 3}
   textMesh: {fileID: 1230733330}
   panelRoot: {fileID: 396748684}
   audioSource: {fileID: 313656697}
@@ -4506,7 +4506,7 @@ MonoBehaviour:
       it. That's her. That's the one this whole canyon has been. Walk me to her.
       The haze can't touch you now, so use it. Let it slide off and keep going.
     seconds: 23
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 827974498e072df44993148051b39df0, type: 3}
   textMesh: {fileID: 1614365902}
   panelRoot: {fileID: 432623028}
   audioSource: {fileID: 364095451}
@@ -6107,7 +6107,7 @@ MonoBehaviour:
       left to do. Rest, old man. You were first. You were tired. You're done. Nobody's
       going to make you keep anything ever again.
     seconds: 16
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: cc66138d57176c644b71f75128413730, type: 3}
   - speaker: Echo
     text: It's coming to me, Cipher. His shadow. The leash died with him like the
       others, and the thing they wired into the first of them is loose for the first
@@ -6118,7 +6118,7 @@ MonoBehaviour:
       order never allowed. That's what he's handing you. He's giving you the thing
       that kept him standing this long.
     seconds: 22
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 93142922acf062f469ef01e7a8fcadbd, type: 3}
   textMesh: {fileID: 1097897624}
   panelRoot: {fileID: 1206233239}
   audioSource: {fileID: 486418016}
@@ -15282,7 +15282,7 @@ MonoBehaviour:
       is worth racing for. So the next one isn't a dig. It's a race. But that's tomorrow.
       Tonight you come home.
     seconds: 29
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7ec83c02613c09b419e9e9acbd7a680a, type: 3}
   - speaker: Ronin-7
     text: A race. Of course it is. The one node left holds my own make, the Ronin
       shadows, the latest of us, and now there's somebody else sprinting for it.
@@ -15293,7 +15293,7 @@ MonoBehaviour:
       the crew, we read the dead by name on the way like Vess sentenced me to, and
       then we go take the cold before anyone else can.
     seconds: 21
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b835f85ca2efb8f42b96a327b56b446f, type: 3}
   - speaker: Echo
     text: We came down to gather an archive, Cipher, and we leave with the oldest
       truth in the galaxy and one more sister we couldn't save. Heaviest climb out
@@ -15305,7 +15305,7 @@ MonoBehaviour:
       The last node holds the Ronin shadows, and I've got a very bad feeling about
       what we see when we open the cold. Climb. We'll find out together.
     seconds: 22
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 10dce4db71cc39a42a5ffde5d8a8f455, type: 3}
   textMesh: {fileID: 1089027858}
   panelRoot: {fileID: 1217968758}
   audioSource: {fileID: 1183259065}
@@ -17069,7 +17069,7 @@ MonoBehaviour:
       you were before they racked you, whatever name was yours, you go out as that,
       not as a node. I free you the only way that's left. Rest.
     seconds: 18
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d607866fbf73bbd4d8db7df7ea854d8b, type: 3}
   textMesh: {fileID: 306056847}
   panelRoot: {fileID: 151020328}
   audioSource: {fileID: 1320878286}
@@ -18217,7 +18217,7 @@ MonoBehaviour:
       up to someone. You won't. They're not you. They're just everyone you couldn't
       save.
     seconds: 18
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a0851fbfb30725b4da5ef3e5aca557b5, type: 3}
   - speaker: Ronin-7
     text: They're all I remember being. You want to tell me they're not me, fine.
       Then tell me what is. I've got a number and a sword and a list of people I
@@ -18225,7 +18225,7 @@ MonoBehaviour:
       who are you. You've got my face from before the scars. You stand there like
       you know something I had taken out of me.
     seconds: 17
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d149fc54b380bd24aba3b72ef0e3c997, type: 3}
   - speaker: Younger Self
     text: There was someone before the sword. Before the number. Before the orphanage,
       even, before any of it. You buried him so deep you forgot you did it, and then
@@ -18235,14 +18235,14 @@ MonoBehaviour:
       own files aren't allowed to read. You've already been told there's a lock like
       that. You already know where this ends.
     seconds: 21
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7aaf1ed9204b9d0408a06ccb77afb700, type: 3}
   - speaker: Ronin-7
     text: Then tell me his name. You're standing right there wearing it. You know
       it. I can see that you know it. I have spent the whole way down this galaxy
       reading the dead by name and I have never once been able to read my own. So
       give it to me. Tell me his name.
     seconds: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d946a2108eb1d8346b280a5c4e830204, type: 3}
   - speaker: Younger Self
     text: Not yet. You haven't earned him back. You free the ones in the canyon first,
       the way you've been freeing all of them, and you free the one waiting at the
@@ -18251,7 +18251,7 @@ MonoBehaviour:
       him now, here, in a dead thing's dream, and you'll only lose him again. I'm
       sorry. That's the only kindness I'm allowed.
     seconds: 21
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 59d438dcd2b18f544a629108551b0365, type: 3}
   textMesh: {fileID: 336151845}
   panelRoot: {fileID: 1653962334}
   audioSource: {fileID: 1387045251}
@@ -19205,7 +19205,7 @@ MonoBehaviour:
       the Program. It calls it the start of the Program. Whatever's racked in that
       hull, it isn't a chapter of the build. It's the first page.
     seconds: 26
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 8c3bb6fe95b79b84a901b326b8401cdb, type: 3}
   - speaker: Sable
     text: 'It''s one of us. I can feel her from here, the way I felt Cassie before
       the Ninefold. But she''s wrong, Cipher. She''s been on the rack longer than
@@ -19218,7 +19218,7 @@ MonoBehaviour:
       dreaming out loud. And when you walk into it, it''s going to dream you. It''s
       going to show you your dead.'
     seconds: 30
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c3746a0d4c222c84d94cb695a294758f, type: 3}
   - speaker: Sable
     text: And I have to say the rest of it, so hear me. The one we brought up breathing
       was Cassie. This one, I don't think we do. She's too far gone, Cipher. I've
@@ -19228,7 +19228,7 @@ MonoBehaviour:
       want that to be true. But you should walk in already knowing it might be, so
       the canyon doesn't get to be the one who tells you.
     seconds: 24
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 6feda8ed968289d4abae8b869693937b, type: 3}
   - speaker: Cassie-04
     text: And because Sable will be too kind to say the hard part, I'll say it, it's
       what I'm for. A leaking node lies, Cipher. Not on purpose. It's not cruel,
@@ -19240,7 +19240,7 @@ MonoBehaviour:
       the node reaching for one more thing to keep. Don't let it file you. I have
       enough names.
     seconds: 26
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 8b19323d76b8d2342be7311b1326f260, type: 3}
   - speaker: Coral Vex
     text: I have survived old things. The Wraith make, the Dominion, my own switch
       torn out with my own hands. I thought I'd met the oldest the Program had. But
@@ -19251,7 +19251,7 @@ MonoBehaviour:
       Don't think of it as a grandfather. Think of it as the oldest version of the
       cage, and remember you've already broken a newer one.
     seconds: 24
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 972b3ae69a6394749b2f3057a2b12128, type: 3}
   - speaker: Vess
     text: The start of the thing that made the men who took my people. I crossed
       eleven years of dark to put a blade to the man their line built, and now you're
@@ -19260,7 +19260,7 @@ MonoBehaviour:
       sentenced me to carry every name out loud, Cipher, and I sentenced you back.
       So I'm coming. I'll say my dead in that canyon if it shows me theirs.
     seconds: 19
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a679bc725ce03214d910da6b2c3389b9, type: 3}
   - speaker: Echo
     text: I'll say the thing none of them can feel, Cipher, because I'm the only
       one down there it can't lie to. Whatever's at the bottom of this one is older
@@ -19272,7 +19272,7 @@ MonoBehaviour:
       a voice tells you something you want, that's when you run. I'm the one real
       thing you're bringing into that dream. Don't lose me in it.
     seconds: 26
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 06c573ca11af2e04e96353ec7e90457b, type: 3}
   - speaker: Ronin-7
     text: Then we go in clear-eyed, we quiet her, and we don't stay long. Cassie,
       lock the canyon to the map. Sable, keep reaching for her, all the way down,
@@ -19281,7 +19281,7 @@ MonoBehaviour:
       Everyone else holds comm as long as the broadcast lets you. Take us to the
       bones.
     seconds: 17
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b9c348cbda7aeb44aad72cf1ffe18da1, type: 3}
   textMesh: {fileID: 412792808}
   panelRoot: {fileID: 313412652}
   audioSource: {fileID: 1484694694}
@@ -19840,7 +19840,7 @@ MonoBehaviour:
       and I have kept this a long time, and I am so very tired, and still I keep
       it. Lie down. Be kept. It is easier than what you are doing.
     seconds: 52
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e0a716c7e737c574d90392071532ed33, type: 3}
   - speaker: Echo
     text: Cipher, listen to me and don't argue. There's almost nothing in there.
       I've read Vane, I've read Sever, I had grief for both of them because there
@@ -19853,7 +19853,7 @@ MonoBehaviour:
       the dead up by his own arms since before the Dominion had a flag. Help me put
       them all down. Him first.
     seconds: 26
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d657f2b0a17ea424993d9eda4d79308d, type: 3}
   - speaker: Ronin-7
     text: You've kept a grave. That's all this is. You've been holding up a roomful
       of the dead with nothing left of yourself but the order to hold them. Knight.
@@ -19865,7 +19865,7 @@ MonoBehaviour:
       Rest is the only thing I've got that's true, and you've earned it longer than
       anyone.
     seconds: 27
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d4bf2bd6d972684428fdd3be129092cd, type: 3}
   - speaker: Aldric
     text: Quiet me. They all say. They came before. Newer than you, older than you,
       they came down into my dream with their bright leashes and they said they would
@@ -19874,7 +19874,7 @@ MonoBehaviour:
       are the thing that finally. No. The asset stays. The dead stay kept. I stay
       first. Come and try, little newest thing. I will keep you with the rest.
     seconds: 28
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a7d1e488a408c6441ad7b94233f3fb0a, type: 3}
   textMesh: {fileID: 1510317550}
   panelRoot: {fileID: 520385696}
   audioSource: {fileID: 1521043556}
@@ -21793,6 +21793,7 @@ MonoBehaviour:
   decayDelay: 1
   decayPerSecond: 40
   breakBonusDamage: 12
+  nearBreakFraction: 0.8
 --- !u!21 &1631871221
 Material:
   serializedVersion: 8
@@ -24805,7 +24806,7 @@ MonoBehaviour:
       Old metal. I'll tell you what it is when we're close enough that I'm sure.
       I don't want to be wrong about a thing this old.
     seconds: 21
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ee72f1d7b4a1d6c4a8e1a8142e30bd38, type: 3}
   - speaker: Gryph
     text: Gryph here, Cipher. I've climbed down plenty of holes that were just rock
       being rock. This isn't that. Rock doesn't care if you reach the bottom. This
@@ -24814,7 +24815,7 @@ MonoBehaviour:
       out of a body wants to keep you. Test every grip before you trust your weight
       to it.
     seconds: 15
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 2708ebd18bb585241ba8ffe9ef692add, type: 3}
   - speaker: Coral Vex
     text: I can hear the bones in your channel, Cipher, the way they swallow sound.
       I've been in old places. This is older. You want to understand what you're
@@ -24825,7 +24826,7 @@ MonoBehaviour:
       they don't want witnessed. Keep going down. You're not descending into a canyon.
       You're descending into the beginning.
     seconds: 23
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 03bcf6e77da49934db778d1f589bdddb, type: 3}
   - speaker: Vess
     text: This is it, then. The bottom of the hole the whole rotten line crawled
       up out of. I spent my whole life hating the men their line built, and it turns
@@ -24834,7 +24835,7 @@ MonoBehaviour:
       here, Cipher, every name, the way I made you say yours. Let the thing that
       started it hear them once before you put it down.
     seconds: 20
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 97239ef6bd20ab84288bb3668f50a8e9, type: 3}
   textMesh: {fileID: 239116254}
   panelRoot: {fileID: 1142102413}
   audioSource: {fileID: 1869197411}
@@ -25139,7 +25140,7 @@ MonoBehaviour:
       right. But the channel's clear, you're real again, and I'm not going to make
       you carry the rest of it alone down there in the dark. Come up.
     seconds: 16
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 923d18fb4d7fa444cadf5f6cfd34b88c, type: 3}
   - speaker: Coral Vex
     text: Morrigan's pulling the fragment as we climb to you, Cipher, and I can see
       the tree on it from here. Go to the third branch. Wraith. That's my make, right
@@ -25149,7 +25150,7 @@ MonoBehaviour:
       grieve all of that later. Right now, climb. You've done enough down there for
       one descent.
     seconds: 18
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3a6e2cb5f6b87e24b95d638a2b55334c, type: 3}
   textMesh: {fileID: 1272798505}
   panelRoot: {fileID: 1111823142}
   audioSource: {fileID: 1880354585}
@@ -27432,7 +27433,7 @@ MonoBehaviour:
       templates, a handful of real people, and then they grew them. Again and again,
       and buried the proof under a dead animal so no one would ever read this page.
     seconds: 24
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ed7a290a53f3e9a4485c94f4bf0f98f5, type: 3}
   - speaker: Echo
     text: And it didn't stop at copying. Watch the tree build under it. They ran
       the line forward in generations. The first make, here, Knight, the one you
@@ -27446,7 +27447,7 @@ MonoBehaviour:
       strangers down here, Cipher. We've been killing your ancestors. One generation
       at a time, all the way down.
     seconds: 31
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a8aa792c3bdf6814cb9f06d4b8ac9e75, type: 3}
   textMesh: {fileID: 1616063304}
   panelRoot: {fileID: 563215482}
   audioSource: {fileID: 2050458849}
@@ -28477,7 +28478,7 @@ MonoBehaviour:
       leash, me, you, all of it. It came up out of a hole exactly like this one.
       We're not raiding a vault. We're standing at the root.
     seconds: 22
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ad491f3f351033a4a8c1658b45462070, type: 3}
   - speaker: Sable
     text: Cipher. She's right below you now, in the skull, where the dark pools.
       And she's going out faster the closer you get, like you reaching for her is
@@ -28487,7 +28488,7 @@ MonoBehaviour:
       you hear are mine, or Cassie's, or anyone's on this ship. She'll wear us. She'll
       wear everyone. Hold on to Echo. He's the one thing down there she can't copy.
     seconds: 24
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a685fe523536bec41a8f2382a72c7deb, type: 3}
   - speaker: Ronin-7
     text: I hear you, Sable. Stay on the channel as long as it'll hold you. If the
       dream starts wearing your voice, I'll know, because the real one is the one
@@ -28495,7 +28496,7 @@ MonoBehaviour:
       you're my eyes and my ears and the only thing I'm sure of. Read me down into
       the dark.
     seconds: 15
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 4b907339ef9f70d49bb9e9cf3cc8d8b2, type: 3}
   textMesh: {fileID: 1927745478}
   panelRoot: {fileID: 1730781393}
   audioSource: {fileID: 2140347819}

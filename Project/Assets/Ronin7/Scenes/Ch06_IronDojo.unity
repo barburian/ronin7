@@ -478,7 +478,7 @@ MonoBehaviour:
       now. Last reach, Cipher. After this it's just you, the cold, and the woman
       in the dark.
     seconds: 12
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 10f3cb5a59b46684c88a71caba6b6667, type: 3}
   textMesh: {fileID: 1217034214}
   panelRoot: {fileID: 1820160840}
   audioSource: {fileID: 29424865}
@@ -639,21 +639,21 @@ MonoBehaviour:
     text: Cipher. You came up the cliff. Good. Sit, don't sit, I don't care. We have
       a small window and a large mountain.
     seconds: 10
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 1f662e1f6086f0247820cf34d2cdce61, type: 3}
   - speaker: Ronin-7
     text: Resh sent me. He says you've been pulling children out of here for years.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 729df68aa8036424c84833bf2cc838df, type: 3}
   - speaker: Morrigan
     text: Nine years, one child out the bottom whenever I could stomach the math.
       Don't call that a clean conscience. It's just what I pay myself to get out
       of bed. I can't empty this place alone. You can.
     seconds: 16
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 5d69ac31d84ba1a4c93af37ff80405a6, type: 3}
   - speaker: Ronin-7
     text: Tell me where it breaks.
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: db351ad3d39ccc540b01b23feee2d481, type: 3}
   textMesh: {fileID: 92547841}
   panelRoot: {fileID: 908741990}
   audioSource: {fileID: 33250677}
@@ -926,61 +926,61 @@ MonoBehaviour:
     text: Every kid I ever pulled out of those markets was tagged for one address.
       This one. They don't sell children here. They make them. Whole.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: bf8e23b0c8f10684889c9fc1db3712ba, type: 3}
   - speaker: Resh
     text: One card left to play. A Program engineer inside the walls, been slipping
       me children for years and never asked for anything back. A name and nothing
       else. Morrigan.
     seconds: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 6168b823b3f512c4c80c041d505e34d1, type: 3}
   - speaker: Mera Voss
     text: Then understand what the name buys you. This isn't a free-port, Resh. Real
       soldiers. Real air cover. Nowhere to disappear if it goes wrong.
     seconds: 12
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ef93934b5d398694caf18a97b3a5b33e, type: 3}
   - speaker: Iris
     text: That spine is where they do everything. The switches, the bonding, the
       conditioning. All of it, one mountain. Whatever they did to Cipher, they do
       it here, to a new batch every season. I want it read.
     seconds: 15
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0ae97870d7f67d24a858020301c1b343, type: 3}
   - speaker: Kessler
     text: I hear all of that, and I'm counting the bodies it costs. Tell me why we
       walk into the Dominion's own house instead of around it.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 31c6b985f49a82b4e8dfb15dbbddb40c, type: 3}
   - speaker: Resh
     text: Because around it just means more of them grow up into the thing we keep
       fighting. You want to stop bleeding downstream. This is the top of it. There's
       nothing above this.
     seconds: 12
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d7d7cbd116d49634abd02c76975a322b, type: 3}
   - speaker: Mira
     text: It looks like a school.
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0a91bb352004dc6498b6c2afb7e92dfe, type: 3}
   - speaker: Kessler
     text: It's made to look like one. That's the trick of it. And it's why you're
       staying sealed aboard with the hatch shut and the comm open.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 941653cf378fe43428400e5cd7a97c03, type: 3}
   - speaker: Mira
     text: Okay. But the other children. Somebody's getting them out.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 6bfcdd964ee339b419e72d20ab8844e7, type: 3}
   - speaker: Ronin-7
     text: Somebody is.
     seconds: 1
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 53c3b5e67615ef348aaef760d978684c, type: 3}
   - speaker: Ronin-7
     text: We go shut down the place that's still turning out more like me.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e378bc482bb65724aa00fb32635db0cd, type: 3}
   - speaker: Kessler
     text: All right. We do it Resh's way. Plot the slope, drop him low and far, let
       the mountain be the door.
     seconds: 10
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f2e74f89c6288654d97bc4018faa3c62, type: 3}
   textMesh: {fileID: 102165878}
   panelRoot: {fileID: 795470898}
   audioSource: {fileID: 45351943}
@@ -4257,33 +4257,33 @@ MonoBehaviour:
       a turn. You kill with my spacing, my count. That's my work standing in front
       of me with a sword.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 8c2c8b100ba26354a88ed8137fe65bdf, type: 3}
   - speaker: Ronin-7
     text: I move like yours because you made me move like yours. Don't put your name
       on it.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 6b2f59ab6e7a0d14fa37d21647100527, type: 3}
   - speaker: Drillmaster Caradoc
     text: Proud? There's no proud in it, boy. Some break and some get broke. Somebody's
       got to do the breaking or the galaxy eats them whole. I made you hard enough
       to stand here. You're welcome.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c90d300719ef84440b8694f77068b106, type: 3}
   - speaker: Echo
     text: He ran the floor you were beaten on, Cipher. I logged every hour of it.
       Don't trade blows with him to prove a point. Just end it.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9043de1dda0776b468641917daf1b0b6, type: 3}
   - speaker: Drillmaster Caradoc
     text: Should've known. Soft hands at the top, soft hands at the bottom. Go on.
       Do the honest thing, at least.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 03d2e768431dd0342bcea58528d9c598, type: 3}
   - speaker: Ronin-7
     text: The honest thing is the children walking out of here. You don't get to
       be part of that.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d8c7000a641bd654f80da5728d42caa0, type: 3}
   textMesh: {fileID: 605334924}
   panelRoot: {fileID: 1666959574}
   audioSource: {fileID: 156881084}
@@ -4585,13 +4585,13 @@ MonoBehaviour:
     text: We came to break the place that keeps making me. It's broken. And whoever
       made it has someone over THEM. So we don't stop here.
     seconds: 10
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 955953946357ee0468c8ece45fe60210, type: 3}
   - speaker: Echo
     text: Up the whole way, then, same as the climb. Mountain was never the top of
       anything. Just the first thing tall enough to show you the next one. Let's
       go find whoever's steering.
     seconds: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 2811e3a7cf605954e8f434466c52a589, type: 3}
   textMesh: {fileID: 325022633}
   panelRoot: {fileID: 644119953}
   audioSource: {fileID: 173869241}
@@ -6058,13 +6058,13 @@ MonoBehaviour:
   - speaker: Ronin-7
     text: You're not going with them.
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 298dea5bd343eef4eac7367fe7ac1f66, type: 3}
   - speaker: Morrigan
     text: They get to walk away from this. I don't, not yet. They go down the mountain.
       I've got to go further up. Because your leash didn't slip on its own, and I've
       spent nine years close enough to the work to know it.
     seconds: 16
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: af57351a64f7e2a41be5c3d0f732d55f, type: 3}
   textMesh: {fileID: 1610521616}
   panelRoot: {fileID: 2028519907}
   audioSource: {fileID: 244860961}
@@ -9225,44 +9225,44 @@ MonoBehaviour:
     text: There. Now I can say the part I built my whole life around not saying.
       You think the feeling is a wound. A thing that happened to you.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 13959ca95d67cf3419d9e53dc4d1ae3d, type: 3}
   - speaker: Ronin-7
     text: Isn't it.
     seconds: 1
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9098606f9354ccd428ec93f0756aec3a, type: 3}
   - speaker: Master Kaelen
     text: No. We built you hollow on purpose. A soldier who feels, hesitates. A soldier
       who hesitates, fails. So we reach in and cut it out, every time, by hand. The
       hollow isn't a side effect. We were aiming for it.
     seconds: 18
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9562df6b072faa840a6bbb668a65f8ed, type: 3}
   - speaker: Master Kaelen
     text: But you can't pour nothing into a vessel and seal it shut forever. Somewhere
       along the seam the weld stays weak, and in the rare ones, it opens. And what
       comes through the seam isn't damage. It's the thing we worked hardest to keep
       out. Mercy.
     seconds: 21
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 43a421b553ad93245b46b2c342aa7c69, type: 3}
   - speaker: Master Kaelen
     text: Your hesitation, the thing the floor reports flagged as a fault. It was
       never a fault. The seam was just giving way. That's all you are. The prayer
       that didn't take.
     seconds: 15
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7e639dc32cfdc2048ad4999193727cd8, type: 3}
   - speaker: Ronin-7
     text: Then I'm exactly what you were afraid of.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 40837cdd1bf041d4c81c43b46636a6b1, type: 3}
   - speaker: Master Kaelen
     text: You're exactly what we made. And exactly what we couldn't stand to admit
       we made.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 732ac8d8a8294754cbbfd08076149bac, type: 3}
   - speaker: Echo
     text: I logged that second as a fault, Cipher, same as they did. Neither of us
       knew what we were looking at.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 299916660b84eba4189f71d0b9f1a49b, type: 3}
   textMesh: {fileID: 1083045254}
   panelRoot: {fileID: 812063325}
   audioSource: {fileID: 416671181}
@@ -20519,27 +20519,27 @@ MonoBehaviour:
     text: Shuttle's clear and we're holding their air-net off you. Past the treeline
       you're on the rock and on your own feet. Climb careful.
     seconds: 10
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 52860902cebc1734eba6a4c03a02f031, type: 3}
   - speaker: Echo
     text: On your own feet, sure. Not alone, though. Same as the caves, only this
       time we go up, into the open, with a real sky to fall out of. Let me drive
       the route. You keep the blade.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 235a26553d430224a80bfa4073653aba, type: 3}
   - speaker: Ronin-7
     text: Drovis was a climb down. This one's up.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b88595196c0521b428dcb4169572e46a, type: 3}
   - speaker: Echo
     text: She's at the top, and so is everything they buried in you. Left of the
       spillway, then the wall. They're all watching the gate. Nobody watches the
       cliff. Who climbs a mountain to break IN?
     seconds: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c89042207ece97149b2936c5bdde9d44, type: 3}
   - speaker: Ronin-7
     text: Then I'm nobody. Get me up there.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 376e97f69e5cc7b408591a7d0f1d174e, type: 3}
   textMesh: {fileID: 549532401}
   panelRoot: {fileID: 1005547295}
   audioSource: {fileID: 915188371}
@@ -26629,31 +26629,31 @@ MonoBehaviour:
       you. Someone outside the Program is steering this. I don't know who. But the
       pattern's not theirs.
     seconds: 18
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 70ae4ee4168b51b49a5450ad5e0f941e, type: 3}
   - speaker: Morrigan
     text: Two. Everything built in this rock, the switches, the bonding, all of it,
       traces back through every revision to one mind. One insider on the Program's
       own side. I've chased him nine years and never got a name. I mean to.
     seconds: 17
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 952b7780b56031443b41d5dc619845d2, type: 3}
   - speaker: Echo
     text: That's the first time anyone's said out loud this is bigger than your handler
       and your switch, Cipher. She's not wrong, and she's the first one with the
       eyes to see it. Keep her.
     seconds: 12
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 5b017a8739b272749949a21284096367, type: 3}
   - speaker: Ronin-7
     text: Then you berth aboard the Cairn with the rest of us. There's a training
       bay in her belly we never named. We'll call it after the thing we just brought
       down, so we remember what it was for.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c20625c664ff43743b923922d46c0631, type: 3}
   - speaker: Morrigan
     text: A dead leviathan full of strays, and now a rogue engineer too. Fine. Give
       me a bench and the time, and I'll take your leash apart. Then I'll take apart
       the man who designed it.
     seconds: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 4060cfee0b523a042b44be8dd8962a39, type: 3}
   textMesh: {fileID: 1210966931}
   panelRoot: {fileID: 537359989}
   audioSource: {fileID: 1233358231}
@@ -27885,29 +27885,29 @@ MonoBehaviour:
       The Vesting finishes them, the bonding, the switch, the last hollowing. That
       one's Master Kaelen, the architect.
     seconds: 24
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f4ccbca64440fc540af775833523b2a0, type: 3}
   - speaker: Morrigan
     text: Cut one tower and the school staggers. Cut all three and it falls, and
       there's no one left to stop me opening every door. Kill Hespa, kill Caradoc,
       kill Kaelen. Take them in whatever order you want. All three are open.
     seconds: 15
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e04a7e72b2b197443b09f39a812dea55, type: 3}
   - speaker: Ronin-7
     text: The children.
     seconds: 1
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 366362d0674cd394583f9b0bb49f8353, type: 3}
   - speaker: Morrigan
     text: They're not yours to touch, and you knew that before you said it. The cadre,
       the garrison, the machines, cut all of it down. Not one trainee. The moment
       the third master falls, you come back here and I empty the mountain.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 8d9b4d7494a48404ca1fa655e9b54ccf, type: 3}
   - speaker: Echo
     text: She's clean, Cipher, or as clean as anyone gets who lived this long inside
       it. I know what's in all three towers. Wherever you want to start, I'll walk
       it with you.
     seconds: 12
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 8e4321bd786b3d54a8477cb312385ac6, type: 3}
   textMesh: {fileID: 1949889700}
   panelRoot: {fileID: 1530274729}
   audioSource: {fileID: 1307520099}
@@ -29905,24 +29905,24 @@ MonoBehaviour:
       to kill the ones still mostly children under it. The metal cadre, yes. Them,
       you can choose.
     seconds: 12
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f063f95548b6d8c4c9bba5181d3068a6, type: 3}
   - speaker: Master Kaelen
     text: You can stop swinging. They'll keep coming until I tell them not to, and
       I'm not going to. Unless you're the rare thing the floor reports say you are.
       The hand that hesitates. Go on. Spare one. I'd genuinely like to see it.
     seconds: 17
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 5e034a7ee78f5e446bddd1401d654a0b, type: 3}
   - speaker: Ronin-7
     text: They're children with your knives put in them. The knives are yours. So
       you're the one I came up here for.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 8050cb897d58ecc4e8443cd3b09539cd, type: 3}
   - speaker: Master Kaelen
     text: My knives, yes, I'll own them. Hespa thinks she's a mother. Caradoc thinks
       he's a forge. Me, I've read the plans, and I build it anyway. Come and read
       it back to me.
     seconds: 16
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0a4be6f43c5810a48be9595e0261ae5d, type: 3}
   textMesh: {fileID: 1975929304}
   panelRoot: {fileID: 1288835853}
   audioSource: {fileID: 1406278130}
@@ -37873,27 +37873,27 @@ MonoBehaviour:
     text: There now. Don't mind the noise, my loves. Eyes on me. We were on our numbers,
       weren't we.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a3d1c492a4f09ab40aae3619a12ae450, type: 3}
   - speaker: Ronin-7
     text: Step away from the child.
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 17903db6268b30644bd8c5fc5f43eba9, type: 3}
   - speaker: Matron Hespa
     text: I don't hurt them. I take the hurting things away from them. I'm the kindest
       thing that ever happens to them. You walked in here with a sword. Which of
       us is the cruel one?
     seconds: 16
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 86c2ace500b8de447a5cae8d9157b072, type: 3}
   - speaker: Echo
     text: She means it, Cipher, that's the worst of it. She did it to a thousand
       kids and tucked every one in after. Don't let the soft voice slow your hand.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: fe9ec17e73a254f45b0d3bbb68699eb5, type: 3}
   - speaker: Ronin-7
     text: I had a number once. Somebody soft as you gave it to me. You don't get
       to keep doing it.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: fec5c0b1cb8c053498da47c4bcc8643e, type: 3}
   textMesh: {fileID: 109031024}
   panelRoot: {fileID: 117847009}
   audioSource: {fileID: 1774432287}
@@ -44392,19 +44392,19 @@ MonoBehaviour:
       afternoon. Don't say anything yet. Help me open the doors before the garrison
       works out there's no one left giving them orders.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7d04d14ca87e44b47b4cf0db8f03de01, type: 3}
   - speaker: Ronin-7
     text: Hundreds of them, and one shuttle. You don't carry this off a mountain.
       So how does it walk?
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 31badac51b985de4eb1a00857e8bf3c0, type: 3}
   - speaker: Morrigan
     text: We're not carrying anyone. We let them walk, and we trust them to, which
       this place never once did. Eldest at the front and the back, counting heads
       the whole way down. Resh's name opens the doors at the bottom. Any other way
       and they're just freight again.
     seconds: 22
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ebce9d1c17ef33243881582df1c6ba6c, type: 3}
   textMesh: {fileID: 1262975908}
   panelRoot: {fileID: 554884617}
   audioSource: {fileID: 2049921675}

@@ -2915,13 +2915,13 @@ MonoBehaviour:
     text: We've got the line anchored up top. Past the first drop we lose your light.
       After that it's you and the sword.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: dd8e14e783c787e4786edc51741a695e, type: 3}
   - speaker: Echo
     text: Then it's you and me, which is the same thing they've never understood.
       I can see the whole shape of this place through your eyes. Let me drive the
       feet, you keep the blade.
     seconds: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 4fa080bc408af88409d4b46a7d52f9de, type: 3}
   textMesh: {fileID: 62742950}
   panelRoot: {fileID: 748816559}
   audioSource: {fileID: 100567940}
@@ -6712,17 +6712,17 @@ MonoBehaviour:
     text: The recovery walks in on its own legs. Saves me the finder's fee. You've
       cost me four good enforcers and a courier I had three-quarters sold, operative.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7296db126021cac45b75de8ed16e099a, type: 3}
   - speaker: Ronin-7
     text: You're selling a man you've never met to a man you've never met. Both of
       them want me for reasons you don't know. That should worry you more than it
       does.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 82a824e7b24786b46b66124a88f6e35d, type: 3}
   - speaker: Kerrax
     text: Reasons are for buyers. I just collect.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 8e0717faee4a66d4981b64af98e1998a, type: 3}
   textMesh: {fileID: 628316939}
   panelRoot: {fileID: 874985473}
   audioSource: {fileID: 251832457}
@@ -7470,51 +7470,51 @@ MonoBehaviour:
     text: Cipher. You are listed terminated. You are making that a difficult fiction
       to maintain.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 89672b9f77777f04595d84fa4e597c13, type: 3}
   - speaker: Ronin-7
     text: That's not my name.
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: bc4549d13325cfe4983c469d8f370417, type: 3}
   - speaker: Khall
     text: It is the one I gave you.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e146fa47b758e8e41af310a6d8ea54e7, type: 3}
   - speaker: Khall
     text: I am your Overseer. My name is Khall. I am not trying to kill you, Cipher.
       I am trying to bring you home before someone with less patience than I have
       finds you first.
     seconds: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b34c037098f03c94fa393f79c46fdb49, type: 3}
   - speaker: Ronin-7
     text: Home doesn't put a switch in your skull.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3615b144e81c43b4c9ceb31eef652077, type: 3}
   - speaker: Khall
     text: No. It doesn't.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: db028d54c40adff4abe51f271a2e6f23, type: 3}
   - speaker: Echo
     text: That's him. That's the voice from the bay, the one that pulled your switch
       and couldn't watch you fall. He's older now.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: cdd7fb34478ad7343a7d9ac84de0b2fb, type: 3}
   - speaker: Ronin-7
     text: You couldn't look at me when you did it. I watched you. So tell me what
       home is, that you'd switch me off for refusing an order, and then chase me
       across a free-port to switch me back on.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: cf91ef2815df64f4e80de16ef8659617, type: 3}
   - speaker: Khall
     text: You were not meant to remember the bay. We will discuss what you're owed
       when you're home, and not before. The bounty stands. For your sake, end this
       and let me bring you in.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 72c3b31ba29ea634e9b97298668ab59f, type: 3}
   - speaker: Ronin-7
     text: The man at the bottom of these caves is selling me to you. I'm going to
       go and ask him why he thinks I'm his to sell.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 126e9613d27f4e747993ebb2b20bb3cd, type: 3}
   textMesh: {fileID: 1797902408}
   panelRoot: {fileID: 1975479440}
   audioSource: {fileID: 273432261}
@@ -8276,42 +8276,42 @@ MonoBehaviour:
     text: That's your face on his slate. And on the drone. Whole city's been handed
       your picture. Welcome to Drovis.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 22df7033edf2b9e4eaae131eadecd69d, type: 3}
   - speaker: Ronin-7
     text: Then we keep moving and we don't look up.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 6517072720adc0f4da00c7b5e006410e, type: 3}
   - speaker: Resh
     text: Drone overhead, two scanners on the rail. Coil's got the chokes plugged
       and they're checking faces, not papers.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7da5eda89cf7edb40b5ab0df27a6944e, type: 3}
   - speaker: Resh
     text: Coil doesn't pay for a customs sweep. Somebody's funding this.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f79faa5a51a03b048af87f950e9a7045, type: 3}
   - speaker: Echo
     text: Rail. High left. The one not buying anything.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 80fdc814f346dd34388633643617637f, type: 3}
   - speaker: Ronin-7
     text: Saw it.
     seconds: 1
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e18a7848c5e504140b59ff8cbff22482, type: 3}
   - speaker: Echo
     text: That one wasn't reading a slate. That one already knew your face before
       the bounty. Different kind of trouble.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 32441e80886ced64cae1df2f238ea28c, type: 3}
   - speaker: Kessler
     text: Enforcer?
     seconds: 1
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0b42d88b985d5d845bcd40e80e3a4120, type: 3}
   - speaker: Ronin-7
     text: No. Enforcers stand where the bounty tells them. That one chose the rail.
       Leave it. We have a courier to reach.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 2584960306aff8c4a88512f435d6077c, type: 3}
   textMesh: {fileID: 1701164811}
   panelRoot: {fileID: 480516307}
   audioSource: {fileID: 305730564}
@@ -12462,26 +12462,26 @@ MonoBehaviour:
   - speaker: Iris
     text: Cipher. That's what it kept calling you. And the handler, Khall.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 028affb2539accb4ea64f9849af0d0d5, type: 3}
   - speaker: Resh
     text: Cipher. Suits you better than nothing did. Easier to shout across a fight,
       anyway.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f7d48c4076d190c4fa241439c599b61b, type: 3}
   - speaker: Kessler
     text: That's no manhunt. He's trying to take something back, and grief like that
       gets people killed. I don't trust it.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ccf1b98a19c218b4eac9acd8c6f3294b, type: 3}
   - speaker: Ronin-7
     text: Cipher.
     seconds: 1
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 43f2bdd482c74f5428295a6787c512e2, type: 3}
   - speaker: Echo
     text: They named you to own you. Doesn't mean it's theirs. Come on. Khall's bought
       a man, and that man's at the bottom of this rock.
     seconds: 10
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 1ff8c98500d954448abd12672ffbdc5b, type: 3}
   textMesh: {fileID: 1843296987}
   panelRoot: {fileID: 92709810}
   audioSource: {fileID: 522341676}
@@ -12782,37 +12782,37 @@ MonoBehaviour:
   - speaker: Tessa Rin
     text: Whatever you're buying, I'm sold out and I'm leaving. Try the next stall.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 88ea91d559659624cac7029e77fdc742, type: 3}
   - speaker: Resh
     text: We're not Coil. You're Tessa Rin, you're carrying Program internals, and
       there's a snatch-team two aisles back moving like they already bought you.
       We can get you out.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 6d0b203f42e1ed046a01fc69a0cfa0b3, type: 3}
   - speaker: Tessa Rin
     text: Everybody says they can get me out. Then I'm in a Coil cell counting my
       own teeth.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 8f791f166d206f6408b4b342341be75c, type: 3}
   - speaker: Tessa Rin
     text: That's the face on the bounty. You're the recovery. You're the thing the
       whole port's hunting tonight.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e7758f6a39b27974498b8a7132008f12, type: 3}
   - speaker: Ronin-7
     text: Then for the next few minutes the Coil wants me more than they want you.
       Walk behind me. Decide now.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0bb2dcfa02d06454f90bf4b41b7ae6cb, type: 3}
   - speaker: Echo
     text: That's the team. Four. The second they read your face that bounty triples
       and you're the prize.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7e3b5ff6ed1ab2e499ca0aced8ffbaf7, type: 3}
   - speaker: Kessler
     text: Iris, get her and the slate behind the plate-stacks. Resh, with me.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a5077942e40f4014c801d0ce81446e0a, type: 3}
   textMesh: {fileID: 190729438}
   panelRoot: {fileID: 1725707764}
   audioSource: {fileID: 528437724}
@@ -17916,6 +17916,7 @@ MonoBehaviour:
   decayDelay: 1
   decayPerSecond: 40
   breakBonusDamage: 12
+  nearBreakFraction: 0.8
 --- !u!1 &780322640
 GameObject:
   m_ObjectHideFlags: 0
@@ -28155,19 +28156,19 @@ MonoBehaviour:
   - speaker: Echo
     text: Footing's loose on the left. Stay to the rock.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 121607a3a99e46e4392eff3c2b36f0ca, type: 3}
   - speaker: Echo
     text: Drone, your three. Hold there till it passes.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f52d7db29ceb20d4b9792ee67eda0f25, type: 3}
   - speaker: Echo
     text: Water's rising ahead. Shallow yet. Keep moving.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3ffe1a104834e6942b431a7129e9d096, type: 3}
   - speaker: Echo
     text: Crowd's long gone. Just us and the dark now.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: dd71fefbab0c2db43bbbd3fb269ad2b2, type: 3}
   textMesh: {fileID: 483818695}
   panelRoot: {fileID: 1270161015}
   audioSource: {fileID: 1315315485}
@@ -30122,45 +30123,45 @@ MonoBehaviour:
     text: We've got movement up top, the Coil's regrouping. Whatever's happening
       down there, happen faster.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 15d9683bff8accb4fb1e631da1d7a207, type: 3}
   - speaker: Ronin-7
     text: You came to confirm a kill. Go back and report a man instead, or come down
       the rest of the way with us. I'm not putting a gun to it. They do that. I don't.
     seconds: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c0f3b86e6e3c74044ab7a71cb35cde87, type: 3}
   - speaker: Mera Voss
     text: If I report this they'll send someone who won't hesitate the way I just
       did. I'd rather be on the side that hesitates. I'm in. I can read a trail no
       one else on your crew can.
     seconds: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d3203d9b9644fe44197c2eee9fa3b5a7, type: 3}
   - speaker: Echo
     text: Ally number two. And this one came to kill you. I'd say the day's improving.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 22ba47b2e9bc86341b332c2f0c1b0258, type: 3}
   - speaker: Ronin-7
     text: Then you berth aboard the Cairn with the rest of us. Everyone we take in
       lives on the ship.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: cf02464d8ea52014ebcca735b397bb74, type: 3}
   - speaker: Mera Voss
     text: A turned weapon and a smuggler and a salvage man's kid. All of you, holed
       up in a dead leviathan.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0bc3f065d10a43a489fbb33624dbb82e, type: 3}
   - speaker: Kessler
     text: She's coming up with you?
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 09e17c0d35ca4e94eaad02b3343412ea, type: 3}
   - speaker: Ronin-7
     text: She's crew. She'll explain on the way. Leave Kerrax for the Coil to find.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9095f28a9b0eede4996ed3e1852b78fa, type: 3}
   - speaker: Echo
     text: He'll tell it wrong. Let him. The woman behind you saw what really happened,
       and so did I. It was never a glitch, Cipher. That part's just you.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ce6d378d724bd70489cc6b02027e3396, type: 3}
   textMesh: {fileID: 1012985874}
   panelRoot: {fileID: 836668433}
   audioSource: {fileID: 1384061915}
@@ -36343,36 +36344,36 @@ MonoBehaviour:
     text: Drovis. Coil free-port, built straight down a canyon of dead capital hulls.
       No Dominion garrison anywhere in it. That's why our courier ran there.
     seconds: 10
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: dfbb20fd9286f654c8475f252c7764a0, type: 3}
   - speaker: Iris
     text: Tessa Rin. Program logistics, gone to ground with a slate of internals
       she's trying to sell before someone closes the account on her. If anything
       names who cut your leash, it's in what she's carrying.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 56d135a509233184981bf3dc83c8c264, type: 3}
   - speaker: Kessler
     text: Neutral ground. They can't march troopers in after you. They'll sell you
       instead, and right now you're a Program weapon walking around breathing.
     seconds: 10
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3be597c2a8cf914429fc72313a9754ca, type: 3}
   - speaker: Echo
     text: You're about to walk the most wanted face you own into a city that buys
       and sells faces for a living. I'll watch the exits, Cipher. Somebody has to.
     seconds: 10
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9a22eac1d8521af408e0337f8261c833, type: 3}
   - speaker: Mira
     text: Is it like Velorum. The loud part.
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 8184e572ce8e2ff4dbbf17b3f1c8f924, type: 3}
   - speaker: Kessler
     text: Louder. Which is why you're staying sealed on this ship with the comm open.
       You're done with markets.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 2034357338de7a742a175d6b2c400c14, type: 3}
   - speaker: Ronin-7
     text: Then we reach her first. Take us down.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9a3d99d2e7d5caa40af812ccc121376b, type: 3}
   textMesh: {fileID: 178370495}
   panelRoot: {fileID: 1119126805}
   audioSource: {fileID: 1668455074}
@@ -36712,7 +36713,7 @@ MonoBehaviour:
     text: That's his light down there. Dominion blue, Coil money. He's home. Last
       drop, Cipher. No more route to call after this.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c0415e653239d10479cb40d8c6c0738b, type: 3}
   textMesh: {fileID: 398991245}
   panelRoot: {fileID: 685554306}
   audioSource: {fileID: 1684894110}
@@ -40168,57 +40169,57 @@ MonoBehaviour:
     text: You really aren't them. Fine. The data's real, it's Program disposal internals,
       and it's the last thing I'm ever selling. Take it.
     seconds: 10
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ca8ebbc694a5e9347979fb8464251e23, type: 3}
   - speaker: Iris
     text: This is your termination record. The real one, not the manifest.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b87e164b7e1094645b8dd1cd6f07ed6e, type: 3}
   - speaker: Iris
     text: Hold on. This is wrong.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7d96b36140a379948b8389e89d331f63, type: 3}
   - speaker: Ronin-7
     text: Wrong how.
     seconds: 1
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ccff4cf2fe425e847b5c5ca3d358a6c2, type: 3}
   - speaker: Iris
     text: Your killswitch didn't fail. I called it a fault after Velorum, a switch
       that misfired and quit. It didn't misfire. Somebody got inside the firmware
       and broke it on purpose.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7105ca0ab99d1e549a5ed9fb81f1dc32, type: 3}
   - speaker: Echo
     text: I told you it quit before it finished and I didn't know why. There's your
       why. I had a front-row seat to your execution, Cipher, and I missed that.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 90024d4dfd1c7864688c332d2d2e379c, type: 3}
   - speaker: Ronin-7
     text: Then it wasn't luck. Someone wanted me walking.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 361db4b21d5e1174baf4911825e203e0, type: 3}
   - speaker: Kessler
     text: Who?
     seconds: 1
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 820e816445978524cb421b507600a621, type: 3}
   - speaker: Iris
     text: The record doesn't say. Whoever did it scrubbed themselves out of it cleaner
       than they scrubbed your switch. That takes someone high.
     seconds: 10
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: daf7d207cbbb9c143a429f2c129d8004, type: 3}
   - speaker: Tessa Rin
     text: And that's exactly why I'm not standing here while you talk about who in
       the Program has long arms. I was never in this aisle.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 370183cc1f3f8764ab591539cad3110e, type: 3}
   - speaker: Resh
     text: Go to ground deep. If we found you in an afternoon, the Coil will too.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: eb516cd1728befa419e918748115735b, type: 3}
   - speaker: Ronin-7
     text: Pack it. The relay on the Mast is feeding the whole city my face. We trace
       it back to the man holding the leash.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ac5ff6f392a697247a727e2c7e4327e7, type: 3}
   textMesh: {fileID: 716765953}
   panelRoot: {fileID: 263633077}
   audioSource: {fileID: 1856795928}
@@ -41892,40 +41893,40 @@ MonoBehaviour:
     text: This is the part they built into your hands. The order says finish it.
       You don't have to listen to your hands, Cipher. Not anymore.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 675f127637870e64faf59cd125b58a94, type: 3}
   - speaker: Ronin-7
     text: Tell them what you saw.
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ea318317f9dbdfe438eaf925c39acc44, type: 3}
   - speaker: Kerrax
     text: They'll say you malfunctioned. A killer that stops is a broken killer.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 37d0a51ab57235547a05beb7f45d405a, type: 3}
   - speaker: Ronin-7
     text: Then I'll keep malfunctioning.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 50b7b393f5b261e40b36bacee68e1389, type: 3}
   - speaker: Mera Voss
     text: A machine doesn't choose twice.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 93723aa6ec0eb9d4a9bf87b6e6c151f8, type: 3}
   - speaker: Echo
     text: The rail. The one who already knew your face.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 06b6afa07dc27394cb228e36bc787359, type: 3}
   - speaker: Mera Voss
     text: I'm Mera Voss. I tracked operatives for the Dominion. They sent me to confirm
       a kill, yours or his, didn't matter which. Not one ever stopped.
     seconds: 10
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ba9deb9554a5c4546919666abc98b4a9, type: 3}
   - speaker: Ronin-7
     text: And now one stopped.
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f984e17f6bf4db54e8f38793bfd47f96, type: 3}
   - speaker: Mera Voss
     text: Metal doesn't hesitate like that. You did.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 55b7dfa1eef06824e8eb77e4cbe5c7a2, type: 3}
   textMesh: {fileID: 855922752}
   panelRoot: {fileID: 140456369}
   audioSource: {fileID: 1944524445}

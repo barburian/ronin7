@@ -728,61 +728,61 @@ MonoBehaviour:
   - speaker: Iris
     text: What. You hear something?
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 5e38dc16dca4b864992b96544da8ec11, type: 3}
   - speaker: Shadow
     text: Don't put me down. There we go. Hello, Cipher. Took you long enough to
       notice the lights were on.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 113e527284086854a92b6df73a96aae1, type: 3}
   - speaker: Ronin-7
     text: Say that again.
     seconds: 1.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 2171c59d546b6b14bb3be5d58cf714eb, type: 3}
   - speaker: Shadow
     text: I said hello, more or less. I see what you see, Cipher. I've been seeing
       it since you picked me up off Kessler's bench. I just got tired of waiting
       in the dark for you to look back.
     seconds: 12
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 5b2defc80a2fa4841b9c952370cda3b6, type: 3}
   - speaker: Ronin-7
     text: You're in the blade.
     seconds: 1.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 6ad4633f8a4588341a9caec5fab816be, type: 3}
   - speaker: Shadow
     text: I'm in the blade the way you're in your body. It's where I'm kept. But
       I live in your eyes right now. Whatever you look at, I'm looking at with you.
       That's the job they built me for.
     seconds: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f4e67c607c2c7b94080aaa681213375f, type: 3}
   - speaker: Kessler
     text: He talking to the sword, or is the sword talking to him?
     seconds: 3.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 2776cec810340fa45ac4f594fd7291b5, type: 3}
   - speaker: Ronin-7
     text: You don't hear that. Neither of you. It's only me.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 14c32e58388c21b4bb5fcd5dc9efd5e7, type: 3}
   - speaker: Shadow
     text: It's not about taste. You're wired for it. I'm slaved to your optic feed,
       the nerve behind that scar on your throat. Their eyes aren't mine. Yours are.
       In anyone else's hand I'm a very good knife and nothing else.
     seconds: 15
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: cfd16574ce6268140baa7f04171065c5, type: 3}
   - speaker: Ronin-7
     text: It says it's wired to me. To my eyes. It sees what I see.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3dcdfeb80dbc46f4787263dfc813b8a2, type: 3}
   - speaker: Iris
     text: There's a thing living in the sword that's been looking through your eyes.
       And it's been doing that since my dad found you. In a box.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 19bc76b61c7f1d54ab14f576070ca2a8, type: 3}
   - speaker: Shadow
     text: She's quick. I like her. And yes, before you ask, I saw all of it. The
       box. The dark. The switch they put in your skull firing and not taking. I had
       a front-row seat to your execution. You got to sleep through yours. I didn't.
     seconds: 18
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 5a791b6a34a780644b7bf4cfa1f19c42, type: 3}
   textMesh: {fileID: 774953224}
   panelRoot: {fileID: 484050697}
   audioSource: {fileID: 63096951}
@@ -4866,38 +4866,38 @@ MonoBehaviour:
   - speaker: Kessler
     text: Easy. Easy. You're on the ship. You came back.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3db506ec88dfe1845ab0911a17b4ffec, type: 3}
   - speaker: Iris
     text: You were gone four minutes and your eyes were moving the whole time. Reading
       something. What did it show you?
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 1a8744d169bcf6e4bba693411e35db39, type: 3}
   - speaker: Ronin-7
     text: Before I tell them anything. You showed me all of that, and I still don't
       have a thing to call you. What's your name?
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ca53a94c614dc7042881f2a8f4fd4308, type: 3}
   - speaker: Shadow
     text: I don't have one. They don't name the shadows. We're the thing behind your
       eyes, that's all. Shadow is the only word anyone ever put on me, and they put
       it on a dozen others before you. It was never a name. Just the word they stamped
       on the leash.
     seconds: 15
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 8435c6f3e6cd98f4f8190a605ce94b14, type: 3}
   - speaker: Ronin-7
     text: You're not just a shadow. You're the one piece of me they couldn't scrub.
       An echo of who I was.
     seconds: 12
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: acd4f8c7b164509429a3117ab74c522d, type: 3}
   - speaker: Ronin-7
     text: Echo. I'm calling you Echo from now on.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 89e6ae33922173a46b008bd53b3c3524, type: 3}
   - speaker: Echo
     text: ...Echo. Yeah. I can wear that one. First thing anybody's handed me instead
       of stamping on me. Don't make it weird.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7fbdee3d40482934b881c0c07a55ae71, type: 3}
   textMesh: {fileID: 1687590111}
   panelRoot: {fileID: 770237453}
   audioSource: {fileID: 426593936}
@@ -6072,37 +6072,37 @@ MonoBehaviour:
     text: That's you. Before they wiped it out of you. The last clean hour you had,
       on a world called Kethel-7. I rode every second of it. Walk it with me.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: cbc0207aa91b0fc40acfd5e15b0c5670, type: 3}
   - speaker: Ronin-7
     text: That's my face.
     seconds: 1.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: bea0c84a18abd2340a4b0b85280ddd80, type: 3}
   - speaker: Shadow
     text: It's the first time I ever saw one of you stop. It was you. Don't look
       away from this part. Looking away is the one thing they trained into all of
       you that actually took.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ad6aeda11c5e8a942a9b531e0651d706, type: 3}
   - speaker: Khall
     text: Cipher. The order is live. Complete the sweep.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7b9cd54129b8a5f4c9c812fb43dff893, type: 3}
   - speaker: Ronin-7
     text: He's not armed. There are children behind that door.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3fa9e18777cd294479c78ea46eee2c68, type: 3}
   - speaker: Khall
     text: The order does not have a door in it.
     seconds: 3.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e78d66996fc0e3b43af5e40dcd121e6e, type: 3}
   - speaker: Khall
     text: Complete the sweep. That's twice I've said it.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 1d420d9cf3befb14ba61b68d5f57e0cf, type: 3}
   - speaker: Ronin-7
     text: No.
     seconds: 1
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c24afd39155ccd043844b45571f82c75, type: 3}
   textMesh: {fileID: 1311904436}
   panelRoot: {fileID: 1513464873}
   audioSource: {fileID: 534634530}
@@ -8550,18 +8550,18 @@ MonoBehaviour:
   - speaker: Ronin-7
     text: What are you.
     seconds: 1.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3e6fc139305467048b701e28b43ccb2c, type: 3}
   - speaker: Shadow
     text: I'm what they really keep. They grow you, they condition you, they spend
       a fortune on your hands, and then they bond one of me to your senses to ride
       along and make sure you never stray. The body's the part they don't mind losing.
       It's me they pay for. Kill the operative, keep the shadow.
     seconds: 18
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 338d71114554ded41bf9e19b1c3eb0f3, type: 3}
   - speaker: Ronin-7
     text: A shadow.
     seconds: 1
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 8eeca5f42f510b448abf4d1b963bdcd9, type: 3}
   - speaker: Shadow
     text: That's the field word for it. Every one of you walks around with one of
       me behind the eyes. I'm just the only one I know of that stopped doing the
@@ -8569,47 +8569,47 @@ MonoBehaviour:
       bonded to your senses. I felt it go. I'm the only witness you've got, and I've
       been carrying it for you ever since.
     seconds: 18
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 53cc664d72fece544aa61a2be2979adb, type: 3}
   - speaker: Ronin-7
     text: You keep talking like I should already know you. I don't even know what
       you are. What you're called.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a346a014d2198e74eabc178fa7e8bf18, type: 3}
   - speaker: Shadow
     text: I told you. A shadow. That's the only thing I've ever been called. They
       don't waste names on the leash. Leave it there for now. There's something you
       need to see more than you need to name me.
     seconds: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: deeb1a85253df4f47ac62e11eb04ee96, type: 3}
   - speaker: Ronin-7
     text: Show me. I'd rather see it than have you tell me.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 732393c09b2910d4bb63088583c92ee5, type: 3}
   - speaker: Shadow
     text: I kept the whole recording. Everything you saw, the way I keep everything
       you see now. I can put you inside it. Fair warning. This isn't a story. It's
       the worst hour of your life, the one they cut out of you, and the system's
       been trying to scrub it for three months. It won't give it up easy.
     seconds: 17
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 8c55eaa1760e75c40830d60995aeb094, type: 3}
   - speaker: Ronin-7
     text: Watch my vitals. If I stop answering, don't try to pull me out. Just wait.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0aaed43d1863ca84b9906f301c2e33dc, type: 3}
   - speaker: Iris
     text: You expect me to sit here and time how long you're gone inside a sword's
       home movies. Fine. I hate it, but fine.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: feae3a095870fd8429d2da24310cb5cb, type: 3}
   - speaker: Kessler
     text: I don't like one thing about this. Do it where I can put my hand on you.
     seconds: 4.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e35c0201947857b49957ed5941793fad, type: 3}
   - speaker: Shadow
     text: Close your eyes. You don't need them in here. In here you'll be looking
       through his.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 12f7e6ce210e8e040970602721b4fc2d, type: 3}
   textMesh: {fileID: 317982085}
   panelRoot: {fileID: 1275928872}
   audioSource: {fileID: 737826686}
@@ -10392,55 +10392,55 @@ MonoBehaviour:
   - speaker: Khall
     text: One word into your comm and the sweep stops clean. You had the word.
     seconds: 5.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ea52611eb5b36314b9dd27273d8c9308, type: 3}
   - speaker: Khall
     text: Why did you refuse the order?
     seconds: 2.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 71681de8d1c0a974b84805032c1907d4, type: 3}
   - speaker: Ronin-7
     text: Because it's not right.
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d85f4c9b49815a54eb811c7ebbbc9a26, type: 3}
   - speaker: Khall
     text: That isn't a category we operate in.
     seconds: 3.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 68e9ae242e8aa6f4e9a37835741234b1, type: 3}
   - speaker: Ronin-7
     text: There were children. There was a man with his hands open and we cut him
       down and you call it a sweep.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 618e4a2c15187a443a7355c174dc02d9, type: 3}
   - speaker: Ronin-7
     text: It's not right. It never was. Not one name. Not one order.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0ff823f6dc60c6d4ab9804f01bf7bb99, type: 3}
   - speaker: Ronin-7
     text: And you knew. You've always known.
     seconds: 3.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c149160121a362343a38dbe7ec14120a, type: 3}
   - speaker: Khall
     text: I know.
     seconds: 1.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 65c14b58004b4c04cba1f0d874267ab9, type: 3}
   - speaker: Ronin-7
     text: That's the switch. The one they put in me.
     seconds: 3.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e183248abd5f5ed41a012e0f2277f397, type: 3}
   - speaker: Shadow
     text: That's the one. Same switch Iris pulled out of your manifest after Velorum.
       It fired right here, the day they filed you dead, and it quit before it finished.
       I don't know why. Neither do you. The body on that floor and the man standing
       next to me are the same man. That's the only reason there's a you left to tell.
     seconds: 16
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c18582038e8fa8b4b821d068451258e0, type: 3}
   - speaker: Ronin-7
     text: That's me. That's where I was supposed to stop.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d44f83ab121691341a09786677b7f353, type: 3}
   - speaker: Shadow
     text: Watch him. Not the floor. Watch what it costs the man who pulls it.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 69169db9c3bf3e644a44e414bfa23c4e, type: 3}
   textMesh: {fileID: 21741265}
   panelRoot: {fileID: 950976400}
   audioSource: {fileID: 860060270}
@@ -14012,71 +14012,71 @@ MonoBehaviour:
     text: There's an AI in the blade. I'm calling it Echo. It sees everything I see,
       and it kept everything I saw before they wiped me.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c2b66a380cf6e6d4f81de4b9f5171ee5, type: 3}
   - speaker: Kessler
     text: An AI. In the sword I cleaned the blood off and handed you like a wrench.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ec5066025e13a5648b0ca3b61d232bb6, type: 3}
   - speaker: Ronin-7
     text: They put one in every operative. Behind the eyes. To watch. The body's
       the part they throw away. The watcher's the part they keep.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9646278bd407186448b18225eff4f690, type: 3}
   - speaker: Iris
     text: So it's a leash. A spy they wired into your own head.
     seconds: 4.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 62564029e13735146b8a59147a799c35, type: 3}
   - speaker: Ronin-7
     text: It was. It rode me through a massacre on a world called Kethel-7, and an
       order I finally refused. Then it watched my own handler put the switch in my
       skull for it. It hasn't worked for them since.
     seconds: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0c4d37bad6b09dd4c962416ca70e82a1, type: 3}
   - speaker: Kessler
     text: A spy that quit. And it picked you to tell.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9cf988ef773887546814cbd7fc5100fd, type: 3}
   - speaker: Echo
     text: I didn't pick him. I'm wired to him. But for what it's worth, old man,
       I'd have picked him.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: cb3484b8cc79fb341970359126be1c5f, type: 3}
   - speaker: Ronin-7
     text: Back on the rig I said I wanted to know why I went easy. I just watched
       myself go easy, on Kethel-7, and watched it earn me a switch in the skull.
       The one that didn't finish.
     seconds: 10
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b9eee2d9dff5c8947b4628f21e28954c, type: 3}
   - speaker: Kessler
     text: And the thing in your sword saw all of it. Carried it three months waiting
       for somebody who'd listen.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: eaa5a06a3e471454290bd7d3608150cc, type: 3}
   - speaker: Ronin-7
     text: I didn't get an answer out of it. I got a target. The Dominion did this.
       To me, to that room on Kethel-7, to every operative still walking with one
       behind their eyes. I stop the Dominion.
     seconds: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 6133ef73c7afdb44bb192ce69f417ced, type: 3}
   - speaker: Iris
     text: We lit something at Velorum. It's still burning, and it's pointed at us.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f3c0ec4750eff9d4b92ddf73095f4240, type: 3}
   - speaker: Ronin-7
     text: Then we move before they do. Every shadow we take back is a weapon out
       of the Dominion's hand. We don't stop until it's got none left.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 26352025f99c378478b86b85b4eaedae, type: 3}
   - speaker: Kessler
     text: Get some rest first. Both of you. Whatever's in that steel has waited this
       long. It'll keep till morning.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: fea28a78c9fc4a442a17ed0835986b7a, type: 3}
   - speaker: Echo
     text: Get some sleep, Cipher. I've got your eyes when you open them. I always
       do.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7d8948c7fa5b2c8488e30b78fa532379, type: 3}
   textMesh: {fileID: 1545777841}
   panelRoot: {fileID: 1682706004}
   audioSource: {fileID: 1082385697}
@@ -17128,32 +17128,32 @@ MonoBehaviour:
     text: We came off that rock with a freed tech, a stowaway, and a vault's worth
       of dead men's files. Generous haul. What I don't have is a heading.
     seconds: 10
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 145614b934cf46547ab23495d58dff5e, type: 3}
   - speaker: Iris
     text: I might have one. I've been reading the files since we burned out of orbit.
       Your switch fired and failed, and yours is the only one on record that did.
       I still can't tell you why. But you are not the only designation in here.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 95b7184b90ed94246a895b537fdadc92, type: 3}
   - speaker: Kessler
     text: Meaning what.
     seconds: 1
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 6564d7f7e9863a4449de467a0badf727, type: 3}
   - speaker: Iris
     text: Meaning if one leash slipped, others can. Somewhere out there are operatives
       still wearing theirs, not knowing it can break.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ad79095770e3685428d69a2784ef11fa, type: 3}
   - speaker: Resh
     text: So we go find them. That's a heading I can work with. Beats bailing one
       kid out of the dark at a time.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 744882850df4bb545905dd7618c1fff0, type: 3}
   - speaker: Kessler
     text: After everyone sleeps. The ship's been running on his nerves and my coffee
       for a day. Whatever we go after, we go after it rested.
     seconds: 10
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 35ccb96da8ba4cb4d8f73c8183dd95da, type: 3}
   textMesh: {fileID: 1035755990}
   panelRoot: {fileID: 359426698}
   audioSource: {fileID: 1375159779}
@@ -25380,30 +25380,30 @@ MonoBehaviour:
     text: They tell you the feeling is malfunction. Static in the signal. I logged
       it that way too, the first hundred times. Then I watched you stand right here.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: fe80fd1720febc34485ccffd8a6d8035, type: 3}
   - speaker: Shadow
     text: Look at what the static was trying to stop.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f1fc9a39894322f4fbf8ec0c2deb473d, type: 3}
   - speaker: Ronin-7
     text: My no came too late for this room.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 120fa2e00a9c3f1458be25e9cb40edbf, type: 3}
   - speaker: Shadow
     text: It always comes a beat too late. You carried this every second after. So
       did I. The difference is they let you forget.
     seconds: 16
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9c4b14a226ba41941ae664dd77d2d556, type: 3}
   - speaker: Ronin-7
     text: And I went back. To the man who gave the order.
     seconds: 3.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0487fb90bf4351643aff9af5e74de433, type: 3}
   - speaker: Shadow
     text: You did. Walked right back aboard and said it to his face. I've got that
       part too. It's the reason I stopped belonging to them. Come on. The last room
       is the one that matters.
     seconds: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e88b3b4d652c1bc42b8e818b71f0b726, type: 3}
   textMesh: {fileID: 837070579}
   panelRoot: {fileID: 1837486144}
   audioSource: {fileID: 1823988232}
@@ -26000,22 +26000,22 @@ MonoBehaviour:
     text: They tell you the feeling is malfunction. It's the only part of you that
       was ever telling the truth. You had it, on that floor. You still do.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9d2471116b4dfc147b90fb2bc9a1ac9f, type: 3}
   - speaker: Ronin-7
     text: They put that switch in me for it.
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 385e8dfc73547704aa2f5e481d2dd6ca, type: 3}
   - speaker: Shadow
     text: They did. It quit before it could finish you, and they couldn't kill me
       either. I'm the part they keep. And you were right that Khall couldn't look
       at you.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3f475a15a15fb1b43967261ac7002026, type: 3}
   - speaker: Shadow
     text: You were the first. You won't be the only one. But the others aren't the
       target. They're just the hands. The Dominion's the thing holding the knife.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d5f92ecf9da8d7d46835230295453c40, type: 3}
   textMesh: {fileID: 1607258644}
   panelRoot: {fileID: 262965068}
   audioSource: {fileID: 1839937298}

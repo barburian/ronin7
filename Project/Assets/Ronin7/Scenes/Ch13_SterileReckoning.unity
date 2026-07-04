@@ -1898,7 +1898,7 @@ MonoBehaviour:
     text: Source flagged for redaction. Architect Heris, designation dissident. Order
       is silence. Obstruction present. Obstruction will be cleared and unlogged.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c047a3e0c6edbe74b9445e67de79ae59, type: 3}
   - speaker: Echo
     text: Cipher, that thing isn't here for you. Listen to it. It came to delete
       her. Mera called it, the Program already turned on its own architect, which
@@ -1907,7 +1907,7 @@ MonoBehaviour:
       let it. We did not cross a galaxy to let the answer get erased ten feet from
       our hands. Put the double on the door and take this thing apart.
     seconds: 33
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3148eb71d9aea8243a9ca35e0ed6c8c0, type: 3}
   - speaker: Morrigan
     text: That's a Redactor, Cipher, I've seen the spec, never the build. It doesn't
       fight to win, it fights to finish a task and close the file. It'll throw silence-fields,
@@ -1916,18 +1916,18 @@ MonoBehaviour:
       hits is a second it spends inching toward her. So stop trading. Block the door,
       make it come to you, and end it before it logs her as cleared.
     seconds: 33
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a56ed305174bcb946a28ddb7909ba1fb, type: 3}
   - speaker: Enforcer
     text: Obstruction persistent. Recalculating. The architect's record ends today.
       Yours is not required to end. Stand aside and remain unlogged.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a20f9699a7076b842b315016379249f4, type: 3}
   - speaker: Ronin-7
     text: She's the only voice in this place worth keeping. You came to silence her.
       Then you and I want exactly opposite things, and only one of us walks out of
       this door.
     seconds: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ef7c3e957b96cb94a9921ebdbf27790e, type: 3}
   textMesh: {fileID: 1079169452}
   panelRoot: {fileID: 1761083700}
   audioSource: {fileID: 170098686}
@@ -4594,7 +4594,7 @@ MonoBehaviour:
       feet away. Whatever you've been bracing for since the briefing, brace now.
       And remember what I said. I'm right here.
     seconds: 30
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ac8b401b48260754f80bca6c793e87c5, type: 3}
   textMesh: {fileID: 1773680480}
   panelRoot: {fileID: 427411345}
   audioSource: {fileID: 351705185}
@@ -7310,14 +7310,14 @@ MonoBehaviour:
       take a shadow off a host who's drowning in it and bear it instead. It can carry
       the kept so the living can put them down.
     seconds: 55
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7aaf1ff108d41494a93ab51e5e3fbfad, type: 3}
   - speaker: Ronin-7
     text: A body built to carry the dead so the living don't have to. Heris. That's
       what I am. The sword carries Echo, and four more shadows in it now, and they
       ride in me because there was nowhere else to put them. You're describing my
       own body. You built me on this same idea.
     seconds: 21
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 11f0f8a62fd5a84448252fc1d4a73ee0, type: 3}
   - speaker: Dr. Heris
     text: Yes. I wondered if you'd see it. The make I built you in was the first
       draft of this. A vessel strong enough to carry a shadow-AI seated behind its
@@ -7330,7 +7330,7 @@ MonoBehaviour:
       is what that idea looks like when you take the leash out of it. So are you,
       now.
     seconds: 55
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 4e632c084e7ee244fa328522f83cd8a3, type: 3}
   textMesh: {fileID: 1653961199}
   panelRoot: {fileID: 1115343922}
   audioSource: {fileID: 543002180}
@@ -8799,13 +8799,13 @@ MonoBehaviour:
       sky. And then you put a crack in each and waited for me. That's the whole truth.
       Say it like that, plain, so I know we're standing on the same ground.
     seconds: 18
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 999fd50f55628d4499fe5ae303e2efbe, type: 3}
   - speaker: Dr. Heris
     text: Yes. That's exactly it, and I won't dress it. I cracked all of it on purpose
       and have been waiting, in this clean room, for the one I cracked best to walk
       back in.
     seconds: 27
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b4152dfe55270124183454bf54632717, type: 3}
   textMesh: {fileID: 354415917}
   panelRoot: {fileID: 94491863}
   audioSource: {fileID: 628314240}
@@ -10634,7 +10634,7 @@ MonoBehaviour:
       spend it. Don't pardon me. Use me. Let me help you tear down the thing I built
       before I die of having built it.
     seconds: 53
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 02c50a5e964a79e48b10e4c5aebba612, type: 3}
   - speaker: Echo
     text: Cipher. I want to hate her. I keep reaching for it and it won't quite come,
       because she just did the one thing nobody who hurt you has ever done. She didn't
@@ -10644,7 +10644,7 @@ MonoBehaviour:
       her. Not because she's good. Because she's the only door left in the only wall
       that matters.
     seconds: 37
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: fa7bb8f03478ba24eb9bc5f9dd8369f5, type: 3}
   - speaker: Ronin-7
     text: I'm not going to forgive you either, Heris. I'm not taking you aboard because
       you deserve it. I'm taking you because you're right. You're the only seam in
@@ -10653,7 +10653,7 @@ MonoBehaviour:
       That's all the work. Don't mistake a place on my ship for a pardon. You'll
       have one and never the other.
     seconds: 37
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: cf2e645c8dee1184c841d60f1e3989bc, type: 3}
   - speaker: Dr. Heris
     text: A place and never a pardon. That's more than I came into this room expecting
       and exactly as much as I should get. Then it's settled. I'll bring the Engine's
@@ -10664,7 +10664,7 @@ MonoBehaviour:
       her. She's just good enough to learn a maker by the seams they leave. I have
       been ready for this longer than your war has existed. Tell me where to stand.
     seconds: 44
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 2e74675392118fe44a03cff0ea70c25e, type: 3}
   textMesh: {fileID: 894742361}
   panelRoot: {fileID: 1948426190}
   audioSource: {fileID: 740414057}
@@ -12353,13 +12353,13 @@ MonoBehaviour:
       clean room, on the same clean table, and I'm only realizing it now because
       I never let myself look back this far.
     seconds: 56
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f892481303fca0f45a3c681e67cd6944, type: 3}
   - speaker: Ronin-7
     text: Then we're both walking into the place we started. Stay with me. If she's
       at the heart of it, she made you too, and I'm not facing that alone any more
       than you are. Where's the threat Mera felt.
     seconds: 15
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3ee7797763280bc48a0943f30e281f30, type: 3}
   textMesh: {fileID: 1393563614}
   panelRoot: {fileID: 93929816}
   audioSource: {fileID: 879066165}
@@ -16116,12 +16116,12 @@ MonoBehaviour:
       We've been calling whoever did it an insider for the whole war. It was her.
       The hand that made my eyes left the crack that let me keep them.
     seconds: 41
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 822d90ba8bef1be4ea2cdf817d042b7b, type: 3}
   - speaker: Ronin-7
     text: You made the leash. And you made the gap in it. You're the reason I'm a
       prisoner and the reason I got out. Why?
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 77c70c80e266de143883441f55b808b9, type: 3}
   - speaker: Dr. Heris
     text: Because by the time I understood what we were building, the order had already
       been given to build more. I couldn't stop the Program. One engineer cannot.
@@ -16133,7 +16133,7 @@ MonoBehaviour:
       and you were the only one with the will to walk through it. I have wanted to
       tell you that since the night it worked, and I never thought I'd get to.
     seconds: 53
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 082a19cca6afad94489a197b63989334, type: 3}
   textMesh: {fileID: 695171947}
   panelRoot: {fileID: 1068557336}
   audioSource: {fileID: 1164927715}
@@ -16300,11 +16300,11 @@ MonoBehaviour:
       them, the ones still racked, still drowning, this is the thing that lets us
       actually set them down somewhere safe. She built us a place to put the dead.
     seconds: 44
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ef400885f5d16fa4887c49494ff17d8b, type: 3}
   - speaker: Sallow
     text: I will carry them. That is all I am for.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3595c7502ee05b742b64c787658b4357, type: 3}
   - speaker: Ronin-7
     text: Then you won't carry them alone. Whatever you are, you're not staying in
       this lab to be called a failure by the people who made the rest of this room.
@@ -16312,7 +16312,7 @@ MonoBehaviour:
       down, and now there's somewhere to set them. Heris. Pack your seam and your
       tools. That's nine and ten. That's everyone.
     seconds: 26
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 1a2c500b41dbc464aad9b9247120ac28, type: 3}
   - speaker: Echo
     text: That's the ten, Cipher. The whole roster, from the man who pulled you out
       of a wreck six years late to the body built to carry the dead. It took the
@@ -16325,7 +16325,7 @@ MonoBehaviour:
       to find. There's only the cage left to break. Let's go home and aim the whole
       crew at it.
     seconds: 56
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 15da2a8db9c7b51449796b811346cf10, type: 3}
   textMesh: {fileID: 1700311806}
   panelRoot: {fileID: 744315674}
   audioSource: {fileID: 1207555139}
@@ -17297,7 +17297,7 @@ MonoBehaviour:
       That's the obscenity. Keep moving. The maker's at the heart of it, and so is
       whatever was sent to keep her quiet.
     seconds: 42
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 12b6bc5c07c54f141b42e6adce90274d, type: 3}
   - speaker: Morrigan
     text: I'm reading the firmware off your breach kit, Cipher, and I know this hand.
       Not because she taught me. There was never one architect of all of us, that's
@@ -17310,7 +17310,7 @@ MonoBehaviour:
       because clean is how you pretend it isn't what it is. Walking you through the
       room that printed you is the strangest feeling I've had in this whole war.
     seconds: 50
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0fc176c88c8d7b94e9db1ff9de182200, type: 3}
   - speaker: Mera Voss
     text: Door's still open, Cipher, and I still don't like it. No real perimeter,
       security that's present but thin, like it's there to slow you and not stop
@@ -17319,7 +17319,7 @@ MonoBehaviour:
       it cleared its own road. Watch the clean halls. Clean is where you stop expecting
       an ambush. That's the whole point of clean.
     seconds: 31
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f75dae6648d387f44b75f64ca347388c, type: 3}
   - speaker: Coral Vex
     text: I've been in a lot of Program rooms, Cipher, never a maker-lab, and this
       one isn't even mine. The Wraith make had its own hand, its own clean room somewhere
@@ -17329,7 +17329,7 @@ MonoBehaviour:
       it, in whatever room made me. I'm wondering now, looking at yours. I'd rather
       hear it from you than imagine it the rest of the way to her.
     seconds: 38
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0258986cab2a3ac4b8febb25a1ee1f45, type: 3}
   - speaker: Vess
     text: So this is one of the kitchens. Not the warehouse where they stacked the
       make I've been hunting, the kitchen where they cooked one. Maybe not even mine,
@@ -17341,7 +17341,7 @@ MonoBehaviour:
       you're standing in the room that built the worst of it. I crossed a galaxy
       of dark to reach the front of it.
     seconds: 46
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0b73beb3852cdd44f987d480c55ab253, type: 3}
   textMesh: {fileID: 220571778}
   panelRoot: {fileID: 1591263920}
   audioSource: {fileID: 1332360329}
@@ -21408,6 +21408,7 @@ MonoBehaviour:
   decayDelay: 1
   decayPerSecond: 40
   breakBonusDamage: 12
+  nearBreakFraction: 0.8
 --- !u!1 &1681227837
 GameObject:
   m_ObjectHideFlags: 0
@@ -22979,7 +22980,7 @@ MonoBehaviour:
       of it. It can't hurt anyone. It was built to do the opposite, and it's the
       opposite of everything else in this room.
     seconds: 37
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 385c877bac4b4bf42974bb2af56ef3e2, type: 3}
   - speaker: Echo
     text: Cipher. It's looking at me. Not at you. I can feel it the way I feel another
       shadow in a room. There's a hollow in its chest that's shaped exactly like
@@ -22989,7 +22990,7 @@ MonoBehaviour:
       room in it. A body that was built to hold us. I don't know whether to be glad
       or terrified, and I think it might be both.
     seconds: 43
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 4395d265047775d4f802c835641eceae, type: 3}
   textMesh: {fileID: 1010802968}
   panelRoot: {fileID: 1970058309}
   audioSource: {fileID: 1738354564}
@@ -23565,7 +23566,7 @@ MonoBehaviour:
   - speaker: Dr. Heris
     text: You're looking at my hands. I hope you will save us. You've seen them before.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 47cdcb5923a411744ac6b8287caa2609, type: 3}
   - speaker: Echo
     text: Cipher. The dream. The cold table, the careful hands, the woman who said
       she hoped you'd save them. You've carried that since the Garden. I was there
@@ -23575,14 +23576,14 @@ MonoBehaviour:
       I don't know what to do with that and I don't think you do either. But it's
       true.
     seconds: 36
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 673a35c58ac5e8a469d73288b349af37, type: 3}
   - speaker: Ronin-7
     text: I hope you will save us. I've heard those words in the dark for half this
       war and never had a face for them. Now I do, and the face built my cage. You
       don't get to whisper that over a child and call it mercy, Heris. But you said
       us. Not him. Us. Save us from what.
     seconds: 23
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b6945acd6fc767b49a20e87cd633422a, type: 3}
   textMesh: {fileID: 218327386}
   panelRoot: {fileID: 1927463454}
   audioSource: {fileID: 1744778901}
@@ -24189,12 +24190,12 @@ MonoBehaviour:
       world at once and tell it to be quiet. To stop. To obey. I built that too.
       Under threat, which is not an excuse, only a fact.
     seconds: 39
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 8d053a72f935c7a418ab915b46e47438, type: 3}
   - speaker: Ronin-7
     text: You built a machine to silence every world at once. Tell me you didn't
       make it perfect. Tell me you cracked this one too.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 6596a0063fc806a47bc0dd36618eee70, type: 3}
   - speaker: Dr. Heris
     text: I did the only thing a coward with a conscience can do. I built it perfectly,
       and then I hid a flaw in it. The same kind of seam I hid in you. One deniable
@@ -24203,7 +24204,7 @@ MonoBehaviour:
       that the man I broke open would survive long enough to come back and let me
       give it to him.
     seconds: 33
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e6b19298b6084684d9e3d69fc5456249, type: 3}
   - speaker: Echo
     text: There it is, Cipher. The seam Sable said she couldn't feel from the ship.
       The one soft spot on the whole machine. It's not on the machine. It's in her
@@ -24212,7 +24213,7 @@ MonoBehaviour:
       said, and I feel all of it too, that's the thing the crew needs. The Engine
       has a flaw, and she is the flaw.
     seconds: 31
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0ee744a297cc66647a163aaa7dc95af0, type: 3}
   textMesh: {fileID: 1631833009}
   panelRoot: {fileID: 186636610}
   audioSource: {fileID: 1762714894}
@@ -25930,7 +25931,7 @@ MonoBehaviour:
       on both of us at once, and I'm a ledger, Cipher, I have a count for everything,
       and I do not have a count for how big the thing that just touched me is.
     seconds: 35
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: eb5d6176e9b6b134d82b0df09d42350b, type: 3}
   - speaker: Sable
     text: I feel it too. Give me a second, I'm trying to hold the shape of it. The
       four nodes we chased all war. Mine. Hers. The bone-canyon. The vault. Put them
@@ -25940,7 +25941,7 @@ MonoBehaviour:
       the veins. This is the heart of it, Cipher, and it has been beating the whole
       time, and I only just heard it.
     seconds: 37
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 47314f7894230924bb905ba115c0e4bd, type: 3}
   - speaker: Cassie-04
     text: And it's not what the others were. The four we freed were records. Graveyards.
       Things built to keep, to hold the dead still. This one isn't built to keep
@@ -25951,13 +25952,13 @@ MonoBehaviour:
       is the Concord Engine. Not the schematic of it. Not the plan. The thing itself,
       racked and waiting.
     seconds: 40
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 552b456e207c29d47a552c1fcc2849e1, type: 3}
   - speaker: Kessler
     text: All right. Slow down, both of you, and say it to me like I never built
       a leash in my life, because I never did. Push what. A throat that speaks at
       a scale nothing should. What does that mean when it's pointed at people.
     seconds: 17
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7082c75141a9ed945a06c8c4a5efc7ee, type: 3}
   - speaker: Sable
     text: Every mind that can hear it, Kessler. That's what it pushes. A killswitch
       is one leash on one neck. You've watched what it does to one of us. This is
@@ -25968,7 +25969,7 @@ MonoBehaviour:
       this, the seam, the place you cut. I've been reaching for one since I felt
       it. There isn't one. I can't feel a single seam anywhere on it.
     seconds: 45
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 5fb01d3464cfbd04582ee0924775df4f, type: 3}
   - speaker: Coral Vex
     text: So there's a version of the cage big enough for all of us. Every world
       at once. I cut one leash in my life, Cipher, my own, with my own hands, and
@@ -25976,14 +25977,14 @@ MonoBehaviour:
       the switch in the back of my skull. I was wrong. They made a switch for the
       sky. I'd hoped to die before I heard there was such a thing.
     seconds: 30
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 5f38cc8c9551b6147950accd5ac78a0c, type: 3}
   - speaker: Kessler
     text: Then somebody tell me the part where we do something about it. Because
       I've watched this crew cut a leash one neck at a time, all the way up the dark.
       Sable just said she can't find a seam on this one. So how do we hurt a thing
       you can't even find a weak point on. You can't cut what you can't reach.
     seconds: 25
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d4ff81e0c7d7cb045b463f58017dad59, type: 3}
   - speaker: Morrigan
     text: We don't hurt it. Not by force. You heard her, there's no seam to cut,
       and I'll tell you why as the engineer who used to build these things. A machine
@@ -25997,7 +25998,7 @@ MonoBehaviour:
       the person who hides seams. Find who sabotaged the switch, and they hand us
       the gap in that thing.
     seconds: 57
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 6cb0d71dc44f54842914dd0149eda990, type: 3}
   - speaker: Morrigan
     text: And here's the part I didn't expect. The command-network we pulled out
       of the vault and the dissent traffic I've chased since the citadel, they don't
@@ -26008,7 +26009,7 @@ MonoBehaviour:
       It's not some technician. It's an architect. The one who built your make, the
       Ronin line, and then got handed the sky. Dr. Heris.
     seconds: 39
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 43850402a4da4c943b7e8a28821deeda, type: 3}
   - speaker: Coral Vex
     text: The one who built your make. And the leash for the sky. Not mine, Cipher,
       mine had its own hand in some other clean room I'll never find. But it's the
@@ -26019,7 +26020,7 @@ MonoBehaviour:
       with a maker, any of them. Whatever happens when Cipher gets there, I'd like
       to be on the ship that's close enough to hear it.
     seconds: 34
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7bbe73b3965b3284ca7c6192ac79efdd, type: 3}
   - speaker: Mera Voss
     text: I'll be the one to say the cold thing, since nobody else will. The one
       mind that built the sky-cage and knows where it's soft, the single most hunted
@@ -26029,7 +26030,7 @@ MonoBehaviour:
       bait to me. Somebody wants Cipher in that room. I'm not saying we don't go.
       I'm saying we go in knowing the door was left open on purpose.
     seconds: 37
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 6aba6009176982d4288ee00dd04e2273, type: 3}
   - speaker: Echo
     text: This part's just for you, Cipher. Mera's right to call it bait. It might
       be. But listen to what the bait is. We've walked into a lot of rooms looking
@@ -26040,7 +26041,7 @@ MonoBehaviour:
       to meet them my whole existence and I'm afraid of it the same amount. Try to
       stay standing when you hear it. I'll be right here holding you up.
     seconds: 47
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 5f8019bd224867f419fcb5f895c432b3, type: 3}
   - speaker: Ronin-7
     text: Then bait or not, she has the only answer we've got. Cassie, Sable, lock
       the trail to the table and rest. You found the thing nobody else could feel,
@@ -26050,7 +26051,7 @@ MonoBehaviour:
       at the bottom of that corridor made me. I'm going down there to find out whether
       it can help me unmake what it built. Take us to her.
     seconds: 38
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 4187962e2a3f67e4092a1a64f01ae408, type: 3}
   textMesh: {fileID: 1860262849}
   panelRoot: {fileID: 1319597125}
   audioSource: {fileID: 1878944087}
@@ -27968,13 +27969,13 @@ MonoBehaviour:
       Ask the question you came with. I will not lie to you. I have spent a very
       long time waiting for this moment.
     seconds: 39
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b227e9034aaef2e488946ac50e8336a4, type: 3}
   - speaker: Ronin-7
     text: Who sabotaged my switch. Somebody reached into the suppression from inside
       and left a flaw. It's the question under every door I've opened. So say it
       plain. Who.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 44d7f0633778d574198fe24ae18f86b9, type: 3}
   - speaker: Dr. Heris
     text: I did. I built it. The flaw, and the switch it was hidden in, and the man
       it was seated in. All of it was my hand. I want you to hold those in the right
@@ -27986,7 +27987,7 @@ MonoBehaviour:
       me to find. A place where, if you ever woke up enough to push, the switch might
       fail instead of fire.
     seconds: 50
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 806110f9930e3a84ab6b76eca068a12d, type: 3}
   textMesh: {fileID: 1390693028}
   panelRoot: {fileID: 8574434}
   audioSource: {fileID: 2048932500}

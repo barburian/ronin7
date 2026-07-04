@@ -639,7 +639,7 @@ MonoBehaviour:
       put your blade down and looked at me like I was a person, and no one has ever.
       No one has ever done that. What do I do now. There is no order. What do I do.
     seconds: 33
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a2b46fc22e9db3e4284cfb5d420f228b, type: 3}
   - speaker: Ronin-7
     text: You stand there a second and you let it be quiet. That's the first thing.
       The order's gone and nothing replaces it, and that emptiness is the worst hour
@@ -650,7 +650,7 @@ MonoBehaviour:
       the whole of it. That's all a person is. Take your mask off. You don't need
       it anymore.
     seconds: 38
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 8f4d63401ce763d40a8f028ceb2ab52c, type: 3}
   - speaker: Coral Vex
     text: I felt the relay die from up here. Cipher, do you know how long it's been
       since I heard that exact sound, a leash cut by the hand it was wrapped around?
@@ -661,7 +661,7 @@ MonoBehaviour:
       and the ground is yours, and you build on it. It took me half a century to
       believe that. She won't have to wait that long. She's got a ship full of us.
     seconds: 42
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 22080df7f2b6ccb4c9de1e3820037856, type: 3}
   - speaker: Vess
     text: I'll tell her the other half, the part Coral's too kind to say. The choice
       doesn't make you clean. I cut toward him with everything I had and I chose
@@ -671,7 +671,7 @@ MonoBehaviour:
       call. She turned her blade on the wall instead of his throat. That's enough.
       That's where all of us started.
     seconds: 32
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 182bff59c35a5274eb77ebe5d4740024, type: 3}
   - speaker: Samurai-4
     text: They're talking to me. The voices on your comm. They're talking to me like
       I'm. Like I'm one of them. I tried to kill you ten minutes ago. I would have,
@@ -682,14 +682,14 @@ MonoBehaviour:
       showed me I had a choice when we break it. That is my choice. The first one.
       I am keeping it.
     seconds: 40
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 5947c9cbb09aec4419d9db50ba1a4569, type: 3}
   - speaker: Ronin-7
     text: Then keep it, and come down. We've got one more tier, and what's at the
       bottom of it is the rest of me. You came here to stop me reaching it. Now you're
       going to watch me reach it instead. Stay at my shoulder. After today neither
       of us has a number anybody else gets to use.
     seconds: 18
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c349fa78d558d2340b5d37c6612096c8, type: 3}
   textMesh: {fileID: 1841808691}
   panelRoot: {fileID: 1698418135}
   audioSource: {fileID: 65305558}
@@ -854,7 +854,7 @@ MonoBehaviour:
       take the same line at him and every loop it kills me. So stop taking the same
       line.
     seconds: 25
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 5965625117dd711478e0f3ec10e01627, type: 3}
   textMesh: {fileID: 802266007}
   panelRoot: {fileID: 545013521}
   audioSource: {fileID: 73013771}
@@ -1532,7 +1532,7 @@ MonoBehaviour:
       step aside. I have been waiting a very long time for the rebel I forged to
       arrive, and I find I would rather meet him than grind him.
     seconds: 43
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e4e0ba0066a6b3c42ae38a372ab40b47, type: 3}
   textMesh: {fileID: 1687077848}
   panelRoot: {fileID: 462460491}
   audioSource: {fileID: 124101282}
@@ -2423,7 +2423,7 @@ MonoBehaviour:
       the leash. I've spent my whole life being aimed. I'd like to spend the rest
       of it choosing. Take me up, Echo. One more time.
     seconds: 38
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b98639a96c1ed904c9b0d89bebac9ca6, type: 3}
   textMesh: {fileID: 368601734}
   panelRoot: {fileID: 290498203}
   audioSource: {fileID: 184954167}
@@ -4662,7 +4662,7 @@ MonoBehaviour:
       like a building, that's not it breaking. That's you, getting closer to the
       floor. Tell me the second a wall remembers something you don't.
     seconds: 40
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: bea17bf1d09c7c441852aa56aec34a2c, type: 3}
   - speaker: Echo
     text: 'Cipher. Stop. That''s not a warden. Look at her. The kit''s current-issue,
       the blade''s the same school as yours, there''s a hilt-light in it, she''s
@@ -4674,7 +4674,7 @@ MonoBehaviour:
       it before she does something: you do not have to kill her. You of all people
       know there''s another way down off this tier.'
     seconds: 45
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 09533320cc3dcb14b850e1edf23f702e, type: 3}
   textMesh: {fileID: 290861328}
   panelRoot: {fileID: 647044010}
   audioSource: {fileID: 348164928}
@@ -5985,7 +5985,7 @@ MonoBehaviour:
       reach the bottom of it. That part of you is older than me, it always was yours,
       not mine to hand back. But I'm with you every floor of the way down to it.
     seconds: 42
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 4d2fcb503f2da704f829a336e63b3a2c, type: 3}
   - speaker: Coral Vex
     text: I know this part, Cipher, even though I never stood in your vault. Mine
       was smaller and I had no light but my own. There's a tier coming where the
@@ -5997,7 +5997,7 @@ MonoBehaviour:
       paying for it. Don't. Keep your feet moving. The bottom is the only place that's
       true.
     seconds: 41
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 8a67426699748e44aabd3dfe68096c80, type: 3}
   textMesh: {fileID: 594815113}
   panelRoot: {fileID: 51036083}
   audioSource: {fileID: 372476217}
@@ -6251,7 +6251,7 @@ MonoBehaviour:
       you onto it. Half this room would. And that scares me. That you could. That
       we'd let you.
     seconds: 25
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f3d2f46ec27860a4384d3e91c2f9700e, type: 3}
   - speaker: Soren
     text: No. I climbed down a whole vault to stop being something other people sit
       on top of. I'm not going to climb back up and become the thing I just broke.
@@ -6264,7 +6264,7 @@ MonoBehaviour:
       That's the victory. Not me on the chair. The chair empty, and a galaxy of killers
       standing in front of it, choosing.
     seconds: 47
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 5619bc29b853511449f6373c3f76c80f, type: 3}
   textMesh: {fileID: 1806091922}
   panelRoot: {fileID: 509906848}
   audioSource: {fileID: 389562000}
@@ -6693,6 +6693,7 @@ MonoBehaviour:
   decayDelay: 1
   decayPerSecond: 40
   breakBonusDamage: 12
+  nearBreakFraction: 0.8
 --- !u!1 &395868141
 GameObject:
   m_ObjectHideFlags: 0
@@ -7844,7 +7845,7 @@ MonoBehaviour:
       going out the top of this thing into open space and they're awake and they're
       nobody's wire anymore. I was infrastructure this morning. Look what I am tonight.
     seconds: 38
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: fc13b73f6b8e45e4c9df5b985fa0eff3, type: 3}
   - speaker: Cassie-04
     text: I'm closing columns. Soren, I'm closing columns I've had open since before
       I had a face. Every name in my registry that was wired into that thing, I'm
@@ -7853,7 +7854,7 @@ MonoBehaviour:
       to lose track of a number. I'm a ledger. I had a column for everything. I never
       had a column for this. For empty. For done. For all of them out.
     seconds: 33
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3fc7f722512cf744580b847733ebba46, type: 3}
   - speaker: Maelgorn
     text: You have not won. You have unmade one machine. There are ten syndicates
       still at war, a galaxy still in a cage I built to run without me, and a thousand
@@ -7861,7 +7862,7 @@ MonoBehaviour:
       a draft. I am the long view, Cipher. I will outlast your mercy by ten thousand
       years.
     seconds: 22
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 5973eb64173f21245bba828e5519bc8b, type: 3}
   - speaker: Soren
     text: Maybe you will. I won't pretend one seam broke the whole war. But you got
       one thing wrong, because you never held a blade yourself. The cage was never
@@ -7870,7 +7871,7 @@ MonoBehaviour:
       You can't take that back. I'm the first contingency you can't forge, Maelgorn,
       and there'll be more of me than you have years.
     seconds: 28
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 537af065c09176a4ea6e0174db17aa07, type: 3}
   textMesh: {fileID: 714944567}
   panelRoot: {fileID: 2001867503}
   audioSource: {fileID: 442581268}
@@ -9560,7 +9561,7 @@ MonoBehaviour:
   - speaker: Maelgorn
     text: Come to the throne, then. Let us finish this where I built it.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 2bc2e5b29a11a3d49b8cb66cdfb037ee, type: 3}
   textMesh: {fileID: 2143000291}
   panelRoot: {fileID: 1013190088}
   audioSource: {fileID: 548714736}
@@ -10644,7 +10645,7 @@ MonoBehaviour:
       which. I have waited twenty years to put that decision in a hand that would
       make it right. Make it right.
     seconds: 48
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b52feb397eb160f4ba87ffe0e1454ca1, type: 3}
   - speaker: Maelgorn
     text: Destroy it, Cipher. That is what you came for, what I aimed you for, what
       every road I cleared led to. Cut the throat. Make the tomb. It is the same
@@ -10652,7 +10653,7 @@ MonoBehaviour:
       than it would outlive a living one. You will tell yourself it was your choice.
       It will have been mine. Cut.
     seconds: 22
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d74d071c3f8d12f44a7ea8db799559aa, type: 3}
   - speaker: Soren
     text: No. You don't get this one either. There were two wrong answers in this
       room before you and I'd already turned down the other one. There was a frozen
@@ -10666,7 +10667,7 @@ MonoBehaviour:
       Maelgorn, because it was never about breaking your machine. It was about freeing
       the people inside it.
     seconds: 53
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d847fddc0cadf7e4c8d916b8e6535ee1, type: 3}
   textMesh: {fileID: 1741075155}
   panelRoot: {fileID: 933919715}
   audioSource: {fileID: 595723345}
@@ -12059,7 +12060,7 @@ MonoBehaviour:
       of the war, so that anyone who reached one had already reached the other. That's
       not architecture. That's a confession. They knew the two were the same thing.
     seconds: 33
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a42fdb0a2e4a3e4458450fb4bf3138da, type: 3}
   - speaker: Dr. Heris
     text: I can see your position against the structure from the seam-key, Soren,
       and you are exactly where I needed you to be, twenty years after I hid the
@@ -12070,7 +12071,7 @@ MonoBehaviour:
       instead of freeing them. Get to the seam, hold there, and wait for the whole
       crew and Sallow. We break it together or we do not break it right.
     seconds: 41
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 55e386e190c5bf64691422928e1805ff, type: 3}
   - speaker: Cassie-04
     text: Soren, I can feel the lattice from up here through the open structure and
       I need you to understand what you're standing inside. Every point of light
@@ -12081,7 +12082,7 @@ MonoBehaviour:
       in the room where I finally can. Hold the seam. Let us catch up. Nobody breaks
       that thing alone, least of all today.
     seconds: 37
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 6a63b9ba1dede364eb6fc597f640128d, type: 3}
   - speaker: Samurai-4
     text: This is what I was guarding. Not you. This. They put their best blade on
       the last tier so no one would reach the floor and see what the floor was sitting
@@ -12090,7 +12091,7 @@ MonoBehaviour:
       an order. How many of us are doing that right now. Standing at a door. Not
       knowing.
     seconds: 29
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d34099fb5982cf44e8f7bb24362fc36b, type: 3}
   - speaker: Echo
     text: Hold here, Soren. I can feel them too, the same way I can feel myself,
       because they're the same thing I am, just never let go of. Every one of those
@@ -12101,7 +12102,7 @@ MonoBehaviour:
       a wall left to stop you, which means whatever it's got left is going to be
       worse than a wall.
     seconds: 36
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0cc342a15fc2be841a1313a45d86da37, type: 3}
   textMesh: {fileID: 1499622390}
   panelRoot: {fileID: 1119622834}
   audioSource: {fileID: 688049851}
@@ -13409,7 +13410,7 @@ MonoBehaviour:
       you spare. It will not work here, because I am the thing they built after they
       learned what sparing cost them with you. There is no hitch in me. Stand down.
     seconds: 23
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c24fb00047d6ff64e9b1428ac8ad07b9, type: 3}
   - speaker: Ronin-7
     text: They told me the same thing about myself. That there was no hitch in me.
       That I was the clean one. Then I stood over a target who couldn't fight back
@@ -13418,12 +13419,12 @@ MonoBehaviour:
       you had me, and you held a half-beat too long. That half-beat is the only honest
       thing they left in you.
     seconds: 28
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7f248ecbf6434d3449b92b02a15b43e5, type: 3}
   - speaker: Samurai-4
     text: That was an inefficiency. I have logged it. It will be corrected. Do not
       mistake a fractional delay for a soul, Cipher. I am not you. I do not break.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f5227ac19f5c226449e868f9af378f79, type: 3}
   - speaker: Echo
     text: Cipher, listen to her cadence, not her words. She just answered too fast.
       That's not a machine, that's a person arguing with herself and losing. I've
@@ -13432,7 +13433,7 @@ MonoBehaviour:
       talking. Every exchange you don't kill her in is an exchange the leash has
       to explain itself in, and the leash is a terrible liar.
     seconds: 31
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 658ad0bccfce7274d94d7681932ff00a, type: 3}
   - speaker: Samurai-4
     text: Why do you not finish it? You have had three openings. I counted them.
       An operative who does not take an opening is malfunctioning, and yet you keep
@@ -13440,7 +13441,7 @@ MonoBehaviour:
       not complete me I cannot complete you, and the order does not allow for two
       of us standing here unfinished.
     seconds: 22
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: fbf610f1824e32a4cbf59a1a61375494, type: 3}
   - speaker: Ronin-7
     text: I don't take the openings because I'm not here to add you to a count. They
       built you to finish people. They built me the same way and I'm done being that.
@@ -13450,7 +13451,7 @@ MonoBehaviour:
       I won't fight you for it. I'm going to do the thing they never let either of
       us see done.
     seconds: 33
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d6b4c4cfa823fff48aebe2b14013efaa, type: 3}
   - speaker: Samurai-4
     text: If I let go of the order I have nothing. Do you understand what you are
       asking. The order is the floor under me. It is the only thing that has ever
@@ -13458,7 +13459,7 @@ MonoBehaviour:
       to hold it. You are not offering me freedom. You are offering me a fall with
       no bottom.
     seconds: 22
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 44ff0c51d0f9295468cb214eeff17fdd, type: 3}
   - speaker: Ronin-7
     text: You will have a choice. That is not nothing. That is everything. It is
       the one thing they could never put in you and could never take out of me, and
@@ -13467,7 +13468,7 @@ MonoBehaviour:
       right now and nothing in your way. So choose. Take the choice, or take my head.
       Either way it's yours, and it's the first thing in your life that ever was.
     seconds: 35
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c31807b2979ba3f46ad9796028ad9de4, type: 3}
   textMesh: {fileID: 1002542654}
   panelRoot: {fileID: 583704462}
   audioSource: {fileID: 730396658}
@@ -14939,7 +14940,7 @@ MonoBehaviour:
       leash, which was never truly cut, only loosened, takes hold of you again. Welcome
       home.
     seconds: 51
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 99e76b01477522e49801db0b368ec1e4, type: 3}
   textMesh: {fileID: 457183417}
   panelRoot: {fileID: 946741524}
   audioSource: {fileID: 780195970}
@@ -16055,7 +16056,7 @@ MonoBehaviour:
       you, Cipher, are the most expensive thing I have ever made, and the most precisely
       aimed.
     seconds: 56
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b1d07b4d3a09d4a4092d3b1c9ae2bd76, type: 3}
   - speaker: Morrigan
     text: That's it. Soren, that's the thing. Listen to it. The outside hand. I have
       been telling this crew since the Iron Dojo that there was a hand outside the
@@ -16068,7 +16069,7 @@ MonoBehaviour:
       thing I couldn't see, and there it is. Cut its machine, Soren. Cut it for everyone
       it made me hurt.
     seconds: 45
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d71ad54969b80fd45a68fd517a5ce4dc, type: 3}
   - speaker: Maelgorn
     text: Your engineer flatters herself. I did not need to be seen to be obeyed;
       that is the entire art of it. I built a cage that runs itself, Cipher, where
@@ -16082,7 +16083,7 @@ MonoBehaviour:
       ended my beautiful war. Go on. You came to break it. Break it. You were always
       going to. That is the only freedom I ever left you, and it was always mine.
     seconds: 56
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 722f5507136b2b94f92a32cfcf0756e5, type: 3}
   - speaker: Soren
     text: You keep calling me Cipher. You've done it every time. The loop, the throne,
       just now. You won't say the other name, and I finally understand why. Cipher
@@ -16092,7 +16093,7 @@ MonoBehaviour:
       it's the one thing in this entire cage you didn't build. Soren. Say it. You
       can't. And that's how I know you've already lost.
     seconds: 33
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e7932e5027d8f574f916ae747561b10a, type: 3}
   textMesh: {fileID: 1243322181}
   panelRoot: {fileID: 404354723}
   audioSource: {fileID: 863746302}
@@ -16575,7 +16576,7 @@ MonoBehaviour:
       machine can count, because it only knows the one ending, and I am made of every
       other one.
     seconds: 49
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b4aa5c4fa46bb714b99026944b2c66ae, type: 3}
   textMesh: {fileID: 689622628}
   panelRoot: {fileID: 999826092}
   audioSource: {fileID: 888565377}
@@ -16986,7 +16987,7 @@ MonoBehaviour:
       it because they made me believe I had no choice, and I have hated my own hands
       every day since.
     seconds: 50
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 743e09515ba65824b99f8a8bf4f36dc2, type: 3}
   - speaker: Soren
     text: You pulled my switch, Khall. On Kethel-7. You stood at that console and
       I told you the order was wrong and you said "I know," and then you triggered
@@ -16995,7 +16996,7 @@ MonoBehaviour:
       tell me the order was forged. Why should the man who killed me get to be the
       one who explains it.
     seconds: 25
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ceb47676e07d8bd42862ab02f3da527c, type: 3}
   - speaker: Khall
     text: Because I said "I know" and meant it. You were right, and I knew you were
       right, and I pulled the switch anyway because I believed an order from above
@@ -17008,7 +17009,7 @@ MonoBehaviour:
       are killed for. I found the forgery. I traced it to the Hollow Kings. And then
       I did the one brave thing in my whole cowardly life. I took one of them prisoner.
     seconds: 49
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b99f83391a09f61419b75ed9d3f41a9e, type: 3}
   - speaker: Echo
     text: Soren. He's telling the truth. I've heard every shape of Program lie there
       is and I rode behind your eyes the day he pulled that switch, I have his face
@@ -17019,7 +17020,7 @@ MonoBehaviour:
       to forgive him. That's yours, not mine. I'm telling you the account is real.
       Let him finish it. We need what he took off that prisoner.
     seconds: 38
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7493b839cf7bace4e8bb4a45d6932f54, type: 3}
   - speaker: Khall
     text: The prisoner told me what the order was for. There is a machine, he said,
       the Dominion's machine, the Concord Engine, built to end the war by silencing
@@ -17031,12 +17032,12 @@ MonoBehaviour:
       peace buys nothing. The Engine would have starved them. So they needed it broken,
       and they would not dirty their own hands doing it.
     seconds: 42
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 409f5eb0befe0f44197af1fb481fca9f, type: 3}
   - speaker: Soren
     text: So they built a war to sell. And a machine that could end it was bad for
       business. That's what Kethel-7 was. A sales tool.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3ccf43c7150ee6444a4761b5387fd717, type: 3}
   - speaker: Khall
     text: That's the whole of it. To break the Engine they needed a blade they did
       not have to hold, and the cleanest one in the galaxy was a mercy operative
@@ -17048,7 +17049,7 @@ MonoBehaviour:
       were cleared, ever since I found the forgery. I have waited down here, where
       the trail had to end, for you to arrive, so I could say it to your face.
     seconds: 44
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: fba86813187afc948b65b791dcd67ba0, type: 3}
   - speaker: Soren
     text: So my whole life was a forged document. The order that broke me, forged.
       The rebellion that came out of the breaking, forged too, aimed, walked down
@@ -17057,7 +17058,7 @@ MonoBehaviour:
       I've bled the whole crew toward, the thing I just took my name back on, and
       it was a tool in someone else's hand the entire time.
     seconds: 28
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3ec1afbc41afcfe43a604f04e7148f9b, type: 3}
   - speaker: Khall
     text: Yes. And then you did something the forgery did not account for, the same
       thing I'm asking you to let me do now. You chose people they told you to kill,
@@ -17066,7 +17067,7 @@ MonoBehaviour:
       in the order. Run with me now, Cipher. I have spent every day since dead to
       them, earning the right to stand at your shoulder for the end of it. Let me.
     seconds: 30
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 574a255bc9f08da4295c8adc0c81c80e, type: 3}
   - speaker: Soren
     text: I'm not going to forgive you, Khall. Not today and maybe not ever, and
       you already know that, because you said "I know" once and meant it and you
@@ -17077,7 +17078,7 @@ MonoBehaviour:
       up there and I'd like both of us alive to take it apart. Get up. Show me the
       way to the seam. You've been clearing my roads all this while. Clear one more.
     seconds: 39
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ae5c3b3180cd77f46ba9e8305d3713b0, type: 3}
   textMesh: {fileID: 2093022}
   panelRoot: {fileID: 371772379}
   audioSource: {fileID: 915215799}
@@ -17247,14 +17248,14 @@ MonoBehaviour:
       and the whole machine comes apart, and every shadow it is strung through goes
       free.
     seconds: 56
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: be11ac1adba22d8489060014b5fd20d0, type: 3}
   - speaker: Iris
     text: I ran the model three times and it keeps doing the same thing. I feed it
       the vault and I feed it the Engine and I keep waiting for it to find a seam
       between them, some wall, some door, anything, and it just keeps falling. No
       break. I don't have a joke for this one. I've got nothing.
     seconds: 19
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 8f5fe3a1b23f3684a8c79dd1c0e15634, type: 3}
   - speaker: Coral Vex
     text: I can tell you what the model can't, child. Getting yourself back is the
       hardest climb there is, and I made it before any of you, alone, with my own
@@ -17264,7 +17265,7 @@ MonoBehaviour:
       whole way down, and there will be a ship full of his people at the top when
       he comes back up with his name.
     seconds: 34
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a7e687b6094d19d4dbe6e3886b4712ed, type: 3}
   - speaker: Cassie-04
     text: I'll give you the cold count, because somebody has to. I'm a ledger, and
       I can feel the bottom of that map the way I feel a column that won't close.
@@ -17275,7 +17276,7 @@ MonoBehaviour:
       you don't just kill a weapon. You unmake the thing that's holding thousands
       of them open. I have wanted to close those columns my whole conscripted life.
     seconds: 40
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 18e69b0c4225f0b40af6118cc5540750, type: 3}
   - speaker: Sable
     text: Cassie counts them. I'm wired close enough to feel them breathe. That's
       the difference between us, Cipher, and it's why I'm afraid of this in a way
@@ -17285,7 +17286,7 @@ MonoBehaviour:
       through. I would like, just once, to be the hand that sets the others loose
       instead of the wire that holds them.
     seconds: 35
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 2765abfb90b67a74ba7a0da9482cdfe8, type: 3}
   - speaker: Mera Voss
     text: A vault built to keep him out of himself isn't going to be empty. The Program
       kept this for one reason, to make sure he never reached the bottom, and they
@@ -17295,7 +17296,7 @@ MonoBehaviour:
       you can talk to. Or they didn't, until him. Go in expecting the best blade
       they have left, on the worst tier to fight one.
     seconds: 36
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e2ed06273ced4b641906cd9cf75e1b72, type: 3}
   - speaker: Vess
     text: Then let them spend their best. We've turned every blade they ever pointed
       at us. Kerrax. Me. Half this room used to be aimed at him. Whatever they send
@@ -17303,7 +17304,7 @@ MonoBehaviour:
       asked. Show it the same thing you showed the rest of us. And if it won't take
       the choice, put it down and keep walking. Some of them won't. I almost didn't.
     seconds: 25
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 64dfb11902b9d7f408d5a717a9f52d4a, type: 3}
   - speaker: Gryph
     text: I've held one descent in my life, a hold thirty years deep, and I learned
       the one law of the deep places. You don't go down alone, and you don't go down
@@ -17312,7 +17313,7 @@ MonoBehaviour:
       the top. Nobody gets down the shaft behind you that doesn't come through me
       first.
     seconds: 24
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a728f93a3019ab949b435f94a68d2d9d, type: 3}
   - speaker: Kessler
     text: All right. Go down. Get who you are. Finish the thing they built to take
       everyone's name, your name first. And then come back up to this ship. That's
@@ -17320,7 +17321,7 @@ MonoBehaviour:
       the bottom calling itself the truth. You. Coming back up that lift. That's
       an order, from the man who owns the rig.
     seconds: 35
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 87f35d24216049f46befa2e652a4a296, type: 3}
   - speaker: Ronin-7
     text: Then I'll come back up. You have my word, Kessler, and I don't spend it.
       Heris, the seam stays with you and the key stays cut. Morrigan, you read the
@@ -17331,7 +17332,7 @@ MonoBehaviour:
       home. The rest of you hold the top. I'm going down to get the rest of me, and
       then we end it. As free people. Not as anyone's weapon.
     seconds: 41
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 8b8a81329a1dcef40b21a17657449915, type: 3}
   - speaker: Echo
     text: This part's just for you, Cipher, before you step off the lift. I've been
       quiet the whole briefing because I was deciding whether to say it. I've been
@@ -17343,12 +17344,12 @@ MonoBehaviour:
       at the bottom of that vault. The piece even I couldn't carry. Go down and get
       it. I'll be right here the whole way.
     seconds: 44
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ccc7e644152231049bbf810a101017f4, type: 3}
   - speaker: Ronin-7
     text: Then let's go get it. Both of us. You carried it long enough. Take me down,
       Echo.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 666ff82141826ba4a81f4a399bdffd8c, type: 3}
   textMesh: {fileID: 1735767622}
   panelRoot: {fileID: 1707577957}
   audioSource: {fileID: 917076736}
@@ -18942,6 +18943,7 @@ MonoBehaviour:
   decayDelay: 1
   decayPerSecond: 40
   breakBonusDamage: 12
+  nearBreakFraction: 0.8
 --- !u!1 &999826092
 GameObject:
   m_ObjectHideFlags: 0
@@ -25446,13 +25448,13 @@ MonoBehaviour:
       a wound. It's just you, the part they took before I ever woke up. Put your
       hand on it. Let it come up to you. I'll be right here when it does.
     seconds: 28
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9c2b5e0e9ead51948902f0d12c90a1a6, type: 3}
   - speaker: Soren
     text: Soren. My name is Soren. There was a boy, and he had a world, and someone
       in a doorway who loved him said this name. They buried it so deep they had
       to build a vault to keep me out of it. But it's mine. It was always mine. Soren.
     seconds: 20
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 4824253033c5df644acc5c824628c966, type: 3}
   - speaker: Samurai-4
     text: Soren. I came down here to stop you from reaching that. They sent me to
       keep you a number, and I watched you take your name back instead, and I am
@@ -25462,13 +25464,13 @@ MonoBehaviour:
       I watched you do it, and now I know it can be done, and that is more than I
       had this morning.
     seconds: 34
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 436d031f337ad1b488061fbf081d17c2, type: 3}
   - speaker: Soren
     text: If there's a name under your number, it's down a vault like this one, and
       when this is over we'll go find it. You don't have to do it alone. None of
       us do anymore. That's the whole point of the ship at the top.
     seconds: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e2ae2feb824c40140a1de5b757d70973, type: 3}
   - speaker: Echo
     text: ...Soren. Going to take me a minute to learn it, I'll be honest with you.
       I've called you Cipher since the second I woke up wired to your eyes. It was
@@ -25477,7 +25479,7 @@ MonoBehaviour:
       down. The floor under you isn't the bottom. Let's finish it. I'm right here,
       Soren.
     seconds: 31
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3265dc7c75d84c54e808aab801ce58fb, type: 3}
   textMesh: {fileID: 594894883}
   panelRoot: {fileID: 1770173200}
   audioSource: {fileID: 1463466346}
@@ -26590,7 +26592,7 @@ MonoBehaviour:
       Don't reach the same way. Choose like a person, who can always choose again,
       not a weapon that only knows one line. I'm here. Don't stop choosing.
     seconds: 37
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: cb12597a77cfa9246a7283c26dc1702b, type: 3}
   textMesh: {fileID: 959894171}
   panelRoot: {fileID: 1176528379}
   audioSource: {fileID: 1512348743}
@@ -28773,14 +28775,14 @@ MonoBehaviour:
       chair, and you walked right past it. Resh always said the ones who sit in chairs
       like that are the ones who take us. You didn't sit in it. I knew you wouldn't.
     seconds: 18
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7f685385f18a49a48951223937755e31, type: 3}
   - speaker: Resh
     text: I ran children out of those markets one hold at a time, Soren, because
       that machine coming apart was the thing that bought them. I never thought I'd
       see it stop. Every road I ever smuggled a kid down led to that, and tonight
       you closed it.
     seconds: 18
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: cd1bffb994f272246ba7e157acbf7cbe, type: 3}
   - speaker: Coral Vex
     text: Fifty years, Soren. I cut my own leash and I hid for fifty years certain
       I'd be the only one who ever got out, and tonight I watched a man free a whole
@@ -28790,7 +28792,7 @@ MonoBehaviour:
       so I'll just say the true thing. I was the first of us to get free. You're
       the one who made it stop being lonely.
     seconds: 36
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: aad32c6b7c3eb654f9ebc0619c621998, type: 3}
   - speaker: Khall
     text: I carried the order that broke you, Cipher. Soren. I'll learn it, same
       as your shadow is learning it. I carried the order that broke you and I have
@@ -28802,7 +28804,7 @@ MonoBehaviour:
       than a man like me should get. Thank you for letting me run the last road with
       you.
     seconds: 42
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 10a27075e3431f347beddd518099ae37, type: 3}
   - speaker: Kessler
     text: Soren. I'm patching in from the top of the lift, and I've been listening
       to the whole thing, and I've got exactly one order left to give, the same one
@@ -28812,7 +28814,7 @@ MonoBehaviour:
       too late once. Don't make me wait for the lift this time. Come home. That's
       the whole mission. It always was.
     seconds: 35
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 107bd08d2c0c85546b2c7cf497b729b2, type: 3}
   textMesh: {fileID: 769334673}
   panelRoot: {fileID: 2065812507}
   audioSource: {fileID: 1573979419}
@@ -34933,6 +34935,7 @@ MonoBehaviour:
   decayDelay: 1
   decayPerSecond: 40
   breakBonusDamage: 12
+  nearBreakFraction: 0.8
 --- !u!1001 &1935580969
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35451,7 +35454,7 @@ MonoBehaviour:
   - speaker: Maelgorn
     text: You break like all the others. Differently. But you break.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7bc9086ffb690c648973555279783b7b, type: 3}
   textMesh: {fileID: 1524714408}
   panelRoot: {fileID: 2035212026}
   audioSource: {fileID: 1964541998}
@@ -37282,7 +37285,7 @@ MonoBehaviour:
       it's Soren, and I'm going to spend the rest of our life saying it right. Let's
       go home.
     seconds: 60
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f0bc07ce8f6dfad43934ca49e0633414, type: 3}
   textMesh: {fileID: 2000581187}
   panelRoot: {fileID: 304517440}
   audioSource: {fileID: 2082351428}

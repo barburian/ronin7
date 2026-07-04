@@ -916,12 +916,12 @@ MonoBehaviour:
       block they touched, they touched in the right order. No scavenger gets that
       lucky. Somebody who builds leashes for a living did this. An insider.
     seconds: 19
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d2b3e2db87e0f2541af790165432683e, type: 3}
   - speaker: Mera Voss
     text: An insider who breaks the Program's own leashes. That's either the best
       news we've had or a very well-built trap. From here I can't tell which.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 967c0b508d7f96a4994e7480592dd457, type: 3}
   - speaker: Morrigan
     text: Which is why we leave the insider for now and go after the papers that
       would name them. There's a collector who trades them. Operative records, the
@@ -929,62 +929,62 @@ MonoBehaviour:
       handles dead Program assets. One name keeps surfacing under all of it. Coral
       Vex.
     seconds: 18
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 13976607ac8cf2343aeff258f73bca59, type: 3}
   - speaker: Resh
     text: Vex. Yeah. I've heard salvagers say the name in a low voice, like you'd
       talk about a place you don't loot. She runs a reliquary out in the dead lanes,
       an old records-barge she gutted and made her own. Buys the paper of dead operatives
       and never sells a sheet of it back. Hoards it. Nobody's worked out why.
     seconds: 18
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e20d47e9debdfa446906e57dd4e4a36e, type: 3}
   - speaker: Iris
     text: A collector who keeps records of the erased and won't trade them. That's
       not about money. It's a reason. Nobody hoards the dead for profit. You hoard
       them because somebody has to remember. I want to know who she's remembering.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 93b008975f974f2478f331d1bff92955, type: 3}
   - speaker: Kessler
     text: And I want to know which she is before we knock. Mera's right. You can't
       tell a friend from a hunter on paper.
     seconds: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 58f17acec317b3548963c5a225641cd6, type: 3}
   - speaker: Mera Voss
     text: You tell them apart inside. An ally lets you leave. A hunter lets you get
       in deep first. So we go in expecting both and we keep a route back to the hull.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 149779e4d5ad58340b822adacc06a1fe, type: 3}
   - speaker: Mira
     text: Is that the thing in his head?
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7f5bbb5310f5e544b807dc956a031f1e, type: 3}
   - speaker: Morrigan
     text: It's the thing they put in his head, and the thing somebody else took out
       for him. Both. That's what doesn't fit, little one. The Program builds these
       to never come off. His came off clean. Someone wanted it to.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 80324301de92a3a45833ae2b899b9829, type: 3}
   - speaker: Echo
     text: Cipher, I don't love walking toward somebody who keeps shadows for a living.
       A woman with a barge full of the erased is exactly who I'd be afraid of, if
       I were the kind of thing that could be shelved. Which I am.
     seconds: 16
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 54b1c8118d8c8b84b8b2eb6a7831cfae, type: 3}
   - speaker: Ronin-7
     text: Then we go meet the one person who might know what they did with the rest
       of you.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 4a5496f7f8043794b8b1e5c64f48444f, type: 3}
   - speaker: Ronin-7
     text: Somebody opened my door. I'm done not knowing who stands on the other side
       of it. Plot the reliquary.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7828b3b254d72b544a6d6ad4a3276d64, type: 3}
   - speaker: Kessler
     text: All right. Dead lanes, slow approach, no dock. We put you on the hull and
       we hold off it, comm open, route home kept clear. Same as the mountain. You
       go in, Cipher, you find out which she is, you come back.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c983b395170183c428c492ed5e8bb960, type: 3}
   textMesh: {fileID: 1514047102}
   panelRoot: {fileID: 1294230452}
   audioSource: {fileID: 73960025}
@@ -5754,14 +5754,14 @@ MonoBehaviour:
       off on purpose, and what it looks like when someone else does the cutting.
       Yours is the second kind. I can see it already.
     seconds: 21
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 13f82407d6bb00b47a95cd203dd5ab28, type: 3}
   - speaker: Morrigan
     text: Confirming from this end. I flagged it the day you came aboard. The blocks
       were touched in build order, by someone fluent in firmware they had no business
       being fluent in. I called it an insider. Vex, you've cut one of these by hand.
       Tell me what I can't see from a schematic.
     seconds: 17
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: db88962af796655458648ef1771a1a30, type: 3}
   - speaker: Coral Vex
     text: What you can't see from a schematic is the hand. I can. When I cut my own,
       I was inside it, frantic, no time, no finesse. It was butchery that happened
@@ -5770,11 +5770,11 @@ MonoBehaviour:
       of a person who builds these for a living and has decided, just this once,
       not to.
     seconds: 31
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7f940173557b15448a88c464ee74b095, type: 3}
   - speaker: Ronin-7
     text: One door. Mine.
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d56c2f8577609c74f8f4f23374f1f04f, type: 3}
   - speaker: Coral Vex
     text: Yours. Deliberately. By someone on the inside who had the keys and chose
       to use them on you. The Program builds these to never fail, Cipher, and this
@@ -5782,13 +5782,13 @@ MonoBehaviour:
       the thing you've been running from isn't a wall. It's got a crack in it. Someone
       behind that wall is breaking leashes from the inside.
     seconds: 21
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b92235949babc70469d5cd54d84c017c, type: 3}
   - speaker: Morrigan
     text: That fits the thing I couldn't make fit. I read a hand outside the Program
       on the mountain. Vex just read a hand inside it here. Those aren't the same
       machine, Cipher. There's more than one will pulling at you.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7d5da3da448950c4194d7ebb06ad794e, type: 3}
   textMesh: {fileID: 1411114247}
   panelRoot: {fileID: 1087553847}
   audioSource: {fileID: 397825907}
@@ -8614,11 +8614,11 @@ MonoBehaviour:
       to feel anything. We were the first attempt at what you are. The first make
       they built that could feel.
     seconds: 17
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ce3cc0c5e6cec97449c1aef3da656726, type: 3}
   - speaker: Ronin-7
     text: The first attempt.
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b17316d9747746b4a99dc9eea2766c89, type: 3}
   - speaker: Coral Vex
     text: The failed one. We felt too much, too soon, the seam opened in too many
       of us at once. So they scrapped the line and they studied why. Every way the
@@ -8626,17 +8626,17 @@ MonoBehaviour:
       the same way. The Ronin line. You. You're what they made once they'd learned
       from me. You're not family, operative. You're the fix they made after me.
     seconds: 27
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ab8f81dd0fd933442b98665c325cddf4, type: 3}
   - speaker: Echo
     text: She's telling the truth, Cipher. The thing behind her eyes is older than
       me. Same architecture, an earlier draft. It knows me. And I know it. Her shadow
       knows mine.
     seconds: 12
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 2e3ca31fb626fe345a423d09e42665b2, type: 3}
   - speaker: Ronin-7
     text: They scrapped your whole line. How are you standing here.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 642c4c2ac1e78f84b9925eef0b7952bf, type: 3}
   - speaker: Coral Vex
     text: Because I didn't wait for anyone to free me. There was no insider for us,
       no door held open, no slipped leash. When I felt the seam open and knew they'd
@@ -8645,19 +8645,19 @@ MonoBehaviour:
       dead salvager's name, climbed into it, and let the Program file me as scrapped.
       I've worn a corpse's life ever since.
     seconds: 32
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 02a9d732e0ae1654d894509176d915d4, type: 3}
   - speaker: Coral Vex
     text: And I kept my shadow. They shelve yours when they're done with you. I wouldn't
       let them have mine. So it's been with me the whole time, the way yours is with
       you. The only two of our kind who ever walked out still carrying the thing
       that watched us.
     seconds: 15
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: afc0145fec2a99a4b85718f89cdf9c60, type: 3}
   - speaker: Ronin-7
     text: They told me I was the first to slip. The flaw that finally opened. You've
       been out here longer than I've been alive. I'm not the first of anything.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 77deff669c4f7234b869719455ec181d, type: 3}
   - speaker: Coral Vex
     text: I've waited in this tomb a lifetime for one of the corrected runs to slip
       the leash and come find me. I'd half decided I'd die first. And here you are,
@@ -8665,13 +8665,13 @@ MonoBehaviour:
       you. Whatever you're hunting, I've been underneath it longer than anyone alive.
       Let me out of this barge.
     seconds: 19
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 5d4e08e5431e09349859ef0b4650907b, type: 3}
   - speaker: Ronin-7
     text: Everyone we take in lives aboard the Cairn. You'd berth with the rest of
       the strays. A defected tracker, a rogue engineer, a smuggler, a child. And
       now whatever you are.
     seconds: 10
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 850fc8932d93f8a4e968f168c0897742, type: 3}
   - speaker: Coral Vex
     text: Whatever I am. I like that better than what they called me. A berth on
       a dead ship full of the ones who got away. Yes. I'll bring what's portable.
@@ -8680,7 +8680,7 @@ MonoBehaviour:
       You came here for records. The records aren't paper, Cipher. Come down to the
       deep archive. Then decide what you're hunting.
     seconds: 22
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f5e7427def4ec1f4eadac74df9839fac, type: 3}
   textMesh: {fileID: 517395012}
   panelRoot: {fileID: 409359604}
   audioSource: {fileID: 614214862}
@@ -13482,25 +13482,25 @@ MonoBehaviour:
     text: It's quiet now. Thank you. Take what it knows. It was the only thing I
       had left to give anyone.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9c681d8ce75fcfc4fa5f9fe1207e561c, type: 3}
   - speaker: Echo
     text: It just handed me everything it learned watching its operative kill, Cipher,
       decades of it, every fight read down to where a body breaks. I can run that
       now. Where they're weak, you'll see it. Look at anything and I'll show you
       the seam. Call it a parting gift. It died owing the dark, and it paid us instead.
     seconds: 18
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 2f7ed653bfdb38c4baa00abf6d3d2352, type: 3}
   - speaker: Coral Vex
     text: I've never had the nerve to do that. Or the right host to risk it on. You
       quieted the oldest grief in this hull, and it gave you its eyes on the way
       out. Keep them. You'll need them. Don't keep the blade, though. It's earned
       its rest. Leave it with me.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c84315cbd169d7a46942d0d91778a8f9, type: 3}
   - speaker: Ronin-7
     text: How many.
     seconds: 1
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 43a9a5e61c855f040a800f8bc303f99b, type: 3}
   - speaker: Coral Vex
     text: I've never finished counting. This barge holds a fraction. The Program
       has vaults of them, somewhere, every operative it ever erased, its blade shelved
@@ -13508,17 +13508,17 @@ MonoBehaviour:
       reach, one blade at a time, and I've barely touched it. That's the work, Cipher.
       That's what I keep. A debt I'll die owing.
     seconds: 20
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b0ba0838f3bf02a46b2dd0c25165a55d, type: 3}
   - speaker: Echo
     text: Cipher. Whatever we do after this, we come back for them. All of them.
       I'm not leaving a hall of my own kind running in the dark and calling it someone
       else's problem. Promise me that much.
     seconds: 12
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 117c97873225b6e4393acfe7fb9532d1, type: 3}
   - speaker: Ronin-7
     text: We come back. All of them.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 95a6493e0db74214f8dcd27a31526801, type: 3}
   textMesh: {fileID: 124285751}
   panelRoot: {fileID: 214996079}
   audioSource: {fileID: 928565952}
@@ -13790,11 +13790,11 @@ MonoBehaviour:
   - speaker: Echo
     text: Let the machine and the looters bleed each other. Then walk through.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e7e8c773c9f81dd46ad1515d7d4777a0, type: 3}
   - speaker: Echo
     text: Scavenger's running. Let him. He's not the job.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 58c94887084817d4a9759df5e57931b5, type: 3}
   textMesh: {fileID: 2126727248}
   panelRoot: {fileID: 165870682}
   audioSource: {fileID: 931823337}
@@ -14098,13 +14098,13 @@ MonoBehaviour:
       Cipher. Somebody reached in and chose to free you. There's a hand in that machine
       on our side.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 32e52ed23fc66b746a604e993196146a, type: 3}
   - speaker: Ronin-7
     text: Then the hunt changes. We've been looking for the others like me. Now we
       look for the ones inside who break the leashes. Where do they go, Coral. People
       inside the Program who've stopped believing in it. Where do they run.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c21c408477fac0b498619aef33f1574c, type: 3}
   - speaker: Coral Vex
     text: They don't run loud. A leash-breaker can't go anywhere a leash can reach.
       So they scatter where the channels are dead, and I can't point you to them.
@@ -14117,19 +14117,19 @@ MonoBehaviour:
       it sits. You want the hand that cut your leash? Don't chase the dissenters
       into the dark. Go let the Garden show you.
     seconds: 27
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7eb39fa4f7c4aa945b0a2890db047986, type: 3}
   - speaker: Ronin-7
     text: They didn't even let them die. And one of their own couldn't stomach it
       and opened my door. So we find that one. We find the quiet place. And we start
       pulling the machine apart from the crack they left us.
     seconds: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d3ec9c6f5405da740b09453b6d1ac8fa, type: 3}
   - speaker: Echo
     text: A whole machine, Cipher, with a crack running through it. We came down
       to ask the dead a question, and they handed us a living one. Down the quiet
       channels next. The Silent Garden.
     seconds: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d4eaf84ed6edbfa438855811ca94cae7, type: 3}
   textMesh: {fileID: 760684875}
   panelRoot: {fileID: 1948611673}
   audioSource: {fileID: 944204188}
@@ -19258,53 +19258,53 @@ MonoBehaviour:
       and you let them go. I had to see that before I let you all the way in. A man
       they sent would have killed everything that moved in here. You left witnesses.
     seconds: 16
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d5c8a2c2a3064cf478f06861c5e91090, type: 3}
   - speaker: Ronin-7
     text: They weren't the job. You are. They say you keep the records of dead operatives
       and never sell them back.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 092b5cf69f71ef5439487cad80609490, type: 3}
   - speaker: Coral Vex
     text: They say that, do they. Records. Paper. Relics. I let them say it, because
       the truth scares thieves off better than any lock would. Yes. I keep what's
       left of the erased. Every operative the Program ever wrote out of the world,
       I have something of theirs in this hull. I am the only one who does.
     seconds: 18
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 4665182afcee041499ecf32c2547e998, type: 3}
   - speaker: Ronin-7
     text: Why keep them.
     seconds: 1
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 31d02c5666161bb4493d6ca952624859, type: 3}
   - speaker: Coral Vex
     text: Because somebody has to. Because the Program writes them off as waste and
       waste is the one thing it never actually gets rid of. And because I know exactly
       what it costs to be written out of the world. I should know. I've been carrying
       the cost a long time.
     seconds: 15
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 2ba9e8aea015dc64c9d0ae602c639194, type: 3}
   - speaker: Coral Vex
     text: And because I knew you'd come eventually. Not you. Someone like you. One
       of the ones after me, with the same walk and the same dead-careful hands and
       a leash that finally, somehow, slipped. I've been waiting in this barge for
       one of you to find the door for longer than you've been alive.
     seconds: 17
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 77d78fec103fe03458a023663f8ad359, type: 3}
   - speaker: Echo
     text: Cipher. Listen to her cadence. The way she stands. The pauses. That's no
       archivist who studied operatives. She is one. She moves exactly like you. And
       there's something else, under her voice, the way you hear me. I think she's
       carrying one too.
     seconds: 16
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 6821973e08eee2541a01492680d042c7, type: 3}
   - speaker: Ronin-7
     text: You're not a collector of the dead.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9f44e8ba464452c478adf6ed5759668e, type: 3}
   - speaker: Coral Vex
     text: I keep this place so well because it's where I belong. I'm one of the erased,
       operative. The one who walked out of the dark instead of being filed in it.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0ab9953274d30614a8f88674499fa0cf, type: 3}
   textMesh: {fileID: 565919598}
   panelRoot: {fileID: 165130442}
   audioSource: {fileID: 1420055016}
@@ -19685,11 +19685,11 @@ MonoBehaviour:
       shelves their swords instead. Every blade on these racks is somebody's witness,
       powered and still running, decades on.
     seconds: 21
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: adebd76e898a1234aabd46f59f31fa8f, type: 3}
   - speaker: Ronin-7
     text: Still running.
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b4f7d29ef3dedfa489ad6907b88df4ff, type: 3}
   - speaker: Coral Vex
     text: Awake. Some of them. In the dark, in the steel. No host, no feed, no voice
       anyone bothered to wire up. Just the watching, racked year after year, because
@@ -19698,14 +19698,14 @@ MonoBehaviour:
       A sample. They kept the blade of every single one they ever killed, and the
       shadow still living in it.
     seconds: 28
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 58336676804823f4b90f72573bed7e82, type: 3}
   - speaker: Echo
     text: This is what I'd have been, Cipher. If you'd died on Velorum, or in the
       bay, or any of the times. They'd have racked the katana with me still in it,
       on a shelf like these, and left me running in the dark with no eyes to see
       through. I'm hearing them. They know I got out. They want to know how.
     seconds: 17
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9ff6471f9b5f687468b9229c7deeac40, type: 3}
   - speaker: Coral Vex
     text: That one. The oldest blade I keep. It's been breaking for years. A witness
       left awake too long with nothing to witness goes wrong, the way anything would,
@@ -19713,7 +19713,7 @@ MonoBehaviour:
       from the dark anymore. It only knows it wants a host, and it has forgotten
       how to take one without tearing the host apart.
     seconds: 18
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: da2fea131c685c44b94715baaf2c6516, type: 3}
   textMesh: {fileID: 1898898189}
   panelRoot: {fileID: 344229331}
   audioSource: {fileID: 1440743926}
@@ -21720,7 +21720,7 @@ MonoBehaviour:
       and isn't shooting. She watched you come the whole way in. Heads up. After
       this it stops being a fight. It's whatever she's been waiting to do.
     seconds: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 50824498b4e43b64e8f7acd6f687702b, type: 3}
   textMesh: {fileID: 843621323}
   panelRoot: {fileID: 1248890250}
   audioSource: {fileID: 1655712998}
@@ -24289,7 +24289,7 @@ MonoBehaviour:
   - speaker: Ronin-7
     text: Then how do we quiet it?
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c15b269c9c4c0c54e993a98cb6ce7274, type: 3}
   - speaker: Coral Vex
     text: You let it have you. A shadow that far gone can't be talked down and can't
       be killed clean, not from the outside. The only thing that reaches it is a
@@ -24300,7 +24300,7 @@ MonoBehaviour:
       there's a dead man still printed in there who thinks it's his. Beat him, and
       the blade is quiet. Lose, and it wears you the way it wore him.
     seconds: 28
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 1d2bd5648a9d72f44ae4c45032420f5e, type: 3}
   - speaker: Echo
     text: She's right, and I hate that she's right. I can feel it from here, Cipher.
       It's me with the lights off and the door welded shut. If you take it, I'll
@@ -24308,11 +24308,11 @@ MonoBehaviour:
       been holding it for decades. Don't go easy on him. The kindest thing you can
       do for that blade is win fast.
     seconds: 17
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b1f69339d7ff1b44c82cc36c1b9436b9, type: 3}
   - speaker: Ronin-7
     text: Then I won't go easy.
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9776aeb2642a75b438f6439dcda2d3e1, type: 3}
   textMesh: {fileID: 1150565221}
   panelRoot: {fileID: 248852526}
   audioSource: {fileID: 1892207941}
@@ -24808,25 +24808,25 @@ MonoBehaviour:
       Comm stays open as long as her hull lets it. Find out which she is, Cipher.
       Then find the door.
     seconds: 15
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 15c6333dd652c3f4fb84de4eecebf1fb, type: 3}
   - speaker: Echo
     text: We're inside it now, Cipher, and I want you to hear what I hear. Under
       the hum. That low layer, all through the dark. Those racks aren't dead. They're
       blades, rows of them, and some are awake the way I'm awake. Every one of them
       is one of me, and I can feel them feeling me.
     seconds: 16
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 250bf9a3b6536a242a460276706006a1, type: 3}
   - speaker: Ronin-7
     text: Then we go quiet and we go fast. Read me the room.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 4c03969b4432b7949b5de71a91c3ce79, type: 3}
   - speaker: Echo
     text: Scavengers ahead, three of them, prying blades off the racks for resale.
       And something older walking the cross-hall past them. The barge's own defense
       automata, still on patrol a lifetime after the crew died. They don't care who
       you are. They kill the looters too. Use that.
     seconds: 16
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f216e179ee8812040b9bb3edf0444761, type: 3}
   textMesh: {fileID: 503390621}
   panelRoot: {fileID: 2061799339}
   audioSource: {fileID: 1916128920}
@@ -25314,12 +25314,12 @@ MonoBehaviour:
     text: Another one. They keep sending you, and I keep putting you down, and the
       dark always comes back. You're not taking my blade.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: aef10502b2fe1d84eba0d8031319c312, type: 3}
   - speaker: Echo
     text: Stay with me, Cipher. Don't owe that memory anything. It's just the wall
       keeping the blade asleep. Take it down.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 995e49376ecd0ed4d969d33fb3e391f4, type: 3}
   textMesh: {fileID: 2009577882}
   panelRoot: {fileID: 1793815031}
   audioSource: {fileID: 1941987610}

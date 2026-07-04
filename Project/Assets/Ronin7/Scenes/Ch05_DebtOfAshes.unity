@@ -2524,24 +2524,24 @@ MonoBehaviour:
     text: They built a hand that doesn't feel. And it felt something in my square.
       No wonder they were afraid of you. And killing it won't raise her.
     seconds: 12
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f657a1bab2e7a014eaf2bee586687ea8, type: 3}
   - speaker: Vera Dusk
     text: Dying's easy. You'd be gone in a second and I'd still be standing here.
       So you don't get easy. You stay alive, and every day you do, you owe her. You
       won't ever be done.
     seconds: 15
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ab7509b789e9e804dbe6c567e9591573, type: 3}
   - speaker: Ronin-7
     text: I'll carry it. I won't pretend I can earn it down to nothing, because I
       can't. But I'll carry her name as long as I've got a hand to carry it. That
       much I can actually promise.
     seconds: 12
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 4acb01009a6e01e47b9cc9657ec92666, type: 3}
   - speaker: Mera Voss
     text: Twice now. Kerrax in the caves, this one over a grave. I spent nine years
       certain the metal couldn't choose twice. I don't know what I'm sure of anymore.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3e84f527f5aa86b458b6ce4fd624d794, type: 3}
   textMesh: {fileID: 1095225498}
   panelRoot: {fileID: 902950176}
   audioSource: {fileID: 178157099}
@@ -4035,28 +4035,28 @@ MonoBehaviour:
       people who walked out of the sky carried that wrapped thing on your hip, and
       they didn't help. They counted us and they left.
     seconds: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 98a4d435fd8309746abc1b6b655a1658, type: 3}
   - speaker: Ronin-7
     text: I'm not going to say either of those.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: aa8b398074623a849bd07190d448a857, type: 3}
   - speaker: Vera Dusk
     text: You logged this as pacification. A clean word so the men who did it could
       sleep. There were children in that count.
     seconds: 10
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b42f68f4e41e4f14cbd0661cba7a5285, type: 3}
   - speaker: Vera Dusk
     text: This one was my sister. Kira. She was fourteen. She kept lists of the ships
       that came through, because she liked the names. And then a ship came through
       that didn't have a name, and it had you on it.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 950870beb0b84bd40bf7aaaf2c9a8a71, type: 3}
   - speaker: Ronin-7
     text: I won't lie to you. I don't remember her. I don't remember any of them.
       They took it out of me when it was finished. I won't dress that up as anything
       but what it is.
     seconds: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b5374f6941dc94145bfc41d4d07a287e, type: 3}
   textMesh: {fileID: 518175948}
   panelRoot: {fileID: 995834310}
   audioSource: {fileID: 303553796}
@@ -7349,11 +7349,11 @@ MonoBehaviour:
       since before we landed. Careful, Cipher. This isn't a fight. It's worse than
       one.
     seconds: 10
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9f6f753dd35c22542a1b257c4fe6d922, type: 3}
   - speaker: Echo
     text: Doors all open. Nobody left to close them.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: cb4b7c737886087488d5173fa25a1707, type: 3}
   textMesh: {fileID: 1785640012}
   panelRoot: {fileID: 1642154056}
   audioSource: {fileID: 574914163}
@@ -11113,58 +11113,58 @@ MonoBehaviour:
       old line's signature. In and out clean. A settlement scoured, and somebody
       rounded the count off after.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 329ebf3bc6fba294892d15b5d731f8d0, type: 3}
   - speaker: Iris
     text: The operative-of-record is named Kael Vor. I've run it against everything
       we have and the name won't resolve. No file, no line, nothing under it. It's
       a wall.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 1daaa2bbb8af42c42acb63588b491108, type: 3}
   - speaker: Resh
     text: So let me say the part everyone's circling. We'd be flying to a graveyard
       to read his name off the kill-record that put people in it. That's not a rescue.
       You sure this is the one we pick?
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f6855d1a1762f5240b07d8d2452244cc, type: 3}
   - speaker: Kessler
     text: We've buried a lot to get this crew breathing. Now you want me to fly us
       to a field of graves. Tell me what's worth the climb back out.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 98176b1ca0aff59489d1e40e60be405b, type: 3}
   - speaker: Mera Voss
     text: The truth's at the bottom. You don't have to like digging for it. It's
       the work.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 791d2d8d136cdfe44a83960cdcba066b, type: 3}
   - speaker: Mira
     text: Is it the bad place?
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 6799a71d8a47a3b4e8d104a67a6cb094, type: 3}
   - speaker: Kessler
     text: It's a sad place, little one. Not a loud one. You stay close to me the
       whole time. This one isn't for small eyes.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 5d4949044c5cfa34f967d9f53c21baa2, type: 3}
   - speaker: Echo
     text: I'll say the quiet part, since nobody at that table will. You don't save
       this place, Cipher. You answer for it. The records have your hands in them.
       I was there for it, and I'll be with you in it again.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 68bec477a69ec3045a53a6b4e411c929, type: 3}
   - speaker: Ronin-7
     text: No. I don't want this one.
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a8f4393ca0abe664aac0de1d539835db, type: 3}
   - speaker: Ronin-7
     text: Set the course anyway. If my name was buried somewhere, it was buried with
       them.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f13f36da01b73a54bb61510995cab4b7, type: 3}
   - speaker: Kessler
     text: We go careful. Quiet. And nothing of ours stays down there. Iris, plot
       it, then you and Mera stay on the Cairn and keep tearing into those records.
     seconds: 10
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7d0125a792b597641bed167ab93d4d7a, type: 3}
   textMesh: {fileID: 161445201}
   panelRoot: {fileID: 382486306}
   audioSource: {fileID: 885146518}
@@ -11893,17 +11893,17 @@ MonoBehaviour:
     text: You say it so flat. Like stock. That was a market. Those were people. That
       was my sister. And you walked through it counting.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 15f752dc99d3fa049bc7d6dd112f7ae7, type: 3}
   - speaker: Ronin-7
     text: I felt nothing. I know how that sounds. They built me so this would feel
       like nothing.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ab97e54f3075b1a48a060d5432e43521, type: 3}
   - speaker: Ronin-7
     text: There's no monster here to find, Vera. Just a hand that did what it was
       told and never asked.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f9d0b93e0890f524ba3fbf47e78f576a, type: 3}
   textMesh: {fileID: 1101490735}
   panelRoot: {fileID: 1294233843}
   audioSource: {fileID: 909171317}
@@ -14628,12 +14628,12 @@ MonoBehaviour:
     text: If the name they hung on me was a lie, then everything behind it is too.
       The grave, the file, the man I thought I half-remembered. None of it real.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 6f8229195d9737348a6d2bbcdbfe37e2, type: 3}
   - speaker: Echo
     text: Forget who they told you you were. We find who's under it. I've got nothing
       but time, Cipher, and I was there for the start of it. We'll find the rest.
     seconds: 12
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 123e5b3f7b2910c4ea223560ffc64223, type: 3}
   textMesh: {fileID: 1038401027}
   panelRoot: {fileID: 1449763261}
   audioSource: {fileID: 1107169376}
@@ -15204,18 +15204,18 @@ MonoBehaviour:
     text: Do we take her with us. We don't leave people standing alone in a place
       like this.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 6a39ee0128e077c49bb82a0b3eb11261, type: 3}
   - speaker: Ronin-7
     text: No. She's not crew. She's got her dead to stay with, and that's hers.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d1953dedb1065044d9c2a8613aaf75a7, type: 3}
   - speaker: Vera Dusk
     text: He's right. I'm not joining your war. I'm staying with her, and the others
       under this ash, until I know they're remembered by someone who isn't a record.
       But I'll know your name when it's a true one. Come back and tell me, when you've
       dug it up.
     seconds: 16
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: bfbb1366e77da9c40a6adf54a5e0317a, type: 3}
   textMesh: {fileID: 925395271}
   panelRoot: {fileID: 799327758}
   audioSource: {fileID: 1155299055}
@@ -17463,26 +17463,26 @@ MonoBehaviour:
     text: Here. This is the second you've been carrying without knowing the shape
       of it. Watch his hand. Forget the blade. The hand.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 412778e42427def4c82325ac8b9b0bd4, type: 3}
   - speaker: Ronin-7
     text: There. That's late. Something in me moved for the first time, and it moved
       a half second after it could have mattered. One breath too slow to save her.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f08788b43264ab345be1bd1da3273a96, type: 3}
   - speaker: Vera Dusk
     text: You hesitated.
     seconds: 1
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7ed15b13bf388fd448009182b7b02e9b, type: 3}
   - speaker: Ronin-7
     text: For the first time in my life. And it didn't save her. I've spared people
       since because of what started in this square.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 4db14332d001619468c9882b13edfe7f, type: 3}
   - speaker: Echo
     text: I logged this as a fault for years, Cipher. It was the first true thing
       you ever did. And it was too late to matter. I can't make that into one thing.
     seconds: 10
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 2441b8d6ccf714745a2206802994bede, type: 3}
   textMesh: {fileID: 1235789034}
   panelRoot: {fileID: 1123368197}
   audioSource: {fileID: 1332134538}
@@ -18250,13 +18250,13 @@ MonoBehaviour:
       eyes when they did this. I logged every second and couldn't stop a single one
       of them. Stay with me, Cipher. We only have to watch.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 86ba670159bf4ad40bc23c9c67978ed7, type: 3}
   - speaker: Ronin-7
     text: The square's full. Stalls up, people trading. There's a girl by the well
       with a slate, counting ships. I come up the lane with the blade, and I'm not
       hurrying. I'm telling you what I see, Vera.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3bd3759011d69694f8a4a9b0c5577541, type: 3}
   textMesh: {fileID: 1669310078}
   panelRoot: {fileID: 435378531}
   audioSource: {fileID: 1448614166}
@@ -19338,18 +19338,18 @@ MonoBehaviour:
       and I have what you did, and I have a gun. Give me one reason this isn't the
       simplest thing I've ever done.
     seconds: 12
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 68d9d351d35c79d42b22ef0bd33dc9cf, type: 3}
   - speaker: Ronin-7
     text: I won't give you one. You don't owe me a reason. If my life is what clears
       it, take it. I won't lift the blade and I won't ask you not to.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b3894bb57be277f48b0400357c23cfcb, type: 3}
   - speaker: Vera Dusk
     text: I came here to kill you. I've planned it for ten years. And I just listened
       to you walk back into the worst second of her life and tell me every piece
       of it without flinching.
     seconds: 13
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 423845d0baa333e48897d89ea74dbfc5, type: 3}
   textMesh: {fileID: 904461191}
   panelRoot: {fileID: 1247041841}
   audioSource: {fileID: 1508322798}
@@ -21748,43 +21748,43 @@ MonoBehaviour:
       told her. We finished cross-checking the command records against your own Program
       file. They don't match.
     seconds: 12
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f7eff729adbaa344489c2a2b3d4770d2, type: 3}
   - speaker: Ronin-7
     text: Match how.
     seconds: 1
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 330081361676b1b4ca67c41fada9eb8d, type: 3}
   - speaker: Iris
     text: The operative-of-record for this massacre is logged as Kael Vor. The name
       I flagged at the briefing. It still won't resolve, because there's nothing
       under it to resolve to. Nobody misfiled this. They planted it.
     seconds: 15
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 719b68a4af65807499d7746c32b6fd8d, type: 3}
   - speaker: Mera Voss
     text: She's right, and I've seen the trick a hundred times without turning it
       over. We logged kills under cover-names so the count would belong to a man
       who didn't exist. Kael Vor was a coat the Program hung the bodies on.
     seconds: 15
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: fff27b8283b99a94190e26bb7fc06dbb, type: 3}
   - speaker: Ronin-7
     text: So the name they hung this on isn't even mine.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0e3b5d341b1f2f74a80e573080e2396e, type: 3}
   - speaker: Iris
     text: It was never yours, Cipher. Someone printed Kael Vor to carry the blame
       so the hand that did this could be wiped clean and kept.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9913aa2d64a10b24f8df0c1e251f1b2e, type: 3}
   - speaker: Echo
     text: I carried that name behind your eyes for years and logged it as fact. They
       leave you a fake to hold so you never go looking for the real one. We go looking
       now.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 1c29ff71df8b07445b85568cf03bc505, type: 3}
   - speaker: Ronin-7
     text: Even the name on it was a lie. They couldn't tell the truth about who killed
       her.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 77ca575089e48ed4cab3ab0869f90ee7, type: 3}
   textMesh: {fileID: 1135153134}
   panelRoot: {fileID: 837809801}
   audioSource: {fileID: 1756015216}
@@ -22098,28 +22098,28 @@ MonoBehaviour:
     text: What I have is the sword. It remembers what I can't. It says I was there.
       It says I was late. And late doesn't help her. Or you.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 549c3a4c20714d44a922add084fded70, type: 3}
   - speaker: Vera Dusk
     text: Late. You stood in my square with that sword and you were late. What does
       a thing like you even mean by late.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 5a5beed03d0a92c49b3fa6b0f1383636, type: 3}
   - speaker: Echo
     text: She wants to and she can't. Give her the truth. It's all you've got that's
       worth anything to her.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 80c7c24562dd8454883e618b380e98f1, type: 3}
   - speaker: Ronin-7
     text: I can tell you what late meant. No one sees inside this but me and the
       blade. I'll walk it again and say every second out loud as I see it. If you
       want that, I won't make you.
     seconds: 14
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3804dbfc16902de4fafb72c0e0bb1ff5, type: 3}
   - speaker: Vera Dusk
     text: Tell me, then. I've spent ten years not knowing how she went. Whatever
       it is, it can't be worse than the version I built in the dark.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a40d8b3f30343b04cb9e0d4b6bfed729, type: 3}
   textMesh: {fileID: 2137739005}
   panelRoot: {fileID: 1639542984}
   audioSource: {fileID: 1797005421}

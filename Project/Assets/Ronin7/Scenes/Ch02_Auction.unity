@@ -4597,45 +4597,45 @@ MonoBehaviour:
   - speaker: Iris
     text: It's so quiet up here. I forgot quiet.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ddd50fc1e9a62064e9c895e0e2dd0cd9, type: 3}
   - speaker: Kessler
     text: Six years I had a voice on a wire and a coffin where you should have been.
       Stand still.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 48e84573da8301b4790158b970ae9b2f, type: 3}
   - speaker: Kessler
     text: Let me look at you with my own eyes.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c9dc49267f34de040b729491e522389c, type: 3}
   - speaker: Iris
     text: I told you I'd come back. I earned the trip.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: bc4e20f23d55df04790a40c4858ce4c0, type: 3}
   - speaker: Resh
     text: Hold the moment. I came up that ramp with one more set of footsteps than
       I should have.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3e096cdfed30e43438d9afb43cfde8f0, type: 3}
   - speaker: Resh
     text: Stay put.
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: bc93a4cb1756d4d49b9f9c75fef4918d, type: 3}
   - speaker: Resh
     text: ...No. No, you don't get to be down here. How did you get past me.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 25be73011bb36e84b8a2f168a9cc3baa, type: 3}
   - speaker: Mira
     text: You're Resh. You're the one who gets us out.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 5f6c93e7e6df29b4f80c84d0038c3b8a, type: 3}
   - speaker: Resh
     text: You know my face.
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 4ddfbe41c3d87d049ab704520152fecf, type: 3}
   - speaker: Mira
     text: I saw you on the floor. You weren't running. You were with them. So I followed.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 4ad0d953ebbf6b54a83cba25720a6019, type: 3}
   textMesh: {fileID: 1754790444}
   panelRoot: {fileID: 1672008091}
   audioSource: {fileID: 148636761}
@@ -9878,72 +9878,72 @@ MonoBehaviour:
   - speaker: Enforcer
     text: Channel's supposed to be dead down here. Who's moving?
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 90ba9961bcd318e42acedce652cf4294, type: 3}
   - speaker: Resh
     text: The collateral I tracked this morning. Same cage. Your records are still
       past it.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c8273ac30b5e4b34eba4e157004c5fa6, type: 3}
   - speaker: Iris
     text: If you're buyers, the auction's two tiers up. If you're something else,
       get it over with.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7338ca13182dc284bb1e8f85bed354d0, type: 3}
   - speaker: Ronin-7
     text: The tag says Iris.
     seconds: 2.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 78ad2423953ed6845a5678f6277bb61f, type: 3}
   - speaker: Kessler
     text: Say that again. Say the name again.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 25e4522954d05034b82cd56f5b87669f, type: 3}
   - speaker: Iris
     text: ...Who is that. Who's on the channel.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 6ebc17f6301661f47973da40612a7c07, type: 3}
   - speaker: Kessler
     text: Iris. It's your father. I've been scraping a dead field for six years to
       buy you back.
     seconds: 10
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d4912f548071ed545b4b1f74f7710ffd, type: 3}
   - speaker: Iris
     text: They told me you stopped looking. They told me you signed me away.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 4b9a36eaeaba705459fe98e3dbf2fafd, type: 3}
   - speaker: Kessler
     text: They lied. I never stopped. Not one night. I'm right above you.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 509f0ce7f3959ed4c92f7f5e7692018c, type: 3}
   - speaker: Ronin-7
     text: Hold still. I'm cutting you loose.
     seconds: 2.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: bf44b9fd89f75a948a9e0e92cfc9169d, type: 3}
   - speaker: Iris
     text: You're the one he came with. The operative. He's really up there.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: dc14dca5f96d7984c9ba11ec111644b6, type: 3}
   - speaker: Ronin-7
     text: He never sat down. Go to him.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 87a49aba445e98549a8d85cf98222c73, type: 3}
   - speaker: Iris
     text: I read systems. Locks, networks, the paper they keep on people. Take me
       to that vault.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 48d5b43f4cdb08041ad4ce628638d34d, type: 3}
   - speaker: Resh
     text: She's right. I can get you to the door. Getting through it is a different
       trade.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b2c79f88304414b4c8619ca8d083feda, type: 3}
   - speaker: Kessler
     text: Iris. Stay between them. You come back up to me. You hear?
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7f5827f3c76e3ab43933f576b8633221, type: 3}
   - speaker: Iris
     text: I hear you. I'm coming back. Let me earn the trip first.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 86af1f4f33a71244ebb6b203c64ffdfa, type: 3}
   textMesh: {fileID: 585377279}
   panelRoot: {fileID: 780701709}
   audioSource: {fileID: 338384371}
@@ -11580,42 +11580,42 @@ MonoBehaviour:
     text: Glass stays down. You talk to the grille or you talk to nobody. What do
       you want.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f74bf0420bba03e46a779a98dd11db40, type: 3}
   - speaker: Ronin-7
     text: Operative records. A termination file. The designation is mine.
     seconds: 4.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d93909c6834b84341be0e98ff5325b62, type: 3}
   - speaker: Broker
     text: No. No, no. You're the kind of question that gets a man's stall burned
       with him inside it.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 05f1508ad823c8743a65d3276c1f5e9d, type: 3}
   - speaker: Broker
     text: I don't have it. I never had it. Move on before somebody sees you standing
       here.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 861765247b9563446b47f7f7992fae8c, type: 3}
   - speaker: Kessler
     text: We can pay.
     seconds: 1.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9e2c3bd0aecb4a24da113375e60676d5, type: 3}
   - speaker: Broker
     text: Money's not what gets you in. That vault wants trust, and I've got none
       to spend on you.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: cdd3aa8d38a3edd48b94aeea72d54895, type: 3}
   - speaker: Kessler
     text: He's a wall. So we go around him.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9cea9b1f7edb0204c8776dbef4ea204e, type: 3}
   - speaker: Ronin-7
     text: Around how.
     seconds: 1.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9833e5d1a14986349856f52cce930c36, type: 3}
   - speaker: Kessler
     text: Resh already gave us the door. His routes run under this stall. Let's move.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d0c83caba16591a448d9f362b0790759, type: 3}
   textMesh: {fileID: 1319909199}
   panelRoot: {fileID: 460571097}
   audioSource: {fileID: 390531684}
@@ -13601,49 +13601,49 @@ MonoBehaviour:
     text: Keep your hands where the crowd can't read them. Down here a drawn blade
       is a price tag.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f94228a9073fd594594b087b65ee27e4, type: 3}
   - speaker: Ronin-7
     text: There are no sightlines. No exits I'd trust.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9476ead8030a9c6478ac0651673c1ef7, type: 3}
   - speaker: Kessler
     text: That's the design. Built to make a newcomer feel small. Don't argue with
       it, just move.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 57e9a414e37191640bf043e38749f92d, type: 3}
   - speaker: Kessler
     text: Top tier sells what shines. The deeper you go, the worse what's for sale.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 46e65382e2fab394993dca1b37665b5f, type: 3}
   - speaker: Ronin-7
     text: And my records are at the bottom. We have three days.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b7a618f4b842ea74f94302e5ada603e2, type: 3}
   - speaker: Kessler
     text: If they're anywhere, they're with a broker. Man trades in the paper that
       follows dead operatives.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b9538ed37c6e3be488be35e3282f1532, type: 3}
   - speaker: Ronin-7
     text: Give me the name.
     seconds: 1.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 55d9b79c8618e0c47b1e79907bddb588, type: 3}
   - speaker: Kessler
     text: Resh. Smuggler. Runs the routes nobody's mapped, the ones under the cells.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 05ea69306a611914e85bfbc1a98b6637, type: 3}
   - speaker: Kessler
     text: They say he pulls children out of the markets, one at a time, for years.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3d4ed4b04b8e23344960f7a93b662d8c, type: 3}
   - speaker: Ronin-7
     text: A smuggler with a conscience.
     seconds: 2.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 1f8881f044275064cb569bdfe4b0dfa6, type: 3}
   - speaker: Kessler
     text: A useful one, anyway. He'll be working the market row. Let me do the talking.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 759e8eef8d8cb384891805bfcb10f1b5, type: 3}
   textMesh: {fileID: 121756430}
   panelRoot: {fileID: 594001509}
   audioSource: {fileID: 454543302}
@@ -23975,51 +23975,51 @@ MonoBehaviour:
   - speaker: Kessler
     text: You slept four hours and stood watch the other six. Trust the hull eventually.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 5785466145dd01a429cd7725d02fea18, type: 3}
   - speaker: Ronin-7
     text: The voice on the comm gave three days. I don't have six hours to spend
       not moving.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 91758df9fbb67ea4d941b480e04c91fd, type: 3}
   - speaker: Kessler
     text: Then we move. If a dead operative's file survived anywhere, it's on Velorum.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c0c0b94320e48d14d9e4a2c2888b37e8, type: 3}
   - speaker: Kessler
     text: Auction-world. They sell weapons up top, people down the bottom, and file
       the paperwork on both.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 21706b046d72bae448e129d5101a1c74, type: 3}
   - speaker: Ronin-7
     text: You know it.
     seconds: 1.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: be814bc07e30b594e9bfec2f7bc9a797, type: 3}
   - speaker: Kessler
     text: I know it the way you know a wound. I swore I'd never set foot on that
       rock again.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 72f6d9e796fdcd04cb262e303e90a128, type: 3}
   - speaker: Kessler
     text: And here I am, plotting a course back for a man I scraped out of a coffin.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: fdadcc25546519745aab973cd9fbcd21, type: 3}
   - speaker: Ronin-7
     text: Why.
     seconds: 1
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b42feff07d4519b46a62b1ac1efa40a8, type: 3}
   - speaker: Kessler
     text: Because somebody has to find out who they buried in my casket. Might as
       well be the two of us.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 89b237c01ef457b4ab2a6c90c8f1cd81, type: 3}
   - speaker: Ronin-7
     text: Then set the course.
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3515dd6ded2fd3a469a475cfcd80e7e4, type: 3}
   - speaker: Kessler
     text: Already set. Strap in. Velorum doesn't get gentler the closer you get.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 1d3924e6ffa4d5041899b8a2b23bf28b, type: 3}
   textMesh: {fileID: 2014963364}
   panelRoot: {fileID: 1896477192}
   audioSource: {fileID: 875354848}
@@ -37755,51 +37755,51 @@ MonoBehaviour:
   - speaker: Mira
     text: ...Is the loud part over? Up there. It's loud.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 550c2631eab0d1741b70fe9b8ea3c3c7, type: 3}
   - speaker: Kessler
     text: ...That's a child. Resh, that is a child standing in my hold.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 63ca305c7e3c7e04d8b4fcbc0737f48c, type: 3}
   - speaker: Resh
     text: She stowed away. Off the auction floor. She's market stock that walked
       off the shelf on her own legs.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f3a087df56f099e4aa4b65f5213a80f0, type: 3}
   - speaker: Kessler
     text: I'm not in the business of turning a child back toward a cage. Not on this
       ship.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 884e25966e238c5488cadeb9efd8d926, type: 3}
   - speaker: Mira
     text: Are you going to send me back.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 79434fd122fce204fb9d6ef395c21140, type: 3}
   - speaker: Ronin-7
     text: No.
     seconds: 1
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 24039ae8bd3bdb64caaecf61d971b682, type: 3}
   - speaker: Ronin-7
     text: Nobody puts you back. You stay with the ship. You stay where Kessler can
       see you.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ef7e6c09c5fed144b9f772945a81cbaa, type: 3}
   - speaker: Resh
     text: ...That's twice today you've done a thing your kind doesn't do.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 788b519fda55cf645b3661f01db5815a, type: 3}
   - speaker: Kessler
     text: Then she stays. She stays aboard, with me, same as Iris. I have the room
       and I have the reason.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: dacf53e85cf84da40b70deed9ca5fb59, type: 3}
   - speaker: Resh
     text: A salvage rat, a freed tech, a stowaway, and me. Hell of a manifest.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ff589094fdc053342af43d3a6ad1f09b, type: 3}
   - speaker: Ronin-7
     text: Get some rest. Velorum can keep the rest of it.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 03320d115596a8946b6b1af52f58f634, type: 3}
   textMesh: {fileID: 2049848151}
   panelRoot: {fileID: 1314055981}
   audioSource: {fileID: 1408893622}
@@ -38605,73 +38605,73 @@ MonoBehaviour:
     text: That's him. Works the rail like he owns the floor. Easy. We're buyers.
       We talk.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b4c1144c0e571f646a4f30ff147ca700, type: 3}
   - speaker: Resh
     text: Whatever you're selling, I'm not. Whatever you're buying, not from me.
       I'm working.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 507e7ab85c09964419d0a7a0d7151e57, type: 3}
   - speaker: Kessler
     text: We need a route. Past a broker who won't open his glass. Word is you know
       the doors off the map.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c654dc99e1cfaac4bb299a04338c408d, type: 3}
   - speaker: Resh
     text: No. I know what you are. I've moved enough stock to know an operative when
       one's in my light.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 94a2ef8346a5724419f891067a7bb208, type: 3}
   - speaker: Resh
     text: You're Program work. Men like me don't get found by men like you and walk
       away from it.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 5fd7b71c25745b9499e18321add186d8, type: 3}
   - speaker: Ronin-7
     text: I'm not here for you.
     seconds: 2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 13a890e1e21c3ae4381a535709e04707, type: 3}
   - speaker: Resh
     text: That's exactly what the last one said.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 09156e379cbca104282819e502172c0c, type: 3}
   - speaker: Resh
     text: I have people on every tier who owe me. I'm worth more to this market alive
       than you are worth getting me.
     seconds: 9
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e9d422ee7e550c3479b6270a0084c2b5, type: 3}
   - speaker: Resh
     text: So you walk, or this floor decides which of us it keeps.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0bde936c8de90aa4fbf84dc1dae8475f, type: 3}
   - speaker: Resh
     text: Go on, then. You've got me. That's how it always ends with your kind.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 272720d4fb5b1c146a0b65c23f92c0bc, type: 3}
   - speaker: Resh
     text: You find the one door I didn't have. So finish it and stop making me wait.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e006131455cdb3d4c88303f52fc5ef1b, type: 3}
   - speaker: Ronin-7
     text: Go.
     seconds: 1
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ba64b1f193330a9449941331a091d78d, type: 3}
   - speaker: Resh
     text: ...What.
     seconds: 1.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f96fd6e67aa66d144bcdec397cf2f7a3, type: 3}
   - speaker: Ronin-7
     text: You're free to go. I won't stop you.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 377de27426c966f43b480c7614a4795d, type: 3}
   - speaker: Resh
     text: Nobody with their boot on my neck takes it off. Not once, not in my whole
       life down here.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 11324a439773c8741951ead406a3c996, type: 3}
   - speaker: Resh
     text: Men like you don't spare anybody. You use them up.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f3b38879cb4106b4fa6074b46a1abe62, type: 3}
   textMesh: {fileID: 1809447796}
   panelRoot: {fileID: 1243131624}
   audioSource: {fileID: 1432196165}
@@ -51004,87 +51004,87 @@ MonoBehaviour:
   - speaker: Resh
     text: Door's mine. Terminal's clear now that the muscle's down. Iris, it's yours.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ad5a2aeb478e5b848801a3cdbd9da6f4, type: 3}
   - speaker: Iris
     text: Every one of these is a person. Dead operatives, jettisoned, then bought
       back here as salvage.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: cbc08d3c3dda4ff499a3089fc175375f, type: 3}
   - speaker: Ronin-7
     text: The same trade that put me in front of Kessler. A box thrown out as garbage.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: fa1762e44a20bdf468f97c3715aa63e7, type: 3}
   - speaker: Resh
     text: I've spent my whole life pulling people out of a place that's built on
       bodies.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3d41e6b796539a449bc702d3ca3c264d, type: 3}
   - speaker: Iris
     text: ...There's one here under your designation. Filed with the dead. It's yours.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e77f32fdf5b91324080032b4bdeaacb2, type: 3}
   - speaker: Ronin-7
     text: Read it.
     seconds: 1
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 56e285ab879dd004f96d7fe1569838bd, type: 3}
   - speaker: Iris
     text: This is your termination order. Executed. Signed off.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 6510055ac61908a47993ce847a8187a9, type: 3}
   - speaker: Iris
     text: The killswitch discharged. Full sequence.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a528c4a7ee6df4e47b2561adfec15470, type: 3}
   - speaker: Ronin-7
     text: Then why am I reading it?
     seconds: 2.5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 00e5eeeefae39854284ab61335a080e6, type: 3}
   - speaker: Iris
     text: Because it didn't take. It fired into your skull, full discharge, and you
       just kept breathing.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9eb9c0394cb60fa449382ae30b429e8a, type: 3}
   - speaker: Iris
     text: Every one of you has this. A leash in the skull. Yours is the only one
       on record that failed.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 1cd4cdc26cfc5194ab6ca5f83e833dd0, type: 3}
   - speaker: Ronin-7
     text: No.
     seconds: 1
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c69e51b3537de8247a2360b59bc809b5, type: 3}
   - speaker: Ronin-7
     text: Mine's the only one they've found that failed.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: fe275be265bf34045a610587d13b036f, type: 3}
   - speaker: Iris
     text: ...You think there are more of you. Ones that slipped and nobody caught
       it.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a0cf90f6dd2f07446a5ca28548f6b6e6, type: 3}
   - speaker: Ronin-7
     text: A leash that broke once on me can break on others. The men who built it
       don't know that yet.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d15f1547eff9a3547ad20a9c5a28e19b, type: 3}
   - speaker: Kessler
     text: I pulled a man out of a coffin who'd already been executed. I didn't know
       nothing was ever supposed to come out of it.
     seconds: 11
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 89ec0c663e5db5c489857ae565120e3a, type: 3}
   - speaker: Ronin-7
     text: Copy it. The file, and the others. Every leash in this room.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 8eda02bed5dc73f4bb83b39a4fbc9657, type: 3}
   - speaker: Iris
     text: Copying. It'll take both of us a lifetime to read what's in here.
     seconds: 4
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: d7dbdd96e12704244a80d94a57ca15d7, type: 3}
   - speaker: Resh
     text: Then it's a good thing you found a crew. Door's clear. Let's get Kessler's
       girl home before this market notices what it just sold us for free.
     seconds: 12
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: dadcb70820806c14885e08e2707e8229, type: 3}
   textMesh: {fileID: 383991907}
   panelRoot: {fileID: 1101754146}
   audioSource: {fileID: 1918574513}
@@ -56468,54 +56468,54 @@ MonoBehaviour:
     text: You're a turned one. A Program weapon walking around with a salvage rat
       and an open hand.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: eee70a5418a49764ea3182a27b005b4e, type: 3}
   - speaker: Kessler
     text: And yet.
     seconds: 1
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 27e0b203cd4c93640808ecc294cc4278, type: 3}
   - speaker: Resh
     text: I pull children out of this market. One at a time. For every one I get
       out, the machine takes ten more.
     seconds: 8
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: cb7ed2902105d1640a7911006964f422, type: 3}
   - speaker: Ronin-7
     text: I came here for a route. That's all.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7dcf634b258b89b44908b9132ca6a789, type: 3}
   - speaker: Resh
     text: I'm your way past that broker. But I don't want paying off and waved away.
       I want in.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 5a5b7e96a6861594e80d92f4ae4e096e, type: 3}
   - speaker: Resh
     text: You're the first crack I've seen in a wall I've spent twenty years smuggling
       around.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 40e2ee8f75372de49a36c1bcd252db32, type: 3}
   - speaker: Kessler
     text: This is bigger than robbing a stall. This is the Dominion.
     seconds: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ed96155b77770f94eb386c8a252a6d32, type: 3}
   - speaker: Resh
     text: I've known exactly who I'm crossing since I was younger than the kids I
       haul out of here.
     seconds: 7
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 6b41629edec4e3540a194ac684e05bb5, type: 3}
   - speaker: Resh
     text: The difference today is who I'd be crossing it with. Best odds I've ever
       had.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: bf5ff1350e3729c4e920c1f005fc0732, type: 3}
   - speaker: Resh
     text: I caught a lead this morning. Movement through the cells, collateral being
       shifted.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 3eba079b87c536f4d94d5daf83f82c20, type: 3}
   - speaker: Resh
     text: My routes run the same corridor as your broker's vault. We pick it up on
       the way.
     seconds: 6
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a52fee3ce20d81446bb22aec71be1118, type: 3}
   textMesh: {fileID: 419892457}
   panelRoot: {fileID: 910056250}
   audioSource: {fileID: 2136033891}
