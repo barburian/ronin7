@@ -54,6 +54,11 @@ namespace Ronin7.Enemies
         protected static readonly Color TelegraphColor = new Color(1f, 0.4f, 0.25f);
         protected static readonly Color StaggerColor = new Color(0.4f, 0.6f, 1f);
 
+        // Blade renderer under weapon, resolved once in Awake (see EnemySwordVisual.FindBladeRenderer).
+        // Null for TrainingDummy/art-prefab rigs with no "Blade"-named child — RendererTint.Apply is
+        // null-safe so Tint() stays a no-op for the blade in that case.
+        private Renderer bladeRenderer;
+
         protected Health health;
         protected State state = State.Idle;
         protected float timer;
@@ -156,6 +161,7 @@ namespace Ronin7.Enemies
             currentEuler = restEuler;
             if (weapon != null) weapon.localRotation = Quaternion.Euler(restEuler);
             EnemySwordVisual.EnsureVisible(weapon); // placeholder katana so the chop has something to swing
+            bladeRenderer = EnemySwordVisual.FindBladeRenderer(weapon);
             Tint(IdleColor);
         }
 
@@ -359,7 +365,11 @@ namespace Ronin7.Enemies
                 transform.rotation = Quaternion.LookRotation(to);
         }
 
-        protected void Tint(Color c) => RendererTint.Apply(bodyRenderer, c);
+        protected void Tint(Color c)
+        {
+            RendererTint.Apply(bodyRenderer, c);
+            RendererTint.Apply(bladeRenderer, EnemySwordVisual.BladeTint(c));
+        }
 
         protected static Health FindPlayer()
         {

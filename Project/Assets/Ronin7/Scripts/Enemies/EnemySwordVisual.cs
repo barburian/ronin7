@@ -30,7 +30,11 @@ namespace Ronin7.Enemies
 
         private static readonly Color HandleColor = new Color(0.12f, 0.1f, 0.18f);  // indigo wrap
         private static readonly Color GuardColor = new Color(0.78f, 0.55f, 0.18f);  // brass
-        private static readonly Color BladeColor = new Color(0.92f, 0.95f, 1f);     // pale steel
+
+        // Public: MeleeAttacker.Tint mirrors this as the blade's rest tint (see BladeTint below) —
+        // the blade is now the player's primary parry-timing cue, so it must never sit at flat
+        // IdleColor (Color.white) between attacks.
+        public static readonly Color BladeColor = new Color(0.92f, 0.95f, 1f);     // pale steel
 
         // One shared unlit material for every enemy's sword — parts differ only by MPB tint (see
         // RendererTint), so every placeholder sword in a scene stays on the same shared material
@@ -69,6 +73,30 @@ namespace Ronin7.Enemies
 
             return true;
         }
+
+        /// <summary>
+        /// Finds the blade renderer under <paramref name="weapon"/> so the caller (MeleeAttacker) can
+        /// tint it alongside the body during windup/stagger/death. Searches recursively by name so it
+        /// resolves both the runtime placeholder built by <see cref="EnsureVisible"/> (Blade is a direct
+        /// child of weapon) and an art-prefab katana rig (Blade nests one level deeper, under a "Sword"
+        /// child — see ArtPrefabBuilder.AttachHeldKatanaRig). Null-safe: returns null for a null weapon
+        /// or one with no child named "Blade" (e.g. TrainingDummy without a visible sword).
+        /// </summary>
+        public static Renderer FindBladeRenderer(Transform weapon)
+        {
+            if (weapon == null) return null;
+            foreach (var r in weapon.GetComponentsInChildren<Renderer>(true))
+                if (r.gameObject.name == "Blade") return r;
+            return null;
+        }
+
+        /// <summary>
+        /// Maps a body tint colour to the blade's equivalent. At rest — plain <c>Color.white</c>,
+        /// i.e. <see cref="MeleeAttacker.IdleColor"/> — the blade shows its own pale-steel
+        /// <see cref="BladeColor"/> instead of flat white; every other tint (windup lerp, stagger,
+        /// death, ...) passes through unchanged so the blade matches whatever the body is showing.
+        /// </summary>
+        public static Color BladeTint(Color bodyColor) => bodyColor == Color.white ? BladeColor : bodyColor;
 
         private static void MakePart(Transform parent, string name, PrimitiveType type, Material mat,
             Color color, Vector3 localPos, Vector3 localScale, Quaternion? localRot = null)
