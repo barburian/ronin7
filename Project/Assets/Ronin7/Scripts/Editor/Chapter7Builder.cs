@@ -76,6 +76,14 @@ namespace Ronin7.EditorTools
     /// dive's exit trigger — canon: "defeating the [mindspace boss] frees a blade-shadow that grants
     /// weakpoint-sight." <c>AbilityGranter.OnEnable</c> unlocks it immediately; the toggle (left
     /// controller X) and the 2x damage multiplier become live for the rest of the game from that point.
+    ///
+    /// GANG WAR POCKET (enemy-variety pass): the outer-stacks gauntlet's own class doc already promises
+    /// "rival scavengers and archive-defense automata" fighting each other, but every enemy built above
+    /// (<c>scavengerDef</c>/<c>automatonDef</c>) is a plain <see cref="Enemy"/>, which only ever targets
+    /// the player — the two-factions premise was narrated, never mechanized. <c>Ch7BuildGangWarPocket</c>
+    /// adds a third wave (still one DefeatWaves step — no mission-step change) using
+    /// <see cref="FactionCombatant"/>, previously wired nowhere in the project: a turncoat-scavenger cell
+    /// and a rogue-drone cell that hunt each other as well as the player.
     /// </summary>
     public static partial class XRRigBuilder
     {
@@ -196,6 +204,13 @@ namespace Ronin7.EditorTools
             Vector3[] automatonPos = { new Vector3(-2f, 0f, 34f), new Vector3(2f, 0f, 38f) };
             var automata = Ch7BuildWaveEnemies(automatonPos, playerHealth, automatonDef);
 
+            // ---- Gang war pocket (wave 2): the class summary's own claim that "the player can play the
+            // two factions against each other" was only ever narrated — scavengers/automata above are
+            // plain Enemy, which only ever targets the player. FactionCombatant (wired nowhere else in
+            // the project) makes it literal: a turncoat-scavenger cell and a rogue-drone cell hunt each
+            // OTHER as well as the player. Placed past the automata pocket, before the tended core. ----
+            var gangWarHealths = Ch7BuildGangWarPocket();
+
             // ---- The mindspace: a small fractured dreamscape offset from the main hall (z=250, still
             // inside ZoneBounds' radius above), holding the mini-boss. Starts fully inactive; the whole
             // root cascades active on dive entry, so the boss's Enemy/Health never Awake()s (and can't
@@ -280,13 +295,16 @@ namespace Ronin7.EditorTools
             var dlgHookout = Ch7BuildDialogue("Dialogue_Beat5_Hookout", new Vector3(6f, 1f, 125f), "ch7_beat5_hookout", talkRef);
 
             // ---- Outer stacks wave spawner (wave0 = scavengers with the gauntlet bark, wave1 =
-            // automata). Built active-idle (Ch4's HunterWave lesson: an inactive spawner can't
-            // StartCoroutine) — Begin() is called by the DefeatWaves mission step below, and its own
-            // proximity poll gates the actual spawn on the player reaching the trigger point. ----
+            // automata, wave2 = the gang-war pocket). Built active-idle (Ch4's HunterWave lesson: an
+            // inactive spawner can't StartCoroutine) — Begin() is called by the DefeatWaves mission step
+            // below, and its own proximity poll gates the actual spawn on the player reaching the trigger
+            // point. Adding wave2 does not add a mission step — same single DefeatWaves step, one more
+            // wave for it to clear. ----
             var outerStacksWaves = new List<List<Health>>
             {
                 scavengers.ConvertAll(go => go.GetComponent<Health>()),
                 automata.ConvertAll(go => go.GetComponent<Health>()),
+                gangWarHealths,
             };
             var outerStacksSpawner = BuildWaveSpawner("OuterStacksWaveSpawner", new Vector3(0f, 0f, 22f), 12f,
                 outerStacksWaves, new[] { dlgGauntletBark });
@@ -488,6 +506,51 @@ namespace Ronin7.EditorTools
                 result.Add(e.gameObject);
             }
             return result;
+        }
+
+        /// <summary>Builds the outer-stacks gang-war pocket: 3 turncoat-scavenger <see cref="FactionCombatant"/>s
+        /// (faction 0) and 3 rogue-drone FactionCombatants (faction 1), positioned past the automata
+        /// pocket and before the tended core. Also callable from a live-scene patch utility (see
+        /// ChapterEnemyVarietyWirer) — takes no scene-specific refs beyond the fixed hall positions, so
+        /// re-running it against an already-built scene reproduces the same 6 combatants.</summary>
+        private static List<Health> Ch7BuildGangWarPocket()
+        {
+            Vector3[] turncoatPos = { new Vector3(-3f, 0f, 44f), new Vector3(-1f, 0f, 47f), new Vector3(-3f, 0f, 50f) };
+            Vector3[] roguePos = { new Vector3(3f, 0f, 44f), new Vector3(1f, 0f, 47f), new Vector3(3f, 0f, 50f) };
+
+            var healths = new List<Health>();
+            for (int i = 0; i < turncoatPos.Length; i++)
+                healths.Add(Ch7BuildFactionCombatant(turncoatPos[i], 0, $"TurncoatScavenger{i}"));
+            for (int i = 0; i < roguePos.Length; i++)
+                healths.Add(Ch7BuildFactionCombatant(roguePos[i], 1, $"RogueDrone{i}"));
+            return healths;
+        }
+
+        /// <summary>Builds one self-contained <see cref="FactionCombatant"/> (own Health; unlike
+        /// <see cref="Enemy"/> it is not a <see cref="MeleeAttacker"/>, so it carries no
+        /// ArmR/Sword/Blade/BladeTip weapon rig — see the class doc). Built inactive; the caller's wave
+        /// spawner activates it.</summary>
+        private static Health Ch7BuildFactionCombatant(Vector3 position, int factionId, string name)
+        {
+            var root = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+            root.name = name;
+            root.transform.position = position;
+            root.transform.localScale = new Vector3(0.5f, 0.9f, 0.5f);
+            var bodyRenderer = root.GetComponent<Renderer>();
+
+            var health = root.AddComponent<Health>();
+            var healthSo = new SerializedObject(health);
+            healthSo.FindProperty("maxHealth").floatValue = 45f;
+            healthSo.ApplyModifiedPropertiesWithoutUndo();
+
+            var combatant = root.AddComponent<FactionCombatant>();
+            combatant.SetFaction(factionId);
+            var so = new SerializedObject(combatant);
+            SetObjectRef(so, "bodyRenderer", bodyRenderer);
+            so.ApplyModifiedPropertiesWithoutUndo();
+
+            root.SetActive(false);
+            return health;
         }
 
         /// <summary>

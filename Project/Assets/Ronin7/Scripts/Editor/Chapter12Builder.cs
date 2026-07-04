@@ -78,6 +78,14 @@ namespace Ronin7.EditorTools
     /// foil, the last node is freed not recruited). No HubBuilder room increment is added, mirroring
     /// Ch11's identical precedent (HubBuilder's CampaignDirector mission list already carries the CH12
     /// entry from prior work; only ally-recruiting chapters like Ch10 add a war-room increment).
+    ///
+    /// SENTINEL DUELIST + HIVE CASCADE (enemy-variety pass): the Tier-2 skirmish's three "cradle
+    /// sentinels" are the chapter's own "repeats the player's own silhouette more densely with depth"
+    /// motif — a hive of near-identical bodies. <see cref="HiveCascadeController"/> (previously wired
+    /// nowhere in the project) makes that literal: it drives the trio through the EP24 "Fracture
+    /// Protocol" Attacking/Frozen/Conflicted desync instead of lockstep, echoing this chapter's own title.
+    /// One of the three is also upgraded to a tanky "Sentinel Duelist" elite (<c>Ch12SentinelDuelist</c>
+    /// EnemyDefinition, PostureMeter + PatternedDuelist) — see <c>Ch12UpgradeToSentinelDuelist</c>.
     /// </summary>
     public static partial class XRRigBuilder
     {
@@ -104,6 +112,7 @@ namespace Ronin7.EditorTools
             var weapon = EnsureWeaponDefinition();
             var skirmisherDef = Ch12EnsureSkirmisherDefinition();
             var editionDef = Ch12EnsureEditionDefinition();
+            var sentinelDuelistDef = Ch12EnsureSentinelDuelistDefinition();
 
             // ---- Lighting: COLD CERTAINTY made into architecture — bone-grey daylight at the mouth,
             // cooling to a deep stasis-blue toward the throne-tier; the node's amber pulse is the only
@@ -198,18 +207,27 @@ namespace Ronin7.EditorTools
             // ---- Skirmish: rival-force vanguard + auto-roused cradle sentinels on the mid-vault tier.
             // Inactive until the DefeatEnemies step auto-activates them (mirrors Ch10's syndicate-guard
             // convention). Kept light and cold per the chapter brief — the real fights are Beat 2's
-            // argument and Beat 3's boss. ----
+            // argument and Beat 3's boss. The LAST cradle sentinel is upgraded to the tanky "Sentinel
+            // Duelist" elite variant, and a HiveCascadeController (the "one mind, many bodies" cradle-rack
+            // motif — and this chapter's own EP24 "Fracture Protocol" — made literal; previously wired
+            // nowhere in the project) drives the whole trio through Attacking/Frozen/Conflicted desync
+            // instead of lockstep. Neither addition changes the DefeatEnemies step below (still the same
+            // 3 Health objectives). ----
             Vector3[] skirmishPositions =
             {
                 tiers[1] + new Vector3(-3f, 0f, 4f), tiers[1] + new Vector3(3f, 0f, 4f), tiers[1] + new Vector3(0f, 0f, -3f),
             };
             var skirmishHealths = new List<Object>();
+            var skirmishSquad = new List<MeleeAttacker>();
             foreach (var pos in skirmishPositions)
             {
                 var e = BuildEnemy(pos, playerHealth, skirmisherDef);
                 e.gameObject.SetActive(false);
                 skirmishHealths.Add(e.GetComponent<Health>());
+                skirmishSquad.Add(e);
             }
+            Ch12UpgradeToSentinelDuelist((Enemy)skirmishSquad[skirmishSquad.Count - 1], sentinelDuelistDef);
+            Ch12BuildHiveCascade(skirmishSquad);
 
             // ---- Commander Vale: a plain StoryNpc, no Health/combat (see class summary) — built active
             // from scene start. ----
@@ -392,6 +410,65 @@ namespace Ronin7.EditorTools
             AssetDatabase.CreateAsset(def, path);
             AssetDatabase.SaveAssets();
             return def;
+        }
+
+        private static EnemyDefinition Ch12EnsureSentinelDuelistDefinition()
+        {
+            const string path = DataFolder + "/Ch12SentinelDuelist.asset";
+            var existing = AssetDatabase.LoadAssetAtPath<EnemyDefinition>(path);
+            if (existing != null) return existing;
+
+            EnsureFolder(DataFolder);
+            var def = ScriptableObject.CreateInstance<EnemyDefinition>();
+            // Tanky elite among the cradle sentinels — sits between the skirmisher mook (60 HP/9 dmg)
+            // and the chapter's actual boss (320 HP/28 dmg). postureMaxFraction is exercised here for the
+            // first time in the project (see Ch12UpgradeToSentinelDuelist, which adds the PostureMeter
+            // that makes it do anything).
+            def.maxHealth = 150f;
+            def.moveSpeed = 1.5f;
+            def.attackRange = 1.8f;
+            def.telegraphTime = 0.85f;
+            def.activeTime = 0.8f;
+            def.recoverTime = 0.65f;
+            def.staggerTime = 1.3f;
+            def.attackCooldown = 0.75f;
+            def.damage = 16f;
+            def.postureMaxFraction = 0.5f;
+            AssetDatabase.CreateAsset(def, path);
+            AssetDatabase.SaveAssets();
+            return def;
+        }
+
+        /// <summary>Upgrades one Tier-2 cradle-sentinel <see cref="Enemy"/> into the "Sentinel Duelist"
+        /// elite variant: swaps its definition for the tanky <paramref name="sentinelDuelistDef"/>,
+        /// renames it, and adds <see cref="PostureMeter"/> + <see cref="PatternedDuelist"/> (mirrors
+        /// Ch6Builder's caradocEnemy — <c>PatternedDuelist</c> reads repeated-side hits). PostureMeter is
+        /// required for <see cref="EnemyDefinition.postureMaxFraction"/> to have any effect (Enemy.Awake
+        /// only calls <c>PostureMeter.Configure</c> when one is present on the same GameObject). Callable
+        /// a second time without duplicating components (guarded by GetComponent checks) so a live-scene
+        /// patch and a future rebuild agree.</summary>
+        private static void Ch12UpgradeToSentinelDuelist(Enemy enemy, EnemyDefinition sentinelDuelistDef)
+        {
+            enemy.gameObject.name = "SentinelDuelist";
+            var so = new SerializedObject(enemy);
+            SetObjectRef(so, "definition", sentinelDuelistDef);
+            so.ApplyModifiedPropertiesWithoutUndo();
+            if (enemy.GetComponent<PostureMeter>() == null) enemy.gameObject.AddComponent<PostureMeter>();
+            if (enemy.GetComponent<PatternedDuelist>() == null) enemy.gameObject.AddComponent<PatternedDuelist>();
+        }
+
+        /// <summary>Wires a <see cref="HiveCascadeController"/> over the given squad (previously wired
+        /// nowhere in the project — see class doc). Built active so its own OnEnable/Initialize can
+        /// stagger member timers; harmless while every member is still inactive (SetActive(false) above),
+        /// since only the DefeatEnemies step's auto-activation actually starts the fight.</summary>
+        private static HiveCascadeController Ch12BuildHiveCascade(List<MeleeAttacker> members)
+        {
+            var go = new GameObject("CradleHiveCascade");
+            var hive = go.AddComponent<HiveCascadeController>();
+            var so = new SerializedObject(hive);
+            SetObjectRefList(so, "members", members.ConvertAll(m => (Object)m));
+            so.ApplyModifiedPropertiesWithoutUndo();
+            return hive;
         }
 
         // ---- Dialogue: build via the shared helper, then wire ch12 voice clips ourselves. ----

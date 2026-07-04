@@ -10990,6 +10990,61 @@ Material:
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
+--- !u!1 &756917433
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 756917435}
+  - component: {fileID: 756917434}
+  m_Layer: 0
+  m_Name: CradleHiveCascade
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &756917434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 756917433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cbffbb1afb4b804ba5a8d2b3f60452f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Enemies::Ronin7.Enemies.HiveCascadeController
+  members:
+  - {fileID: 276832780}
+  - {fileID: 1137319841}
+  - {fileID: 930214628}
+  attackingDuration: {x: 3.5, y: 6}
+  frozenDuration: {x: 1.2, y: 2.5}
+  conflictedDuration: {x: 1.5, y: 3}
+  freezeChance: 0.55
+  frozenTint: {r: 0.45, g: 0.6, b: 0.95, a: 1}
+  conflictedTint: {r: 0.95, g: 0.45, b: 0.3, a: 1}
+  autoCascade: 1
+--- !u!4 &756917435
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 756917433}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &762806980
 GameObject:
   m_ObjectHideFlags: 0
@@ -16323,8 +16378,10 @@ GameObject:
   - component: {fileID: 1137319842}
   - component: {fileID: 1137319840}
   - component: {fileID: 1137319841}
+  - component: {fileID: 1137319844}
+  - component: {fileID: 1137319843}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: SentinelDuelist
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16364,7 +16421,7 @@ MonoBehaviour:
   strikeEuler: {x: 55, y: 0, z: 0}
   recoilEuler: {x: -120, y: 0, z: 0}
   swingSmoothing: 0.5
-  definition: {fileID: 11400000, guid: 681ef0e9b1f9e5542a31ca326739bbf5, type: 2}
+  definition: {fileID: 11400000, guid: 9bf766920bdcdf54faad2534cb92203c, type: 2}
   bladeTip: {fileID: 820633099}
   parryRadius: 0.12
   debugLogs: 0
@@ -16384,6 +16441,44 @@ Transform:
   - {fileID: 600574323}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1137319843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1137319839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 158809810a278164ea5fb0d85e54aace, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Enemies::Ronin7.Enemies.PatternedDuelist
+  patternWindow: 4
+  refundFraction: 0.85
+  onPredicted:
+    m_PersistentCalls:
+      m_Calls: []
+  onPatternBroken:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1137319844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1137319839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5b64314a1b70f646b5ee5b5197af3fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Enemies::Ronin7.Enemies.PostureMeter
+  postureMax: 100
+  gainPerDamage: 0.9
+  decayDelay: 1
+  decayPerSecond: 40
+  breakBonusDamage: 12
+  nearBreakFraction: 0.8
 --- !u!1 &1138133549
 GameObject:
   m_ObjectHideFlags: 0
@@ -28985,3 +29080,4 @@ SceneRoots:
   - {fileID: 1594385060}
   - {fileID: 288609112}
   - {fileID: 1327909935}
+  - {fileID: 756917435}
