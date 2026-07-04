@@ -1,0 +1,314 @@
+{
+    "lines": [
+        {
+            "file": "ch6_ch6_beat0_briefing_00_resh",
+            "speaker": "Resh",
+            "text": "Every kid I ever pulled out of those markets was tagged for one address. This one. They don't sell children here. They make them. Whole."
+        },
+        {
+            "file": "ch6_ch6_beat0_briefing_01_resh",
+            "speaker": "Resh",
+            "text": "One card left to play. A Program engineer inside the walls, been slipping me children for years and never asked for anything back. A name and nothing else. Morrigan."
+        },
+        {
+            "file": "ch6_ch6_beat0_briefing_02_meravoss",
+            "speaker": "Mera Voss",
+            "text": "Then understand what the name buys you. This isn't a free-port, Resh. Real soldiers. Real air cover. Nowhere to disappear if it goes wrong."
+        },
+        {
+            "file": "ch6_ch6_beat0_briefing_03_iris",
+            "speaker": "Iris",
+            "text": "That spine is where they do everything. The switches, the bonding, the conditioning. All of it, one mountain. Whatever they did to Cipher, they do it here, to a new batch every season. I want it read."
+        },
+        {
+            "file": "ch6_ch6_beat0_briefing_04_kessler",
+            "speaker": "Kessler",
+            "text": "I hear all of that, and I'm counting the bodies it costs. Tell me why we walk into the Dominion's own house instead of around it."
+        },
+        {
+            "file": "ch6_ch6_beat0_briefing_05_resh",
+            "speaker": "Resh",
+            "text": "Because around it just means more of them grow up into the thing we keep fighting. You want to stop bleeding downstream. This is the top of it. There's nothing above this."
+        },
+        {
+            "file": "ch6_ch6_beat0_briefing_06_mira",
+            "speaker": "Mira",
+            "text": "It looks like a school."
+        },
+        {
+            "file": "ch6_ch6_beat0_briefing_07_kessler",
+            "speaker": "Kessler",
+            "text": "It's made to look like one. That's the trick of it. And it's why you're staying sealed aboard with the hatch shut and the comm open."
+        },
+        {
+            "file": "ch6_ch6_beat0_briefing_08_mira",
+            "speaker": "Mira",
+            "text": "Okay. But the other children. Somebody's getting them out."
+        },
+        {
+            "file": "ch6_ch6_beat0_briefing_09_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Somebody is."
+        },
+        {
+            "file": "ch6_ch6_beat0_briefing_10_ronin7",
+            "speaker": "Ronin-7",
+            "text": "We go shut down the place that's still turning out more like me."
+        },
+        {
+            "file": "ch6_ch6_beat0_briefing_11_kessler",
+            "speaker": "Kessler",
+            "text": "All right. We do it Resh's way. Plot the slope, drop him low and far, let the mountain be the door."
+        },
+        {
+            "file": "ch6_ch6_beat1_climb_00_kessler",
+            "speaker": "Kessler",
+            "text": "Shuttle's clear and we're holding their air-net off you. Past the treeline you're on the rock and on your own feet. Climb careful."
+        },
+        {
+            "file": "ch6_ch6_beat1_climb_01_echo",
+            "speaker": "Echo",
+            "text": "On your own feet, sure. Not alone, though. Same as the caves, only this time we go up, into the open, with a real sky to fall out of. Let me drive the route. You keep the blade."
+        },
+        {
+            "file": "ch6_ch6_beat1_climb_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Drovis was a climb down. This one's up."
+        },
+        {
+            "file": "ch6_ch6_beat1_climb_03_echo",
+            "speaker": "Echo",
+            "text": "She's at the top, and so is everything they buried in you. Left of the spillway, then the wall. They're all watching the gate. Nobody watches the cliff. Who climbs a mountain to break IN?"
+        },
+        {
+            "file": "ch6_ch6_beat1_climb_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then I'm nobody. Get me up there."
+        },
+        {
+            "file": "ch6_ch6_beat1_window_00_echo",
+            "speaker": "Echo",
+            "text": "That's her window. No light, no guard, cracked open from the inside a while now. Last reach, Cipher. After this it's just you, the cold, and the woman in the dark."
+        },
+        {
+            "file": "ch6_ch6_beat2_morrigan_meet_00_morrigan",
+            "speaker": "Morrigan",
+            "text": "Cipher. You came up the cliff. Good. Sit, don't sit, I don't care. We have a small window and a large mountain."
+        },
+        {
+            "file": "ch6_ch6_beat2_morrigan_meet_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Resh sent me. He says you've been pulling children out of here for years."
+        },
+        {
+            "file": "ch6_ch6_beat2_morrigan_meet_02_morrigan",
+            "speaker": "Morrigan",
+            "text": "Nine years, one child out the bottom whenever I could stomach the math. Don't call that a clean conscience. It's just what I pay myself to get out of bed. I can't empty this place alone. You can."
+        },
+        {
+            "file": "ch6_ch6_beat2_morrigan_meet_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Tell me where it breaks."
+        },
+        {
+            "file": "ch6_ch6_beat2_killlist_00_morrigan",
+            "speaker": "Morrigan",
+            "text": "Three towers, three masters. The Cradle takes the youngest and unmakes them, Matron Hespa runs it, and she'll smile while she tells you it's kindness. The Proving breaks the rest into shape, Drillmaster Caradoc, no smile at all. The Vesting finishes them, the bonding, the switch, the last hollowing. That one's Master Kaelen, the architect."
+        },
+        {
+            "file": "ch6_ch6_beat2_killlist_01_morrigan",
+            "speaker": "Morrigan",
+            "text": "Cut one tower and the school staggers. Cut all three and it falls, and there's no one left to stop me opening every door. Kill Hespa, kill Caradoc, kill Kaelen. Take them in whatever order you want. All three are open."
+        },
+        {
+            "file": "ch6_ch6_beat2_killlist_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "The children."
+        },
+        {
+            "file": "ch6_ch6_beat2_killlist_03_morrigan",
+            "speaker": "Morrigan",
+            "text": "They're not yours to touch, and you knew that before you said it. The cadre, the garrison, the machines, cut all of it down. Not one trainee. The moment the third master falls, you come back here and I empty the mountain."
+        },
+        {
+            "file": "ch6_ch6_beat2_killlist_04_echo",
+            "speaker": "Echo",
+            "text": "She's clean, Cipher, or as clean as anyone gets who lived this long inside it. I know what's in all three towers. Wherever you want to start, I'll walk it with you."
+        },
+        {
+            "file": "ch6_ch6_beat3_hespa_intro_00_matronhespa",
+            "speaker": "Matron Hespa",
+            "text": "There now. Don't mind the noise, my loves. Eyes on me. We were on our numbers, weren't we."
+        },
+        {
+            "file": "ch6_ch6_beat3_hespa_intro_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Step away from the child."
+        },
+        {
+            "file": "ch6_ch6_beat3_hespa_intro_02_matronhespa",
+            "speaker": "Matron Hespa",
+            "text": "I don't hurt them. I take the hurting things away from them. I'm the kindest thing that ever happens to them. You walked in here with a sword. Which of us is the cruel one?"
+        },
+        {
+            "file": "ch6_ch6_beat3_hespa_intro_03_echo",
+            "speaker": "Echo",
+            "text": "She means it, Cipher, that's the worst of it. She did it to a thousand kids and tucked every one in after. Don't let the soft voice slow your hand."
+        },
+        {
+            "file": "ch6_ch6_beat3_hespa_intro_04_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I had a number once. Somebody soft as you gave it to me. You don't get to keep doing it."
+        },
+        {
+            "file": "ch6_ch6_beat3_caradoc_intro_00_drillmastercaradoc",
+            "speaker": "Drillmaster Caradoc",
+            "text": "Stand down, all of you. I've watched you cut through my floor, and I want a turn. You kill with my spacing, my count. That's my work standing in front of me with a sword."
+        },
+        {
+            "file": "ch6_ch6_beat3_caradoc_intro_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "I move like yours because you made me move like yours. Don't put your name on it."
+        },
+        {
+            "file": "ch6_ch6_beat3_caradoc_intro_02_drillmastercaradoc",
+            "speaker": "Drillmaster Caradoc",
+            "text": "Proud? There's no proud in it, boy. Some break and some get broke. Somebody's got to do the breaking or the galaxy eats them whole. I made you hard enough to stand here. You're welcome."
+        },
+        {
+            "file": "ch6_ch6_beat3_caradoc_intro_03_echo",
+            "speaker": "Echo",
+            "text": "He ran the floor you were beaten on, Cipher. I logged every hour of it. Don't trade blows with him to prove a point. Just end it."
+        },
+        {
+            "file": "ch6_ch6_beat3_caradoc_intro_04_drillmastercaradoc",
+            "speaker": "Drillmaster Caradoc",
+            "text": "Should've known. Soft hands at the top, soft hands at the bottom. Go on. Do the honest thing, at least."
+        },
+        {
+            "file": "ch6_ch6_beat3_caradoc_intro_05_ronin7",
+            "speaker": "Ronin-7",
+            "text": "The honest thing is the children walking out of here. You don't get to be part of that."
+        },
+        {
+            "file": "ch6_ch6_beat3_kaelen_intro_00_echo",
+            "speaker": "Echo",
+            "text": "Look at them, Cipher. That's you, a year before the bay. You don't have to kill the ones still mostly children under it. The metal cadre, yes. Them, you can choose."
+        },
+        {
+            "file": "ch6_ch6_beat3_kaelen_intro_01_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "You can stop swinging. They'll keep coming until I tell them not to, and I'm not going to. Unless you're the rare thing the floor reports say you are. The hand that hesitates. Go on. Spare one. I'd genuinely like to see it."
+        },
+        {
+            "file": "ch6_ch6_beat3_kaelen_intro_02_ronin7",
+            "speaker": "Ronin-7",
+            "text": "They're children with your knives put in them. The knives are yours. So you're the one I came up here for."
+        },
+        {
+            "file": "ch6_ch6_beat3_kaelen_intro_03_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "My knives, yes, I'll own them. Hespa thinks she's a mother. Caradoc thinks he's a forge. Me, I've read the plans, and I build it anyway. Come and read it back to me."
+        },
+        {
+            "file": "ch6_ch6_beat4_confession_00_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "There. Now I can say the part I built my whole life around not saying. You think the feeling is a wound. A thing that happened to you."
+        },
+        {
+            "file": "ch6_ch6_beat4_confession_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Isn't it."
+        },
+        {
+            "file": "ch6_ch6_beat4_confession_02_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "No. We built you hollow on purpose. A soldier who feels, hesitates. A soldier who hesitates, fails. So we reach in and cut it out, every time, by hand. The hollow isn't a side effect. We were aiming for it."
+        },
+        {
+            "file": "ch6_ch6_beat4_confession_03_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "But you can't pour nothing into a vessel and seal it shut forever. Somewhere along the seam the weld stays weak, and in the rare ones, it opens. And what comes through the seam isn't damage. It's the thing we worked hardest to keep out. Mercy."
+        },
+        {
+            "file": "ch6_ch6_beat4_confession_04_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "Your hesitation, the thing the floor reports flagged as a fault. It was never a fault. The seam was just giving way. That's all you are. The prayer that didn't take."
+        },
+        {
+            "file": "ch6_ch6_beat4_confession_05_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then I'm exactly what you were afraid of."
+        },
+        {
+            "file": "ch6_ch6_beat4_confession_06_masterkaelen",
+            "speaker": "Master Kaelen",
+            "text": "You're exactly what we made. And exactly what we couldn't stand to admit we made."
+        },
+        {
+            "file": "ch6_ch6_beat4_confession_07_echo",
+            "speaker": "Echo",
+            "text": "I logged that second as a fault, Cipher, same as they did. Neither of us knew what we were looking at."
+        },
+        {
+            "file": "ch6_ch6_beat5_evacuation_00_morrigan",
+            "speaker": "Morrigan",
+            "text": "All three. I felt the floor go still. Nine years, and you did it in an afternoon. Don't say anything yet. Help me open the doors before the garrison works out there's no one left giving them orders."
+        },
+        {
+            "file": "ch6_ch6_beat5_evacuation_01_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Hundreds of them, and one shuttle. You don't carry this off a mountain. So how does it walk?"
+        },
+        {
+            "file": "ch6_ch6_beat5_evacuation_02_morrigan",
+            "speaker": "Morrigan",
+            "text": "We're not carrying anyone. We let them walk, and we trust them to, which this place never once did. Eldest at the front and the back, counting heads the whole way down. Resh's name opens the doors at the bottom. Any other way and they're just freight again."
+        },
+        {
+            "file": "ch6_ch6_beat5_descent_00_ronin7",
+            "speaker": "Ronin-7",
+            "text": "You're not going with them."
+        },
+        {
+            "file": "ch6_ch6_beat5_descent_01_morrigan",
+            "speaker": "Morrigan",
+            "text": "They get to walk away from this. I don't, not yet. They go down the mountain. I've got to go further up. Because your leash didn't slip on its own, and I've spent nine years close enough to the work to know it."
+        },
+        {
+            "file": "ch6_ch6_beat5_morrigan_joins_00_morrigan",
+            "speaker": "Morrigan",
+            "text": "I've read everything that's come through this rock for years, and two things never fit. One, the Program's own actions don't add up to what happened to you. Someone outside the Program is steering this. I don't know who. But the pattern's not theirs."
+        },
+        {
+            "file": "ch6_ch6_beat5_morrigan_joins_01_morrigan",
+            "speaker": "Morrigan",
+            "text": "Two. Everything built in this rock, the switches, the bonding, all of it, traces back through every revision to one mind. One insider on the Program's own side. I've chased him nine years and never got a name. I mean to."
+        },
+        {
+            "file": "ch6_ch6_beat5_morrigan_joins_02_echo",
+            "speaker": "Echo",
+            "text": "That's the first time anyone's said out loud this is bigger than your handler and your switch, Cipher. She's not wrong, and she's the first one with the eyes to see it. Keep her."
+        },
+        {
+            "file": "ch6_ch6_beat5_morrigan_joins_03_ronin7",
+            "speaker": "Ronin-7",
+            "text": "Then you berth aboard the Cairn with the rest of us. There's a training bay in her belly we never named. We'll call it after the thing we just brought down, so we remember what it was for."
+        },
+        {
+            "file": "ch6_ch6_beat5_morrigan_joins_04_morrigan",
+            "speaker": "Morrigan",
+            "text": "A dead leviathan full of strays, and now a rogue engineer too. Fine. Give me a bench and the time, and I'll take your leash apart. Then I'll take apart the man who designed it."
+        },
+        {
+            "file": "ch6_ch6_beat5_outro_00_ronin7",
+            "speaker": "Ronin-7",
+            "text": "We came to break the place that keeps making me. It's broken. And whoever made it has someone over THEM. So we don't stop here."
+        },
+        {
+            "file": "ch6_ch6_beat5_outro_01_echo",
+            "speaker": "Echo",
+            "text": "Up the whole way, then, same as the climb. Mountain was never the top of anything. Just the first thing tall enough to show you the next one. Let's go find whoever's steering."
+        }
+    ]
+}
