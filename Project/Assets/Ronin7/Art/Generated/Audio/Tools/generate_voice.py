@@ -54,7 +54,7 @@ SPEAKER_VOICES = {
     "Drone": ("en-US-RogerNeural", "+15%", "-12Hz"),
     # Chapter 2 (Galaxy 1) speakers
     "Resh": ("en-US-EricNeural", "+0%", "-5Hz"),
-    "Broker": ("en-US-JasonNeural", "+18%", "+4Hz"),
+    "Broker": ("en-US-BrianNeural", "+18%", "+4Hz"),  # was en-US-JasonNeural (retired by MS); Brian is the nearest mid-male
     # Chapter 3 (Galaxy 1) speakers — the katana shadow-AI: "Shadow" pre-naming, "Echo" after.
     # Same voice both ways (it IS the same being), slightly warmer once named.
     "Shadow": ("en-US-AriaNeural", "-8%", "-6Hz"),
@@ -195,13 +195,13 @@ SPEAKER_VOICES = {
     # Chapter 9 (Galaxy 1) speakers. "Gryph" below (EP17 block, Galaxy 3 "Pit Master") is an unrelated
     # earlier-draft name reused for Ch9's Rustfang pirate-captain; its gravelly/deep casting already
     # fits him, so Ch9 reuses that entry as-is rather than adding a colliding second "Gryph" key.
-    "Rook": ("en-US-DavisNeural", "-4%", "-6Hz"),              # Gryph's second, hard/fast/loyal
+    "Rook": ("en-US-EricNeural", "-4%", "-6Hz"),              # Gryph's second, hard/fast/loyal (was en-US-DavisNeural, retired by MS)
     "Sable": ("en-US-JennyNeural", "-8%", "-6Hz"),             # Tide-depths living archive, doubled/tired
     "Vane": ("en-US-SteffanNeural", "-18%", "-16Hz"),          # Wraith-6, an older/flatter cast of Ronin-7's own voice
     # Chapter 10 (Galaxy 1) speakers. Cassie-04/Vess/Gryph/Sable/Morrigan/Coral Vex reuse entries above.
     "Sever": ("en-US-EricNeural", "-10%", "-14Hz"),            # Ninja-2, Cassie's leashed keeper — an older make of the same cage as Ronin-7, distinct casting from Vane's Steffan
     # Chapter 11 (Galaxy 1) speakers. Cassie-04/Sable/Coral Vex/Vess/Echo/Ronin-7/Gryph reuse entries above.
-    "Aldric": ("en-US-DavisNeural", "-22%", "-20Hz"),          # Knight-1, the eldest keeper, half-dissolved into the broadcast; the slowest/heaviest voice in the saga
+    "Aldric": ("en-US-EricNeural", "-22%", "-20Hz"),          # Knight-1, the eldest keeper, half-dissolved into the broadcast; the slowest/heaviest voice in the saga (was en-US-DavisNeural, retired by MS)
     "Kira": ("en-US-JennyNeural", "+2%", "+2Hz"),              # Ch5 dead, voiced only here as the dreamscape's gentlest lure
     "Younger Self": ("en-US-SteffanNeural", "+0%", "+4Hz"),    # Ronin-7 before the Program: same actor as Ronin-7, lighter/clearer, never named Soren
     # EP12 speakers
