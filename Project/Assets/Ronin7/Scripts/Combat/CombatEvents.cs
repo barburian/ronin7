@@ -50,6 +50,17 @@ namespace Ronin7.Combat
     }
 
     /// <summary>
+    /// Follow-Through combo chain advanced (see <c>Ronin7.Player.ComboMomentumController</c>).
+    /// Published only when the chain's Count increases — never on a same-target reset to 0 — so
+    /// subscribers (e.g. campaign stat tracking for "best combo reached") only see forward progress.
+    /// </summary>
+    public readonly struct ComboChained
+    {
+        public readonly int Count;
+        public ComboChained(int count) => Count = count;
+    }
+
+    /// <summary>
     /// G4 "Blade Clash": a deflect landed where BOTH the player's and the enemy's blade were
     /// genuinely moving hard (see <see cref="ParryTiming.IsClash"/>) — a true mutual clash, not just
     /// a well-timed parry against a slow swing. Published in addition to <see cref="SwordDeflected"/>

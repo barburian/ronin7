@@ -7930,6 +7930,7 @@ MonoBehaviour:
   windupEuler: {x: -140, y: 0, z: 0}
   strikeEuler: {x: 55, y: 0, z: 0}
   recoilEuler: {x: -120, y: 0, z: 0}
+  swingSmoothing: 0.5
   definition: {fileID: 11400000, guid: ddcf37a74d725e0459a8499a01d1393c, type: 2}
   bladeTip: {fileID: 1967671340}
   parryRadius: 0.12
@@ -8577,6 +8578,7 @@ GameObject:
   - component: {fileID: 745332282}
   - component: {fileID: 745332284}
   - component: {fileID: 745332283}
+  - component: {fileID: 745332285}
   m_Layer: 0
   m_Name: XR Origin (Space Samurai)
   m_TagString: Untagged
@@ -8885,6 +8887,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Ronin7.Player::Ronin7.Player.ParryFlowController
   combatModifiers: {fileID: 745332275}
+--- !u!114 &745332285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 745332267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22262a2f65a16374e8c40340577e2e0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Player::Ronin7.Player.BladeClashFeedback
 --- !u!1 &754487138
 GameObject:
   m_ObjectHideFlags: 0
@@ -9501,6 +9515,7 @@ MonoBehaviour:
   windupEuler: {x: -140, y: 0, z: 0}
   strikeEuler: {x: 55, y: 0, z: 0}
   recoilEuler: {x: -120, y: 0, z: 0}
+  swingSmoothing: 0.5
   definition: {fileID: 11400000, guid: 5f166fd1639ba684a8059eff8bf82304, type: 2}
   bladeTip: {fileID: 1783061787}
   parryRadius: 0.12
@@ -21720,6 +21735,7 @@ MonoBehaviour:
   windupEuler: {x: -140, y: 0, z: 0}
   strikeEuler: {x: 55, y: 0, z: 0}
   recoilEuler: {x: -120, y: 0, z: 0}
+  swingSmoothing: 0.5
   definition: {fileID: 11400000, guid: 25a8f28bdab1b0f4cb0b08b65ec0fc12, type: 2}
   bladeTip: {fileID: 683479404}
   parryRadius: 0.12
@@ -22852,6 +22868,7 @@ MonoBehaviour:
   windupEuler: {x: -140, y: 0, z: 0}
   strikeEuler: {x: 55, y: 0, z: 0}
   recoilEuler: {x: -120, y: 0, z: 0}
+  swingSmoothing: 0.5
   definition: {fileID: 11400000, guid: 5f166fd1639ba684a8059eff8bf82304, type: 2}
   bladeTip: {fileID: 1182052915}
   parryRadius: 0.12

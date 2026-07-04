@@ -5790,6 +5790,7 @@ MonoBehaviour:
   windupEuler: {x: -140, y: 0, z: 0}
   strikeEuler: {x: 55, y: 0, z: 0}
   recoilEuler: {x: -120, y: 0, z: 0}
+  swingSmoothing: 0.5
   definition: {fileID: 11400000, guid: ed90ae16a1bb74145ac513ae44fab568, type: 2}
   bladeTip: {fileID: 1822335008}
   parryRadius: 0.12
@@ -23727,6 +23728,7 @@ GameObject:
   - component: {fileID: 895757722}
   - component: {fileID: 895757721}
   - component: {fileID: 895757729}
+  - component: {fileID: 895757730}
   m_Layer: 0
   m_Name: XR Origin (Space Samurai)
   m_TagString: Untagged
@@ -23926,6 +23928,18 @@ MonoBehaviour:
   minAmplitude: 0.15
   maxAmplitude: 0.6
   pulseDuration: 0.06
+--- !u!114 &895757730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 895757719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22262a2f65a16374e8c40340577e2e0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Player::Ronin7.Player.BladeClashFeedback
 --- !u!1 &899495743
 GameObject:
   m_ObjectHideFlags: 0
@@ -26997,6 +27011,7 @@ MonoBehaviour:
   windupEuler: {x: -140, y: 0, z: 0}
   strikeEuler: {x: 55, y: 0, z: 0}
   recoilEuler: {x: -120, y: 0, z: 0}
+  swingSmoothing: 0.5
   definition: {fileID: 11400000, guid: ed90ae16a1bb74145ac513ae44fab568, type: 2}
   bladeTip: {fileID: 953884854}
   parryRadius: 0.12
@@ -58991,6 +59006,7 @@ MonoBehaviour:
   windupEuler: {x: -140, y: 0, z: 0}
   strikeEuler: {x: 55, y: 0, z: 0}
   recoilEuler: {x: -120, y: 0, z: 0}
+  swingSmoothing: 0.5
   definition: {fileID: 11400000, guid: ed90ae16a1bb74145ac513ae44fab568, type: 2}
   bladeTip: {fileID: 2057556357}
   parryRadius: 0.12
@@ -61063,6 +61079,7 @@ MonoBehaviour:
   windupEuler: {x: -140, y: 0, z: 0}
   strikeEuler: {x: 55, y: 0, z: 0}
   recoilEuler: {x: -120, y: 0, z: 0}
+  swingSmoothing: 0.5
   definition: {fileID: 11400000, guid: ed90ae16a1bb74145ac513ae44fab568, type: 2}
   bladeTip: {fileID: 96657361}
   parryRadius: 0.12

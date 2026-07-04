@@ -65,6 +65,12 @@ namespace Ronin7.Ship
         [Tooltip("Stick deflection needed to trigger one snap step.")]
         [SerializeField, Range(0.3f, 0.95f)] private float snapYawThreshold = 0.7f;
 
+        [Header("Sun Navigation (optional, OFF by default — see Docs/SunNavigation-Design.md)")]
+        [Tooltip("The sun's SunGravityWell, if the scene has one. Required for enableSunBoost to have any effect.")]
+        [SerializeField] private SunGravityWell sunWell;
+        [Tooltip("Fold the sun's slingshot boost into forward speed. Additive, in-headset-tuned hand-off — off by default.")]
+        [SerializeField] private bool enableSunBoost = false;
+
         [Header("Comfort — Vignette")]
         [Tooltip("Auto-create and drive a tunnelling vignette on the head camera. Strongly recommended for first-time players.")]
         [SerializeField] private bool useComfortVignette = true;
@@ -74,6 +80,11 @@ namespace Ronin7.Ship
         [SerializeField] private float vignetteAccelRef = 8f;
 
         public float CurrentSpeed { get; private set; }
+
+        /// <summary>Multiplies forward speed before the sun-boost factor (see <see cref="EffectiveSpeed"/>).
+        /// Exists so a future H4 trick system can compose with the sun-boost hook without touching the
+        /// integration line in <see cref="Update"/> again. 1 = no trim (identity), the default.</summary>
+        public float SpeedTrimMultiplier { get; set; } = 1f;
 
         /// <summary>Live setters for the settings menu (applied via SettingsService).</summary>
         public void SetTurnStyle(bool snap, float snapDegrees)
@@ -197,7 +208,13 @@ namespace Ronin7.Ship
             float roll = rollRate * dt;
 
             shipRot = AccumulateRotation(shipRot, pitch, yawDelta, roll);
-            shipPos += shipRot * (Vector3.forward * (CurrentSpeed * dt));
+
+            // Sun-nav preflight (OFF by default) + SpeedTrimMultiplier hook (future H4 trick system
+            // lands here without touching this line again): forward speed is
+            // CurrentSpeed * SpeedTrimMultiplier * (1 + boost), where boost is the sun's slingshot
+            // assist (0 when enableSunBoost is off or no well is assigned — additive, never subtractive).
+            float boost = (enableSunBoost && sunWell != null) ? sunWell.BoostAt(Vector3.zero) : 0f;
+            shipPos += shipRot * (Vector3.forward * (EffectiveSpeed(CurrentSpeed, SpeedTrimMultiplier, boost) * dt));
 
             // Render the world relative to a stationary player = inverse of the ship pose.
             Quaternion inv = Quaternion.Inverse(shipRot);
@@ -234,6 +251,11 @@ namespace Ronin7.Ship
         /// overridden back up by the very next frame's Update. Pure, so it is unit-testable.
         /// </summary>
         internal static bool ShouldDriveVignette(bool useFlag, bool hasVignette) => useFlag && hasVignette;
+
+        /// <summary>Pure forward-speed composition: base * trim * (1 + boost). Extracted so
+        /// <see cref="SpeedTrimMultiplier"/> and the sun-boost hook compose in <see cref="Update"/>'s
+        /// integration line without ever needing to touch it again. Pure, so it is unit-testable.</summary>
+        internal static float EffectiveSpeed(float baseSpeed, float trim, float boost) => baseSpeed * trim * (1f + boost);
 
         /// <summary>
         /// Wormhole jump entry point: instantly relocates the virtual ship to a new universe-local

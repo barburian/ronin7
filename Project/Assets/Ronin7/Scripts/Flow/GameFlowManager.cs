@@ -227,6 +227,7 @@ namespace Ronin7.Flow
             DiscardPendingGameOver();
             Galaxy1Progress.Reset();
             CampaignState.Reset();
+            CampaignStats.Reset();
             StartCoroutine(Transition(shipHubScene, GameMode.OnFoot));
         }
 
@@ -237,6 +238,7 @@ namespace Ronin7.Flow
             DiscardPendingGameOver();
             Galaxy1Progress.Reset();
             CampaignState.Reset();
+            CampaignStats.Reset();
             StartCoroutine(Transition(shipHubScene, GameMode.OnFoot));
         }
 

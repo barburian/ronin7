@@ -238,6 +238,28 @@ namespace Ronin7.Tests.EditMode
         }
 
         [Test]
+        public void Load_MissingStatsFields_DefaultsToZero()
+        {
+            // Arrange - hand-write JSON with only version and lastPlanetScene, no stats fields
+            string minimalJson = @"{
+  ""version"": 1,
+  ""lastPlanetScene"": ""Planet_A""
+}";
+            string slotPath = Path.Combine(testDirectory, "slot1.json");
+            File.WriteAllText(slotPath, minimalJson);
+
+            // Act
+            SaveData loaded = SaveSystem.Load(1);
+
+            // Assert - JsonUtility leaves absent int fields at 0, so old saves load with zeroed stats.
+            Assert.IsNotNull(loaded);
+            Assert.AreEqual(0, loaded.statsEnemiesDefeated);
+            Assert.AreEqual(0, loaded.statsPerfectParries);
+            Assert.AreEqual(0, loaded.statsPostureBreaks);
+            Assert.AreEqual(0, loaded.statsBestCombo);
+        }
+
+        [Test]
         public void SlotSummary_EmptySlot_ReturnsEmpty()
         {
             // Act

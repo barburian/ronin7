@@ -23,5 +23,13 @@ namespace Ronin7.Core
         public List<string> itemIds = new List<string>();
         public List<string> abilityIds = new List<string>();
         public List<string> storyFlags = new List<string>();
+
+        // Ronin7.Core.CampaignStats counters. Forward-compat: JsonUtility leaves absent int fields
+        // at 0, so old save files load these as zero rather than throwing (same guarantee as the
+        // itemIds/abilityIds lists above).
+        public int statsEnemiesDefeated;
+        public int statsPerfectParries;
+        public int statsPostureBreaks;
+        public int statsBestCombo;
     }
 }

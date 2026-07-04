@@ -1900,6 +1900,7 @@ MonoBehaviour:
   windupEuler: {x: -140, y: 0, z: 0}
   strikeEuler: {x: 55, y: 0, z: 0}
   recoilEuler: {x: -120, y: 0, z: 0}
+  swingSmoothing: 0.5
   definition: {fileID: 11400000, guid: 1245cb9e6fe5f584e9059703a44e64aa, type: 2}
   bladeTip: {fileID: 2004895808}
   parryRadius: 0.12
@@ -8827,6 +8828,7 @@ GameObject:
   - component: {fileID: 620402992}
   - component: {fileID: 620402994}
   - component: {fileID: 620402993}
+  - component: {fileID: 620402995}
   m_Layer: 0
   m_Name: XR Origin (Space Samurai)
   m_TagString: Untagged
@@ -9084,6 +9086,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Ronin7.Player::Ronin7.Player.ParryFlowController
   combatModifiers: {fileID: 620402985}
+--- !u!114 &620402995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 620402980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22262a2f65a16374e8c40340577e2e0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Player::Ronin7.Player.BladeClashFeedback
 --- !u!1 &638923499
 GameObject:
   m_ObjectHideFlags: 0
@@ -9968,6 +9982,7 @@ MonoBehaviour:
   windupEuler: {x: -140, y: 0, z: 0}
   strikeEuler: {x: 55, y: 0, z: 0}
   recoilEuler: {x: -120, y: 0, z: 0}
+  swingSmoothing: 0.5
   definition: {fileID: 11400000, guid: 1245cb9e6fe5f584e9059703a44e64aa, type: 2}
   bladeTip: {fileID: 1037122845}
   parryRadius: 0.12
@@ -11289,6 +11304,7 @@ MonoBehaviour:
   windupEuler: {x: -140, y: 0, z: 0}
   strikeEuler: {x: 55, y: 0, z: 0}
   recoilEuler: {x: -120, y: 0, z: 0}
+  swingSmoothing: 0.5
   definition: {fileID: 11400000, guid: 8dd3df6d16282fb4cb1fc1bc9c0ab47d, type: 2}
   bladeTip: {fileID: 1117593972}
   parryRadius: 0.12
@@ -15780,6 +15796,7 @@ MonoBehaviour:
   windupEuler: {x: -140, y: 0, z: 0}
   strikeEuler: {x: 55, y: 0, z: 0}
   recoilEuler: {x: -120, y: 0, z: 0}
+  swingSmoothing: 0.5
   definition: {fileID: 11400000, guid: 69bbc1e51342e434d98995d4fe69cb26, type: 2}
   bladeTip: {fileID: 1164804723}
   parryRadius: 0.12
@@ -18107,6 +18124,7 @@ MonoBehaviour:
   windupEuler: {x: -140, y: 0, z: 0}
   strikeEuler: {x: 55, y: 0, z: 0}
   recoilEuler: {x: -120, y: 0, z: 0}
+  swingSmoothing: 0.5
   definition: {fileID: 11400000, guid: 1245cb9e6fe5f584e9059703a44e64aa, type: 2}
   bladeTip: {fileID: 1520154408}
   parryRadius: 0.12
@@ -25240,6 +25258,7 @@ MonoBehaviour:
   windupEuler: {x: -140, y: 0, z: 0}
   strikeEuler: {x: 55, y: 0, z: 0}
   recoilEuler: {x: -120, y: 0, z: 0}
+  swingSmoothing: 0.5
   definition: {fileID: 11400000, guid: 8dd3df6d16282fb4cb1fc1bc9c0ab47d, type: 2}
   bladeTip: {fileID: 1596219820}
   parryRadius: 0.12

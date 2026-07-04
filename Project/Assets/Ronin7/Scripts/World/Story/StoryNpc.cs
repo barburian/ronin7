@@ -25,6 +25,14 @@ namespace Ronin7.World.Story
         public bool Remote => remote;
         public bool Talked { get; private set; }
 
+        /// <summary>Overrides the dialogue this NPC plays (used by <see cref="NpcGossipSelector"/> to
+        /// pick a campaign-flag-gated variant at Awake, before <see cref="TalkInteractor"/> ever reads
+        /// <see cref="Dialogue"/>). Ignores null so a misconfigured selector can't blank an NPC out.</summary>
+        public void SetDialogue(DialoguePlayer d)
+        {
+            if (d != null) dialogue = d;
+        }
+
         private void OnEnable() { if (!Active.Contains(this)) Active.Add(this); }
         private void OnDisable() => Active.Remove(this);
 

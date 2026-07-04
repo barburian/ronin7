@@ -17,6 +17,7 @@ namespace Ronin7.Tests.EditMode
 
             // Reset campaign state to clean slate
             CampaignState.Reset();
+            CampaignStats.Reset();
         }
 
         [TearDown]
@@ -24,6 +25,7 @@ namespace Ronin7.Tests.EditMode
         {
             // Reset state again for cleanliness
             CampaignState.Reset();
+            CampaignStats.Reset();
 
             // Restore Galaxy1Progress and ShipSelection
             Galaxy1Progress.FirstPlanetDeparted = savedFirstPlanetDeparted;
@@ -279,6 +281,28 @@ namespace Ronin7.Tests.EditMode
 
             // Assert
             Assert.AreEqual(1, CampaignState.GalaxiesCompleted);
+        }
+
+        [Test]
+        public void ToSaveData_AndApplyFrom_RoundTripsStats()
+        {
+            // Arrange
+            CampaignStats.RecordEnemyDefeated();
+            CampaignStats.RecordEnemyDefeated();
+            CampaignStats.RecordPerfectParry();
+            CampaignStats.RecordPostureBreak();
+            CampaignStats.RecordCombo(3);
+
+            // Act
+            SaveData save = CampaignState.ToSaveData();
+            CampaignStats.Reset();
+            CampaignState.ApplyFrom(save);
+
+            // Assert
+            Assert.AreEqual(2, CampaignStats.EnemiesDefeated);
+            Assert.AreEqual(1, CampaignStats.PerfectParries);
+            Assert.AreEqual(1, CampaignStats.PostureBreaks);
+            Assert.AreEqual(3, CampaignStats.BestCombo);
         }
 
         [Test]

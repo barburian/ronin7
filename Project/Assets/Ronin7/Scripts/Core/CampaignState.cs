@@ -156,6 +156,11 @@ namespace Ronin7.Core
             save.firstPlanetDeparted = Galaxy1Progress.FirstPlanetDeparted;
             save.shipHullIndex = ShipSelection.SelectedHullIndex;
 
+            save.statsEnemiesDefeated = CampaignStats.EnemiesDefeated;
+            save.statsPerfectParries = CampaignStats.PerfectParries;
+            save.statsPostureBreaks = CampaignStats.PostureBreaks;
+            save.statsBestCombo = CampaignStats.BestCombo;
+
             return save;
         }
 
@@ -209,6 +214,8 @@ namespace Ronin7.Core
             LastPlanetScene = data.lastPlanetScene ?? "";
             Galaxy1Progress.FirstPlanetDeparted = data.firstPlanetDeparted;
             ShipSelection.SelectedHullIndex = data.shipHullIndex;
+
+            CampaignStats.LoadFrom(data.statsEnemiesDefeated, data.statsPerfectParries, data.statsPostureBreaks, data.statsBestCombo);
         }
 
         /// <summary>

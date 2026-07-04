@@ -71,8 +71,13 @@ namespace Ronin7.Player
         private void OnSwordImpact(SwordImpact e)
         {
             int targetId = e.Victim != null ? e.Victim.GetEntityId().GetHashCode() : 0;
+            int previousCount = state.Count;
             state = RegisterHit(state, targetId, Time.time, comboWindowSeconds, maxCombo);
             ApplyMultiplier();
+
+            // H1 campaign-stats hook: publish only on forward progress (never on the same-target
+            // reset to 0) so "best combo reached" tracking sees a monotonic climb.
+            if (state.Count > previousCount) EventBus.Publish(new ComboChained(state.Count));
         }
 
         private void ApplyMultiplier()
