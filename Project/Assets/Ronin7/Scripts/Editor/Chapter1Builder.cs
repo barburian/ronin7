@@ -166,6 +166,10 @@ namespace Ronin7.EditorTools
             var kesslerPos = new Vector3(-1.6f, 0f, -0.2f); // beside the exam table, where he kept vigil
             var kesslerGo = InstantiateNpc(Ch1KesslerPrefab, kesslerPos, "Kessler");
             FitNamedCharacter(kesslerGo);
+            // FitNamedCharacter grounds Kessler's (centered-pivot) root above y=0 by his mesh's foot
+            // offset. NpcWalker drags the full waypoint position (including Y), so his walk waypoints
+            // must share this same root Y or he gets dragged down into the floor the instant a leg starts.
+            float kesslerFloorY = kesslerGo != null ? kesslerGo.transform.position.y : 0f;
             if (kesslerGo != null)
             {
                 var kesslerNpc = kesslerGo.AddComponent<StoryNpc>();
@@ -239,20 +243,9 @@ namespace Ronin7.EditorTools
 
             // ---- Kessler's scripted walks (inactive until their mission Triggers). ----
             // Leg 1: revival bay -> main hold, so he joins the "Three Weeks Adrift" talk by the viewport.
-            var kesslerToHoldGo = BuildNpcWalker(interior, "KesslerToHold", kesslerGo, new Vector3[]
-            {
-                new Vector3(0f, 0f, 2f),
-                new Vector3(0f, 0f, 6f),
-                new Vector3(-2f, 0f, 9.5f), // by the wreck-field viewport (west wall)
-            });
+            var kesslerToHoldGo = BuildNpcWalker(interior, "KesslerToHold", kesslerGo, KesslerToHoldWaypoints(kesslerFloorY));
             // Leg 2: hold -> command room, after the boarding fight.
-            var walkerGo = BuildNpcWalker(interior, "KesslerWalker", kesslerGo, new Vector3[]
-            {
-                new Vector3(0f, 0f, 10f),
-                new Vector3(0f, 0f, 21f),
-                new Vector3(0f, 0f, 28f),
-                new Vector3(2f, 0f, 31f),
-            });
+            var walkerGo = BuildNpcWalker(interior, "KesslerWalker", kesslerGo, KesslerWalkerWaypoints(kesslerFloorY));
 
             // ---- Reach points. ----
             var holdReachGo = new GameObject("HoldReachPoint");
@@ -427,6 +420,28 @@ namespace Ronin7.EditorTools
             for (int i = 1; i < rends.Length; i++) b.Encapsulate(rends[i].bounds);
             return b;
         }
+
+        /// <summary>
+        /// Leg 1 waypoints for Kessler's revival-bay -> main-hold walk. <paramref name="floorY"/> must be
+        /// the Y his (centered-pivot) root sits at once grounded by <see cref="FitNamedCharacter"/> —
+        /// <see cref="NpcWalker"/> drags the full waypoint position, so a mismatched Y buries or floats him.
+        /// Internal (not private) so <c>Chapter1BuilderTests</c> can verify this invariant directly.
+        /// </summary>
+        internal static Vector3[] KesslerToHoldWaypoints(float floorY) => new[]
+        {
+            new Vector3(0f, floorY, 2f),
+            new Vector3(0f, floorY, 6f),
+            new Vector3(-2f, floorY, 9.5f), // by the wreck-field viewport (west wall)
+        };
+
+        /// <summary>Leg 2 waypoints for Kessler's hold -> command-room walk. See <see cref="KesslerToHoldWaypoints"/>.</summary>
+        internal static Vector3[] KesslerWalkerWaypoints(float floorY) => new[]
+        {
+            new Vector3(0f, floorY, 10f),
+            new Vector3(0f, floorY, 21f),
+            new Vector3(0f, floorY, 28f),
+            new Vector3(2f, floorY, 31f),
+        };
 
         /// <summary>
         /// Builds an inactive <see cref="NpcWalker"/> that walks <paramref name="target"/> through the
