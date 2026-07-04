@@ -1630,14 +1630,31 @@ namespace Ronin7.EditorTools
             }
         }
 
-        /// <summary>Edit-mode-safe tint: clone the shared material so we don't leak or warn.</summary>
+        /// <summary>
+        /// Edit-mode-safe tint: reuses one material per (base material, colour) pair via a static
+        /// cache instead of cloning a brand-new material per renderer. Cloning per-renderer used to
+        /// embed 50-164 unique materials in a single chapter scene and defeat the SRP batcher on
+        /// Quest; identical shared materials batch, so keying the cache on the exact colour keeps
+        /// the perf win while still giving every distinct tint its own material. Safe: none of the
+        /// callers (BuildWall/BuildFloorCeiling/BuildProp/BuildSlidingDoor/etc.) mutate a renderer's
+        /// sharedMaterial at runtime — audited, no hits outside this builder file.
+        /// </summary>
+        private static readonly Dictionary<(Material baseMat, Color32 color), Material> TintCache =
+            new Dictionary<(Material, Color32), Material>();
+
         private static void TintShared(Renderer r, Color color)
         {
             if (r == null || r.sharedMaterial == null) return;
-            var mat = new Material(r.sharedMaterial);
-            // SamuraiToon exposes _BaseColor; legacy/Standard materials use _Color. Set whichever exists.
-            if (mat.HasProperty("_BaseColor")) mat.SetColor("_BaseColor", color);
-            if (mat.HasProperty("_Color")) mat.color = color;
+            var baseMat = r.sharedMaterial;
+            var key = (baseMat, (Color32)color);
+            if (!TintCache.TryGetValue(key, out var mat) || mat == null)
+            {
+                mat = new Material(baseMat) { name = baseMat.name + "_Tint" };
+                // SamuraiToon exposes _BaseColor; legacy/Standard materials use _Color. Set whichever exists.
+                if (mat.HasProperty("_BaseColor")) mat.SetColor("_BaseColor", color);
+                if (mat.HasProperty("_Color")) mat.color = color;
+                TintCache[key] = mat;
+            }
             r.sharedMaterial = mat;
         }
 

@@ -58,6 +58,7 @@ namespace Ronin7.EditorTools
             wall.transform.SetParent(parent, false);
             wall.transform.localPosition = localPos;
             wall.transform.localScale = localScale;
+            wall.GetComponent<MeshFilter>().sharedMesh = LowPolyMeshes.ForType(PrimitiveType.Cube);
             TintShared(wall.GetComponent<Renderer>(), new Color(0.18f, 0.20f, 0.24f));
             // Keep the collider so player can't walk through.
         }
@@ -70,6 +71,7 @@ namespace Ronin7.EditorTools
             floor.transform.SetParent(parent, false);
             floor.transform.localPosition = new Vector3(center.x, -0.1f, center.z);
             floor.transform.localScale = new Vector3(size.x, 0.2f, size.z);
+            floor.GetComponent<MeshFilter>().sharedMesh = LowPolyMeshes.ForType(PrimitiveType.Cube);
             TintShared(floor.GetComponent<Renderer>(), floorColor);
 
             var ceil = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -77,6 +79,7 @@ namespace Ronin7.EditorTools
             ceil.transform.SetParent(parent, false);
             ceil.transform.localPosition = new Vector3(center.x, RoomH, center.z);
             ceil.transform.localScale = new Vector3(size.x, 0.2f, size.z);
+            ceil.GetComponent<MeshFilter>().sharedMesh = LowPolyMeshes.ForType(PrimitiveType.Cube);
             TintShared(ceil.GetComponent<Renderer>(), ceilColor);
             Object.DestroyImmediate(ceil.GetComponent<Collider>());
         }
@@ -163,6 +166,7 @@ namespace Ronin7.EditorTools
             panelL.transform.SetParent(root.transform, false);
             panelL.transform.localPosition = leftClosed;
             panelL.transform.localScale = panelScale;
+            panelL.GetComponent<MeshFilter>().sharedMesh = LowPolyMeshes.ForType(PrimitiveType.Cube);
             TintShared(panelL.GetComponent<Renderer>(), doorColor);
 
             var panelR = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -170,6 +174,7 @@ namespace Ronin7.EditorTools
             panelR.transform.SetParent(root.transform, false);
             panelR.transform.localPosition = rightClosed;
             panelR.transform.localScale = panelScale;
+            panelR.GetComponent<MeshFilter>().sharedMesh = LowPolyMeshes.ForType(PrimitiveType.Cube);
             TintShared(panelR.GetComponent<Renderer>(), doorColor);
 
             var controller = new GameObject("Controller");
@@ -224,6 +229,7 @@ namespace Ronin7.EditorTools
             go.transform.SetParent(parent, false);
             go.transform.localPosition = pos;
             go.transform.localScale = scale;
+            go.GetComponent<MeshFilter>().sharedMesh = LowPolyMeshes.ForType(PrimitiveType.Cube);
             TintShared(go.GetComponent<Renderer>(), color);
         }
 
