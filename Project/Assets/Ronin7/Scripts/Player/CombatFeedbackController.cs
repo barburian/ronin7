@@ -26,6 +26,7 @@ namespace Ronin7.Player
             EventBus.Subscribe<SwordDeflected>(OnDeflect);
             EventBus.Subscribe<PlayerHit>(OnPlayerHit);
             EventBus.Subscribe<SwordImpact>(OnImpact);
+            EventBus.Subscribe<PostureBroken>(OnPostureBroken);
             EventBus.Subscribe<GameModeChanged>(OnModeChanged);
         }
 
@@ -34,6 +35,7 @@ namespace Ronin7.Player
             EventBus.Unsubscribe<SwordDeflected>(OnDeflect);
             EventBus.Unsubscribe<PlayerHit>(OnPlayerHit);
             EventBus.Unsubscribe<SwordImpact>(OnImpact);
+            EventBus.Unsubscribe<PostureBroken>(OnPostureBroken);
             EventBus.Unsubscribe<GameModeChanged>(OnModeChanged);
             RestoreTime();
         }
@@ -66,6 +68,11 @@ namespace Ronin7.Player
         private void OnPlayerHit(PlayerHit e) => PulseBoth(0.6f, 0.18f);
 
         private void OnImpact(SwordImpact e) => PulseBoth(0.35f, 0.05f);
+
+        // Strongest/longest pulse of the set — a posture break is the biggest combat payoff, so it
+        // should read as distinctly bigger than the deflect pulse. No slow-mo here (unlike OnDeflect):
+        // the break's own stagger/bonus-damage feedback already lands, timescale is not this event's job.
+        private void OnPostureBroken(PostureBroken e) => PulseBoth(1.0f, 0.2f);
 
         private void RestoreTime()
         {

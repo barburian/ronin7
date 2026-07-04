@@ -13,6 +13,10 @@ namespace Ronin7.Player
     /// GameObject-filtered EventBus subscriptions (<see cref="SwordImpact.Victim"/>,
     /// <see cref="PerfectParry.Attacker"/>, <see cref="PostureBroken.Entity"/> are all the struck
     /// entity's own GameObject at the publish site), then scores with <see cref="DrillScoring"/>.
+    ///
+    /// Also tracks a "Flawless Run" flag: any <see cref="EntityDamaged"/> against the player rig during
+    /// the run clears it. Player-entity comparison mirrors <see cref="AdrenalineFlow"/>/
+    /// <see cref="Ronin7.Flow.CampaignStatsTracker"/>'s <c>VRRig.Instance.gameObject</c> idiom.
     /// </summary>
     public class DojoDrillController : MonoBehaviour
     {
@@ -28,6 +32,7 @@ namespace Ronin7.Player
         private int impacts;
         private int perfectParries;
         private int postureBreaks;
+        private bool flawless;
         private string lastDisplayed;
 
         /// <summary>Console-button entry point. Restarts cleanly (discarding the in-flight run,
@@ -39,6 +44,7 @@ namespace Ronin7.Player
             impacts = 0;
             perfectParries = 0;
             postureBreaks = 0;
+            flawless = true;
             timeRemaining = drillSeconds;
             running = true;
 
@@ -47,6 +53,7 @@ namespace Ronin7.Player
             EventBus.Subscribe<SwordImpact>(OnSwordImpact);
             EventBus.Subscribe<PerfectParry>(OnPerfectParry);
             EventBus.Subscribe<PostureBroken>(OnPostureBroken);
+            EventBus.Subscribe<EntityDamaged>(OnEntityDamaged);
         }
 
         private void Update()
@@ -78,6 +85,11 @@ namespace Ronin7.Player
             if (dummyHealth != null && e.Entity == dummyHealth.gameObject) postureBreaks++;
         }
 
+        private void OnEntityDamaged(EntityDamaged e)
+        {
+            if (VRRig.Instance != null && e.Entity == VRRig.Instance.gameObject) flawless = false;
+        }
+
         private void EndDrill(bool recordScore)
         {
             Unsubscribe();
@@ -85,7 +97,7 @@ namespace Ronin7.Player
 
             if (!recordScore) return;
 
-            int score = DrillScoring.Score(impacts, perfectParries, postureBreaks);
+            int score = DrillScoring.Score(impacts, perfectParries, postureBreaks, flawless);
             int best = DrillBestScores.RecordIfBetter(drillId, score);
             SetStatus($"SCORE {score} · BEST {best}");
         }
@@ -95,6 +107,7 @@ namespace Ronin7.Player
             EventBus.Unsubscribe<SwordImpact>(OnSwordImpact);
             EventBus.Unsubscribe<PerfectParry>(OnPerfectParry);
             EventBus.Unsubscribe<PostureBroken>(OnPostureBroken);
+            EventBus.Unsubscribe<EntityDamaged>(OnEntityDamaged);
         }
 
         private void SetStatus(string text)
