@@ -41,6 +41,10 @@ namespace Ronin7.EditorTools
             UnityEventTools.AddPersistentListener(launchBtn.onClick,
                 new UnityEngine.Events.UnityAction(launcher.LaunchNext));
 
+            // Parkour Grounds console (cycle-5 retrofit, kept here so rebuilds stay correct):
+            // hub-mode-gated door to the dedicated training annex scene.
+            AddHubParkourConsole(hubRoot);
+
             // Briefing point: empty anchor for a future per-chapter briefing DialoguePlayer.
             var briefingPointGo = new GameObject("BriefingPoint");
             briefingPointGo.transform.SetParent(hubRoot.transform, false);

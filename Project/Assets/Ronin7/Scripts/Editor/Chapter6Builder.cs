@@ -428,6 +428,10 @@ namespace Ronin7.EditorTools
             ReverbZonePlacer.AutoTagInteriorVolumes();
             ReverbZonePlacer.PlaceReverbZonesForInteriorVolumes();
 
+            // ---- Parkour summit route (cycle-5 retrofit, kept in the builder so rebuilds stay
+            // correct): climbable terraces/rocks/bell tower + the hold ladder to the summit deck. ----
+            AddDojoSummitRoute(world);
+
             // ---- Save + register. ----
             EnsureFolder(SceneFolder);
             SettingsPanelBuilder.BuildSettingsPanel();

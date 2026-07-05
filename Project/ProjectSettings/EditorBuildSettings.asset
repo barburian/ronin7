@@ -50,6 +50,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Ronin7/Scenes/Ch16_ThroneOfAshes.unity
     guid: 7826a1cfce7129a428c200a285020691
+  - enabled: 1
+    path: Assets/Ronin7/Scenes/ParkourGrounds.unity
+    guid: daf4f7791cfbc0c418049c38f90126ac
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 9b706728c01987b43bdf3acac015b69a, type: 2}
     com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
