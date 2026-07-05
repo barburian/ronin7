@@ -397,22 +397,18 @@ namespace Ronin7.EditorTools
         /// completion is flag-keyed (ch1_complete), not scene-keyed.</summary>
         private static CampaignDirector EnsureChapterCampaignDirector()
         {
-            var missions = new[]
+            // Chapter restructure: every mission ENTERS through its ship-prologue scene (briefing
+            // aboard the Cairn → descend console → the planet scene). Completion tracking follows
+            // these entry names; SaveSystem's v2 migration renames legacy planet-scene completions.
+            var missions = new CampaignDirector.Mission[Prologues.Length];
+            for (int i = 0; i < Prologues.Length; i++)
             {
-                new CampaignDirector.Mission { id = "CH02", entryScene = "Ch02_Auction" },
-                new CampaignDirector.Mission { id = "CH03", entryScene = "Ch03_SwordRemembers" },
-                new CampaignDirector.Mission { id = "CH04", entryScene = "Ch04_OverseersHunt" },
-                new CampaignDirector.Mission { id = "CH05", entryScene = "Ch05_DebtOfAshes" },
-                new CampaignDirector.Mission { id = "CH06", entryScene = "Ch06_IronDojo" },
-                new CampaignDirector.Mission { id = "CH07", entryScene = "Ch07_ForgottenNames" },
-                new CampaignDirector.Mission { id = "CH08", entryScene = "Ch08_SilentGarden" },
-                new CampaignDirector.Mission { id = "CH09", entryScene = "Ch09_PitAndTheDeep" },
-                new CampaignDirector.Mission { id = "CH10", entryScene = "Ch10_LedgerOfRust" },
-                new CampaignDirector.Mission { id = "CH11", entryScene = "Ch11_GhostsAndOrigins" },
-                new CampaignDirector.Mission { id = "CH12", entryScene = "Ch12_TheFracture" },
-                new CampaignDirector.Mission { id = "CH13", entryScene = "Ch13_SterileReckoning" },
-                new CampaignDirector.Mission { id = "CH16", entryScene = "Ch16_ThroneOfAshes" },
-            };
+                missions[i] = new CampaignDirector.Mission
+                {
+                    id = Prologues[i].id,
+                    entryScene = PrologueSceneNameFor(Prologues[i].mainScene),
+                };
+            }
 
             var director = AssetDatabase.LoadAssetAtPath<CampaignDirector>(ChapterCampaignPath);
             if (director == null)

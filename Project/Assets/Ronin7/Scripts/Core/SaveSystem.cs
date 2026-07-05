@@ -144,7 +144,18 @@ namespace Ronin7.Core
         /// </summary>
         private static SaveData Migrate(SaveData data)
         {
-            // No structural changes through the current version; just stamp it as current.
+            if (data.version < 2)
+            {
+                // v2 (chapter restructure): campaign missions now enter through the ship-prologue
+                // scenes, and completion tracking follows the CampaignDirector's entry names. A v1
+                // save that completed "Ch02_Auction" must read as having completed "Ch02_Prologue"
+                // or the launcher would replay finished chapters.
+                for (int i = 0; i < data.completedPlanetScenes.Count; i++)
+                    data.completedPlanetScenes[i] = PrologueSceneNames.Rename(data.completedPlanetScenes[i]);
+                data.lastPlanetScene = PrologueSceneNames.Rename(data.lastPlanetScene);
+                data.version = 2;
+            }
+
             data.version = SaveData.CurrentVersion;
             return data;
         }
