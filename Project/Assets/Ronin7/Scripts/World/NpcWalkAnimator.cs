@@ -21,6 +21,7 @@ namespace Ronin7.World
         public const string LegRBoneName = "Rig_LegR";
         public const string ArmLBoneName = "Rig_ArmL";
         public const string ArmRBoneName = "Rig_ArmR";
+        public const string JawBoneName = "Rig_Jaw";
 
         [Tooltip("Speed (m/s) at which the swing reaches full amplitude.")]
         [SerializeField] private float fullSwingSpeed = 1.2f;

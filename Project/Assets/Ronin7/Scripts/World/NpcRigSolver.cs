@@ -20,12 +20,15 @@ namespace Ronin7.World
         public float torsoHalfWidth;
         /// <summary>Z used for every joint (the body's depth center).</summary>
         public float centerZ;
+        /// <summary>Y of the jaw hinge (the TMJ/ear line); jaw-weighted vertices sit below it.</summary>
+        public float jawPivotY;
 
         public Vector3 BodyJoint => new Vector3(0f, hipY, centerZ);
         public Vector3 HipL => new Vector3(-torsoHalfWidth * 0.5f, hipY, centerZ);
         public Vector3 HipR => new Vector3(torsoHalfWidth * 0.5f, hipY, centerZ);
         public Vector3 ShoulderL => new Vector3(-torsoHalfWidth, shoulderY, centerZ);
         public Vector3 ShoulderR => new Vector3(torsoHalfWidth, shoulderY, centerZ);
+        public Vector3 JawJoint => new Vector3(0f, jawPivotY, centerZ);
     }
 
     /// <summary>
@@ -42,7 +45,8 @@ namespace Ronin7.World
         public const int BoneLegR = 2;
         public const int BoneArmL = 3;
         public const int BoneArmR = 4;
-        public const int BoneCount = 5;
+        public const int BoneJaw = 5;
+        public const int BoneCount = 6;
 
         // Proportion heuristics (fractions of bounds height/width). Tuned for the stylized
         // humanoid cast; characters that deviate (robes, thrones) just end up mostly Body-weighted,
@@ -54,6 +58,16 @@ namespace Ronin7.World
         private const float LegHipBlendFrac = 0.10f;      // leg→body blend band below hip (of height)
         private const float ArmBlendFrac = 0.06f;         // arm→body blend band past torso edge (of width)
         private const float ArmMinHeightFrac = 0.30f;     // below this, outboard verts are still legs/skirt
+
+        // Jaw heuristics (fractions of bounds height): the hinge sits at the TMJ/ear line, weights
+        // ramp in from the hinge down to the mouth/chin, fade out again below the chin (neck), and
+        // apply only to the FRONT of the head (z past center) so the skull/back stays rigid.
+        private const float JawPivotFrac = 0.92f;         // jaw hinge (ear line) at ~92% of height
+        private const float JawFullFrac = 0.885f;         // full jaw weight from mouth level down…
+        private const float JawChinFrac = 0.86f;          // …to the chin,
+        private const float JawNeckFrac = 0.845f;         // fading to zero by the neck
+        private const float JawFaceDepthFrac = 0.03f;     // z past head center for full face weight
+        private const float JawMaxWeight = 0.85f;         // chin never fully detaches from Body
 
         public static NpcRigLayout SolveLayout(Bounds rootSpaceBounds)
         {
@@ -67,6 +81,7 @@ namespace Ronin7.World
                 shoulderY = b.min.y + b.size.y * ShoulderHeightFrac,
                 torsoHalfWidth = b.size.x * TorsoHalfWidthFrac,
                 centerZ = b.center.z,
+                jawPivotY = b.min.y + b.size.y * JawPivotFrac,
             };
         }
 
@@ -94,6 +109,20 @@ namespace Ronin7.World
                 float band = l.width * LegSideBlendFrac;
                 float tR = Mathf.InverseLerp(-band, band, v.x);
                 return MakeWeight3(BoneLegL, legW * (1f - tR), BoneLegR, legW * tR, BoneBody, 1f - legW);
+            }
+
+            // Jaw: lower-front head vertices (mouth/chin) swing with Rig_Jaw so VO amplitude can
+            // open the mouth (see NpcTalkAnimator). Ramp in from the hinge line down to the mouth,
+            // ramp out below the chin toward the neck, and only forward of the head's depth center.
+            float jawTopY = l.minY + l.height * JawPivotFrac;
+            float jawNeckY = l.minY + l.height * JawNeckFrac;
+            if (v.y < jawTopY && v.y > jawNeckY && v.z > l.centerZ)
+            {
+                float openW = Mathf.InverseLerp(jawTopY, l.minY + l.height * JawFullFrac, v.y);
+                float chinW = Mathf.InverseLerp(jawNeckY, l.minY + l.height * JawChinFrac, v.y);
+                float faceW = Mathf.InverseLerp(l.centerZ, l.centerZ + l.height * JawFaceDepthFrac, v.z);
+                float w = Mathf.Min(openW, chinW) * faceW * JawMaxWeight;
+                if (w > 0f) return MakeWeight(BoneJaw, w, BoneBody, 1f - w);
             }
 
             return MakeWeight(BoneBody, 1f, BoneBody, 0f);

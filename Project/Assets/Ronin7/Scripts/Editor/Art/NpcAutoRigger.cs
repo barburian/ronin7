@@ -49,8 +49,16 @@ namespace Ronin7.Editor.Art
             GameObject root = PrefabUtility.LoadPrefabContents(path);
             try
             {
-                if (root.GetComponentInChildren<SkinnedMeshRenderer>(true) != null)
-                    return RigResult.Skipped; // already rigged
+                var existingSmr = root.GetComponentInChildren<SkinnedMeshRenderer>(true);
+                if (existingSmr != null)
+                {
+                    // Already rigged: upgrade in place if the rig predates the jaw bone. The baked
+                    // _Skinned mesh already stores root-space vertices, so weights can be re-solved
+                    // without the (long-deleted) static source mesh.
+                    if (FindDeep(root.transform, NpcWalkAnimator.JawBoneName) != null)
+                        return RigResult.Skipped; // current rig — nothing to do
+                    return UpgradeRigWithJaw(root, existingSmr, path);
+                }
 
                 var filters = root.GetComponentsInChildren<MeshFilter>(true);
                 if (filters.Length != 1)
@@ -106,7 +114,10 @@ namespace Ronin7.Editor.Art
                 Transform legR = NewChild(rigRoot, NpcWalkAnimator.LegRBoneName, layout.HipR);
                 Transform armL = NewChild(body, NpcWalkAnimator.ArmLBoneName, layout.ShoulderL);
                 Transform armR = NewChild(body, NpcWalkAnimator.ArmRBoneName, layout.ShoulderR);
-                Transform[] bones = { body, legL, legR, armL, armR };
+                // Jaw under the body so it follows the torso bob/talk nod. NewChild takes the
+                // parent-LOCAL position, so joints under `body` subtract its own offset.
+                Transform jaw = NewChild(body, NpcWalkAnimator.JawBoneName, layout.JawJoint - layout.BodyJoint);
+                Transform[] bones = { body, legL, legR, armL, armR, jaw };
 
                 var bindposes = new Matrix4x4[bones.Length];
                 for (int i = 0; i < bones.Length; i++)
@@ -152,6 +163,51 @@ namespace Ronin7.Editor.Art
             {
                 PrefabUtility.UnloadPrefabContents(root);
             }
+        }
+
+        /// <summary>
+        /// Upgrades a pre-jaw 5-bone rig in place: re-solves the baked mesh's weights with the
+        /// 6-bone solver (the _Skinned asset's vertices are already in root space), adds the
+        /// Rig_Jaw bone under Rig_Body, and appends its bindpose. The existing five bones keep
+        /// their transforms, so old bindposes/weights stay valid for non-jaw vertices.
+        /// </summary>
+        private static RigResult UpgradeRigWithJaw(GameObject root, SkinnedMeshRenderer smr, string path)
+        {
+            Mesh mesh = smr.sharedMesh;
+            Transform body = FindDeep(root.transform, NpcWalkAnimator.BodyBoneName);
+            if (mesh == null || body == null || smr.bones == null || smr.bones.Length != NpcRigSolver.BoneCount - 1)
+                return RigResult.Skipped; // not the 5-bone auto-rig this upgrade targets
+
+            NpcRigLayout layout = NpcRigSolver.SolveLayout(mesh.bounds);
+
+            Transform jaw = NewChild(body, NpcWalkAnimator.JawBoneName, layout.JawJoint - layout.BodyJoint);
+            var bones = new Transform[NpcRigSolver.BoneCount];
+            for (int i = 0; i < smr.bones.Length; i++) bones[i] = smr.bones[i];
+            bones[NpcRigSolver.BoneJaw] = jaw;
+
+            // Bindposes before weights: a weight referencing bone 5 must never exist while the
+            // mesh still carries only 5 bindposes.
+            var bindposes = new Matrix4x4[bones.Length];
+            for (int i = 0; i < bones.Length; i++)
+                bindposes[i] = bones[i].worldToLocalMatrix * root.transform.localToWorldMatrix;
+            mesh.bindposes = bindposes;
+            mesh.boneWeights = NpcRigSolver.Solve(mesh.vertices, layout);
+            smr.bones = bones;
+
+            EditorUtility.SetDirty(mesh);
+            PrefabUtility.SaveAsPrefabAsset(root, path);
+            return RigResult.Rigged;
+        }
+
+        private static Transform FindDeep(Transform t, string name)
+        {
+            if (t.name == name) return t;
+            for (int i = 0; i < t.childCount; i++)
+            {
+                var found = FindDeep(t.GetChild(i), name);
+                if (found != null) return found;
+            }
+            return null;
         }
 
         private static void EnsureMeshReadable(Mesh mesh)

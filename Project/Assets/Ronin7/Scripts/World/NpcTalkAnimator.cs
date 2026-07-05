@@ -56,6 +56,9 @@ namespace Ronin7.World
 
         [Tooltip("Max pitch nod, in degrees, at full talk amplitude.")]
         [SerializeField] private float maxPitchDegrees = 3.5f;
+        [Tooltip("Max jaw-open angle, in degrees, at full talk amplitude (needs the Rig_Jaw bone " +
+                 "baked by NpcAutoRigger; rigs without one keep the nod-only behavior).")]
+        [SerializeField] private float maxJawDegrees = 14f;
         [Tooltip("RMS amplitude below which audio reads as silence (no nod).")]
         [SerializeField] private float noiseFloor = 0.01f;
         [Tooltip("RMS amplitude at which the nod reaches full amplitude.")]
@@ -64,7 +67,9 @@ namespace Ronin7.World
         [SerializeField] private float smoothSpeed = 6f;
 
         private Transform body;
+        private Transform jaw;
         private Quaternion bodyRestRotation;
+        private Quaternion jawRestRotation;
         private StoryNpc storyNpc;
         private float[] sampleBuffer;
         private float weight;
@@ -89,6 +94,7 @@ namespace Ronin7.World
 
             storyNpc = GetComponent<StoryNpc>();
             sampleBuffer = new float[SampleCount];
+            jaw = FindDeep(transform, NpcWalkAnimator.JawBoneName); // null on pre-jaw rigs: nod-only
         }
 
         // LateUpdate so it runs after any movement/animation this frame, matching NpcWalkAnimator.
@@ -125,13 +131,18 @@ namespace Ronin7.World
                 if (!driving)
                 {
                     bodyRestRotation = body.localRotation;
+                    if (jaw != null) jawRestRotation = jaw.localRotation;
                     driving = true;
                 }
                 body.localRotation = bodyRestRotation * Quaternion.AngleAxis(weight * maxPitchDegrees, Vector3.right);
+                // Amplitude opens the mouth directly: the per-frame RMS fluctuation of speech gives
+                // the natural open/close flapping without any extra oscillator.
+                if (jaw != null) jaw.localRotation = jawRestRotation * Quaternion.AngleAxis(weight * maxJawDegrees, Vector3.right);
             }
             else if (driving)
             {
                 body.localRotation = bodyRestRotation;
+                if (jaw != null) jaw.localRotation = jawRestRotation;
                 driving = false;
             }
         }

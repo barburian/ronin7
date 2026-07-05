@@ -105,6 +105,22 @@ Mesh:
     e31: 0
     e32: 0
     e33: 1
+  - e00: 1
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 1
+    e12: 0
+    e13: -0.4191797
+    e20: 0
+    e21: 0
+    e22: 1
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 1
   m_BoneNameHashes: 
   m_RootBoneNameHash: 0
   m_BonesAABB:
@@ -118,6 +134,8 @@ Mesh:
     m_Max: {x: -0.00015625358, y: 0.105625, z: -0.10449217}
   - m_Min: {x: 0.00015623122, y: -0.39828125, z: -0.2626953}
     m_Max: {x: 0.08804685, y: 0.09390625, z: -0.069335945}
+  - m_Min: {x: Infinity, y: Infinity, z: Infinity}
+    m_Max: {x: -Infinity, y: -Infinity, z: -Infinity}
   m_VariableBoneCountWeights:
     m_Data: 
   m_MeshCompression: 0
