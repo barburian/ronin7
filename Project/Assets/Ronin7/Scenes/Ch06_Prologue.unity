@@ -1414,12 +1414,12 @@ MonoBehaviour:
     text: The Iron Dojo. Three masters, one citadel, and a bell that hasn't rung
       since the purge.
     seconds: 4.785
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: a4ff56253463ead4d84053affafaaf99, type: 3}
   - speaker: Kessler
     text: "Morrigan's waiting at the window. Climb, fight, and don't let the beauty
       fool you \u2014 it's a cage."
     seconds: 5.2799997
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 88044d54c64259b47ba2eef8fbfe86cb, type: 3}
   textMesh: {fileID: 1095073660}
   panelRoot: {fileID: 2006079931}
   audioSource: {fileID: 270965912}

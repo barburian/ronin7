@@ -7380,11 +7380,11 @@ MonoBehaviour:
     text: Rust keeps better records than men. The ledger below has a page with your
       number on it.
     seconds: 4.785
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 68f752b1fa7da2c4088755fe98ad37e8, type: 3}
   - speaker: Kessler
     text: Cassie and Vess are already counting. Don't keep them waiting.
     seconds: 3.41
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 89f4af7ce34309347b3e0dc311bd73bc, type: 3}
   textMesh: {fileID: 311724270}
   panelRoot: {fileID: 1168632323}
   audioSource: {fileID: 1598845600}

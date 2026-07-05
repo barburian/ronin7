@@ -1414,11 +1414,11 @@ MonoBehaviour:
     text: A reliquary of dead lanes and kept blades. The names they erased are shelved
       down there.
     seconds: 4.84
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 58a6f3ada80accc4cbe04edb168bfa9a, type: 3}
   - speaker: Kessler
     text: Coral Vex knows the stacks. Find her, and bring the names home.
     seconds: 3.465
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 02c763920a79a61449b07303e2bff656, type: 3}
   textMesh: {fileID: 1095073660}
   panelRoot: {fileID: 2006079931}
   audioSource: {fileID: 270965912}

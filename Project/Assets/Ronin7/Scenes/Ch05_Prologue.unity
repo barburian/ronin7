@@ -9067,11 +9067,11 @@ MonoBehaviour:
   - speaker: Kessler
     text: Kael Vor. A name the Program hung its bodies on. The ledger says he's here.
     seconds: 4.125
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7a147eed327a8b544bd219edab14398d, type: 3}
   - speaker: Kessler
     text: Ashes pay their debts, Cipher. Go collect.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: fc476589d217c244ba852b727b2dc0ee, type: 3}
   textMesh: {fileID: 230015447}
   panelRoot: {fileID: 1294554290}
   audioSource: {fileID: 2005995700}

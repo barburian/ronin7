@@ -8373,16 +8373,16 @@ MonoBehaviour:
     text: The auction moon. Half the sector's scum bidding on salvage that isn't
       theirs.
     seconds: 4.29
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e6d23d4792a0800408eb40bc05dee219, type: 3}
   - speaker: Kessler
     text: Your sword is down there, Cipher. And somebody paid a lot to make sure
       it never reaches the block.
     seconds: 5.39
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 16c9cadcd0677de449b974921cb1be65, type: 3}
   - speaker: Kessler
     text: Get in, find Mira, get out. I'll keep the Cairn warm.
     seconds: 3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f528d54e42c906041aba3dfdb5be0aa6, type: 3}
   textMesh: {fileID: 185955029}
   panelRoot: {fileID: 598452340}
   audioSource: {fileID: 1648442358}

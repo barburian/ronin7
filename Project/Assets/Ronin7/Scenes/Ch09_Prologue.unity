@@ -7380,12 +7380,12 @@ MonoBehaviour:
     text: The pit goes down further than the charts admit. Sable says the water draws
       itself.
     seconds: 4.565
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 4f5b64ae4a8a7494b9b20fdbcaa3c825, type: 3}
   - speaker: Kessler
     text: There's a voice in the deep that reaches every world at once. Go hear it
       before it hears you.
     seconds: 5.115
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0a1f0cb3ebdf85a4db5b3867cde05890, type: 3}
   textMesh: {fileID: 311724270}
   panelRoot: {fileID: 1168632323}
   audioSource: {fileID: 1598845600}

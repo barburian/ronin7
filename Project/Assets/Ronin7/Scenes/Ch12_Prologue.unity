@@ -814,12 +814,12 @@ MonoBehaviour:
     text: "Cold deck. Frost makes every rail a promise it won't keep \u2014 Gryph's
       words, not mine."
     seconds: 4.62
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 93c8f0e9efa9d1141bffb94d767f5e91, type: 3}
   - speaker: Kessler
     text: The record's whole down there. It says who drew the leash. Go read the
       name.
     seconds: 4.18
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 865861649d67707479475c4f3db3143a, type: 3}
   textMesh: {fileID: 128073417}
   panelRoot: {fileID: 1916357156}
   audioSource: {fileID: 188553630}

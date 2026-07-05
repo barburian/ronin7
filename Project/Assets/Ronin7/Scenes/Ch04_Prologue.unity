@@ -9067,12 +9067,12 @@ MonoBehaviour:
   - speaker: Kessler
     text: The Overseer's hunters found our wake. They're sweeping the port below.
     seconds: 3.905
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7c2b3fa9a75c66a47a1ce4ac0f95a897, type: 3}
   - speaker: Kessler
     text: "Somebody sabotaged your killswitch \u2014 the answer is down there with
       the hunt. Don't let them box you in."
     seconds: 5.665
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 585b833b45afdce4588440d4647c8ff0, type: 3}
   textMesh: {fileID: 230015447}
   panelRoot: {fileID: 1294554290}
   audioSource: {fileID: 2005995700}

@@ -5176,12 +5176,12 @@ MonoBehaviour:
     text: That blade of yours has been talking in its sleep. The steel remembers
       what your head can't.
     seconds: 5.06
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 80f0460b50c805b44a7a69e6fcdc9e1f, type: 3}
   - speaker: Kessler
     text: There's a place on this rock that can read old metal. Take the sword down.
       Listen to what it says.
     seconds: 5.39
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: ccd8d26fbcc0e1f478ad97aa87f222d1, type: 3}
   textMesh: {fileID: 309720035}
   panelRoot: {fileID: 799512140}
   audioSource: {fileID: 1114111868}

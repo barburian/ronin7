@@ -6606,11 +6606,11 @@ MonoBehaviour:
   - speaker: Kessler
     text: A garden where nobody speaks above the wind. Khall's grief grows here.
     seconds: 3.85
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: aec215056ce3180449f3a24769f1d0f3, type: 3}
   - speaker: Kessler
     text: Walk it quiet, Cipher. Some answers only come to those who stop swinging.
     seconds: 4.015
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0533e08dd6af12b49b9e0442114723b6, type: 3}
   textMesh: {fileID: 166113347}
   panelRoot: {fileID: 1116462743}
   audioSource: {fileID: 1372663426}

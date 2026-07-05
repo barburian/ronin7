@@ -813,12 +813,12 @@ MonoBehaviour:
   - speaker: Kessler
     text: Ghosts first, origins after. That's the order the dead prefer.
     seconds: 3.41
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7f41ab4d7884ac84dba7dc2c70029ce3, type: 3}
   - speaker: Kessler
     text: "The Unbroken ward is real \u2014 I've watched a man take a killing blow
       and stand. Watch for it."
     seconds: 5.005
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: c763ea0d00cab2044a7c62afcbb9ba06, type: 3}
   textMesh: {fileID: 128073417}
   panelRoot: {fileID: 1916357156}
   audioSource: {fileID: 188553630}

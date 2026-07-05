@@ -197,5 +197,82 @@ namespace Ronin7.EditorTools
                 lines[i] = new DialogueLine { speaker = "Kessler", text = texts[i], seconds = Mathf.Clamp(texts[i].Length * 0.055f, 3f, 9f) };
             return lines;
         }
+
+        // ==================== Prologue VO (manifest export + clip wiring) ====================
+
+        private const string PrologueVoiceFolder = "Assets/Ronin7/Art/Generated/Audio/Voice";
+
+        /// <summary>Clip name for a prologue briefing line: prologue_ch02_00_kessler.</summary>
+        internal static string PrologueClipName(string chapterId, int index)
+            => $"prologue_{chapterId.ToLowerInvariant()}_{index:00}_kessler";
+
+        /// <summary>
+        /// Exports the 13 Kessler briefings as a voice manifest for generate_voice.py (same JSON
+        /// shape as ChapterVoiceManifest). Pipeline: export → run the python generator (edge-tts,
+        /// Kessler = en-US-GuyNeural) → "Wire Prologue Voice Clips".
+        /// </summary>
+        [MenuItem("Tools/Space Samurai/Audio/Export Prologue Voice Manifest", priority = 111)]
+        public static void ExportPrologueVoiceManifest()
+        {
+            var sb = new System.Text.StringBuilder("{\n  \"lines\": [\n");
+            bool first = true;
+            foreach (var spec in Prologues)
+            {
+                for (int i = 0; i < spec.briefing.Length; i++)
+                {
+                    if (!first) sb.Append(",\n");
+                    first = false;
+                    string text = spec.briefing[i].Replace("\"", "\\\"");
+                    sb.Append($"    {{ \"file\": \"{PrologueClipName(spec.id, i)}\", \"speaker\": \"Kessler\", \"text\": \"{text}\" }}");
+                }
+            }
+            sb.Append("\n  ]\n}\n");
+            string path = $"{PrologueVoiceFolder}/prologue_voice_manifest.json";
+            System.IO.File.WriteAllText(path, sb.ToString());
+            AssetDatabase.Refresh();
+            Debug.Log($"[ShipPrologue] Voice manifest exported to {path}.");
+        }
+
+        /// <summary>
+        /// Wires generated prologue VO clips into the 13 prologue scenes' briefing DialoguePlayers
+        /// (additive, idempotent — mirrors ChapterVoiceWirer, but each prologue has exactly one
+        /// dialogue so clip names resolve directly from the Prologues table).
+        /// </summary>
+        [MenuItem("Tools/Space Samurai/Audio/Wire Prologue Voice Clips", priority = 112)]
+        public static void WirePrologueVoiceClips()
+        {
+            int resolved = 0, total = 0;
+            foreach (var spec in Prologues)
+            {
+                string scenePath = $"{SceneFolder}/{PrologueSceneNameFor(spec.mainScene)}.unity";
+                var scene = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+                var dp = Object.FindAnyObjectByType<DialoguePlayer>(FindObjectsInactive.Include);
+                if (dp == null) { Debug.LogWarning($"[ShipPrologue] No DialoguePlayer in {scenePath}"); continue; }
+
+                var so = new SerializedObject(dp);
+                var linesProp = so.FindProperty("lines");
+                bool dirty = false;
+                for (int i = 0; i < linesProp.arraySize; i++)
+                {
+                    total++;
+                    var clipProp = linesProp.GetArrayElementAtIndex(i).FindPropertyRelative("clip");
+                    if (clipProp.objectReferenceValue != null) { resolved++; continue; }
+                    string clipName = PrologueClipName(spec.id, i);
+                    var clip = AssetDatabase.LoadAssetAtPath<AudioClip>($"{PrologueVoiceFolder}/{clipName}.wav")
+                               ?? AssetDatabase.LoadAssetAtPath<AudioClip>($"{PrologueVoiceFolder}/{clipName}.mp3");
+                    if (clip == null) { Debug.LogWarning($"[ShipPrologue] Missing clip {clipName}"); continue; }
+                    clipProp.objectReferenceValue = clip;
+                    resolved++;
+                    dirty = true;
+                }
+                if (dirty)
+                {
+                    so.ApplyModifiedPropertiesWithoutUndo();
+                    EditorSceneManager.MarkSceneDirty(scene);
+                    EditorSceneManager.SaveScene(scene);
+                }
+            }
+            Debug.Log($"[ShipPrologue] Voice wiring: {resolved}/{total} briefing lines have clips.");
+        }
     }
 }

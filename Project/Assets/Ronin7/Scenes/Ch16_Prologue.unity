@@ -6685,12 +6685,12 @@ MonoBehaviour:
     text: End of the ladder. Khall's throne, and every ash we've raised on the way
       up.
     seconds: 4.18
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: b61ee9d621d2e3447816036c230f9823, type: 3}
   - speaker: Kessler
     text: "Whatever you are when you walk back up that ramp \u2014 that's what you
       chose to be. Go finish it."
     seconds: 5.115
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 7789c07cb4248d34c8de7f804203aa64, type: 3}
   textMesh: {fileID: 901949483}
   panelRoot: {fileID: 1525072835}
   audioSource: {fileID: 1559829928}

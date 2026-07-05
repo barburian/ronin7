@@ -5494,11 +5494,11 @@ MonoBehaviour:
     text: Dr. Heris built you, built the switch, and built the flaw that saved you.
       All in one pair of hands.
     seconds: 5.445
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: f5d10bb0e4f4f964db886705646112f4, type: 3}
   - speaker: Kessler
     text: She's in the sterile levels. This one's not a fight, Cipher. It's a reckoning.
     seconds: 4.29
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e83351c44d41a174db165c79967a02a6, type: 3}
   textMesh: {fileID: 1914190405}
   panelRoot: {fileID: 913884612}
   audioSource: {fileID: 1012865930}
