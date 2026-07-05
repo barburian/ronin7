@@ -285,21 +285,44 @@ namespace Ronin7.EditorTools
             so.ApplyModifiedPropertiesWithoutUndo();
         }
 
-        private static void BuildProp(Transform parent, string name, Vector3 pos, Vector3 scale, Color color)
+        private static void BuildProp(Transform parent, string name, Vector3 pos, Vector3 scale, Color color) =>
+            BuildProp(parent, name, pos, Quaternion.identity, scale, color);
+
+        /// <summary>Overload taking an explicit local rotation — used by the room-detail archetypes below
+        /// for offset/rotated crate scatter.</summary>
+        private static void BuildProp(Transform parent, string name, Vector3 pos, Quaternion rot, Vector3 scale, Color color)
         {
             var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
             go.name = name;
             go.transform.SetParent(parent, false);
             go.transform.localPosition = pos;
+            go.transform.localRotation = rot;
             go.transform.localScale = scale;
             go.GetComponent<MeshFilter>().sharedMesh = LowPolyMeshes.ForType(PrimitiveType.Cube);
+            TintShared(go.GetComponent<Renderer>(), color);
+        }
+
+        /// <summary>Cylinder-primitive counterpart of <see cref="BuildProp"/>, used by the cable-run
+        /// archetype below. Keeps its collider, matching every other room-detail prop.</summary>
+        private static void BuildCylinderProp(Transform parent, string name, Vector3 pos, Quaternion rot, Vector3 scale, Color color)
+        {
+            var go = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            go.name = name;
+            go.transform.SetParent(parent, false);
+            go.transform.localPosition = pos;
+            go.transform.localRotation = rot;
+            go.transform.localScale = scale;
+            go.GetComponent<MeshFilter>().sharedMesh = LowPolyMeshes.ForType(PrimitiveType.Cylinder);
             TintShared(go.GetComponent<Renderer>(), color);
         }
 
         /// <summary>Scatters a few cheap, shared-material detail props (crates, a console with an emissive
         /// screen, a ceiling pipe) inside a room to make it feel lived-in. Kept light for
         /// Quest. <paramref name="center"/> is the room floor-center; <paramref name="halfExtents"/> is the
-        /// half-size (x,z) of the usable floor; <paramref name="accent"/> tints the props.</summary>
+        /// half-size (x,z) of the usable floor; <paramref name="accent"/> tints the props.
+        /// On top of that fixed base template, 1-2 <see cref="PickRoomDetailArchetypes"/>-selected extra
+        /// props are added so every room doesn't read as the identical 3-prop cluster (deterministic per
+        /// <paramref name="name"/>, so rebuilding a chapter reproduces the same layout).</summary>
         private static void BuildRoomDetails(Transform parent, string name, Vector3 center, Vector2 halfExtents, Color accent)
         {
             float hx = halfExtents.x, hz = halfExtents.y;
@@ -326,6 +349,140 @@ namespace Ronin7.EditorTools
             // Ceiling pipe running along x near the -z wall (up at the ceiling, so it clears doorways).
             BuildProp(parent, name + "_Pipe", new Vector3(center.x, RoomH - 0.2f, center.z - hz + 0.4f),
                 new Vector3(2f * hx - 0.8f, 0.18f, 0.18f), new Color(0.3f, 0.32f, 0.36f));
+
+            foreach (int archetype in PickRoomDetailArchetypes(name))
+                BuildRoomDetailArchetype(archetype, parent, name, center, halfExtents, accent);
+        }
+
+        // ---- Room-detail variety: deterministic archetype selection + the archetypes themselves. ----
+        // Breaks up the identical base template above (survey's last-ranked immersion gap) without
+        // touching it, by adding 1-3 extra renderers per room picked from a stable per-room-name hash.
+
+        /// <summary>FNV-1a string hash. Deterministic across processes/sessions — unlike
+        /// <see cref="string.GetHashCode"/>, which .NET randomizes per-process for security — so
+        /// per-room prop selection stays reproducible across editor sessions and chapter rebuilds.</summary>
+        internal static uint StableHash(string s)
+        {
+            unchecked
+            {
+                uint hash = 2166136261;
+                foreach (char c in s)
+                {
+                    hash ^= c;
+                    hash *= 16777619;
+                }
+                return hash;
+            }
+        }
+
+        /// <summary>Picks 1-2 archetype indices (0=StackedCrates, 1=CableRun, 2=FloorGrate, 3=SignagePanel)
+        /// for <paramref name="roomName"/>, deterministically from its <see cref="StableHash"/>. A second
+        /// archetype is only added when the pair's combined renderer cost stays within the ~4-added-renderer
+        /// budget (StackedCrates=3, CableRun=2, FloorGrate=1, SignagePanel=1).</summary>
+        internal static int[] PickRoomDetailArchetypes(string roomName)
+        {
+            uint hash = StableHash(roomName);
+            int primary = (int)(hash % 4);
+            if (hash % 3 != 0) return new[] { primary };
+
+            int second = (int)((hash / 3) % 4);
+            if (second == primary) second = (second + 1) % 4;
+
+            return RoomDetailArchetypeRendererCount(primary) + RoomDetailArchetypeRendererCount(second) <= 4
+                ? new[] { primary, second }
+                : new[] { primary };
+        }
+
+        /// <summary>Marker child name used to test whether <paramref name="archetype"/> was already built
+        /// for a room — <see cref="ChapterRoomDetailsVarietyWirer"/> uses this for idempotence.</summary>
+        internal static string RoomDetailArchetypeMarkerSuffix(int archetype) => archetype switch
+        {
+            0 => "_StackA",
+            1 => "_CableA",
+            2 => "_Grate",
+            3 => "_Signage",
+            _ => "_Unknown",
+        };
+
+        /// <summary>Renderer/GameObject count each archetype adds — BuildStackedCratesExtra (3),
+        /// BuildCableRunExtra (2), BuildFloorGrateExtra (1), BuildSignagePanelExtra (1). Used both for the
+        /// pairing budget above and by <see cref="ChapterRoomDetailsVarietyWirer"/> to report an accurate
+        /// added-prop count.</summary>
+        internal static int RoomDetailArchetypeRendererCount(int archetype) => archetype switch
+        {
+            0 => 3,
+            1 => 2,
+            2 => 1,
+            3 => 1,
+            _ => 0,
+        };
+
+        private static void BuildRoomDetailArchetype(int archetype, Transform parent, string name, Vector3 center, Vector2 halfExtents, Color accent)
+        {
+            switch (archetype)
+            {
+                case 0: BuildStackedCratesExtra(parent, name, center, halfExtents, accent); break;
+                case 1: BuildCableRunExtra(parent, name, center, halfExtents, accent); break;
+                case 2: BuildFloorGrateExtra(parent, name, center, halfExtents, accent); break;
+                case 3: BuildSignagePanelExtra(parent, name, center, halfExtents, accent); break;
+            }
+        }
+
+        /// <summary>Archetype 0: a second, smaller crate stack in the corner diagonally opposite the base
+        /// cluster (base crates always sit -x/-z; door gaps are centred on a wall span, so every corner —
+        /// including this one — stays clear). 3 offset, Y-rotated cubes for a "dumped in a hurry" look.</summary>
+        private static void BuildStackedCratesExtra(Transform parent, string name, Vector3 center, Vector2 halfExtents, Color accent)
+        {
+            float hx = halfExtents.x, hz = halfExtents.y;
+            float cx = center.x + hx - 0.85f;
+            float cz = center.z + hz - 0.85f;
+            var lo = new Color(accent.r * 0.75f, accent.g * 0.75f, accent.b * 0.75f);
+            var hi = new Color(accent.r * 1.05f, accent.g * 1.05f, accent.b * 1.05f);
+            BuildProp(parent, name + "_StackA", new Vector3(cx, 0.4f, cz), Quaternion.Euler(0f, 12f, 0f), new Vector3(0.8f, 0.8f, 0.8f), lo);
+            BuildProp(parent, name + "_StackB", new Vector3(cx - 0.15f, 1.0f, cz + 0.1f), Quaternion.Euler(0f, -18f, 0f), new Vector3(0.55f, 0.5f, 0.55f), hi);
+            BuildProp(parent, name + "_StackC", new Vector3(cx + 0.55f, 0.3f, cz - 0.15f), Quaternion.Euler(0f, 25f, 0f), new Vector3(0.5f, 0.6f, 0.5f), lo);
+        }
+
+        /// <summary>Archetype 1: a cable run — 2 thin cylinder segments hugging the -x wall near the
+        /// ceiling (the ceiling pipe always runs along x near the -z wall, so this reads as a distinct
+        /// conduit on a different wall) with a slight vertical offset between segments for a "sagging
+        /// cable" look.</summary>
+        private static void BuildCableRunExtra(Transform parent, string name, Vector3 center, Vector2 halfExtents, Color accent)
+        {
+            float hx = halfExtents.x, hz = halfExtents.y;
+            float wallX = center.x - hx + 0.12f;
+            float y = RoomH - 0.35f;
+            float half = Mathf.Min(hz * 0.7f, hz - 0.3f);
+            var cableColor = new Color(0.12f, 0.12f, 0.14f);
+            var rot = Quaternion.Euler(90f, 0f, 0f); // cylinder's local +Y (length) axis -> world +Z
+            BuildCylinderProp(parent, name + "_CableA", new Vector3(wallX, y, center.z - half * 0.5f), rot,
+                new Vector3(0.05f, half * 0.5f, 0.05f), cableColor);
+            BuildCylinderProp(parent, name + "_CableB", new Vector3(wallX, y - 0.08f, center.z + half * 0.5f), rot,
+                new Vector3(0.05f, half * 0.5f, 0.05f), cableColor);
+        }
+
+        /// <summary>Archetype 2: a flat floor vent/grate panel against the +z wall (opposite the crate
+        /// corner and console), darker than the room accent so it reads as recessed metal grating. Nearly
+        /// flush with the floor (0.05m thick) so it never trips up locomotion.</summary>
+        private static void BuildFloorGrateExtra(Transform parent, string name, Vector3 center, Vector2 halfExtents, Color accent)
+        {
+            float hx = halfExtents.x, hz = halfExtents.y;
+            float gx = center.x - hx * 0.2f;
+            float gz = center.z + hz - 0.6f;
+            var grateColor = new Color(accent.r * 0.35f, accent.g * 0.35f, accent.b * 0.35f);
+            BuildProp(parent, name + "_Grate", new Vector3(gx, 0.03f, gz), new Vector3(1.1f, 0.05f, 0.7f), grateColor);
+        }
+
+        /// <summary>Archetype 3: a small bright wall placard near the +z wall (where side-room doors tend
+        /// to land) at head height — same "bright reads-as-lit" trick as the console screen, so it reads
+        /// as way-finding signage against the dark interior.</summary>
+        private static void BuildSignagePanelExtra(Transform parent, string name, Vector3 center, Vector2 halfExtents, Color accent)
+        {
+            float hx = halfExtents.x, hz = halfExtents.y;
+            float sx = center.x - hx * 0.4f;
+            float sz = center.z + hz - 0.1f;
+            BuildProp(parent, name + "_Signage", new Vector3(sx, 2.0f, sz), new Vector3(0.55f, 0.3f, 0.05f),
+                new Color(1f, 0.7f, 0.15f));
         }
 
         // ---- Moved from Ep01Builder (deleted) — still called by Chapter1Builder / Galaxy1Builder. ----
