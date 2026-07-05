@@ -29,6 +29,64 @@ namespace Ronin7.EditorTools
             WireCh12SentinelSquadIntoScene();
         }
 
+        /// <summary>Second variety wave (cycle 9): Ch10 tier-4 gang war + Ch13 sterile hive cascade,
+        /// same additive open→build→save idiom as the Ch7/Ch12 pass above.</summary>
+        [MenuItem("Tools/Space Samurai/Chapters/Wire Enemy Variety Into Ch10 + Ch13 Scenes")]
+        public static void WireEnemyVarietyIntoCh10Ch13Scenes()
+        {
+            WireCh10GangWarIntoScene();
+            WireCh13HiveCascadeIntoScene();
+        }
+
+        private static void WireCh10GangWarIntoScene()
+        {
+            var scene = EditorSceneManager.OpenScene(Ch10ScenePath, OpenSceneMode.Single);
+            if (GameObject.Find("Tier4GangWarSpawner") != null)
+            {
+                Debug.Log("[ChapterEnemyVarietyWirer] Ch10: gang war already wired — skipping.");
+                return;
+            }
+            Ch10BuildGangWarPocket();
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log("[ChapterEnemyVarietyWirer] Ch10: tier-4 gang war wired (6 brawlers + proximity spawner).");
+        }
+
+        private static void WireCh13HiveCascadeIntoScene()
+        {
+            var scene = EditorSceneManager.OpenScene(Ch13ScenePath, OpenSceneMode.Single);
+            if (GameObject.Find("SterileHiveCascade") != null)
+            {
+                Debug.Log("[ChapterEnemyVarietyWirer] Ch13: hive cascade already wired — skipping.");
+                return;
+            }
+
+            // The lab-security trio's authored positions (Chapter13Builder.labSecurityPositions).
+            Vector3[] squadPositions = { new Vector3(-3f, 0f, 22f), new Vector3(3f, 0f, 22f), new Vector3(0f, 0f, 27f) };
+            var squad = new List<MeleeAttacker>();
+            foreach (var enemy in Object.FindObjectsByType<Enemy>(FindObjectsInactive.Include))
+            {
+                foreach (var pos in squadPositions)
+                {
+                    if ((enemy.transform.position - pos).sqrMagnitude < 0.01f)
+                    {
+                        squad.Add(enemy);
+                        break;
+                    }
+                }
+            }
+            if (squad.Count != 3)
+            {
+                Debug.LogError($"[ChapterEnemyVarietyWirer] Ch13: expected 3 lab-security enemies at the known positions, found {squad.Count} — aborting.");
+                return;
+            }
+
+            Ch13BuildHiveCascade(squad);
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log("[ChapterEnemyVarietyWirer] Ch13: sterile hive cascade wired over the lab-security trio.");
+        }
+
         private static void WireCh7GangWarIntoScene()
         {
             var scene = EditorSceneManager.OpenScene(Ch7ScenePath, OpenSceneMode.Single);

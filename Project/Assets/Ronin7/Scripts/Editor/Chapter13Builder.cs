@@ -195,12 +195,20 @@ namespace Ronin7.EditorTools
                 new Vector3(-3f, 0f, 22f), new Vector3(3f, 0f, 22f), new Vector3(0f, 0f, 27f),
             };
             var labSecurityHealths = new List<Object>();
+            var labSecurityEnemies = new List<MeleeAttacker>();
             foreach (var pos in labSecurityPositions)
             {
                 var e = BuildEnemy(pos, playerHealth, labSecurityDef);
                 e.gameObject.SetActive(false);
                 labSecurityHealths.Add(e.GetComponent<Health>());
+                labSecurityEnemies.Add(e);
             }
+
+            // ---- Hive cascade over the trio (enemy-variety retrofit, kept in the builder so
+            // rebuilds stay correct): the suppression science that fractured Ch12's cradle sentinels
+            // was scaled FROM these sterile levels — the same Attacking/Frozen/Conflicted desync on
+            // the lab security sells that origin. Mirrors Ch12BuildHiveCascade. ----
+            Ch13BuildHiveCascade(labSecurityEnemies);
 
             // ---- The Redactor: the mini-boss, generic-construct pipeline (no Named prefab exists for a
             // faceless Program enforcer — see class summary). Inactive until its own DefeatEnemies step. ----
@@ -323,6 +331,19 @@ namespace Ronin7.EditorTools
                       "rung 5 closes) -> her defection (Ally #9) -> the annex (Sallow, the absolution-body " +
                       "construct, Ally #10 — THE TEN COMPLETE) -> the Ch16 hook. 20 mission steps. NO new " +
                       "ability. Dr. Heris/Sallow resolve to real Named prefabs.");
+        }
+
+        /// <summary>Wires a <see cref="HiveCascadeController"/> over the lab-security trio (mirrors
+        /// Ch12BuildHiveCascade — built active; harmless while members are inactive, the
+        /// DefeatEnemies step's auto-activation starts the fight).</summary>
+        internal static HiveCascadeController Ch13BuildHiveCascade(List<MeleeAttacker> members)
+        {
+            var go = new GameObject("SterileHiveCascade");
+            var hive = go.AddComponent<HiveCascadeController>();
+            var so = new SerializedObject(hive);
+            SetObjectRefList(so, "members", members.ConvertAll(m => (Object)m));
+            so.ApplyModifiedPropertiesWithoutUndo();
+            return hive;
         }
 
         // ---- Data assets: per-encounter EnemyDefinitions (mirrors Ch9/Ch12's Ensure* convention). ----

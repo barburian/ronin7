@@ -403,6 +403,10 @@ namespace Ronin7.EditorTools
             ReverbZonePlacer.AutoTagInteriorVolumes();
             ReverbZonePlacer.PlaceReverbZonesForInteriorVolumes();
 
+            // ---- Tier-4 gang war (enemy-variety retrofit, kept in the builder so rebuilds stay
+            // correct): rival salvage crews brawling over the ledger's scrap. ----
+            Ch10BuildGangWarPocket();
+
             // ---- Save + register. ----
             EnsureFolder(SceneFolder);
             SettingsPanelBuilder.BuildSettingsPanel();
@@ -418,6 +422,70 @@ namespace Ronin7.EditorTools
                       "list (Ch11 bone-canyon + Ch12 cryo-vault nodes lit). 24 mission steps. Cassie-04 " +
                       "and Sever_Ninja-2 resolve to real Named prefabs; Vess falls back to " +
                       "PlaceholderCharacterBuilder's existing Humanoid-archetype spec.");
+        }
+
+        /// <summary>
+        /// Tier-4 gang war: two rival salvage crews (3v3 <see cref="FactionCombatant"/>s, mirrors
+        /// Ch7's pocket) pre-placed INACTIVE on the tier-4 landing, activated by a self-armed
+        /// <see cref="EnemyWaveSpawner"/> (ActivationRelay → Begin, 9m proximity poll) so the brawl
+        /// starts when the player arrives instead of resolving itself minutes earlier. Extra ambient
+        /// content: no mission step references these, so chapter gating is untouched.
+        /// </summary>
+        internal static void Ch10BuildGangWarPocket()
+        {
+            // Tier 4 floor at y=-6 (see tiers[]); capsules (half-height 0.9) stand on it.
+            float y = -6f + 0.9f;
+            Vector3[] rustCrewPos = { new Vector3(-4.5f, y, 74f), new Vector3(-3.5f, y, 77f), new Vector3(-4.5f, y, 79.5f) };
+            Vector3[] drifterCrewPos = { new Vector3(2.5f, y, 74f), new Vector3(1.5f, y, 77f), new Vector3(2.5f, y, 79.5f) };
+
+            var brawlers = new List<Health>();
+            for (int i = 0; i < rustCrewPos.Length; i++)
+                brawlers.Add(Ch10BuildBrawler(rustCrewPos[i], 0, $"RustCrewBrawler{i}"));
+            for (int i = 0; i < drifterCrewPos.Length; i++)
+                brawlers.Add(Ch10BuildBrawler(drifterCrewPos[i], 1, $"DrifterCrewBrawler{i}"));
+
+            var go = new GameObject("Tier4GangWarSpawner");
+            go.transform.position = new Vector3(-1f, -6f, 71f); // approach edge of the tier-4 landing
+            var spawner = go.AddComponent<EnemyWaveSpawner>();
+            var so = new SerializedObject(spawner);
+            var waves = so.FindProperty("waves");
+            waves.arraySize = 1;
+            var enemiesProp = waves.GetArrayElementAtIndex(0).FindPropertyRelative("enemies");
+            enemiesProp.arraySize = brawlers.Count;
+            for (int i = 0; i < brawlers.Count; i++)
+                enemiesProp.GetArrayElementAtIndex(i).objectReferenceValue = brawlers[i];
+            SetObjectRef(so, "triggerPoint", go.transform);
+            so.FindProperty("triggerRadius").floatValue = 9f;
+            so.ApplyModifiedPropertiesWithoutUndo();
+
+            var relay = go.AddComponent<ActivationRelay>();
+            UnityEventTools.AddPersistentListener(relay.OnEnabled, new UnityEngine.Events.UnityAction(spawner.Begin));
+        }
+
+        /// <summary>One inactive gang-war brawler (mirrors Ch7BuildFactionCombatant).</summary>
+        private static Health Ch10BuildBrawler(Vector3 position, int factionId, string name)
+        {
+            var root = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+            root.name = name;
+            root.transform.position = position;
+            root.transform.localScale = new Vector3(0.5f, 0.9f, 0.5f);
+            var bodyRenderer = root.GetComponent<Renderer>();
+
+            var health = root.AddComponent<Health>();
+            var healthSo = new SerializedObject(health);
+            // 60hp (vs Ch7's 45): with 3v3 at point-blank the crews mutually wiped in ~4s during QA;
+            // the extra pool keeps the brawl alive long enough for the arriving player to see it.
+            healthSo.FindProperty("maxHealth").floatValue = 60f;
+            healthSo.ApplyModifiedPropertiesWithoutUndo();
+
+            var combatant = root.AddComponent<FactionCombatant>();
+            combatant.SetFaction(factionId);
+            var so = new SerializedObject(combatant);
+            SetObjectRef(so, "bodyRenderer", bodyRenderer);
+            so.ApplyModifiedPropertiesWithoutUndo();
+
+            root.SetActive(false);
+            return health;
         }
 
         // ---- Data assets: per-encounter EnemyDefinitions (mirrors Ch9EnsureCoilRaiderDefinition). ----

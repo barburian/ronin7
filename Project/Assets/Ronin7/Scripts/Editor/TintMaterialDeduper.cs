@@ -43,7 +43,7 @@ namespace Ronin7.EditorTools
             var byKey = new Dictionary<string, Material>();
             int merged = 0;
 
-            foreach (var r in Object.FindObjectsByType<Renderer>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            foreach (var r in Object.FindObjectsByType<Renderer>(FindObjectsInactive.Include))
             {
                 var mats = r.sharedMaterials;
                 bool changed = false;

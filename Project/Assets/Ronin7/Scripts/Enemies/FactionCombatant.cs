@@ -30,6 +30,7 @@ namespace Ronin7.Enemies
         [SerializeField] private int factionId = 0;
 
         private Health currentTarget;
+        private Health ownHealth;
         private float groundY;
         private float timeSinceLastAttack;
         private float timeSinceLastRetarget;
@@ -49,6 +50,23 @@ namespace Ronin7.Enemies
         private void Awake()
         {
             groundY = transform.position.y;
+            ownHealth = GetComponent<Health>();
+            if (ownHealth != null) ownHealth.Died += OnDied;
+        }
+
+        private void OnDestroy()
+        {
+            if (ownHealth != null) ownHealth.Died -= OnDied;
+        }
+
+        /// <summary>Death: stop acting (a corpse must never keep chasing/attacking — before this fix
+        /// a dead brawler fought on invisibly) and topple like MeleeAttacker's corpse treatment.</summary>
+        private void OnDied()
+        {
+            currentTarget = null;
+            enabled = false;
+            transform.rotation = Quaternion.Euler(90f, transform.eulerAngles.y, 0f);
+            if (bodyRenderer != null) RendererTint.Apply(bodyRenderer, new Color(0.3f, 0.3f, 0.3f));
         }
 
         private void Update()
@@ -59,6 +77,10 @@ namespace Ronin7.Enemies
         /// <summary>Main combat loop: retarget, move, attack. Call from Update or tests.</summary>
         public void TickCombat(float deltaTime)
         {
+            // Dead units act on nothing (belt-and-braces beside the OnDied disable, and the guard
+            // tests exercise when driving TickCombat directly).
+            if (ownHealth != null && !ownHealth.IsAlive) return;
+
             timeSinceLastRetarget += deltaTime;
             if (timeSinceLastRetarget >= retargetInterval)
             {
