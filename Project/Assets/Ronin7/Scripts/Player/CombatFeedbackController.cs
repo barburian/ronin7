@@ -16,10 +16,7 @@ namespace Ronin7.Player
         [SerializeField] private float deflectTimeScale = 0.25f;
         [SerializeField] private float deflectRealSeconds = 0.15f;
 
-        private float defaultFixedDelta;
         private float slowMoEndUnscaled = -1f;
-
-        private void Awake() => defaultFixedDelta = Time.fixedDeltaTime;
 
         private void OnEnable()
         {
@@ -62,8 +59,7 @@ namespace Ronin7.Player
         private void OnDeflect(SwordDeflected e)
         {
             PulseBoth(0.8f, 0.12f);
-            Time.timeScale = deflectTimeScale;
-            Time.fixedDeltaTime = defaultFixedDelta * deflectTimeScale;
+            TimeScaleArbiter.SetRequest(TimeScaleChannel.DeflectSlowMo, deflectTimeScale);
             slowMoEndUnscaled = Time.unscaledTime + deflectRealSeconds;
         }
 
@@ -82,8 +78,7 @@ namespace Ronin7.Player
 
         private void RestoreTime()
         {
-            Time.timeScale = 1f;
-            Time.fixedDeltaTime = defaultFixedDelta;
+            TimeScaleArbiter.ClearRequest(TimeScaleChannel.DeflectSlowMo);
             slowMoEndUnscaled = -1f;
         }
 

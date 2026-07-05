@@ -23,12 +23,14 @@ namespace Ronin7.Player
     /// dashes and a held press activates the burst once charge allows it. Read via
     /// <c>WasPerformedThisFrame</c> so the Hold interaction is respected.
     ///
-    /// TIME-SCALE EFFECT: while active, <c>Time.timeScale</c> is slowed to <see cref="overdriveTimeScale"/>
-    /// and <c>Time.fixedDeltaTime</c> scaled to match, with the ORIGINAL fixedDeltaTime captured at
-    /// activation (never hardcoded — TimeManager stores it as a rational, not always 0.02). Both are
-    /// restored on natural end (charge empties) AND, as failsafes, in <see cref="OnDisable"/> and
-    /// <see cref="OnDestroy"/> — belt-and-suspenders, because a lingering non-1 timeScale surviving a
-    /// scene teardown would be catastrophic (every subsequent scene running slow or frozen). Publishes
+    /// TIME-SCALE EFFECT: while active, time is slowed to <see cref="overdriveTimeScale"/> via a
+    /// <see cref="TimeScaleArbiter"/> request on the <c>Overdrive</c> channel — the arbiter (not this
+    /// class) owns the canonical baseline fixedDeltaTime and composes overlapping slow-mo effects (e.g.
+    /// the deflect slow-mo) by taking the minimum scale, so this class never touches
+    /// <c>Time.timeScale</c>/<c>Time.fixedDeltaTime</c> directly. The request is released on natural end
+    /// (charge empties) AND, as failsafes, in <see cref="OnDisable"/> and <see cref="OnDestroy"/> —
+    /// belt-and-suspenders, because a lingering active request surviving a scene teardown would be
+    /// catastrophic (every subsequent scene running slow or frozen). Publishes
     /// <see cref="AbilityActivated"/> on activation so <c>EchoPresence</c> reacts, per that event's
     /// documented contract.
     ///
@@ -57,7 +59,6 @@ namespace Ronin7.Player
         [SerializeField] private Vector3 localOffset = new Vector3(0f, 0.02f, 0.06f);
 
         private OverdriveLogic logic;
-        private float originalFixedDeltaTime;
         private bool timeScaleApplied;
 
         private Renderer quadRenderer;
@@ -138,17 +139,14 @@ namespace Ronin7.Player
         private void ApplyTimeScale()
         {
             if (timeScaleApplied) return;
-            originalFixedDeltaTime = Time.fixedDeltaTime;
-            Time.timeScale = overdriveTimeScale;
-            Time.fixedDeltaTime = originalFixedDeltaTime * overdriveTimeScale;
+            TimeScaleArbiter.SetRequest(TimeScaleChannel.Overdrive, overdriveTimeScale);
             timeScaleApplied = true;
         }
 
         private void RestoreTimeScale()
         {
             if (!timeScaleApplied) return;
-            Time.timeScale = 1f;
-            Time.fixedDeltaTime = originalFixedDeltaTime;
+            TimeScaleArbiter.ClearRequest(TimeScaleChannel.Overdrive);
             timeScaleApplied = false;
         }
 

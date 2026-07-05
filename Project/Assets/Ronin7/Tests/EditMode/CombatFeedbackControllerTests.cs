@@ -23,6 +23,7 @@ namespace Ronin7.Tests.EditMode
         {
             if (_go != null) Object.DestroyImmediate(_go);
             EventBus.Clear();
+            TimeScaleArbiter.ResetForTests();
         }
 
         private static void Life(MonoBehaviour c, string method) =>
