@@ -52,6 +52,7 @@ namespace Ronin7.World.Story
         private bool isShowing;  // a line is currently on screen (drives the head-follow in LateUpdate)
         private bool justShown;  // snap the subtitle into place on the first frame instead of sliding in
         private bool started;    // play-once guard: a dialogue never replays
+        private bool finished;   // FinishDialogue guard: Finished fires exactly once per Play()
 
         private void Awake()
         {
@@ -107,6 +108,28 @@ namespace Ronin7.World.Story
             ownedAdvance?.Dispose();
             ownedAdvance = null;
             advanceResolved = null;
+
+            // Guarantee: a conversation that starts always finishes. If we're disabled mid-line
+            // (SetActive(false) or Destroy — Unity calls OnDisable before OnDestroy while the object
+            // is still alive), the coroutine dies without reaching FinishDialogue() below, which
+            // would leave consumers (TalkInteractor, MissionDirector, HackTerminal) waiting on
+            // Finished forever. Stop any playing line audio first (object is still alive here; on an
+            // outright Destroy the AudioSource dies with the GameObject anyway).
+            if (started && !finished)
+            {
+                if (audioSource != null) audioSource.Stop();
+                FinishDialogue();
+            }
+        }
+
+        private void OnDestroy()
+        {
+            // Fallback for the case OnDisable already ran once (component was already inactive) and
+            // only OnDestroy fires: still guarantee Finished exactly once.
+            if (started && !finished)
+            {
+                FinishDialogue();
+            }
         }
 
         private IEnumerator PlayRoutine()
@@ -251,6 +274,9 @@ namespace Ronin7.World.Story
 
         private void FinishDialogue()
         {
+            if (finished) return;
+            finished = true;
+
             isShowing = false;
             // Blank the text so the last line doesn't linger once the conversation ends.
             if (textMesh != null)

@@ -307,6 +307,10 @@ namespace Ronin7.Ship
 
         private void OnEnemyDestroyed(EnemyShipDestroyed evt)
         {
+            var ship = evt.Ship.GetComponent<EnemyShip>();
+            if (!alive.Contains(ship)) return;
+            alive.Remove(ship);
+
             aliveCount = Mathf.Max(0, aliveCount - 1);
             if (aliveCount == 0 && !encounterComplete)
             {
