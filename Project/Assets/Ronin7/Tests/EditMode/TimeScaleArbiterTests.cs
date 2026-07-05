@@ -63,7 +63,12 @@ namespace Ronin7.Tests.EditMode
             TimeScaleArbiter.ClearRequest(TimeScaleChannel.Overdrive);
 
             Assert.AreEqual(1f, Time.timeScale);
-            Assert.AreEqual(baseline, Time.fixedDeltaTime, 1e-9f);
+            // Within one Fixed Timestep quantum, not exact: Unity's fixedDeltaTime setter converts
+            // the float to a rational tick count (1/141120000s units), so a write-then-read never
+            // round-trips bit-exactly — each restore may land one ~7.1e-9 tick away. Asserting
+            // tighter than the quantum made this test fail whenever the session's timestep sat on
+            // a rounding boundary (reliably after any editor play session).
+            Assert.AreEqual(baseline, Time.fixedDeltaTime, 1.5e-8f);
         }
 
         [Test]
