@@ -1886,7 +1886,15 @@ namespace Ronin7.EditorTools
                 SetObjectRef(locoSo, "runAction", FindRef(inputRefs, "Right Hand", "Run"));
                 SetObjectRef(locoSo, "crouchAction", FindRef(inputRefs, "Left Hand", "Crouch"));
                 SetObjectRef(locoSo, "recenterAction", FindRef(inputRefs, "Right Hand", "Recenter"));
+                SetObjectRef(locoSo, "jumpAction", FindRef(inputRefs, "Left Hand", "Jump"));
                 locoSo.ApplyModifiedPropertiesWithoutUndo();
+
+                // Parkour: grip-based wall climbing (hands/grabbers self-resolve from VRRig).
+                var climb = rootGo.AddComponent<WallClimbLocomotion>();
+                var climbSo = new SerializedObject(climb);
+                SetObjectRef(climbSo, "leftGripAction", FindRef(inputRefs, "Left Hand", "Select"));
+                SetObjectRef(climbSo, "rightGripAction", FindRef(inputRefs, "Right Hand", "Select"));
+                climbSo.ApplyModifiedPropertiesWithoutUndo();
             }
 
             // VRRig references
@@ -2071,6 +2079,33 @@ namespace Ronin7.EditorTools
         /// reimport the asset and does NOT save the scene — it assigns the stable sub-assets, marks the scene
         /// dirty, and leaves the save to the user (Ctrl+S), mirroring a manual Inspector edit.
         /// </summary>
+        /// <summary>
+        /// Parkour retrofit: runs <see cref="RewireOpenScene"/> (which now also adds/wires
+        /// <see cref="WallClimbLocomotion"/> and the Jump action) across every scene in the build
+        /// list and saves each — the additive-patch route for shipping the parkour kit into scenes
+        /// built before it existed. Safe to re-run: rewiring is idempotent.
+        /// </summary>
+        [MenuItem("Tools/Space Samurai/Retrofit Parkour (all build scenes)", priority = 21)]
+        public static void RetrofitParkourAllScenes()
+        {
+            var setup = UnityEditor.SceneManagement.EditorSceneManager.GetSceneManagerSetup();
+            int patched = 0;
+            foreach (var entry in EditorBuildSettings.scenes)
+            {
+                if (!entry.enabled) continue;
+                var scene = UnityEditor.SceneManagement.EditorSceneManager.OpenScene(
+                    entry.path, UnityEditor.SceneManagement.OpenSceneMode.Single);
+                if (Object.FindAnyObjectByType<ContinuousLocomotion>(FindObjectsInactive.Include) == null)
+                    continue; // no on-foot rig here (pure menu/space scenes)
+                RewireOpenScene();
+                UnityEditor.SceneManagement.EditorSceneManager.SaveScene(scene);
+                patched++;
+            }
+            if (setup != null && setup.Length > 0)
+                UnityEditor.SceneManagement.EditorSceneManager.RestoreSceneManagerSetup(setup);
+            Debug.Log($"[XRRigBuilder] Parkour retrofit: {patched} scene(s) rewired+saved.");
+        }
+
         [MenuItem("Tools/Space Samurai/Rewire Input Actions (open scene)", priority = 20)]
         public static void RewireOpenScene()
         {
@@ -2111,10 +2146,22 @@ namespace Ronin7.EditorTools
                 SetObjectRef(so, "dashAction", FindRef(refs, "Right Hand", "Dash"));
                 SetObjectRef(so, "runAction", FindRef(refs, "Right Hand", "Run"));
                 SetObjectRef(so, "crouchAction", FindRef(refs, "Left Hand", "Crouch"));
+                SetObjectRef(so, "jumpAction", FindRef(refs, "Left Hand", "Jump"));
                 so.ApplyModifiedPropertiesWithoutUndo();
                 EditorUtility.SetDirty(loco);
                 components++;
                 objects.Add(loco.gameObject);
+
+                // Parkour retrofit: rigs built before wall climbing existed gain it here (the
+                // rewire pass is the standing additive-patch mechanism for rig components).
+                var climb = loco.GetComponent<WallClimbLocomotion>();
+                if (climb == null) climb = loco.gameObject.AddComponent<WallClimbLocomotion>();
+                var climbSo = new SerializedObject(climb);
+                SetObjectRef(climbSo, "leftGripAction", FindRef(refs, "Left Hand", "Select"));
+                SetObjectRef(climbSo, "rightGripAction", FindRef(refs, "Right Hand", "Select"));
+                climbSo.ApplyModifiedPropertiesWithoutUndo();
+                EditorUtility.SetDirty(climb);
+                components++;
             }
 
             foreach (var ship in Object.FindObjectsByType<ShipController>(FindObjectsInactive.Include))

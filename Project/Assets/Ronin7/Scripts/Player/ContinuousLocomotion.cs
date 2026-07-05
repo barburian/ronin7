@@ -27,10 +27,29 @@ namespace Ronin7.Player
         [SerializeField] private InputActionReference dashAction; // Button, right-hand A button
         [SerializeField] private InputActionReference runAction;  // Button, right joystick click: toggles run on/off
         [SerializeField] private InputActionReference crouchAction; // Button, left-hand X button: toggles crouch
+        [SerializeField] private InputActionReference jumpAction; // Button, left thumbstick click
 
         [Header("Move")]
         [SerializeField] private float moveSpeed = 2.5f;
         [SerializeField] private float gravity = -9.81f;
+
+        [Header("Jump")]
+        [Tooltip("Takeoff speed (m/s). 4.2 clears ~0.9m — a readable VR hop, not a rocket.")]
+        [SerializeField] private float jumpSpeed = 4.2f;
+
+        [Header("Wall Run")]
+        [Tooltip("Gravity multiplier while wall-running. The camera NEVER rolls — comfort rule.")]
+        [SerializeField, Range(0f, 1f)] private float wallRunGravityScale = 0.25f;
+        [Tooltip("Max seconds a single wall run can defy gravity before it decays back to normal.")]
+        [SerializeField] private float wallRunMaxSeconds = 2.5f;
+        [Tooltip("How far to the side a wall must be (from the capsule center) to count as adjacent.")]
+        [SerializeField] private float wallProbeDistance = 0.9f;
+        [Tooltip("Minimum horizontal speed to sustain a wall run (run-speed territory).")]
+        [SerializeField] private float wallRunMinSpeed = 3.5f;
+        [Tooltip("Horizontal push-off speed when jumping out of a wall run.")]
+        [SerializeField] private float wallJumpPushSpeed = 3.5f;
+        [Tooltip("Slowest allowed fall while wall-running, so the run reads as a run, not a slide.")]
+        [SerializeField] private float wallRunMaxFallSpeed = -1.5f;
 
         [Header("Dash")]
         [SerializeField] private float dashSpeed = 6f;
@@ -91,6 +110,13 @@ namespace Ronin7.Player
         private bool zeroGEnabled = false;
         private float zeroGDamping = 0.6f;
         private Vector3 driftVelocity = Vector3.zero;
+        private bool movementSuspended;
+        private Vector3 airImpulse;
+        private float wallRunTimer;
+        private Vector3 wallRunNormal;
+        private bool wallRunActive;
+
+        private static readonly RaycastHit[] WallProbeHits = new RaycastHit[4];
 
         private bool IsSliding => Time.time < slideEndTime;
         private bool IsDashing => Time.time < dashEndTime;
@@ -134,6 +160,35 @@ namespace Ronin7.Player
                 driftVelocity += worldVelocity;
         }
 
+        /// <summary>
+        /// While true, normal stick movement, gravity, jump/dash and posture input are all frozen —
+        /// <see cref="WallClimbLocomotion"/> owns the rig's motion (hand-anchored climbing). Turning
+        /// and head-capsule tracking stay live. Entering/leaving suspension clears vertical and air
+        /// velocity so climbing never inherits fall speed and vice versa.
+        /// </summary>
+        public bool MovementSuspended
+        {
+            get => movementSuspended;
+            set
+            {
+                if (movementSuspended == value) return;
+                movementSuspended = value;
+                verticalVelocity = 0f;
+                airImpulse = Vector3.zero;
+                wallRunTimer = 0f;
+            }
+        }
+
+        /// <summary>
+        /// World-space launch velocity for parkour exits (climb fling, wall jump): the Y component
+        /// replaces vertical velocity when rising, the horizontal part decays over ~half a second.
+        /// </summary>
+        public void AddAirImpulse(Vector3 worldVelocity)
+        {
+            if (worldVelocity.y > verticalVelocity) verticalVelocity = worldVelocity.y;
+            airImpulse += new Vector3(worldVelocity.x, 0f, worldVelocity.z);
+        }
+
         private void Awake()
         {
             controller = GetComponent<CharacterController>();
@@ -157,6 +212,7 @@ namespace Ronin7.Player
             dashAction?.action?.Enable();
             runAction?.action?.Enable();
             crouchAction?.action?.Enable();
+            jumpAction?.action?.Enable();
         }
 
         private void OnDisable()
@@ -166,6 +222,7 @@ namespace Ronin7.Player
             dashAction?.action?.Disable();
             runAction?.action?.Disable();
             crouchAction?.action?.Disable();
+            jumpAction?.action?.Disable();
 
             // Remove any crouch/slide offset we applied so it can't leak into the next scene's rig.
             var rig = VRRig.Instance;
@@ -183,10 +240,12 @@ namespace Ronin7.Player
         private void Update()
         {
             HandleTurn();
-            HandlePostureToggles();
-            TryStartDash();
             UpdateEyeHeight();
             MatchCapsuleToHead();
+            if (movementSuspended) return; // climbing owns motion; turn + head tracking stay live
+
+            HandlePostureToggles();
+            TryStartDash();
             HandleMove();
         }
 
@@ -346,12 +405,114 @@ namespace Ronin7.Player
                 horizontal = (forward * input.y + right * input.x) * speed;
             }
 
-            if (controller.isGrounded && verticalVelocity < 0f)
-                verticalVelocity = -2f;
-            verticalVelocity += gravity * Time.deltaTime;
+            bool grounded = controller.isGrounded;
+            if (grounded)
+            {
+                wallRunTimer = 0f;
+                if (verticalVelocity < 0f) verticalVelocity = -2f;
+            }
 
-            Vector3 motion = horizontal + Vector3.up * verticalVelocity;
+            // Wall run: airborne + run toggle + real speed + a wall beside the capsule. Gravity is
+            // scaled down (never rolled, never sideways-accelerated — comfort first) for a limited
+            // window so a fast runner can carry along a wall and jump off it.
+            wallRunActive = false;
+            float gravityScale = 1f;
+            if (!grounded && isRunning)
+            {
+                bool wallAdjacent = ProbeSideWall(out wallRunNormal);
+                gravityScale = WallRunGravityScale(
+                    grounded, isRunning, horizontal.magnitude, wallRunMinSpeed,
+                    wallAdjacent, wallRunTimer, wallRunMaxSeconds, wallRunGravityScale);
+                wallRunActive = gravityScale < 1f;
+            }
+
+            bool jumpPressed = jumpAction != null && jumpAction.action != null && jumpAction.action.WasPressedThisFrame();
+            if (jumpPressed)
+            {
+                if (grounded)
+                {
+                    verticalVelocity = jumpSpeed;
+                }
+                else if (wallRunActive)
+                {
+                    Vector3 v = WallJumpVelocity(wallRunNormal, wallJumpPushSpeed, jumpSpeed);
+                    verticalVelocity = v.y;
+                    airImpulse += new Vector3(v.x, 0f, v.z);
+                    wallRunTimer = wallRunMaxSeconds; // one wall jump ends this wall's run window
+                    wallRunActive = false;
+                }
+            }
+
+            if (wallRunActive)
+            {
+                wallRunTimer += Time.deltaTime;
+                if (vignette != null) vignette.SetIntensity(0.25f); // gentle tunnel, mirrors slide
+            }
+
+            verticalVelocity += gravity * gravityScale * Time.deltaTime;
+            if (wallRunActive && verticalVelocity < wallRunMaxFallSpeed)
+                verticalVelocity = wallRunMaxFallSpeed;
+
+            // Parkour exit impulses (climb fling / wall jump) decay over ~half a second.
+            airImpulse *= Mathf.Exp(-2.5f * Time.deltaTime);
+            if (grounded && airImpulse.sqrMagnitude < 0.05f) airImpulse = Vector3.zero;
+
+            Vector3 motion = horizontal + airImpulse + Vector3.up * verticalVelocity;
             controller.Move(motion * Time.deltaTime);
+        }
+
+        /// <summary>True when solid geometry sits within <see cref="wallProbeDistance"/> directly to
+        /// the capsule's left or right (head-flattened), returning the wall's horizontal normal.</summary>
+        private bool ProbeSideWall(out Vector3 normal)
+        {
+            normal = Vector3.zero;
+            Vector3 right = cameraTransform != null ? cameraTransform.right : transform.right;
+            right.y = 0f;
+            if (right.sqrMagnitude < 0.0001f) return false;
+            right.Normalize();
+
+            Vector3 origin = transform.TransformPoint(controller.center);
+            for (int side = 0; side < 2; side++)
+            {
+                Vector3 dir = side == 0 ? right : -right;
+                int count = Physics.RaycastNonAlloc(origin, dir, WallProbeHits, wallProbeDistance,
+                    Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
+                for (int i = 0; i < count; i++)
+                {
+                    if (WallProbeHits[i].transform.IsChildOf(transform)) continue;
+                    Vector3 n = WallProbeHits[i].normal;
+                    n.y = 0f;
+                    if (n.sqrMagnitude < 0.25f) continue; // floors/ramps don't count as walls
+                    normal = n.normalized;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Pure wall-run rule: gravity is scaled only while airborne, in run mode, moving at least
+        /// <paramref name="minSpeed"/> horizontally, with a wall adjacent, inside the per-wall time
+        /// window. Everything else returns 1 (full gravity). Public + unit-tested, mirrors
+        /// <see cref="ResolvePosture"/>'s pure-rule idiom.
+        /// </summary>
+        public static float WallRunGravityScale(
+            bool grounded, bool running, float horizontalSpeed, float minSpeed,
+            bool wallAdjacent, float timer, float maxSeconds, float scale)
+        {
+            if (grounded || !running || !wallAdjacent) return 1f;
+            if (horizontalSpeed < minSpeed) return 1f;
+            if (timer >= maxSeconds) return 1f;
+            return Mathf.Clamp01(scale);
+        }
+
+        /// <summary>Pure wall-jump velocity: push off along the wall's flattened normal plus the
+        /// standard takeoff. A degenerate normal still yields a clean vertical jump.</summary>
+        public static Vector3 WallJumpVelocity(Vector3 wallNormal, float pushSpeed, float jumpSpeed)
+        {
+            wallNormal.y = 0f;
+            Vector3 push = wallNormal.sqrMagnitude > 0.0001f ? wallNormal.normalized * pushSpeed : Vector3.zero;
+            return push + Vector3.up * jumpSpeed;
         }
 
         private void HandleZeroGMove()

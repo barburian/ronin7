@@ -14458,6 +14458,7 @@ GameObject:
   - component: {fileID: 1029920599}
   - component: {fileID: 1029920598}
   - component: {fileID: 1029920600}
+  - component: {fileID: 1029920601}
   m_Layer: 0
   m_Name: XR Origin (Space Samurai)
   m_TagString: Untagged
@@ -14659,8 +14660,16 @@ MonoBehaviour:
   dashAction: {fileID: 6571180890130299172, guid: d5a2441a867c2484c888f3631c932d48, type: 3}
   runAction: {fileID: -2818074070998909534, guid: d5a2441a867c2484c888f3631c932d48, type: 3}
   crouchAction: {fileID: -8526495731762133437, guid: d5a2441a867c2484c888f3631c932d48, type: 3}
+  jumpAction: {fileID: -5801332734228530350, guid: d5a2441a867c2484c888f3631c932d48, type: 3}
   moveSpeed: 2.5
   gravity: -9.81
+  jumpSpeed: 4.2
+  wallRunGravityScale: 0.25
+  wallRunMaxSeconds: 2.5
+  wallProbeDistance: 0.9
+  wallRunMinSpeed: 3.5
+  wallJumpPushSpeed: 3.5
+  wallRunMaxFallSpeed: -1.5
   dashSpeed: 6
   dashDuration: 0.15
   dashCooldown: 0.6
@@ -14795,6 +14804,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22262a2f65a16374e8c40340577e2e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Ronin7.Player::Ronin7.Player.BladeClashFeedback
+--- !u!114 &1029920601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029920581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53a764316671e3f47855e346ea54da00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Player::Ronin7.Player.WallClimbLocomotion
+  leftGripAction: {fileID: 7134430119224436027, guid: d5a2441a867c2484c888f3631c932d48, type: 3}
+  rightGripAction: {fileID: -4634371063929252884, guid: d5a2441a867c2484c888f3631c932d48, type: 3}
+  grabDetectRadius: 0.14
+  velocityHistoryFrames: 5
+  flingScale: 1.1
+  maxFlingSpeed: 5.5
 --- !u!1 &1029946426
 GameObject:
   m_ObjectHideFlags: 0

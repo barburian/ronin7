@@ -21,6 +21,10 @@ namespace Ronin7.Player
         private Grabbable held;
         private bool wasPressed;
 
+        /// <summary>True while this hand holds a <see cref="Grabbable"/> (e.g. the katana) — used by
+        /// <see cref="WallClimbLocomotion"/> so a full hand can never also grip a climbing hold.</summary>
+        public bool IsHolding => held != null;
+
         private static readonly Collider[] _grabHits = new Collider[8];
 
         private XRNode Node => leftHand ? XRNode.LeftHand : XRNode.RightHand;
