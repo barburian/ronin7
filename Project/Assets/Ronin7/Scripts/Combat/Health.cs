@@ -22,7 +22,17 @@ namespace Ronin7.Combat
     public readonly struct EntityDied
     {
         public readonly GameObject Entity;
-        public EntityDied(GameObject entity) => Entity = entity;
+        /// <summary>Source of the lethal <see cref="DamageInfo"/> (the killer), or null when the
+        /// death has no attribution (scripted deaths, legacy publishers). Lets campaign-stat
+        /// tracking distinguish player feats from NPC-vs-NPC kills (gang wars, friendly fire).</summary>
+        public readonly GameObject Killer;
+
+        public EntityDied(GameObject entity) : this(entity, null) { }
+        public EntityDied(GameObject entity, GameObject killer)
+        {
+            Entity = entity;
+            Killer = killer;
+        }
     }
 
     /// <summary>Standard health pool. Implements the Core damage contract so any system can hurt it.</summary>
@@ -87,7 +97,7 @@ namespace Ronin7.Combat
                 }
 
                 Died?.Invoke();
-                EventBus.Publish(new EntityDied(gameObject));
+                EventBus.Publish(new EntityDied(gameObject, info.Source));
             }
         }
 

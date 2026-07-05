@@ -79,6 +79,14 @@ namespace Ronin7.Flow
             // outside a drill would otherwise inflate the career stat. String-based GetComponent
             // keeps Flow decoupled from the Ronin7.Enemies assembly (rare event, cost is fine).
             if (evt.Entity != null && evt.Entity.GetComponent("TrainingDummy") != null) return;
+            // NPC-vs-NPC kills are not player feats: a gang-war brawler downing its rival, hive
+            // friendly fire, or an enemy killing a protected NPC must not advance career defeats or
+            // the kill streak (the player can just stand and watch Ch10's tier-4 brawl). The killer
+            // is the lethal DamageInfo's Source; combatant sources carry MeleeAttacker (enemies,
+            // dummies) or FactionCombatant. Same string-GetComponent decoupling idiom as above.
+            if (evt.Killer != null &&
+                (evt.Killer.GetComponent("MeleeAttacker") != null || evt.Killer.GetComponent("FactionCombatant") != null))
+                return;
             CampaignStats.RecordEnemyDefeated();
 
             // Kill streak (same guards as the defeat stat: no player death, no practice dummies).
@@ -106,6 +114,10 @@ namespace Ronin7.Flow
 
         private void OnSwordImpact(SwordImpact evt)
         {
+            // Practice targets don't build the career combo either (mirrors OnEntityDied's dummy
+            // exclusion — alternating swings between two dojo dummies would otherwise farm BEST COMBO).
+            if (evt.Victim != null && evt.Victim.GetComponent("TrainingDummy") != null) return;
+
             int targetId = evt.Victim != null ? evt.Victim.GetEntityId().GetHashCode() : 0;
             (comboCount, comboLastTargetId) =
                 NextCombo(comboCount, comboLastTargetId, comboLastHitTime, targetId, Time.time, ComboWindowSeconds, MaxCombo);

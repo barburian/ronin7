@@ -115,6 +115,11 @@ namespace Ronin7.Player
         private float wallRunTimer;
         private Vector3 wallRunNormal;
         private bool wallRunActive;
+        // Per-wall bookkeeping: the timer belongs to ONE wall (identified by its normal) and resets
+        // when a different wall engages mid-air, so chained runs (A → wall-jump → B) each get a full
+        // window. After a wall jump the jumped wall is banned until grounding or a different wall.
+        private Vector3 lastWallNormal;
+        private Vector3 wallJumpBanNormal;
 
         private static readonly RaycastHit[] WallProbeHits = new RaycastHit[4];
 
@@ -409,17 +414,35 @@ namespace Ronin7.Player
             if (grounded)
             {
                 wallRunTimer = 0f;
+                lastWallNormal = Vector3.zero;
+                wallJumpBanNormal = Vector3.zero;
                 if (verticalVelocity < 0f) verticalVelocity = -2f;
             }
 
             // Wall run: airborne + run toggle + real speed + a wall beside the capsule. Gravity is
             // scaled down (never rolled, never sideways-accelerated — comfort first) for a limited
-            // window so a fast runner can carry along a wall and jump off it.
+            // PER-WALL window so a fast runner can carry along a wall, jump off it, and catch the
+            // next wall with a fresh window (the hard course's transfer depends on this).
             wallRunActive = false;
             float gravityScale = 1f;
             if (!grounded && isRunning)
             {
                 bool wallAdjacent = ProbeSideWall(out wallRunNormal);
+                // The wall we just jumped off stays banned until grounding or a different wall.
+                if (wallAdjacent && wallJumpBanNormal != Vector3.zero &&
+                    Vector3.Dot(wallRunNormal, wallJumpBanNormal) > 0.9f)
+                {
+                    wallAdjacent = false;
+                }
+                if (wallAdjacent)
+                {
+                    if (Vector3.Dot(wallRunNormal, lastWallNormal) < 0.9f)
+                    {
+                        wallRunTimer = 0f; // a different wall: fresh window
+                        wallJumpBanNormal = Vector3.zero;
+                    }
+                    lastWallNormal = wallRunNormal;
+                }
                 gravityScale = WallRunGravityScale(
                     grounded, isRunning, horizontal.magnitude, wallRunMinSpeed,
                     wallAdjacent, wallRunTimer, wallRunMaxSeconds, wallRunGravityScale);
@@ -438,7 +461,10 @@ namespace Ronin7.Player
                     Vector3 v = WallJumpVelocity(wallRunNormal, wallJumpPushSpeed, jumpSpeed);
                     verticalVelocity = v.y;
                     airImpulse += new Vector3(v.x, 0f, v.z);
-                    wallRunTimer = wallRunMaxSeconds; // one wall jump ends this wall's run window
+                    // Ban THIS wall (can't re-latch it mid-air) but leave the timer free so the
+                    // next, different wall gets its own full window — chained transfers work.
+                    wallJumpBanNormal = wallRunNormal;
+                    lastWallNormal = Vector3.zero;
                     wallRunActive = false;
                 }
             }
@@ -453,9 +479,11 @@ namespace Ronin7.Player
             if (wallRunActive && verticalVelocity < wallRunMaxFallSpeed)
                 verticalVelocity = wallRunMaxFallSpeed;
 
-            // Parkour exit impulses (climb fling / wall jump) decay over ~half a second.
-            airImpulse *= Mathf.Exp(-2.5f * Time.deltaTime);
-            if (grounded && airImpulse.sqrMagnitude < 0.05f) airImpulse = Vector3.zero;
+            // Parkour exit impulses (climb fling / wall jump) decay over ~half a second AIRBORNE
+            // only — touchdown kills them outright. Residual impulse on the ground reads as
+            // uncommanded sliding in VR (comfort violation) and drags landings off small pads.
+            if (grounded) airImpulse = Vector3.zero;
+            else airImpulse *= Mathf.Exp(-2.5f * Time.deltaTime);
 
             Vector3 motion = horizontal + airImpulse + Vector3.up * verticalVelocity;
             controller.Move(motion * Time.deltaTime);

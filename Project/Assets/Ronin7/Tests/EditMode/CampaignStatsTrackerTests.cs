@@ -154,6 +154,86 @@ namespace Ronin7.Tests.EditMode
         }
 
         [Test]
+        public void NpcVsNpcKills_DoNotAdvanceDefeatsOrKillStreak()
+        {
+            // A gang-war brawler killing its rival: killer carries FactionCombatant — not a player
+            // feat (before the fix, watching Ch10's 3v3 brawl recorded BEST KILL STREAK 6).
+            var victim = new GameObject("RivalBrawler");
+            var killer = new GameObject("Brawler");
+            killer.AddComponent<Ronin7.Enemies.FactionCombatant>();
+            try
+            {
+                Invoke("OnEntityDied", new EntityDied(victim, killer));
+                Assert.AreEqual(0, CampaignStats.EnemiesDefeated, "NPC-vs-NPC kill must not count as a defeat.");
+                Assert.AreEqual(0, CampaignStats.BestKillStreak, "NPC-vs-NPC kill must not build the kill streak.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(victim);
+                Object.DestroyImmediate(killer);
+            }
+        }
+
+        [Test]
+        public void EnemyKillingProtectedNpc_DoesNotAdvanceDefeatsOrKillStreak()
+        {
+            // Killer carries Enemy (a MeleeAttacker subclass) — verifies the string-based
+            // GetComponent("MeleeAttacker") exclusion matches derived combatant types.
+            var victim = new GameObject("ProtectedNpc");
+            var killer = new GameObject("DominionEnemy");
+            killer.AddComponent<Ronin7.Enemies.Enemy>();
+            try
+            {
+                Invoke("OnEntityDied", new EntityDied(victim, killer));
+                Assert.AreEqual(0, CampaignStats.EnemiesDefeated, "An enemy's kill must not count as a player defeat.");
+                Assert.AreEqual(0, CampaignStats.BestKillStreak);
+            }
+            finally
+            {
+                Object.DestroyImmediate(victim);
+                Object.DestroyImmediate(killer);
+            }
+        }
+
+        [Test]
+        public void UnattributedKills_StillCount()
+        {
+            // Legacy/scripted EntityDied publishers carry no killer — behavior must not regress.
+            var victim = new GameObject("Enemy");
+            try
+            {
+                Invoke("OnEntityDied", new EntityDied(victim));
+                Assert.AreEqual(1, CampaignStats.EnemiesDefeated);
+                Assert.AreEqual(1, CampaignStats.BestKillStreak);
+            }
+            finally
+            {
+                Object.DestroyImmediate(victim);
+            }
+        }
+
+        [Test]
+        public void SwordImpacts_OnTrainingDummies_DoNotBuildBestCombo()
+        {
+            var dummyA = new GameObject("DummyA");
+            var dummyB = new GameObject("DummyB");
+            dummyA.AddComponent<Ronin7.Enemies.TrainingDummy>();
+            dummyB.AddComponent<Ronin7.Enemies.TrainingDummy>();
+            try
+            {
+                Invoke("OnSwordImpact", new SwordImpact(Vector3.zero, 5f, dummyA));
+                Invoke("OnSwordImpact", new SwordImpact(Vector3.zero, 5f, dummyB));
+                Assert.AreEqual(0, CampaignStats.BestCombo,
+                    "Alternating swings between practice dummies must not farm the career combo.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(dummyA);
+                Object.DestroyImmediate(dummyB);
+            }
+        }
+
+        [Test]
         public void PerfectParries_RecordParryStreak_AndPlayerHitBreaksIt()
         {
             Invoke("OnPerfectParry", new PerfectParry(Vector3.zero, null, 0.9f));

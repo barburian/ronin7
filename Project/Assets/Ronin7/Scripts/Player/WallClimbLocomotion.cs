@@ -71,8 +71,22 @@ namespace Ronin7.Player
         {
             ResolveRigRefs();
 
-            if (anchorHand != null && !HandStillValid(anchorIsLeft))
-                Release(applyFling: true);
+            if (anchorHand != null)
+            {
+                var grip = anchorIsLeft ? leftGripAction : rightGripAction;
+                bool gripHeld = grip != null && grip.action != null && grip.action.IsPressed();
+                if (!gripHeld)
+                {
+                    // Intentional let-go: the hand's velocity is the player's throw — fling.
+                    Release(applyFling: true);
+                }
+                else if (!HandOverClimbable(anchorHand, grabDetectRadius * 1.5f))
+                {
+                    // Hold LOST while still gripping (tracking spike, over-reach): the velocity that
+                    // broke the hold is noise, not intent — drop neutrally, never launch the player.
+                    Release(applyFling: false);
+                }
+            }
 
             if (anchorHand == null)
             {
@@ -114,15 +128,6 @@ namespace Ronin7.Player
             if (loco != null) loco.MovementSuspended = true;
             Haptics.Pulse(isLeft ? XRNode.LeftHand : XRNode.RightHand, 0.35f, 0.05f);
             return true;
-        }
-
-        private bool HandStillValid(bool isLeft)
-        {
-            var grip = isLeft ? leftGripAction : rightGripAction;
-            if (grip == null || grip.action == null || !grip.action.IsPressed()) return false;
-            // Once anchored, a small drift off the hold is forgiven (1.5x radius) so jittery
-            // tracking doesn't drop the player mid-climb.
-            return HandOverClimbable(anchorHand, grabDetectRadius * 1.5f);
         }
 
         private void Release(bool applyFling)

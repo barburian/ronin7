@@ -162,11 +162,14 @@ namespace Ronin7.World
         {
             while (Vector3.Distance(transform.position, anchor) > arriveThreshold)
             {
-                // Blocked on the way home (e.g. the player stands in the way): stop where we are
-                // rather than push through — FaceCameraRoutine runs from here just as well.
+                // Blocked on the way home — usually the approaching PLAYER's own capsule tripping
+                // the probe: wait in place and resume when the path clears. (An early yield-break
+                // here permanently abandoned the return, so a story beat could play with the NPC
+                // stranded up to wanderRadius from its scripted spot.)
                 if (NpcSteering.PathBlocked(transform, anchor, NpcSteering.Lookahead))
                 {
-                    yield break;
+                    yield return null;
+                    continue;
                 }
 
                 Vector3 to = anchor - transform.position;
