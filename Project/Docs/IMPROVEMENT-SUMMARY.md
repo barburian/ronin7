@@ -118,6 +118,22 @@ Continuous diagnose→implement→QA→commit loop over five objectives plus rev
   (`AudioClip.Create`+`CreateAsset` never persists PCM); `ProceduralAudioClipBuilder` now writes
   real 16-bit WAVs through the AudioImporter; 47 scene refs rewired, hand-authored ambiences preserved.
 
+### Also this run (post-objectives loop)
+- Review-driven fixes: Overdrive/deflect `TimeScaleArbiter` (Core; min-composition, canonical
+  baseline — a deflect during an Overdrive burst corrupted `fixedDeltaTime` across scenes);
+  `DialoguePlayer.Finished` guaranteed exactly once (closes talk/hack/mission soft-locks) +
+  `MissionDirector.Advance()` teardown backstop; `SpaceEncounterManager` foreign-kill guard;
+  `AudioDirector`/`CombatVfxController` duplicate-singleton NRE on boot-scene reload fixed
+  (`enabled = false` before deferred Destroy); Overdrive `OnApplicationPause` failsafe.
+- Room-detail variety: 4 hash-selected procedural prop archetypes on the shared template
+  (builder + additive wirer over the 5 template scenes, 40 props/24 rooms).
+- Stale refs retired: `CampaignDirector.asset` EP entries → current chapters; `Phase6_Boot`
+  `onFootScene` fallback → `Galaxy1_Ch1_Hub`.
+- **Both player builds verified green 2026-07-05** (Windows 0 errors ~1.5 GB 87 s; Quest APK
+  0 errors ~516 MB 299 s). Build-log SSAO warning is benign: SSAO exists only in `PC_Renderer`,
+  Android pins quality tier 0 = Mobile and nothing calls `SetQualityLevel` at runtime.
+  Final suite: **900 EditMode / 70 PlayMode, 0 fail, 0 skip.**
+
 ### Still open (this run)
 - Reverb preset variety collapses to Hallway/Hangar (`ReverbPresetSelector.RoomMaxSpan=6` is below
   real 8-20 m rooms) — ear-tune on hardware before changing.
