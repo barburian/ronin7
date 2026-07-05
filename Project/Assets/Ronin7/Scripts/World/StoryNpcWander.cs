@@ -108,11 +108,20 @@ namespace Ronin7.World
                     Vector2 offset = Random.insideUnitCircle * wanderRadius;
                     Vector3 dest = anchor + new Vector3(offset.x, 0f, offset.y);
 
+                    // Obstacle awareness (NpcSteering): skip legs that start blocked, abandon legs
+                    // that become blocked — the outer loop pauses and picks a different spot.
+                    bool legBlocked = NpcSteering.PathBlocked(transform, dest);
+
                     // Walk to destination.
-                    while (Vector3.Distance(transform.position, dest) > arriveThreshold)
+                    while (!legBlocked && Vector3.Distance(transform.position, dest) > arriveThreshold)
                     {
                         // Check pause condition each frame.
                         if (Paused || enemiesNearby)
+                        {
+                            break;
+                        }
+
+                        if (NpcSteering.PathBlocked(transform, dest, NpcSteering.Lookahead))
                         {
                             break;
                         }
@@ -153,6 +162,13 @@ namespace Ronin7.World
         {
             while (Vector3.Distance(transform.position, anchor) > arriveThreshold)
             {
+                // Blocked on the way home (e.g. the player stands in the way): stop where we are
+                // rather than push through — FaceCameraRoutine runs from here just as well.
+                if (NpcSteering.PathBlocked(transform, anchor, NpcSteering.Lookahead))
+                {
+                    yield break;
+                }
+
                 Vector3 to = anchor - transform.position;
                 if (faceTravel)
                 {

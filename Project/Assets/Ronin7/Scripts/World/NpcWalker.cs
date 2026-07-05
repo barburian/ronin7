@@ -23,6 +23,10 @@ namespace Ronin7.World
 
         [SerializeField] private float arriveThreshold = 0.15f;
 
+        [Tooltip("Seconds a leg may stay blocked by geometry/characters before the walker skips to " +
+                 "the next waypoint. Keeps scripted story walks from soft-locking behind an obstacle.")]
+        [SerializeField] private float blockedSkipSeconds = 1.5f;
+
         private bool hasWalked;
 
         private void OnEnable()
@@ -55,8 +59,21 @@ namespace Ronin7.World
             {
                 if (wp == null) continue;
 
+                float blockedSince = -1f;
                 while (Vector3.Distance(target.position, wp.position) > arriveThreshold)
                 {
+                    // Obstacle awareness (NpcSteering): a scripted walk must never push the NPC
+                    // through geometry — wait while blocked (the player often just stands in the
+                    // way), then skip to the next waypoint so the story beat can't soft-lock.
+                    if (NpcSteering.PathBlocked(target, wp.position, NpcSteering.Lookahead))
+                    {
+                        if (blockedSince < 0f) blockedSince = Time.time;
+                        if (Time.time - blockedSince >= blockedSkipSeconds) break;
+                        yield return null;
+                        continue;
+                    }
+                    blockedSince = -1f;
+
                     Vector3 to = wp.position - target.position;
                     if (faceTravel && to.sqrMagnitude > 0.0001f)
                     {

@@ -44,8 +44,18 @@ namespace Ronin7.World
                 Vector2 offset = Random.insideUnitCircle * wanderRadius;
                 Vector3 dest = home + new Vector3(offset.x, 0f, offset.y);
 
-                while (Vector3.Distance(transform.position, dest) > arriveThreshold)
+                // Obstacle awareness (NpcSteering): don't start a leg that runs through geometry,
+                // and abandon a leg the moment something solid appears ahead — the loop then just
+                // pauses and picks a different spot, so blocked wanderers idle instead of clipping.
+                bool blocked = NpcSteering.PathBlocked(transform, dest);
+
+                while (!blocked && Vector3.Distance(transform.position, dest) > arriveThreshold)
                 {
+                    if (NpcSteering.PathBlocked(transform, dest, NpcSteering.Lookahead))
+                    {
+                        break;
+                    }
+
                     Vector3 to = dest - transform.position;
                     if (faceTravel)
                     {
