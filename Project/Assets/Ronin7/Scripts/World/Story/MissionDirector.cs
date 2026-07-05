@@ -143,6 +143,10 @@ namespace Ronin7.World.Story
 
         private void OnNpcDialogueFinished()
         {
+            // DialoguePlayer now guarantees Finished fires even from OnDisable during scene
+            // teardown — don't advance/begin steps on a director that is itself going away.
+            if (!isActiveAndEnabled) return;
+
             pendingNpcCount--;
             if (pendingNpcCount <= 0)
             {
@@ -227,6 +231,9 @@ namespace Ronin7.World.Story
 
         private void OnDialogueFinished()
         {
+            // See OnNpcDialogueFinished: Finished can now arrive from a teardown-path OnDisable.
+            if (!isActiveAndEnabled) return;
+
             if (stepIndex >= 0 && stepIndex < steps.Count)
             {
                 MissionStep step = steps[stepIndex];
@@ -387,6 +394,11 @@ namespace Ronin7.World.Story
 
         private void Advance()
         {
+            // Backstop for every event path (dialogue, hack, waves, ...): DialoguePlayer's
+            // Finished guarantee can cascade events out of teardown-path OnDisables — never
+            // begin new steps (Instantiate/SetActive/StartCoroutine) on a director going away.
+            if (!isActiveAndEnabled) return;
+
             UnsubscribeFromCurrentStep();
             stepIndex++;
 

@@ -48,7 +48,10 @@ namespace Ronin7.Audio.Vfx
 
         private void Awake()
         {
-            if (Instance != null && Instance != this) { Destroy(gameObject); return; }
+            // enabled = false first: Destroy defers to end of frame, and a combat event firing
+            // this frame would hit the duplicate's never-initialized pool (same shape as the
+            // AudioDirector boot-scene-reload NRE).
+            if (Instance != null && Instance != this) { enabled = false; Destroy(gameObject); return; }
             Instance = this;
             DontDestroyOnLoad(gameObject);
 

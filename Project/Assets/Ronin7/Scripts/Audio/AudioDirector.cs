@@ -87,6 +87,11 @@ namespace Ronin7.Audio
         {
             if (Instance != null && Instance != this)
             {
+                // Destroy is deferred to end of frame, but Update would still run on this
+                // duplicate THIS frame with ambience/music/engine never created (we return
+                // before building them) — a guaranteed NRE on every boot-scene reload
+                // (Return to Menu / Game Over). Disabling first suppresses that.
+                enabled = false;
                 Destroy(gameObject);
                 return;
             }

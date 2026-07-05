@@ -106,6 +106,14 @@ namespace Ronin7.Player
             RestoreTimeScale();
         }
 
+        // Failsafe #3: Quest dashboard / focus loss can pause us mid-burst; without this, resume
+        // leaves the arbiter's Overdrive request active indefinitely (same failure mode
+        // CombatFeedbackController already guards against for the deflect channel).
+        private void OnApplicationPause(bool paused)
+        {
+            if (paused) RestoreTimeScale();
+        }
+
         private void OnSwordImpact(SwordImpact evt) => logic?.AddCharge();
 
         private void Update()
