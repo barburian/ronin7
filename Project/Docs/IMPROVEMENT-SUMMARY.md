@@ -78,8 +78,8 @@ plus an editor-wide immersion pass. **Test suite: 400 → 639 EditMode (0 skips)
 - NPC walk rig (procedural 5-bone skinning) and voice-over for all 13 story chapters committed.
 
 ### Still open
-- `ProjectSettings/EditorBuildSettings.asset` carries 12 dangling zero-GUID scene entries
-  (leftover from deleted EP-scenes) — discard vs. keep is a pending user decision.
+- ~~`EditorBuildSettings.asset` dangling entries~~ — closed by 2026-07-05 audit: the file now holds
+  exactly 14 clean entries (Boot + Hub + Ch02-Ch13 + Ch16), all valid GUIDs.
 - Orphan materials note still applies (~288 unreferenced, regenerable via `Editor/Art/ArtGenerationMenu`,
   reversible cleanup only).
 - ~~MeshCollider pass~~ — closed 2026-07-04: resolved by scene deletion, zero MeshColliders in current content (see Hygiene above).

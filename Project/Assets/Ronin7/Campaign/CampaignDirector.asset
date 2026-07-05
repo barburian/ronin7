@@ -13,19 +13,29 @@ MonoBehaviour:
   m_Name: CampaignDirector
   m_EditorClassIdentifier: Ronin7.Flow::Ronin7.Flow.CampaignDirector
   missions:
-  - id: EP01
-    entryScene: Galaxy1_EP01_Planet
-  - id: EP02
-    entryScene: Galaxy1_EP02_Docking
-  - id: EP03
-    entryScene: Galaxy1_EP03_Hauler
-  - id: EP04
-    entryScene: Galaxy1_EP04_JungleMoon
-  - id: EP05
-    entryScene: Galaxy1_EP05_MarketTier
-  - id: EP06
-    entryScene: Galaxy1_EP06_MedicalCompound
-  - id: EP07
-    entryScene: Galaxy1_EP07_MarketHub
-  - id: EP08
-    entryScene: Galaxy1_EP08_CargoHold
+  - id: CH02
+    entryScene: Ch02_Auction
+  - id: CH03
+    entryScene: Ch03_SwordRemembers
+  - id: CH04
+    entryScene: Ch04_OverseersHunt
+  - id: CH05
+    entryScene: Ch05_DebtOfAshes
+  - id: CH06
+    entryScene: Ch06_IronDojo
+  - id: CH07
+    entryScene: Ch07_ForgottenNames
+  - id: CH08
+    entryScene: Ch08_SilentGarden
+  - id: CH09
+    entryScene: Ch09_PitAndTheDeep
+  - id: CH10
+    entryScene: Ch10_LedgerOfRust
+  - id: CH11
+    entryScene: Ch11_GhostsAndOrigins
+  - id: CH12
+    entryScene: Ch12_TheFracture
+  - id: CH13
+    entryScene: Ch13_SterileReckoning
+  - id: CH16
+    entryScene: Ch16_ThroneOfAshes

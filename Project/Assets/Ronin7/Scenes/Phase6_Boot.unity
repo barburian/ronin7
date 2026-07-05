@@ -239,7 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b33a637de9502041847e37da8133547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Ronin7.Flow::Ronin7.Flow.GameFlowManager
-  onFootScene: Phase4_Zone
+  onFootScene: Galaxy1_Ch1_Hub
   mainMenuScene: Phase6_Boot
   shipHubScene: Galaxy1_Ch1_Hub
   loadFlightOnStart: 0
