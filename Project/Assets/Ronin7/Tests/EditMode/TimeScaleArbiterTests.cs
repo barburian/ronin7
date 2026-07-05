@@ -18,6 +18,12 @@ namespace Ronin7.Tests.EditMode
         [SetUp]
         public void SetUp()
         {
+            // Reset BEFORE each test too: a baseline captured earlier in the session (another
+            // fixture, or an editor play-mode run) differs from the current Time.fixedDeltaTime by
+            // float32 write-back rounding (~5e-9), which failed RestoresBaselineExactly's 1e-9
+            // assert only in full-suite order. Fresh capture per test makes the fixture
+            // order-independent.
+            TimeScaleArbiter.ResetForTests();
             originalFixedDeltaTime = Time.fixedDeltaTime;
         }
 
