@@ -6,24 +6,36 @@ using UnityEngine;
 namespace Ronin7.Editor.Art
 {
     /// <summary>
-    /// Bakes a procedural 5-bone walk rig into the single-mesh Tripo character prefabs under
-    /// Characters3D/Named/ so <see cref="NpcWalkAnimator"/> can swing their legs/arms while they
-    /// move (they previously slid around as one static mesh). Per prefab: transforms the mesh into
-    /// root space, computes bone weights via <see cref="NpcRigSolver"/>, saves the skinned mesh as
-    /// Named/Rigged/&lt;Name&gt;_Skinned.asset, and replaces the old MeshRenderer subtree with a
-    /// SkinnedMeshRenderer + Rig_Root bone hierarchy. Idempotent: prefabs that already contain a
-    /// SkinnedMeshRenderer are skipped, and multi-renderer prefabs (greybox placeholders) are left
-    /// alone. Prefab GUIDs are preserved, so every scene instance picks the rig up automatically.
+    /// Bakes a procedural 6-bone walk rig into the single-mesh Tripo character prefabs under
+    /// Characters3D/{Named,Enemies,Diversity}/ so <see cref="NpcWalkAnimator"/> can swing their
+    /// legs/arms while they move (they previously slid around as one static mesh). Per prefab:
+    /// transforms the mesh into root space, computes bone weights via <see cref="NpcRigSolver"/>,
+    /// saves the skinned mesh as &lt;prefab-dir&gt;/Rigged/&lt;Name&gt;_Skinned.asset, and replaces
+    /// the old MeshRenderer subtree with a SkinnedMeshRenderer + Rig_Root bone hierarchy. Idempotent:
+    /// prefabs that already contain a SkinnedMeshRenderer are skipped, and multi-renderer prefabs
+    /// (greybox placeholders) are left alone. Prefab GUIDs are preserved, so every scene instance
+    /// picks the rig up automatically. Non-humanoid meshes (drones) degrade to a body-weighted slide.
     /// </summary>
     public static class NpcAutoRigger
     {
-        private const string NamedFolder = "Assets/Ronin7/Art/Generated/Characters3D/Named";
-        private const string RiggedMeshFolder = NamedFolder + "/Rigged";
+        private const string CharRoot = "Assets/Ronin7/Art/Generated/Characters3D";
+        private const string NamedFolder = CharRoot + "/Named";
+        private const string EnemiesFolder = CharRoot + "/Enemies";
+        private const string DiversityFolder = CharRoot + "/Diversity";
 
         [MenuItem("Tools/Space Samurai/Art/Rig NPC Characters For Walk", priority = 210)]
-        public static void RigAllNamedCharacters()
+        public static void RigAllNamedCharacters() => RigFolder(NamedFolder, "Named");
+
+        [MenuItem("Tools/Space Samurai/Art/Rig Enemy Characters", priority = 211)]
+        public static void RigAllEnemies() => RigFolder(EnemiesFolder, "Enemies");
+
+        [MenuItem("Tools/Space Samurai/Art/Rig Filler Crowd", priority = 212)]
+        public static void RigAllFiller() => RigFolder(DiversityFolder, "Filler");
+
+        /// <summary>Rigs every single-mesh Tripo prefab found (recursively) under <paramref name="folder"/>.</summary>
+        public static void RigFolder(string folder, string label)
         {
-            string[] guids = AssetDatabase.FindAssets("t:Prefab", new[] { NamedFolder });
+            string[] guids = AssetDatabase.FindAssets("t:Prefab", new[] { folder });
             int rigged = 0, skipped = 0, failed = 0;
 
             foreach (string guid in guids)
@@ -39,7 +51,7 @@ namespace Ronin7.Editor.Art
 
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-            Debug.Log($"[NpcAutoRigger] Done: {rigged} rigged, {skipped} skipped (already rigged / not a single-mesh character), {failed} failed.");
+            Debug.Log($"[NpcAutoRigger] {label}: {rigged} rigged, {skipped} skipped (already rigged / not a single-mesh character), {failed} failed.");
         }
 
         private enum RigResult { Rigged, Skipped, Failed }
@@ -231,9 +243,13 @@ namespace Ronin7.Editor.Art
 
         private static void SaveMeshAsset(Mesh mesh, string prefabPath)
         {
-            if (!AssetDatabase.IsValidFolder(RiggedMeshFolder))
-                AssetDatabase.CreateFolder(NamedFolder, "Rigged");
-            string assetPath = $"{RiggedMeshFolder}/{Path.GetFileNameWithoutExtension(prefabPath)}_Skinned.asset";
+            // Store the baked skinned mesh in a Rigged/ subfolder next to the source prefab, so the
+            // same rigger works for Named/, Enemies/, and Diversity/<Type>/ alike.
+            string dir = Path.GetDirectoryName(prefabPath).Replace('\\', '/');
+            string riggedFolder = dir + "/Rigged";
+            if (!AssetDatabase.IsValidFolder(riggedFolder))
+                AssetDatabase.CreateFolder(dir, "Rigged");
+            string assetPath = $"{riggedFolder}/{Path.GetFileNameWithoutExtension(prefabPath)}_Skinned.asset";
             AssetDatabase.DeleteAsset(assetPath);
             AssetDatabase.CreateAsset(mesh, assetPath);
         }

@@ -1895,6 +1895,93 @@ Transform:
   - {fileID: 1453446485}
   m_Father: {fileID: 1072495001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &160386643
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 585634330}
+    m_Modifications:
+    - target: {fileID: 4776391108377555725, guid: 935bf006232a3774382394769e8898c5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.2785232
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776391108377555725, guid: 935bf006232a3774382394769e8898c5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5990233
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776391108377555725, guid: 935bf006232a3774382394769e8898c5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.47636652
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776391108377555725, guid: 935bf006232a3774382394769e8898c5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.73736864
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776391108377555725, guid: 935bf006232a3774382394769e8898c5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776391108377555725, guid: 935bf006232a3774382394769e8898c5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.67549056
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776391108377555725, guid: 935bf006232a3774382394769e8898c5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776391108377555725, guid: 935bf006232a3774382394769e8898c5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776391108377555725, guid: 935bf006232a3774382394769e8898c5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776391108377555725, guid: 935bf006232a3774382394769e8898c5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999889891324480986, guid: 935bf006232a3774382394769e8898c5, type: 3}
+      propertyPath: m_Name
+      value: Crowd_Ashkin_02
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6999889891324480986, guid: 935bf006232a3774382394769e8898c5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 160386646}
+  m_SourcePrefab: {fileID: 100100000, guid: 935bf006232a3774382394769e8898c5, type: 3}
+--- !u!4 &160386644 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4776391108377555725, guid: 935bf006232a3774382394769e8898c5, type: 3}
+  m_PrefabInstance: {fileID: 160386643}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &160386645 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6999889891324480986, guid: 935bf006232a3774382394769e8898c5, type: 3}
+  m_PrefabInstance: {fileID: 160386643}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &160386646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160386645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199deef060302294082d0eb4ae6f8f96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.World::Ronin7.World.NpcWander
+  wanderRadius: 4
+  moveSpeed: 1.2
+  faceTravel: 1
+  arriveThreshold: 0.15
+  pauseRange: {x: 0.5, y: 2.5}
 --- !u!1 &161445198
 GameObject:
   m_ObjectHideFlags: 0
@@ -2606,6 +2693,93 @@ MonoBehaviour:
   positionAction: {fileID: 2554422074516807192, guid: d5a2441a867c2484c888f3631c932d48, type: 3}
   rotationAction: {fileID: 6625066478895225713, guid: d5a2441a867c2484c888f3631c932d48, type: 3}
   useLocalSpace: 1
+--- !u!1001 &193095359
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 585634330}
+    m_Modifications:
+    - target: {fileID: 303082150280832923, guid: 46957ef41fcc86a47941dce187893f89, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.9976259
+      objectReference: {fileID: 0}
+    - target: {fileID: 303082150280832923, guid: 46957ef41fcc86a47941dce187893f89, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5990235
+      objectReference: {fileID: 0}
+    - target: {fileID: 303082150280832923, guid: 46957ef41fcc86a47941dce187893f89, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 69.18054
+      objectReference: {fileID: 0}
+    - target: {fileID: 303082150280832923, guid: 46957ef41fcc86a47941dce187893f89, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8060049
+      objectReference: {fileID: 0}
+    - target: {fileID: 303082150280832923, guid: 46957ef41fcc86a47941dce187893f89, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 303082150280832923, guid: 46957ef41fcc86a47941dce187893f89, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5919089
+      objectReference: {fileID: 0}
+    - target: {fileID: 303082150280832923, guid: 46957ef41fcc86a47941dce187893f89, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 303082150280832923, guid: 46957ef41fcc86a47941dce187893f89, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 303082150280832923, guid: 46957ef41fcc86a47941dce187893f89, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 303082150280832923, guid: 46957ef41fcc86a47941dce187893f89, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5677843490546109707, guid: 46957ef41fcc86a47941dce187893f89, type: 3}
+      propertyPath: m_Name
+      value: Crowd_Gravelkin_05
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5677843490546109707, guid: 46957ef41fcc86a47941dce187893f89, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 193095362}
+  m_SourcePrefab: {fileID: 100100000, guid: 46957ef41fcc86a47941dce187893f89, type: 3}
+--- !u!4 &193095360 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 303082150280832923, guid: 46957ef41fcc86a47941dce187893f89, type: 3}
+  m_PrefabInstance: {fileID: 193095359}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &193095361 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5677843490546109707, guid: 46957ef41fcc86a47941dce187893f89, type: 3}
+  m_PrefabInstance: {fileID: 193095359}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &193095362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193095361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199deef060302294082d0eb4ae6f8f96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.World::Ronin7.World.NpcWander
+  wanderRadius: 4
+  moveSpeed: 1.2
+  faceTravel: 1
+  arriveThreshold: 0.15
+  pauseRange: {x: 0.5, y: 2.5}
 --- !u!1 &204324170
 GameObject:
   m_ObjectHideFlags: 0
@@ -3648,6 +3822,93 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 349975332}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &352142304
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 585634330}
+    m_Modifications:
+    - target: {fileID: 2498897081665356871, guid: 76f4519a9da48fe4aa3bdf6038990cda, type: 3}
+      propertyPath: m_Name
+      value: Crowd_Gravelkin_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 6901131905816765526, guid: 76f4519a9da48fe4aa3bdf6038990cda, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.5881648
+      objectReference: {fileID: 0}
+    - target: {fileID: 6901131905816765526, guid: 76f4519a9da48fe4aa3bdf6038990cda, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5990233
+      objectReference: {fileID: 0}
+    - target: {fileID: 6901131905816765526, guid: 76f4519a9da48fe4aa3bdf6038990cda, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 5.568364
+      objectReference: {fileID: 0}
+    - target: {fileID: 6901131905816765526, guid: 76f4519a9da48fe4aa3bdf6038990cda, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.19449344
+      objectReference: {fileID: 0}
+    - target: {fileID: 6901131905816765526, guid: 76f4519a9da48fe4aa3bdf6038990cda, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6901131905816765526, guid: 76f4519a9da48fe4aa3bdf6038990cda, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.98090386
+      objectReference: {fileID: 0}
+    - target: {fileID: 6901131905816765526, guid: 76f4519a9da48fe4aa3bdf6038990cda, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6901131905816765526, guid: 76f4519a9da48fe4aa3bdf6038990cda, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6901131905816765526, guid: 76f4519a9da48fe4aa3bdf6038990cda, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6901131905816765526, guid: 76f4519a9da48fe4aa3bdf6038990cda, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2498897081665356871, guid: 76f4519a9da48fe4aa3bdf6038990cda, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 352142307}
+  m_SourcePrefab: {fileID: 100100000, guid: 76f4519a9da48fe4aa3bdf6038990cda, type: 3}
+--- !u!4 &352142305 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6901131905816765526, guid: 76f4519a9da48fe4aa3bdf6038990cda, type: 3}
+  m_PrefabInstance: {fileID: 352142304}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &352142306 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2498897081665356871, guid: 76f4519a9da48fe4aa3bdf6038990cda, type: 3}
+  m_PrefabInstance: {fileID: 352142304}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &352142307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 352142306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199deef060302294082d0eb4ae6f8f96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.World::Ronin7.World.NpcWander
+  wanderRadius: 4
+  moveSpeed: 1.2
+  faceTravel: 1
+  arriveThreshold: 0.15
+  pauseRange: {x: 0.5, y: 2.5}
 --- !u!1 &352583389
 GameObject:
   m_ObjectHideFlags: 0
@@ -5868,6 +6129,93 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4289976806
+--- !u!1001 &521042152
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 585634330}
+    m_Modifications:
+    - target: {fileID: 3285098302618098129, guid: c0e74c2bca58b4d42be9a5a927bdee9e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.8125155
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285098302618098129, guid: c0e74c2bca58b4d42be9a5a927bdee9e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5990233
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285098302618098129, guid: c0e74c2bca58b4d42be9a5a927bdee9e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.7109032
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285098302618098129, guid: c0e74c2bca58b4d42be9a5a927bdee9e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.96014446
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285098302618098129, guid: c0e74c2bca58b4d42be9a5a927bdee9e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285098302618098129, guid: c0e74c2bca58b4d42be9a5a927bdee9e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.27950433
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285098302618098129, guid: c0e74c2bca58b4d42be9a5a927bdee9e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285098302618098129, guid: c0e74c2bca58b4d42be9a5a927bdee9e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285098302618098129, guid: c0e74c2bca58b4d42be9a5a927bdee9e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285098302618098129, guid: c0e74c2bca58b4d42be9a5a927bdee9e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6977429553258622054, guid: c0e74c2bca58b4d42be9a5a927bdee9e, type: 3}
+      propertyPath: m_Name
+      value: Crowd_Ashkin_05
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6977429553258622054, guid: c0e74c2bca58b4d42be9a5a927bdee9e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 521042155}
+  m_SourcePrefab: {fileID: 100100000, guid: c0e74c2bca58b4d42be9a5a927bdee9e, type: 3}
+--- !u!4 &521042153 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3285098302618098129, guid: c0e74c2bca58b4d42be9a5a927bdee9e, type: 3}
+  m_PrefabInstance: {fileID: 521042152}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &521042154 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6977429553258622054, guid: c0e74c2bca58b4d42be9a5a927bdee9e, type: 3}
+  m_PrefabInstance: {fileID: 521042152}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &521042155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 521042154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199deef060302294082d0eb4ae6f8f96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.World::Ronin7.World.NpcWander
+  wanderRadius: 4
+  moveSpeed: 1.2
+  faceTravel: 1
+  arriveThreshold: 0.15
+  pauseRange: {x: 0.5, y: 2.5}
 --- !u!1 &526167106
 GameObject:
   m_ObjectHideFlags: 0
@@ -7088,6 +7436,49 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 581271699}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &585634329
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 585634330}
+  m_Layer: 0
+  m_Name: CrowdRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &585634330
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585634329}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1475574678}
+  - {fileID: 1697300147}
+  - {fileID: 160386644}
+  - {fileID: 2118219264}
+  - {fileID: 1140728481}
+  - {fileID: 521042153}
+  - {fileID: 1637012858}
+  - {fileID: 1353557486}
+  - {fileID: 1216517597}
+  - {fileID: 352142305}
+  - {fileID: 2146032886}
+  - {fileID: 193095360}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &604379539
 GameObject:
   m_ObjectHideFlags: 0
@@ -12723,6 +13114,93 @@ Transform:
   - {fileID: 178241198}
   m_Father: {fileID: 2051364056}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1140728480
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 585634330}
+    m_Modifications:
+    - target: {fileID: 449425890704539661, guid: f061e7d0c243d1b45921e37be05cad77, type: 3}
+      propertyPath: m_Name
+      value: Crowd_Ashkin_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 4101737495922353478, guid: f061e7d0c243d1b45921e37be05cad77, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.5197887
+      objectReference: {fileID: 0}
+    - target: {fileID: 4101737495922353478, guid: f061e7d0c243d1b45921e37be05cad77, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5990233
+      objectReference: {fileID: 0}
+    - target: {fileID: 4101737495922353478, guid: f061e7d0c243d1b45921e37be05cad77, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.465846
+      objectReference: {fileID: 0}
+    - target: {fileID: 4101737495922353478, guid: f061e7d0c243d1b45921e37be05cad77, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.087425075
+      objectReference: {fileID: 0}
+    - target: {fileID: 4101737495922353478, guid: f061e7d0c243d1b45921e37be05cad77, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4101737495922353478, guid: f061e7d0c243d1b45921e37be05cad77, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.9961711
+      objectReference: {fileID: 0}
+    - target: {fileID: 4101737495922353478, guid: f061e7d0c243d1b45921e37be05cad77, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4101737495922353478, guid: f061e7d0c243d1b45921e37be05cad77, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4101737495922353478, guid: f061e7d0c243d1b45921e37be05cad77, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4101737495922353478, guid: f061e7d0c243d1b45921e37be05cad77, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 449425890704539661, guid: f061e7d0c243d1b45921e37be05cad77, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1140728483}
+  m_SourcePrefab: {fileID: 100100000, guid: f061e7d0c243d1b45921e37be05cad77, type: 3}
+--- !u!4 &1140728481 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4101737495922353478, guid: f061e7d0c243d1b45921e37be05cad77, type: 3}
+  m_PrefabInstance: {fileID: 1140728480}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1140728482 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 449425890704539661, guid: f061e7d0c243d1b45921e37be05cad77, type: 3}
+  m_PrefabInstance: {fileID: 1140728480}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1140728483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140728482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199deef060302294082d0eb4ae6f8f96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.World::Ronin7.World.NpcWander
+  wanderRadius: 4
+  moveSpeed: 1.2
+  faceTravel: 1
+  arriveThreshold: 0.15
+  pauseRange: {x: 0.5, y: 2.5}
 --- !u!1001 &1146122305
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13449,6 +13927,93 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1216362315}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1216517596
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 585634330}
+    m_Modifications:
+    - target: {fileID: 2038767398047987513, guid: bf5c20ad52709e346b8ec6da0b6fee07, type: 3}
+      propertyPath: m_Name
+      value: Crowd_Gravelkin_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 9092811547744476323, guid: bf5c20ad52709e346b8ec6da0b6fee07, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.8796163
+      objectReference: {fileID: 0}
+    - target: {fileID: 9092811547744476323, guid: bf5c20ad52709e346b8ec6da0b6fee07, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5990233
+      objectReference: {fileID: 0}
+    - target: {fileID: 9092811547744476323, guid: bf5c20ad52709e346b8ec6da0b6fee07, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.869025
+      objectReference: {fileID: 0}
+    - target: {fileID: 9092811547744476323, guid: bf5c20ad52709e346b8ec6da0b6fee07, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.98471373
+      objectReference: {fileID: 0}
+    - target: {fileID: 9092811547744476323, guid: bf5c20ad52709e346b8ec6da0b6fee07, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9092811547744476323, guid: bf5c20ad52709e346b8ec6da0b6fee07, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.17418066
+      objectReference: {fileID: 0}
+    - target: {fileID: 9092811547744476323, guid: bf5c20ad52709e346b8ec6da0b6fee07, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9092811547744476323, guid: bf5c20ad52709e346b8ec6da0b6fee07, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9092811547744476323, guid: bf5c20ad52709e346b8ec6da0b6fee07, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9092811547744476323, guid: bf5c20ad52709e346b8ec6da0b6fee07, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2038767398047987513, guid: bf5c20ad52709e346b8ec6da0b6fee07, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1216517599}
+  m_SourcePrefab: {fileID: 100100000, guid: bf5c20ad52709e346b8ec6da0b6fee07, type: 3}
+--- !u!4 &1216517597 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9092811547744476323, guid: bf5c20ad52709e346b8ec6da0b6fee07, type: 3}
+  m_PrefabInstance: {fileID: 1216517596}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1216517598 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2038767398047987513, guid: bf5c20ad52709e346b8ec6da0b6fee07, type: 3}
+  m_PrefabInstance: {fileID: 1216517596}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1216517599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216517598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199deef060302294082d0eb4ae6f8f96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.World::Ronin7.World.NpcWander
+  wanderRadius: 4
+  moveSpeed: 1.2
+  faceTravel: 1
+  arriveThreshold: 0.15
+  pauseRange: {x: 0.5, y: 2.5}
 --- !u!1 &1222099057
 GameObject:
   m_ObjectHideFlags: 0
@@ -15133,6 +15698,93 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1343563847}
   m_CullTransparentMesh: 1
+--- !u!1001 &1353557485
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 585634330}
+    m_Modifications:
+    - target: {fileID: 1514160272753423720, guid: c7f7ea882a47eda43825329531055206, type: 3}
+      propertyPath: m_Name
+      value: Crowd_Gravelkin_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6412192771829701436, guid: c7f7ea882a47eda43825329531055206, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.0447282
+      objectReference: {fileID: 0}
+    - target: {fileID: 6412192771829701436, guid: c7f7ea882a47eda43825329531055206, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5990235
+      objectReference: {fileID: 0}
+    - target: {fileID: 6412192771829701436, guid: c7f7ea882a47eda43825329531055206, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 63.988453
+      objectReference: {fileID: 0}
+    - target: {fileID: 6412192771829701436, guid: c7f7ea882a47eda43825329531055206, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.5191775
+      objectReference: {fileID: 0}
+    - target: {fileID: 6412192771829701436, guid: c7f7ea882a47eda43825329531055206, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6412192771829701436, guid: c7f7ea882a47eda43825329531055206, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.8546665
+      objectReference: {fileID: 0}
+    - target: {fileID: 6412192771829701436, guid: c7f7ea882a47eda43825329531055206, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6412192771829701436, guid: c7f7ea882a47eda43825329531055206, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6412192771829701436, guid: c7f7ea882a47eda43825329531055206, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6412192771829701436, guid: c7f7ea882a47eda43825329531055206, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1514160272753423720, guid: c7f7ea882a47eda43825329531055206, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1353557488}
+  m_SourcePrefab: {fileID: 100100000, guid: c7f7ea882a47eda43825329531055206, type: 3}
+--- !u!4 &1353557486 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6412192771829701436, guid: c7f7ea882a47eda43825329531055206, type: 3}
+  m_PrefabInstance: {fileID: 1353557485}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1353557487 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1514160272753423720, guid: c7f7ea882a47eda43825329531055206, type: 3}
+  m_PrefabInstance: {fileID: 1353557485}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1353557488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353557487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199deef060302294082d0eb4ae6f8f96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.World::Ronin7.World.NpcWander
+  wanderRadius: 4
+  moveSpeed: 1.2
+  faceTravel: 1
+  arriveThreshold: 0.15
+  pauseRange: {x: 0.5, y: 2.5}
 --- !u!1 &1364438535
 GameObject:
   m_ObjectHideFlags: 0
@@ -15928,6 +16580,93 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1461159799}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1475574677
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 585634330}
+    m_Modifications:
+    - target: {fileID: 4890854311217078487, guid: 8a47ff61530a5f34fbcdf1c5d766dbf1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890854311217078487, guid: 8a47ff61530a5f34fbcdf1c5d766dbf1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5990233
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890854311217078487, guid: 8a47ff61530a5f34fbcdf1c5d766dbf1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890854311217078487, guid: 8a47ff61530a5f34fbcdf1c5d766dbf1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890854311217078487, guid: 8a47ff61530a5f34fbcdf1c5d766dbf1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890854311217078487, guid: 8a47ff61530a5f34fbcdf1c5d766dbf1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890854311217078487, guid: 8a47ff61530a5f34fbcdf1c5d766dbf1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890854311217078487, guid: 8a47ff61530a5f34fbcdf1c5d766dbf1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890854311217078487, guid: 8a47ff61530a5f34fbcdf1c5d766dbf1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890854311217078487, guid: 8a47ff61530a5f34fbcdf1c5d766dbf1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042410530853317227, guid: 8a47ff61530a5f34fbcdf1c5d766dbf1, type: 3}
+      propertyPath: m_Name
+      value: Crowd_Ashkin_00
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6042410530853317227, guid: 8a47ff61530a5f34fbcdf1c5d766dbf1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1475574680}
+  m_SourcePrefab: {fileID: 100100000, guid: 8a47ff61530a5f34fbcdf1c5d766dbf1, type: 3}
+--- !u!4 &1475574678 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4890854311217078487, guid: 8a47ff61530a5f34fbcdf1c5d766dbf1, type: 3}
+  m_PrefabInstance: {fileID: 1475574677}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1475574679 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6042410530853317227, guid: 8a47ff61530a5f34fbcdf1c5d766dbf1, type: 3}
+  m_PrefabInstance: {fileID: 1475574677}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1475574680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1475574679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199deef060302294082d0eb4ae6f8f96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.World::Ronin7.World.NpcWander
+  wanderRadius: 4
+  moveSpeed: 1.2
+  faceTravel: 1
+  arriveThreshold: 0.15
+  pauseRange: {x: 0.5, y: 2.5}
 --- !u!1 &1489359439
 GameObject:
   m_ObjectHideFlags: 0
@@ -17349,6 +18088,93 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 240, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &1637012857
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 585634330}
+    m_Modifications:
+    - target: {fileID: 4681016288539928013, guid: 827a7f39e02d8dc4895dd89fe461bb3a, type: 3}
+      propertyPath: m_Name
+      value: Crowd_Gravelkin_00
+      objectReference: {fileID: 0}
+    - target: {fileID: 5998344427650978723, guid: 827a7f39e02d8dc4895dd89fe461bb3a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.0192049
+      objectReference: {fileID: 0}
+    - target: {fileID: 5998344427650978723, guid: 827a7f39e02d8dc4895dd89fe461bb3a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5990233
+      objectReference: {fileID: 0}
+    - target: {fileID: 5998344427650978723, guid: 827a7f39e02d8dc4895dd89fe461bb3a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4.9314313
+      objectReference: {fileID: 0}
+    - target: {fileID: 5998344427650978723, guid: 827a7f39e02d8dc4895dd89fe461bb3a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.60843927
+      objectReference: {fileID: 0}
+    - target: {fileID: 5998344427650978723, guid: 827a7f39e02d8dc4895dd89fe461bb3a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5998344427650978723, guid: 827a7f39e02d8dc4895dd89fe461bb3a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.79360044
+      objectReference: {fileID: 0}
+    - target: {fileID: 5998344427650978723, guid: 827a7f39e02d8dc4895dd89fe461bb3a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5998344427650978723, guid: 827a7f39e02d8dc4895dd89fe461bb3a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5998344427650978723, guid: 827a7f39e02d8dc4895dd89fe461bb3a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5998344427650978723, guid: 827a7f39e02d8dc4895dd89fe461bb3a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4681016288539928013, guid: 827a7f39e02d8dc4895dd89fe461bb3a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1637012860}
+  m_SourcePrefab: {fileID: 100100000, guid: 827a7f39e02d8dc4895dd89fe461bb3a, type: 3}
+--- !u!4 &1637012858 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5998344427650978723, guid: 827a7f39e02d8dc4895dd89fe461bb3a, type: 3}
+  m_PrefabInstance: {fileID: 1637012857}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1637012859 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4681016288539928013, guid: 827a7f39e02d8dc4895dd89fe461bb3a, type: 3}
+  m_PrefabInstance: {fileID: 1637012857}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1637012860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637012859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199deef060302294082d0eb4ae6f8f96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.World::Ronin7.World.NpcWander
+  wanderRadius: 4
+  moveSpeed: 1.2
+  faceTravel: 1
+  arriveThreshold: 0.15
+  pauseRange: {x: 0.5, y: 2.5}
 --- !u!1 &1639542984
 GameObject:
   m_ObjectHideFlags: 0
@@ -17899,6 +18725,93 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1670920861}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1697300146
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 585634330}
+    m_Modifications:
+    - target: {fileID: 2066581109512565648, guid: c8ce3d8741398be49bef17892ae28fb5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.671369
+      objectReference: {fileID: 0}
+    - target: {fileID: 2066581109512565648, guid: c8ce3d8741398be49bef17892ae28fb5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5990233
+      objectReference: {fileID: 0}
+    - target: {fileID: 2066581109512565648, guid: c8ce3d8741398be49bef17892ae28fb5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 6.0311117
+      objectReference: {fileID: 0}
+    - target: {fileID: 2066581109512565648, guid: c8ce3d8741398be49bef17892ae28fb5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.36237505
+      objectReference: {fileID: 0}
+    - target: {fileID: 2066581109512565648, guid: c8ce3d8741398be49bef17892ae28fb5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2066581109512565648, guid: c8ce3d8741398be49bef17892ae28fb5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.93203235
+      objectReference: {fileID: 0}
+    - target: {fileID: 2066581109512565648, guid: c8ce3d8741398be49bef17892ae28fb5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2066581109512565648, guid: c8ce3d8741398be49bef17892ae28fb5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2066581109512565648, guid: c8ce3d8741398be49bef17892ae28fb5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2066581109512565648, guid: c8ce3d8741398be49bef17892ae28fb5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4013508627141049168, guid: c8ce3d8741398be49bef17892ae28fb5, type: 3}
+      propertyPath: m_Name
+      value: Crowd_Ashkin_01
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4013508627141049168, guid: c8ce3d8741398be49bef17892ae28fb5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1697300149}
+  m_SourcePrefab: {fileID: 100100000, guid: c8ce3d8741398be49bef17892ae28fb5, type: 3}
+--- !u!4 &1697300147 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2066581109512565648, guid: c8ce3d8741398be49bef17892ae28fb5, type: 3}
+  m_PrefabInstance: {fileID: 1697300146}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1697300148 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4013508627141049168, guid: c8ce3d8741398be49bef17892ae28fb5, type: 3}
+  m_PrefabInstance: {fileID: 1697300146}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1697300149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697300148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199deef060302294082d0eb4ae6f8f96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.World::Ronin7.World.NpcWander
+  wanderRadius: 4
+  moveSpeed: 1.2
+  faceTravel: 1
+  arriveThreshold: 0.15
+  pauseRange: {x: 0.5, y: 2.5}
 --- !u!1 &1700734842
 GameObject:
   m_ObjectHideFlags: 0
@@ -21652,6 +22565,93 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2105635023}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &2118219263
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 585634330}
+    m_Modifications:
+    - target: {fileID: 4352492285691152121, guid: 5fc7626305c7e904fb5b0e24ea34551e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.7036309
+      objectReference: {fileID: 0}
+    - target: {fileID: 4352492285691152121, guid: 5fc7626305c7e904fb5b0e24ea34551e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5990235
+      objectReference: {fileID: 0}
+    - target: {fileID: 4352492285691152121, guid: 5fc7626305c7e904fb5b0e24ea34551e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 68.222084
+      objectReference: {fileID: 0}
+    - target: {fileID: 4352492285691152121, guid: 5fc7626305c7e904fb5b0e24ea34551e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.89678293
+      objectReference: {fileID: 0}
+    - target: {fileID: 4352492285691152121, guid: 5fc7626305c7e904fb5b0e24ea34551e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4352492285691152121, guid: 5fc7626305c7e904fb5b0e24ea34551e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.44247076
+      objectReference: {fileID: 0}
+    - target: {fileID: 4352492285691152121, guid: 5fc7626305c7e904fb5b0e24ea34551e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4352492285691152121, guid: 5fc7626305c7e904fb5b0e24ea34551e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4352492285691152121, guid: 5fc7626305c7e904fb5b0e24ea34551e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4352492285691152121, guid: 5fc7626305c7e904fb5b0e24ea34551e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4593347981476318076, guid: 5fc7626305c7e904fb5b0e24ea34551e, type: 3}
+      propertyPath: m_Name
+      value: Crowd_Ashkin_03
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4593347981476318076, guid: 5fc7626305c7e904fb5b0e24ea34551e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2118219266}
+  m_SourcePrefab: {fileID: 100100000, guid: 5fc7626305c7e904fb5b0e24ea34551e, type: 3}
+--- !u!4 &2118219264 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4352492285691152121, guid: 5fc7626305c7e904fb5b0e24ea34551e, type: 3}
+  m_PrefabInstance: {fileID: 2118219263}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2118219265 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4593347981476318076, guid: 5fc7626305c7e904fb5b0e24ea34551e, type: 3}
+  m_PrefabInstance: {fileID: 2118219263}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2118219266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118219265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199deef060302294082d0eb4ae6f8f96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.World::Ronin7.World.NpcWander
+  wanderRadius: 4
+  moveSpeed: 1.2
+  faceTravel: 1
+  arriveThreshold: 0.15
+  pauseRange: {x: 0.5, y: 2.5}
 --- !u!1 &2137739002
 GameObject:
   m_ObjectHideFlags: 0
@@ -21756,6 +22756,93 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4289976806
+--- !u!1001 &2146032885
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 585634330}
+    m_Modifications:
+    - target: {fileID: 1394713040396831121, guid: 63c84d11d598e6e41b9d9305517523a5, type: 3}
+      propertyPath: m_Name
+      value: Crowd_Gravelkin_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 7207753021649196198, guid: 63c84d11d598e6e41b9d9305517523a5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.20021212
+      objectReference: {fileID: 0}
+    - target: {fileID: 7207753021649196198, guid: 63c84d11d598e6e41b9d9305517523a5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5990233
+      objectReference: {fileID: 0}
+    - target: {fileID: 7207753021649196198, guid: 63c84d11d598e6e41b9d9305517523a5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.22241187
+      objectReference: {fileID: 0}
+    - target: {fileID: 7207753021649196198, guid: 63c84d11d598e6e41b9d9305517523a5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.84375465
+      objectReference: {fileID: 0}
+    - target: {fileID: 7207753021649196198, guid: 63c84d11d598e6e41b9d9305517523a5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7207753021649196198, guid: 63c84d11d598e6e41b9d9305517523a5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.53672904
+      objectReference: {fileID: 0}
+    - target: {fileID: 7207753021649196198, guid: 63c84d11d598e6e41b9d9305517523a5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7207753021649196198, guid: 63c84d11d598e6e41b9d9305517523a5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7207753021649196198, guid: 63c84d11d598e6e41b9d9305517523a5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7207753021649196198, guid: 63c84d11d598e6e41b9d9305517523a5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1394713040396831121, guid: 63c84d11d598e6e41b9d9305517523a5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2146032888}
+  m_SourcePrefab: {fileID: 100100000, guid: 63c84d11d598e6e41b9d9305517523a5, type: 3}
+--- !u!4 &2146032886 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7207753021649196198, guid: 63c84d11d598e6e41b9d9305517523a5, type: 3}
+  m_PrefabInstance: {fileID: 2146032885}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2146032887 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1394713040396831121, guid: 63c84d11d598e6e41b9d9305517523a5, type: 3}
+  m_PrefabInstance: {fileID: 2146032885}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2146032888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2146032887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199deef060302294082d0eb4ae6f8f96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.World::Ronin7.World.NpcWander
+  wanderRadius: 4
+  moveSpeed: 1.2
+  faceTravel: 1
+  arriveThreshold: 0.15
+  pauseRange: {x: 0.5, y: 2.5}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -21805,3 +22892,4 @@ SceneRoots:
   - {fileID: 1892042280}
   - {fileID: 732316213}
   - {fileID: 537668092}
+  - {fileID: 585634330}

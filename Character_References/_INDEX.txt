@@ -16,6 +16,7 @@ REFERENCE FILES (root)
 ------------------------------------------------------------------
 _SPECIES_BIBLE.txt ......... the 7 alien species + human baseline (read first)
 _FACTIONS_AND_AMBIENT.txt .. grouped crowd/ambient roles (troopers, drones, enforcers, etc.)
+_ENEMIES_TRIPO_PROMPTS.md .. Tripo text-to-3D prompts for the 12 combat-enemy archetypes (grunts/factions)
 _INDEX.txt ................. this file
 
 ------------------------------------------------------------------

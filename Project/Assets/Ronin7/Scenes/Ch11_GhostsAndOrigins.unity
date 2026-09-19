@@ -4495,7 +4495,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 351288369}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -7913,15 +7913,13 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4254406790722363034, guid: 83d442f03270bd54b9b3902d0c60d100, type: 3}
       insertIndex: -1
       addedObject: {fileID: 681970175}
+    - targetCorrespondingSourceObject: {fileID: 4254406790722363034, guid: 83d442f03270bd54b9b3902d0c60d100, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 681970177}
   m_SourcePrefab: {fileID: 100100000, guid: 83d442f03270bd54b9b3902d0c60d100, type: 3}
 --- !u!1 &681970171 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4254406790722363034, guid: 83d442f03270bd54b9b3902d0c60d100, type: 3}
-  m_PrefabInstance: {fileID: 681970170}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &681970172 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 420430244323003911, guid: 83d442f03270bd54b9b3902d0c60d100, type: 3}
   m_PrefabInstance: {fileID: 681970170}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &681970173 stripped
@@ -7955,7 +7953,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Ronin7.Enemies::Ronin7.Enemies.Enemy
   weapon: {fileID: 638547557}
-  bodyRenderer: {fileID: 681970172}
+  bodyRenderer: {fileID: 0}
   target: {fileID: 745332268}
   nonLethalDisable: 0
   restEuler: {x: 15, y: 0, z: 0}
@@ -7990,6 +7988,23 @@ CapsuleCollider:
   m_Height: 2.4
   m_Direction: 1
   m_Center: {x: 0, y: 1.1, z: 0}
+--- !u!114 &681970177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681970171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2af563a519856149b4b6ad20319d141, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.World::Ronin7.World.NpcWalkAnimator
+  fullSwingSpeed: 1.2
+  strideLength: 0.65
+  legSwingDegrees: 32
+  armSwingDegrees: 18
+  bobHeight: 0.02
 --- !u!1 &683479403
 GameObject:
   m_ObjectHideFlags: 0
@@ -9516,6 +9531,7 @@ GameObject:
   - component: {fileID: 792028646}
   - component: {fileID: 792028648}
   - component: {fileID: 792028647}
+  - component: {fileID: 792028650}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -9567,7 +9583,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Ronin7.Enemies::Ronin7.Enemies.Enemy
   weapon: {fileID: 1322462005}
-  bodyRenderer: {fileID: 1859717115}
+  bodyRenderer: {fileID: 1346001271}
   target: {fileID: 745332268}
   nonLethalDisable: 0
   restEuler: {x: 15, y: 0, z: 0}
@@ -9593,8 +9609,26 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1859717118}
+  - {fileID: 1346001272}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &792028650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 792028645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2af563a519856149b4b6ad20319d141, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.World::Ronin7.World.NpcWalkAnimator
+  fullSwingSpeed: 1.2
+  strideLength: 0.65
+  legSwingDegrees: 32
+  armSwingDegrees: 18
+  bobHeight: 0.02
 --- !u!1 &810482613
 GameObject:
   m_ObjectHideFlags: 0
@@ -16472,6 +16506,73 @@ Material:
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
+--- !u!1001 &1346001270
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 792028649}
+    m_Modifications:
+    - target: {fileID: 2132984887433929075, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2132984887433929075, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.6990234
+      objectReference: {fileID: 0}
+    - target: {fileID: 2132984887433929075, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2132984887433929075, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2132984887433929075, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2132984887433929075, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2132984887433929075, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2132984887433929075, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2132984887433929075, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2132984887433929075, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5841073404970588883, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+      propertyPath: m_Name
+      value: Visual_Enemy
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+--- !u!137 &1346001271 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 595972926256412738, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+  m_PrefabInstance: {fileID: 1346001270}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1346001272 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2132984887433929075, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+  m_PrefabInstance: {fileID: 1346001270}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1362352500
 GameObject:
   m_ObjectHideFlags: 0
@@ -19035,6 +19136,73 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1565236257
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1729538065}
+    m_Modifications:
+    - target: {fileID: 2132984887433929075, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2132984887433929075, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.6990234
+      objectReference: {fileID: 0}
+    - target: {fileID: 2132984887433929075, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2132984887433929075, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2132984887433929075, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2132984887433929075, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2132984887433929075, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2132984887433929075, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2132984887433929075, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2132984887433929075, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5841073404970588883, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+      propertyPath: m_Name
+      value: Visual_Enemy
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+--- !u!137 &1565236258 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 595972926256412738, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+  m_PrefabInstance: {fileID: 1565236257}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1565236259 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2132984887433929075, guid: 6cbe04713613de3499b4447ccfc23d7e, type: 3}
+  m_PrefabInstance: {fileID: 1565236257}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1571347414
 GameObject:
   m_ObjectHideFlags: 0
@@ -19744,6 +19912,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3145663699351249748, guid: f24df9805676f754ea62e1e8a2decd35, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1617019136}
+    - targetCorrespondingSourceObject: {fileID: 3145663699351249748, guid: f24df9805676f754ea62e1e8a2decd35, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1617019137}
   m_SourcePrefab: {fileID: 100100000, guid: f24df9805676f754ea62e1e8a2decd35, type: 3}
 --- !u!4 &1617019130 stripped
 Transform:
@@ -19834,6 +20005,23 @@ MonoBehaviour:
   decayPerSecond: 40
   breakBonusDamage: 12
   nearBreakFraction: 0.8
+--- !u!114 &1617019137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1617019132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2af563a519856149b4b6ad20319d141, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.World::Ronin7.World.NpcWalkAnimator
+  fullSwingSpeed: 1.2
+  strideLength: 0.65
+  legSwingDegrees: 32
+  armSwingDegrees: 18
+  bobHeight: 0.02
 --- !u!1 &1631213319
 GameObject:
   m_ObjectHideFlags: 0
@@ -20766,6 +20954,7 @@ GameObject:
   - component: {fileID: 1729538062}
   - component: {fileID: 1729538064}
   - component: {fileID: 1729538063}
+  - component: {fileID: 1729538066}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -20817,7 +21006,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Ronin7.Enemies::Ronin7.Enemies.Enemy
   weapon: {fileID: 1867621010}
-  bodyRenderer: {fileID: 351288370}
+  bodyRenderer: {fileID: 1565236258}
   target: {fileID: 745332268}
   nonLethalDisable: 0
   restEuler: {x: 15, y: 0, z: 0}
@@ -20843,8 +21032,26 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 351288373}
+  - {fileID: 1565236259}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1729538066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1729538061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2af563a519856149b4b6ad20319d141, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.World::Ronin7.World.NpcWalkAnimator
+  fullSwingSpeed: 1.2
+  strideLength: 0.65
+  legSwingDegrees: 32
+  armSwingDegrees: 18
+  bobHeight: 0.02
 --- !u!1 &1730781393
 GameObject:
   m_ObjectHideFlags: 0
@@ -22399,7 +22606,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1859717114}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
