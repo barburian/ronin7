@@ -42,14 +42,16 @@ namespace Ronin7.Enemies
         private static Material _sharedMaterial;
 
         /// <summary>
-        /// Builds the placeholder katana under <paramref name="weapon"/> unless it's null or already
-        /// carries a Renderer (an art-prefab enemy, or a second call) — idempotent, so it's safe to call
-        /// unconditionally from <see cref="MeleeAttacker.Awake"/>. Returns true iff it built something.
+        /// Builds the placeholder katana under <paramref name="weapon"/> unless it's null, already
+        /// carries a Renderer (an art-prefab katana rig, or a second call), or <paramref name="owner"/>
+        /// already wears rigged character art that brings its own weapon — idempotent, so it's safe to
+        /// call unconditionally from <see cref="MeleeAttacker.Awake"/>. Returns true iff it built something.
         /// </summary>
-        public static bool EnsureVisible(Transform weapon)
+        public static bool EnsureVisible(Transform weapon, Transform owner)
         {
             if (weapon == null) return false;
             if (weapon.GetComponentInChildren<Renderer>(true) != null) return false;
+            if (HasCharacterArt(owner)) return false;
 
             if (_sharedMaterial == null)
             {
@@ -73,6 +75,17 @@ namespace Ronin7.Enemies
 
             return true;
         }
+
+        /// <summary>
+        /// True when <paramref name="owner"/> carries rigged character art (the Tripo enemy/boss meshes,
+        /// skinned by <c>NpcAutoRigger</c>). Those meshes sculpt the character's own weapon — held,
+        /// slung or sheathed — into the body mesh, and the weapon transform the combat rig binds is a
+        /// skinning bone with no renderer of its own, so the <see cref="Renderer"/> guard above never
+        /// trips and every art enemy used to sprout a second, mismatched greybox katana at its shoulder.
+        /// A <see cref="SkinnedMeshRenderer"/> is the signal: greybox enemies are primitive MeshRenderers.
+        /// </summary>
+        private static bool HasCharacterArt(Transform owner) =>
+            owner != null && owner.GetComponentInChildren<SkinnedMeshRenderer>(true) != null;
 
         /// <summary>
         /// Finds the blade renderer under <paramref name="weapon"/> so the caller (MeleeAttacker) can

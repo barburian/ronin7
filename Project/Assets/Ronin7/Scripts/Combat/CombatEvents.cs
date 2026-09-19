@@ -24,6 +24,20 @@ namespace Ronin7.Combat
         public PerfectParry(Vector3 point, GameObject attacker, float quality) { Point = point; Attacker = attacker; Quality = quality; }
     }
 
+    /// <summary>
+    /// An enemy has begun its attack windup — the telegraph phase before the strike goes live (see
+    /// <c>Ronin7.Enemies.MeleeAttacker.BeginAttack</c>). A spatialized, directional audio cue here
+    /// matters especially now that art-enemy prefabs carry no visible blade (their weapon is sculpted
+    /// into the skinned body mesh — see <c>EnemySwordVisual.HasCharacterArt</c>), so a "readable behind
+    /// you" parry telegraph can no longer rely on sight alone.
+    /// </summary>
+    public readonly struct AttackWindupStarted
+    {
+        public readonly Vector3 Point;
+        public readonly GameObject Attacker;
+        public AttackWindupStarted(Vector3 point, GameObject attacker) { Point = point; Attacker = attacker; }
+    }
+
     /// <summary>An enemy attack landed on the player.</summary>
     public readonly struct PlayerHit
     {

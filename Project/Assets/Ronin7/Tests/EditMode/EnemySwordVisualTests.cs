@@ -17,7 +17,7 @@ namespace Ronin7.Tests.EditMode
         [Test]
         public void NullWeapon_NoOp_ReturnsFalse()
         {
-            Assert.IsFalse(EnemySwordVisual.EnsureVisible(null));
+            Assert.IsFalse(EnemySwordVisual.EnsureVisible(null, null));
         }
 
         [Test]
@@ -25,7 +25,7 @@ namespace Ronin7.Tests.EditMode
         {
             _go = new GameObject("Weapon");
 
-            bool built = EnemySwordVisual.EnsureVisible(_go.transform);
+            bool built = EnemySwordVisual.EnsureVisible(_go.transform, _go.transform);
 
             Assert.IsTrue(built);
             Assert.AreEqual(3, _go.GetComponentsInChildren<Renderer>(true).Length,
@@ -39,8 +39,8 @@ namespace Ronin7.Tests.EditMode
         {
             _go = new GameObject("Weapon");
 
-            EnemySwordVisual.EnsureVisible(_go.transform);
-            bool builtAgain = EnemySwordVisual.EnsureVisible(_go.transform);
+            EnemySwordVisual.EnsureVisible(_go.transform, _go.transform);
+            bool builtAgain = EnemySwordVisual.EnsureVisible(_go.transform, _go.transform);
 
             Assert.IsFalse(builtAgain);
             Assert.AreEqual(3, _go.GetComponentsInChildren<Renderer>(true).Length);
@@ -54,7 +54,7 @@ namespace Ronin7.Tests.EditMode
             existing.transform.SetParent(_go.transform, false);
             int childCountBefore = _go.transform.childCount;
 
-            bool built = EnemySwordVisual.EnsureVisible(_go.transform);
+            bool built = EnemySwordVisual.EnsureVisible(_go.transform, _go.transform);
 
             Assert.IsFalse(built);
             Assert.AreEqual(childCountBefore, _go.transform.childCount);
@@ -67,13 +67,66 @@ namespace Ronin7.Tests.EditMode
             // child — the visual Blade's far Z edge must land on that same point so the rendered
             // sword doesn't over/under-reach the actual parry/swing-speed sample point.
             _go = new GameObject("Weapon");
-            EnemySwordVisual.EnsureVisible(_go.transform);
+            EnemySwordVisual.EnsureVisible(_go.transform, _go.transform);
 
             var blade = _go.transform.Find("Blade");
             Assert.IsNotNull(blade);
 
             float tipZ = blade.localPosition.z + blade.localScale.z * 0.5f;
             Assert.AreEqual(0.5f, tipZ, 1e-4f);
+        }
+
+        [Test]
+        public void OwnerWithCharacterArt_SkipsPlaceholder()
+        {
+            // Rigged Tripo art sculpts the character's own weapon into the body mesh, and binds the
+            // combat rig to a bare skinning bone — so the Renderer guard never trips and the enemy
+            // used to end up holding a second, mismatched greybox katana.
+            _go = new GameObject("Enemy");
+            var art = new GameObject("Visual_Skinned");
+            art.transform.SetParent(_go.transform, false);
+            art.AddComponent<SkinnedMeshRenderer>();
+            var weapon = new GameObject("Rig_ArmR");
+            weapon.transform.SetParent(_go.transform, false);
+
+            bool built = EnemySwordVisual.EnsureVisible(weapon.transform, _go.transform);
+
+            Assert.IsFalse(built);
+            Assert.AreEqual(0, weapon.transform.childCount);
+        }
+
+        [Test]
+        public void OwnerWithInactiveCharacterArt_SkipsPlaceholder()
+        {
+            // Baked roguelike enemy prefabs are saved with the root INACTIVE, so the art is only
+            // found by an include-inactive search.
+            _go = new GameObject("Enemy");
+            var art = new GameObject("Visual_Skinned");
+            art.transform.SetParent(_go.transform, false);
+            art.AddComponent<SkinnedMeshRenderer>();
+            art.SetActive(false);
+            var weapon = new GameObject("Rig_ArmR");
+            weapon.transform.SetParent(_go.transform, false);
+
+            Assert.IsFalse(EnemySwordVisual.EnsureVisible(weapon.transform, _go.transform));
+        }
+
+        [Test]
+        public void GreyboxOwner_StillBuildsPlaceholder()
+        {
+            // Greybox enemies (MeshRenderer primitives, no character art) keep the fallback katana —
+            // without it a chopping capsule has nothing visible to telegraph its swing.
+            _go = new GameObject("Enemy");
+            var body = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+            body.name = "Body";
+            body.transform.SetParent(_go.transform, false);
+            var weapon = new GameObject("ArmR");
+            weapon.transform.SetParent(body.transform, false);
+
+            bool built = EnemySwordVisual.EnsureVisible(weapon.transform, _go.transform);
+
+            Assert.IsTrue(built);
+            Assert.AreEqual(3, weapon.GetComponentsInChildren<Renderer>(true).Length);
         }
 
         [Test]
@@ -86,7 +139,7 @@ namespace Ronin7.Tests.EditMode
         public void FindBladeRenderer_AfterEnsureVisible_ResolvesDirectBladeChild()
         {
             _go = new GameObject("Weapon");
-            EnemySwordVisual.EnsureVisible(_go.transform);
+            EnemySwordVisual.EnsureVisible(_go.transform, _go.transform);
 
             var renderer = EnemySwordVisual.FindBladeRenderer(_go.transform);
 
