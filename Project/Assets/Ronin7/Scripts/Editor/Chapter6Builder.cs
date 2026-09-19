@@ -21,7 +21,7 @@ namespace Ronin7.EditorTools
     /// slope (spawn) up a switchback ascent to Morrigan's window, then an any-order kill-list across
     /// three tower branches off a central Iron Yard (Cradle/Matron Hespa, Proving/Drillmaster Caradoc,
     /// Vesting/Master Kaelen), Kaelen's dying confession (Ladder B rung 4), and an evacuation that closes
-    /// with Morrigan joining as Ally #3. Opens the mountain segment of Act II (EP11-12).
+    /// with Morrigan joining as Ally #3. Opens the mountain segment of Act II.
     ///
     /// Lives in the same <see cref="XRRigBuilder"/> partial class as <c>ChapterSharedBuilders</c> so it
     /// reuses their geometry/dialogue/mission-step helpers directly. All chapter-local helpers are
@@ -130,7 +130,7 @@ namespace Ronin7.EditorTools
             var worldGo = new GameObject("IronDojo");
             var world = worldGo.transform;
 
-            // ---- The forest slope (spawn): open ground, no walls, mirrors the EP04/Ch5 exterior pattern. ----
+            // ---- The forest slope (spawn): open ground, no walls, mirrors the Ch5 exterior pattern. ----
             var forestGo = new GameObject("ForestSlope");
             var forest = forestGo.transform;
             forest.SetParent(world, false);

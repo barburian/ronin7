@@ -1,5 +1,5 @@
 # CHAPTER 7 — FORGOTTEN NAMES
-**Act II · Beneath the Erasure · Episodes EP13–EP14**
+**Act II · Beneath the Erasure**
 **Logline:** A salvager-archivist called Coral Vex turns out to be an operative of the **Wraith line** — the variant that came before his own, who cut her own leash and survived erasure — and through her, Ronin-7 learns the erased aren't simply gone: every operative's shadow-AI is kept alive inside its blade and racked, conscious in the dark like the katana writ large, and his switch was sabotaged by dissent inside the Program itself.
 
 ---

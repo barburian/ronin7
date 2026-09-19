@@ -76,7 +76,7 @@ namespace Ronin7.EditorTools
             BuildAccentPointLight("CommandLight", new Vector3(0f, 2.6f, 34f), new Color(0.5f, 0.82f, 1f), 2.4f, 16f);  // cold command
 
             // ---- Interior geometry. Linear +Z run: Revival Bay -> Hold -> Airlock -> Command. ----
-            // Command room mirrors EP01 (z[26,42], x[-9,9]) so BuildCommandWindshield aligns as the
+            // Command room at z[26,42], x[-9,9] so BuildCommandWindshield aligns as the
             // cracked viewscreen.
             var interiorGo = new GameObject("ShipInterior");
             var interior = interiorGo.transform;
@@ -146,7 +146,7 @@ namespace Ronin7.EditorTools
             AddOneShotOnEnable(alarmGo, $"{Ch1AudioFolder}/Landing.wav", loop: false, volume: 1f); // clamp clank
             alarmGo.SetActive(false);
 
-            // ---- Game root: GameState + CombatFeedbackController (mirrors EP01). ----
+            // ---- Game root: GameState + CombatFeedbackController. ----
             var gameGo = new GameObject("Game");
             gameGo.AddComponent<GameState>();
             gameGo.AddComponent<CombatFeedbackController>();
@@ -287,7 +287,7 @@ namespace Ronin7.EditorTools
             SetObjectRef(outroSo, "completeCanvas", completeCanvasGo);
             outroSo.ApplyModifiedPropertiesWithoutUndo();
             // Reuse CampaignFlagSetter: wire SetFlags into the outro's activation event (persistent so it
-            // survives serialization), mirroring how episode finales wire the flag onto a button onClick.
+            // survives serialization), mirroring how chapter finales wire the flag onto a button onClick.
             UnityEventTools.AddPersistentListener(outro.OnActivated,
                 new UnityEngine.Events.UnityAction(flagSetter.SetFlags));
             outroGo.SetActive(false);

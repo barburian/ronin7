@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Ronin7.World
 {
     /// <summary>
-    /// EP18 "tidal flood" mechanic: a rising water volume that deals pressure damage over time
+    /// "tidal flood" mechanic: a rising water volume that deals pressure damage over time
     /// to a submerged player. The water surface rises from startY to endY over riseDuration,
     /// applying continuous chip damage at damageInterval while the player remains submerged.
     ///

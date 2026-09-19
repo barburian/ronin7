@@ -24,38 +24,38 @@ namespace Ronin7.Tests.EditMode
         public void NextIncomplete_NothingCompleted_ReturnsFirst()
         {
             var director = CampaignDirector.CreateForTests(
-                M("EP02", "Galaxy1_EP02_Docking"),
-                M("EP03", "Galaxy1_EP03_Hauler"));
+                M("Ch02", "Ch02_Prologue"),
+                M("Ch03", "Ch03_Prologue"));
 
             var next = director.NextIncomplete(CompletedSet());
 
             Assert.IsTrue(next.HasValue);
-            Assert.AreEqual("Galaxy1_EP02_Docking", next.Value.entryScene);
+            Assert.AreEqual("Ch02_Prologue", next.Value.entryScene);
         }
 
         [Test]
         public void NextIncomplete_SkipsCompleted_ReturnsFirstUncompleted()
         {
             var director = CampaignDirector.CreateForTests(
-                M("EP02", "Galaxy1_EP02_Docking"),
-                M("EP03", "Galaxy1_EP03_Hauler"),
-                M("EP04", "Galaxy1_EP04_JungleMoon"));
+                M("Ch02", "Ch02_Prologue"),
+                M("Ch03", "Ch03_Prologue"),
+                M("Ch04", "Ch04_Prologue"));
 
-            var next = director.NextIncomplete(CompletedSet("Galaxy1_EP02_Docking"));
+            var next = director.NextIncomplete(CompletedSet("Ch02_Prologue"));
 
             Assert.IsTrue(next.HasValue);
-            Assert.AreEqual("Galaxy1_EP03_Hauler", next.Value.entryScene);
+            Assert.AreEqual("Ch03_Prologue", next.Value.entryScene);
         }
 
         [Test]
         public void NextIncomplete_AllCompleted_ReturnsNull()
         {
             var director = CampaignDirector.CreateForTests(
-                M("EP02", "Galaxy1_EP02_Docking"),
-                M("EP03", "Galaxy1_EP03_Hauler"));
+                M("Ch02", "Ch02_Prologue"),
+                M("Ch03", "Ch03_Prologue"));
 
             var next = director.NextIncomplete(
-                CompletedSet("Galaxy1_EP02_Docking", "Galaxy1_EP03_Hauler"));
+                CompletedSet("Ch02_Prologue", "Ch03_Prologue"));
 
             Assert.IsNull(next);
         }
@@ -63,16 +63,16 @@ namespace Ronin7.Tests.EditMode
         [Test]
         public void NextIncomplete_SkipsEmptyScaffoldSlots()
         {
-            // Unfilled scaffold slots (empty entryScene, reserved for later galaxies) are not launchable.
+            // Unfilled scaffold slots (empty entryScene, reserved for later content) are not launchable.
             var director = CampaignDirector.CreateForTests(
-                M("EP02", "Galaxy1_EP02_Docking"),
-                M("EP09", ""),
-                M("EP03", "Galaxy1_EP03_Hauler"));
+                M("Ch02", "Ch02_Prologue"),
+                M("Ch14", ""),
+                M("Ch03", "Ch03_Prologue"));
 
-            var next = director.NextIncomplete(CompletedSet("Galaxy1_EP02_Docking"));
+            var next = director.NextIncomplete(CompletedSet("Ch02_Prologue"));
 
             Assert.IsTrue(next.HasValue);
-            Assert.AreEqual("Galaxy1_EP03_Hauler", next.Value.entryScene);
+            Assert.AreEqual("Ch03_Prologue", next.Value.entryScene);
         }
 
         [Test]

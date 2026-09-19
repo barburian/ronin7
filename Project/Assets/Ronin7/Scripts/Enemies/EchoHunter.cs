@@ -6,7 +6,7 @@ using UnityEngine.Events;
 namespace Ronin7.Enemies
 {
     /// <summary>
-    /// EP14 "EchoHunter" mechanic: a hunter drone trained on Cipher's operational file.
+    /// "EchoHunter" mechanic: a hunter drone trained on Cipher's operational file.
     /// It predicts the player's repeated attack pattern. While the player keeps striking from the SAME side
     /// within a time window, the drone guards and refunds most damage. A novel/varied strike (different side)
     /// lands full damage and fires a one-time prediction-broken event. This inverts PatternedDuelist's reward

@@ -6,7 +6,7 @@ using Ronin7.Combat;
 namespace Ronin7.Enemies
 {
     /// <summary>
-    /// EP13 Mirror Maze mechanic: drives a SEQUENCE of phantom "self" copies that fight
+    /// Mirror Maze mechanic: drives a SEQUENCE of phantom "self" copies that fight
     /// one at a time. Each phantom is a separate GameObject with Health; when the current
     /// dies, the next activates. The final phantom applies a scale reduction and its death
     /// fires onSequenceCleared exactly once.

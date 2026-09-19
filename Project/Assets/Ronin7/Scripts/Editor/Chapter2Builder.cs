@@ -306,7 +306,7 @@ namespace Ronin7.EditorTools
             SetObjectRef(outroSo, "completeCanvas", completeCanvasGo);
             outroSo.ApplyModifiedPropertiesWithoutUndo();
             // publishZoneCompleted defaults to true on ChapterOutro — this scene is scene-keyed
-            // completion, same as every episode/chapter finale.
+            // completion, same as every chapter finale.
             UnityEventTools.AddPersistentListener(outro.OnActivated,
                 new UnityEngine.Events.UnityAction(flagSetter.SetFlags));
             outroGo.SetActive(false);

@@ -1,5 +1,5 @@
 # CHAPTER 12 — THE FRACTURE
-**Act III · Predators Become Protectors · Episodes EP23–EP24**
+**Act III · Predators Become Protectors**
 **Logline:** At a Dominion cryo-command vault, the last scattered archive is wired into the operative command-network — and unlike the three nodes before it, this one holds the shadows of the **Ronin** generation, his own make. Commander Vale wakes with a terrible promise: the "defective generation" can be roused into an army. To reach the node, Ronin-7 must cut down its keeper — not an older make this time but an edition of his own face — and in the same breath learns the cruelest truth, the inverse of the one he carried down: he is not the newest copy but the **template** — the seventh Ronin and the first that worked (1…6 culled), the original every edition was cloned **from.** Three makes came before him; the fourth is him, and the fourth was grown out of him.
 
 ---

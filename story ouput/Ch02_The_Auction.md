@@ -1,5 +1,5 @@
 # CHAPTER 2 — THE AUCTION
-**Act I · Mercy as Rebellion · Episodes EP02–EP03**
+**Act I · Mercy as Rebellion**
 **Logline:** On the auction-world Velorum, Ronin-7 buys a smuggler's freedom, frees Kessler's stolen daughter, gains a stowaway — and learns the killswitch in his skull already fired and failed.
 
 ---

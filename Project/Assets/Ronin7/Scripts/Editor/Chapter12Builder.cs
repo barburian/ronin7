@@ -83,7 +83,7 @@ namespace Ronin7.EditorTools
     /// SENTINEL DUELIST + HIVE CASCADE (enemy-variety pass): the Tier-2 skirmish's three "cradle
     /// sentinels" are the chapter's own "repeats the player's own silhouette more densely with depth"
     /// motif — a hive of near-identical bodies. <see cref="HiveCascadeController"/> (previously wired
-    /// nowhere in the project) makes that literal: it drives the trio through the EP24 "Fracture
+    /// nowhere in the project) makes that literal: it drives the trio through the "Fracture
     /// Protocol" Attacking/Frozen/Conflicted desync instead of lockstep, echoing this chapter's own title.
     /// One of the three is also upgraded to a tanky "Sentinel Duelist" elite (<c>Ch12SentinelDuelist</c>
     /// EnemyDefinition, PostureMeter + PatternedDuelist) — see <c>Ch12UpgradeToSentinelDuelist</c>.
@@ -210,7 +210,7 @@ namespace Ronin7.EditorTools
             // convention). Kept light and cold per the chapter brief — the real fights are Beat 2's
             // argument and Beat 3's boss. The LAST cradle sentinel is upgraded to the tanky "Sentinel
             // Duelist" elite variant, and a HiveCascadeController (the "one mind, many bodies" cradle-rack
-            // motif — and this chapter's own EP24 "Fracture Protocol" — made literal; previously wired
+            // motif — and this chapter's own "Fracture Protocol" — made literal; previously wired
             // nowhere in the project) drives the whole trio through Attacking/Frozen/Conflicted desync
             // instead of lockstep. Neither addition changes the DefeatEnemies step below (still the same
             // 3 Health objectives). ----

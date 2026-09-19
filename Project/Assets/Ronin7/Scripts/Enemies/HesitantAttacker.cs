@@ -6,7 +6,7 @@ using UnityEngine.Events;
 namespace Ronin7.Enemies
 {
     /// <summary>
-    /// EP12 "Shardborn" mechanic: an enemy whose pooled combat instincts leave an integration gap.
+    /// "Shardborn" mechanic: an enemy whose pooled combat instincts leave an integration gap.
     /// It keeps its guard up most of the time, refunding most incoming damage via healing, and only
     /// briefly "commits" — a telegraphed window during which damage lands at full value. A hit landed
     /// inside the committed window fires a one-time event (the player punishing the half-beat).

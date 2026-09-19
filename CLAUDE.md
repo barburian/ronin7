@@ -22,8 +22,9 @@ C# source lives under `Project/Assets/Ronin7/Scripts/<Area>/`, split into modula
 | `Ronin7.Editor` | `Scripts/Editor` | editor tooling (e.g. `Editor/Art/ArtGenerationMenu`) |
 
 Tests: `Ronin7.Tests.EditMode` and `Ronin7.Tests.PlayMode`. The EditMode suite is the gate.
-Scenes: `Assets/Ronin7/Scenes/Galaxy1_EP01..EP06_*.unity`. `Galaxy1_EP01_Ship` is both the hub
-and the EP01 combat intro — idling there is a game-over state, not a safe menu.
+Scenes: `Assets/Ronin7/Scenes/ChNN_*.unity` (chapters + their `ChNN_Prologue` ship scenes).
+`Galaxy1_Ch1_Hub` is both the Ch1 mission and the persistent post-Ch1 hub, mode-gated via
+`HubStateController`.
 
 ## Build / Run / Test
 

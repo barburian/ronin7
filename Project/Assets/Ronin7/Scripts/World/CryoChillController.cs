@@ -6,7 +6,7 @@ using UnityEngine.Events;
 namespace Ronin7.World
 {
     /// <summary>
-    /// EP23 "Thermopause" cold-survival mechanic. Models the player's body temperature as a
+    /// "Thermopause" cold-survival mechanic. Models the player's body temperature as a
     /// "chill" meter in [0,1] (0 = warm, 1 = fully frozen). Chill rises continuously while the
     /// player is in the supercooled ice-world / cryo-vault environment, and falls while they
     /// stand inside a <see cref="HeatVent"/> (reactor vent / storm-shelter / fire pocket).

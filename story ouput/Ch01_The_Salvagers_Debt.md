@@ -1,5 +1,5 @@
 # CHAPTER 1 — THE SALVAGER'S DEBT
-**Act I · Mercy as Rebellion · Episode EP01**
+**Act I · Mercy as Rebellion**
 **Logline:** Three weeks after pulling a sealed casket out of open space, a salvager finally wakes the dead man inside — just as a Dominion patrol boards the ship and recognizes a face the records swear was already executed.
 
 ---
@@ -7,7 +7,7 @@
 ## BEAT TREATMENT
 
 ### Scene 1 — The Wake *(the Hub — Kessler's salvage rig)*
-- EP01 opens on a body on the revival table. For three weeks Kessler has nursed it back from a flatline; now, for the first time, the vitals climb toward something like consciousness.
+- The chapter opens on a body on the revival table. For three weeks Kessler has nursed it back from a flatline; now, for the first time, the vitals climb toward something like consciousness.
 - Ronin-7 boots up *lucid* — no name, fragmentary memory, lethal reflexes. Before he knows where he is, he has Kessler by the throat.
 - Kessler talks him down. **Beat:** this is the wake the whole revival has been building toward — the first time the body is actually *present* instead of thrashing and going under again.
 - Tutorial/Hub establishment: movement, the katana, the Hub as home base.
@@ -128,7 +128,7 @@
 - Seeds **Ladder D** (the handler exists, unnamed — the boarding alert routes to him and he appears as the command-room hologram; he stays **unnamed on screen**, named "Khall" at Ch4) and **Ladder A** (he survived execution — the casket-in-space dump and the troopers' disbelief at a "decedent" foreshadow it; the *how* lands Ch2).
 - **New thread — Kessler's prior servitude to the Dominion** (referenced in the handler's ultimatum). Not yet in the Story Bible; flagged for canon if kept. Explains why the Dominion leverages Kessler specifically and how Khall reaches him.
 - **3-day ultimatum** seeded here as the Ch2 driver: deliver "the lost item" (Ronin-7) or Iris dies. The crew refuses the trade (Kessler reads the bluff) and instead races to free her — the engine of the Ch2 auction rescue.
-- Establishes the **3-week gap**: Kessler found and revived the casket three weeks before EP01; Ronin-7 has stirred before but only now wakes lucid. (Anchors crew familiarity going forward.)
+- Establishes the **3-week gap**: Kessler found and revived the casket three weeks before the chapter opens; Ronin-7 has stirred before but only now wakes lucid. (Anchors crew familiarity going forward.)
 - Establishes Hub, Kessler, and the katana for the whole game.
 - Reveals **Iris as Kessler's daughter** via the handler's ultimatum — held in Velorum's markets as collateral; the personal stake of the Ch2 rescue.
 - Sets up Ch2 (the Auction) as the next destination.

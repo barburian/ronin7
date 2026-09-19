@@ -1,5 +1,5 @@
 # CHAPTER 3 — THE SWORD REMEMBERS
-**Act I · Mercy as Rebellion · Episodes EP04–EP05**
+**Act I · Mercy as Rebellion**
 **Logline:** Ronin-7's katana wakes — it houses a defected shadow-AI bonded to his eyes that sees what he sees, and the first thing it shows him is its own recorded footage of *him*: the erased mission on Kethel-7 where his own conscience broke, he refused the order, and his handler executed him with a killswitch that fired and failed.
 
 ---

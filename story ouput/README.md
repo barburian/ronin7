@@ -8,26 +8,26 @@ The remade *Ronin-7* narrative: a self-consistent, game-ready package. Reconcile
 3. **`17_THE_HUB_Kesslers_Ship.md`** — worldbuilding & gameplay reference for Kessler's ship, ***The Cairn*** (the Hub): the crew's persistent home base, its deck-by-deck layout, and the "wakes up over the game" progression.
 
 ## File map
-| File | Act | Episodes | Title | `[CAVE]` |
-|------|-----|----------|-------|:---:|
-| `00_STORY_BIBLE.md` | — | — | Canon reference | |
-| `Ch01_The_Salvagers_Debt.md` | I | EP01 | The Salvager's Debt | |
-| `Ch02_The_Auction.md` | I | EP02–03 | The Auction | |
-| `Ch03_The_Sword_Remembers.md` | I | EP04–05 | The Sword Remembers | |
-| `Ch04_The_Overseers_Hunt.md` | I | EP06–08 | The Overseer's Hunt | |
-| `Ch05_The_Debt_of_Ashes.md` | II | EP09–10 | The Debt of Ashes | |
-| `Ch06_The_Iron_Dojo.md` | II | EP11–12 | The Iron Dojo | |
-| `Ch07_Forgotten_Names.md` | II | EP13–14 | Forgotten Names | |
-| `Ch08_The_Silent_Garden.md` | II | EP15–16 | The Silent Garden | |
-| `Ch09_The_Pit_and_the_Deep.md` | III | EP17–18 | The Pit and the Deep | ✅ |
-| `Ch10_The_Ledger_of_Rust.md` | III | EP19–20 | The Ledger of Rust | ✅ |
-| `Ch11_Ghosts_and_Origins.md` | III | EP21–22 | Ghosts and Origins | ✅ |
-| `Ch12_The_Fracture.md` | III | EP23–24 | The Fracture | |
-| `Ch13_The_Sterile_Reckoning.md` | IV | EP25–26 | The Sterile Reckoning | |
-| `Ch14_The_Cage.md` | — | — | The Cage *(CUT)* | ✂️ |
-| `Ch15_The_Vault_Within.md` | — | — | The Vault Within *(merged → Ch16)* | ↪️ |
-| `Ch16_The_Throne_of_Ashes.md` | IV | EP29–32 | The Vault and the Throne of Ashes *(finale)* | |
-| `17_THE_HUB_Kesslers_Ship.md` | — | — | *The Cairn* — Kessler's ship / the Hub (reference) | |
+| File | Act | Title | `[CAVE]` |
+|------|-----|-------|:---:|
+| `00_STORY_BIBLE.md` | — | Canon reference | |
+| `Ch01_The_Salvagers_Debt.md` | I | The Salvager's Debt | |
+| `Ch02_The_Auction.md` | I | The Auction | |
+| `Ch03_The_Sword_Remembers.md` | I | The Sword Remembers | |
+| `Ch04_The_Overseers_Hunt.md` | I | The Overseer's Hunt | |
+| `Ch05_The_Debt_of_Ashes.md` | II | The Debt of Ashes | |
+| `Ch06_The_Iron_Dojo.md` | II | The Iron Dojo | |
+| `Ch07_Forgotten_Names.md` | II | Forgotten Names | |
+| `Ch08_The_Silent_Garden.md` | II | The Silent Garden | |
+| `Ch09_The_Pit_and_the_Deep.md` | III | The Pit and the Deep | ✅ |
+| `Ch10_The_Ledger_of_Rust.md` | III | The Ledger of Rust | ✅ |
+| `Ch11_Ghosts_and_Origins.md` | III | Ghosts and Origins | ✅ |
+| `Ch12_The_Fracture.md` | III | The Fracture | |
+| `Ch13_The_Sterile_Reckoning.md` | IV | The Sterile Reckoning | |
+| `Ch14_The_Cage.md` | — | The Cage *(CUT)* | ✂️ |
+| `Ch15_The_Vault_Within.md` | — | The Vault Within *(merged → Ch16)* | ↪️ |
+| `Ch16_The_Throne_of_Ashes.md` | IV | The Vault and the Throne of Ashes *(finale)* | |
+| `17_THE_HUB_Kesslers_Ship.md` | — | *The Cairn* — Kessler's ship / the Hub (reference) | |
 
 ## Format legend (each chapter file)
 - **Beat Treatment** — scene-by-scene breakdown (setting, characters, beats, the reveal that lands).

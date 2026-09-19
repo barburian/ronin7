@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Ronin7.World
 {
     /// <summary>
-    /// EP32 "hull breach repair under fire" mechanic: manages a set of hull breach points
+    /// "hull breach repair under fire" mechanic: manages a set of hull breach points
     /// that the player must seal by holding interaction (grip) on each one. Each unsealed
     /// breach pulses damage at regular intervals until sealed. Once sealed, a breach is safe.
     /// </summary>

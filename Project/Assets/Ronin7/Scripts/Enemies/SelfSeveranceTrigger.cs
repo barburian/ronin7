@@ -5,7 +5,7 @@ using Ronin7.Core;
 namespace Ronin7.Enemies
 {
     /// <summary>
-    /// EP16 self-severance beat: the player (Cipher) cuts his own spinal locator chip to sever
+    /// Self-severance beat: the player (Cipher) cuts his own spinal locator chip to sever
     /// the Dominion's tracking beacon. This component tracks the one-time scripted action and
     /// sets a story flag when activated, allowing dependent dialogue/encounters to key off the
     /// severance event.

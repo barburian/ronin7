@@ -12,7 +12,7 @@ namespace Ronin7.Flow
     /// </summary>
     public class MissionLauncher : MonoBehaviour
     {
-        [Tooltip("Ordered campaign mission list (one entry per episode).")]
+        [Tooltip("Ordered campaign mission list (one entry per chapter).")]
         [SerializeField] private CampaignDirector director;
 
         /// <summary>Launch the next incomplete mission. No-op (logs) when the campaign is complete.</summary>

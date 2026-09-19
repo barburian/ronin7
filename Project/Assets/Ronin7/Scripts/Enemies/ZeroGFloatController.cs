@@ -5,7 +5,7 @@ using Ronin7.Combat;
 namespace Ronin7.Enemies
 {
     /// <summary>
-    /// EP25 "The Sterile Reckoning" mechanic: drives a GROUP of MeleeAttacker members with a gentle
+    /// "The Sterile Reckoning" mechanic: drives a GROUP of MeleeAttacker members with a gentle
     /// per-member vertical bob and horizontal sway, as if drifting weightlessly in zero-partial gravity.
     /// Each member floats around its spawn position with an independent phase offset, causing the group
     /// to desynchronize and visually feel like they are not in unison.

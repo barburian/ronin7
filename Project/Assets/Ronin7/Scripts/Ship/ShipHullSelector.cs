@@ -7,7 +7,7 @@ namespace Ronin7.Ship
     /// Sits on the Cockpit GameObject. On Start, instantiates the player's chosen exterior hull
     /// (picked in the ship-select scene, persisted in ShipSelection) as a child at local identity so
     /// it wraps the cockpit and follows the cockpit transform (incl. CockpitRecenter) automatically.
-    /// The 4 hull prefab references are wired at scene-build time by Galaxy1Builder.
+    /// The 4 hull prefab references are wired at scene-build time.
     /// </summary>
     public class ShipHullSelector : MonoBehaviour
     {

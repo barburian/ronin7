@@ -1,5 +1,5 @@
 # CHAPTER 4 — THE OVERSEER'S HUNT
-**Act I · Mercy as Rebellion · Episodes EP06–EP07–EP08**
+**Act I · Mercy as Rebellion**
 **Logline:** The handler hunting Ronin-7 finally has a name — Khall — and he speaks the operative's own codename, Cipher, like a leash he still believes will hold; the proof that his killswitch was deliberately sabotaged comes wrapped in the one act no malfunction could fake: mercy, freely given.
 
 ---

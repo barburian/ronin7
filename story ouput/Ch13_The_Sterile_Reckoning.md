@@ -1,5 +1,5 @@
 # CHAPTER 13 — THE STERILE RECKONING
-**Act IV · Reckoning and Revelation · Episodes EP25–EP26**
+**Act IV · Reckoning and Revelation**
 **Logline:** Ronin-7 confronts Dr. Heris — the engineer who built both him and his killswitch, and the conscripted architect of the Concord Engine — and learns she planted the flaw that saved him on purpose; beside her waits Sallow, the body designed to absolve, the tenth and final ally.
 
 ---
