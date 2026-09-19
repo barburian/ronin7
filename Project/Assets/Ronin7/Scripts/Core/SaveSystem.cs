@@ -38,6 +38,13 @@ namespace Ronin7.Core
         }
 
         /// <summary>
+        /// Path to the account-wide meta-progression file (Echoes, upgrades), stored beside the
+        /// numbered slot files. See <see cref="MetaSaveData"/> / <c>MetaProgression.Save/Load</c> —
+        /// Roguelike-Design.md Amendment 2 (A2.1) moved meta out of the per-slot <see cref="SaveData"/>.
+        /// </summary>
+        internal static string MetaPath => Path.Combine(Directory, "meta.json");
+
+        /// <summary>
         /// Saves data to the specified slot (1-based, 1..SlotCount).
         /// Sets savedAtUtcTicks, creates directory if needed, writes JSON.
         /// Returns silently on invalid slot or null data.
@@ -59,32 +66,43 @@ namespace Ronin7.Core
             try
             {
                 data.savedAtUtcTicks = DateTime.UtcNow.Ticks;
-                string dir = Directory;
-                System.IO.Directory.CreateDirectory(dir);
-                string path = SlotPath(slot);
-                string tempPath = TempPath(slot);
                 string json = JsonUtility.ToJson(data, true);
-
-                // Atomic write: stage to a temp file in the same directory and flush it to
-                // disk, then swap it into place. A crash/power-loss mid-write leaves the
-                // previous save intact instead of truncating the only copy.
-                using (FileStream stream = new FileStream(tempPath, FileMode.Create, FileAccess.Write, FileShare.None))
-                using (StreamWriter writer = new StreamWriter(stream))
-                {
-                    writer.Write(json);
-                    writer.Flush();
-                    stream.Flush(true);
-                }
-
-                if (File.Exists(path))
-                    File.Replace(tempPath, path, null);
-                else
-                    File.Move(tempPath, path);
+                WriteAtomic(SlotPath(slot), json);
             }
             catch (Exception ex)
             {
                 Debug.LogError($"SaveSystem.Save: IO error: {ex.Message}");
             }
+        }
+
+        /// <summary>
+        /// Atomically writes <paramref name="json"/> to <paramref name="path"/>: stage to a
+        /// "<paramref name="path"/>.tmp" file in the same directory and flush it to disk, then swap
+        /// it into place. A crash/power-loss mid-write leaves the previous file intact instead of
+        /// truncating the only copy. Shared by <see cref="Save"/> (slot files) and
+        /// <c>MetaProgression.Save</c> (<see cref="MetaPath"/>) so there is exactly one
+        /// write-temp-then-move implementation in the project — callers are responsible for their
+        /// own try/catch (mirrors <see cref="Save"/>'s existing error handling).
+        /// </summary>
+        internal static void WriteAtomic(string path, string json)
+        {
+            string dir = Path.GetDirectoryName(path);
+            if (!string.IsNullOrEmpty(dir))
+                System.IO.Directory.CreateDirectory(dir);
+            string tempPath = path + ".tmp";
+
+            using (FileStream stream = new FileStream(tempPath, FileMode.Create, FileAccess.Write, FileShare.None))
+            using (StreamWriter writer = new StreamWriter(stream))
+            {
+                writer.Write(json);
+                writer.Flush();
+                stream.Flush(true);
+            }
+
+            if (File.Exists(path))
+                File.Replace(tempPath, path, null);
+            else
+                File.Move(tempPath, path);
         }
 
         /// <summary>

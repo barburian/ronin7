@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Runtime.CompilerServices;
 using Ronin7.Combat;
@@ -123,6 +124,17 @@ namespace Ronin7.Flow
         {
             if (VRRig.Instance == null) return;
             if (evt.Entity != VRRig.Instance.gameObject) return; // only the on-foot player rig
+            // A death during a roguelike run is handled by RunDirector (permadeath -> hub, echoes
+            // banked), not this path (-> main menu game over). RunState lives in Core so this check
+            // costs Flow no new coupling to Ronin7.Flow.Roguelike.
+            //
+            // A7.1: also guard on RunDirector.EndingRun, not just RunState.InRun. RunState.End() (which
+            // flips InRun false) now runs only after the hub scene load completes, so InRun alone would
+            // already prevent the original race; EndingRun is latched the instant RunDirector starts
+            // ending the run (before it even publishes RunEnded) as a second, order-independent guard —
+            // this must not depend on EventBus.Publish's subscription order deciding which handler for
+            // this same EntityDied event runs first.
+            if (RunState.InRun || (RunDirector.Instance != null && RunDirector.Instance.EndingRun)) return;
             TriggerGameOver();
         }
 
@@ -278,8 +290,30 @@ namespace Ronin7.Flow
         internal static bool ShouldAutosaveOnArrival(GameMode mode, bool quickBoot)
             => !quickBoot && mode != GameMode.Boot;
 
-        /// <summary>Shared inner body of every scene transition: fade out → load → mode → autosave → camera → fade in.</summary>
-        private IEnumerator FadeLoadFade(string scene, GameMode mode, bool runUnloadAfter, bool quickBoot = false)
+        /// <summary>
+        /// Public entry point for other persistent systems that need the same fade/load/autosave
+        /// path this file uses for every scene swap — currently <see cref="RunDirector"/>, so the
+        /// roguelike run's per-node scene reloads (and its hub return) don't duplicate it. Always
+        /// runs the post-load unload/GC step, matching every in-file caller.
+        ///
+        /// <paramref name="onLoaded"/> (A7.9) fires once the scene has loaded and its mode is set, but
+        /// BEFORE the camera wait / fade-in — i.e. still under the black fade. RunDirector uses this to
+        /// apply boons to the freshly-loaded rig before the player can see or be hit at base stats,
+        /// instead of after the fade-in completes (which used to show a live, attackable, base-stat
+        /// player for the whole fade-in and then a visible instant full-heal).
+        ///
+        /// <paramref name="skipReveal"/> is checked right after <paramref name="onLoaded"/>; when it
+        /// returns true the camera wait and fade-in are skipped entirely and the screen stays black.
+        /// RunDirector uses this for a zero-enemy Forge/Treasure node: its RoomCleared fires
+        /// synchronously from the arena's own Start() (i.e. before this method's load-wait even
+        /// returns), latching the next scene load — fading fully in just to immediately fade back out
+        /// for that queued load is a pointless flash the player would otherwise see six-ish times a run.
+        /// </summary>
+        public IEnumerator LoadSceneFaded(string scene, GameMode mode, Action onLoaded = null, Func<bool> skipReveal = null)
+            => FadeLoadFade(scene, mode, runUnloadAfter: true, onLoaded: onLoaded, skipReveal: skipReveal);
+
+        /// <summary>Shared inner body of every scene transition: fade out → load → mode → onLoaded → autosave → camera → fade in.</summary>
+        private IEnumerator FadeLoadFade(string scene, GameMode mode, bool runUnloadAfter, bool quickBoot = false, Action onLoaded = null, Func<bool> skipReveal = null)
         {
             if (string.IsNullOrEmpty(scene))
             {
@@ -312,11 +346,20 @@ namespace Ronin7.Flow
             // 4. Announce the new mode so per-scene systems react (ShipController also self-sets).
             if (GameState.Instance != null) GameState.Instance.SetMode(mode);
 
+            // 4.5. Caller hook, still under the black fade (A7.9 — see LoadSceneFaded's doc comment).
+            onLoaded?.Invoke();
+
             // 5. Autosave: the player has reached a new scene — persist campaign progress to the
             //    active slot. Runs while still under the black fade so the save-file write can
             //    never hitch a visible frame (VR 90 FPS budget).
             if (ShouldAutosaveOnArrival(mode, quickBoot))
                 SaveSystem.Autosave(CampaignState.ToSaveData());
+
+            // 5.5. Skip the reveal entirely when the caller already knows another load is queued
+            // (A7.9 — see LoadSceneFaded's doc comment). The screen is already black from step 1; do
+            // nothing further so it stays that way until the queued load's own fade-out (a no-op fade
+            // from black) and load take over.
+            if (skipReveal != null && skipReveal()) yield break;
 
             // 6. Wait (budgeted, ShouldReveal) for the new scene's head camera, then re-establish
             //    black before fading in. Normally the camera arrives — including one that appears

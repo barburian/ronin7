@@ -9,7 +9,7 @@ namespace Ronin7.Player
     /// <summary>
     /// Ch10 ("The Ledger of Rust") permanent ability: Sever/Ninja-2's freed blade-shadow, inherited by
     /// Echo on the kill, lets Echo blink Cipher a short distance through solid matter and enemy bodies.
-    /// Self-disables in <see cref="Awake"/> unless <c>CampaignState.HasAbility(AbilityId.PhaseStep)</c> —
+    /// Self-disables in <see cref="Awake"/> unless <c>AbilityAccess.Has(AbilityId.PhaseStep)</c> (campaign unlock OR run-scoped boon grant) —
     /// mirrors <see cref="WeakpointSight"/>/<see cref="OverdriveController"/> — so it is harmless to place
     /// on the rig in every scene, locked or not.
     ///
@@ -70,7 +70,7 @@ namespace Ronin7.Player
         private void Awake()
         {
             controller = GetComponent<CharacterController>();
-            if (!CampaignState.HasAbility(AbilityId.PhaseStep))
+            if (!AbilityAccess.Has(AbilityId.PhaseStep))
             {
                 enabled = false;
             }

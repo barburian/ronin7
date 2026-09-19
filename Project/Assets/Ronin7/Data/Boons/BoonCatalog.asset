@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70bf079421e7baf499a873fcc23df091, type: 3}
+  m_Name: BoonCatalog
+  m_EditorClassIdentifier: Ronin7.Combat::Ronin7.Combat.BoonCatalog
+  boons:
+  - {fileID: 11400000, guid: 840fb2858e00665438a33c317e964330, type: 2}
+  - {fileID: 11400000, guid: 4a64120323a59bc48ba0826019ca90ff, type: 2}
+  - {fileID: 11400000, guid: 816b3c1823e385c4faa36c1cca92b616, type: 2}
+  - {fileID: 11400000, guid: fe13fcced91f268478b1780cd2992427, type: 2}
+  - {fileID: 11400000, guid: e457fa9fd3a703b4383fe9e174fbd050, type: 2}
+  - {fileID: 11400000, guid: 48c6d4f9e3c7c3142bdad08eae989b2a, type: 2}
+  - {fileID: 11400000, guid: 6c596ea0d697e1d49bb6e17bea81a9fe, type: 2}
+  - {fileID: 11400000, guid: a979adcff7d32b441844ccc30f78daa4, type: 2}
+  - {fileID: 11400000, guid: f93becde6f28c9e4386244d404ceef94, type: 2}
+  - {fileID: 11400000, guid: cb89235367151974781821ed3b135938, type: 2}
+  - {fileID: 11400000, guid: 14fa05122d46f864a8bff7f7acb9fb14, type: 2}
+  - {fileID: 11400000, guid: b5572fba77218684097dae8fcc1051c0, type: 2}
+  - {fileID: 11400000, guid: 7b5943ff63cf91a49b01184bec323ad9, type: 2}
+  - {fileID: 11400000, guid: a6a2ba5fc730e6942b36f7355ce022dd, type: 2}
+  - {fileID: 11400000, guid: 412d3100c87499f4d9962fff71a1cbd4, type: 2}

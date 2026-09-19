@@ -82,7 +82,7 @@ namespace Ronin7.Player
 
         private void ApplyMultiplier()
         {
-            if (combatModifiers != null) combatModifiers.ComboMultiplier = MultiplierForCombo(state.Count, PerStack);
+            if (combatModifiers != null) combatModifiers.ComboMultiplier = MultiplierForCombo(state.Count, PerStack + combatModifiers.BoonComboBonus);
         }
 
         /// <summary>Pure combo-chain transition. See the class doc for the locked-in scheme.</summary>

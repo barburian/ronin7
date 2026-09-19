@@ -9,7 +9,7 @@ namespace Ronin7.Player
     /// Ch9 ("The Pit and the Deep") permanent ability: Vane/Wraith-6's freed blade-shadow, inherited by
     /// Echo on the kill, lets Echo spike Cipher into a hyper-reflex burst where the world appears frozen
     /// in time. Self-disables in <see cref="Awake"/> unless
-    /// <c>CampaignState.HasAbility(AbilityId.Overdrive)</c> — mirrors <see cref="WeakpointSight"/> — so
+    /// <c>AbilityAccess.Has(AbilityId.Overdrive)</c> (campaign unlock OR run-scoped boon grant) — mirrors <see cref="WeakpointSight"/> — so
     /// it is harmless to place on the rig in every scene, locked or not.
     ///
     /// CHARGE: builds from landed sword hits via <see cref="Ronin7.Combat.SwordImpact"/> (published only
@@ -73,7 +73,7 @@ namespace Ronin7.Player
 
         private void Awake()
         {
-            if (!CampaignState.HasAbility(AbilityId.Overdrive))
+            if (!AbilityAccess.Has(AbilityId.Overdrive))
             {
                 enabled = false;
                 return;

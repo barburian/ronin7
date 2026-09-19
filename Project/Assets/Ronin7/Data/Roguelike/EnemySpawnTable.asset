@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be9d31495f2628a40b28a587f81dd766, type: 3}
+  m_Name: EnemySpawnTable
+  m_EditorClassIdentifier: Ronin7.World::Ronin7.World.EnemySpawnTable
+  trash:
+  - prefab: {fileID: 5142214897794221663, guid: e25fc5a9ff1446d45a67ccb53bff3a04, type: 3}
+    definition: {fileID: 11400000, guid: 1245cb9e6fe5f584e9059703a44e64aa, type: 2}
+    weight: 15
+    minDepth: 0
+    eliteOnly: 0
+  - prefab: {fileID: 4808927160386080507, guid: 720e15579e4df7e44aa9b16b5f180067, type: 3}
+    definition: {fileID: 11400000, guid: 058590c4e466ac3478dccd0e53b9bb7d, type: 2}
+    weight: 15
+    minDepth: 0
+    eliteOnly: 0
+  - prefab: {fileID: 9166627839566804211, guid: 9d2239b64a3dda94aa32870b7070bc95, type: 3}
+    definition: {fileID: 11400000, guid: 11d23b4b387f09c438601b972f960adf, type: 2}
+    weight: 12
+    minDepth: 0
+    eliteOnly: 0
+  - prefab: {fileID: 8634392853671692880, guid: dccc5fde401c77542973cd70f7d3986f, type: 3}
+    definition: {fileID: 11400000, guid: ed90ae16a1bb74145ac513ae44fab568, type: 2}
+    weight: 12
+    minDepth: 2
+    eliteOnly: 0
+  - prefab: {fileID: 7043011938888400025, guid: 1a13095029947784a88d4c46db914505, type: 3}
+    definition: {fileID: 11400000, guid: 5f166fd1639ba684a8059eff8bf82304, type: 2}
+    weight: 10
+    minDepth: 3
+    eliteOnly: 0
+  - prefab: {fileID: 6460438669832031860, guid: 8d669a71cb1359b429b828c2e7dfcc2e, type: 3}
+    definition: {fileID: 11400000, guid: 12a4c02f1e9eeec4dad2ff32aab39b99, type: 2}
+    weight: 10
+    minDepth: 3
+    eliteOnly: 0
+  - prefab: {fileID: 3372851308560540462, guid: a6e85720dcf05014dba6ecac5433912a, type: 3}
+    definition: {fileID: 11400000, guid: b44be82cb8baea643939aa0a797ea6dd, type: 2}
+    weight: 8
+    minDepth: 5
+    eliteOnly: 0
+  - prefab: {fileID: 3989639387344550226, guid: 20739ada1f155bf44bbdbde322d3e299, type: 3}
+    definition: {fileID: 11400000, guid: 3c32548ff4fa8b34499cc29d1ff367da, type: 2}
+    weight: 8
+    minDepth: 5
+    eliteOnly: 0
+  - prefab: {fileID: 8550414386024033152, guid: b0d642fdf3cc8ad48ba768d41c95ccb8, type: 3}
+    definition: {fileID: 11400000, guid: e1e607d48a8e7024ca2fe1d8f9bffe1c, type: 2}
+    weight: 6
+    minDepth: 6
+    eliteOnly: 1
+  - prefab: {fileID: 2618830459434312720, guid: 290ea93500a4e9a4a82289e5b8dd313a, type: 3}
+    definition: {fileID: 11400000, guid: 243cd23077fa85a4bafcf51d3ff23c39, type: 2}
+    weight: 6
+    minDepth: 7
+    eliteOnly: 1
+  - prefab: {fileID: 1792532119144589718, guid: b4410fd13c954be4da6d51267b67c9ca, type: 3}
+    definition: {fileID: 11400000, guid: ddcf37a74d725e0459a8499a01d1393c, type: 2}
+    weight: 6
+    minDepth: 8
+    eliteOnly: 1
+  bosses:
+  - prefab: {fileID: 5497403558466260732, guid: 3f113a65b5112c84587edcc28a18ae31, type: 3}
+    definition: {fileID: 11400000, guid: 57b27abf8736fe44fadc9ff2fc40a15e, type: 2}
+    sector: 0
+  - prefab: {fileID: 4964568157888359081, guid: ce005d45733eea84d8673bc7657ccd63, type: 3}
+    definition: {fileID: 11400000, guid: daadf4284740ad44096f6a217a72ca93, type: 2}
+    sector: 1
+  - prefab: {fileID: 3236774156031892715, guid: 0ef6588e996f7a248abdcf154d4a13be, type: 3}
+    definition: {fileID: 11400000, guid: 97ca881ee5647be4cb40baa999ddf726, type: 2}
+    sector: 2

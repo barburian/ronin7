@@ -89,7 +89,7 @@ namespace Ronin7.Player
 
         private void ApplyMultiplier()
         {
-            if (combatModifiers != null) combatModifiers.ParryFlowMultiplier = ParryTiming.FlowMultiplier(streak, PerStackBonus);
+            if (combatModifiers != null) combatModifiers.ParryFlowMultiplier = ParryTiming.FlowMultiplier(streak, PerStackBonus + combatModifiers.BoonParryFlowBonus);
         }
     }
 }

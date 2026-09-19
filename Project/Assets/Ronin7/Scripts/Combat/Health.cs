@@ -54,10 +54,16 @@ namespace Ronin7.Combat
         public event Action Died;
 
         /// <summary>Optional death-interceptor hook (e.g. Ch11's Unbroken ward). When set and a lethal
-        /// blow lands, this is invoked BEFORE the death fires; returning true survives the blow at 1 HP
-        /// and Died/EntityDied are never raised for it. Null (the default) preserves current behavior
-        /// exactly, so every scene/test that never sets this is unaffected.</summary>
+        /// blow lands, this is invoked BEFORE the death fires; returning true survives the blow at
+        /// <see cref="ReviveFraction"/> of max HP (floor 1) and Died/EntityDied are never raised for it.
+        /// Null (the default) preserves current behavior exactly, so every scene/test that never sets
+        /// this is unaffected.</summary>
         public Func<bool> DeathInterceptor { get; set; }
+
+        /// <summary>Fraction of max health restored when <see cref="DeathInterceptor"/> survives a
+        /// lethal blow. Default 0 preserves the existing survive-at-1-HP behaviour exactly (A6.2) — so
+        /// every scene/test that never sets this is byte-identical to today.</summary>
+        public float ReviveFraction { get; set; }
 
         private void Awake() => Current = maxHealth;
 
@@ -92,7 +98,7 @@ namespace Ronin7.Combat
             {
                 if (DeathInterceptor != null && DeathInterceptor.Invoke())
                 {
-                    Current = 1f;
+                    Current = Mathf.Max(1f, maxHealth * ReviveFraction);
                     return;
                 }
 
@@ -102,6 +108,13 @@ namespace Ronin7.Combat
         }
 
         public void ResetHealth() => Current = maxHealth;
+
+        /// <summary>Sets current health directly, clamped to [0, Max], without firing a damage/death
+        /// event. Used to restore durable HP carried across a scene reload (e.g. the roguelike mode's
+        /// node-to-node attrition, see RunState.PlayerHealth) — a plain damage/heal call would either
+        /// fire spurious feedback or be rejected outright (Heal no-ops once dead; ApplyDamage requires
+        /// a positive amount).</summary>
+        public void SetCurrent(float value) => Current = Mathf.Clamp(value, 0f, maxHealth);
 
         /// <summary>Increase current health up to max (used by defensive mechanics). No-op once dead
         /// so a late refund/heal event can never resurrect an entity whose death already fired.</summary>

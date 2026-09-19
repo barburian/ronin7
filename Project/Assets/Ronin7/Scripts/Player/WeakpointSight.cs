@@ -9,7 +9,7 @@ namespace Ronin7.Player
     /// <summary>
     /// Ch7 ("Forgotten Names") permanent ability: the pacified blade's shadow-AI imparts its
     /// accumulated combat-read to Echo, who overlays enemy weak points on Cipher's optic feed. Self-
-    /// disables in <see cref="Awake"/> unless <c>CampaignState.HasAbility(AbilityId.WeakpointSight)</c>
+    /// disables in <see cref="Awake"/> unless <c>AbilityAccess.Has(AbilityId.WeakpointSight)</c> (campaign unlock OR run-scoped boon grant)
     /// — mirrors the ability-gated pattern <c>EchoPresence</c>/<c>Ronin7.World.Story.AbilityGranter</c>
     /// already use — so it is harmless to place on the rig in every scene, locked or not.
     ///
@@ -52,7 +52,7 @@ namespace Ronin7.Player
 
         private void Awake()
         {
-            if (!CampaignState.HasAbility(AbilityId.WeakpointSight))
+            if (!AbilityAccess.Has(AbilityId.WeakpointSight))
             {
                 enabled = false;
                 return;
