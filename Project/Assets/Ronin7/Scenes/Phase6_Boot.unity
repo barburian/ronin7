@@ -217,10 +217,17 @@ MonoBehaviour:
   shipHullHit: {fileID: 0}
   landing: {fileID: 0}
   extraction: {fileID: 0}
+  attackWindup: {fileID: 8300000, guid: e37ca17f4fdc0c7479f52a0a05be191f, type: 3}
+  enemyDefeated: {fileID: 8300000, guid: 64056d2884929874a99e177ff69e7fbb, type: 3}
+  abilityActivate: {fileID: 0}
+  boonChosen: {fileID: 0}
   flightAmbience: {fileID: 0}
   onFootAmbience: {fileID: 0}
   ambienceVolume: 0.5
   ambienceFade: 1.5
+  sectorAmbienceRust: {fileID: 8300000, guid: 5842fbaa6f0a0064880b961fec700245, type: 3}
+  sectorAmbienceProgram: {fileID: 8300000, guid: 36b1e2a9f93c3244aa4e5b7e02346d18, type: 3}
+  sectorAmbienceGarden: {fileID: 8300000, guid: 25bc0401e65893b4b95680ec8a8498f1, type: 3}
   exploreMusic: {fileID: 0}
   combatMusic: {fileID: 0}
   musicVolume: 0.45
@@ -904,7 +911,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2

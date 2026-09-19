@@ -24,6 +24,7 @@ namespace Ronin7.Editor.Art
 
         private const string AmbienceFolder = "Assets/Ronin7/Audio/Generated/Ambience";
         private const string FootstepFolder = "Assets/Ronin7/Audio/Generated/Footstep";
+        private const string CombatHitFolder = "Assets/Ronin7/Audio/Generated/CombatHits";
 
         // One bed per theme. Seeds are arbitrary fixed constants -- only their stability across runs matters.
         private static readonly (string name, AmbienceTheme theme, int seed)[] AmbienceJobs =
@@ -49,6 +50,20 @@ namespace Ronin7.Editor.Art
             ("Footstep_Soft_1", 311),
             ("Footstep_Soft_2", 312),
             ("Footstep_Soft_3", 313),
+        };
+
+        // Placeholder combat-feedback one-shots for the roguelike run arena (AudioDirector's
+        // attackWindup/enemyDefeated fields — see the "roguelike audio" pass). Reuses
+        // GenerateFootstepThud as a generic short filtered-noise-burst synth (it's a percussive
+        // attack/decay shape, not literally a footstep) rather than inventing a second DSP core for
+        // what is mechanically the same primitive. Windup is a short, sharp "hard" tick (readable
+        // telegraph); enemy-defeated is a longer, darker "soft" thud (a confirming kill cue). Tonal
+        // content (music, reward chimes) is deliberately NOT generated this way — see the handoff
+        // notes on why placeholder music was left unassigned instead.
+        private static readonly (string name, float duration, int seed, FootstepSurface surface)[] CombatHitJobs =
+        {
+            ("Hit_AttackWindup", 0.15f, 401, FootstepSurface.Hard),
+            ("Hit_EnemyDefeated", 0.35f, 402, FootstepSurface.Soft),
         };
 
         [MenuItem("Tools/Space Samurai/Art/Generate Ambience & Footstep Clips")]
@@ -83,6 +98,24 @@ namespace Ronin7.Editor.Art
                       $"and {footstepCount} footstep variant(s) -> {FootstepFolder}/.");
         }
 
+        [MenuItem("Tools/Space Samurai/Art/Generate Combat Hit Clips")]
+        public static void GenerateCombatHitClips()
+        {
+            EnsureFolder(CombatHitFolder);
+
+            int count = 0;
+            foreach (var job in CombatHitJobs)
+            {
+                float[] samples = ProceduralAudioSynth.GenerateFootstepThud(SampleRate, job.duration, job.seed, job.surface);
+                CreateOrUpdateClip($"{CombatHitFolder}/{job.name}.wav", samples);
+                count++;
+            }
+
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            Debug.Log($"[ProceduralAudioClipBuilder] Generated {count} combat-hit one-shot(s) -> {CombatHitFolder}/.");
+        }
+
         [MenuItem("Tools/Space Samurai/Art/Assign Generated Clips (Open Scene)")]
         public static void AssignGeneratedClips()
         {
@@ -97,6 +130,13 @@ namespace Ronin7.Editor.Art
                 if (clip != null) footstepClips.Add(clip);
             }
 
+            // Optional: only present once "Generate Combat Hit Clips" has been run. Missing entries
+            // just mean AudioDirector's attackWindup/enemyDefeated stay unassigned (silent), same as
+            // any other not-yet-authored clip field.
+            var hitClips = new Dictionary<string, AudioClip>();
+            foreach (var job in CombatHitJobs)
+                hitClips[job.name] = AssetDatabase.LoadAssetAtPath<AudioClip>($"{CombatHitFolder}/{job.name}.wav");
+
             if (footstepClips.Count == 0 || ambienceClips.Count == 0)
             {
                 Debug.LogError("[ProceduralAudioClipBuilder] No generated clips found at " +
@@ -109,10 +149,16 @@ namespace Ronin7.Editor.Art
 
             Undo.SetCurrentGroupName("Assign Generated Clips");
             int undoGroup = Undo.GetCurrentGroup();
-            int ambienceAssigned = 0, footstepAssigned = 0;
+            int ambienceAssigned = 0, footstepAssigned = 0, directorsAssigned = 0;
 
             foreach (GameObject root in roots)
             {
+                // AudioDirector is a DontDestroyOnLoad singleton (lives in Phase6_Boot) rather than a
+                // per-zone component like the two below, but it's still just a component in "the open
+                // scene" so it fits the same walk.
+                foreach (var director in root.GetComponentsInChildren<AudioDirector>(true))
+                    if (AssignAudioDirectorClips(director, ambienceClips, hitClips)) directorsAssigned++;
+
                 foreach (var layer in root.GetComponentsInChildren<ProximityAmbienceLayer>(true))
                 {
                     var source = new SerializedObject(layer).FindProperty("source").objectReferenceValue as AudioSource;
@@ -165,12 +211,59 @@ namespace Ronin7.Editor.Art
                 }
             }
 
-            if (ambienceAssigned + footstepAssigned > 0)
+            if (ambienceAssigned + footstepAssigned + directorsAssigned > 0)
                 EditorSceneManager.MarkSceneDirty(scene);
 
             Undo.CollapseUndoOperations(undoGroup);
             Debug.Log($"[ProceduralAudioClipBuilder] '{scene.name}': assigned ambience clip to {ambienceAssigned}, " +
-                      $"footstep clips to {footstepAssigned} component(s). Scene marked dirty -- save manually.");
+                      $"footstep clips to {footstepAssigned}, AudioDirector roguelike clips on {directorsAssigned} " +
+                      "component(s). Scene marked dirty -- save manually.");
+        }
+
+        /// <summary>
+        /// Wires an <see cref="AudioDirector"/>'s roguelike-run clip fields (sector ambience +
+        /// attackWindup/enemyDefeated one-shots) to the matching generated clips, skipping any field
+        /// that already has one assigned (hand-authored or a previous run) — mirrors the
+        /// non-clobbering idiom the ambience/footstep loops above use. Fields are private, so this goes
+        /// through <see cref="SerializedObject"/> by name rather than a public setter API that would
+        /// otherwise only exist for editor tooling. Returns true iff anything changed.
+        /// </summary>
+        private static bool AssignAudioDirectorClips(AudioDirector director,
+            Dictionary<AmbienceTheme, AudioClip> ambienceClips, Dictionary<string, AudioClip> hitClips)
+        {
+            var so = new SerializedObject(director);
+            AudioClip rust = ambienceClips.TryGetValue(AmbienceTheme.HangarHum, out var r) ? r : null;
+            AudioClip program = ambienceClips.TryGetValue(AmbienceTheme.DreadDrone, out var p) ? p : null;
+            AudioClip garden = ambienceClips.TryGetValue(AmbienceTheme.GardenWind, out var g) ? g : null;
+            AudioClip windup = hitClips.TryGetValue("Hit_AttackWindup", out var w) ? w : null;
+            AudioClip defeated = hitClips.TryGetValue("Hit_EnemyDefeated", out var d) ? d : null;
+
+            bool changed = false;
+            changed |= AssignIfEmpty(so, "sectorAmbienceRust", rust);
+            changed |= AssignIfEmpty(so, "sectorAmbienceProgram", program);
+            changed |= AssignIfEmpty(so, "sectorAmbienceGarden", garden);
+            changed |= AssignIfEmpty(so, "attackWindup", windup);
+            changed |= AssignIfEmpty(so, "enemyDefeated", defeated);
+
+            if (changed)
+            {
+                Undo.RecordObject(director, "Assign Generated Clips");
+                so.ApplyModifiedProperties();
+                EditorUtility.SetDirty(director);
+            }
+            return changed;
+        }
+
+        /// <summary>Sets <paramref name="fieldName"/> to <paramref name="clip"/> iff the field exists,
+        /// is currently unassigned, and <paramref name="clip"/> is non-null -- never clobbers a
+        /// hand-authored clip. Returns true iff it assigned.</summary>
+        private static bool AssignIfEmpty(SerializedObject so, string fieldName, AudioClip clip)
+        {
+            if (clip == null) return false;
+            var prop = so.FindProperty(fieldName);
+            if (prop == null || prop.objectReferenceValue != null) return false;
+            prop.objectReferenceValue = clip;
+            return true;
         }
 
         /// <summary>Keys an ambience theme off the ProximityAmbienceLayer GameObject's own name --

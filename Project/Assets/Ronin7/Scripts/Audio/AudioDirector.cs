@@ -1,5 +1,6 @@
 using Ronin7.Combat;
 using Ronin7.Core;
+using Ronin7.Player;
 using Ronin7.Ship;
 using UnityEngine;
 
@@ -44,11 +45,29 @@ namespace Ronin7.Audio
         [SerializeField] private AudioClip landing;
         [SerializeField] private AudioClip extraction;
 
+        [Header("Combat feedback one-shots")]
+        [Tooltip("Spatialized telegraph cue for an enemy's attack windup (see AttackWindupStarted) — " +
+                 "the readable-behind-you parry cue now that art enemies have no visible blade.")]
+        [SerializeField] private AudioClip attackWindup;
+        [SerializeField] private AudioClip enemyDefeated;
+        [SerializeField] private AudioClip abilityActivate;
+
+        [Header("Roguelike run one-shots")]
+        [SerializeField] private AudioClip boonChosen;
+
         [Header("Ambience (looping, per mode)")]
         [SerializeField] private AudioClip flightAmbience;
         [SerializeField] private AudioClip onFootAmbience;
         [SerializeField, Range(0f, 1f)] private float ambienceVolume = 0.5f;
         [SerializeField] private float ambienceFade = 1.5f;
+
+        [Header("Roguelike arena ambience (looping, per sector — see RunMapGenerator.SectorCount)")]
+        [Tooltip("Sector 0 (\"rust\") — see ArenaRoomLibrary's biome ids.")]
+        [SerializeField] private AudioClip sectorAmbienceRust;
+        [Tooltip("Sector 1 (\"program\").")]
+        [SerializeField] private AudioClip sectorAmbienceProgram;
+        [Tooltip("Sector 2 (\"garden\").")]
+        [SerializeField] private AudioClip sectorAmbienceGarden;
 
         [Header("Music (looping, by combat state)")]
         [SerializeField] private AudioClip exploreMusic;
@@ -135,6 +154,11 @@ namespace Ronin7.Audio
             EventBus.Subscribe<PlayerShipDamaged>(OnPlayerShipDamaged);
             EventBus.Subscribe<SpaceEncounterStarted>(OnEncounterStarted);
             EventBus.Subscribe<SpaceEncounterCleared>(OnEncounterCleared);
+            EventBus.Subscribe<AttackWindupStarted>(OnAttackWindup);
+            EventBus.Subscribe<EntityDied>(OnEntityDied);
+            EventBus.Subscribe<AbilityActivated>(OnAbilityActivated);
+            EventBus.Subscribe<BoonChosen>(OnBoonChosen);
+            EventBus.Subscribe<RunNodeEntered>(OnRunNodeEntered);
         }
 
         private void OnDisable()
@@ -151,14 +175,38 @@ namespace Ronin7.Audio
             EventBus.Unsubscribe<PlayerShipDamaged>(OnPlayerShipDamaged);
             EventBus.Unsubscribe<SpaceEncounterStarted>(OnEncounterStarted);
             EventBus.Unsubscribe<SpaceEncounterCleared>(OnEncounterCleared);
+            EventBus.Unsubscribe<AttackWindupStarted>(OnAttackWindup);
+            EventBus.Unsubscribe<EntityDied>(OnEntityDied);
+            EventBus.Unsubscribe<AbilityActivated>(OnAbilityActivated);
+            EventBus.Unsubscribe<BoonChosen>(OnBoonChosen);
+            EventBus.Unsubscribe<RunNodeEntered>(OnRunNodeEntered);
         }
 
         private void Update()
         {
+            UpdateRunMusic();
             ambienceLevel = StepCrossfade(ambience, ambienceTarget, ambienceVolume, ambienceFade, ambienceLevel);
             musicLevel = StepCrossfade(music, musicTarget, musicVolume, musicFade, musicLevel);
             UpdateEngine();
         }
+
+        /// <summary>
+        /// Roguelike run explore/combat crossfade: while a run is active, the music bed simply tracks
+        /// <see cref="CombatActivity.OnFootAggro"/> (already maintained by every MeleeAttacker's FSM,
+        /// zero extra bookkeeping) — no aggro'd enemy means explore, any aggro'd enemy means combat.
+        /// Gated on <see cref="RunState.InRun"/> so campaign chapters (which drive music via
+        /// <see cref="OnModeChanged"/>/space-encounter events instead) are untouched. A static bool
+        /// read; no allocation.
+        /// </summary>
+        private void UpdateRunMusic()
+        {
+            if (!RunState.InRun) return;
+            musicTarget = CombatOrExploreMusic(CombatActivity.OnFootAggro, exploreMusic, combatMusic);
+        }
+
+        /// <summary>Pure decision: which music bed the run should be on right now. A7.10-style test seam.</summary>
+        internal static AudioClip CombatOrExploreMusic(bool aggro, AudioClip exploreMusic, AudioClip combatMusic) =>
+            aggro ? combatMusic : exploreMusic;
 
         /// <summary>
         /// Drive a looping bed toward <paramref name="target"/>: if the playing clip isn't the
@@ -217,6 +265,41 @@ namespace Ronin7.Audio
         private void OnPlayerHit(PlayerHit e) => PlayAt(playerHit, e.Point);
         private void OnLanding(LandingRequested _) => PlayAt(landing, ListenerPoint());
         private void OnExtracted(ZoneCompleted _) => PlayAt(extraction, ListenerPoint());
+
+        private void OnAttackWindup(AttackWindupStarted e) => PlayAt(attackWindup, e.Point);
+
+        // A7.4-style: don't fire a "kill" thud on the player's own death — that has its own game-over
+        // flow (RunDirector/GameFlowManager); this is enemy-defeated combat feedback only.
+        private void OnEntityDied(EntityDied e)
+        {
+            var playerObj = VRRig.Instance != null ? VRRig.Instance.gameObject : null;
+            if (playerObj != null && e.Entity == playerObj) return;
+            PlayAt(enemyDefeated, e.Entity != null ? e.Entity.transform.position : ListenerPoint());
+        }
+
+        private void OnAbilityActivated(AbilityActivated _) => PlayAt(abilityActivate, ListenerPoint());
+        private void OnBoonChosen(BoonChosen _) => PlayAt(boonChosen, ListenerPoint());
+
+        /// <summary>Sets the arena's looping ambience bed to the entered node's sector theme (rust /
+        /// program / garden — see <see cref="SectorAmbience"/>); Update's StepCrossfade handles the
+        /// actual fade-out/swap/fade-in.</summary>
+        private void OnRunNodeEntered(RunNodeEntered e) =>
+            ambienceTarget = SectorAmbience(e.Sector, sectorAmbienceRust, sectorAmbienceProgram, sectorAmbienceGarden);
+
+        /// <summary>Pure sector -> ambience clip mapping (0 = rust, 1 = program, 2 = garden, matching
+        /// ArenaRoomLibrary's biome order); wraps like ArenaRoomLibrary.ForSector so an out-of-range
+        /// sector never throws. A7.10-style test seam.</summary>
+        internal static AudioClip SectorAmbience(int sector, AudioClip rust, AudioClip program, AudioClip garden)
+        {
+            const int SectorCount = 3;
+            int index = ((sector % SectorCount) + SectorCount) % SectorCount;
+            return index switch
+            {
+                0 => rust,
+                1 => program,
+                _ => garden,
+            };
+        }
 
         private void OnShipFired(ShipWeaponFired e) => PlayAt(shipGunFire, e.WorldPoint);
         private void OnBoltImpact(ProjectileImpact e) => PlayAt(boltImpact, e.WorldPoint);

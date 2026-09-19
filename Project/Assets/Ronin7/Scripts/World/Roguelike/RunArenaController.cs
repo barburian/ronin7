@@ -64,6 +64,10 @@ namespace Ronin7.World
             currentNodeIndex = node.Index;
             RunRng rng = RunRng.ForNode(RunState.Seed, node.Index);
 
+            // Audio (and anything else) reacts to the node's sector/kind via the EventBus rather than a
+            // hard reference into this assembly — see RunNodeEntered's doc comment.
+            EventBus.Publish(new RunNodeEntered(node.Sector, node.Kind));
+
             ArenaGeometryBuilder.Build(transform, arenaHalfExtent, roomLibrary.ForSector(node.Sector), ref rng);
 
             // A5.3: geometry above is built in the controller's own local space; playerSpawn (and the

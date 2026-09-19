@@ -29,4 +29,15 @@ namespace Ronin7.Core
         public readonly string BoonId;
         public BoonChosen(string boonId) { BoonId = boonId; }
     }
+
+    /// <summary>Published once a run node's arena has been built and is ready to play (see
+    /// <see cref="Ronin7.World.RunArenaController.Start"/>). Lets listeners react to the sector/kind of
+    /// the node the player just entered — e.g. per-sector ambience — without a hard reference into
+    /// Ronin7.World.</summary>
+    public readonly struct RunNodeEntered
+    {
+        public readonly int Sector;
+        public readonly RoomKind Kind;
+        public RunNodeEntered(int sector, RoomKind kind) { Sector = sector; Kind = kind; }
+    }
 }
