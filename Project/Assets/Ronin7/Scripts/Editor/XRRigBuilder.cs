@@ -1133,7 +1133,15 @@ namespace Ronin7.EditorTools
             if (hand.GetComponent<XRRayInteractor>() != null) return;
 
             var interactor = hand.gameObject.AddComponent<XRRayInteractor>();
-            var pressRef = MenuLoadActionRef("Right Hand", "Activate");
+            // MUST be "Select" (grip), not "Activate" (trigger). Nothing enables 'Right Hand/Activate'
+            // at runtime — OverdriveController/MirrorSummonController are the only components that
+            // enable it and both self-gate on AbilityAccess.Has — so a UI Press bound to Activate is a
+            // permanently DISABLED action: the ray hovers the panel, the controller reports the button
+            // as physically pressed, and the action never fires. That is the "I pressed every button
+            // and nothing happened" boon-panel failure. 'Right Hand/Select' is enabled by Grabber and
+            // is what the working Phase6_Boot menu uses (and what this builder's own end-of-build
+            // verification note already told us to check for).
+            var pressRef = MenuLoadActionRef("Right Hand", "Select");
             var so = new SerializedObject(interactor);
             if (pressRef != null)
             {
@@ -2209,8 +2217,10 @@ namespace Ronin7.EditorTools
                 var prop = so.FindProperty("m_UIPressInput.m_InputActionReferencePerformed");
                 if (prop != null)
                 {
-                    // Activate (trigger), not Select (grip) — see WireRightHandRayInteractorMenu.
-                    prop.objectReferenceValue = FindRef(refs, "Right Hand", "Activate");
+                    // Select (grip), not Activate (trigger) — 'Right Hand/Activate' is never enabled
+                    // at runtime, so binding UI Press to it makes every press a no-op. See the long
+                    // note in WireRightHandRayInteractorMenu.
+                    prop.objectReferenceValue = FindRef(refs, "Right Hand", "Select");
                 }
                 // Force NewerOnly so XRI reads UIPressInput instead of the legacy XR Controller path.
                 var compatProp = so.FindProperty("m_InputCompatibilityMode");

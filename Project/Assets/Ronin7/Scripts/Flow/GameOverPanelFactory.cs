@@ -46,6 +46,8 @@ namespace Ronin7.Flow
 
             var panel = canvasGo.AddComponent<GameOverPanel>();
             panel.returnButton = button;
+            // Must follow the assignment above: AddComponent already ran Awake.
+            panel.WireButtons();
             return panel;
         }
 

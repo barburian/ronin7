@@ -1,0 +1,23 @@
+{
+    "asset": "a870c98dae012894392a911d872a89cd",
+    "fileName": "019f4254-fc08-738e-976f-8c9ca89d95d4.glb",
+    "prompt": "3D game-ready character model, full body, single character in a symmetrical T-pose, clean topology, stylized-realistic grounded sci-fi, PBR textures, plain neutral background. A faceless human Dominion soldier: matte charcoal-and-oxblood combat plate over a sealed dark bodysuit, a full-face visored helmet with a single cold cyan scanner-slit, a small Program sigil on one pauldron, hard-armored boots and gloves, a compact rifle mag-clamped at the hip. Uniform, anonymous, disciplined military build. Color palette: charcoal, oxblood, gunmetal, matte black, with one cold cyan visor-glow. Weight and quiet menace over spectacle — \"samurai elegy in a dead-tech galaxy.\"\r\n",
+    "negativePrompt": "",
+    "model": "model3d-tripo-p1",
+    "modelName": "Tripo P1",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "promptImageReferenceGuid": "ebc37999785c59c45bceee470bb0466d",
+    "modelReferenceGuid": "",
+    "multiviewFrontGuid": "",
+    "multiviewBackGuid": "",
+    "multiviewLeftGuid": "",
+    "multiviewRightGuid": "",
+    "multiviewTopGuid": "",
+    "multiviewBottomGuid": "",
+    "multiviewLeftFrontGuid": "",
+    "multiviewRightFrontGuid": "",
+    "faceLimit": -1
+}

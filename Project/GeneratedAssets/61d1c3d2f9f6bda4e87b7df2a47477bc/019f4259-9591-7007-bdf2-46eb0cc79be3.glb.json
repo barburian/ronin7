@@ -1,0 +1,23 @@
+{
+    "asset": "61d1c3d2f9f6bda4e87b7df2a47477bc",
+    "fileName": "019f4259-9591-7007-bdf2-46eb0cc79be3.glb",
+    "prompt": "3D game-ready character model, full body, single character in a symmetrical T-pose, clean topology, stylized-realistic grounded sci-fi, PBR textures, plain neutral background. A mass-cloned human samurai assassin of the current make: lean-muscular manufactured build, dead-calm flat-affect face, faint augment-seams, a thin killswitch scar at the throat, short or shaved hair. Muted black-lacquer operative armor over a fitted dark undersuit — segmented plates, a high collar, no faction markings. Holds a single sheathed katana whose hilt carries one small living light. Economical, \"aimed\" lethal poise. Color palette: black lacquer, gunmetal, ash-grey, dried-blood accents, with one cold hilt-glow.",
+    "negativePrompt": "",
+    "model": "model3d-tripo-p1",
+    "modelName": "Tripo P1",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "promptImageReferenceGuid": "cb97389d181b55e428a0021d75235052",
+    "modelReferenceGuid": "",
+    "multiviewFrontGuid": "",
+    "multiviewBackGuid": "",
+    "multiviewLeftGuid": "",
+    "multiviewRightGuid": "",
+    "multiviewTopGuid": "",
+    "multiviewBottomGuid": "",
+    "multiviewLeftFrontGuid": "",
+    "multiviewRightFrontGuid": "",
+    "faceLimit": -1
+}

@@ -65,6 +65,9 @@ namespace Ronin7.Flow
             panel.choiceLabels = choiceLabels;
             panel.descriptionLabels = descriptionLabels;
             panel.rerollButton = rerollButton;
+            // Must follow the field assignments above: AddComponent already ran Awake, so the button
+            // listeners can only be attached now (see BoonOfferPanel.WireButtons).
+            panel.WireButtons();
             panel.SetChoices(choices);
             panel.SetRerollInteractable(rerollAvailable);
             return panel;

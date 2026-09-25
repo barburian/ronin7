@@ -11,16 +11,24 @@ namespace Ronin7.Flow
     /// </summary>
     public class GameOverPanel : MonoBehaviour
     {
-        // Public so the runtime builder in GameFlowManager can assign it after AddComponent.
-        // (Awake is deferred until end-of-frame after AddComponent, so the assignment lands first.)
+        // Public so the runtime builder can assign it after AddComponent. The assignment necessarily
+        // lands AFTER Awake has already run — see WireButtons.
         public Button returnButton;
 
         public event Action OnDismissed;
 
-        private void Awake()
+        /// <summary>
+        /// Wire the return button. The builder MUST call this after assigning <see cref="returnButton"/>.
+        /// This cannot be <c>Awake</c>: <c>AddComponent</c> on an active GameObject runs <c>Awake</c>
+        /// synchronously, inside the AddComponent call, so the old Awake-based wiring observed a null
+        /// button and attached no listener at all — RETURN TO MENU was dead, and only the auto-dismiss
+        /// timer got the player out. Same defect that made the boon panel unclickable. Idempotent.
+        /// </summary>
+        public void WireButtons()
         {
-            if (returnButton != null)
-                returnButton.onClick.AddListener(() => OnDismissed?.Invoke());
+            if (returnButton == null) return;
+            returnButton.onClick.RemoveAllListeners();
+            returnButton.onClick.AddListener(() => OnDismissed?.Invoke());
         }
     }
 }

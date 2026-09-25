@@ -1,0 +1,23 @@
+{
+    "asset": "acf1d6835cae8844bb3300a19ca29b7c",
+    "fileName": "019f4267-081a-786e-bb6a-17be136126e2.glb",
+    "prompt": " 3D game-ready character model, full body, single character in a symmetrical T-pose, clean topology, stylized-realistic grounded sci-fi, PBR textures, plain neutral background. A human Iron Dojo conditioning-warden: an upright disciplined adult in a clean high-collared bone-white-and-slate institutional uniform over a dark undersuit, a Program-grey apron-sash, a restraint-cuff and a conditioning prod at the belt, calm cold institutional expression, hair pinned severe. Reads as caretaker-and-jailer — a monster that looks kind. Color palette: bone-white, slate-grey, Program grey, with muted steel and one cold indicator-light.",
+    "negativePrompt": "",
+    "model": "model3d-tripo-p1",
+    "modelName": "Tripo P1",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "promptImageReferenceGuid": "90c789a6c4ea4b346b49b87736166aa8",
+    "modelReferenceGuid": "",
+    "multiviewFrontGuid": "",
+    "multiviewBackGuid": "",
+    "multiviewLeftGuid": "",
+    "multiviewRightGuid": "",
+    "multiviewTopGuid": "",
+    "multiviewBottomGuid": "",
+    "multiviewLeftFrontGuid": "",
+    "multiviewRightFrontGuid": "",
+    "faceLimit": -1
+}

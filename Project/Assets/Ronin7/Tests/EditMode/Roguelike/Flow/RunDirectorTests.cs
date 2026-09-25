@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using NUnit.Framework;
 using Ronin7.Combat;
@@ -43,6 +44,41 @@ namespace Ronin7.Tests.EditMode
         public void ResolveOffer_MatchesPriorityOrder(int choiceCount, bool hasCamera, bool hasEventSystem, string expected)
         {
             Assert.AreEqual(expected, RunDirector.ResolveOffer(choiceCount, hasCamera, hasEventSystem).ToString());
+        }
+
+        // ---- A7.2/A7.10: CanHonourChoice — the guard that must never silently stall the offer ----
+        //
+        // OnBoonChoiceSelected used to `return` outright when this was false, which left the offer's
+        // fallback deadline armed so Update() re-entered it every frame forever: the panel was never
+        // dismissed and the run never advanced. The guard now only decides whether a boon is GRANTED;
+        // the caller dismisses and advances either way.
+
+        [TestCase(3, 0, true)]
+        [TestCase(3, 2, true)]
+        [TestCase(1, 0, true)]
+        [TestCase(3, 3, false)]   // off the end
+        [TestCase(3, -1, false)]  // negative
+        [TestCase(0, 0, false)]   // A1.6: reroll can legitimately leave zero offerable boons
+        public void CanHonourChoice_MatchesBounds(int choiceCount, int index, bool expected)
+        {
+            var choices = new List<BoonDefinition>();
+            for (int i = 0; i < choiceCount; i++)
+                choices.Add(ScriptableObject.CreateInstance<BoonDefinition>());
+
+            try
+            {
+                Assert.AreEqual(expected, RunDirector.CanHonourChoice(choices, index));
+            }
+            finally
+            {
+                foreach (var c in choices) UnityEngine.Object.DestroyImmediate(c);
+            }
+        }
+
+        [Test]
+        public void CanHonourChoice_NullChoices_IsFalse()
+        {
+            Assert.IsFalse(RunDirector.CanHonourChoice(null, 0));
         }
 
         // ---- A7.1/A7.10: the scene-load latch ----

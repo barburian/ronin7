@@ -8,6 +8,7 @@
         "Ronin7.Player",
         "Ronin7.Enemies",
         "Ronin7.World",
+        "Ronin7.Flow",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"
     ],

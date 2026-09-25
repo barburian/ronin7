@@ -1,0 +1,23 @@
+{
+    "asset": "b5275ed2d6bb4bb43a0f175ad05da959",
+    "fileName": "019f425e-eced-7944-98e8-95bc7b2a6bdb.glb",
+    "prompt": "3D game-ready character model, full body, single object in a symmetrical T-pose, clean topology, stylized-realistic grounded sci-fi, PBR textures, plain neutral background. A derelict humanoid security-and-mining robot: heavy blocky worn plating over exposed servo joints and cabling, a broad reinforced torso, an armored featureless head with a single dim optic, oversized hydraulic arms ending in a clamp and a cutting tool, hunched slow-moving stance. Rusted, ancient, still patrolling. Color palette: rust-iron, oxide-brown, tarnished steel, with a dim amber optic-glow.\r\n",
+    "negativePrompt": "",
+    "model": "model3d-tripo-p1",
+    "modelName": "Tripo P1",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "promptImageReferenceGuid": "dcfea35ad17494647aba5532ebdb4049",
+    "modelReferenceGuid": "",
+    "multiviewFrontGuid": "",
+    "multiviewBackGuid": "",
+    "multiviewLeftGuid": "",
+    "multiviewRightGuid": "",
+    "multiviewTopGuid": "",
+    "multiviewBottomGuid": "",
+    "multiviewLeftFrontGuid": "",
+    "multiviewRightFrontGuid": "",
+    "faceLimit": -1
+}

@@ -1,0 +1,23 @@
+{
+    "asset": "94427b21b622bbe43a14a592e7e9b85c",
+    "fileName": "019f425b-4d36-7098-936f-90c804e7f29d.glb",
+    "prompt": "3D game-ready character model, full body, single character in a symmetrical T-pose, clean topology, stylized-realistic grounded sci-fi, PBR textures, plain neutral background. A heavyset Voll syndicate enforcer: broad soft-bulked mass, oily-sheened hairless sickly-green skin, jowled multi-folded face, small close-set half-hooded gold eyes, a wide lipless mouth, throat dewlaps, stubby ringed clawed hands. Mismatched scrap-iron armor plates strapped over stolen fabric, a Coil syndicate arm-band, a stun-pole in one hand and a slug-gun holstered. Bored professional muscle, not a zealot. Color palette: sickly-green oily flesh, scrap-iron grey, gaudy gold, with neon Coil-trim accents.",
+    "negativePrompt": "",
+    "model": "model3d-tripo-p1",
+    "modelName": "Tripo P1",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "promptImageReferenceGuid": "5510aff682808134b9a9facff5aaf494",
+    "modelReferenceGuid": "",
+    "multiviewFrontGuid": "",
+    "multiviewBackGuid": "",
+    "multiviewLeftGuid": "",
+    "multiviewRightGuid": "",
+    "multiviewTopGuid": "",
+    "multiviewBottomGuid": "",
+    "multiviewLeftFrontGuid": "",
+    "multiviewRightFrontGuid": "",
+    "faceLimit": -1
+}

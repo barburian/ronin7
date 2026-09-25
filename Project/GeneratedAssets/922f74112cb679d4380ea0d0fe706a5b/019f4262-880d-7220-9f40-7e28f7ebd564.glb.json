@@ -1,0 +1,23 @@
+{
+    "asset": "922f74112cb679d4380ea0d0fe706a5b",
+    "fileName": "019f4262-880d-7220-9f40-7e28f7ebd564.glb",
+    "prompt": "3D game-ready model, single humanoid construct in a symmetrical T-pose, clean topology, stylized digital sci-fi, PBR textures, plain neutral background. A faceless half-formed humanoid figure built of scrubbed static and stacked censor-blocks: a rough head-and-torso silhouette where blocks of glitch and scan-line noise stand in for a body, edges dissolving into digital corruption, no face, arms trailing off into censored fragments. Abstract, eerie, not living. Color palette: glitch-grey, censor-black, static-white, with scan-line cyan seams.\r\n",
+    "negativePrompt": "",
+    "model": "model3d-tripo-p1",
+    "modelName": "Tripo P1",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "promptImageReferenceGuid": "5d6bd5d4aab14fa45b234959d788ea1b",
+    "modelReferenceGuid": "",
+    "multiviewFrontGuid": "",
+    "multiviewBackGuid": "",
+    "multiviewLeftGuid": "",
+    "multiviewRightGuid": "",
+    "multiviewTopGuid": "",
+    "multiviewBottomGuid": "",
+    "multiviewLeftFrontGuid": "",
+    "multiviewRightFrontGuid": "",
+    "faceLimit": -1
+}

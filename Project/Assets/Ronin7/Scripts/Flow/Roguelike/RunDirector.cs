@@ -30,7 +30,10 @@ namespace Ronin7.Flow
 
         [Header("Scenes (must be in the Build Profiles scene list)")]
         [SerializeField] private string runArenaScene = "RunArena";
-        [SerializeField] private string hubScene = "Galaxy1_Ch1_Hub";
+        [Tooltip("Scene loaded when a run ends. The main menu, NOT the story hub: a run is a " +
+                 "self-contained loop (end -> summary -> ENTER THE FRACTURE -> next run), and " +
+                 "Galaxy1_Ch1_Hub is the campaign's narrative hub with its own MissionDirector.")]
+        [SerializeField] private string runEndScene = "Phase6_Boot";
 
         [Header("Boons")]
         [Tooltip("Source pool for starting boons, room-clear offers, and guaranteed Treasure rewards.")]
@@ -67,11 +70,15 @@ namespace Ronin7.Flow
         /// double-award echoes or a second boon offer. Reset per run in StartRun.</summary>
         private int lastClearedNode = -1;
 
+        /// <summary>CampaignStats.EnemiesDefeated as of StartRun, so the summary can subtract.</summary>
+        private int enemiesDefeatedAtRunStart;
+
         // Boon-offer state for the node currently awaiting a choice.
         private RunRng offerRng;
         private RunNode offerNode;
         private List<BoonDefinition> offerChoices;
         private BoonOfferPanel offerPanel;
+        private RunSummaryPanel summaryPanel;
         private float offerFallbackDeadline = -1f;
 
         // This run's boon aggregation. One instance for the whole run (A1.1/A4.1) — Clear()+replay every
@@ -103,6 +110,7 @@ namespace Ronin7.Flow
             EventBus.Unsubscribe<RoomCleared>(OnRoomCleared);
             EventBus.Unsubscribe<EntityDied>(OnEntityDied);
             DismissOfferPanel();
+            DismissRunSummary();
         }
 
         /// <summary>A7.2: re-anchors the live offer panel to the head every frame (position only — see
@@ -133,6 +141,9 @@ namespace Ronin7.Flow
             if (RunState.InRun) return; // guard against a double-tap on the hub launcher
             RunState.Begin(seed);
             lastClearedNode = -1;
+            // CampaignStats.EnemiesDefeated is a lifetime counter; snapshot it so the run summary can
+            // report THIS run's kills as a delta rather than the campaign total.
+            enemiesDefeatedAtRunStart = CampaignStats.EnemiesDefeated;
             ApplyStartingBonuses();
             EventBus.Publish(new RunStarted(seed));
             StartSceneLoad(runArenaScene);
@@ -368,21 +379,92 @@ namespace Ronin7.Flow
             return BoonOfferPicker.Pick(boonCatalog.boons, RunState.BoonCount, kind, ref offerRng, 3);
         }
 
+        /// <summary>Pure decision: can this index actually be honoured against the live offer? A7.10
+        /// test seam, same idiom as <see cref="ResolveOffer"/> / <see cref="ShouldHealOnKill"/>. The
+        /// caller must dismiss+advance either way — this only decides whether a boon is granted.</summary>
+        internal static bool CanHonourChoice(IReadOnlyList<BoonDefinition> choices, int index) =>
+            choices != null && index >= 0 && index < choices.Count;
+
+        /// <summary>
+        /// A7.2: this must ALWAYS dismiss the panel and advance, even when the index cannot be
+        /// honoured. It used to `return` silently on a bad index, which was a permanent soft-lock:
+        /// <see cref="offerFallbackDeadline"/> is cleared only by <see cref="DismissOfferPanel"/>, so
+        /// the early return left the deadline armed and <see cref="Update"/> re-entered this method
+        /// every frame forever — panel never removed, run never advanced, warning spamming the log.
+        /// That is exactly the "stuck on the boon panel" failure. A skipped boon is the safe failure;
+        /// a stuck run is not (same principle as A5.1's "clearing is the safe failure").
+        /// </summary>
         private void OnBoonChoiceSelected(int index)
         {
-            if (offerChoices == null || index < 0 || index >= offerChoices.Count) return;
-            GrantBoon(offerChoices[index]);
+            if (CanHonourChoice(offerChoices, index))
+            {
+                GrantBoon(offerChoices[index]);
+            }
+            else
+            {
+                Debug.LogError($"[RunDirector] Boon choice {index} is not valid for the current offer " +
+                               $"({(offerChoices == null ? "null" : offerChoices.Count.ToString())} choices). " +
+                               "Advancing without a boon rather than stalling the run.");
+            }
             DismissOfferPanel();
             AdvanceNode();
         }
 
+        /// <summary>
+        /// A1.6: <see cref="BoonOfferPicker.Pick"/> can legitimately return ZERO items from a non-empty
+        /// pool, and its doc comment requires every caller to auto-advance on that rather than block.
+        /// <see cref="BeginBoonOffer"/> honours it via <see cref="ResolveOffer"/>; this path did not —
+        /// a reroll that came back empty called SetChoices(0), which hides every choice button, leaving
+        /// a panel with nothing clickable (and no reroll left once the tokens are spent). Auto-advance
+        /// instead, same as the initial offer does.
+        /// </summary>
         private void OnRerollRequested()
         {
             if (!RunState.TrySpendRerollToken()) return;
             offerChoices = PickBoonChoices(offerNode.Kind);
+            if (offerChoices.Count == 0)
+            {
+                Debug.LogWarning("[RunDirector] Reroll left no offerable boons (A1.6); advancing without a choice rather than showing an unclickable panel.");
+                DismissOfferPanel();
+                AdvanceNode();
+                return;
+            }
             if (offerPanel == null) return;
             offerPanel.SetChoices(offerChoices);
             offerPanel.SetRerollInteractable(RunState.RerollTokens > 0);
+        }
+
+        /// <summary>
+        /// Build the post-run summary on the menu we just loaded. Mirrors BeginBoonOffer's guards:
+        /// no camera or no EventSystem means the panel would be unclickable, so skip it rather than
+        /// park a dead canvas in front of the menu buttons. Never fatal — the summary is a report,
+        /// and the menu behind it is fully usable without it.
+        /// </summary>
+        private void ShowRunSummary()
+        {
+            if (!RunSummary.HasResult) return;
+            DismissRunSummary(); // idempotence: never orphan a subscribed canvas
+
+            summaryPanel = RunSummaryPanelFactory.Build(Camera.main);
+            if (summaryPanel == null)
+            {
+                Debug.LogWarning("[RunDirector] No camera/EventSystem on the run-end scene; skipping the run summary.");
+                RunSummary.Clear();
+                return;
+            }
+            summaryPanel.Dismissed += OnRunSummaryDismissed;
+            // Consume the result now: a later Return-to-Menu must not resurrect this same summary.
+            RunSummary.Clear();
+        }
+
+        private void OnRunSummaryDismissed() => DismissRunSummary();
+
+        private void DismissRunSummary()
+        {
+            if (summaryPanel == null) return;
+            summaryPanel.Dismissed -= OnRunSummaryDismissed;
+            Destroy(summaryPanel.gameObject);
+            summaryPanel = null;
         }
 
         private void DismissOfferPanel()
@@ -462,9 +544,20 @@ namespace Ronin7.Flow
             int depth = RunState.NodeIndex;
             MetaProgression.AddEchoes(RunState.EchoesEarned);
             MetaProgression.NoteRunEnded(depth, won);
+
+            // Snapshot the result BEFORE RunState.End() wipes it (deferred to SceneLoadRoutine, but
+            // capture here so nothing else can clear it first), then persist the lifetime totals this
+            // run just changed — Save() had no callers at all, so none of it survived the session.
+            RunSummary.Capture(
+                depth, won,
+                CampaignStats.EnemiesDefeated - enemiesDefeatedAtRunStart,
+                RunState.Boons.Count,
+                RunState.EchoesEarned);
+            MetaProgression.Save();
+
             EventBus.Publish(new RunEnded(depth, won));
             DismissOfferPanel();
-            StartSceneLoad(hubScene);
+            StartSceneLoad(runEndScene);
         }
 
         private void StartSceneLoad(string scene)
@@ -509,16 +602,24 @@ namespace Ronin7.Flow
             // black, instead of after this call fully returns (after the whole fade-in). skipReveal
             // lets a zero-enemy node's already-latched pendingScene skip the pointless fade-in/fade-out.
             Action onLoaded = scene == runArenaScene ? (Action)ApplyBoonInventoryToRig : null;
-            yield return GameFlowManager.Instance.LoadSceneFaded(scene, GameMode.OnFoot, onLoaded, () => pendingScene != null);
+            // The run-end scene is the main menu, which must load as GameMode.Boot: ShouldAutosaveOnArrival
+            // deliberately excludes Boot, and arriving there as OnFoot would fire an arrival autosave on
+            // the menu and clobber MostRecentSlot.
+            var mode = scene == runEndScene ? GameMode.Boot : GameMode.OnFoot;
+            yield return GameFlowManager.Instance.LoadSceneFaded(scene, mode, onLoaded, () => pendingScene != null);
             transitioning = false;
 
             // A7.1: only now — after the hub load this EndRun triggered has actually completed — is it
             // safe to flip RunState.InRun off.
+            bool justEndedRun = EndingRun;
             if (EndingRun)
             {
                 EndingRun = false;
                 RunState.End();
             }
+
+            // Report the finished run on the menu we just arrived at.
+            if (justEndedRun) ShowRunSummary();
 
             string next = ConsumePendingSceneLoad();
             if (next != null) StartSceneLoad(next);

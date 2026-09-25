@@ -64,6 +64,12 @@ namespace Ronin7.Flow
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            // Meta progress (Echoes / BestDepth / RunsCompleted / RunsWon) is account-wide and lives in
+            // its own meta.json. Load it once here, on the persistent singleton's Awake — this runs after
+            // MetaProgression's SubsystemRegistration reset, so it repopulates rather than being wiped.
+            // Without this call Load() had no callers at all and every run's progress died with the session.
+            MetaProgression.Load();
         }
 
         private void OnEnable()

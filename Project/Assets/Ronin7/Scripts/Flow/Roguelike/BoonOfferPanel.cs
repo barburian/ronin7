@@ -15,8 +15,9 @@ namespace Ronin7.Flow
     /// </summary>
     public class BoonOfferPanel : MonoBehaviour
     {
-        // Public so BoonOfferPanelFactory can assign them after AddComponent (mirrors GameOverPanel's
-        // returnButton — Awake lands after that assignment for the same reason).
+        // Public so BoonOfferPanelFactory can assign them after AddComponent. Assignment necessarily
+        // lands AFTER Awake has already run (see WireButtons), which is why the listener wiring is an
+        // explicit call the factory makes and not an Awake.
         public Button[] choiceButtons;
         public Text[] choiceLabels;
         /// <summary>A7.9: a separate, smaller sub-label for each choice's description. Previously the
@@ -30,7 +31,19 @@ namespace Ronin7.Flow
         public event Action<int> ChoiceSelected;
         public event Action RerollRequested;
 
-        private void Awake()
+        /// <summary>
+        /// Wire every button to its event. The builder MUST call this after assigning the button
+        /// fields — this cannot live in <c>Awake</c>.
+        ///
+        /// A7.2 (second route into the same soft-lock): <c>AddComponent</c> on an *active*
+        /// GameObject runs <c>Awake</c> synchronously, inside the <c>AddComponent</c> call itself,
+        /// so an <c>Awake</c>-based wiring observed <c>choiceButtons == null</c> and silently added
+        /// no listeners at all. The panel still rendered, still highlighted under the ray and still
+        /// consumed the click — <c>onClick</c> just had nothing attached — so the run could never
+        /// advance past the first boon offer. Measured in-editor: listener count 0, event fired 0
+        /// times. Idempotent, so a second call cannot double-fire a choice.
+        /// </summary>
+        public void WireButtons()
         {
             if (choiceButtons != null)
             {
@@ -38,11 +51,15 @@ namespace Ronin7.Flow
                 {
                     if (choiceButtons[i] == null) continue;
                     int index = i; // capture by value, not the loop variable
+                    choiceButtons[i].onClick.RemoveAllListeners();
                     choiceButtons[i].onClick.AddListener(() => ChoiceSelected?.Invoke(index));
                 }
             }
             if (rerollButton != null)
+            {
+                rerollButton.onClick.RemoveAllListeners();
                 rerollButton.onClick.AddListener(() => RerollRequested?.Invoke());
+            }
         }
 
         /// <summary>

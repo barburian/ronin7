@@ -1,0 +1,23 @@
+{
+    "asset": "8549f10b2b2caff478682dcb67c401cc",
+    "fileName": "019f40d0-507b-7e52-b375-a12cf1644926.glb",
+    "prompt": "add legs that are surrounded by mist",
+    "negativePrompt": "",
+    "model": "model3d-tripo-p1",
+    "modelName": "Tripo P1",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "promptImageReferenceGuid": "0e8382604e655a0468c92ee47a84f7ef",
+    "modelReferenceGuid": "",
+    "multiviewFrontGuid": "",
+    "multiviewBackGuid": "",
+    "multiviewLeftGuid": "",
+    "multiviewRightGuid": "",
+    "multiviewTopGuid": "",
+    "multiviewBottomGuid": "",
+    "multiviewLeftFrontGuid": "",
+    "multiviewRightFrontGuid": "",
+    "faceLimit": -1
+}
