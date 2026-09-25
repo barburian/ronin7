@@ -1,5 +1,5 @@
 # CHAPTER 5 — THE DEBT OF ASHES
-**Act II · Beneath the Erasure · Episodes EP09–EP10**
+**Act II · Beneath the Erasure**
 **Logline:** A grieving survivor named Vera Dusk forces Ronin-7 to face the dead he made — including her sister — and the reckoning peels back the first layer of his stolen identity: the name "Kael Vor" was never his.
 
 ---

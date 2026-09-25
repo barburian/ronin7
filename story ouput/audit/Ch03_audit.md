@@ -7,7 +7,7 @@
 
 ## 1. Header
 
-- **Chapter:** Ch03 — The Sword Remembers (EP04–EP05, Act I)
+- **Chapter:** Ch03 — The Sword Remembers (Act I)
 - **Overall naturalness grade: B-**
   High floor. Characterful, contraction-rich, fragments used well, distinct registers in places (Kessler is excellent), and **zero em-dashes in dialogue** (the global ban is respected). Marked down for a heavy, *recurring* reliance on the "It's not X. It's Y." antithesis mold, aphorism-stacking, and motif over-repetition — which at the climax flattens Echo and Ronin into the same maxim-speaking voice.
 

@@ -7,7 +7,7 @@ namespace Ronin7.Player
     /// <summary>
     /// Ch11 ("Ghosts and Origins") permanent ability: Aldric/Knight-1's freed blade-shadow, inherited by
     /// Echo on the kill, wards Cipher against one otherwise-lethal blow per life. Self-disables in
-    /// <see cref="Awake"/> unless <c>CampaignState.HasAbility(AbilityId.Unbroken)</c> — mirrors
+    /// <see cref="Awake"/> unless <c>AbilityAccess.Has(AbilityId.Unbroken)</c> (campaign unlock OR run-scoped boon grant) — mirrors
     /// <see cref="WeakpointSight"/>/<see cref="OverdriveController"/>/<see cref="PhaseStepController"/> —
     /// so it is harmless to place on the rig in every scene, locked or not.
     ///
@@ -47,7 +47,7 @@ namespace Ronin7.Player
 
         private void Awake()
         {
-            if (!CampaignState.HasAbility(AbilityId.Unbroken))
+            if (!AbilityAccess.Has(AbilityId.Unbroken))
             {
                 enabled = false;
                 return;

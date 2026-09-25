@@ -2,7 +2,7 @@
 
 ## 1. Header
 
-- **Chapter:** Ch16 — The Vault and the Throne of Ashes (Episodes EP29–EP32; closes Ladders C, D, E and the saga).
+- **Chapter:** Ch16 — The Vault and the Throne of Ashes (closes Ladders C, D, E and the saga).
 - **Overall naturalness grade: C-**
   - *Why not lower:* the hard em-dash ban is fully respected (0 em-dashes in any spoken line), genuine false-starts/interruptions appear in the key emotional beats (Samurai-4's break, Sable's release), contractions are used by most characters, and the stiff no-contraction register for Maelgorn and Samurai-4 is purposeful characterization.
   - *Why not higher:* the "Not X, it's Y" antithesis construction and aphorism-per-line cadence are pervasive across nearly every speaker; the theme is stated verbatim out loud; almost everyone speaks in the same balanced, profound register.

@@ -32,7 +32,7 @@ namespace Ronin7.EditorTools
     /// address-form use ("Do not mistake a fractional delay for a soul, Ronin-7.") is changed to "Cipher".
     /// See Chapter16LinesTests.NoLine_CallsSamurai4ANewerMake for the regression guard.
     ///
-    /// LADDER C, RUNG 3 (closes Ladder C — identity recovery, EP30 per the source outline): delivered
+    /// LADDER C, RUNG 3 (closes Ladder C — identity recovery, per the source outline): delivered
     /// exactly once, in ch16_beat4_soren — Ronin-7 integrates the sealed memory-core and reclaims his
     /// birth name, SOREN. This is the ONE chapter in the saga where "Soren" is spoken; every set from
     /// ch16_beat4_soren onward legitimately keeps using it (that is continued use of an already-landed

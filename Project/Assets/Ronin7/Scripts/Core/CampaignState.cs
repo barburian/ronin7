@@ -228,7 +228,8 @@ namespace Ronin7.Core
         }
 
         /// <summary>
-        /// Reset to a fresh campaign state.
+        /// Reset to a fresh campaign state. Does NOT clear <see cref="MetaProgression"/> — meta
+        /// progress (Echoes, upgrades) is persistent and survives a new campaign by definition.
         /// </summary>
         public static void Reset()
         {

@@ -1,0 +1,23 @@
+{
+    "asset": "bf1c5cb2a1ee5af4f86ffa0fff8c3571",
+    "fileName": "019f425c-8c77-7fec-bd74-eb022fb233e5.glb",
+    "prompt": "3D game-ready character model, full body, single character in a symmetrical T-pose, clean topology, stylized-realistic grounded sci-fi, PBR textures, plain neutral background. A lean hardy Ashkin frontier picker: human-tall with a broad ribcage, ruddy ochre-to-terracotta skin dry and finely cracked like sun-baked clay, raised keratin mud-flake plates on cheekbones and forearms, amber ember-glow eyes squinted against grit, coarse ash-grey matted hair. A hooded dust-cloak and a breath-scarf over patched leather and rust-cloth layers, a bulging salvage-sack at the hip, a scrap tool and a crude holdout weapon. Wary, weathered, non-militant. Color palette: ochre/terracotta skin, grey ash, rust cloth, bone, sun-bleached leather.",
+    "negativePrompt": "",
+    "model": "model3d-tripo-p1",
+    "modelName": "Tripo P1",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "promptImageReferenceGuid": "3a4f00ff115041d41aa28ba3c0158863",
+    "modelReferenceGuid": "",
+    "multiviewFrontGuid": "",
+    "multiviewBackGuid": "",
+    "multiviewLeftGuid": "",
+    "multiviewRightGuid": "",
+    "multiviewTopGuid": "",
+    "multiviewBottomGuid": "",
+    "multiviewLeftFrontGuid": "",
+    "multiviewRightFrontGuid": "",
+    "faceLimit": -1
+}

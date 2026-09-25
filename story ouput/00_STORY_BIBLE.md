@@ -54,7 +54,7 @@ In a galaxy engineered for perpetual war, compassion is the forbidden act. Ronin
 ## 3. PROTAGONIST — RONIN-7 / "SOREN"
 - **Designation:** Ronin-7, an assassin-operative of **the Program** — the **prime template** of the Ronin make, its **seventh iteration and the first viable one** (Ronin-1…6 were flawed and culled), the original the make was mass-cloned from. *(Serial designation; what narration, stage directions, and speaker labels use.)*
 - **Program codename:** **Cipher** — the field name his handler (Khall) and his shadow-AI (Echo) use in spoken address. Predates the wipe; first spoken to the crew in Ch4 and adopted thereafter. (Distinct from the planted cover name "Kael Vor," Ch5, and his birth name below.)
-- **Birth name (recovered EP30):** **Soren.**
+- **Birth name (recovered Ch16):** **Soren.**
 - **Origin:** the **prime template of the Ronin program** — the current make, latest of the Program's four operative-programs (Knight → Ninja → Wraith → Ronin, design refined from the last). Six flawed precursors (Ronin-1…6) were culled; Ronin-7 is the first viable, and the Program **cloned the Ronin generation from him** — the editions are his copies, not he theirs (the Ch11 supposition that he is a copy is inverted in Ch12). Conditioned to feel nothing; deployed for "clean" erasures.
 - **The flaw:** an engineered conscience-suppression that *fractured*. He began sparing targets — a "mercy operative" in the field's grim slang. The Program marked him for termination via killswitch.
 - **The miracle:** his killswitch fired and **failed** (Ch2). He survived his own execution and woke on a salvager's table.
@@ -116,10 +116,10 @@ Each ally is recruited **once**, in the chapter listed, and recurs consistently 
 - **~3 weeks ago** — Kessler pulls Ronin-7's jettisoned Dominion casket from open space and begins the revival.
 - **Now (Ch1)** — Ronin-7 wakes lucid.
 
-**ACT I — Mercy as Rebellion** (EP01–08): revival → auction → the sword's memory → the handler's hunt.
-**ACT II — Beneath the Erasure** (EP09–16): reckoning with the dead → the dojo → the forgotten names → the silent garden.
-**ACT III — Predators Become Protectors** (EP17–24): the pits & deeps → the scattered archives (gathering Sable's kin) → ghosts & origins → the fracture/clone reveal.
-**ACT IV — Reckoning and Revelation** (EP25–32): the maker → reclaiming Soren → the throne of ashes & the true enemy.
+**ACT I — Mercy as Rebellion** (Ch01–Ch04): revival → auction → the sword's memory → the handler's hunt.
+**ACT II — Beneath the Erasure** (Ch05–Ch08): reckoning with the dead → the dojo → the forgotten names → the silent garden.
+**ACT III — Predators Become Protectors** (Ch09–Ch12): the pits & deeps → the scattered archives (gathering Sable's kin) → ghosts & origins → the fracture/clone reveal.
+**ACT IV — Reckoning and Revelation** (Ch13–Ch16): the maker → reclaiming Soren → the throne of ashes & the true enemy.
 
 ## 10. THE FIVE REVEAL LADDERS — *the merges (single source of truth)*
 Each reveal escalates by **exactly one rung** per chapter. No fact is "revealed" twice; later chapters reference earlier rungs, they do not re-disclose them.
@@ -140,7 +140,7 @@ Each reveal escalates by **exactly one rung** per chapter. No fact is "revealed"
 **C. Identity ladder**
 1. Ch5 — the planted false name *"Kael Vor"* is exposed as a fabrication.
 2. Ch12 — he is the *template* — the original the Ronin editions were mass-cloned **from** (the seventh, first-viable iteration; 1…6 culled). The Ch11 "you're a copy" supposition inverts: the army wears his face because it is *his.*
-3. Ch16 — he reclaims his true birth name, **SOREN**, on the Iron Sepulcher floor (EP30 = identity recovery).
+3. Ch16 — he reclaims his true birth name, **SOREN**, on the Iron Sepulcher floor (identity recovery).
 
 **D. Antagonist ladder**
 1. Ch4 — the handler is named: *Khall* (the Overseer); he addresses Ronin-7 by his operative codename, *Cipher*.

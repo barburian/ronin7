@@ -12,7 +12,7 @@ namespace Ronin7.Core
     [Serializable]
     public class SaveData
     {
-        public const int CurrentVersion = 2; // v2: chapter restructure — completed scenes renamed to prologue entries
+        public const int CurrentVersion = 2;
 
         public int version = CurrentVersion;
         public long savedAtUtcTicks;

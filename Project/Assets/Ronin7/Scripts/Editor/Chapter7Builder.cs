@@ -23,7 +23,7 @@ namespace Ronin7.EditorTools
     /// deeper into the core (the Wraith-line forebear reveal, Ally #4) -> the deep archive (the kept-
     /// shadows reveal, the berserk oldest blade, a mindspace duel against its dead previous owner that
     /// grants permanent weakpoint-sight) -> the read bench (sabotage-was-dissent reveal, Ladder A rung
-    /// 3, the Silent Garden hook into Ch8). Opens Act II's second chapter (EP13-14).
+    /// 3, the Silent Garden hook into Ch8). Opens Act II's second chapter.
     ///
     /// Lives in the same <see cref="XRRigBuilder"/> partial class as <c>ChapterSharedBuilders</c> so it
     /// reuses their geometry/dialogue/mission-step helpers directly. All chapter-local helpers are
@@ -311,7 +311,7 @@ namespace Ronin7.EditorTools
                 outerStacksWaves, new[] { dlgGauntletBark });
 
             // ---- Chapter-complete canvas (worldspace) + outro driver. Sets ch7_complete AND
-            // coral_vex_recruited together, mirroring how the episode finales combine an ally-recruit
+            // coral_vex_recruited together, mirroring how the chapter finales combine an ally-recruit
             // flag with the completion flag at the same trigger. ----
             var completeCanvasGo = Ch7BuildCompleteCanvas(new Vector3(0f, 1.4f, 128f));
             var outroGo = new GameObject("ChapterOutro");

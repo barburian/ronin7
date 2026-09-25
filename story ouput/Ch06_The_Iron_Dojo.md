@@ -1,5 +1,5 @@
 # CHAPTER 6 — THE IRON DOJO
-**Act II · Beneath the Erasure · Episodes EP11–EP12**
+**Act II · Beneath the Erasure**
 **Logline:** Resh names the place that built the thing Ronin-7 became — the Iron Dojo, a mountain citadel where the Dominion harvests children into the next generation of operatives — and inside its walls an informant named Morrigan hands Ronin-7 a kill-list of three masters, while one of them, dying, confirms the unspeakable: the hollowness was engineered on purpose, and his mercy is the flaw they always feared.
 
 ---

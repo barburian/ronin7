@@ -6,7 +6,7 @@ using UnityEngine.Events;
 namespace Ronin7.Enemies
 {
     /// <summary>
-    /// EP21 dream reckoning beat: when the player acknowledges the dream (rather than fighting),
+    /// Dream reckoning beat: when the player acknowledges the dream (rather than fighting),
     /// all linked DreamPhantoms dissolve and the story flag is set. This replaces combat with
     /// narrative closure, allowing the player to accept the illusion rather than resist it.
     /// </summary>

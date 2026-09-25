@@ -780,15 +780,9 @@ namespace Ronin7.EditorTools
             if (mainMenuProp != null) mainMenuProp.stringValue = System.IO.Path.GetFileNameWithoutExtension(BootScenePath);
             // Persistent session hub: Start launches into the Chapter 1 hub (Phase 4 wiring). The
             // GameFlowManager is DontDestroyOnLoad, so this one value governs StartCampaign/StartNewGame
-            // for the whole session. (Only set here in the boot builder — the code default in
-            // GameFlowManager.cs is intentionally left at EP01 for the later return-to-hub loop.)
+            // for the whole session.
             var shipHubProp = flowSo.FindProperty("shipHubScene");
             if (shipHubProp != null) shipHubProp.stringValue = Ch1HubSceneName;
-            var spaceCombatProp = flowSo.FindProperty("spaceCombatScene");
-            // Galaxy 1 replaces Phase 7 as the flight scene.
-            if (spaceCombatProp != null) spaceCombatProp.stringValue = Galaxy1SceneName;
-            var corsairProp = flowSo.FindProperty("corsairScene");
-            if (corsairProp != null) corsairProp.stringValue = Galaxy1CorsairSceneName;
             flowSo.ApplyModifiedPropertiesWithoutUndo();
 
             // Persistent audio. Auto-wire any clips sitting in Assets/Ronin7/Audio by name so a
@@ -877,11 +871,7 @@ namespace Ronin7.EditorTools
             // Re-bake input action refs before saving (rebuilds null them — see RewireOpenScene).
             RewireOpenScene();
             EditorSceneManager.SaveScene(scene, BootScenePath);
-            EnsureScenesInBuild(BootScenePath, ZoneScenePath, SpaceCombatScenePath,
-                Galaxy1ScenePath, Galaxy1JungleScenePath, Galaxy1LavaScenePath,
-                Galaxy1DesertScenePath, Galaxy1WaterScenePath, Galaxy1FrostScenePath,
-                Galaxy1CorsairScenePath,
-                Ep01ShipScenePath, Galaxy1Ep01PlanetScenePath, Galaxy1Ep01HideoutScenePath);
+            EnsureScenesInBuild(BootScenePath, ZoneScenePath, SpaceCombatScenePath);
 
             Debug.Log($"[Space Samurai] Phase 6 main menu built at {BootScenePath} (rig + worldspace " +
                       $"canvas with Start/Continue/Recalibrate/Exit buttons + sci-fi boot-zone dressing). " +
@@ -1120,7 +1110,11 @@ namespace Ronin7.EditorTools
             return m;
         }
 
-        /// <summary>Find the rig's right hand and add an XRRayInteractor wired to fire UI on Right Hand/Select.</summary>
+        /// <summary>Find the rig's right hand and add an XRRayInteractor wired to fire UI on
+        /// Right Hand/Activate (the trigger). NOT Select: that action is the grip, which Grabber
+        /// already holds down for the whole time the katana is in hand — leaving no press edge for
+        /// the UI, so world-space buttons (the roguelike boon offer, settings panels) can only be
+        /// clicked by letting go of the sword.</summary>
         private static void WireRightHandRayInteractorMenu()
         {
             var origin = Object.FindAnyObjectByType<XROrigin>();
@@ -1139,6 +1133,14 @@ namespace Ronin7.EditorTools
             if (hand.GetComponent<XRRayInteractor>() != null) return;
 
             var interactor = hand.gameObject.AddComponent<XRRayInteractor>();
+            // MUST be "Select" (grip), not "Activate" (trigger). Nothing enables 'Right Hand/Activate'
+            // at runtime — OverdriveController/MirrorSummonController are the only components that
+            // enable it and both self-gate on AbilityAccess.Has — so a UI Press bound to Activate is a
+            // permanently DISABLED action: the ray hovers the panel, the controller reports the button
+            // as physically pressed, and the action never fires. That is the "I pressed every button
+            // and nothing happened" boon-panel failure. 'Right Hand/Select' is enabled by Grabber and
+            // is what the working Phase6_Boot menu uses (and what this builder's own end-of-build
+            // verification note already told us to check for).
             var pressRef = MenuLoadActionRef("Right Hand", "Select");
             var so = new SerializedObject(interactor);
             if (pressRef != null)
@@ -1230,7 +1232,7 @@ namespace Ronin7.EditorTools
         /// Shared player-ship visual for open (non-hub) space scenes: the sleek <see cref="BuildCockpit"/>
         /// prefab plus a <see cref="Ronin7.Ship.ShipHullSelector"/> that wraps the signature exterior
         /// hull at runtime (same index-aligned wiring the galaxy hubs use). Galaxy hubs add the enclosed
-        /// cabin separately; episode dogfights stay open. Call this where the inline cockpit used to be,
+        /// cabin separately; open-space dogfights stay open. Call this where the inline cockpit used to be,
         /// then call <see cref="BuildCockpitCrosshair"/> after the guns are built.
         /// </summary>
         private static void BuildPlayerShipVisual(Transform cockpit)
@@ -1689,7 +1691,7 @@ namespace Ronin7.EditorTools
         /// identical regardless of the visual. When <paramref name="visualPrefabPath"/> points at an
         /// existing prefab (e.g. <c>Echo</c>, Ronin's named blade), that mesh becomes the visual: the
         /// greybox renderers are disabled (their colliders/damager kept) and the prefab is fitted along
-        /// the grip's local +Z. When it is null/missing, the EP01 behaviour is preserved exactly
+        /// the grip's local +Z. When it is null/missing, the original behaviour is preserved exactly
         /// (Sword_Katana.prefab if present, else the greybox visual).
         /// </summary>
         private static void BuildSword(Vector3 position, Quaternion rotation, WeaponDefinition weapon, string visualPrefabPath)
@@ -2215,6 +2217,9 @@ namespace Ronin7.EditorTools
                 var prop = so.FindProperty("m_UIPressInput.m_InputActionReferencePerformed");
                 if (prop != null)
                 {
+                    // Select (grip), not Activate (trigger) — 'Right Hand/Activate' is never enabled
+                    // at runtime, so binding UI Press to it makes every press a no-op. See the long
+                    // note in WireRightHandRayInteractorMenu.
                     prop.objectReferenceValue = FindRef(refs, "Right Hand", "Select");
                 }
                 // Force NewerOnly so XRI reads UIPressInput instead of the legacy XR Controller path.
@@ -2360,7 +2365,7 @@ namespace Ronin7.EditorTools
 
         /// <summary>
         /// Scenes that play out in open space (hub star-maps, the space-combat scene, the dockable
-        /// Corsair, and per-episode void dogfights) get the neon-nebula skybox; everything else is an
+        /// Corsair, and void dogfights) get the neon-nebula skybox; everything else is an
         /// interior / planet-surface scene that leans on the dark ambient + fog instead (its walls cover
         /// the sky anyway, so a nebula there would be wasted and occasionally peek oddly through windows).
         /// Heuristic is purely scene-NAME based and documented so it's reproducible: the four hub maps and

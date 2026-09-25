@@ -129,6 +129,12 @@ namespace Ronin7.Enemies
             if (debugLogs) Debug.Log($"[Enemy] {msg}", this);
         }
 
+        /// <summary>A3.1: assigns this enemy's definition. The roguelike spawner instantiates
+        /// prefabs baked inactive (Unity skips Awake on an inactive instantiate), calls this, then
+        /// activates — so Awake's one-time Health/PostureMeter configuration reads the scaled
+        /// runtime copy instead of the shared asset, with no reflection into a private field.</summary>
+        public void Configure(EnemyDefinition def) => definition = def;
+
         /// <summary>Revive and reposition for a fresh duel.</summary>
         public void Respawn(Vector3 position)
         {

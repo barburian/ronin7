@@ -1,5 +1,5 @@
 # CHAPTER 11 — GHOSTS AND ORIGINS `[CAVE]`
-**Act III · Predators Become Protectors · Episodes EP21–EP22**
+**Act III · Predators Become Protectors**
 **Logline:** In a canyon carved from the bones of a dead leviathan, the second scattered archive lies broken — the oldest node of all, packed with the shadows of the **Knight** generation, the Program's first make. Its leaking shadows flood the deep with a narcosis dreamscape that walks Ronin-7 through his own ghosts. Putting down its leashed keeper — the eldest operative, the first of the first program — frees the mind-ward that lets Ronin-7 walk the dream lucidly to the dreamer at its heart; only putting *her* down clean ends the broadcast and brings the comm back. The node's record reveals the Program's true origin: a lineage of operative-makes, **Knight → Ninja → Wraith → Ronin**, each cloned and scattered, each refined from the last.
 
 ---

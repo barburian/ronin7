@@ -1,5 +1,5 @@
 # CHAPTER 10 — THE LEDGER OF RUST `[CAVE]`
-**Act III · Predators Become Protectors · Episodes EP19–EP20**
+**Act III · Predators Become Protectors**
 **Logline:** Sable's map leads the crew to the first of her scattered kin — Cassie-04, a living archive buried in the Ninefold mine shafts whose lattice holds the names of every erased operative — kept under guard by a still-leashed Ninja-program operative; and a vengeance-driven raider, Vess, must choose between killing the man who took her people and joining the cause that could free them.
 
 ---

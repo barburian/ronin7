@@ -1,5 +1,5 @@
 # CHAPTER 8 — THE SILENT GARDEN
-**Act II · Beneath the Erasure · Episodes EP15–EP16**
+**Act II · Beneath the Erasure**
 **Logline:** Hunting the hand that broke his leash, Ronin-7 walks alone into a fog-drowned graveyard tended by wizards older than the Program — and to earn the truth he most desires, he must survive a trial that hunts the mind as ruthlessly as the body.
 
 ---

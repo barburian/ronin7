@@ -120,8 +120,8 @@ namespace Ronin7.EditorTools
         private static void BuildHoodedArchetype(Transform root, Color primary, Color secondary)
         {
             AddArchetypePart(root, "Body", PrimitiveType.Capsule, new Vector3(0f, 0.80f, 0f), new Vector3(0.46f, 0.72f, 0.46f), primary);
-            // No native Cone primitive; a Cylinder stands in for the hood's cowl (same "Cone"-via-Cylinder
-            // approximation Galaxy1Builder.BuildVolcanoes uses for its volcano cones).
+            // No native Cone primitive; a Cylinder stands in for the hood's cowl ("Cone"-via-Cylinder
+            // approximation).
             AddArchetypePart(root, "Hood", PrimitiveType.Cylinder, new Vector3(0f, 1.55f, 0f), new Vector3(0.34f, 0.35f, 0.34f), secondary);
         }
 

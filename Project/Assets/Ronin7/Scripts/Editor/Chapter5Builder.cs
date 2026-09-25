@@ -96,7 +96,7 @@ namespace Ronin7.EditorTools
             BuildAccentPointLight("GraveEmber0", new Vector3(-4f, 1.6f, 58f), new Color(0.6f, 0.55f, 0.6f), 1f, 12f);
             BuildAccentPointLight("GraveEmber1", new Vector3(4f, 1.6f, 68f), new Color(0.6f, 0.55f, 0.6f), 1f, 12f);
 
-            // ---- The ash-world: one open exterior ground plane (mirrors the EP04 jungle / Ch4
+            // ---- The ash-world: one open exterior ground plane (mirrors the Ch4
             // Deepworks pattern — no walls, no ceiling), threaded z[0,90]: landing site -> settlement
             // ruins -> mass grave. ----
             var ashWorldGo = new GameObject("AshWorld");

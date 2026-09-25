@@ -1,5 +1,5 @@
 # CHAPTER 9 — THE PIT AND THE DEEP `[CAVE]`
-**Act III · Predators Become Protectors · Episodes EP17–EP18**
+**Act III · Predators Become Protectors**
 **Logline:** Descending through the Rustfang pirate-hold and the Tide depths, Ronin-7 recruits two more of the lost — and uncovers a buried Dominion worksite: the **Concord Engine**, a galaxy-wide weapon being built to silence the will of entire worlds, wired through the kept shadow-AIs of the erased.
 
 ---

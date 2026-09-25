@@ -5,7 +5,7 @@ using Ronin7.Combat;
 namespace Ronin7.Enemies
 {
     /// <summary>
-    /// EP24 "The Fracture Protocol" mechanic: drives a GROUP of clone enemies through hive-consensus
+    /// "The Fracture Protocol" mechanic: drives a GROUP of clone enemies through hive-consensus
     /// collapse. A colony grown as one mind in fifty thousand bodies is fracturing into individuals, so
     /// each clone drifts between three states instead of attacking in lockstep:
     ///   • Attacking  — normal: its <see cref="MeleeAttacker"/> is enabled and it engages the player.

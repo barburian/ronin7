@@ -25,7 +25,7 @@ namespace Ronin7.EditorTools
     /// "the one who defies", and grant the vision) -> a comfort-safe memory dive holding the two
     /// visions (the faceless killswitch-maker; Khall's grief and doubt, Ladder D rung 2) -> the leaving
     /// (the Mourners' farewell + descent hook) -> the gate again (crew reunion, the report). Closes Act
-    /// II (EP15-16). Ships NO new player ability.
+    /// II. Ships NO new player ability.
     ///
     /// Lives in the same <see cref="XRRigBuilder"/> partial class as <c>ChapterSharedBuilders</c> so it
     /// reuses their geometry/dialogue/mission-step helpers directly. All chapter-local helpers are

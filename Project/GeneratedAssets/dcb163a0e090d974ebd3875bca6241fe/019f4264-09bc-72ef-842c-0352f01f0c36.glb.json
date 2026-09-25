@@ -1,0 +1,23 @@
+{
+    "asset": "dcb163a0e090d974ebd3875bca6241fe",
+    "fileName": "019f4264-09bc-72ef-842c-0352f01f0c36.glb",
+    "prompt": " 3D game-ready character model, full body, single figure in a symmetrical T-pose, clean topology, stylized-realistic grounded sci-fi, PBR textures, plain neutral background. A risen grave-guardian of the fog-drowned Silent Garden: a tall gaunt humanoid body assembled from grave-iron, cracked headstone slabs, twisting root and packed grey fog, a hollow cowled head with a faint cold light deep inside, heavy slab-like arms, lower body trailing into mist and root. Ancient, solemn, immovable. Color palette: grave-grey, weathered iron, root-brown, fog-white, no warm color.",
+    "negativePrompt": "",
+    "model": "model3d-tripo-p1",
+    "modelName": "Tripo P1",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "promptImageReferenceGuid": "fe8eada96deb10849984ecc65d06b400",
+    "modelReferenceGuid": "",
+    "multiviewFrontGuid": "",
+    "multiviewBackGuid": "",
+    "multiviewLeftGuid": "",
+    "multiviewRightGuid": "",
+    "multiviewTopGuid": "",
+    "multiviewBottomGuid": "",
+    "multiviewLeftFrontGuid": "",
+    "multiviewRightFrontGuid": "",
+    "faceLimit": -1
+}

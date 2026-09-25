@@ -50,7 +50,7 @@ namespace Ronin7.EditorTools
     /// GHOST-MANIFESTATION / DREAMPHANTOM DECISION: two generic "the dead keep interrupting" enemies
     /// fight alongside Aldric in the SAME <c>DefeatEnemies</c> step (built via the shared generic
     /// <see cref="BuildEnemy"/> pipeline, then <c>AddComponent&lt;DreamPhantom&gt;()</c> — the exact
-    /// idiom Ep27/Ep28 already use for memory-flash combat). Kira and the Younger Self are NON-combat:
+    /// idiom used elsewhere for memory-flash combat). Kira and the Younger Self are NON-combat:
     /// no Health/Enemy, purely a <see cref="StoryNpc"/> anchor tinted with
     /// <c>MemoryFlashbackController.MakeGhostMaterial()</c> for the dialogue beat to play against — the
     /// source script's "walk through, don't fight" rule for these two is honored narratively (the player
@@ -227,7 +227,7 @@ namespace Ronin7.EditorTools
             Ch11PlaceGhostNpc(Ch11YoungerSelfPrefab, dive.position + new Vector3(4f, 0f, 14f), "Younger Self");
 
             // Ghost-manifestation combat texture ("the dead keep interrupting the duel") — generic
-            // enemies via the shared pipeline, made phase-cycling via DreamPhantom (mirrors Ep27/Ep28).
+            // enemies via the shared pipeline, made phase-cycling via DreamPhantom.
             // Inactive until Aldric's DefeatEnemies step activates the whole encounter together.
             var ghostManifestations = new List<Health>();
             var ghostPhantoms = new List<DreamPhantom>();

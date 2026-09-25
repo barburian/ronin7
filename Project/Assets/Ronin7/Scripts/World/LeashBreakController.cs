@@ -4,7 +4,7 @@ using UnityEngine.Events;
 namespace Ronin7.World
 {
     /// <summary>
-    /// EP29 "leash break" mechanic. Models Samurai-4's neural conditioning breaking as the player
+    /// "leash break" mechanic. Models Samurai-4's neural conditioning breaking as the player
     /// forces her to read evidence on a neural-scan console. Her conviction meter (a [0,1] value)
     /// drains both passively (via convictionDrainPerSecond) and actively (via ReadEvidence() calls).
     /// When conviction falls to or below breakThreshold, her leash breaks and she turns ally —

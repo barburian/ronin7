@@ -31,7 +31,7 @@ namespace Ronin7.EditorTools
     /// ZeroGHandle, pull the rig) gated by <c>ContinuousLocomotion.SetZeroG</c> — it belongs to weightless
     /// interiors/space, not a gravity-bound flooded cave, so it is not reused here and no new climbing
     /// system is built either. The Deepworks is instead a single open cave floor (no walls, mirroring the
-    /// EP04 jungle-exterior ground-plane pattern) threaded between rock-pillar obstacles that force a
+    /// jungle-exterior ground-plane pattern) threaded between rock-pillar obstacles that force a
     /// switchback path, walkable by the existing <c>ContinuousLocomotion</c>. The shared room helpers
     /// (<c>BuildFloorCeiling</c>/<c>BuildWall</c>) hard-code a single flat floor Y per parent, so a literal
     /// vertical drop was not attempted blind; the "descent" reads through darkening lighting, a narrowing
@@ -133,7 +133,7 @@ namespace Ronin7.EditorTools
             BuildHologram(interior, new Vector3(0f, 0f, 58f)); // the relay core Khall's voice answers through
             BuildShipDrone(interior, "RelayDrone", new Vector3(1.5f, 2.4f, 55f), new Color(0.5f, 0.7f, 1f));
 
-            // The Deepworks: one open cave floor (no walls, mirrors the EP04 exterior ground-plane
+            // The Deepworks: one open cave floor (no walls, an exterior ground-plane
             // pattern) threaded with rock pillars for a switchback path. z[60,112].
             var deepworksGo = new GameObject("Deepworks");
             var deepworks = deepworksGo.transform;

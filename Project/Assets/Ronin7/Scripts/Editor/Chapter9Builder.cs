@@ -23,7 +23,7 @@ namespace Ronin7.EditorTools
     /// fought AT Gryph's shoulder, Ally #5) -> the Tide depths (flooded archive: the Vane/Wraith-6 boss
     /// duel, Ally #6 Sable, the Overdrive unlock) -> the construction core (the Concord Engine reveal,
     /// Ladder A rung 4 + Ladder E rung 3) -> back to the hold overlook (Rook succeeds Gryph as keeper).
-    /// Opens Act III (EP17-18).
+    /// Opens Act III.
     ///
     /// Lives in the same <see cref="XRRigBuilder"/> partial class as <c>ChapterSharedBuilders</c> so it
     /// reuses their geometry/dialogue/mission-step helpers directly. All chapter-local helpers are

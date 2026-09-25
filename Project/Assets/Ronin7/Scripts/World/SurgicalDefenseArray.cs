@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Ronin7.World
 {
     /// <summary>
-    /// EP25 vault mechanic: an automated surgical defense with precision-blade arrays that SWEEP on a
+    /// Vault mechanic: an automated surgical defense with precision-blade arrays that SWEEP on a
     /// timed cycle. While a sweep is ACTIVE, the blades are deadly and damage the player on contact;
     /// between sweeps they are safe. Each active sweep can damage the player at most once — the player
     /// must time movement through the gaps.

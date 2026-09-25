@@ -4,7 +4,7 @@ using UnityEngine.Events;
 namespace Ronin7.World
 {
     /// <summary>
-    /// EP21 pollen dreamscape mechanic: models scene "lucidity" (coherence) as the player
+    /// Pollen dreamscape mechanic: models scene "lucidity" (coherence) as the player
     /// is exposed to mind-altering pollen. Coherence is a [0,1] float where 1 = fully lucid
     /// and 0 = fully submerged. When coherence drops below a threshold, the "dreamscape engages"
     /// and fires a one-time event. The scene can be cleared (coherence restored to 1).

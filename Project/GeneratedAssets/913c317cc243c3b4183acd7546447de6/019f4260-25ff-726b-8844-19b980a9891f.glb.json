@@ -1,0 +1,23 @@
+{
+    "asset": "913c317cc243c3b4183acd7546447de6",
+    "fileName": "019f4260-25ff-726b-8844-19b980a9891f.glb",
+    "prompt": "3D game-ready model, single object, clean topology, stylized-realistic grounded sci-fi, PBR textures, plain neutral background. A sleek aggressive floating combat drone: an angular predatory fuselage roughly a meter long, a single forward learning-optic sensor, folded blade-arms and a small barrel mount, swept stabilizer fins, downward thruster nacelles, no legs. Fast, watchful, purpose-built to hunt. Color palette: gunmetal and matte black with a cold blue learning-optic glow.",
+    "negativePrompt": "",
+    "model": "model3d-tripo-p1",
+    "modelName": "Tripo P1",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "promptImageReferenceGuid": "cf828598f3816b242ab4505d5ae1ae50",
+    "modelReferenceGuid": "",
+    "multiviewFrontGuid": "",
+    "multiviewBackGuid": "",
+    "multiviewLeftGuid": "",
+    "multiviewRightGuid": "",
+    "multiviewTopGuid": "",
+    "multiviewBottomGuid": "",
+    "multiviewLeftFrontGuid": "",
+    "multiviewRightFrontGuid": "",
+    "faceLimit": -1
+}

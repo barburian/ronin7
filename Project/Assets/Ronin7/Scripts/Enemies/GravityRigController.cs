@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Ronin7.Enemies
 {
     /// <summary>
-    /// EP17 "GravityRigController" mechanic: a gladiator-pit arena whose gravity cycles
+    /// "GravityRigController" mechanic: a gladiator-pit arena whose gravity cycles
     /// between zero-g and heavy gravity between rounds. Applies deterministic forces to
     /// registered Rigidbody objects via Tick().
     ///

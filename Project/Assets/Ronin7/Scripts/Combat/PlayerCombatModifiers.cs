@@ -22,8 +22,13 @@ namespace Ronin7.Combat
     /// </summary>
     public class PlayerCombatModifiers : MonoBehaviour
     {
-        /// <summary>Hard cap on the combined <see cref="DamageMultiplier"/> product (see its doc).</summary>
+        /// <summary>Hard cap on the transient (Weakpoint x ParryFlow x Combo) product (see
+        /// <see cref="DamageMultiplier"/>'s doc).</summary>
         private const float MaxDamageMultiplier = 3f;
+
+        /// <summary>A1.5: separate hard cap on <see cref="BoonMultiplier"/>, applied after the transient
+        /// cap rather than folded into the same product (see <see cref="DamageMultiplier"/>'s doc for why).</summary>
+        private const float MaxBoonMultiplier = 2f;
 
         /// <summary>Ch7 weakpoint-sight's multiplier slot.</summary>
         public float WeakpointMultiplier { get; set; } = 1f;
@@ -34,14 +39,33 @@ namespace Ronin7.Combat
         /// <summary>Follow-Through's combo-chain multiplier slot.</summary>
         public float ComboMultiplier { get; set; } = 1f;
 
+        /// <summary>Roguelike boon-inventory damage slot (<c>BoonInventory.BladeDamageMultiplier</c>).</summary>
+        public float BoonMultiplier { get; set; } = 1f;
+
+        /// <summary>A1.4: Roguelike boon-inventory parry-flow slot (<c>BoonInventory.ParryFlowBonus</c>),
+        /// added to <c>ParryFlowController</c>'s per-stack bonus. Default 0 (no effect).</summary>
+        public float BoonParryFlowBonus { get; set; }
+
+        /// <summary>A1.4: Roguelike boon-inventory combo slot (<c>BoonInventory.ComboBonus</c>), added to
+        /// <c>ComboMomentumController</c>'s per-stack bonus. Default 0 (no effect).</summary>
+        public float BoonComboBonus { get; set; }
+
         /// <summary>
-        /// The multiplier <see cref="BladeDamager"/> actually applies: the product of every named slot
-        /// above, hard-capped at <see cref="MaxDamageMultiplier"/> (3x). Multiple buffs can be active at
-        /// once (weakpoint-sight + a parry-flow streak + a combo chain), and without a cap their product
-        /// could compound into a one-shot-everything multiplier; the cap keeps stacking generous without
-        /// making it game-breaking. Read-only — set the individual slots instead.
+        /// The multiplier <see cref="BladeDamager"/> actually applies:
+        /// <c>min(Weakpoint * ParryFlow * Combo, 3x) * min(BoonMultiplier, 2x)</c>.
+        ///
+        /// A1.5: these two groups are capped SEPARATELY, not folded into one flat 3x product. Max
+        /// parry-flow is 1.40x and max combo is 1.60x — their product alone is already 2.24x, so under a
+        /// single flat 3x cap a damage boon (BoonMultiplier) did literally nothing extra exactly when the
+        /// player was playing well at peak flow/combo — the worst possible failure mode for a
+        /// roguelike's most basic boon. Splitting the caps means the transient in-combat buffs keep their
+        /// existing 3x ceiling, and the run-long boon investment gets its own 2x ceiling that always
+        /// applies. Worst case is 6x, reached only by a fully-boon-stacked player at peak flow and combo
+        /// on a weakpoint — a legitimate roguelike power fantasy, not an exploit. Read-only — set the
+        /// individual slots instead.
         /// </summary>
         public float DamageMultiplier =>
-            Mathf.Min(WeakpointMultiplier * ParryFlowMultiplier * ComboMultiplier, MaxDamageMultiplier);
+            Mathf.Min(WeakpointMultiplier * ParryFlowMultiplier * ComboMultiplier, MaxDamageMultiplier)
+            * Mathf.Min(BoonMultiplier, MaxBoonMultiplier);
     }
 }

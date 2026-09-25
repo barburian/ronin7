@@ -5,7 +5,7 @@ Dialogue + Voice Direction Script
 Format: Speaker | Line | seconds: <duration> | voice: <casting + tone>
 One beat per group; lines separated by blank lines.
 Durations calibrated to measured delivery (~2.7 words/sec, plus pauses).
-THE SAGA FINALE — Act IV close, Episodes EP29–EP32. Closes Ladders C, D, and E.
+THE SAGA FINALE — Act IV close. Closes Ladders C, D, and E.
 NAMING: the protagonist's speaker label is RONIN-7 through Beat 3, and SOREN from the
 name-reveal on the vault floor (Beat 4) onward. Other characters call him CIPHER; Echo
 says CIPHER and never "7," then begins, carefully, to learn "Soren" after the reveal.
@@ -120,14 +120,14 @@ chooses, for the first time, what to be. Mercy was the rebellion. Freely-made ch
     crew behind him and Heris's seam glowing ahead. He reached the bottom of himself and found the
     bottom of the cage.
 
-  SEGMENT 6 — THE TIME-LOOP TRAP (EP31, the will-mechanic) — REVEAL / TWIST
+  SEGMENT 6 — THE TIME-LOOP TRAP (the will-mechanic) — REVEAL / TWIST
   - At the throne-core, Soren is caught in a recurring time-loop, reliving the same fatal moment, dying
     and resetting, fighting an image of Khall over and over. The crew cannot reach him. The loop is a
     containment-trap built to re-leash escaped operatives by eroding the will until the conscience
     re-seals. Maelgorn taunts through the loop. Soren breaks it with will, choosing differently every
     time, until the trap cannot hold a man who refuses to stop choosing.
 
-  SEGMENT 7 — THE FORGED ORDER (EP32, Khall allies) — REVEAL (Ladder D)
+  SEGMENT 7 — THE FORGED ORDER (Khall allies) — REVEAL (Ladder D)
   - The Kethel-7 order was forged by the Hollow Kings, designed to fracture him into a weapon. War-as-
     product: the ten syndicates are kept at war because the war is the product; the Concord Engine
     would starve that cage; so the Synod engineered a mercy operative, broke him open with a sin he
@@ -416,7 +416,7 @@ voice: Ronin-7, low, the operative accepting the capstone ally with plain dignit
 
 BEAT 4 — RECLAIMING SOREN (Dialogue / The Name Beneath the Number) — REVEAL (closes Ladder C)
 
-[Interior: the Sepulcher floor, the vault within. The stone is gone; this is nearly pure memory-space, still and sourceless and waiting. At the center sits the cradle, the sealed memory-core, the buried self the Program walled away. RONIN-7 stands over it, SAMURAI-4 a pace behind him, ECHO awake and very quiet. He reaches out and touches the core, and it opens, and light floods in: a childhood, a world, a face in a doorway, a name spoken by someone who loved him before the Program ever counted him. The buried self from Ch11's dreamscape returns whole. He is not "Kael Vor" (Ch5). He is not only the template they printed an army from (Ch12). Beneath even the original, he is a stolen person, a boy with a name the Program buried. This is Ladder C, rung 3 — EP30, identity recovery — and from this beat the speaker label is SOREN.]
+[Interior: the Sepulcher floor, the vault within. The stone is gone; this is nearly pure memory-space, still and sourceless and waiting. At the center sits the cradle, the sealed memory-core, the buried self the Program walled away. RONIN-7 stands over it, SAMURAI-4 a pace behind him, ECHO awake and very quiet. He reaches out and touches the core, and it opens, and light floods in: a childhood, a world, a face in a doorway, a name spoken by someone who loved him before the Program ever counted him. The buried self from Ch11's dreamscape returns whole. He is not "Kael Vor" (Ch5). He is not only the template they printed an army from (Ch12). Beneath even the original, he is a stolen person, a boy with a name the Program buried. This is Ladder C, rung 3 — identity recovery — and from this beat the speaker label is SOREN.]
 
 [PRODUCTION NOTE — RECLAIMING SOREN (objective 3, REVEAL, closes Ladder C): the identity payoff of the saga and the inversion of the Ch12 source-horror into ownership. He integrates the sealed memory-core; the buried self returns whole. The reveal is NAME, recovered from erasure: SOREN, his first name, the editions' never. CRITICAL FRAMING: not the planted cover "Kael Vor" (Ch5), not just "the template" (Ch12) — a stolen boy with a buried name. Being the one they all came from is not an identity the Program gave him; the self under it is recovered. Land the name diegetically as light floods the core; use/adapt the outline screenplay ("Soren. My name is Soren."). SPEAKER LABEL SWITCHES TO SOREN from his name-line onward. Echo hears the name and begins, carefully, to learn it; do NOT let Echo say it cleanly the first time, per outline ("...Soren. Going to take me a minute to learn it."). Samurai-4 witnesses, the mirror watching him become a person. Author the memory-flood VFX and the name-beat against final geometry. NO EM DASHES.]
 
@@ -486,7 +486,7 @@ voice: Echo, low, the witness recognizing the lattice as its own kin and naming 
 
 ================================================================================
 
-BEAT 6 — THE TIME-LOOP TRAP (Dialogue / Will Against Erosion) — REVEAL / TWIST (EP31)
+BEAT 6 — THE TIME-LOOP TRAP (Dialogue / Will Against Erosion) — REVEAL / TWIST
 
 [Interior: the throne-core, reality folded. SOREN is caught in a recurring time-loop. He relives the same fatal moment over and over, dying and resetting, the seam always just out of reach, an image of KHALL standing between him and it that he fights and loses to, again and again. The crew cannot reach him; the comm is gone; SAMURAI-4 and the others are locked outside the fold. MAELGORN's voice moves through the loop, unhurried, sovereign, taunting. The loop is a containment-trap, the cage's last defense, built to re-leash escaped operatives by wearing the will down until the conscience re-seals. SOREN breaks it not with force but with will, choosing differently every loop, until the trap cannot hold a man who refuses to stop choosing.]
 
@@ -525,7 +525,7 @@ voice: Maelgorn, the sovereign voice registering the one thing it did not predic
 
 ================================================================================
 
-BEAT 7 — THE FORGED ORDER (Dialogue / The Handler Who Faked His Death) — REVEAL (Ladder D close, EP32)
+BEAT 7 — THE FORGED ORDER (Dialogue / The Handler Who Faked His Death) — REVEAL (Ladder D close)
 
 [Interior: the throne-core, the loop broken. The figure that barred SOREN in the loop resolves into the real KHALL: older than the handler of Act I, worn hollow by his faked death and guilt, his command coat stripped of insignia, no weapon in his hands. He steps from the shadow of the great lattice. Above them, far up at the heart of the throne-core, the forged-obsidian throne waits, and MAELGORN's presence banks like coals upon it. This is the forged-order reveal, Ladder D's close, and it folds in war-as-product. KHALL repents and allies. ECHO present; the crew's comm restored but mostly silent, listening.]
 

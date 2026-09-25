@@ -10,7 +10,7 @@ namespace Ronin7.Player
     /// Ch12 ("The Fracture") permanent ability, the FINAL unlock: the Ronin-7 Edition's freed
     /// blade-shadow, inherited by Echo on the kill, lets Echo summon a ghost-tinted phantom double of
     /// Cipher that fights alongside him for a limited duration. Self-disables in <see cref="Awake"/>
-    /// unless <c>CampaignState.HasAbility(AbilityId.Mirror)</c> — mirrors <see cref="WeakpointSight"/>/
+    /// unless <c>AbilityAccess.Has(AbilityId.Mirror)</c> (campaign unlock OR run-scoped boon grant) — mirrors <see cref="WeakpointSight"/>/
     /// <see cref="OverdriveController"/>/<see cref="PhaseStepController"/>/<see cref="UnbrokenWard"/> —
     /// so it is harmless to place on the rig in every scene, locked or not.
     ///
@@ -57,7 +57,7 @@ namespace Ronin7.Player
 
         private void Awake()
         {
-            if (!CampaignState.HasAbility(AbilityId.Mirror))
+            if (!AbilityAccess.Has(AbilityId.Mirror))
             {
                 enabled = false;
                 return;

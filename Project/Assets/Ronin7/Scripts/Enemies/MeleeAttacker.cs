@@ -160,7 +160,7 @@ namespace Ronin7.Enemies
             if (target == null) target = FindPlayer();
             currentEuler = restEuler;
             if (weapon != null) weapon.localRotation = Quaternion.Euler(restEuler);
-            EnemySwordVisual.EnsureVisible(weapon); // placeholder katana so the chop has something to swing
+            EnemySwordVisual.EnsureVisible(weapon, transform); // placeholder katana so the chop has something to swing
             bladeRenderer = EnemySwordVisual.FindBladeRenderer(weapon);
             Tint(IdleColor);
         }
@@ -267,6 +267,7 @@ namespace Ronin7.Enemies
             Log("telegraph");
             deflectedThisSwing = false;
             Enter(State.Windup);
+            EventBus.Publish(new AttackWindupStarted(weapon != null ? weapon.position : transform.position, gameObject));
         }
 
         protected void Deflect(Vector3 point) => Deflect(point, null);

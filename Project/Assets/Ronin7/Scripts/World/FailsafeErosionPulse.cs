@@ -6,7 +6,7 @@ using UnityEngine.Events;
 namespace Ronin7.World
 {
     /// <summary>
-    /// EP28 "failsafe erosion pulse" mechanic. Models Cipher's neural-purge clock spiking under
+    /// "failsafe erosion pulse" mechanic. Models Cipher's neural-purge clock spiking under
     /// stress. When triggered, the pulse runs for a fixed duration during which the player's vision
     /// degrades (tracked as a [0,1] meter that an overlay reads) and the player is more vulnerable
     /// to incoming damage. The controller also self-applies periodic small "erosion" damage to the

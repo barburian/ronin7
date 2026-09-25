@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Ronin7.Enemies
 {
     /// <summary>
-    /// EP26 "The Requiem Protocol" mechanic: the confessor-link duel of wills. During a duel, Cipher's
+    /// "The Requiem Protocol" mechanic: the confessor-link duel of wills. During a duel, Cipher's
     /// neural link to the dying tries to "open and feed" — a hunger that rises while the link is active,
     /// which the player must hold back (restrain) by fighting clean rather than for the kill. If hunger
     /// fills completely (reaches consumeThreshold), Cipher is "consumed" (fail state). Winning the duel

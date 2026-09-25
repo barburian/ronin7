@@ -6,7 +6,7 @@ using UnityEngine.Events;
 namespace Ronin7.Enemies
 {
     /// <summary>
-    /// EP21 dream enemy: a phantom that cycles between Solid (vulnerable, real) and Phased
+    /// Dream enemy: a phantom that cycles between Solid (vulnerable, real) and Phased
     /// (invulnerable, attacks pass through). When phased, incoming damage is fully refunded
     /// via Health.Heal(). The phantom can also be marked as purely illusory (a copy/hallucination).
     /// On death, the phantom dissolves (becomes inactive).

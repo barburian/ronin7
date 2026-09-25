@@ -1,0 +1,23 @@
+{
+    "asset": "01b39a09b38c6614d9359430e7155f2f",
+    "fileName": "019f4257-f3aa-7344-afba-540b17a8a2ef.glb",
+    "prompt": "3D game-ready model, single object, clean topology, stylized-realistic grounded sci-fi, PBR textures, plain neutral background. A small autonomous surveillance drone: a smooth dark armored ovoid/disc body the size of a helmet, a single recessed cold-cyan scanner-eye on the front, a ring of tiny grid-projector lenses, small quiet thruster vents underneath, no limbs. Impersonal, clinical, faceless. Color palette: matte black and gunmetal with a cold cyan scanner-glow.",
+    "negativePrompt": "",
+    "model": "model3d-tripo-p1",
+    "modelName": "Tripo P1",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "promptImageReferenceGuid": "0a3e48893f1203c4c9ab459cc2480d98",
+    "modelReferenceGuid": "",
+    "multiviewFrontGuid": "",
+    "multiviewBackGuid": "",
+    "multiviewLeftGuid": "",
+    "multiviewRightGuid": "",
+    "multiviewTopGuid": "",
+    "multiviewBottomGuid": "",
+    "multiviewLeftFrontGuid": "",
+    "multiviewRightFrontGuid": "",
+    "faceLimit": -1
+}

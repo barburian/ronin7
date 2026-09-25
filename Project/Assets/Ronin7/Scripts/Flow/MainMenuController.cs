@@ -67,5 +67,11 @@ namespace Ronin7.Flow
             Ronin7.Player.XRRecenterUtility.RecenterRig();
             Ronin7.Player.XREyeHeightCalibrator.Calibrate(targetEyeHeight);
         }
+
+        /// <summary>Menu "START RUN": begin a new roguelike run (random seed).</summary>
+        public void OnStartRunClicked()
+        {
+            RunDirector.Instance?.StartRun();
+        }
     }
 }

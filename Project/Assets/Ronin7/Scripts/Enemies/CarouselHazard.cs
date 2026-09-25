@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Ronin7.Enemies
 {
     /// <summary>
-    /// EP13 Carousel mechanic: spins a pivot (carrying orbiting enemies and decorative objects)
+    /// Carousel mechanic: spins a pivot (carrying orbiting enemies and decorative objects)
     /// around the player. Speed ramps from minSpeed to maxSpeed over time. The player's floor
     /// does not move (VR comfort) — only the pivot rotates.
     /// </summary>

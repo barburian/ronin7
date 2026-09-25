@@ -340,9 +340,9 @@ namespace Ronin7.Editor.Art
         }
 
         /// <summary>
-        /// Loads (creating if missing) the shared gunmetal hull material. Created in code — mirrors
-        /// the Galaxy1Builder.EnsureBlackSkybox shape — so a fresh checkout without the on-disk .mat
-        /// still produces non-pink hulls. Per-part color comes from MakeChildTinted variants; this
+        /// Loads (creating if missing) the shared gunmetal hull material. Created in code so a fresh
+        /// checkout without the on-disk .mat still produces non-pink hulls. Per-part color comes from
+        /// MakeChildTinted variants; this
         /// is just the base.
         /// </summary>
         private static Material EnsureShipHullMaterial()
@@ -765,7 +765,7 @@ namespace Ronin7.Editor.Art
         /// <summary>
         /// Swaps the hand-authored planet prefab's built-in smooth sphere for the faceted
         /// PlanetSphere mesh. Load-edit-save (not rebuild-from-scratch) so the prefab's GUID and
-        /// fileIDs survive — scenes and Galaxy1Builder reference this prefab directly.
+        /// fileIDs survive — scenes reference this prefab directly.
         /// </summary>
         internal static bool BuildPlanetPrefab()
         {

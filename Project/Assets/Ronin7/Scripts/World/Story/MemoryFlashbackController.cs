@@ -4,8 +4,8 @@ using UnityEngine;
 namespace Ronin7.World.Story
 {
     /// <summary>
-    /// Scene treatment for "memory-space" episodes (first use EP09 Kethel-7; reused EP12/21/28).
-    /// Applies fog, ambient lighting, and optional heartbeat loop to establish a dreamlike atmosphere.
+    /// Scene treatment for "memory-space" chapter sequences. Applies fog, ambient lighting, and an
+    /// optional heartbeat loop to establish a dreamlike atmosphere.
     /// </summary>
     public class MemoryFlashbackController : MonoBehaviour
     {

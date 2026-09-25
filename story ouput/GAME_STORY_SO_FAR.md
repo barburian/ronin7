@@ -28,7 +28,7 @@
 
 ### Ronin-7 / "Cipher" / "Kael Vor" / "Soren" — protagonist
 - **Species:** _[to supply]_ · **Color:** _[to supply]_ · **Age:** _[to supply]_ · **Species detail:** _[see Species Guide — to supply]_
-- **Role:** Assassin-operative of the Program — the prime template of the Ronin make (its seventh, first-viable iteration; 1-6 culled), the original the editions were cloned from. Survived his own killswitch execution; revived by Kessler. A "mercy operative" whose conscience fractured. "Cipher" is his Program codename (spoken from Ch4 on); "Kael Vor" is a planted cover name (exposed Ch5, fake); his true **birth name, Soren**, is recovered in the finale on the Iron Sepulcher floor (Ch16, EP30 — the buried self beneath number, codename, and template).
+- **Role:** Assassin-operative of the Program — the prime template of the Ronin make (its seventh, first-viable iteration; 1-6 culled), the original the editions were cloned from. Survived his own killswitch execution; revived by Kessler. A "mercy operative" whose conscience fractured. "Cipher" is his Program codename (spoken from Ch4 on); "Kael Vor" is a planted cover name (exposed Ch5, fake); his true **birth name, Soren**, is recovered in the finale on the Iron Sepulcher floor (Ch16 — the buried self beneath number, codename, and template).
 - **Allegiance:** Self / the crew.
 
 ### Kessler — salvager, Hub anchor
@@ -237,7 +237,7 @@
 ---
 
 ## CH01 — THE SALVAGER'S DEBT
-**Act I · Mercy as Rebellion · EP01**
+**Act I · Mercy as Rebellion**
 
 **What happens**
 - Ronin-7 wakes lucid on Kessler's revival table after three weeks of revival — no name, fragmentary memory, lethal reflexes; has Kessler by the throat before Kessler talks him down.
@@ -263,7 +263,7 @@
 ---
 
 ## CH02 — THE AUCTION
-**Act I · Mercy as Rebellion · EP02–EP03**
+**Act I · Mercy as Rebellion**
 
 **What happens**
 - *Hub briefing en route:* the only lead is the dead operative's paperwork, which would survive on Velorum, the auction-world. Kessler hates the place but sets course.
@@ -290,7 +290,7 @@
 ---
 
 ## CH03 — THE SWORD REMEMBERS
-**Act I · Mercy as Rebellion · EP04–EP05**
+**Act I · Mercy as Rebellion**
 
 **What happens**
 - *Hub briefing:* the crew takes stock of the copied Velorum files and the failed killswitch — if one leash slipped, others can; "find the others" becomes the heading.
@@ -314,7 +314,7 @@
 ---
 
 ## CH04 — THE OVERSEER'S HUNT
-**Act I · Mercy as Rebellion · EP06–EP08**
+**Act I · Mercy as Rebellion**
 
 **What happens**
 - *Hub briefing:* chasing Echo's "find the others" charge and the question of why his leash slipped, the crew tracks Program courier Tessa Rin to Drovis, a lawless Coil free-port. Mira is ordered to stay sealed aboard.
@@ -341,7 +341,7 @@
 ---
 
 ## CH05 — THE DEBT OF ASHES
-**Act II · Beneath the Erasure · EP09–EP10**
+**Act II · Beneath the Erasure**
 
 **What happens**
 - *Hub briefing:* cross-referencing the Velorum files with Mera's Dominion logs surfaces an ash-world settlement Ronin-7's old line scoured. The trail to who he was runs through what he did. Iris flags an unresolved name in the roster: "Kael Vor."
@@ -364,7 +364,7 @@
 ---
 
 ## CH06 — THE IRON DOJO
-**Act II · Beneath the Erasure · EP11–EP12**
+**Act II · Beneath the Erasure**
 
 **What happens**
 - *Hub briefing:* Resh finally lays down the card he has carried for years — every child he ever pulled out of the markets was tagged for one address, the Iron Dojo, a Dominion training citadel that *grows* operatives. His one inside contact is a Program engineer, **Morrigan**, who has slipped him children for years. The citadel is a real garrison built into a mountain; Mera prices its defenses, Iris wants the conditioning tech, and Kessler keeps **Mira** sealed aboard. Mira's instinct ("It looks like a school" / "somebody's getting the other children out") names the horror and sets the rule. Cipher goes in alone to break the place that keeps making more of him.
@@ -390,7 +390,7 @@
 ---
 
 ## CH07 — FORGOTTEN NAMES
-**Act II · Beneath the Erasure · EP13–EP14**
+**Act II · Beneath the Erasure**
 
 **What happens**
 - *Hub briefing:* Morrigan's new analysis bench reads Cipher's sabotaged killswitch for the first time and delivers a hard verdict — every firmware block was touched in build order, the work of an **insider** fluent in systems they had no business knowing. The paper that could name them is hoarded by a salvager-archivist who collects the records of dead operatives and never sells a sheet back: **Coral Vex.** Mera flags that someone who knows operatives that well is either an ally or the best hunter they've walked toward; the crew sets a heading for her reliquary in the dead lanes.
@@ -419,7 +419,7 @@
 ---
 
 ## CH08 — THE SILENT GARDEN
-**Act II · Beneath the Erasure · EP15–EP16**
+**Act II · Beneath the Erasure**
 
 **What happens**
 - *Hub briefing:* The whole crew assembles over a chart with a blank where a world should be. Coral names the legend she pointed them to: the **Silent Garden**, a fog-drowned burial world tended by the **Mourners**, keepers older than the Program who hold the **souls** of a people that lived and died there ages ago and grant one seeker the sight of one hidden truth — for the price of a trial that has buried more than it has answered. Mera can't price a place with no walls or guns that still kills; Morrigan can read no signal off it at all; Iris is unsettled by a world built of graves. Echo, for Cipher alone, warns this one tests the hand and the head, not the blade. They set a heading for a world that answers no comms and shows on no chart.
@@ -448,7 +448,7 @@
 ---
 
 ## CH09 — THE PIT AND THE DEEP
-**Act III · Predators Become Protectors · EP17–EP18**
+**Act III · Predators Become Protectors**
 
 **What happens**
 - *Hub briefing:* Act III opens on a Hub that is finally full and loud, the war-room holo-table awake for the first time. Following the Garden's heading down, Morrigan pins a buried Program **relay** under the **Rustfang** — a pirate free-hold dug into a dead world's caves and held by the old warrior **Gryph**. The signal is far older and bigger than a comms node should be, and it goes *down*, not out. Coral warns the deep is where the Program hides the kept; Mera and Resh weigh Gryph (an old warrior you cannot buy, only earn); Echo marks how far down this one goes. The trail ends in water. They deploy.
@@ -478,7 +478,7 @@
 ---
 
 ## CH10 — THE LEDGER OF RUST
-**Act III · Predators Become Protectors · EP19–EP20**
+**Act III · Predators Become Protectors**
 
 **What happens**
 - *Hub briefing:* Over the war-room holo-table, Morrigan lays out the gap the Concord Engine reveal opened — the Engine's build-record was never one book; the Dominion split it across **living archives** like Sable, each carrying one section in their racked shadows. Sable is the map: she can feel the nearest node, filed deep in the **Ninefold mine shafts** (nine descending tiers where no signal reaches), and tells Cipher privately it is the first of three she can feel and the only one she thinks they bring up alive. Gryph, the deep-shaft warrior, knows buried work firsthand; the node is guarded. Echo, for Cipher alone, wonders whose names they are about to read — maybe even his own.
@@ -508,7 +508,7 @@
 ---
 
 ## CH11 — GHOSTS AND ORIGINS
-**Act III · Predators Become Protectors · EP21–EP22**
+**Act III · Predators Become Protectors**
 
 **What happens**
 - *Hub briefing:* Cassie-04 overlays her lattice on the Engine schematic and one node pulses out of place — an ancient **arkship** fossilized in a leviathan **bone-canyon**, older than the Dominion, that the records tie to the Program's very origin. It reads *wrong*: Sable names it a sister so long racked her kept shadows have begun leaking outward, one they may not bring up alive, and warns the canyon's "atmosphere" isn't air — it is the node's broadcast, and it shows you your dead. Vess wants to see where the thing that took her people began; Echo, for Cipher alone, is wary of something older than the leash itself.
@@ -537,7 +537,7 @@
 ---
 
 ## CH12 — THE FRACTURE
-**Act III · Predators Become Protectors · EP23–EP24**
+**Act III · Predators Become Protectors**
 
 **What happens**
 - *Hub briefing:* The arkship's origin data (Ch11) and Sable's map converge on a Dominion **cryo-command vault** where the **last scattered archive** is wired into the operative **command-network** as its living interface, and a dormant authority — **Commander Vale** — sleeps in stasis as the command-key. Cassie's cross-index reads what this node holds and it stops the room cold: where Ch9–11 held the Wraith, Ninja, and Knight makes, this node holds the **Ronin** generation — *his own* make, his own kept shadows. A rival force is already racing for the same vault. The roster splits on the plan — Morrigan and Coral wary of touching a command-network at all, Vess and Mera pushing for speed, Kessler asking what a tool like that does to whoever picks it up, Sable steeling herself to reach the last of her kind. The argument *is* the chapter's thesis: this crew refuses easy power. They deploy in a race for the vault.
@@ -567,7 +567,7 @@
 ---
 
 ## CH13 — THE STERILE RECKONING
-**Act IV · Reckoning and Revelation · EP25–EP26**
+**Act IV · Reckoning and Revelation**
 
 **What happens**
 - *The sensing (Act IV opens):* The moment Cipher steps back aboard *The Cairn* with the last fragment (Ch12), **Cassie** and **Sable** — the two recruited archive keeper-hosts — go still at once. They *feel* it: out past the lattice they spent the war tracing is **one archive larger than all four nodes combined.** The four scattered nodes were never the machine, only its veins. This is the trunk — not a build-record, not a graveyard of shed shadows, but a **transmitter**: the **Concord Engine** itself, racked and waiting, scaled to do to whole worlds what a killswitch does to one operative. Sable can feel its weight and can't feel a seam anywhere on it.
@@ -598,7 +598,7 @@
 ---
 
 ## CH16 — THE VAULT AND THE THRONE OF ASHES *(finale)*
-**Act IV · Reckoning and Revelation · EP29–EP32**
+**Act IV · Reckoning and Revelation**
 *Continuous-descent finale: the Iron Sepulcher peels down into the Concord Engine's throne-core. Merges the former Ch15 ("The Vault Within") and folds in the cut Ch14's sole load-bearing idea (war-as-product). See `00_STORY_BIBLE.md` §0.*
 
 **What happens**
@@ -606,10 +606,10 @@
 - *The Iron Sepulcher:* A layered memory-puzzle gauntlet against sepulcher wardens; every tier down strips a layer of conditioning, the architecture peeling back into memory-space the lower they go.
 - *Samurai-4 (the duel):* The Program spends its finest hunter — **Samurai-4**, everything Cipher once was (leashed, lethal, certain). Across the descent their duel becomes a dialogue: he refuses to kill her and shows her the seam (the engineered-empathy flaw, Ch6) — that her certainty is conditioning, that she can *choose.*
 - *Breaking her leash:* **Samurai-4 breaks her own leash** — chooses, the way Kerrax did (Ch4) and Vess did with him (Ch10) — turns on her handlers and becomes **family** (a capstone bond beyond the Ten). Mercy as contagion at its peak; she descends the rest of the way at his shoulder.
-- *Reclaiming Soren (reveal — closes Ladder C):* At the vault floor Cipher reaches his sealed memory-core and integrates it; the buried self (Ch11's dreamscape younger self) returns whole. Not "Kael Vor" (the planted lie, Ch5), not merely "the template" the editions were printed from (Ch12) — beneath even the original, a stolen *person.* He reclaims his **birth name: SOREN** (EP30). Echo begins, carefully, to learn it. *(The Ch12 source-horror reclaimed as ownership.)*
-- *Into the throne-core (EP31):* The sealed-memory chamber's floor opens onto the **Concord Engine's throne-core** — the Sepulcher was always the Engine's spine. Soren, whole and named, walks down into the heart of the war-machine, the seam Heris marked glowing ahead.
+- *Reclaiming Soren (reveal — closes Ladder C):* At the vault floor Cipher reaches his sealed memory-core and integrates it; the buried self (Ch11's dreamscape younger self) returns whole. Not "Kael Vor" (the planted lie, Ch5), not merely "the template" the editions were printed from (Ch12) — beneath even the original, a stolen *person.* He reclaims his **birth name: SOREN**. Echo begins, carefully, to learn it. *(The Ch12 source-horror reclaimed as ownership.)*
+- *Into the throne-core:* The sealed-memory chamber's floor opens onto the **Concord Engine's throne-core** — the Sepulcher was always the Engine's spine. Soren, whole and named, walks down into the heart of the war-machine, the seam Heris marked glowing ahead.
 - *The time-loop trap:* At the throne-core Soren is caught in a recurring **time-loop** — reliving the same fatal moment (an endless duel against an *image of Khall*), dying and resetting, the crew unable to reach him. The loop is a **containment-trap** built to re-leash escaped operatives by eroding the will until the conscience re-seals. He breaks it not by force but by **will** — choosing differently every loop until the trap cannot hold a man who refuses to stop choosing.
-- *The forged order (EP32 — reveal):* Free of the loop, Soren confronts the truth behind everything — the **Kethel-7 order**, the atrocity that began his breaking, was **forged by the Hollow Kings**, *designed* to fracture a mercy operative and aim the resulting rebel at the Dominion's Concord Engine. His whole rebellion was the Synod's contingency. **Khall** appears — a **manipulated victim** who, finding the order strange, investigated it, learned the Hollow Kings forged it (a captured King told him of the Concord Engine and why the Dominion must be stopped), faked his death, and has been aiding Soren undercover ever since, waiting for him here. He repents and **allies.**
+- *The forged order (reveal):* Free of the loop, Soren confronts the truth behind everything — the **Kethel-7 order**, the atrocity that began his breaking, was **forged by the Hollow Kings**, *designed* to fracture a mercy operative and aim the resulting rebel at the Dominion's Concord Engine. His whole rebellion was the Synod's contingency. **Khall** appears — a **manipulated victim** who, finding the order strange, investigated it, learned the Hollow Kings forged it (a captured King told him of the Concord Engine and why the Dominion must be stopped), faked his death, and has been aiding Soren undercover ever since, waiting for him here. He repents and **allies.**
 - *The true enemy:* Behind the Hollow Kings, the ten syndicates, and the Program stands **Maelgorn** and the **Obsidian Synod** — the architects who keep the galaxies at war because the **war is the product** and the dead in storage forever. The "outside hand" Morrigan sensed (Ch6) has a name at last.
 - *The Throne of Ashes (climax):* The ten, the freed hunters, Samurai-4, Khall, Heris's Engine-sabotage tech (keyed to her hidden seam), Sallow's absolution-mechanic, and Soren's whole self converge to break the **Concord Engine** at its core. The Engine ran on the kept shadow-AIs; unmaking it **frees them** — every shadow, every kept witness in its lattice, released. Soren refuses the role the Synod wrote: he does not destroy the Engine as their proxy (nor command it as Vale wanted, Ch12) — he turns the act into **liberation, not conquest**, breaking the cage on *his* terms. He does not take the throne; he leaves it in **ashes.** The galaxy of freed killers chooses, for the first time, what to be.
 
