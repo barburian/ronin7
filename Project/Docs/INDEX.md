@@ -8,6 +8,8 @@ A map of the project's design, engineering, and narrative docs. Paths are relati
 | Doc | What it covers |
 |---|---|
 | `Project/Docs/IMPROVEMENT-SUMMARY.md` | Audit/improvement pass: what shipped per phase, corrected audit claims, hygiene findings, the **handoff checklist**, and the EditMode test gate (639 tests, 0 skips; PlayMode 70/70). Also tracks the ongoing chapter-build studio pipeline. Read before touching combat, pooling, materials, or sun-nav. |
+| `Project/Docs/Roguelike-Design.md` | Authoritative API contract + amendments for the shipped seeded 15-node run mode (boons, meta-progression, runtime arena). |
+| `Project/Docs/Roguelike-Transition-Plan.md` | Phased plan for the full roguelike-only transition: campaign removal order, crash-proof runs, swept blade hits, content depth, diegetic UI, perf soak. |
 | `Project/Docs/SunNavigation-Design.md` | Design spec for the sun-based navigation mechanic (`SunCompass`/`SunGravityWell`/`SunGlare`) — gravity wells, glare, boost/heat interaction, and the integration hand-off. |
 | `Project/Docs/GraphicsRoadmap-GrittyCyber.md` | "Gritty Cyber-Fantasy" graphics direction — VR pipeline settings, the lit-PBR + animated-neon shader family (`GrittyCyber`/`CyberSword`), VFX reuse, and the validated two-hero proof-of-concept. Read before adding shaders or re-skinning hero assets. |
 | `Project/Docs/Ch01-Scene-Construction.md` | Scene-construction spec for Chapter 1's `Galaxy1_Ch1_Hub` — per-beat environment/background, NPC travel routes (Kessler's `NpcWalker` legs), the 17-step `MissionDirector` spine, lighting/VO/perf tables, all grounded in `Chapter1Builder.cs`. Read before patching the Ch1 hub scene. |
