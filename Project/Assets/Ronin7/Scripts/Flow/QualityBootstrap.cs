@@ -20,8 +20,8 @@ namespace Ronin7.Flow
     public class QualityBootstrap : MonoBehaviour
     {
         [Header("Display")]
-        [Tooltip("Target Quest display refresh rate (Hz). 72 is the safe baseline; 90/120 need headroom — profile before raising.")]
-        [SerializeField] private float targetRefreshRate = 72f;
+        [Tooltip("Target Quest display refresh rate (Hz). Falls back to the highest rate the headset supports at or below this (Quest 1 caps at 72).")]
+        [SerializeField] private float targetRefreshRate = 90f;
 
         [Header("Foveation (0=Off, 1=Low, 2=Med, 3=High, 4=HighTop)")]
         [Tooltip("Fixed-foveated-rendering level. Higher = more peripheral GPU savings but more visible edge blur. Also enable Foveated Rendering in the Oculus/OpenXR feature settings.")]
@@ -33,6 +33,19 @@ namespace Ronin7.Flow
         [Tooltip("Cap real-time shadow distance (metres). Lower is cheaper; 0 leaves the quality setting untouched.")]
         [SerializeField] private float shadowDistance = 25f;
 
+        /// <summary>Highest supported rate &lt;= target; if none, the lowest supported; if list empty, target.</summary>
+        public static float PickRefreshRate(float[] supported, float target)
+        {
+            if (supported == null || supported.Length == 0) return target;
+            float best = -1f, lowest = float.MaxValue;
+            foreach (var r in supported)
+            {
+                if (r <= target && r > best) best = r;
+                if (r < lowest) lowest = r;
+            }
+            return best > 0f ? best : lowest;
+        }
+
         private void Awake()
         {
             // vSync: let the XR runtime pace frames. Safe everywhere, so not gated.
@@ -43,8 +56,11 @@ namespace Ronin7.Flow
 
 #if UNITY_ANDROID && !UNITY_EDITOR
             // --- Device-only: Oculus runtime hints. These are no-ops / unavailable off-device. ---
-            if (!Performance.TrySetDisplayRefreshRate(targetRefreshRate))
-                Debug.LogWarning($"[QualityBootstrap] Could not set {targetRefreshRate}Hz (not supported by this headset/runtime).");
+            float[] available;
+            float rate = Performance.TryGetAvailableDisplayRefreshRates(out available)
+                ? PickRefreshRate(available, targetRefreshRate) : targetRefreshRate;
+            if (!Performance.TrySetDisplayRefreshRate(rate))
+                Debug.LogWarning($"[QualityBootstrap] Could not set {rate}Hz (not supported by this headset/runtime).");
 
             // Fixed-foveated rendering. Requires Foveated Rendering enabled in the OpenXR/Oculus
             // feature settings; otherwise this call has no effect.

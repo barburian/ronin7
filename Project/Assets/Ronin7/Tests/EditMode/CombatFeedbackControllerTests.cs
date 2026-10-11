@@ -82,5 +82,58 @@ namespace Ronin7.Tests.EditMode
             Assert.IsFalse(HasSubscriber<PostureNearBreak>());
             Assert.DoesNotThrow(() => EventBus.Publish(new PostureNearBreak(_go)));
         }
+
+        // HitSideWeights: head at origin facing +Z, right = +X. Returns (left, right).
+        private const float FarMin = 0.3f;
+        private static Vector2 Weights(Vector3 source) =>
+            CombatFeedbackController.HitSideWeights(Vector3.zero, Vector3.right, source, FarMin);
+
+        [Test]
+        public void HitSideWeights_HitFromLeft_FavoursLeftHand()
+        {
+            var w = Weights(new Vector3(-2f, 0f, 0f));
+            Assert.AreEqual(1f, w.x, 1e-4f);
+            Assert.AreEqual(FarMin, w.y, 1e-4f);
+        }
+
+        [Test]
+        public void HitSideWeights_HitFromRight_FavoursRightHand()
+        {
+            var w = Weights(new Vector3(2f, 0f, 0f));
+            Assert.AreEqual(FarMin, w.x, 1e-4f);
+            Assert.AreEqual(1f, w.y, 1e-4f);
+        }
+
+        [Test]
+        public void HitSideWeights_StraightAhead_IsEven()
+        {
+            var w = Weights(new Vector3(0f, 0f, 2f));
+            Assert.AreEqual(1f, w.x, 1e-4f);
+            Assert.AreEqual(1f, w.y, 1e-4f);
+        }
+
+        [Test]
+        public void HitSideWeights_FromBehind_IsEven()
+        {
+            var w = Weights(new Vector3(0f, 0f, -2f));
+            Assert.AreEqual(1f, w.x, 1e-4f);
+            Assert.AreEqual(1f, w.y, 1e-4f);
+        }
+
+        [Test]
+        public void HitSideWeights_DiagonalRight_FarHandAboveMinimum()
+        {
+            var w = Weights(new Vector3(1f, 0f, 1f));
+            Assert.AreEqual(1f, w.y, 1e-4f);
+            Assert.Greater(w.x, FarMin);
+            Assert.Less(w.x, 1f);
+        }
+
+        [Test]
+        public void PlayerHit_TwoArgCtor_SourceDefaultsToPoint()
+        {
+            var e = new PlayerHit(5f, new Vector3(1f, 2f, 3f));
+            Assert.AreEqual(e.Point, e.Source);
+        }
     }
 }

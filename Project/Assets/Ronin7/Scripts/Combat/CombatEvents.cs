@@ -43,7 +43,11 @@ namespace Ronin7.Combat
     {
         public readonly float Amount;
         public readonly Vector3 Point;
-        public PlayerHit(float amount, Vector3 point) { Amount = amount; Point = point; }
+        /// <summary>Where the attack came from (attacker position) — drives directional feedback.
+        /// Equals <see cref="Point"/> when unknown, which reads as non-directional.</summary>
+        public readonly Vector3 Source;
+        public PlayerHit(float amount, Vector3 point) : this(amount, point, point) { }
+        public PlayerHit(float amount, Vector3 point, Vector3 source) { Amount = amount; Point = point; Source = source; }
     }
 
     /// <summary>The player's blade struck something damageable (for sparks / SFX / haptics).</summary>

@@ -183,6 +183,9 @@ PrefabInstance:
       addedObject: {fileID: 3040993034762833175}
     - targetCorrespondingSourceObject: {fileID: 3502910123145304949, guid: 913c317cc243c3b4183acd7546447de6, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 7160862917892025896}
+    - targetCorrespondingSourceObject: {fileID: 3502910123145304949, guid: 913c317cc243c3b4183acd7546447de6, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 6396805824890417055}
     - targetCorrespondingSourceObject: {fileID: 3502910123145304949, guid: 913c317cc243c3b4183acd7546447de6, type: 3}
       insertIndex: -1
@@ -219,6 +222,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Ronin7.Combat::Ronin7.Combat.Health
   maxHealth: 100
+--- !u!114 &7160862917892025896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7043011938888400025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5b64314a1b70f646b5ee5b5197af3fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Enemies::Ronin7.Enemies.PostureMeter
+  postureMax: 100
+  gainPerDamage: 0.9
+  decayDelay: 1
+  decayPerSecond: 40
+  breakBonusDamage: 12
+  nearBreakFraction: 0.8
 --- !u!114 &6396805824890417055
 MonoBehaviour:
   m_ObjectHideFlags: 0

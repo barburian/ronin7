@@ -37,6 +37,20 @@ namespace Ronin7.Enemies
         [SerializeField] protected Vector3 strikeEuler = new Vector3(55f, 0f, 0f);
         [SerializeField] protected Vector3 recoilEuler = new Vector3(-120f, 0f, 0f);
 
+        [Header("Flinch (light stagger on any hit)")]
+        [Tooltip("Seconds of recoil interrupt after taking damage (0.15-0.3 feels right).")]
+        [SerializeField] private float flinchTime = 0.2f;
+        [Tooltip("Seconds, measured from flinch start, during which further hits do not re-flinch " +
+                 "(prevents perma-stunlock). Should be >= flinchTime.")]
+        [SerializeField] private float reflinchImmunity = 0.4f;
+        [Tooltip("Metres the enemy is shoved away from the hit over the flinch.")]
+        [SerializeField] private float flinchPush = 0.12f;
+        [Tooltip("Peak lean (degrees) of the whole body away from the hit. Visual only; no camera motion.")]
+        [SerializeField] private float flinchTiltDegrees = 12f;
+        [Tooltip("If true a hit during Windup cancels the attack (flinch then StateAfterStagger). If false " +
+                 "the enemy ignores hits mid-windup (bosses / heavies). Hits during Active never flinch.")]
+        [SerializeField] private bool flinchCancelsWindup = true;
+
         // Sunder Beat: a deflect landing within this many seconds of entering State.Active counts as
         // "perfect" (see Deflect / ParryTiming.ParryQuality).
         private const float PerfectParryWindow = 0.12f;
@@ -66,6 +80,13 @@ namespace Ronin7.Enemies
         protected Vector3 currentEuler;
         protected Vector3 staggerFromEuler;
         private bool aggroCounted;
+
+        // Stagger duration in use: StaggerTime for a deflect/posture break, flinchTime for a flinch.
+        private float staggerLen;
+        private bool flinching;
+        private float flinchImmuneUntil;
+        private Vector3 flinchDir, flinchStartPos;
+        private Quaternion flinchBaseRot;
 
         // G4 Blade Clash: EMA-smoothed speed of SwingTrackPoint, using BladeDamager's exact math.
         private Vector3 lastSwingPos;
@@ -139,6 +160,10 @@ namespace Ronin7.Enemies
         /// TrainingDummy overrides to 5 for a slower, less twitchy track.</summary>
         protected virtual float FaceTurnRate => 8f;
 
+        /// <summary>Whether this enemy flinches on damage. Off by default (TrainingDummy stays put);
+        /// <see cref="Enemy"/> turns it on.</summary>
+        protected virtual bool FlinchEnabled => false;
+
         /// <summary>Optional per-subclass debug log. Default is silent.</summary>
         protected virtual void Log(string msg) { }
 
@@ -157,6 +182,7 @@ namespace Ronin7.Enemies
         {
             health = GetComponent<Health>();
             health.Died += OnDied;
+            health.Damaged += OnDamagedFlinch;
             if (target == null) target = FindPlayer();
             currentEuler = restEuler;
             if (weapon != null) weapon.localRotation = Quaternion.Euler(restEuler);
@@ -172,7 +198,7 @@ namespace Ronin7.Enemies
 
         protected virtual void OnDestroy()
         {
-            if (health != null) health.Died -= OnDied;
+            if (health != null) { health.Died -= OnDied; health.Damaged -= OnDamagedFlinch; }
             SetAggroCounted(false);
         }
 
@@ -221,13 +247,14 @@ namespace Ronin7.Enemies
                     break;
 
                 case State.Stagger:
-                    if (timer < StaggerTime * 0.35f)
-                        PoseWeapon(staggerFromEuler, recoilEuler, timer / (StaggerTime * 0.35f));
+                    if (timer < staggerLen * 0.35f)
+                        PoseWeapon(staggerFromEuler, recoilEuler, timer / (staggerLen * 0.35f));
                     else
                         PoseWeapon(recoilEuler, restEuler,
-                            (timer - StaggerTime * 0.35f) / (StaggerTime * 0.65f));
-                    Tint(Color.Lerp(StaggerColor, IdleColor, timer / StaggerTime));
-                    if (timer >= StaggerTime) Enter(StateAfterStagger);
+                            (timer - staggerLen * 0.35f) / (staggerLen * 0.65f));
+                    Tint(Color.Lerp(StaggerColor, IdleColor, timer / staggerLen));
+                    if (flinching) PoseFlinch(timer / staggerLen);
+                    if (timer >= staggerLen) Enter(StateAfterStagger);
                     break;
             }
         }
@@ -296,6 +323,8 @@ namespace Ronin7.Enemies
                 EventBus.Publish(new BladeClash(point, gameObject));
 
             deflectedThisSwing = true;
+            EndFlinchPose();
+            staggerLen = StaggerTime;
             staggerFromEuler = currentEuler;
             Tint(StaggerColor);
             Log("DEFLECTED");
@@ -313,11 +342,57 @@ namespace Ronin7.Enemies
             Vector3 dir = (target.transform.position - transform.position).normalized;
             target.ApplyDamage(new DamageInfo(AttackDamage, target.transform.position, dir, gameObject));
             Log("hit player");
-            EventBus.Publish(new PlayerHit(AttackDamage, target.transform.position));
+            EventBus.Publish(new PlayerHit(AttackDamage, target.transform.position, transform.position));
+        }
+
+        /// <summary>
+        /// Light stagger on any damage: reuses State.Stagger with flinchTime, shoves the body away
+        /// from the hit and leans it back. A Windup hit cancels the attack (-> StateAfterStagger)
+        /// unless flinchCancelsWindup is off; Active is never interrupted. See <see cref="FlinchTiming"/>.
+        /// </summary>
+        private void OnDamagedFlinch(DamageInfo info)
+        {
+            if (!FlinchEnabled) return;
+            if (!FlinchTiming.ShouldFlinch(health.IsAlive, state == State.Stagger, state == State.Active,
+                    state == State.Windup, flinchCancelsWindup, Time.time, flinchImmuneUntil)) return;
+
+            flinchImmuneUntil = Time.time + reflinchImmunity;
+
+            Vector3 dir = info.Direction; dir.y = 0f;
+            if (dir.sqrMagnitude < 1e-4f && target != null)
+            {
+                dir = transform.position - target.transform.position; dir.y = 0f;
+            }
+            flinchDir = dir.sqrMagnitude < 1e-4f ? -transform.forward : dir.normalized;
+            flinchStartPos = transform.position;
+            flinchBaseRot = transform.rotation;
+            flinching = true;
+
+            staggerLen = Mathf.Max(0.01f, flinchTime);
+            staggerFromEuler = currentEuler;
+            Tint(StaggerColor);
+            Enter(State.Stagger);
+        }
+
+        private void PoseFlinch(float t)
+        {
+            t = Mathf.Clamp01(t);
+            transform.position = flinchStartPos + flinchDir * (flinchPush * (1f - (1f - t) * (1f - t)));
+            // Lean the body toward flinchDir; sine envelope returns to the base rotation at t = 1.
+            transform.rotation = Quaternion.AngleAxis(flinchTiltDegrees * FlinchTiming.TiltEnvelope(t),
+                Vector3.Cross(Vector3.up, flinchDir)) * flinchBaseRot;
+        }
+
+        private void EndFlinchPose()
+        {
+            if (!flinching) return;
+            flinching = false;
+            transform.rotation = flinchBaseRot;
         }
 
         protected virtual void OnDied()
         {
+            flinching = false;
             // Route through Enter so the global aggro count is released the moment the enemy
             // dies (a dead-but-not-destroyed enemy must not keep the save gate locked).
             Enter(State.Dead);

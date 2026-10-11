@@ -111,6 +111,49 @@ namespace Ronin7.Tests.EditMode
         }
 
         [Test]
+        public void Load_CorruptFileWithGoodBackup_RecoversPreviousSave()
+        {
+            // Arrange - the second save moves the first into slot1.json.bak; then the main file rots.
+            SaveData first = new SaveData();
+            first.lastPlanetScene = "Planet_A";
+            SaveSystem.Save(1, first);
+            SaveData second = new SaveData();
+            second.lastPlanetScene = "Planet_B";
+            SaveSystem.Save(1, second);
+            Assert.IsTrue(File.Exists(Path.Combine(testDirectory, "slot1.json.bak")), "overwrite should keep a .bak");
+            File.WriteAllText(Path.Combine(testDirectory, "slot1.json"), "{ this is not valid json ][");
+
+            LogAssert.ignoreFailingMessages = true;
+            try
+            {
+                SaveData loaded = SaveSystem.Load(1);
+                Assert.IsNotNull(loaded);
+                Assert.AreEqual("Planet_A", loaded.lastPlanetScene);
+            }
+            finally
+            {
+                LogAssert.ignoreFailingMessages = false;
+            }
+        }
+
+        [Test]
+        public void Load_CorruptFileAndCorruptBackup_ReturnsNull()
+        {
+            File.WriteAllText(Path.Combine(testDirectory, "slot1.json"), "{ this is not valid json ][");
+            File.WriteAllText(Path.Combine(testDirectory, "slot1.json.bak"), "{ also garbage ][");
+
+            LogAssert.ignoreFailingMessages = true;
+            try
+            {
+                Assert.IsNull(SaveSystem.Load(1));
+            }
+            finally
+            {
+                LogAssert.ignoreFailingMessages = false;
+            }
+        }
+
+        [Test]
         public void Load_FutureVersion_ReturnsNull()
         {
             // Arrange

@@ -132,8 +132,13 @@ namespace Ronin7.Flow
             }
         }
 
-        /// <summary>Start a run with a random seed.</summary>
-        public void StartRun() => StartRun(GenerateSeed());
+        /// <summary>Menu/hub entry (ENTER THE FRACTURE, RunLauncher): resumes the autosaved run if a
+        /// valid <see cref="RunSnapshot"/> exists (a crash or app kill mid-run), otherwise starts a new
+        /// run with a random seed.</summary>
+        public void StartRun()
+        {
+            if (!TryResumeRun()) StartRun(GenerateSeed());
+        }
 
         /// <summary>Start a run with a known seed (daily run / replay).</summary>
         public void StartRun(uint seed)
@@ -146,7 +151,36 @@ namespace Ronin7.Flow
             enemiesDefeatedAtRunStart = CampaignStats.EnemiesDefeated;
             ApplyStartingBonuses();
             EventBus.Publish(new RunStarted(seed));
+            WriteRunSnapshot();
             StartSceneLoad(runArenaScene);
+        }
+
+        /// <summary>Rebuilds RunState from the saved snapshot and reloads its current node from the
+        /// start. A stale/invalid snapshot is deleted and false is returned (caller starts fresh).</summary>
+        private bool TryResumeRun()
+        {
+            if (RunState.InRun) return false;
+            var snapshot = RunSnapshot.Read();
+            if (snapshot == null) return false;
+            if (!RunState.Restore(snapshot))
+            {
+                RunSnapshot.Delete();
+                return false;
+            }
+            lastClearedNode = -1;
+            enemiesDefeatedAtRunStart = CampaignStats.EnemiesDefeated - snapshot.runKills;
+            EventBus.Publish(new RunStarted(RunState.Seed));
+            StartSceneLoad(runArenaScene);
+            return true;
+        }
+
+        /// <summary>Mid-run autosave on entering a node (after HP/boons/echoes for the node just left
+        /// are recorded), so a crash resumes here instead of losing the run.</summary>
+        private void WriteRunSnapshot()
+        {
+            var snapshot = RunState.ToSnapshot();
+            snapshot.runKills = CampaignStats.EnemiesDefeated - enemiesDefeatedAtRunStart;
+            RunSnapshot.Write(snapshot);
         }
 
         /// <summary>Give up the current run early: same loss bookkeeping as permadeath (echoes
@@ -155,6 +189,24 @@ namespace Ronin7.Flow
         {
             if (!RunState.InRun) return;
             EndRun(won: false);
+        }
+
+        /// <summary>Entrance ABANDON: discard the saved (not-live) run and start a new one. Banks the
+        /// snapshot's unbanked Echoes exactly once, same as <see cref="AbandonRun"/>/permadeath
+        /// (<see cref="EndRun"/>), and only then deletes the snapshot so a crash in between cannot lose
+        /// or double-bank them.</summary>
+        public void AbandonSavedRunAndStart()
+        {
+            if (RunState.InRun) return;
+            var snapshot = RunSnapshot.Read();
+            if (snapshot != null)
+            {
+                MetaProgression.AddEchoes(snapshot.echoesEarned);
+                MetaProgression.NoteRunEnded(snapshot.nodeIndex, won: false);
+                MetaProgression.Save();
+                RunSnapshot.Delete();
+            }
+            StartRun(GenerateSeed());
         }
 
         private static uint GenerateSeed() => (uint)UnityEngine.Random.Range(1, int.MaxValue);
@@ -489,6 +541,7 @@ namespace Ronin7.Flow
                 EndRun(won: true);
                 return;
             }
+            WriteRunSnapshot();
             StartSceneLoad(runArenaScene);
         }
 
@@ -554,6 +607,9 @@ namespace Ronin7.Flow
                 RunState.Boons.Count,
                 RunState.EchoesEarned);
             MetaProgression.Save();
+            // After the bank is saved (a crash in between must not lose the Echoes): the run is over,
+            // so nothing is left to resume — win, permadeath and abandon all end here.
+            RunSnapshot.Delete();
 
             EventBus.Publish(new RunEnded(depth, won));
             DismissOfferPanel();

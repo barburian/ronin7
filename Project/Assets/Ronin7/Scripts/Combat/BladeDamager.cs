@@ -10,8 +10,14 @@ namespace Ronin7.Combat
     /// <summary>
     /// Sits on the blade collider (a trigger). Samples its own speed and, on contact with a
     /// <see cref="Health"/>, deals damage scaled by swing speed. Ignores the wielder so you
-    /// can't cut yourself, and rate-limits hits per target so one swing can't multi-hit the
-    /// same enemy, while still landing on every other target it touches in that swing.
+    /// can't cut yourself, and hits each target at most once per swing (until the blade slows
+    /// below minSwingSpeed, or hitCooldown elapses), while still landing on every other target
+    /// it touches in that swing.
+    ///
+    /// The blade is a trigger on a kinematic hand-parented body, so it passes through enemies.
+    /// Because a fast swing can jump past a thin target between steps, LateUpdate also sweeps a
+    /// few points along the blade from last frame's pose to this frame's (covers rotation arcs).
+    /// The trigger and the sweep share the same per-swing dedup, so nothing is double-damaged.
     /// </summary>
     [RequireComponent(typeof(Collider))]
     public class BladeDamager : MonoBehaviour
@@ -23,20 +29,31 @@ namespace Ronin7.Combat
                  "Rejects single-frame tracking spikes so a stutter can't inflate damage.")]
         [SerializeField, Range(0f, 1f)] private float speedSmoothing = 0.5f;
 
-        // Once the per-target debounce map grows past this many entries, opportunistically prune it
-        // (see PruneStale) so destroyed/long-cold targets don't retain Health refs for the scene's
-        // lifetime. Small enough that a normal swing (a handful of targets) never triggers it.
-        private const int PruneCheckThreshold = 16;
-        // Entries older than this many cooldowns are considered cold and safe to drop.
-        private const float StaleAfterCooldowns = 4f;
+        [Header("Swept hits")]
+        [Tooltip("Points sampled base→tip along the blade and swept each frame. Each costs one SphereCast per frame while swinging.")]
+        [SerializeField, Range(2, 5)] private int sweepSamples = 4;
+        [Tooltip("World radius (m) of each swept sample — roughly half the blade width.")]
+        [SerializeField] private float sweepRadius = 0.02f;
+        [Tooltip("A sample moving further than this (m) in one frame is a teleport (grab, respawn), not a swing: skip the sweep.")]
+        [SerializeField] private float maxSweepPerFrame = 1f;
+
+        private const int MaxSamples = 5;
+        private const int HitBufferSize = 8;
 
         private WeaponDefinition definition;
         private Vector3 lastPos;
         private float speed;
+        // Per-swing dedup shared by OnTriggerEnter and the sweep. Cleared when the swing ends
+        // (speed < minSwingSpeed), so it never accumulates stale/destroyed Health refs.
         private readonly Dictionary<Health, float> lastHitTimes = new();
-        // Reusable scratch buffer for PruneStale so pruning never allocates.
-        private static readonly List<Health> pruneScratch = new();
         private PlayerCombatModifiers wielderMods;
+
+        private BoxCollider box;
+        private int sweepMask;
+        private bool havePrevSamples;
+        private readonly Vector3[] prevSamples = new Vector3[MaxSamples];
+        private readonly Vector3[] curSamples = new Vector3[MaxSamples];
+        private static readonly RaycastHit[] sweepHits = new RaycastHit[HitBufferSize];
 
         /// <summary>Current blade speed in m/s (world), exponentially smoothed.</summary>
         public float Speed => speed;
@@ -47,6 +64,10 @@ namespace Ronin7.Combat
                 ? definitionOverride
                 : GetComponentInParent<Sword>()?.Definition;
             lastPos = transform.position;
+            box = GetComponent<BoxCollider>();
+            // Same layers the blade's trigger can touch, so the sweep and OnTriggerEnter agree.
+            for (int l = 0; l < 32; l++)
+                if (!Physics.GetIgnoreLayerCollision(gameObject.layer, l)) sweepMask |= 1 << l;
             // NOTE: the wielder's PlayerCombatModifiers is resolved lazily in OnTriggerEnter, not here.
             // At Awake the sword is an unparented world Grabbable (transform.root == the sword itself),
             // so there is no rig above it to find yet; it is only reparented under the hand on grab.
@@ -56,6 +77,76 @@ namespace Ronin7.Combat
         {
             speed = SmoothSpeed(lastPos, transform.position, Time.fixedDeltaTime, speed, speedSmoothing);
             lastPos = transform.position;
+            if (definition != null) ResetIfSwingEnded(lastHitTimes, speed, definition.minSwingSpeed);
+        }
+
+        private void OnEnable() => havePrevSamples = false;
+
+        // LateUpdate, not FixedUpdate: the tracked hand pose is written at render rate (Update /
+        // before-render), and 50 Hz physics only sees every ~1.5th frame of it. Sweeping the final
+        // per-frame pose means hits line up with the blade the player actually sees.
+        private void LateUpdate()
+        {
+            if (box == null || definition == null) return;
+
+            int n = Mathf.Clamp(sweepSamples, 2, MaxSamples);
+            BladeEndpoints(box.center, box.size, out Vector3 a, out Vector3 b);
+            Vector3 wa = transform.TransformPoint(a), wb = transform.TransformPoint(b);
+            for (int i = 0; i < n; i++) curSamples[i] = SamplePoint(wa, wb, i, n);
+
+            // Below swing speed nothing can deal damage, so don't pay for casts.
+            if (havePrevSamples && speed >= definition.minSwingSpeed)
+            {
+                for (int i = 0; i < n; i++) Sweep(prevSamples[i], curSamples[i]);
+            }
+
+            for (int i = 0; i < n; i++) prevSamples[i] = curSamples[i];
+            havePrevSamples = true;
+        }
+
+        private void Sweep(Vector3 from, Vector3 to)
+        {
+            Vector3 delta = to - from;
+            float dist = delta.magnitude;
+            if (dist < 1e-4f || dist > maxSweepPerFrame) return;
+
+            int hits = Physics.SphereCastNonAlloc(from, sweepRadius, delta / dist, sweepHits, dist,
+                sweepMask, QueryTriggerInteraction.Collide);
+            for (int i = 0; i < hits; i++)
+            {
+                // distance 0 = already overlapping at the sweep start: OnTriggerEnter owns entry
+                // contacts, and skipping these stops a blade resting inside a body from re-hitting.
+                if (sweepHits[i].distance <= 0f) continue;
+                TryHit(sweepHits[i].collider, sweepHits[i].point);
+            }
+        }
+
+        /// <summary>
+        /// Local-space ends of a box blade: the two face centres along its longest axis. Pure so the
+        /// sample geometry is unit-testable without a collider.
+        /// </summary>
+        internal static void BladeEndpoints(Vector3 center, Vector3 size, out Vector3 a, out Vector3 b)
+        {
+            Vector3 axis = size.z >= size.x && size.z >= size.y ? new Vector3(0f, 0f, size.z)
+                         : size.y >= size.x ? new Vector3(0f, size.y, 0f)
+                         : new Vector3(size.x, 0f, 0f);
+            a = center - axis * 0.5f;
+            b = center + axis * 0.5f;
+        }
+
+        /// <summary>Sample <paramref name="i"/> of <paramref name="count"/>, evenly spaced from a to b inclusive.</summary>
+        internal static Vector3 SamplePoint(Vector3 a, Vector3 b, int i, int count)
+            => count <= 1 ? b : Vector3.Lerp(a, b, (float)i / (count - 1));
+
+        /// <summary>
+        /// Ends the swing (clearing the per-swing hit set so every target can be hit again) once the
+        /// blade has slowed below <paramref name="minSwingSpeed"/>. Returns whether it reset.
+        /// </summary>
+        internal static bool ResetIfSwingEnded(Dictionary<Health, float> lastHitTimes, float speed, float minSwingSpeed)
+        {
+            if (speed >= minSwingSpeed) return false;
+            if (lastHitTimes.Count > 0) lastHitTimes.Clear();
+            return true;
         }
 
         /// <summary>
@@ -95,28 +186,10 @@ namespace Ronin7.Combat
             return true;
         }
 
-        /// <summary>
-        /// Removes entries from <paramref name="lastHitTimes"/> that are either stale (last hit at
-        /// least <paramref name="staleAfter"/> seconds ago) or destroyed (Unity's overloaded null
-        /// check on the <see cref="Health"/> key). Without this, a debounce map keyed by every enemy
-        /// a blade has ever touched would retain destroyed Health refs for the scene's duration.
-        /// Uses a shared scratch list so it never allocates. Pure/stateless over the passed-in map,
-        /// mirroring <see cref="SmoothSpeed"/>.
-        /// </summary>
-        internal static void PruneStale(Dictionary<Health, float> lastHitTimes, float now, float staleAfter)
-        {
-            pruneScratch.Clear();
-            foreach (var kv in lastHitTimes)
-            {
-                if (kv.Key == null || now - kv.Value >= staleAfter)
-                    pruneScratch.Add(kv.Key);
-            }
-            for (int i = 0; i < pruneScratch.Count; i++)
-                lastHitTimes.Remove(pruneScratch[i]);
-            pruneScratch.Clear();
-        }
+        private void OnTriggerEnter(Collider other) => TryHit(other, other.ClosestPoint(transform.position));
 
-        private void OnTriggerEnter(Collider other)
+        // Shared by the trigger and the sweep so both go through the same per-swing dedup.
+        private void TryHit(Collider other, Vector3 point)
         {
             if (definition == null) return;
 
@@ -125,11 +198,6 @@ namespace Ronin7.Combat
 
             // Don't damage whoever is holding the sword (sword is parented under them).
             if (((Component)health).transform.root == transform.root) return;
-
-            // Opportunistic prune: only bother once the map has grown enough for it to matter, so a
-            // normal swing never pays for it.
-            if (lastHitTimes.Count > PruneCheckThreshold)
-                PruneStale(lastHitTimes, Time.time, definition.hitCooldown * StaleAfterCooldowns);
 
             if (!TryRegisterHit(lastHitTimes, health, Time.time, definition.hitCooldown)) return;
 
@@ -140,7 +208,6 @@ namespace Ronin7.Combat
             dmg = ApplyWielderMultiplier(dmg, wielderMods != null ? wielderMods.DamageMultiplier : 1f);
             if (dmg <= 0f) return;
 
-            Vector3 point = other.ClosestPoint(transform.position);
             Vector3 dir = (other.transform.position - transform.position).normalized;
             health.ApplyDamage(new DamageInfo(dmg, point, dir, transform.root.gameObject));
             EventBus.Publish(new SwordImpact(point, speed, health.gameObject));

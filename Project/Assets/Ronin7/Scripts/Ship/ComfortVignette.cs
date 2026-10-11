@@ -30,8 +30,21 @@ namespace Ronin7.Ship
         private float target;    // requested 0..1 intensity
         private Mesh mesh;
 
+        private Color flashColor;
+        private float flashStrength, flashDuration, flashEndUnscaled = -1f;
+
         /// <summary>Request a vignette strength this frame (0 = open, 1 = tightest). Latest call wins.</summary>
         public void SetIntensity(float value) => target = Mathf.Clamp01(value);
+
+        /// <summary>Brief tinted edge flash (e.g. damage). Overlays the comfort state without touching
+        /// it: the ring shows max(comfort, fading flash) and tints toward <paramref name="c"/>.</summary>
+        public void Flash(Color c, float strength, float seconds)
+        {
+            flashColor = c;
+            flashStrength = Mathf.Clamp01(strength);
+            flashDuration = Mathf.Max(0.01f, seconds);
+            flashEndUnscaled = Time.unscaledTime + flashDuration; // unscaled: survives deflect slow-mo
+        }
 
         private void Awake()
         {
@@ -49,15 +62,19 @@ namespace Ronin7.Ship
             transform.localRotation = Quaternion.identity;
 
             // aperture goes 1 (fully open) -> minAperture (tight) as intensity rises.
-            float aperture = Mathf.Lerp(1f, minAperture, current);
+            float flash = flashEndUnscaled > Time.unscaledTime ? (flashEndUnscaled - Time.unscaledTime) / flashDuration : 0f;
+            float shown = Mathf.Max(current, flash * flashStrength);
+            Color c = flash > 0f ? Color.Lerp(color, flashColor, flash) : color;
+
+            float aperture = Mathf.Lerp(1f, minAperture, shown);
             transform.localScale = new Vector3(distance * aperture, distance * aperture, 1f);
 
             if (ring != null)
             {
-                ring.enabled = current > 0.001f;
+                ring.enabled = shown > 0.001f;
                 ring.GetPropertyBlock(mpb);
-                mpb.SetColor("_BaseColor", color); // URP/Lit + Unlit
-                mpb.SetColor("_Color", color);     // legacy fallback
+                mpb.SetColor("_BaseColor", c); // URP/Lit + Unlit
+                mpb.SetColor("_Color", c);     // legacy fallback
                 ring.SetPropertyBlock(mpb);
             }
         }

@@ -16,7 +16,17 @@ namespace Ronin7.Player
         [SerializeField] private float deflectTimeScale = 0.25f;
         [SerializeField] private float deflectRealSeconds = 0.15f;
 
+        [Header("Directional hit feedback")]
+        [Tooltip("HMD transform. Falls back to Camera.main on the first hit.")]
+        [SerializeField] private Transform head;
+        [Tooltip("Haptic weight kept on the hand away from the hit, so both still feel it.")]
+        [SerializeField, Range(0f, 1f)] private float farHandMin = 0.3f;
+        [SerializeField] private Color hitFlashColor = new Color(0.8f, 0f, 0f, 0.6f);
+        [SerializeField, Range(0f, 1f)] private float hitFlashStrength = 0.35f;
+        [SerializeField] private float hitFlashSeconds = 0.25f;
+
         private float slowMoEndUnscaled = -1f;
+        private Ronin7.Ship.ComfortVignette vignette;
 
         private void OnEnable()
         {
@@ -63,7 +73,31 @@ namespace Ronin7.Player
             slowMoEndUnscaled = Time.unscaledTime + deflectRealSeconds;
         }
 
-        private void OnPlayerHit(PlayerHit e) => PulseBoth(0.6f, 0.18f);
+        private void OnPlayerHit(PlayerHit e)
+        {
+            if (head == null && Camera.main != null) head = Camera.main.transform; // once; Camera.main is cached by Unity
+            if (head == null) { PulseBoth(0.6f, 0.18f); return; }
+
+            Vector2 w = HitSideWeights(head.position, head.right, e.Source, farHandMin);
+            Haptics.Pulse(XRNode.LeftHand, 0.6f * w.x, 0.18f);
+            Haptics.Pulse(XRNode.RightHand, 0.6f * w.y, 0.18f);
+
+            if (vignette == null) vignette = Ronin7.Ship.VignetteRig.Ensure(head.GetComponent<Camera>());
+            if (vignette != null) vignette.Flash(hitFlashColor, hitFlashStrength, hitFlashSeconds);
+        }
+
+        /// <summary>(left, right) haptic weights for a hit from <paramref name="source"/>. The near hand gets
+        /// 1, the far hand fades to <paramref name="farMin"/> as the hit goes fully lateral; dead ahead,
+        /// behind, or a degenerate direction gives (1, 1).</summary>
+        public static Vector2 HitSideWeights(Vector3 headPos, Vector3 headRight, Vector3 source, float farMin)
+        {
+            Vector3 dir = source - headPos;
+            if (dir.sqrMagnitude < 1e-6f) return Vector2.one;
+            float side = Vector3.Dot(dir.normalized, headRight.normalized); // -1 left .. +1 right
+            float left = side > 0f ? Mathf.Lerp(1f, farMin, side) : 1f;
+            float right = side < 0f ? Mathf.Lerp(1f, farMin, -side) : 1f;
+            return new Vector2(left, right);
+        }
 
         private void OnImpact(SwordImpact e) => PulseBoth(0.35f, 0.05f);
 

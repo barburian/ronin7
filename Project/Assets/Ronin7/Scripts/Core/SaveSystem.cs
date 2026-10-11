@@ -44,6 +44,9 @@ namespace Ronin7.Core
         /// </summary>
         internal static string MetaPath => Path.Combine(Directory, "meta.json");
 
+        /// <summary>Mid-run autosave (<see cref="RunSnapshot"/>), beside meta.json.</summary>
+        internal static string RunSnapshotPath => Path.Combine(Directory, "run.json");
+
         /// <summary>
         /// Saves data to the specified slot (1-based, 1..SlotCount).
         /// Sets savedAtUtcTicks, creates directory if needed, writes JSON.
@@ -99,15 +102,47 @@ namespace Ronin7.Core
                 stream.Flush(true);
             }
 
+            // Keep the previous good copy as "<path>.bak" so a corrupt main file can still be recovered
+            // by ReadJson. The first-ever write has nothing to back up yet.
             if (File.Exists(path))
-                File.Replace(tempPath, path, null);
+                File.Replace(tempPath, path, path + ".bak");
             else
                 File.Move(tempPath, path);
         }
 
         /// <summary>
+        /// Parses <paramref name="path"/> as JSON; if it is missing or unparseable, falls back to the
+        /// "<paramref name="path"/>.bak" copy <see cref="WriteAtomic"/> keeps. Null when neither parses.
+        /// Never throws. Shared by slot, meta and run-snapshot loads so recovery lives in one place.
+        /// </summary>
+        internal static T ReadJson<T>(string path) where T : class
+            => TryReadJson<T>(path) ?? TryReadJson<T>(path + ".bak");
+
+        private static T TryReadJson<T>(string path) where T : class
+        {
+            if (!File.Exists(path)) return null;
+            try
+            {
+                return JsonUtility.FromJson<T>(File.ReadAllText(path));
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"SaveSystem: could not parse {Path.GetFileName(path)}: {ex.Message}");
+                return null;
+            }
+        }
+
+        /// <summary>Deletes a file written by <see cref="WriteAtomic"/> along with its .bak, so
+        /// <see cref="ReadJson{T}"/> can't resurrect it.</summary>
+        internal static void DeleteWithBackup(string path)
+        {
+            if (File.Exists(path)) File.Delete(path);
+            if (File.Exists(path + ".bak")) File.Delete(path + ".bak");
+        }
+
+        /// <summary>
         /// Loads data from the specified slot (1-based, 1..SlotCount).
-        /// Returns null if slot out of range, file missing, JSON parse fails, result is null,
+        /// Returns null if slot out of range, file missing, neither the file nor its .bak parses,
         /// or the file was saved by a newer build (version > CurrentVersion).
         /// </summary>
         public static SaveData Load(int slot)
@@ -127,8 +162,7 @@ namespace Ronin7.Core
 
             try
             {
-                string json = File.ReadAllText(path);
-                SaveData result = JsonUtility.FromJson<SaveData>(json);
+                SaveData result = ReadJson<SaveData>(path);
                 if (result == null)
                 {
                     return null;

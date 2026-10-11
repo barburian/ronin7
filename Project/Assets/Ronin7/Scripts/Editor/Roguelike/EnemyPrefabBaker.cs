@@ -179,6 +179,9 @@ namespace Ronin7.EditorTools
             }
 
             instance.AddComponent<Health>();
+            // Posture/stagger: Enemy.Awake configures it from definition.postureMaxFraction when present
+            // (0 = keep PostureMeter's serialized postureMax). Without it, only a deflect ever staggers.
+            instance.AddComponent<PostureMeter>();
             var enemy = instance.AddComponent<Enemy>();
             var so = new SerializedObject(enemy);
             SetObjectRef(so, "weapon", armR);

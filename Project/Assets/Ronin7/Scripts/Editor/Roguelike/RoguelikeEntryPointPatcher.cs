@@ -26,13 +26,62 @@ namespace Ronin7.EditorTools
         private const string RogueBootScenePath = SceneFolder + "/Phase6_Boot.unity";
         private const string RogueHubScenePath = SceneFolder + "/Galaxy1_Ch1_Hub.unity";
         private const string RogueRunButtonName = "Btn_EnterTheFracture";
+        private const string RogueAbandonButtonName = "Btn_AbandonRun";
 
         [MenuItem("Tools/Space Samurai/Roguelike/Patch Entry Points (additive)", priority = 510)]
         public static void PatchRoguelikeEntryPoints()
         {
             RoguePatchBootMenu();
             RoguePatchHubLauncher();
+            RoguePatchRunArenaWristHud();
             AssetDatabase.SaveAssets();
+        }
+
+        private const string RogueRunArenaScenePath = SceneFolder + "/RunArena.unity";
+        private const string RogueWristHudName = "RunWristHud";
+
+        /// <summary>RunArena: mount a world-space <see cref="RunHudPanel"/> on the left controller so
+        /// depth/boons/echoes are visible mid-run. Sits above and behind the controller (over the
+        /// wrist, clear of the hand mesh), tilted toward the face when the wrist is raised.</summary>
+        private static void RoguePatchRunArenaWristHud()
+        {
+            var scene = EditorSceneManager.OpenScene(RogueRunArenaScenePath, OpenSceneMode.Single);
+
+            var leftHand = GameObject.Find("Left Hand Controller");
+            if (leftHand == null)
+            {
+                Debug.LogError("[RogueEntry] No 'Left Hand Controller' in RunArena — cannot mount the wrist HUD.");
+                return;
+            }
+            if (leftHand.transform.Find(RogueWristHudName) != null)
+            {
+                Debug.Log("[RogueEntry] RunArena wrist HUD already present — left as-is.");
+                return;
+            }
+
+            var go = new GameObject(RogueWristHudName);
+            go.transform.SetParent(leftHand.transform, false);
+            // ponytail: placement/size are first-guess calibration knobs — tune in-headset.
+            go.transform.localPosition = new Vector3(0f, 0.05f, -0.12f); // 5 cm up, 12 cm back toward the forearm
+            go.transform.localRotation = Quaternion.Euler(45f, 0f, 0f);
+            go.transform.localScale = Vector3.one * 0.004f; // ~1.5 cm glyphs at fontSize 64
+
+            var tm = go.AddComponent<TextMesh>();
+            tm.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            go.GetComponent<MeshRenderer>().sharedMaterial = tm.font.material;
+            tm.fontSize = 64;
+            tm.anchor = TextAnchor.MiddleCenter;
+            tm.alignment = TextAlignment.Center;
+            tm.color = new Color(0.95f, 0.85f, 0.55f);
+
+            var hud = go.AddComponent<RunHudPanel>();
+            var so = new SerializedObject(hud);
+            so.FindProperty("target").objectReferenceValue = tm;
+            so.ApplyModifiedPropertiesWithoutUndo();
+
+            Debug.Log("[RogueEntry] Mounted RunHudPanel wrist HUD on the left controller in RunArena.");
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
         }
 
         /// <summary>Boot menu: add an ENTER THE FRACTURE button wired to OnStartRunClicked, and
@@ -69,13 +118,35 @@ namespace Ronin7.EditorTools
                 Debug.Log("[RogueEntry] Run button already present — left as-is.");
             }
 
-            // Restack: five buttons at 95px spacing keeps them clear of the title (y=270) and inside
-            // the canvas (height 700 => +/-350). Matching by the label each button carries.
-            RogueStack(canvasRt, "ENTER THE FRACTURE", 170f);
-            RogueStack(canvasRt, "START NEW GAME", 75f);
-            RogueStack(canvasRt, "CONTINUE", -20f);
-            RogueStack(canvasRt, "RECALIBRATE HEIGHT", -115f);
-            RogueStack(canvasRt, "EXIT GAME", -210f);
+            // ABANDON RUN: runtime-shown only when a saved run exists (MainMenuController.OnEnable).
+            var abandon = canvasRt.Find(RogueAbandonButtonName);
+            Button abandonBtn;
+            if (abandon == null)
+            {
+                abandonBtn = MenuMakeButton(canvasRt, "ABANDON RUN", new Vector2(0f, 100f));
+                abandonBtn.gameObject.name = RogueAbandonButtonName;
+                UnityEventTools.AddPersistentListener(abandonBtn.onClick,
+                    new UnityEngine.Events.UnityAction(controller.OnAbandonRunClicked));
+                Debug.Log("[RogueEntry] Added ABANDON RUN button to the boot menu.");
+            }
+            else
+            {
+                abandonBtn = abandon.GetComponent<Button>();
+            }
+
+            var so = new SerializedObject(controller);
+            so.FindProperty("runButton").objectReferenceValue = canvasRt.Find(RogueRunButtonName).GetComponent<Button>();
+            so.FindProperty("abandonButton").objectReferenceValue = abandonBtn;
+            so.ApplyModifiedPropertiesWithoutUndo();
+
+            // Restack: six buttons at 90px spacing (80px tall) stay clear of the title (y=270) and
+            // inside the canvas (height 700 => +/-350). Matching by the label each button carries.
+            RogueStack(canvasRt, "ENTER THE FRACTURE", 190f);
+            RogueStack(canvasRt, "ABANDON RUN", 100f);
+            RogueStack(canvasRt, "START NEW GAME", 10f);
+            RogueStack(canvasRt, "CONTINUE", -80f);
+            RogueStack(canvasRt, "RECALIBRATE HEIGHT", -170f);
+            RogueStack(canvasRt, "EXIT GAME", -260f);
 
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);

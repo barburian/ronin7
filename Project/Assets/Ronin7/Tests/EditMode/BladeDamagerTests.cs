@@ -151,53 +151,50 @@ namespace Ronin7.Tests.EditMode
             Object.DestroyImmediate(targetB.gameObject);
         }
 
-        // ---- PruneStale (per-target debounce map cleanup). ----
-        // Guards the fix for a bug where lastHitTimes never shrank, retaining destroyed Health refs
-        // for the scene's duration.
+        // ---- Per-swing dedup (shared by OnTriggerEnter and the swept hit check). ----
 
         [Test]
-        public void PruneStale_RemovesEntriesOlderThanStaleAfter()
-        {
-            var lastHitTimes = new Dictionary<Health, float>();
-            var stale = new GameObject("Stale").AddComponent<Health>();
-            var fresh = new GameObject("Fresh").AddComponent<Health>();
-            lastHitTimes[stale] = 0f;
-            lastHitTimes[fresh] = 9f;
-
-            BladeDamager.PruneStale(lastHitTimes, now: 10f, staleAfter: 5f);
-
-            Assert.IsFalse(lastHitTimes.ContainsKey(stale), "Entry last hit 10s ago (>= 5s stale window) should be pruned.");
-            Assert.IsTrue(lastHitTimes.ContainsKey(fresh), "Entry last hit 1s ago should survive the 5s stale window.");
-
-            Object.DestroyImmediate(stale.gameObject);
-            Object.DestroyImmediate(fresh.gameObject);
-        }
-
-        [Test]
-        public void PruneStale_DoesNotEvictTargetStillWithinCooldown()
+        public void SwingDedup_SameTarget_HitOncePerSwing_AgainAfterSwingResets()
         {
             var lastHitTimes = new Dictionary<Health, float>();
             var target = new GameObject("Target").AddComponent<Health>();
-            lastHitTimes[target] = 9.8f;
 
-            BladeDamager.PruneStale(lastHitTimes, now: 10f, staleAfter: 5f);
+            // Trigger contact, then the sweep reaching the same body later in the same fast swing.
+            Assert.IsTrue(BladeDamager.TryRegisterHit(lastHitTimes, target, 0f, 0.5f));
+            Assert.IsFalse(BladeDamager.ResetIfSwingEnded(lastHitTimes, speed: 5f, minSwingSpeed: 1.5f));
+            Assert.IsFalse(BladeDamager.TryRegisterHit(lastHitTimes, target, 0.05f, 0.5f));
 
-            Assert.IsTrue(lastHitTimes.ContainsKey(target));
-
-            Object.DestroyImmediate(target.gameObject);
-        }
-
-        [Test]
-        public void PruneStale_DestroyedKey_IsRemovedEvenIfRecentlyHit()
-        {
-            var lastHitTimes = new Dictionary<Health, float>();
-            var target = new GameObject("Target").AddComponent<Health>();
-            lastHitTimes[target] = 10f;
-            Object.DestroyImmediate(target.gameObject);
-
-            BladeDamager.PruneStale(lastHitTimes, now: 10f, staleAfter: 5f);
-
+            // Blade slows below min swing speed: swing over, the target is fair game again.
+            Assert.IsTrue(BladeDamager.ResetIfSwingEnded(lastHitTimes, speed: 1f, minSwingSpeed: 1.5f));
             Assert.AreEqual(0, lastHitTimes.Count);
+            Assert.IsTrue(BladeDamager.TryRegisterHit(lastHitTimes, target, 0.1f, 0.5f));
+
+            Object.DestroyImmediate(target.gameObject);
+        }
+
+        // ---- Blade sample points for the swept hit check. ----
+
+        [Test]
+        public void BladeEndpoints_UseLongestAxisFaceCentres()
+        {
+            // Unit-cube BoxCollider on the greybox blade (scale carries the real size).
+            BladeDamager.BladeEndpoints(Vector3.zero, Vector3.one, out var a, out var b);
+            Assert.AreEqual(new Vector3(0f, 0f, -0.5f), a);
+            Assert.AreEqual(new Vector3(0f, 0f, 0.5f), b);
+
+            BladeDamager.BladeEndpoints(new Vector3(1f, 0f, 0f), new Vector3(0.1f, 2f, 0.1f), out a, out b);
+            Assert.AreEqual(new Vector3(1f, -1f, 0f), a);
+            Assert.AreEqual(new Vector3(1f, 1f, 0f), b);
+        }
+
+        [Test]
+        public void SamplePoint_EvenlySpacedBaseToTipInclusive()
+        {
+            Vector3 a = Vector3.zero, b = new Vector3(0f, 0f, 0.6f);
+            Assert.AreEqual(a, BladeDamager.SamplePoint(a, b, 0, 4));
+            Assert.That(Vector3.Distance(new Vector3(0f, 0f, 0.2f), BladeDamager.SamplePoint(a, b, 1, 4)), Is.LessThan(1e-5f));
+            Assert.That(Vector3.Distance(new Vector3(0f, 0f, 0.4f), BladeDamager.SamplePoint(a, b, 2, 4)), Is.LessThan(1e-5f));
+            Assert.AreEqual(b, BladeDamager.SamplePoint(a, b, 3, 4));
         }
     }
 }

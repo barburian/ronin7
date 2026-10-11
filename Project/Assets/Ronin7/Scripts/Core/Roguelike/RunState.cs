@@ -130,6 +130,48 @@ namespace Ronin7.Core
         /// <summary>Back to "unset" (spawn at full HP).</summary>
         public static void ClearPlayerHealth() => playerHealth = -1f;
 
+        /// <summary>Captures everything needed to rebuild this run exactly (the map comes back from
+        /// the seed). <see cref="RunSnapshot.runKills"/> is left for the caller, which owns that count.</summary>
+        public static RunSnapshot ToSnapshot()
+        {
+            var snapshot = new RunSnapshot
+            {
+                version = RunSnapshot.CurrentVersion,
+                seed = seed,
+                nodeIndex = nodeIndex,
+                echoesEarned = echoesEarned,
+                rerollTokens = rerollTokens,
+                revivesSpent = revivesSpent,
+                playerHealth = playerHealth,
+            };
+            foreach (KeyValuePair<string, int> boon in boonCounts)
+                for (int i = 0; i < boon.Value; i++) snapshot.boons.Add(boon.Key);
+            snapshot.grantedAbilities.AddRange(grantedAbilities);
+            return snapshot;
+        }
+
+        /// <summary>Rebuilds the run from <paramref name="snapshot"/>. False (and no run) if it is
+        /// null, from another <see cref="RunSnapshot.CurrentVersion"/>, or points past the map.</summary>
+        public static bool Restore(RunSnapshot snapshot)
+        {
+            if (snapshot == null || snapshot.version != RunSnapshot.CurrentVersion) return false;
+
+            Begin(snapshot.seed);
+            if (snapshot.nodeIndex < 0 || snapshot.nodeIndex >= map.Length)
+            {
+                Reset();
+                return false;
+            }
+            nodeIndex = snapshot.nodeIndex;
+            echoesEarned = snapshot.echoesEarned;
+            rerollTokens = snapshot.rerollTokens;
+            revivesSpent = snapshot.revivesSpent;
+            playerHealth = snapshot.playerHealth;
+            foreach (string boonId in snapshot.boons) AddBoon(boonId);
+            foreach (string abilityId in snapshot.grantedAbilities) GrantAbility(abilityId);
+            return true;
+        }
+
         /// <summary>Clears run-scoped state at the end of a run (win or permadeath). Callers bank
         /// EchoesEarned into <see cref="MetaProgression"/> before calling this.</summary>
         public static void End() => ClearRun();

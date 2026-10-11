@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 
 namespace Ronin7.Core
@@ -135,28 +134,15 @@ namespace Ronin7.Core
 
         /// <summary>
         /// Loads persistent meta state from <c>meta.json</c> (see <see cref="SaveSystem.MetaPath"/>).
-        /// Called once at boot. A missing file (first-ever launch) or a corrupt one both load as a
-        /// fresh zeroed meta and never throw — meta progress is a bonus, not something that should be
-        /// able to brick a boot.
+        /// Called once at boot. A corrupt file falls back to meta.json.bak (see
+        /// <see cref="SaveSystem.ReadJson{T}"/>); if neither loads (incl. first-ever launch) this is a
+        /// fresh zeroed meta and never throws — meta progress shouldn't be able to brick a boot.
         /// </summary>
         public static void Load()
         {
             Reset();
-
-            string path = SaveSystem.MetaPath;
-            if (!File.Exists(path)) return;
-
-            try
-            {
-                string json = File.ReadAllText(path);
-                MetaSaveData data = JsonUtility.FromJson<MetaSaveData>(json);
-                if (data != null) ApplyFrom(data);
-            }
-            catch (Exception ex)
-            {
-                Debug.LogWarning($"MetaProgression.Load: failed to load meta.json, starting fresh: {ex.Message}");
-                Reset();
-            }
+            MetaSaveData data = SaveSystem.ReadJson<MetaSaveData>(SaveSystem.MetaPath);
+            if (data != null) ApplyFrom(data);
         }
 
         /// <summary>

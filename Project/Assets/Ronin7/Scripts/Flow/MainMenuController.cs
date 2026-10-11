@@ -16,8 +16,22 @@ namespace Ronin7.Flow
         [Tooltip("Optional CONTINUE button — disabled when the most recent save slot is empty.")]
         [SerializeField] private Button continueButton;
 
+        [Tooltip("ENTER THE FRACTURE button; relabelled RESUME RUN when a saved run exists.")]
+        [SerializeField] private Button runButton;
+
+        [Tooltip("ABANDON button; shown only when a saved run exists.")]
+        [SerializeField] private Button abandonButton;
+
         private void OnEnable()
         {
+            bool hasRun = RunEntryOptions.HasSavedRun();
+            if (runButton != null)
+            {
+                var label = runButton.GetComponentInChildren<Text>(true);
+                if (label != null) label.text = RunEntryOptions.PrimaryLabel(hasRun);
+            }
+            if (abandonButton != null) abandonButton.gameObject.SetActive(RunEntryOptions.ShowAbandon(hasRun));
+
             if (continueButton != null)
                 continueButton.interactable = SaveSystem.SlotExists(SaveSystem.MostRecentSlot);
         }
@@ -72,6 +86,12 @@ namespace Ronin7.Flow
         public void OnStartRunClicked()
         {
             RunDirector.Instance?.StartRun();
+        }
+
+        /// <summary>Menu "ABANDON": discard the saved run (banking its Echoes) and start a new one.</summary>
+        public void OnAbandonRunClicked()
+        {
+            RunDirector.Instance?.AbandonSavedRunAndStart();
         }
     }
 }

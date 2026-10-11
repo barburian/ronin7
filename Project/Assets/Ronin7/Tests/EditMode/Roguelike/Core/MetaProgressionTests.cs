@@ -403,6 +403,33 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             Assert.AreEqual(0, MetaProgression.RunsWon);
         }
 
+        [Test]
+        public void Load_CorruptMetaJsonWithGoodBackup_RecoversEchoes()
+        {
+            // The second Save moves the first (500 Echoes) into meta.json.bak; then meta.json rots.
+            MetaProgression.AddEchoes(500);
+            MetaProgression.Save();
+            MetaProgression.AddEchoes(200);
+            MetaProgression.Save();
+            File.WriteAllText(SaveSystemMetaPathForTest(), "{ not valid json ][");
+
+            MetaProgression.Reset();
+            MetaProgression.Load();
+
+            Assert.AreEqual(500, MetaProgression.Echoes, "a corrupt meta.json must fall back to meta.json.bak");
+        }
+
+        [Test]
+        public void Load_CorruptMetaJsonAndCorruptBackup_LoadsZeroed()
+        {
+            File.WriteAllText(SaveSystemMetaPathForTest(), "{ not valid json ][");
+            File.WriteAllText(SaveSystemMetaPathForTest() + ".bak", "{ also garbage ][");
+
+            Assert.DoesNotThrow(() => MetaProgression.Load());
+
+            Assert.AreEqual(0, MetaProgression.Echoes);
+        }
+
         /// <summary>Reconstructs SaveSystem.MetaPath's value without exposing the internal — mirrors
         /// how the slot tests know their own file layout.</summary>
         private string SaveSystemMetaPathForTest() => Path.Combine(testDirectory, "meta.json");

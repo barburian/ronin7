@@ -92,3 +92,27 @@ the dedicated Unity skill over `script-execute`-everything:
 - `Project/Docs/IMPROVEMENT-SUMMARY.md` — audit results, handoff checklist, the test gate
 - `Project/Docs/SunNavigation-Design.md` — sun-nav mechanic spec
 - `story ouput/00_STORY_BIBLE.md` — narrative backbone (note: folder name is misspelled)
+
+## graphify
+
+This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
+
+Rules:
+- For codebase questions, first run `graphify query "<question>"` when graphify-out/graph.json exists. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
+- If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
+- Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
+- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
+
+## Sub-agent delegation
+Never do the work yourself. Always dispatch a sub-agent. Don't always use Fable. Use Opus 5.5 for easier tasks.
+
+### Model routing
+- Opus 5.5: architecture, hard bugs, review
+- Sonnet 5.5: edits, tests, docs, refactors
+- Haiku 5.5: lookups and summaries
+- Pass `model` on every agent call
+
+### Delegation
+- One sub-agent per task, plan first
+- Run independent sub-agents in parallel
+- Read the report, never the files
