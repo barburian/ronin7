@@ -59,6 +59,16 @@ namespace Ronin7.Flow
         private bool transitioning;
         private string pendingScene;
 
+        /// <summary>BUG-02: a zero-enemy Forge/Treasure node clears from RunArenaController.Start(),
+        /// which runs before the onLoaded hook restores the carried HP onto the freshly built rig — so
+        /// the reward would read the prefab's full HP. Such a clear is parked here and replayed by
+        /// <see cref="OnArenaLoaded"/> once the rig holds the run's real HP.</summary>
+        private RoomCleared? deferredClear;
+
+        /// <summary>True from the start of an arena load until <see cref="OnArenaLoaded"/> has pushed
+        /// the run's HP/boons onto the new rig. Only clears arriving inside this window are deferred.</summary>
+        private bool awaitingRigRestore;
+
         /// <summary>A7.1: set the instant this director starts ending a run — before EndRun does
         /// anything else, including publishing <see cref="RunEnded"/> — and cleared only once
         /// <see cref="RunState.End"/> has actually run (in <see cref="SceneLoadRoutine"/>, after the hub
@@ -146,6 +156,7 @@ namespace Ronin7.Flow
             if (RunState.InRun) return; // guard against a double-tap on the hub launcher
             RunState.Begin(seed);
             lastClearedNode = -1;
+            deferredClear = null;
             // CampaignStats.EnemiesDefeated is a lifetime counter; snapshot it so the run summary can
             // report THIS run's kills as a delta rather than the campaign total.
             enemiesDefeatedAtRunStart = CampaignStats.EnemiesDefeated;
@@ -168,6 +179,7 @@ namespace Ronin7.Flow
                 return false;
             }
             lastClearedNode = -1;
+            deferredClear = null;
             enemiesDefeatedAtRunStart = CampaignStats.EnemiesDefeated - snapshot.runKills;
             EventBus.Publish(new RunStarted(RunState.Seed));
             StartSceneLoad(runArenaScene);
@@ -282,6 +294,21 @@ namespace Ronin7.Flow
 
         private void OnRoomCleared(RoomCleared evt)
         {
+            if (ShouldDeferClear(awaitingRigRestore, evt.NodeIndex == RunState.NodeIndex))
+            {
+                deferredClear = evt;
+                return;
+            }
+            OnRoomClearedNow(evt);
+        }
+
+        /// <summary>BUG-02: defer a clear iff it belongs to the node being loaded and the rig has not
+        /// had the run's HP restored yet. Pure. A7.10 test seam.</summary>
+        internal static bool ShouldDeferClear(bool awaitingRigRestore, bool sameNode) =>
+            awaitingRigRestore && sameNode;
+
+        private void OnRoomClearedNow(RoomCleared evt)
+        {
             if (!RunState.InRun || evt.NodeIndex != RunState.NodeIndex) return;
             if (evt.NodeIndex == lastClearedNode) return; // A7.9: idempotence — no double echoes/offer
             lastClearedNode = evt.NodeIndex;
@@ -325,11 +352,16 @@ namespace Ronin7.Flow
             var health = VRRig.Instance != null ? VRRig.Instance.GetComponent<Health>() : null;
             if (health != null)
             {
-                health.Heal(RunState.HealAmountForForge(health.Current, health.Max));
+                health.SetCurrent(ForgeResultHealth(health.Current, health.Max));
                 RunState.NotePlayerHealth(health.Current); // re-store the post-heal value
             }
             RunState.AddRerollToken(1);
         }
+
+        /// <summary>HP after a Forge: carried HP plus 60% of what is missing, clamped to max.
+        /// Pure. BUG-02 test seam.</summary>
+        internal static float ForgeResultHealth(float stored, float max) =>
+            Mathf.Clamp(stored + RunState.HealAmountForForge(stored, max), 0f, max);
 
         /// <summary>
         /// Treasure: 1 guaranteed boon, no choice, no fight. Reuses <see cref="BoonOfferPicker"/>
@@ -594,6 +626,7 @@ namespace Ronin7.Flow
         private void EndRun(bool won)
         {
             EndingRun = true;
+            deferredClear = null;
             int depth = RunState.NodeIndex;
             MetaProgression.AddEchoes(RunState.EchoesEarned);
             MetaProgression.NoteRunEnded(depth, won);
@@ -657,13 +690,17 @@ namespace Ronin7.Flow
             // A7.9: boons apply as GameFlowManager's onLoaded hook, i.e. while the screen is still
             // black, instead of after this call fully returns (after the whole fade-in). skipReveal
             // lets a zero-enemy node's already-latched pendingScene skip the pointless fade-in/fade-out.
-            Action onLoaded = scene == runArenaScene ? (Action)ApplyBoonInventoryToRig : null;
+            bool arenaLoad = scene == runArenaScene;
+            awaitingRigRestore = arenaLoad;
+            Action onLoaded = arenaLoad ? (Action)OnArenaLoaded : null;
             // The run-end scene is the main menu, which must load as GameMode.Boot: ShouldAutosaveOnArrival
             // deliberately excludes Boot, and arriving there as OnFoot would fire an arrival autosave on
             // the menu and clobber MostRecentSlot.
             var mode = scene == runEndScene ? GameMode.Boot : GameMode.OnFoot;
             yield return GameFlowManager.Instance.LoadSceneFaded(scene, mode, onLoaded, () => pendingScene != null);
             transitioning = false;
+            // Belt and braces: if the load aborted before onLoaded ran, never leave a clear parked.
+            if (awaitingRigRestore) OnArenaLoaded();
 
             // A7.1: only now — after the hub load this EndRun triggered has actually completed — is it
             // safe to flip RunState.InRun off.
@@ -679,6 +716,19 @@ namespace Ronin7.Flow
 
             string next = ConsumePendingSceneLoad();
             if (next != null) StartSceneLoad(next);
+        }
+
+        /// <summary>BUG-02: onLoaded hook for arena loads — restore the rig first, then replay a
+        /// zero-enemy node's parked clear so its Forge/Treasure reward sees the carried HP.</summary>
+        private void OnArenaLoaded()
+        {
+            awaitingRigRestore = false;
+            ApplyBoonInventoryToRig();
+            if (deferredClear is RoomCleared c)
+            {
+                deferredClear = null;
+                OnRoomClearedNow(c);
+            }
         }
 
         /// <summary>

@@ -219,6 +219,26 @@ namespace Ronin7.Tests.EditMode
             UnityEngine.Object.DestroyImmediate(go);
         }
 
+        // ---- BUG-02: zero-enemy clears wait for the rig's HP restore ----
+
+        [TestCase(40f, 100f, 76f)]
+        [TestCase(100f, 100f, 100f)]
+        [TestCase(0f, 100f, 60f)]
+        [TestCase(150f, 100f, 100f)] // stored above max (max fell) clamps
+        public void ForgeResultHealth_CarriesHpPlusSixtyPercentOfMissing(float stored, float max, float expected)
+        {
+            Assert.That(RunDirector.ForgeResultHealth(stored, max), Is.EqualTo(expected).Within(0.001f));
+        }
+
+        [TestCase(true, true, true)]
+        [TestCase(true, false, false)]
+        [TestCase(false, true, false)]
+        [TestCase(false, false, false)]
+        public void ShouldDeferClear_OnlyWhileRigRestorePendingForSameNode(bool awaiting, bool sameNode, bool expected)
+        {
+            Assert.AreEqual(expected, RunDirector.ShouldDeferClear(awaiting, sameNode));
+        }
+
         [Test]
         public void ReviveFraction_DefaultZero_MatchesLegacySurviveAtOneHp()
         {
