@@ -71,6 +71,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             AssertLayout(1u, expected);
         }
 
+        // if these change, bump RunSnapshot.CurrentVersion (banking migration in Read handles old runs)
         private static void AssertLayout(uint seed, RoomKind[] expected)
         {
             RunNode[] nodes = RunMapGenerator.Generate(seed);

@@ -6,6 +6,7 @@ using Ronin7.Combat;
 using Ronin7.Core;
 using Ronin7.Flow;
 using UnityEngine;
+using UnityEngine.TestTools;
 
 namespace Ronin7.Tests.EditMode
 {
@@ -268,6 +269,47 @@ namespace Ronin7.Tests.EditMode
             Assert.AreEqual(30f, RunDirector.RemainingOfferSeconds(thawedDeadline, 220f), 1e-4f);
             // Already past the deadline: never negative.
             Assert.AreEqual(0f, RunDirector.RemainingOfferSeconds(160f, 200f));
+        }
+
+        // ---- BUG-25: the run summary is finalized only on the run-end scene's load ----
+
+        [TestCase(true, "Phase6_Boot", true)]
+        [TestCase(true, "RunArena", false)]   // death during an arena fade-in: wait for the menu load
+        [TestCase(false, "Phase6_Boot", false)] // SAVE & QUIT / plain menu load
+        [TestCase(false, "RunArena", false)]
+        public void ShouldFinalizeRunEnd_Table(bool endingRun, string loaded, bool expected)
+        {
+            Assert.AreEqual(expected, RunDirector.ShouldFinalizeRunEnd(endingRun, loaded, "Phase6_Boot"));
+        }
+
+        [Test]
+        public void UnknownBoonOnResume_WarnsOncePerId()
+        {
+            var go = new GameObject("RunDirector");
+            var director = go.AddComponent<RunDirector>();
+            var catalog = ScriptableObject.CreateInstance<BoonCatalog>();
+            catalog.boons = new BoonDefinition[0];
+            typeof(RunDirector).GetField("boonCatalog", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(director, catalog);
+            RunState.Begin(1u);
+            RunState.AddBoon("retired_boon");
+            RunState.AddBoon("retired_boon");
+            try
+            {
+                var unknown = new System.Text.RegularExpressions.Regex("Unknown boon 'retired_boon'");
+                var noRig = new System.Text.RegularExpressions.Regex("No VRRig.Instance");
+                LogAssert.Expect(LogType.Warning, unknown);
+                LogAssert.Expect(LogType.Warning, noRig);
+                director.ApplyBoonInventoryToRig();
+                LogAssert.Expect(LogType.Warning, noRig);
+                director.ApplyBoonInventoryToRig(); // second node load: no repeat of the unknown-boon warning
+                LogAssert.NoUnexpectedReceived();
+            }
+            finally
+            {
+                RunState.Reset();
+                UnityEngine.Object.DestroyImmediate(catalog);
+                UnityEngine.Object.DestroyImmediate(go);
+            }
         }
     }
 }

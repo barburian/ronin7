@@ -105,9 +105,29 @@ namespace Ronin7.Core
             // Keep the previous good copy as "<path>.bak" so a corrupt main file can still be recovered
             // by ReadJson. The first-ever write has nothing to back up yet.
             if (File.Exists(path))
-                File.Replace(tempPath, path, path + ".bak");
+                ReplaceWithBackup(tempPath, path, path + ".bak");
             else
                 File.Move(tempPath, path);
+        }
+
+        /// <summary>
+        /// <see cref="File.Replace(string,string,string)"/>, falling back to copy-then-delete where the
+        /// platform's filesystem does not support it (BUG-25: unverified on Quest's scoped storage —
+        /// the on-device check is still owed). The fallback is not atomic, but it keeps the .bak.
+        /// </summary>
+        private static void ReplaceWithBackup(string tempPath, string path, string backupPath)
+        {
+            try
+            {
+                File.Replace(tempPath, path, backupPath);
+            }
+            catch (Exception ex) when (ex is PlatformNotSupportedException || ex is IOException)
+            {
+                Debug.LogWarning($"SaveSystem: File.Replace failed ({ex.GetType().Name}); using copy fallback.");
+                File.Copy(path, backupPath, overwrite: true);
+                File.Copy(tempPath, path, overwrite: true);
+                File.Delete(tempPath);
+            }
         }
 
         /// <summary>

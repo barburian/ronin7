@@ -21,7 +21,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             // CampaignStateAbilityTests.cs).
             savedFirstPlanetDeparted = Galaxy1Progress.FirstPlanetDeparted;
             savedShipHullIndex = ShipSelection.SelectedHullIndex;
-            MetaProgression.Reset();
+            MetaProgression.ResetForTests();
             // A2.4: this class mutates the same global CampaignState every sibling test class shares
             // (indirectly, via CampaignState.Reset()/ApplyFrom below) — reset it too, matching
             // CampaignStateAbilityTests' idiom exactly, or a later test class inherits stray state.
@@ -30,6 +30,9 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             testDirectory = Path.Combine(Path.GetTempPath(), "ss_metatests_" + Guid.NewGuid().ToString("N"));
             Directory.CreateDirectory(testDirectory);
             SaveSystem.DirectoryOverride = testDirectory;
+            // BUG-25: Save() now refuses to run before Load(); a fresh Load of the empty temp dir is
+            // the zeroed state these tests start from.
+            MetaProgression.Load();
         }
 
         [TearDown]
@@ -465,6 +468,36 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             MetaProgression.Reset();
             MetaProgression.Load();
             Assert.AreEqual(500, MetaProgression.Echoes, "meta must survive a New Game + autosave round trip");
+        }
+
+        // ---- BUG-25: save hardening ----
+
+        [Test]
+        public void SaveBeforeLoad_NoOp()
+        {
+            MetaProgression.ResetForTests();
+            MetaProgression.AddEchoes(5);
+
+            LogAssert.Expect(LogType.Error, new System.Text.RegularExpressions.Regex("before Load"));
+            MetaProgression.Save();
+
+            Assert.IsFalse(File.Exists(SaveSystemMetaPathForTest()), "Save before Load must not write meta.json.");
+        }
+
+        [Test]
+        public void NewerVersion_SaveLeavesFileByteIdentical()
+        {
+            var newer = new MetaSaveData { version = MetaSaveData.CurrentVersion + 1, metaEchoes = 77 };
+            File.WriteAllText(SaveSystemMetaPathForTest(), JsonUtility.ToJson(newer, true));
+            byte[] before = File.ReadAllBytes(SaveSystemMetaPathForTest());
+
+            LogAssert.Expect(LogType.Warning, new System.Text.RegularExpressions.Regex("newer than"));
+            MetaProgression.Load();
+            MetaProgression.AddEchoes(10);
+            LogAssert.Expect(LogType.Warning, new System.Text.RegularExpressions.Regex("newer build"));
+            MetaProgression.Save();
+
+            CollectionAssert.AreEqual(before, File.ReadAllBytes(SaveSystemMetaPathForTest()));
         }
     }
 }

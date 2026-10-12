@@ -44,13 +44,18 @@ namespace Ronin7.Core
         }
 
         /// <summary>The saved snapshot, or null if there is none, it can't be parsed, or it is from
-        /// another version (that one is deleted so it never prompts again).</summary>
+        /// another version. A discarded snapshot first banks its unbanked Echoes as a lost run
+        /// (BUG-25: they used to vanish), then is deleted so it never prompts again.</summary>
         public static RunSnapshot Read()
         {
             RunSnapshot snapshot = SaveSystem.ReadJson<RunSnapshot>(SaveSystem.RunSnapshotPath);
             if (snapshot == null || snapshot.version == CurrentVersion) return snapshot;
 
-            Debug.LogWarning($"RunSnapshot: discarding version {snapshot.version} snapshot (current {CurrentVersion}).");
+            Debug.LogWarning($"RunSnapshot: discarding version {snapshot.version} snapshot (current {CurrentVersion}); banking its {snapshot.echoesEarned} Echoes.");
+            MetaProgression.EnsureLoaded();
+            MetaProgression.AddEchoes(snapshot.echoesEarned);
+            MetaProgression.NoteRunEnded(snapshot.nodeIndex, false);
+            MetaProgression.Save();
             Delete();
             return null;
         }

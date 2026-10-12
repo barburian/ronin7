@@ -21,6 +21,16 @@ namespace Ronin7.Core
         private static int runsWon;
         private static readonly Dictionary<string, int> upgradeLevels = new();
 
+        /// <summary>BUG-25: true once <see cref="Load"/> has run this session. <see cref="Save"/> before
+        /// it would write the zeroed defaults over the player's banked meta.json.</summary>
+        private static bool loaded;
+
+        /// <summary>BUG-25: the loaded meta.json came from a newer build. This build cannot represent
+        /// all of it, so it must never write it back (it would silently downgrade the file).</summary>
+        private static bool saveBlocked;
+
+        public static bool IsLoaded => loaded;
+
         public static int Echoes => echoes;
         public static int BestDepth => bestDepth;
         public static int RunsCompleted => runsCompleted;
@@ -143,7 +153,22 @@ namespace Ronin7.Core
             Reset();
             MetaSaveData data = SaveSystem.ReadJson<MetaSaveData>(SaveSystem.MetaPath);
             if (data != null) ApplyFrom(data);
+            saveBlocked = IsNewerThanThisBuild(data);
+            if (saveBlocked)
+                Debug.LogWarning($"MetaProgression: meta.json is version {data.version}, newer than {MetaSaveData.CurrentVersion}; it will not be overwritten.");
+            loaded = true;
         }
+
+        /// <summary>Loads meta.json unless this session already has. For callers that must bank
+        /// Echoes before the normal boot load may have run (e.g. discarding a stale run.json).</summary>
+        public static void EnsureLoaded()
+        {
+            if (!loaded) Load();
+        }
+
+        /// <summary>Pure. BUG-25 test seam.</summary>
+        internal static bool IsNewerThanThisBuild(MetaSaveData data) =>
+            data != null && data.version > MetaSaveData.CurrentVersion;
 
         /// <summary>
         /// Persists current meta state to <c>meta.json</c>, reusing <see cref="SaveSystem.WriteAtomic"/>
@@ -152,6 +177,16 @@ namespace Ronin7.Core
         /// </summary>
         public static void Save()
         {
+            if (!loaded)
+            {
+                Debug.LogError("MetaProgression.Save called before Load; refusing to overwrite meta.json with defaults.");
+                return;
+            }
+            if (saveBlocked)
+            {
+                Debug.LogWarning("MetaProgression.Save skipped: meta.json is from a newer build.");
+                return;
+            }
             try
             {
                 MetaSaveData data = new MetaSaveData();
@@ -163,6 +198,15 @@ namespace Ronin7.Core
             {
                 Debug.LogError($"MetaProgression.Save: IO error: {ex.Message}");
             }
+        }
+
+        /// <summary>Test-only: also forgets that Load ran (Reset deliberately keeps it, since Load
+        /// itself starts with Reset).</summary>
+        internal static void ResetForTests()
+        {
+            Reset();
+            loaded = false;
+            saveBlocked = false;
         }
 
         public static void Reset()

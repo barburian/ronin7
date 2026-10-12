@@ -24,6 +24,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
         public void TearDown()
         {
             RunState.Reset();
+            MetaProgression.ResetForTests();
             SaveSystem.DirectoryOverride = null;
             try
             {
@@ -126,6 +127,26 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             Assert.IsFalse(File.Exists(SaveSystem.RunSnapshotPath));
             Assert.IsFalse(File.Exists(SaveSystem.RunSnapshotPath + ".bak"));
             Assert.IsNull(RunSnapshot.Read(), "an ended run must not be resurrected from its backup");
+        }
+
+        [Test]
+        public void VersionMismatch_BanksEchoes()
+        {
+            MetaProgression.ResetForTests();
+            PlayIntoMidRun(); // 37 unbanked Echoes at node 2
+            var snapshot = RunState.ToSnapshot();
+            snapshot.version = RunSnapshot.CurrentVersion + 1;
+            RunSnapshot.Write(snapshot);
+            RunState.Reset();
+
+            LogAssert.Expect(LogType.Warning, new System.Text.RegularExpressions.Regex(".*discarding version.*"));
+            Assert.IsNull(RunSnapshot.Read());
+
+            Assert.AreEqual(37, MetaProgression.Echoes, "A discarded run's Echoes must be banked, not lost.");
+            Assert.AreEqual(1, MetaProgression.RunsCompleted);
+            MetaProgression.ResetForTests();
+            MetaProgression.Load();
+            Assert.AreEqual(37, MetaProgression.Echoes, "...and persisted to meta.json.");
         }
     }
 }

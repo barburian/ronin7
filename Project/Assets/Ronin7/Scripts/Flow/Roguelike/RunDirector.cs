@@ -97,6 +97,7 @@ namespace Ronin7.Flow
         // arena load rather than re-`new`-ing, since RunState.Boons/RevivesSpent are the durable ledger
         // this rebuilds from either way (A7.9).
         private readonly BoonInventory boonInventory = new BoonInventory();
+        private readonly HashSet<string> warnedUnknownBoons = new HashSet<string>();
 
         private void Awake()
         {
@@ -159,6 +160,7 @@ namespace Ronin7.Flow
             RunState.Begin(seed);
             lastClearedNode = -1;
             deferredClear = null;
+            warnedUnknownBoons.Clear();
             // CampaignStats.EnemiesDefeated is a lifetime counter; snapshot it so the run summary can
             // report THIS run's kills as a delta rather than the campaign total.
             enemiesDefeatedAtRunStart = CampaignStats.EnemiesDefeated;
@@ -182,6 +184,7 @@ namespace Ronin7.Flow
             }
             lastClearedNode = -1;
             deferredClear = null;
+            warnedUnknownBoons.Clear();
             enemiesDefeatedAtRunStart = CampaignStats.EnemiesDefeated - snapshot.runKills;
             EventBus.Publish(new RunStarted(RunState.Seed));
             StartSceneLoad(runArenaScene);
@@ -730,6 +733,11 @@ namespace Ronin7.Flow
             return next;
         }
 
+        /// <summary>Finalize a run end only when the load that just completed is the run-end scene.
+        /// Pure. BUG-25 test seam.</summary>
+        internal static bool ShouldFinalizeRunEnd(bool endingRun, string loadedScene, string runEndScene) =>
+            endingRun && loadedScene == runEndScene;
+
         private IEnumerator SceneLoadRoutine(string scene)
         {
             transitioning = true;
@@ -749,9 +757,12 @@ namespace Ronin7.Flow
             if (awaitingRigRestore) OnArenaLoaded();
 
             // A7.1: only now — after the hub load this EndRun triggered has actually completed — is it
-            // safe to flip RunState.InRun off.
-            bool justEndedRun = EndingRun;
-            if (EndingRun)
+            // safe to flip RunState.InRun off. BUG-25: a death during an ARENA load's fade-in also sets
+            // EndingRun while that arena load is still in flight; finalizing then would show the summary
+            // in the arena (destroyed by the latched menu load) and consume it. Only the run-end scene's
+            // own load finalizes.
+            bool justEndedRun = ShouldFinalizeRunEnd(EndingRun, scene, runEndScene);
+            if (justEndedRun)
             {
                 EndingRun = false;
                 RunState.End();
@@ -784,7 +795,7 @@ namespace Ronin7.Flow
         /// fade-in starts — so the player is never visible/attackable at base stats and never gets a
         /// visible instant full-heal once the fade-in completes.
         /// </summary>
-        private void ApplyBoonInventoryToRig()
+        internal void ApplyBoonInventoryToRig()
         {
             if (boonCatalog == null || boonCatalog.boons == null)
             {
@@ -796,7 +807,14 @@ namespace Ronin7.Flow
             foreach (string boonId in RunState.Boons)
             {
                 var def = boonCatalog.Find(boonId);
-                if (def == null) continue;
+                if (def == null)
+                {
+                    // BUG-25: a resumed snapshot can name a boon this build no longer ships. Skip it,
+                    // but say so once per id rather than on every node load.
+                    if (warnedUnknownBoons.Add(boonId))
+                        Debug.LogWarning($"[RunDirector] Unknown boon '{boonId}' in this run; skipping it.");
+                    continue;
+                }
                 int stacks = RunState.BoonCount(boonId);
                 for (int i = 0; i < stacks; i++) boonInventory.Add(def);
             }
