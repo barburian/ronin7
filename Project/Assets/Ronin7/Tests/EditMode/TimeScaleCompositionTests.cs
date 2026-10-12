@@ -136,5 +136,17 @@ namespace Ronin7.Tests.EditMode
             Assert.AreEqual(1f, composition.EffectiveScale);
             Assert.AreEqual(Baseline90Hz, derivedFixedDeltaTime, 1e-9f);
         }
+
+        [Test]
+        public void Pause_ZeroWins()
+        {
+            var composition = new TimeScaleComposition();
+            composition.SetRequest(TimeScaleChannel.Overdrive, 0.35f);
+            composition.SetRequest(TimeScaleChannel.Pause, 0f);
+            Assert.AreEqual(0f, composition.EffectiveScale, 1e-6f);
+
+            composition.ClearRequest(TimeScaleChannel.Pause);
+            Assert.AreEqual(0.35f, composition.EffectiveScale, 1e-6f);
+        }
     }
 }

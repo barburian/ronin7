@@ -58,8 +58,13 @@ namespace Ronin7.Core
         {
             float scale = composition.EffectiveScale;
             Time.timeScale = scale;
-            if (baselineFixedDeltaTime.HasValue) Time.fixedDeltaTime = baselineFixedDeltaTime.Value * scale;
+            if (baselineFixedDeltaTime.HasValue) Time.fixedDeltaTime = FixedDeltaFor(baselineFixedDeltaTime.Value, scale);
         }
+
+        /// <summary><c>baseline * scale</c>, except a non-positive scale (a pause) keeps the baseline:
+        /// <c>Time.fixedDeltaTime = 0</c> is invalid, and physics does not step at timeScale 0 anyway.
+        /// Pure. P0-03 test seam.</summary>
+        internal static float FixedDeltaFor(float baseline, float scale) => scale > 0f ? baseline * scale : baseline;
 
         /// <summary>Test-only: forgets every active request and the captured baseline, so the next
         /// <see cref="SetRequest"/> re-captures <c>Time.fixedDeltaTime</c> fresh. Mirrors this codebase's

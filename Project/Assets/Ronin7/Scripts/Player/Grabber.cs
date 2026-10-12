@@ -1,3 +1,4 @@
+using Ronin7.Combat;
 using Ronin7.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -19,7 +20,12 @@ namespace Ronin7.Player
         [SerializeField] private HandVelocityTracker velocity;
 
         private Grabbable held;
+        private BladeDamager heldBlade;
         private bool wasPressed;
+        private int trackedFrames;
+
+        /// <summary>Consecutive tracked frames needed before a held blade may deal damage again.</summary>
+        internal const int ArmAfterTrackedFrames = 3;
 
         /// <summary>True while this hand holds a <see cref="Grabbable"/> (e.g. the katana) — used by
         /// <see cref="WallClimbLocomotion"/> so a full hand can never also grip a climbing hold.</summary>
@@ -45,7 +51,29 @@ namespace Ronin7.Player
             else if (!pressed && wasPressed && held != null) ReleaseHeld();
 
             wasPressed = pressed;
+            GuardHeldBlade();
         }
+
+        /// <summary>
+        /// P0-03: a tracking dropout makes the hand pose jump when tracking returns, which the blade
+        /// would read as a max-speed swing (phantom hits). While the hand is untracked — and while the
+        /// game is paused — the held blade cannot deal damage; it re-arms after a few tracked frames,
+        /// and BladeDamager.OnEnable starts it on a fresh swing.
+        /// </summary>
+        private void GuardHeldBlade()
+        {
+            var device = UnityEngine.XR.InputDevices.GetDeviceAtXRNode(Node);
+            // No XR device at all (editor without a headset, tests) counts as tracked, so desktop
+            // play is unaffected.
+            bool tracked = !device.isValid || !device.TryGetFeatureValue(UnityEngine.XR.CommonUsages.isTracked, out bool t) || t;
+            trackedFrames = tracked ? trackedFrames + 1 : 0;
+            if (heldBlade == null) return;
+            bool armed = BladeArmed(trackedFrames) && Time.timeScale > 0f;
+            if (heldBlade.enabled != armed) heldBlade.enabled = armed;
+        }
+
+        /// <summary>Pure. P0-03 test seam.</summary>
+        internal static bool BladeArmed(int trackedFrames) => trackedFrames >= ArmAfterTrackedFrames;
 
         private void TryGrab()
         {
@@ -64,6 +92,7 @@ namespace Ronin7.Player
             if (best == null) return;
             best.Grab(transform);
             held = best;
+            heldBlade = best.GetComponentInChildren<BladeDamager>(true);
             Haptics.Pulse(Node, 0.4f, 0.06f);
         }
 
@@ -72,6 +101,8 @@ namespace Ronin7.Player
             Vector3 lin = velocity != null ? velocity.LinearVelocity : Vector3.zero;
             Vector3 ang = velocity != null ? velocity.AngularVelocity : Vector3.zero;
             held.Release(lin, ang);
+            if (heldBlade != null) heldBlade.enabled = true; // a thrown/dropped blade is not tracked by this hand
+            heldBlade = null;
             held = null;
         }
     }

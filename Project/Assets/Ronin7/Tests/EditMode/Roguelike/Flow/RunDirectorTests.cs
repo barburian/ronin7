@@ -254,5 +254,20 @@ namespace Ronin7.Tests.EditMode
 
             UnityEngine.Object.DestroyImmediate(go);
         }
+
+        // ---- P0-03: the boon-offer fallback freezes through a pause ----
+
+        [Test]
+        public void RemainingOfferSeconds_FreezeThaw()
+        {
+            // Offer armed at t=100 for 60 s; paused at t=130 -> 30 s left.
+            float remaining = RunDirector.RemainingOfferSeconds(160f, 130f);
+            Assert.AreEqual(30f, remaining, 1e-4f);
+            // Resumed after a 90 s pause (t=220): the new deadline still leaves those 30 s.
+            float thawedDeadline = 220f + remaining;
+            Assert.AreEqual(30f, RunDirector.RemainingOfferSeconds(thawedDeadline, 220f), 1e-4f);
+            // Already past the deadline: never negative.
+            Assert.AreEqual(0f, RunDirector.RemainingOfferSeconds(160f, 200f));
+        }
     }
 }

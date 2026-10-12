@@ -98,5 +98,27 @@ namespace Ronin7.Tests.EditMode
             Assert.AreEqual(baseline, Time.fixedDeltaTime, 1e-9f,
                 "fixedDeltaTime must return to the original baseline, not one derived from an already-scaled snapshot (regression b).");
         }
+
+        [Test]
+        public void ZeroScale_KeepsBaselineFixedDelta()
+        {
+            float baseline = Time.fixedDeltaTime;
+            TimeScaleArbiter.SetRequest(TimeScaleChannel.Pause, 0f);
+
+            Assert.AreEqual(0f, Time.timeScale);
+            Assert.AreEqual(baseline, Time.fixedDeltaTime, 1e-9f, "fixedDeltaTime = 0 is invalid; a pause keeps the baseline.");
+
+            TimeScaleArbiter.ClearRequest(TimeScaleChannel.Pause);
+            Assert.AreEqual(1f, Time.timeScale);
+            Assert.AreEqual(baseline, Time.fixedDeltaTime, 1e-9f);
+        }
+
+        [TestCase(0.02f, 0.5f, 0.01f)]
+        [TestCase(0.02f, 0f, 0.02f)]
+        [TestCase(0.02f, -1f, 0.02f)]
+        public void FixedDeltaFor_NonPositiveScaleKeepsBaseline(float baseline, float scale, float expected)
+        {
+            Assert.AreEqual(expected, TimeScaleArbiter.FixedDeltaFor(baseline, scale), 1e-7f);
+        }
     }
 }

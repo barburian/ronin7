@@ -22,6 +22,25 @@ namespace Ronin7.Player
         [Tooltip("Metres in front of the head the panel appears when opened.")]
         [SerializeField] private float distance = 1.2f;
 
+        [Tooltip("Off in RunArena: there the Menu button pauses the run, and the pause panel's " +
+                 "SETTINGS opens this panel through Show()/Hide() instead.")]
+        [SerializeField] private bool listenForMenuButton = true;
+
+        public bool HasPanel => panel != null;
+        public bool IsOpen => panel != null && panel.activeSelf;
+
+        public void Show()
+        {
+            if (panel == null) return;
+            panel.SetActive(true);
+            PlaceInFront();
+        }
+
+        public void Hide()
+        {
+            if (panel != null) panel.SetActive(false);
+        }
+
         private InputAction action;
         private InputAction owned; // created here only when no reference is assigned
 
@@ -32,6 +51,7 @@ namespace Ronin7.Player
 
         private void OnEnable()
         {
+            if (!listenForMenuButton) return;
             action = toggleAction != null ? toggleAction.action : null;
             if (action == null)
             {

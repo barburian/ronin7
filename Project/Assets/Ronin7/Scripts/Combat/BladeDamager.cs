@@ -80,7 +80,15 @@ namespace Ronin7.Combat
             if (definition != null) ResetIfSwingEnded(lastHitTimes, speed, definition.minSwingSpeed);
         }
 
-        private void OnEnable() => havePrevSamples = false;
+        // Re-enabling (tracking regained, pause ended) must start a fresh swing: the pose may have
+        // jumped while disabled, and a stale lastPos would read that jump as a max-speed flick.
+        private void OnEnable()
+        {
+            havePrevSamples = false;
+            lastPos = transform.position;
+            speed = 0f;
+            lastHitTimes.Clear();
+        }
 
         // LateUpdate, not FixedUpdate: the tracked hand pose is written at render rate (Update /
         // before-render), and 50 Hz physics only sees every ~1.5th frame of it. Sweeping the final

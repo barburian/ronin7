@@ -90,6 +90,8 @@ namespace Ronin7.Flow
         private BoonOfferPanel offerPanel;
         private RunSummaryPanel summaryPanel;
         private float offerFallbackDeadline = -1f;
+        /// <summary>P0-03: seconds left on the offer fallback while paused, or -1 when not frozen.</summary>
+        private float frozenOfferSeconds = -1f;
 
         // This run's boon aggregation. One instance for the whole run (A1.1/A4.1) — Clear()+replay every
         // arena load rather than re-`new`-ing, since RunState.Boons/RevivesSpent are the durable ledger
@@ -551,9 +553,36 @@ namespace Ronin7.Flow
             summaryPanel = null;
         }
 
+        /// <summary>
+        /// P0-03: while the run is paused the boon offer must neither auto-pick (the 60 s fallback runs
+        /// on unscaled time, so it keeps counting through a pause) nor be clickable behind the pause
+        /// panel. Freezing stores the remaining time and hides the panel; thawing re-arms both.
+        /// </summary>
+        public void FreezeOfferTimer(bool freeze)
+        {
+            if (freeze)
+            {
+                if (offerFallbackDeadline >= 0f)
+                {
+                    frozenOfferSeconds = RemainingOfferSeconds(offerFallbackDeadline, Time.unscaledTime);
+                    offerFallbackDeadline = -1f;
+                }
+            }
+            else if (frozenOfferSeconds >= 0f)
+            {
+                offerFallbackDeadline = Time.unscaledTime + frozenOfferSeconds;
+                frozenOfferSeconds = -1f;
+            }
+            if (offerPanel != null) offerPanel.gameObject.SetActive(!freeze);
+        }
+
+        /// <summary>Seconds left before the offer auto-picks, never negative. Pure. P0-03 test seam.</summary>
+        internal static float RemainingOfferSeconds(float deadline, float now) => Mathf.Max(0f, deadline - now);
+
         private void DismissOfferPanel()
         {
             offerFallbackDeadline = -1f;
+            frozenOfferSeconds = -1f;
             if (offerPanel == null) return;
             offerPanel.ChoiceSelected -= OnBoonChoiceSelected;
             offerPanel.RerollRequested -= OnRerollRequested;
