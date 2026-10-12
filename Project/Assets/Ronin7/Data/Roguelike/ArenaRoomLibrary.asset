@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47e1961d1dc90054491d68ba29becbdd, type: 3}
   m_Name: ArenaRoomLibrary
   m_EditorClassIdentifier: Ronin7.World::Ronin7.World.ArenaRoomLibrary
+  surfaceMaterial: {fileID: 2100000, guid: d9b3e045a6c1b1b449a244386f8e339f, type: 2}
   biomes:
   - id: rust
     floorColor: {r: 0.32, g: 0.19, b: 0.12, a: 1}

@@ -74,7 +74,7 @@ namespace Ronin7.World
             // hard reference into this assembly — see RunNodeEntered's doc comment.
             EventBus.Publish(new RunNodeEntered(node.Sector, node.Kind));
 
-            ArenaGeometryBuilder.Build(transform, arenaHalfExtent, roomLibrary.ForSector(node.Sector), ref rng);
+            ArenaGeometryBuilder.Build(transform, arenaHalfExtent, roomLibrary.ForSector(node.Sector), roomLibrary.surfaceMaterial, ref rng);
 
             // A5.3: geometry above is built in the controller's own local space; playerSpawn (and the
             // exclusion centre below) are world positions, so convert once here — this only works

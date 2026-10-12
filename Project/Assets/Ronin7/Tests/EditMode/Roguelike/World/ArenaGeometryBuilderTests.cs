@@ -16,11 +16,19 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
     public class ArenaGeometryBuilderTests
     {
         private GameObject _parent;
+        private Material _material;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _material = new Material(Shader.Find("Universal Render Pipeline/Simple Lit"));
+        }
 
         [TearDown]
         public void TearDown()
         {
             if (_parent != null) Object.DestroyImmediate(_parent);
+            if (_material != null) Object.DestroyImmediate(_material);
             // Static on the test framework — must not leak into the next test class.
             LogAssert.ignoreFailingMessages = false;
         }
@@ -85,7 +93,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
             _parent = new GameObject("ArenaParent");
             var rng = new RunRng(1);
 
-            ArenaGeometryBuilder.Build(_parent.transform, 12f, null, ref rng);
+            ArenaGeometryBuilder.Build(_parent.transform, 12f, null, _material, ref rng);
 
             Assert.IsNotNull(_parent.transform.Find("ArenaGeometry/Floor"));
             Assert.IsNotNull(_parent.transform.Find("ArenaGeometry/Ceiling"));
@@ -104,7 +112,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
             _parent = new GameObject("ArenaParent");
             var rng = new RunRng(2);
 
-            ArenaGeometryBuilder.Build(_parent.transform, 12f, null, ref rng);
+            ArenaGeometryBuilder.Build(_parent.transform, 12f, null, _material, ref rng);
 
             var colliders = _parent.GetComponentsInChildren<Collider>();
             foreach (var c in colliders)
@@ -132,7 +140,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
             // still proves at least one was logged.
             LogAssert.Expect(LogType.Error, new System.Text.RegularExpressions.Regex("MeshCollider"));
             LogAssert.ignoreFailingMessages = true;
-            ArenaGeometryBuilder.Build(_parent.transform, 12f, biome, ref rng);
+            ArenaGeometryBuilder.Build(_parent.transform, 12f, biome, _material, ref rng);
 
             var meshColliders = _parent.GetComponentsInChildren<MeshCollider>(true);
             Assert.AreEqual(0, meshColliders.Length, "The instantiated prop's MeshCollider must be stripped.");
@@ -149,7 +157,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
             _parent = new GameObject("ArenaParent");
             var rng = new RunRng(3);
 
-            ArenaGeometryBuilder.Build(_parent.transform, 12f, null, ref rng);
+            ArenaGeometryBuilder.Build(_parent.transform, 12f, null, _material, ref rng);
 
             Assert.IsNotNull(_parent.transform.Find("ArenaGeometry/Floor").GetComponent<Collider>());
             Assert.IsTrue(_parent.transform.Find("ArenaGeometry/Floor").GetComponent<Collider>().enabled);
@@ -168,7 +176,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
             var rng = new RunRng(4);
 
             GameObject root = null;
-            Assert.DoesNotThrow(() => root = ArenaGeometryBuilder.Build(_parent.transform, 12f, null, ref rng));
+            Assert.DoesNotThrow(() => root = ArenaGeometryBuilder.Build(_parent.transform, 12f, null, _material, ref rng));
             Assert.IsNotNull(root);
         }
 
@@ -179,7 +187,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
             var biome = new ArenaRoomLibrary.Biome { propPrefabs = null };
             var rng = new RunRng(6);
 
-            ArenaGeometryBuilder.Build(_parent.transform, 12f, biome, ref rng);
+            ArenaGeometryBuilder.Build(_parent.transform, 12f, biome, _material, ref rng);
 
             // Floor, Ceiling, 4 walls, 2 accent lights (A5.7) = 8 children under ArenaGeometry; no props.
             Transform geometry = _parent.transform.Find("ArenaGeometry");
@@ -196,7 +204,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
             _parent = new GameObject("ArenaParent");
             var rng = new RunRng(8);
 
-            ArenaGeometryBuilder.Build(_parent.transform, 12f, null, ref rng);
+            ArenaGeometryBuilder.Build(_parent.transform, 12f, null, _material, ref rng);
 
             var floorRenderer = _parent.transform.Find("ArenaGeometry/Floor").GetComponent<Renderer>();
             var wallRenderer = _parent.transform.Find("ArenaGeometry/Wall_North").GetComponent<Renderer>();

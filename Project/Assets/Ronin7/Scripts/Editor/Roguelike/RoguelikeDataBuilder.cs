@@ -24,6 +24,7 @@ namespace Ronin7.EditorTools
         private const string RoguelikeDataFolder = DataFolder + "/Roguelike";
         private const string SpawnTablePath = RoguelikeDataFolder + "/EnemySpawnTable.asset";
         private const string RoomLibraryPath = RoguelikeDataFolder + "/ArenaRoomLibrary.asset";
+        private const string SurfaceMaterialPath = RoguelikeDataFolder + "/ArenaSurface.mat";
         private const string RoguelikeEnemyFolder = RoguelikeDataFolder + "/Enemies";
 
         private struct TrashSpec
@@ -188,6 +189,7 @@ namespace Ronin7.EditorTools
             var library = AssetDatabase.LoadAssetAtPath<ArenaRoomLibrary>(RoomLibraryPath);
             bool isNew = library == null;
             if (isNew) library = ScriptableObject.CreateInstance<ArenaRoomLibrary>();
+            library.surfaceMaterial = EnsureSurfaceMaterial();
 
             // Distinct floor/ceiling/accent per biome; propPrefabs deliberately left empty — the
             // runtime greyboxes when empty (ArenaRoomLibrary.Biome doc), and A5.7 strips MeshColliders
@@ -224,6 +226,26 @@ namespace Ronin7.EditorTools
             else EditorUtility.SetDirty(library);
 
             Debug.Log($"[RoguelikeDataBuilder] Room library: 3 biomes (rust/program/garden) at {RoomLibraryPath}.");
+        }
+
+        /// <summary>Shipped URP material for the runtime-built room (a player build has no default
+        /// primitive material -> magenta). Editor-time Shader.Find is fine; the asset keeps the shader
+        /// referenced in the build. Idempotent: an existing asset is reused untouched.</summary>
+        private static Material EnsureSurfaceMaterial()
+        {
+            var mat = AssetDatabase.LoadAssetAtPath<Material>(SurfaceMaterialPath);
+            if (mat != null) return mat;
+
+            var shader = Shader.Find("Universal Render Pipeline/Simple Lit");
+            if (shader == null)
+            {
+                Debug.LogError("[RoguelikeDataBuilder] 'Universal Render Pipeline/Simple Lit' shader not found; ArenaSurface.mat not created.");
+                return null;
+            }
+            mat = new Material(shader) { name = "ArenaSurface" };
+            mat.SetColor("_BaseColor", Color.white); // RendererTint MPB overrides per renderer
+            AssetDatabase.CreateAsset(mat, SurfaceMaterialPath);
+            return mat;
         }
 
         private static void EnsureFolder(string folder)

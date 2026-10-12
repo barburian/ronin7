@@ -22,6 +22,10 @@ namespace Ronin7.World
             public GameObject[] propPrefabs;
         }
 
+        [Tooltip("Shipped URP material (Simple Lit) for the runtime-built room surfaces. Unity's default " +
+                 "primitive material is unavailable in player builds, so without this the arena renders magenta on Quest.")]
+        public Material surfaceMaterial;
+
         public Biome[] biomes;
 
         /// <summary>Biome for a run sector (0..2). Wraps when there are fewer biomes than sectors;

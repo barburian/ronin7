@@ -7,8 +7,9 @@ namespace Ronin7.World
     /// <summary>
     /// Runtime room-shell builder for a roguelike arena node: floor, ceiling, four walls, a handful
     /// of static accent lights, and a deterministic prop scatter. Built once — call from
-    /// <see cref="RunArenaController.Start"/>, never per-frame. Every renderer keeps Unity's shared
-    /// default primitive material and is tinted through <see cref="RendererTint"/>
+    /// <see cref="RunArenaController.Start"/>, never per-frame. Every renderer is assigned the shipped
+    /// URP material <see cref="ArenaRoomLibrary.surfaceMaterial"/> (Unity's default primitive material
+    /// is unavailable in player builds and renders magenta) and is tinted through <see cref="RendererTint"/>
     /// (MaterialPropertyBlock) — note the SRP Batcher does NOT batch renderers carrying a
     /// MaterialPropertyBlock, so this trades SRP batching away in exchange for avoiding a
     /// per-renderer <c>.material</c> clone leak, which is the cost that actually matters for a
@@ -42,9 +43,11 @@ namespace Ronin7.World
 
         /// <summary>Builds the full room shell under <paramref name="parent"/> and returns its root.
         /// <paramref name="biome"/> may be null (greybox fallback colours, no props).</summary>
-        public static GameObject Build(Transform parent, float halfExtent, ArenaRoomLibrary.Biome biome, ref RunRng rng)
+        public static GameObject Build(Transform parent, float halfExtent, ArenaRoomLibrary.Biome biome, Material surfaceMaterial, ref RunRng rng)
         {
             halfExtent = Mathf.Max(1f, halfExtent);
+            if (surfaceMaterial == null)
+                Debug.LogError("[ArenaGeometryBuilder] ArenaRoomLibrary.surfaceMaterial is not assigned; room will render magenta on device.");
             Color floorColor = biome != null ? biome.floorColor : DefaultFloorColor;
             Color ceilColor = biome != null ? biome.ceilColor : DefaultCeilColor;
             Color accentColor = biome != null ? biome.accentColor : DefaultAccentColor;
@@ -52,15 +55,15 @@ namespace Ronin7.World
             var root = new GameObject("ArenaGeometry");
             root.transform.SetParent(parent, false);
 
-            BuildFloorAndCeiling(root.transform, halfExtent, floorColor, ceilColor);
-            BuildWalls(root.transform, halfExtent, floorColor);
+            BuildFloorAndCeiling(root.transform, halfExtent, floorColor, ceilColor, surfaceMaterial);
+            BuildWalls(root.transform, halfExtent, floorColor, surfaceMaterial);
             BuildAccentLights(root.transform, halfExtent, accentColor);
             ScatterProps(root.transform, halfExtent, biome, ref rng);
 
             return root;
         }
 
-        private static void BuildFloorAndCeiling(Transform parent, float halfExtent, Color floorColor, Color ceilColor)
+        private static void BuildFloorAndCeiling(Transform parent, float halfExtent, Color floorColor, Color ceilColor, Material material)
         {
             float size = halfExtent * 2f;
 
@@ -69,6 +72,7 @@ namespace Ronin7.World
             floor.transform.SetParent(parent, false);
             floor.transform.localPosition = new Vector3(0f, -FloorThickness * 0.5f, 0f);
             floor.transform.localScale = new Vector3(size, FloorThickness, size);
+            ApplyMaterial(floor, material);
             RendererTint.Apply(floor.GetComponent<Renderer>(), floorColor);
             // BoxCollider from CreatePrimitive stays — that's the walkable floor.
 
@@ -77,6 +81,7 @@ namespace Ronin7.World
             ceiling.transform.SetParent(parent, false);
             ceiling.transform.localPosition = new Vector3(0f, CeilingHeight + FloorThickness * 0.5f, 0f);
             ceiling.transform.localScale = new Vector3(size, FloorThickness, size);
+            ApplyMaterial(ceiling, material);
             RendererTint.Apply(ceiling.GetComponent<Renderer>(), ceilColor);
             // A5.2: Object.Destroy is illegal outside play mode (logs an error and does nothing,
             // which fails the EditMode gate on an unexpected LogError) and would otherwise ship an
@@ -86,26 +91,33 @@ namespace Ronin7.World
             if (ceilingCollider != null) ceilingCollider.enabled = false;
         }
 
-        private static void BuildWalls(Transform parent, float halfExtent, Color wallColor)
+        private static void BuildWalls(Transform parent, float halfExtent, Color wallColor, Material material)
         {
             float length = halfExtent * 2f;
             float wallY = CeilingHeight * 0.5f;
 
-            BuildWall(parent, "Wall_North", new Vector3(0f, wallY, halfExtent), new Vector3(length, CeilingHeight, WallThickness), wallColor);
-            BuildWall(parent, "Wall_South", new Vector3(0f, wallY, -halfExtent), new Vector3(length, CeilingHeight, WallThickness), wallColor);
-            BuildWall(parent, "Wall_East", new Vector3(halfExtent, wallY, 0f), new Vector3(WallThickness, CeilingHeight, length), wallColor);
-            BuildWall(parent, "Wall_West", new Vector3(-halfExtent, wallY, 0f), new Vector3(WallThickness, CeilingHeight, length), wallColor);
+            BuildWall(parent, "Wall_North", new Vector3(0f, wallY, halfExtent), new Vector3(length, CeilingHeight, WallThickness), wallColor, material);
+            BuildWall(parent, "Wall_South", new Vector3(0f, wallY, -halfExtent), new Vector3(length, CeilingHeight, WallThickness), wallColor, material);
+            BuildWall(parent, "Wall_East", new Vector3(halfExtent, wallY, 0f), new Vector3(WallThickness, CeilingHeight, length), wallColor, material);
+            BuildWall(parent, "Wall_West", new Vector3(-halfExtent, wallY, 0f), new Vector3(WallThickness, CeilingHeight, length), wallColor, material);
         }
 
-        private static void BuildWall(Transform parent, string name, Vector3 localPos, Vector3 localScale, Color color)
+        private static void BuildWall(Transform parent, string name, Vector3 localPos, Vector3 localScale, Color color, Material material)
         {
             var wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
             wall.name = name;
             wall.transform.SetParent(parent, false);
             wall.transform.localPosition = localPos;
             wall.transform.localScale = localScale;
+            ApplyMaterial(wall, material);
             RendererTint.Apply(wall.GetComponent<Renderer>(), color);
             // BoxCollider from CreatePrimitive stays — player can't walk through.
+        }
+
+        // Assigned before RendererTint so the MPB tint lands on the URP shader's _BaseColor.
+        private static void ApplyMaterial(GameObject go, Material material)
+        {
+            if (material != null) go.GetComponent<Renderer>().sharedMaterial = material;
         }
 
         private static void BuildAccentLights(Transform parent, float halfExtent, Color color)
