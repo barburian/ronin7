@@ -3,7 +3,10 @@ using Unity.Collections;
 using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.XR.Management;
+#if UNITY_ANDROID || UNITY_EDITOR
+// Unity.XR.MetaOpenXR only exists for Android (and the editor): a Windows player must not see it.
 using UnityEngine.XR.OpenXR.Features.Meta;
+#endif
 
 namespace Ronin7.Flow
 {
@@ -75,6 +78,7 @@ namespace Ronin7.Flow
             }
 
             float rate = targetRefreshRate;
+#if UNITY_ANDROID || UNITY_EDITOR
             if (display.TryGetSupportedDisplayRefreshRates(Allocator.Temp, out NativeArray<float> supported))
             {
                 rate = PickRefreshRate(supported.ToArray(), targetRefreshRate);
@@ -82,6 +86,7 @@ namespace Ronin7.Flow
             }
             if (!display.TryRequestDisplayRefreshRate(rate))
                 Debug.LogWarning($"[QualityBootstrap] Refresh rate request for {rate} Hz was refused.");
+#endif
 
             var tier = GraphicsDirector.DetectTier(Application.isMobilePlatform, SystemInfo.deviceModel);
             display.foveatedRenderingFlags = XRDisplaySubsystem.FoveatedRenderingFlags.None;
