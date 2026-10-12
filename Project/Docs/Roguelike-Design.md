@@ -1220,6 +1220,42 @@ Plus all five of A4.3's tests, which remain absent.
 
 ---
 
+## Amendment 8 — Phase 0 "ship-safe" behaviour changes (Roguelike-Roadmap.md P0-01 … P0-12)
+
+Binding as of tag `roguelike-phase0` (0.1.0). Each item names the task that landed it.
+
+- **A8.1 Campaign autosave never runs during a run (P0-01).** `GameFlowManager.ShouldAutosaveOnArrival`
+  takes `inRun`; run nodes no longer write the blank `CampaignState` over the campaign slot. The settings
+  panel's slot SAVE buttons are also refused while `RunState.InRun` (P0-05).
+- **A8.2 Zero-enemy clears wait for the rig (P0-02).** A Forge/Treasure `RoomCleared` that arrives during
+  an arena load, before `onLoaded` restores the carried HP, is parked and replayed by
+  `RunDirector.OnArenaLoaded`. Forge result = carried HP + 60% of missing (`ForgeResultHealth`).
+- **A8.3 Pause (P0-03, Meta VRC).** `RunPauseController` (self-installed, persistent) pauses a run on focus
+  loss (device builds), `OnApplicationPause` and the left Menu button: `TimeScaleChannel.Pause` = 0
+  (appended), the boon-offer fallback timer frozen and its panel hidden, `AudioListener.pause`, and the
+  pause panel. Play resumes **only** on RESUME. At scale 0 the arbiter keeps the baseline
+  `fixedDeltaTime`. A held blade is disarmed while its hand is untracked or the game is paused and
+  re-arms after 3 tracked frames (`Grabber.BladeArmed`); `BladeDamager.OnEnable` resets the speed EMA.
+  In RunArena the Menu button belongs to the pause; the settings panel opens from the pause panel.
+- **A8.4 Leaving a run (P0-04).** SAVE & QUIT / Return-to-Menu during a run call
+  `RunDirector.SuspendRun`: the node-entry snapshot is kept and RESUME RUN restarts that node (D-09).
+  ABANDON from the pause panel needs a 1 s hold and ends the run as a loss. The menu ABANDON is two-click
+  (CONFIRM ABANDON?), only banks the saved run, and **no longer starts a new run**. Enemies outside the
+  arena (|x| or |z| > halfExtent + 0.5, or y < −2) are killed by a 1 Hz sweep so the room clears.
+- **A8.5 Post-processing (P0-06).** Post renders on PCVR and Quest 3/3S/Pro, not on Quest 2 (which also
+  turns HDR off); `GraphicsDirector` sets it per scene load.
+- **A8.6 Quest display (P0-07).** 90 Hz and fixed foveation (Quest 3 class 0.75, Quest 2 0.5) through the
+  OpenXR display subsystem; no realtime shadows on Quest; PCVR shadows 20 m / 2 cascades.
+- **A8.7 Spawn data (P0-08).** Roguelike-owned `RL_` definitions replace story assets that were not
+  combat-viable (`RL_DreamGhost`, `RL_GraveGuardian`). Story `Ch*` definitions stay untouched.
+- **A8.8 Saves (P0-09).** A discarded `run.json` banks its Echoes; a newer `meta.json` is never
+  overwritten; `MetaProgression.Save` before `Load` is refused; the run summary is finalized only when the
+  run-end scene has loaded. Phase fixtures in `Project/TestData/saves_phaseN/` must keep loading (G7).
+- **A8.9 Build content (P0-10, D-02 default).** Only `Phase6_Boot` and `RunArena` ship; campaign entry
+  points are hidden and refuse scenes not in the build.
+- **A8.10 Telemetry and dev tools (P0-11).** Every finished run appends one line to
+  `persistentDataPath/runlog.jsonl` (local only). Dev shortcuts exist only under `RONIN7_DEV`.
+
 ## Build status — 2026-09-19
 
 ### Compile
