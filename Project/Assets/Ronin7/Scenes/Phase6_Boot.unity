@@ -181,9 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Ronin7.Flow::Ronin7.Flow.QualityBootstrap
   targetRefreshRate: 90
-  foveationLevel: 2
   disableUnityVSync: 1
-  shadowDistance: 25
 --- !u!114 &10323484
 MonoBehaviour:
   m_ObjectHideFlags: 0
