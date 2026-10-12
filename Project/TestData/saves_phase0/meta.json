@@ -1,0 +1,17 @@
+{
+    "version": 1,
+    "metaEchoes": 123,
+    "metaBestDepth": 7,
+    "metaRunsCompleted": 4,
+    "metaRunsWon": 1,
+    "metaUpgrades": [
+        {
+            "id": "meta_reroll_tokens",
+            "level": 1
+        },
+        {
+            "id": "meta_starting_health",
+            "level": 2
+        }
+    ]
+}
