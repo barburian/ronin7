@@ -291,10 +291,13 @@ namespace Ronin7.Flow
         /// Arrival-autosave gate, checked once per completed scene load: reaching any player scene
         /// is a checkpoint. Excluded: Boot arrivals (main menu, via Return-to-Menu or game over —
         /// nothing new to persist there) and the quick-boot hub load (it runs before the player
-        /// chose New/Load, so saving would clobber MostRecentSlot). Pure, so it is unit-testable.
+        /// chose New/Load, so saving would clobber MostRecentSlot), and every arrival during a
+        /// roguelike run (<see cref="RunState.InRun"/>): runs persist through their own
+        /// <c>run.json</c>/<c>meta.json</c>, and <see cref="CampaignState"/> is blank there, so an
+        /// autosave would overwrite the campaign slot (BUG-01). Pure, so it is unit-testable.
         /// </summary>
-        internal static bool ShouldAutosaveOnArrival(GameMode mode, bool quickBoot)
-            => !quickBoot && mode != GameMode.Boot;
+        internal static bool ShouldAutosaveOnArrival(GameMode mode, bool quickBoot, bool inRun)
+            => !quickBoot && mode != GameMode.Boot && !inRun;
 
         /// <summary>
         /// Public entry point for other persistent systems that need the same fade/load/autosave
@@ -358,7 +361,7 @@ namespace Ronin7.Flow
             // 5. Autosave: the player has reached a new scene — persist campaign progress to the
             //    active slot. Runs while still under the black fade so the save-file write can
             //    never hitch a visible frame (VR 90 FPS budget).
-            if (ShouldAutosaveOnArrival(mode, quickBoot))
+            if (ShouldAutosaveOnArrival(mode, quickBoot, RunState.InRun))
                 SaveSystem.Autosave(CampaignState.ToSaveData());
 
             // 5.5. Skip the reveal entirely when the caller already knows another load is queued
