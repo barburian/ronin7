@@ -83,6 +83,11 @@ namespace Ronin7.Flow
         /// <summary>CampaignStats.EnemiesDefeated as of StartRun, so the summary can subtract.</summary>
         private int enemiesDefeatedAtRunStart;
 
+        /// <summary>P0-11 run log: when this session's play of the run began (resets on resume), and
+        /// what killed the player, if anything.</summary>
+        private float runStartRealtime;
+        private string deathBy;
+
         // Boon-offer state for the node currently awaiting a choice.
         private RunRng offerRng;
         private RunNode offerNode;
@@ -161,6 +166,8 @@ namespace Ronin7.Flow
             lastClearedNode = -1;
             deferredClear = null;
             warnedUnknownBoons.Clear();
+            runStartRealtime = Time.realtimeSinceStartup;
+            deathBy = null;
             // CampaignStats.EnemiesDefeated is a lifetime counter; snapshot it so the run summary can
             // report THIS run's kills as a delta rather than the campaign total.
             enemiesDefeatedAtRunStart = CampaignStats.EnemiesDefeated;
@@ -185,6 +192,8 @@ namespace Ronin7.Flow
             lastClearedNode = -1;
             deferredClear = null;
             warnedUnknownBoons.Clear();
+            runStartRealtime = Time.realtimeSinceStartup;
+            deathBy = null;
             enemiesDefeatedAtRunStart = CampaignStats.EnemiesDefeated - snapshot.runKills;
             EventBus.Publish(new RunStarted(RunState.Seed));
             StartSceneLoad(runArenaScene);
@@ -205,6 +214,7 @@ namespace Ronin7.Flow
         public void AbandonRun()
         {
             if (!RunState.InRun) return;
+            deathBy = "abandoned";
             EndRun(won: false);
         }
 
@@ -652,8 +662,51 @@ namespace Ronin7.Flow
             }
 
             if (playerObj == null || evt.Entity != playerObj) return;
+            deathBy = KillerName(evt.Killer);
             EndRun(won: false);
         }
+
+        private RunLogEntry BuildLogEntry(int depth, bool won)
+        {
+            // One entry per stack, so the log shows how a build was actually stacked.
+            var ids = new List<string>();
+            foreach (string id in RunState.Boons)
+                for (int i = 0; i < RunState.BoonCount(id); i++) ids.Add(id);
+            return new RunLogEntry
+            {
+                utc = DateTime.UtcNow.ToString("o"),
+                seed = RunState.Seed,
+                won = won,
+                depth = depth,
+                kills = CampaignStats.EnemiesDefeated - enemiesDefeatedAtRunStart,
+                boons = RunState.Boons.Count, // distinct boons, as the run summary counts them
+                echoes = RunState.EchoesEarned,
+                seconds = Time.realtimeSinceStartup - runStartRealtime,
+                boonIds = ids.ToArray(),
+                deathBy = won ? null : deathBy,
+                build = Application.version + (Debug.isDebugBuild ? "-dev" : ""),
+            };
+        }
+
+#if RONIN7_DEV
+        /// <summary>P0-11 dev tool: grant one random boon that is not yet at max stacks. It applies
+        /// from the next node load, exactly like a normal pick.</summary>
+        public void DevGrantRandomBoon()
+        {
+            if (!RunState.InRun || boonCatalog == null || boonCatalog.boons == null) return;
+            var pool = new List<BoonDefinition>();
+            foreach (var b in boonCatalog.boons)
+                if (b != null && RunState.BoonCount(b.id) < Mathf.Max(1, b.maxStacks)) pool.Add(b);
+            if (pool.Count == 0) return;
+            var pick = pool[UnityEngine.Random.Range(0, pool.Count)];
+            GrantBoon(pick);
+            Debug.Log($"[DevRunTools] Granted boon '{pick.id}' (applies from the next node).");
+        }
+#endif
+
+        /// <summary>A killer's display name without Unity's "(Clone)" suffix; "unknown" if unattributed.</summary>
+        internal static string KillerName(GameObject killer) =>
+            killer == null ? "unknown" : killer.name.Replace("(Clone)", "").Trim();
 
         /// <summary>Pure decision: heal on kill iff the dead entity isn't the player, both references
         /// are real, and the boon is actually held. A7.10 test seam.</summary>
@@ -689,6 +742,7 @@ namespace Ronin7.Flow
                 RunState.Boons.Count,
                 RunState.EchoesEarned);
             MetaProgression.Save();
+            RunLog.Append(BuildLogEntry(depth, won));
             // After the bank is saved (a crash in between must not lose the Echoes): the run is over,
             // so nothing is left to resume — win, permadeath and abandon all end here.
             RunSnapshot.Delete();

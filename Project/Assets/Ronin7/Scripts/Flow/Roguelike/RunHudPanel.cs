@@ -51,7 +51,26 @@ namespace Ronin7.Flow
             target.text = RunState.InRun
                 ? Format(RunState.NodeIndex, RunState.CurrentNode.Sector, RunState.Boons.Count, RunState.EchoesEarned)
                 : string.Empty;
+#if RONIN7_DEV
+            baseText = target.text;
+#endif
         }
+
+#if RONIN7_DEV
+        // P0-11 dev readout: smoothed frame time under the run line, 4 updates a second.
+        private string baseText = string.Empty;
+        private float smoothedMs;
+        private float nextDevUpdate;
+
+        private void Update()
+        {
+            if (target == null || !RunState.InRun) return;
+            smoothedMs = Mathf.Lerp(smoothedMs, Time.unscaledDeltaTime * 1000f, 0.1f);
+            if (Time.unscaledTime < nextDevUpdate) return;
+            nextDevUpdate = Time.unscaledTime + 0.25f;
+            target.text = $"{baseText}\n{smoothedMs:0.0} ms";
+        }
+#endif
 
         /// <summary>Pure formatter — "NODE x/15 / SECTOR s / BOONS n / ECHOES e" (1-indexed for
         /// display; <paramref name="nodeIndex"/>/<paramref name="sector"/> are the 0-indexed values
