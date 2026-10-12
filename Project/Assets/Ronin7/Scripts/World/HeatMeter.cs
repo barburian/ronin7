@@ -78,6 +78,7 @@ namespace Ronin7.World
             quadGo.transform.localScale = Vector3.one * 0.05f;
             Destroy(quadGo.GetComponent<Collider>());
             quadRenderer = quadGo.GetComponent<Renderer>();
+            quadRenderer.sharedMaterial = VrUiMaterials.SharedUnlit; // no default material on player builds
 
             var textGo = new GameObject("HeatPercent");
             textGo.transform.SetParent(quadGo.transform, false);

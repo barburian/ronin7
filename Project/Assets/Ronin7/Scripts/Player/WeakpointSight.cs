@@ -113,7 +113,9 @@ namespace Ronin7.Player
                 marker.transform.localScale = Vector3.one * 0.18f;
                 var col = marker.GetComponent<Collider>();
                 if (col != null) Destroy(col);
-                RendererTint.Apply(marker.GetComponent<Renderer>(), markerColor);
+                var markerRenderer = marker.GetComponent<Renderer>();
+                markerRenderer.sharedMaterial = VrUiMaterials.SharedUnlit; // no default material on player builds
+                RendererTint.Apply(markerRenderer, markerColor);
                 marker.SetActive(false);
                 markerPool.Add(marker.transform);
             }

@@ -108,6 +108,7 @@ namespace Ronin7.Ship
             var go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             go.name = $"Bolt {index:00}";
             go.transform.SetParent(transform, false);
+            go.GetComponent<Renderer>().sharedMaterial = Ronin7.Core.VrUiMaterials.SharedUnlit; // no default material on player builds
 
             // Replace the auto SphereCollider's role is fine, but ensure exactly the components
             // Projectile requires exist (CreatePrimitive already adds a SphereCollider).

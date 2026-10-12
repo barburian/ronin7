@@ -9,6 +9,27 @@ namespace Ronin7.Core
     /// </summary>
     public static class VrUiMaterials
     {
+        private static Material sharedUnlit;
+
+        /// <summary>
+        /// One opaque URP/Unlit material shared by the whole session, for runtime-built primitives.
+        /// CreatePrimitive renderers with no material render magenta on player builds (URP has no
+        /// default material outside the editor). Tint via RendererTint (MaterialPropertyBlock) — never
+        /// write .material on a renderer using this, which would clone it per object.
+        /// </summary>
+        public static Material SharedUnlit
+        {
+            get
+            {
+                if (sharedUnlit == null)
+                {
+                    var shader = Shader.Find("Universal Render Pipeline/Unlit") ?? Shader.Find("Unlit/Color");
+                    sharedUnlit = new Material(shader) { name = "Ronin7_SharedUnlit", hideFlags = HideFlags.DontSave };
+                }
+                return sharedUnlit;
+            }
+        }
+
         /// <summary>Unlit, transparent, always-on-top material so nothing pokes through the overlay.</summary>
         public static Material CreateTransparentUnlit()
         {

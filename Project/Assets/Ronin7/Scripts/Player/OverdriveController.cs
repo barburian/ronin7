@@ -167,6 +167,7 @@ namespace Ronin7.Player
             var col = quadGo.GetComponent<Collider>();
             if (col != null) Destroy(col);
             quadRenderer = quadGo.GetComponent<Renderer>();
+            quadRenderer.sharedMaterial = VrUiMaterials.SharedUnlit; // no default material on player builds
 
             var textGo = new GameObject("OverdrivePercent");
             textGo.transform.SetParent(quadGo.transform, false);
