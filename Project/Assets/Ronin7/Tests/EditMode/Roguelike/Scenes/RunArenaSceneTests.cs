@@ -1,9 +1,12 @@
 using System;
 using NUnit.Framework;
 using Ronin7.Audio;
+using Ronin7.Combat;
+using Ronin7.Core;
 using Ronin7.Player;
 using Ronin7.World;
 using UnityEditor.SceneManagement;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
@@ -33,6 +36,34 @@ namespace Ronin7.Tests.EditMode
                 var toggle = FindIn<SettingsMenuToggle>(scene);
                 var listens = new UnityEditor.SerializedObject(toggle).FindProperty("listenForMenuButton").boolValue;
                 Assert.IsFalse(listens, "In RunArena the Menu button pauses; the settings toggle must not also listen to it.");
+            }
+            finally
+            {
+                EditorSceneManager.CloseScene(scene, true);
+            }
+        }
+
+        [Test]
+        public void SwordHasGripColliderAndGrabbersAreForgiving()
+        {
+            Scene scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Additive);
+            try
+            {
+                var sword = FindIn<Grabbable>(scene);
+                Assert.IsNotNull(sword, "RunArena has no Grabbable sword.");
+
+                bool hasGrip = false;
+                foreach (var col in sword.GetComponentsInChildren<Collider>(true))
+                    if (col.GetComponent<BladeDamager>() == null) { hasGrip = true; break; }
+                Assert.IsTrue(hasGrip, "Sword needs a grip collider that is not the BladeDamager blade, " +
+                                       "or the handle cannot be grabbed with a natural right-hand draw.");
+
+                foreach (var root in scene.GetRootGameObjects())
+                    foreach (var grabber in root.GetComponentsInChildren<Grabber>(true))
+                    {
+                        float radius = new UnityEditor.SerializedObject(grabber).FindProperty("grabRadius").floatValue;
+                        Assert.GreaterOrEqual(radius, 0.15f, $"{grabber.name} grabRadius is too tight.");
+                    }
             }
             finally
             {

@@ -1750,6 +1750,18 @@ namespace Ronin7.EditorTools
                 ArtPrefabRegistry.TryInstantiateOrFallback(SwordPrefabPath, swordGreybox, root.transform);
             }
 
+            // Dedicated grab volume over the handle + guard. The Blade trigger starts ~0.19 m past the hilt
+            // end, so a natural draw (hand closes on the handle) was >0.12 m from any collider and only a
+            // left cross-draw reaching the blade could grab. Trigger only, NO BladeDamager: damage stays
+            // exclusive to the Blade child (BladeDamager.TryHit needs a Health, which the sword never has).
+            // Parented to the root, not the scaled visual, so RogueUpscaleSword's 1.35x does not affect it.
+            var gripGo = new GameObject("GripCollider");
+            gripGo.transform.SetParent(root.transform, false);
+            var gripBox = gripGo.AddComponent<BoxCollider>();
+            gripBox.isTrigger = true;
+            gripBox.center = new Vector3(0f, 0f, 0.09f);   // spans z -0.02..0.20: hilt end through guard
+            gripBox.size = new Vector3(0.08f, 0.08f, 0.22f);
+
             var grab = root.AddComponent<Grabbable>();
             var grabSo = new SerializedObject(grab);
             SetObjectRef(grabSo, "attachPoint", attach.transform);
@@ -1928,6 +1940,8 @@ namespace Ronin7.EditorTools
             var grabber = hand.AddComponent<Grabber>();
             var grabberSo = new SerializedObject(grabber);
             SetObjectRef(grabberSo, "gripAction", FindRef(refs, map, "Select"));
+            var radiusProp = grabberSo.FindProperty("grabRadius");
+            if (radiusProp != null) radiusProp.floatValue = 0.15f; // a little forgiveness on both hands
             SetObjectRef(grabberSo, "velocity", vel);
             var leftProp = grabberSo.FindProperty("leftHand");
             if (leftProp != null) leftProp.boolValue = isLeft;
