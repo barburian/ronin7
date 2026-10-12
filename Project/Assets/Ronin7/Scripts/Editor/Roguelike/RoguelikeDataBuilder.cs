@@ -24,6 +24,7 @@ namespace Ronin7.EditorTools
         private const string RoguelikeDataFolder = DataFolder + "/Roguelike";
         private const string SpawnTablePath = RoguelikeDataFolder + "/EnemySpawnTable.asset";
         private const string RoomLibraryPath = RoguelikeDataFolder + "/ArenaRoomLibrary.asset";
+        private const string RoguelikeEnemyFolder = RoguelikeDataFolder + "/Enemies";
 
         private struct TrashSpec
         {
@@ -55,9 +56,9 @@ namespace Ronin7.EditorTools
             new TrashSpec { PrefabName = "Dominion_Scan-Drone",       DefinitionName = "Ch13LabSecurity",       Weight = 10, MinDepth = 3, EliteOnly = false },
             new TrashSpec { PrefabName = "Humanoid_Automaton",        DefinitionName = "Ch10MineAutomaton",     Weight = 8,  MinDepth = 5, EliteOnly = false },
             new TrashSpec { PrefabName = "Iron_Dojo_Warden-Cadre",    DefinitionName = "Ch6Caradoc",            Weight = 8,  MinDepth = 5, EliteOnly = false },
-            new TrashSpec { PrefabName = "Spectral_Grave-Guardian",   DefinitionName = "Ch8Buried",             Weight = 6,  MinDepth = 6, EliteOnly = true },
+            new TrashSpec { PrefabName = "Spectral_Grave-Guardian",   DefinitionName = "Roguelike/Enemies/RL_GraveGuardian", Weight = 6,  MinDepth = 6, EliteOnly = true },
             new TrashSpec { PrefabName = "Redaction_Construct",       DefinitionName = "Ch13Redactor",          Weight = 6,  MinDepth = 7, EliteOnly = true },
-            new TrashSpec { PrefabName = "Dream_Ghost_Manifestation", DefinitionName = "Ch11DreamingArchive",   Weight = 6,  MinDepth = 8, EliteOnly = true },
+            new TrashSpec { PrefabName = "Dream_Ghost_Manifestation", DefinitionName = "Roguelike/Enemies/RL_DreamGhost",    Weight = 6,  MinDepth = 8, EliteOnly = true },
         };
 
         // Appendix A's boss table — the 3 sector-capping bosses (spares Kerrax/Samurai-4/Sever_Ninja-2
@@ -73,9 +74,55 @@ namespace Ronin7.EditorTools
         public static void BuildSpawnTableAndRoomLibrary()
         {
             EnsureFolder(RoguelikeDataFolder);
+            BuildRoguelikeDefinitions();
             BuildSpawnTable();
             BuildRoomLibrary();
             AssetDatabase.SaveAssets();
+        }
+
+        /// <summary>
+        /// BUG-08: two elite entries pointed at story definitions that are not fighters — the Dream
+        /// Ghost used Ch11DreamingArchive (1 HP, 0 damage, 0 speed, cooldown 999: an inert free kill)
+        /// and the Grave Guardian used Ch8Buried (45 HP, weaker than depth-0 trash). The chapters still
+        /// use those assets, so the roguelike gets its own RL_ clones instead of editing them.
+        /// Re-running re-derives each clone from its source and re-applies the overrides.
+        /// </summary>
+        private static void BuildRoguelikeDefinitions()
+        {
+            EnsureFolder(RoguelikeEnemyFolder);
+            EnsureClone("Ch11GhostManifestation", "RL_DreamGhost", d =>
+            {
+                d.maxHealth = 90f;
+                d.damage = 12f;
+                d.moveSpeed = 1.4f;
+                d.attackCooldown = 1.0f;
+            });
+            EnsureClone("Ch8Buried", "RL_GraveGuardian", d => d.maxHealth = 120f);
+        }
+
+        private static void EnsureClone(string sourceName, string cloneName, System.Action<EnemyDefinition> tune)
+        {
+            var source = AssetDatabase.LoadAssetAtPath<EnemyDefinition>(DataFolder + "/" + sourceName + ".asset");
+            if (source == null)
+            {
+                Debug.LogError($"[RoguelikeDataBuilder] Source definition '{sourceName}' missing; cannot build {cloneName}.");
+                return;
+            }
+            string path = RoguelikeEnemyFolder + "/" + cloneName + ".asset";
+            var clone = AssetDatabase.LoadAssetAtPath<EnemyDefinition>(path);
+            if (clone == null)
+            {
+                clone = Object.Instantiate(source);
+                tune(clone);
+                AssetDatabase.CreateAsset(clone, path);
+            }
+            else
+            {
+                EditorUtility.CopySerialized(source, clone);
+                tune(clone);
+                EditorUtility.SetDirty(clone);
+            }
+            clone.name = cloneName;
         }
 
         private static void BuildSpawnTable()

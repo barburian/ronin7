@@ -181,5 +181,44 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
                 }
             }
         }
+
+        // ---- BUG-08: every spawnable definition must actually be able to fight ----
+
+        [Test]
+        public void EveryDefinition_IsCombatViable()
+        {
+            var table = LoadTableOrSkip();
+            var definitions = new List<(string name, EnemyDefinition def)>();
+            foreach (var e in table.trash) if (e != null) definitions.Add((e.prefab != null ? e.prefab.name : "?", e.definition));
+            if (table.bosses != null)
+                foreach (var b in table.bosses) if (b != null) definitions.Add((b.prefab != null ? b.prefab.name : "?", b.definition));
+
+            foreach (var (name, def) in definitions)
+            {
+                Assert.IsNotNull(def, $"'{name}' has no definition.");
+                Assert.Greater(def.damage, 0f, $"'{name}' ({def.name}) deals no damage.");
+                Assert.Greater(def.moveSpeed, 0f, $"'{name}' ({def.name}) cannot move.");
+                Assert.GreaterOrEqual(def.maxHealth, 20f, $"'{name}' ({def.name}) is a free kill.");
+                Assert.Less(def.attackCooldown, 5f, $"'{name}' ({def.name}) effectively never attacks.");
+            }
+        }
+
+        [Test]
+        public void EveryEliteOnlyEntry_IsTougherThanDepth0Trash()
+        {
+            var table = LoadTableOrSkip();
+            float toughestDepth0 = 0f;
+            foreach (var e in table.trash)
+                if (e != null && e.definition != null && !e.eliteOnly && e.minDepth == 0)
+                    toughestDepth0 = Mathf.Max(toughestDepth0, e.definition.maxHealth);
+            if (toughestDepth0 <= 0f) Assert.Ignore("No depth-0 trash in the table.");
+
+            foreach (var e in table.trash)
+            {
+                if (e == null || e.definition == null || !e.eliteOnly) continue;
+                Assert.Greater(e.definition.maxHealth, toughestDepth0,
+                    $"Elite-only '{e.prefab.name}' ({e.definition.name}, {e.definition.maxHealth} HP) is no tougher than depth-0 trash ({toughestDepth0} HP).");
+            }
+        }
     }
 }

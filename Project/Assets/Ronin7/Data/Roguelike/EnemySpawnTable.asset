@@ -54,7 +54,7 @@ MonoBehaviour:
     minDepth: 5
     eliteOnly: 0
   - prefab: {fileID: 8550414386024033152, guid: b0d642fdf3cc8ad48ba768d41c95ccb8, type: 3}
-    definition: {fileID: 11400000, guid: e1e607d48a8e7024ca2fe1d8f9bffe1c, type: 2}
+    definition: {fileID: 11400000, guid: 554be3509f634854b8a3ffdf01ba28fb, type: 2}
     weight: 6
     minDepth: 6
     eliteOnly: 1
@@ -64,7 +64,7 @@ MonoBehaviour:
     minDepth: 7
     eliteOnly: 1
   - prefab: {fileID: 1792532119144589718, guid: b4410fd13c954be4da6d51267b67c9ca, type: 3}
-    definition: {fileID: 11400000, guid: ddcf37a74d725e0459a8499a01d1393c, type: 2}
+    definition: {fileID: 11400000, guid: e31f81c8375cec74baf172479e155a74, type: 2}
     weight: 6
     minDepth: 8
     eliteOnly: 1
