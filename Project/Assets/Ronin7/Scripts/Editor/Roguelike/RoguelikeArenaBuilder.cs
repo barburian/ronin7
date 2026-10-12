@@ -93,6 +93,13 @@ namespace Ronin7.EditorTools
             BuildSword(new Vector3(0.3f, 1f, 1.6f), weapon);
             RogueUpscaleSword();
 
+            // ---- Combat feedback (P0-05/BUG-05): hit haptics, the deflect slow-mo and the hit-flash
+            // vignette (the only off-screen hit cue), the low-HP heartbeat and the blade-clash pulse.
+            // Same scene-level placement as Chapter16Builder's CombatFeedbackController. ----
+            new GameObject("Feedback").AddComponent<CombatFeedbackController>();
+            if (rig.GetComponent<HeartbeatHaptics>() == null) rig.AddComponent<HeartbeatHaptics>();
+            if (rig.GetComponent<BladeClashFeedback>() == null) rig.AddComponent<BladeClashFeedback>();
+
             // ---- XR UI plumbing (A7.2): without an EventSystem + XRUIInputModule in this scene, the
             // runtime-built boon-offer panel's TrackedDeviceGraphicRaycaster has nothing to route clicks
             // through and the run soft-locks at the first offer. The helper already exists; it was
@@ -106,6 +113,17 @@ namespace Ronin7.EditorTools
             // clicked — the run stalls at the first reward. Confirmed in-headset ("I cannot select a
             // boon") and by measurement (rayInteractors=0 in this scene). Same helper the boot menu uses.
             WireRightHandRayInteractorMenu();
+
+            // ---- In-run settings (P0-05/BUG-05): the existing settings canvas, opened from the pause
+            // panel's SETTINGS. Its toggle must NOT listen to the Menu button here — in a run that
+            // button pauses (RunPauseController), and the pause panel calls Show()/Hide() instead.
+            // SettingsService itself persists from the boot scene. ----
+            var settingsPanel = SettingsPanelBuilder.BuildCanvas();
+            SettingsPanelBuilder.EnsureMenuToggle(settingsPanel.gameObject);
+            settingsPanel.gameObject.SetActive(false);
+            var settingsToggleSo = new SerializedObject(Object.FindAnyObjectByType<SettingsMenuToggle>());
+            settingsToggleSo.FindProperty("listenForMenuButton").boolValue = false;
+            settingsToggleSo.ApplyModifiedPropertiesWithoutUndo();
 
             // ---- Player spawn point: a plain Transform RunArenaController falls back to for its
             // no-spawn exclusion centre when Camera.main is unavailable. ----

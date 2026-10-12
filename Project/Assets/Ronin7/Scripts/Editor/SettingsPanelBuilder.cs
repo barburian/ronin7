@@ -75,7 +75,7 @@ namespace Ronin7.EditorTools
             game.AddComponent<SettingsService>();
         }
 
-        private static void EnsureMenuToggle(GameObject panel)
+        internal static void EnsureMenuToggle(GameObject panel)
         {
             var toggle = Object.FindAnyObjectByType<SettingsMenuToggle>();
             if (toggle == null)
@@ -99,7 +99,7 @@ namespace Ronin7.EditorTools
             }
         }
 
-        private static SettingsPanel BuildCanvas()
+        internal static SettingsPanel BuildCanvas()
         {
             var canvasGo = new GameObject("Settings Canvas");
             var canvas = canvasGo.AddComponent<Canvas>();

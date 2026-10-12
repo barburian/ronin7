@@ -166,6 +166,9 @@ namespace Ronin7.Audio
         /// <summary>Calm-moment gate: space with no live hostiles, or on foot with no aggroed enemies.</summary>
         private static bool CanSaveNow()
         {
+            // A run is not campaign progress: CampaignState is blank there, so a slot save would
+            // overwrite the player's campaign (the BUG-01 data loss through another door).
+            if (RunState.InRun) return false;
             var mode = GameState.Instance != null ? GameState.Instance.Mode : GameMode.Boot;
             return SaveGate.CanSave(mode, AnyEnemyShipAlive(), CombatActivity.OnFootAggro);
         }

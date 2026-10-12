@@ -31,6 +31,7 @@ namespace Ronin7.Player
         private void Update()
         {
             if (playerHealth == null || playerHealth.Max <= 0f) return;
+            if (Time.timeScale <= 0f) return; // paused: the pulser runs on unscaled time
 
             if (pulser.TryBeat(playerHealth.Current / playerHealth.Max, Time.unscaledTime, out float amplitude))
                 PulseBoth(amplitude, pulseDuration);
