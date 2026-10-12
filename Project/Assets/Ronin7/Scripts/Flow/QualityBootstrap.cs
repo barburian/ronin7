@@ -1,37 +1,39 @@
+using System.Collections;
+using Unity.Collections;
 using UnityEngine;
-#if UNITY_ANDROID && !UNITY_EDITOR
-using Unity.XR.Oculus;
-#endif
+using UnityEngine.XR;
+using UnityEngine.XR.Management;
+using UnityEngine.XR.OpenXR.Features.Meta;
 
 namespace Ronin7.Flow
 {
     /// <summary>
-    /// One-shot Quest performance/quality scaffolding. Drop one on the persistent boot object.
-    /// On Android device builds it asks the Oculus runtime for the desired display refresh rate
-    /// and a fixed-foveation level, and applies a few mobile-VR quality knobs (shadows, MSAA via
-    /// the active URP asset, vSync). Everything device-specific is gated behind
-    /// <c>UNITY_ANDROID &amp;&amp; !UNITY_EDITOR</c> so it cleanly no-ops in the Editor and on PCVR.
+    /// One-shot Quest performance setup. Drop one on the persistent boot object.
     ///
-    /// SCOPE: this is scaffolding only. The actual choice of 72 vs 90 Hz, foveation level, and the
-    /// quality tier should be confirmed by ON-DEVICE PROFILING (the human's job) — the values here
-    /// are conservative, comfortable starting points.
+    /// BUG-07: this used to call the <c>Unity.XR.Oculus</c> Performance/Utils APIs, which are no-ops
+    /// while only the OpenXR loader is active — Quest stayed at its default refresh rate with no
+    /// foveation. It now talks to the active loader's <see cref="XRDisplaySubsystem"/>: the refresh rate
+    /// through the Meta OpenXR display extensions (DisplayUtilities feature), and fixed foveation through
+    /// <see cref="XRDisplaySubsystem.foveatedRenderingLevel"/> (OpenXR Foveated Rendering feature, SRP
+    /// Foveation API). Shadow distance is owned by the URP assets (Mobile_RPAsset: 0, PC_RPAsset: 20),
+    /// not <c>QualitySettings</c>, which URP ignores.
+    ///
+    /// The code compiles on every platform (so the editor catches API breaks) but only acts on Android.
+    /// The 90 Hz choice and the foveation levels are confirmed by on-device profiling (G6).
     /// </summary>
     [DisallowMultipleComponent]
     public class QualityBootstrap : MonoBehaviour
     {
         [Header("Display")]
-        [Tooltip("Target Quest display refresh rate (Hz). Falls back to the highest rate the headset supports at or below this (Quest 1 caps at 72).")]
+        [Tooltip("Target Quest display refresh rate (Hz). Falls back to the highest supported rate at or below this.")]
         [SerializeField] private float targetRefreshRate = 90f;
-
-        [Header("Foveation (0=Off, 1=Low, 2=Med, 3=High, 4=HighTop)")]
-        [Tooltip("Fixed-foveated-rendering level. Higher = more peripheral GPU savings but more visible edge blur. Also enable Foveated Rendering in the Oculus/OpenXR feature settings.")]
-        [SerializeField, Range(0, 4)] private int foveationLevel = 2;
 
         [Header("Mobile quality knobs")]
         [Tooltip("Force vSyncCount = 0 so the XR compositor (not Unity vSync) governs frame pacing — recommended on Quest.")]
         [SerializeField] private bool disableUnityVSync = true;
-        [Tooltip("Cap real-time shadow distance (metres). Lower is cheaper; 0 leaves the quality setting untouched.")]
-        [SerializeField] private float shadowDistance = 25f;
+
+        /// <summary>Frames to wait for the XR display subsystem to start before giving up.</summary>
+        private const int MaxWaitFrames = 300;
 
         /// <summary>Highest supported rate &lt;= target; if none, the lowest supported; if list empty, target.</summary>
         public static float PickRefreshRate(float[] supported, float target)
@@ -46,30 +48,49 @@ namespace Ronin7.Flow
             return best > 0f ? best : lowest;
         }
 
+        /// <summary>Fixed-foveation strength (0..1) per headset: Quest 3/3S/Pro have the GPU headroom
+        /// to blur less of the periphery than Quest 2 needs to. Pure. P0-07 test seam.</summary>
+        internal static float FoveationFor(GraphicsDirector.DeviceTier tier) =>
+            tier == GraphicsDirector.DeviceTier.Quest3 ? 0.75f : 0.5f;
+
         private void Awake()
         {
             // vSync: let the XR runtime pace frames. Safe everywhere, so not gated.
             if (disableUnityVSync) QualitySettings.vSyncCount = 0;
+            if (Application.platform == RuntimePlatform.Android) StartCoroutine(ConfigureQuestDisplay());
+        }
 
-            // Shadow distance is a generic QualitySettings knob — safe in editor too.
-            if (shadowDistance > 0f) QualitySettings.shadowDistance = shadowDistance;
+        private IEnumerator ConfigureQuestDisplay()
+        {
+            XRDisplaySubsystem display = null;
+            for (int i = 0; i < MaxWaitFrames && (display == null || !display.running); i++)
+            {
+                display = XRGeneralSettings.Instance?.Manager?.activeLoader?.GetLoadedSubsystem<XRDisplaySubsystem>();
+                if (display == null || !display.running) yield return null;
+            }
+            if (display == null || !display.running)
+            {
+                Debug.LogWarning("[QualityBootstrap] No running XR display subsystem; refresh rate and foveation left at defaults.");
+                yield break;
+            }
 
-#if UNITY_ANDROID && !UNITY_EDITOR
-            // --- Device-only: Oculus runtime hints. These are no-ops / unavailable off-device. ---
-            float[] available;
-            float rate = Performance.TryGetAvailableDisplayRefreshRates(out available)
-                ? PickRefreshRate(available, targetRefreshRate) : targetRefreshRate;
-            if (!Performance.TrySetDisplayRefreshRate(rate))
-                Debug.LogWarning($"[QualityBootstrap] Could not set {rate}Hz (not supported by this headset/runtime).");
+            float rate = targetRefreshRate;
+            if (display.TryGetSupportedDisplayRefreshRates(Allocator.Temp, out NativeArray<float> supported))
+            {
+                rate = PickRefreshRate(supported.ToArray(), targetRefreshRate);
+                supported.Dispose();
+            }
+            if (!display.TryRequestDisplayRefreshRate(rate))
+                Debug.LogWarning($"[QualityBootstrap] Refresh rate request for {rate} Hz was refused.");
 
-            // Fixed-foveated rendering. Requires Foveated Rendering enabled in the OpenXR/Oculus
-            // feature settings; otherwise this call has no effect.
-            if (!Utils.SetFoveationLevel(foveationLevel))
-                Debug.LogWarning("[QualityBootstrap] SetFoveationLevel failed (foveation not enabled in player settings?).");
-#else
-            // Reference the fields in the editor path so they don't read as unused.
-            _ = targetRefreshRate; _ = foveationLevel;
-#endif
+            var tier = GraphicsDirector.DetectTier(Application.isMobilePlatform, SystemInfo.deviceModel);
+            display.foveatedRenderingFlags = XRDisplaySubsystem.FoveatedRenderingFlags.None;
+            display.foveatedRenderingLevel = FoveationFor(tier);
+
+            // The runtime applies the rate asynchronously; report what actually took effect.
+            yield return null;
+            display.TryGetDisplayRefreshRate(out float actual);
+            Debug.Log($"[QualityBootstrap] {tier}: display {actual} Hz (requested {rate}), foveation {display.foveatedRenderingLevel:0.00}.");
         }
     }
 }
