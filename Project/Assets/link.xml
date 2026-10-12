@@ -1,0 +1,7 @@
+<!-- P0-10: keep the JsonUtility-serialized save types (SaveData, MetaSaveData, RunSnapshot, ...)
+     and the Ronin7 gameplay assemblies intact under managed code stripping on IL2CPP builds. -->
+<linker>
+  <assembly fullname="Ronin7.Core" preserve="all"/>
+  <assembly fullname="Ronin7.Combat" preserve="all"/>
+  <assembly fullname="Ronin7.Flow" preserve="all"/>
+</linker>

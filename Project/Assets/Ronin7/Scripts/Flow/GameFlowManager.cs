@@ -205,6 +205,13 @@ namespace Ronin7.Flow
         private IEnumerator Transition(string scene, GameMode mode, bool quickBoot = false)
         {
             if (transitioning) yield break;
+            // P0-10: the roguelike build ships only the boot menu and RunArena (D-02). Campaign entry
+            // points that would load a scene left out of the build stop here instead of failing.
+            if (!CanLoadScene(Application.CanStreamedLevelBeLoaded(scene)))
+            {
+                Debug.LogWarning($"[Flow] '{scene}' is not in this build; ignoring the request.");
+                yield break;
+            }
             transitioning = true;
             yield return FadeLoadFade(scene, mode, runUnloadAfter: true, quickBoot: quickBoot);
             transitioning = false;
@@ -291,6 +298,11 @@ namespace Ronin7.Flow
         /// the coroutine forever — it is not a reveal: with no camera there is nothing to render or
         /// fade, so the caller logs a diagnostic and proceeds. Pure, so it is unit-testable.
         /// </summary>
+        internal static bool CanLoadScene(bool inBuild) => inBuild;
+
+        /// <summary>True when the campaign hub is in this build (the roguelike build leaves it out).</summary>
+        public bool CampaignAvailable => Application.CanStreamedLevelBeLoaded(shipHubScene);
+
         internal static bool ShouldReveal(bool cameraPresent, int framesWaited, int maxFrames)
             => cameraPresent || framesWaited >= maxFrames;
 

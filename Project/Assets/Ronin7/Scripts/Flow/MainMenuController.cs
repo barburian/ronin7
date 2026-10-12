@@ -24,7 +24,37 @@ namespace Ronin7.Flow
 
         private bool abandonArmed;
 
-        private void OnEnable() => RefreshRunButtons();
+        private void OnEnable()
+        {
+            HideCampaignEntriesIfUnavailable();
+            RefreshRunButtons();
+        }
+
+        /// <summary>
+        /// P0-10/D-02: the roguelike build leaves the campaign scenes out, so START NEW GAME and
+        /// CONTINUE would lead nowhere. Hides every button wired to a campaign entry point — a one-time
+        /// lookup on enable, not per frame.
+        /// </summary>
+        private void HideCampaignEntriesIfUnavailable()
+        {
+            var flow = GameFlowManager.Instance;
+            if (flow == null || flow.CampaignAvailable) return;
+            foreach (var button in GetComponentsInChildren<Button>(true))
+            {
+                for (int i = 0; i < button.onClick.GetPersistentEventCount(); i++)
+                {
+                    if (!IsCampaignEntry(button.onClick.GetPersistentMethodName(i))) continue;
+                    button.gameObject.SetActive(false);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>Menu callbacks that enter the story campaign. Pure. P0-10 test seam.</summary>
+        internal static bool IsCampaignEntry(string methodName) =>
+            methodName == nameof(OnStartNewGameClicked) || methodName == nameof(OnStartCampaignClicked) ||
+            methodName == nameof(OnContinueClicked) || methodName == nameof(OnLoadSlotClicked) ||
+            methodName == nameof(OnGoToSpaceClicked);
 
         private void RefreshRunButtons()
         {
