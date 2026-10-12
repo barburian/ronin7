@@ -205,22 +205,39 @@ namespace Ronin7.Flow
             EndRun(won: false);
         }
 
-        /// <summary>Entrance ABANDON: discard the saved (not-live) run and start a new one. Banks the
-        /// snapshot's unbanked Echoes exactly once, same as <see cref="AbandonRun"/>/permadeath
-        /// (<see cref="EndRun"/>), and only then deletes the snapshot so a crash in between cannot lose
-        /// or double-bank them.</summary>
-        public void AbandonSavedRunAndStart()
+        /// <summary>
+        /// P0-04 SAVE &amp; QUIT (and Return-to-Menu during a run): leave the run without ending it. The
+        /// snapshot written on entering this node is kept, so the menu offers RESUME RUN and resuming
+        /// restarts this node from its entry state (D-09). Kills/HP since node entry are not kept.
+        /// </summary>
+        public void SuspendRun()
+        {
+            if (!RunState.InRun || EndingRun) return;
+            DismissOfferPanel();
+            deferredClear = null;
+            RunState.Reset();
+            StartSceneLoad(runEndScene); // the run-end scene loads as GameMode.Boot: no autosave
+        }
+
+        /// <summary>Entrance ABANDON: discard the saved (not-live) run. Banks the snapshot's unbanked
+        /// Echoes exactly once, same as <see cref="AbandonRun"/>/permadeath (<see cref="EndRun"/>), and
+        /// only then deletes the snapshot so a crash in between cannot lose or double-bank them.
+        /// P0-04/BUG-27: it no longer starts a new run; the player does that from the menu.</summary>
+        public void AbandonSavedRun()
         {
             if (RunState.InRun) return;
+            BankAndDeleteSavedRun();
+        }
+
+        /// <summary>Banks a saved run's Echoes as a loss and deletes the snapshot. No-op without one.</summary>
+        internal static void BankAndDeleteSavedRun()
+        {
             var snapshot = RunSnapshot.Read();
-            if (snapshot != null)
-            {
-                MetaProgression.AddEchoes(snapshot.echoesEarned);
-                MetaProgression.NoteRunEnded(snapshot.nodeIndex, won: false);
-                MetaProgression.Save();
-                RunSnapshot.Delete();
-            }
-            StartRun(GenerateSeed());
+            if (snapshot == null) return;
+            MetaProgression.AddEchoes(snapshot.echoesEarned);
+            MetaProgression.NoteRunEnded(snapshot.nodeIndex, won: false);
+            MetaProgression.Save();
+            RunSnapshot.Delete();
         }
 
         private static uint GenerateSeed() => (uint)UnityEngine.Random.Range(1, int.MaxValue);

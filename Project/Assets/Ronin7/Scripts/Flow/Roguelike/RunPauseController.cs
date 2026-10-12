@@ -137,6 +137,8 @@ namespace Ronin7.Flow
             panel.ResumeRequested += Resume;
             panel.SettingsRequested += OpenSettings;
             panel.RecalibrateRequested += Recalibrate;
+            panel.SaveAndQuitRequested += SaveAndQuit;
+            panel.AbandonConfirmed += Abandon;
         }
 
         private void DestroyPanel()
@@ -145,6 +147,8 @@ namespace Ronin7.Flow
             panel.ResumeRequested -= Resume;
             panel.SettingsRequested -= OpenSettings;
             panel.RecalibrateRequested -= Recalibrate;
+            panel.SaveAndQuitRequested -= SaveAndQuit;
+            panel.AbandonConfirmed -= Abandon;
             Destroy(panel.gameObject);
             panel = null;
         }
@@ -171,5 +175,18 @@ namespace Ronin7.Flow
         }
 
         private static void Recalibrate() => XREyeHeightCalibrator.Calibrate(TargetEyeHeight);
+
+        /// <summary>P0-04: unfreeze first — the menu load must not run at timeScale 0.</summary>
+        private void SaveAndQuit()
+        {
+            Resume();
+            if (RunDirector.Instance != null) RunDirector.Instance.SuspendRun();
+        }
+
+        private void Abandon()
+        {
+            Resume();
+            if (RunDirector.Instance != null) RunDirector.Instance.AbandonRun();
+        }
     }
 }

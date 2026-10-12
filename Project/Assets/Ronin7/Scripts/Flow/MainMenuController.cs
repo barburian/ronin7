@@ -22,8 +22,14 @@ namespace Ronin7.Flow
         [Tooltip("ABANDON button; shown only when a saved run exists.")]
         [SerializeField] private Button abandonButton;
 
-        private void OnEnable()
+        private bool abandonArmed;
+
+        private void OnEnable() => RefreshRunButtons();
+
+        private void RefreshRunButtons()
         {
+            abandonArmed = false;
+            SetAbandonLabel(RunEntryOptions.AbandonLabel);
             bool hasRun = RunEntryOptions.HasSavedRun();
             if (runButton != null)
             {
@@ -88,10 +94,25 @@ namespace Ronin7.Flow
             RunDirector.Instance?.StartRun();
         }
 
-        /// <summary>Menu "ABANDON": discard the saved run (banking its Echoes) and start a new one.</summary>
+        /// <summary>Menu "ABANDON": the first click asks for confirmation, the second discards the
+        /// saved run (banking its Echoes). It does not start a new run (BUG-27).</summary>
         public void OnAbandonRunClicked()
         {
-            RunDirector.Instance?.AbandonSavedRunAndStart();
+            if (!RunEntryOptions.AbandonConfirmed(abandonArmed))
+            {
+                abandonArmed = true;
+                SetAbandonLabel(RunEntryOptions.ConfirmAbandonLabel);
+                return;
+            }
+            RunDirector.Instance?.AbandonSavedRun();
+            RefreshRunButtons();
+        }
+
+        private void SetAbandonLabel(string text)
+        {
+            if (abandonButton == null) return;
+            var label = abandonButton.GetComponentInChildren<Text>(true);
+            if (label != null) label.text = text;
         }
     }
 }

@@ -8,6 +8,12 @@ namespace Ronin7.Flow
     {
         public const string NewRunLabel = "ENTER THE FRACTURE";
         public const string ResumeLabel = "RESUME RUN";
+        public const string AbandonLabel = "ABANDON RUN";
+        public const string ConfirmAbandonLabel = "CONFIRM ABANDON?";
+
+        /// <summary>BUG-27: ABANDON is two-click. A first click only arms it (relabels to
+        /// <see cref="ConfirmAbandonLabel"/>); the second click abandons.</summary>
+        public static bool AbandonConfirmed(bool armed) => armed;
 
         public static bool ShowAbandon(bool hasSnapshot) => hasSnapshot;
         public static string PrimaryLabel(bool hasSnapshot) => hasSnapshot ? ResumeLabel : NewRunLabel;

@@ -28,7 +28,7 @@ namespace Ronin7.Flow
             canvasGo.AddComponent<TrackedDeviceGraphicRaycaster>();
 
             var rt = canvas.GetComponent<RectTransform>();
-            rt.sizeDelta = new Vector2(620f, 640f);
+            rt.sizeDelta = new Vector2(620f, 860f);
             rt.localScale = Vector3.one * 0.001f; // 1 px = 1 mm
 
             var camT = targetCamera.transform;
@@ -44,12 +44,15 @@ namespace Ronin7.Flow
             var font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
             if (font == null) font = Font.CreateDynamicFontFromOSFont("Arial", 16);
 
-            AddLabel(rt, font, "PAUSED", 60, new Vector2(0f, 240f), new Vector2(560f, 90f));
+            AddLabel(rt, font, "PAUSED", 60, new Vector2(0f, 350f), new Vector2(560f, 90f));
 
             var panel = canvasGo.AddComponent<RunPausePanel>();
-            panel.resumeButton = AddButton(rt, font, "RESUME", 120f);
-            panel.settingsButton = AddButton(rt, font, "SETTINGS", 10f);
-            panel.recalibrateButton = AddButton(rt, font, "RECALIBRATE HEIGHT", -100f);
+            panel.resumeButton = AddButton(rt, font, "RESUME", 230f);
+            panel.settingsButton = AddButton(rt, font, "SETTINGS", 120f);
+            panel.recalibrateButton = AddButton(rt, font, "RECALIBRATE HEIGHT", 10f);
+            panel.saveAndQuitButton = AddButton(rt, font, "SAVE & QUIT", -100f);
+            // Destructive, so it sits apart (>= 15 cm below the rest) and needs a 1 s hold.
+            panel.abandonButton = AddHoldButton(rt, font, "HOLD TO ABANDON RUN", -320f);
             // Must follow the assignments above: AddComponent already ran Awake.
             panel.WireButtons();
             return panel;
@@ -69,6 +72,34 @@ namespace Ronin7.Flow
             t.fontStyle = FontStyle.Bold;
             t.alignment = TextAnchor.MiddleCenter;
             t.color = Color.white;
+        }
+
+        private static HoldToConfirmButton AddHoldButton(RectTransform parent, Font font, string label, float y)
+        {
+            var button = AddButton(parent, font, label, y);
+            var img = (Image)button.targetGraphic;
+            img.color = new Color(0.35f, 0.1f, 0.1f, 1f);
+
+            // Fill bar behind the label: grows left to right while held.
+            var fillGo = new GameObject("Fill");
+            fillGo.transform.SetParent(button.transform, false);
+            fillGo.transform.SetSiblingIndex(0);
+            var frt = fillGo.AddComponent<RectTransform>();
+            frt.anchorMin = Vector2.zero;
+            frt.anchorMax = Vector2.one;
+            frt.offsetMin = Vector2.zero;
+            frt.offsetMax = Vector2.zero;
+            var fill = fillGo.AddComponent<Image>();
+            fill.color = new Color(0.85f, 0.2f, 0.2f, 1f);
+            fill.type = Image.Type.Filled;
+            fill.fillMethod = Image.FillMethod.Horizontal;
+            fill.fillAmount = 0f;
+            fill.raycastTarget = false;
+
+            var hold = button.gameObject.AddComponent<HoldToConfirmButton>();
+            hold.fill = fill;
+            hold.holdSeconds = 1f;
+            return hold;
         }
 
         /// <summary>A large button (480 x 90 mm) — pressed at arm's length with a controller ray.</summary>

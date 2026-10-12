@@ -125,5 +125,21 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
                 }
             }
         }
+
+        // ---- BUG-04: OutOfArena — the out-of-bounds kill test ----
+
+        [TestCase(0f, 0f, 0f, false)]
+        [TestCase(12.4f, 0f, 0f, false)]   // inside the 0.5 m margin past a 12 m wall
+        [TestCase(12.6f, 0f, 0f, true)]
+        [TestCase(-12.6f, 0f, 0f, true)]
+        [TestCase(0f, 0f, 12.6f, true)]
+        [TestCase(0f, 0f, -12.6f, true)]
+        [TestCase(0f, -1.9f, 0f, false)]
+        [TestCase(0f, -2.1f, 0f, true)]    // fell through the floor
+        [TestCase(0f, 30f, 0f, false)]     // airborne is not lost
+        public void OutOfArena_Table(float x, float y, float z, bool expected)
+        {
+            Assert.AreEqual(expected, RunArenaController.OutOfArena(new Vector3(x, y, z), 12f));
+        }
     }
 }

@@ -222,6 +222,13 @@ namespace Ronin7.Flow
         /// <summary>Public entry point used by the in-game settings panel's "Return to Main Menu" button.</summary>
         public void ReturnToMainMenu()
         {
+            // P0-04: during a run, "return to menu" suspends it (snapshot kept, RESUME RUN offered)
+            // instead of leaving RunState.InRun set, which would dead-lock ENTER THE FRACTURE.
+            if (RunState.InRun && RunDirector.Instance != null)
+            {
+                RunDirector.Instance.SuspendRun();
+                return;
+            }
             if (transitioning) return;
             StartCoroutine(ReturnToMainMenuRoutine());
         }

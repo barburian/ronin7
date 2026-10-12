@@ -39,7 +39,13 @@ namespace Ronin7.World
         }
 
         private readonly List<QueuedEnemy> queued = new();
+        /// <summary>Activated, not-yet-dead enemies, for the 1 Hz out-of-bounds sweep (BUG-04).</summary>
+        private readonly List<Health> alive = new();
         private int aliveCount;
+
+        /// <summary>Margin (m) past the arena wall, and the floor depth, beyond which an enemy is lost.</summary>
+        private const float OutOfArenaMargin = 0.5f;
+        private const float OutOfArenaFloorY = -2f;
         private int currentNodeIndex;
 
         private void Start()
@@ -94,6 +100,36 @@ namespace Ronin7.World
             }
 
             ActivateFront(ReleaseCount(0, queued.Count, RunScaling.MaxConcurrentEnemies));
+            // Scaled time: a paused run (timeScale 0) suspends the sweep along with everything else.
+            InvokeRepeating(nameof(CheckBounds), 1f, 1f);
+        }
+
+        /// <summary>
+        /// BUG-04: an enemy knocked through a wall or below the floor can never reach the player and
+        /// never dies, so the room never clears — a soft-lock. Kill it through the normal damage path
+        /// so the usual death/drip/clear bookkeeping runs.
+        /// </summary>
+        private void CheckBounds()
+        {
+            // Backwards: a kill removes its entry (OnEnemyDied) and may append newly activated ones.
+            for (int i = alive.Count - 1; i >= 0; i--)
+            {
+                if (i >= alive.Count) continue;
+                Health h = alive[i];
+                if (h == null || !h.IsAlive) continue;
+                Vector3 local = transform.InverseTransformPoint(h.transform.position);
+                if (!OutOfArena(local, arenaHalfExtent)) continue;
+                Debug.LogWarning($"[RunArenaController] '{h.name}' left the arena at {local}; killing it so the room can clear.", this);
+                h.ApplyDamage(new DamageInfo(h.Max + h.Current + 1f, h.transform.position, Vector3.down, null));
+            }
+        }
+
+        /// <summary>True if an arena-local position is past a wall (plus margin) or below the floor.
+        /// Pure. BUG-04 test seam.</summary>
+        internal static bool OutOfArena(Vector3 local, float halfExtent)
+        {
+            float limit = halfExtent + OutOfArenaMargin;
+            return Mathf.Abs(local.x) > limit || Mathf.Abs(local.z) > limit || local.y < OutOfArenaFloorY;
         }
 
         /// <summary>A5.7: the no-spawn exclusion centre should track the live player rig, not a
@@ -216,6 +252,7 @@ namespace Ronin7.World
                 Health health = entry.Health;
                 EnemyDefinition definition = entry.Definition;
                 health.Died += () => OnEnemyDied(health, definition);
+                alive.Add(health);
                 aliveCount++;
             }
         }
@@ -227,6 +264,7 @@ namespace Ronin7.World
         private void OnEnemyDied(Health health, EnemyDefinition definition)
         {
             aliveCount--;
+            alive.Remove(health);
             if (definition != null) Destroy(definition); // A5.7 — no orphaned runtime clone
 
             ActivateFront(ReleaseCount(aliveCount, queued.Count, RunScaling.MaxConcurrentEnemies));

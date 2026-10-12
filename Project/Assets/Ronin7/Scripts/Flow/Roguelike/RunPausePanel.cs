@@ -14,10 +14,14 @@ namespace Ronin7.Flow
         public Button resumeButton;
         public Button settingsButton;
         public Button recalibrateButton;
+        public Button saveAndQuitButton;
+        public HoldToConfirmButton abandonButton;
 
         public event Action ResumeRequested;
         public event Action SettingsRequested;
         public event Action RecalibrateRequested;
+        public event Action SaveAndQuitRequested;
+        public event Action AbandonConfirmed;
 
         /// <summary>Wire the buttons. The factory MUST call this after assigning them (AddComponent runs
         /// Awake synchronously, before the fields are set — the defect that once made the boon panel
@@ -27,7 +31,15 @@ namespace Ronin7.Flow
             Wire(resumeButton, () => ResumeRequested?.Invoke());
             Wire(settingsButton, () => SettingsRequested?.Invoke());
             Wire(recalibrateButton, () => RecalibrateRequested?.Invoke());
+            Wire(saveAndQuitButton, () => SaveAndQuitRequested?.Invoke());
+            if (abandonButton != null)
+            {
+                abandonButton.Confirmed -= OnAbandonConfirmed;
+                abandonButton.Confirmed += OnAbandonConfirmed;
+            }
         }
+
+        private void OnAbandonConfirmed() => AbandonConfirmed?.Invoke();
 
         private static void Wire(Button button, UnityEngine.Events.UnityAction action)
         {

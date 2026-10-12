@@ -141,11 +141,13 @@ namespace Ronin7.EditorTools
 
             // Restack: six buttons at 90px spacing (80px tall) stay clear of the title (y=270) and
             // inside the canvas (height 700 => +/-350). Matching by the label each button carries.
+            // BUG-27: ABANDON RUN sits 27 cm (1 px = 1 mm) below ENTER THE FRACTURE / RESUME RUN —
+            // it used to be 9 cm under it, one slip from discarding the run.
             RogueStack(canvasRt, "ENTER THE FRACTURE", 190f);
-            RogueStack(canvasRt, "ABANDON RUN", 100f);
+            RogueStack(canvasRt, "RECALIBRATE HEIGHT", 100f);
             RogueStack(canvasRt, "START NEW GAME", 10f);
-            RogueStack(canvasRt, "CONTINUE", -80f);
-            RogueStack(canvasRt, "RECALIBRATE HEIGHT", -170f);
+            RogueStack(canvasRt, "ABANDON RUN", -80f);
+            RogueStack(canvasRt, "CONTINUE", -170f);
             RogueStack(canvasRt, "EXIT GAME", -260f);
 
             EditorSceneManager.MarkSceneDirty(scene);
