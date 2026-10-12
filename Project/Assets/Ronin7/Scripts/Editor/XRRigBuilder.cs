@@ -1865,6 +1865,10 @@ namespace Ronin7.EditorTools
             // cockpit rendered → "empty black space"). 6000 covers the sun with margin; reversed-Z
             // depth on Quest keeps 0.01–6000 precise enough to avoid z-fighting.
             cam.farClipPlane = 6000f;
+            // BUG-06: without this component (renderPostProcessing on) URP never draws the post stack.
+            // GraphicsDirector still switches it per headset tier at runtime.
+            var camData = camGo.AddComponent<UnityEngine.Rendering.Universal.UniversalAdditionalCameraData>();
+            camData.renderPostProcessing = true;
             camGo.AddComponent<AudioListener>();
             AddPoseDriver(camGo, inputRefs, "Head");
 

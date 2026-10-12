@@ -46,5 +46,24 @@ namespace Ronin7.Tests.EditMode
             Assert.AreEqual(1f, GraphicsRuntime.ParticleScale, 1e-4f);
             Assert.IsTrue(GraphicsRuntime.BladeLightsEnabled);
         }
+
+        [TestCase(GraphicsDirector.DeviceTier.PCVR, true)]
+        [TestCase(GraphicsDirector.DeviceTier.Quest3, true)]
+        [TestCase(GraphicsDirector.DeviceTier.Quest2, false)]
+        public void PostEnabledFor_Tier(GraphicsDirector.DeviceTier tier, bool expected)
+        {
+            Assert.AreEqual(expected, GraphicsDirector.PostEnabledFor(tier));
+        }
+
+        [TestCase(false, "anything", GraphicsDirector.DeviceTier.PCVR)]
+        [TestCase(true, "Oculus Quest 3", GraphicsDirector.DeviceTier.Quest3)]
+        [TestCase(true, "Meta Quest 3S", GraphicsDirector.DeviceTier.Quest3)]
+        [TestCase(true, "Oculus Quest Pro", GraphicsDirector.DeviceTier.Quest3)]
+        [TestCase(true, "Oculus Quest 2", GraphicsDirector.DeviceTier.Quest2)]
+        [TestCase(true, null, GraphicsDirector.DeviceTier.Quest2)]
+        public void DetectTier_FromDeviceModel(bool isMobile, string model, GraphicsDirector.DeviceTier expected)
+        {
+            Assert.AreEqual(expected, GraphicsDirector.DetectTier(isMobile, model));
+        }
     }
 }
