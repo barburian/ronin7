@@ -20,6 +20,9 @@ MonoBehaviour:
   recoverTime: 0.6
   staggerTime: 1.2
   attackCooldown: 0.84999996
+  poseArmScale: 1
+  poseTwistDegrees: 35
+  poseLeanDegrees: 15
   damage: 24
   healthAddedPerGalaxy: 0
   damageAddedPerGalaxy: 0

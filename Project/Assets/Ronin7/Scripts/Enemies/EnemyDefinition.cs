@@ -29,6 +29,16 @@ namespace Ronin7.Enemies
         [Tooltip("Pause between attacks while repositioning.")]
         public float attackCooldown = 0.8f;
 
+        [Header("Attack pose (P1-15, procedural on the 6-bone rig)")]
+        [Tooltip("Multiplier on the weapon-arm arc away from rest (1 = full overhead chop; small for armless drones).")]
+        public float poseArmScale = 1f;
+        [Tooltip("Torso yaw at full draw-back, degrees (right shoulder pulls back; strike twists through).")]
+        public float poseTwistDegrees = 30f;
+        [Tooltip("Torso backward lean at full draw-back, degrees (strike lunges forward past rest).")]
+        public float poseLeanDegrees = 12f;
+        [Tooltip("Pose the whole rig (Rig_Root) instead of the torso: drones/rigid hulls lunge as one piece.")]
+        public bool poseWholeBody;
+
         [Header("Damage")]
         public float damage = 12f;
 

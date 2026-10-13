@@ -88,6 +88,28 @@ namespace Ronin7.Enemies
         public static float TelegraphFor(float baseTime, float angleDeg)
             => Mathf.Abs(Mathf.DeltaAngle(0f, angleDeg)) > ConeHalfAngle ? baseTime + OffscreenGrace : baseTime;
 
+        // P1-15 attack poses. Full draw-back lands at FullDrawFraction x telegraph, ahead of the parry
+        // window (0.75 x telegraph); the strike covers its arc in the first StrikeFraction of Active.
+        private const float FullDrawFraction = 0.7f;
+        private const float StrikeFraction = 0.35f;
+        private const float StrikeLunge = 0.6f; // torso follow-through past rest, as a fraction of the draw-back
+        private const string TorsoBoneName = "Rig_Body"; // NpcWalkAnimator.BodyBoneName (World is not referenced here)
+
+        /// <summary>Pure (P1-15): eased windup draw-back 0..1, scaled from this attack's telegraph and
+        /// reaching 1 at <see cref="FullDrawFraction"/> x telegraph (before the parry window opens).</summary>
+        public static float WindupPoseProgress(float elapsed, float telegraph)
+        {
+            float t = Mathf.Clamp01(elapsed / (telegraph * FullDrawFraction));
+            return t * t * (3f - 2f * t);
+        }
+
+        /// <summary>Pure (P1-15): ease-out strike 0..1, done after <see cref="StrikeFraction"/> of Active.</summary>
+        public static float StrikePoseProgress(float elapsed, float activeTime)
+        {
+            float t = Mathf.Clamp01(elapsed / (activeTime * StrikeFraction));
+            return 1f - (1f - t) * (1f - t);
+        }
+
         // Blade renderer under weapon, resolved once in Awake (see EnemySwordVisual.FindBladeRenderer).
         // Null for TrainingDummy/art-prefab rigs with no "Blade"-named child — RendererTint.Apply is
         // null-safe so Tint() stays a no-op for the blade in that case.
@@ -108,6 +130,12 @@ namespace Ronin7.Enemies
         protected bool deflectedThisSwing;
         protected Vector3 currentEuler;
         protected Vector3 staggerFromEuler;
+        // P1-15 torso layer: Rig_Body, the parent of the Rig_ArmR weapon bone on art rigs (Rig_Root when
+        // PoseWholeBody; null on greybox rigs).
+        // bodyDraw is 1 at full draw-back, 0 at guard, negative on the strike follow-through.
+        private Transform torso;
+        private Quaternion torsoRest;
+        private float bodyDraw, staggerFromDraw;
         private bool aggroCounted;
 
         // Stagger duration in use: StaggerTime for a deflect/posture break, flinchTime for a flinch.
@@ -196,6 +224,14 @@ namespace Ronin7.Enemies
         /// TrainingDummy overrides to 5 for a slower, less twitchy track.</summary>
         protected virtual float FaceTurnRate => 8f;
 
+        /// <summary>P1-15 per-type pose data (Enemy reads EnemyDefinition). Arm scale multiplies the weapon
+        /// arc away from rest; twist/lean are the torso yaw / backward lean at full draw-back.</summary>
+        protected virtual float PoseArmScale => 1f;
+        protected virtual float PoseTwistDegrees => 0f;
+        protected virtual float PoseLeanDegrees => 0f;
+        /// <summary>True: pose the whole rig (Rig_Root) instead of the torso, so a rigid drone hull lunges without creasing.</summary>
+        protected virtual bool PoseWholeBody => false;
+
         /// <summary>Whether this enemy flinches on damage. Off by default (TrainingDummy stays put);
         /// <see cref="Enemy"/> turns it on.</summary>
         protected virtual bool FlinchEnabled => false;
@@ -227,6 +263,11 @@ namespace Ronin7.Enemies
             bodyHasRim = bodyMat != null && bodyMat.HasProperty("_RimColor") && bodyMat.HasProperty("_FlashAmount");
             currentEuler = restEuler;
             if (weapon != null) weapon.localRotation = Quaternion.Euler(restEuler);
+            if (weapon != null && weapon.parent != null && weapon.parent.name == TorsoBoneName)
+            {
+                torso = PoseWholeBody && weapon.parent.parent != null ? weapon.parent.parent : weapon.parent;
+                torsoRest = torso.localRotation;
+            }
             EnemySwordVisual.EnsureVisible(weapon, transform); // placeholder katana so the chop has something to swing
             bladeRenderer = EnemySwordVisual.FindBladeRenderer(weapon);
             telegraph = TelegraphTime;
@@ -279,7 +320,9 @@ namespace Ronin7.Enemies
                     break;
 
                 case State.Windup:
-                    PoseWeapon(restEuler, windupEuler, timer / telegraph);
+                    float draw = WindupPoseProgress(timer, telegraph);
+                    PoseWeapon(restEuler, windupEuler, draw);
+                    PoseBody(0f, 1f, draw);
                     Tint(Color.Lerp(IdleColor, TelegraphColor, timer / telegraph),
                          Color.Lerp(RestRim, TelegraphRim, timer / telegraph));
                     if (timer >= telegraph)
@@ -290,7 +333,9 @@ namespace Ronin7.Enemies
                     break;
 
                 case State.Active:
-                    PoseWeapon(windupEuler, strikeEuler, timer / ActiveTime);
+                    float strike = StrikePoseProgress(timer, ActiveTime);
+                    PoseWeapon(windupEuler, strikeEuler, strike);
+                    PoseBody(1f, -StrikeLunge, strike);
                     if (timer >= ActiveTime)
                     {
                         if (!deflectedThisSwing && IsInLandHitRange()) LandHit();
@@ -301,6 +346,7 @@ namespace Ronin7.Enemies
 
                 case State.Recover:
                     PoseWeapon(strikeEuler, restEuler, timer / RecoverTime);
+                    PoseBody(-StrikeLunge, 0f, timer / RecoverTime);
                     Tint(Color.Lerp(TelegraphColor, IdleColor, timer / RecoverTime),
                          Color.Lerp(TelegraphRim, RestRim, timer / RecoverTime));
                     if (timer >= RecoverTime) Enter(StateAfterRecover);
@@ -312,6 +358,7 @@ namespace Ronin7.Enemies
                     else
                         PoseWeapon(recoilEuler, restEuler,
                             (timer - staggerLen * 0.35f) / (staggerLen * 0.65f));
+                    PoseBody(staggerFromDraw, 0f, timer / (staggerLen * 0.35f)); // cancel: torso back to guard
                     Tint(Color.Lerp(StaggerColor, IdleColor, timer / staggerLen),
                          Color.Lerp(StaggerRim, RestRim, timer / staggerLen));
                     if (flinching) PoseFlinch(timer / staggerLen);
@@ -409,6 +456,7 @@ namespace Ronin7.Enemies
             EndFlinchPose();
             staggerLen = StaggerTime;
             staggerFromEuler = currentEuler;
+            staggerFromDraw = bodyDraw;
             Tint(StaggerColor, StaggerRim);
             Log("DEFLECTED");
             EventBus.Publish(new SwordDeflected(point, gameObject));
@@ -454,6 +502,7 @@ namespace Ronin7.Enemies
 
             staggerLen = Mathf.Max(0.01f, flinchTime);
             staggerFromEuler = currentEuler;
+            staggerFromDraw = bodyDraw;
             Tint(StaggerColor, StaggerRim);
             Enter(State.Stagger);
         }
@@ -509,7 +558,15 @@ namespace Ronin7.Enemies
             // Interpolate the angle directly so the blade always travels the intended arc
             // (overhead → forward → down) instead of Slerp's shortest path over the back.
             currentEuler = Vector3.Lerp(fromEuler, toEuler, Mathf.Clamp01(t));
-            if (weapon != null) weapon.localRotation = Quaternion.Euler(currentEuler);
+            if (weapon != null) weapon.localRotation = Quaternion.Euler(restEuler + (currentEuler - restEuler) * PoseArmScale);
+        }
+
+        /// <summary>P1-15 torso (or whole-rig) layer: twist (right shoulder back) + backward lean, scaled by bodyDraw.</summary>
+        protected void PoseBody(float fromDraw, float toDraw, float t)
+        {
+            bodyDraw = Mathf.Lerp(fromDraw, toDraw, Mathf.Clamp01(t));
+            if (torso != null)
+                torso.localRotation = torsoRest * Quaternion.Euler(-PoseLeanDegrees * bodyDraw, PoseTwistDegrees * bodyDraw, 0f);
         }
 
         protected void FacePlayer()

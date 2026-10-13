@@ -37,6 +37,11 @@ namespace Ronin7.Enemies
         protected override bool FlinchEnabled => true;
         protected override bool FlinchCancelsWindup => !definition.superArmor && base.FlinchCancelsWindup;
 
+        protected override float PoseArmScale => definition.poseArmScale;
+        protected override float PoseTwistDegrees => definition.poseTwistDegrees;
+        protected override float PoseLeanDegrees => definition.poseLeanDegrees;
+        protected override bool PoseWholeBody => definition.poseWholeBody;
+
         protected override State StateAfterRecover => State.Chase;
         protected override State StateAfterStagger => State.Chase;
 
@@ -146,6 +151,7 @@ namespace Ronin7.Enemies
             groundY = position.y;
             currentEuler = restEuler;
             if (weapon != null) weapon.localRotation = Quaternion.Euler(restEuler);
+            PoseBody(0f, 0f, 0f);
             Tint(IdleColor);
             deflectedThisSwing = false;
             nextAttackTime = 0f;
