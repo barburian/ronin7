@@ -88,6 +88,9 @@ namespace Ronin7.Tests.PlayMode
         {
             var library = ScriptableObject.CreateInstance<ArenaRoomLibrary>();
             library.biomes = new ArenaRoomLibrary.Biome[0]; // ForSector -> null -> greybox, no props, no rng draws
+            var surface = new Material(Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Sprites/Default")); // ArenaGeometryBuilder logs an error without one
+            library.surfaceMaterial = surface;
+            _created.Add(surface);
             _created.Add(library);
             return library;
         }
