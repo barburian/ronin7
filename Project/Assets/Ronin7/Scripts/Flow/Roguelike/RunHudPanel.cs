@@ -1,4 +1,6 @@
+using Ronin7.Combat;
 using Ronin7.Core;
+using Ronin7.Player;
 using UnityEngine;
 
 namespace Ronin7.Flow
@@ -21,7 +23,10 @@ namespace Ronin7.Flow
             EventBus.Subscribe<RoomCleared>(OnRoomCleared);
             EventBus.Subscribe<BoonChosen>(OnBoonChosen);
             EventBus.Subscribe<RunEnded>(OnRunEnded);
+            EventBus.Subscribe<RoomProgress>(OnRoomProgress);
+            EventBus.Subscribe<RunNodeEntered>(OnRunNodeEntered);
             Refresh();
+            InvokeRepeating(nameof(Refresh), 0.25f, 0.25f); // HP (damage and heals); only rebuilds text on change
         }
 
         private void OnDisable()
@@ -30,11 +35,16 @@ namespace Ronin7.Flow
             EventBus.Unsubscribe<RoomCleared>(OnRoomCleared);
             EventBus.Unsubscribe<BoonChosen>(OnBoonChosen);
             EventBus.Unsubscribe<RunEnded>(OnRunEnded);
+            EventBus.Unsubscribe<RoomProgress>(OnRoomProgress);
+            EventBus.Unsubscribe<RunNodeEntered>(OnRunNodeEntered);
+            CancelInvoke(nameof(Refresh));
         }
 
-        private void OnRunStarted(RunStarted _) => Refresh();
+        private void OnRunStarted(RunStarted _) { ended = false; Refresh(); }
         private void OnRoomCleared(RoomCleared _) => Refresh();
         private void OnBoonChosen(BoonChosen _) => Refresh();
+        private void OnRunNodeEntered(RunNodeEntered _) => Refresh();
+        private void OnRoomProgress(RoomProgress p) { foes = p.Remaining; Refresh(); }
 
         // A7.9: RunEnded is published before RunState.End() runs (RunState.InRun is only flipped once
         // the hub scene load completes — see RunDirector.SceneLoadRoutine), so a Refresh() here would
@@ -43,14 +53,25 @@ namespace Ronin7.Flow
         private void OnRunEnded(RunEnded _)
         {
             if (target != null) target.text = string.Empty;
+            shown = false;
+            ended = true; // InRun stays true until the hub load; the 0.25 s poll must not resurrect the stats
         }
+
+        private int foes;
+        private bool shown, ended;
+        private (int hp, int hpMax, int node, int sector, int foes, int boons, int echoes) lastKey;
 
         private void Refresh()
         {
-            if (target == null) return;
-            target.text = RunState.InRun
-                ? Format(RunState.NodeIndex, RunState.CurrentNode.Sector, RunState.Boons.Count, RunState.EchoesEarned)
-                : string.Empty;
+            if (target == null || ended) return;
+            if (!RunState.InRun) { if (target.text.Length != 0) target.text = string.Empty; shown = false; return; }
+            var health = VRRig.Instance != null ? VRRig.Instance.GetComponent<Health>() : null;
+            var key = (health != null ? Mathf.CeilToInt(health.Current) : 0, health != null ? Mathf.CeilToInt(health.Max) : 0,
+                RunState.NodeIndex, RunState.CurrentNode.Sector, foes, RunState.Boons.Count, RunState.EchoesEarned);
+            if (shown && key == lastKey) return; // no per-frame/poll string allocation when nothing changed
+            lastKey = key;
+            shown = true;
+            target.text = Format(key.Item1, key.Item2, key.Item3, key.Item4, key.Item5, key.Item6, key.Item7);
 #if RONIN7_DEV
             baseText = target.text;
 #endif
@@ -72,10 +93,12 @@ namespace Ronin7.Flow
         }
 #endif
 
-        /// <summary>Pure formatter — "NODE x/15 / SECTOR s / BOONS n / ECHOES e" (1-indexed for
-        /// display; <paramref name="nodeIndex"/>/<paramref name="sector"/> are the 0-indexed values
-        /// RunState/RunNode use internally).</summary>
-        public static string Format(int nodeIndex, int sector, int boonCount, int echoesEarned) =>
-            $"NODE {nodeIndex + 1}/{RunMapGenerator.TotalNodes} / SECTOR {sector + 1} / BOONS {boonCount} / ECHOES {echoesEarned}";
+        /// <summary>Glyph before the echo count; verified present in the LegacyRuntime font atlas.</summary>
+        public const string EchoGlyph = "◈";
+
+        /// <summary>Pure formatter — four lines, each at most 18 chars (1-indexed for display;
+        /// <paramref name="nodeIndex"/>/<paramref name="sector"/> are the 0-indexed RunState values).</summary>
+        public static string Format(int hp, int hpMax, int nodeIndex, int sector, int foes, int boonCount, int echoes) =>
+            $"HP {hp}/{hpMax}\nNODE {nodeIndex + 1}/{RunMapGenerator.TotalNodes} · S{sector + 1}\nFOES {foes} LEFT\nBOONS {boonCount} · {EchoGlyph} {echoes}";
     }
 }

@@ -131,17 +131,14 @@ namespace Ronin7.Flow
             DismissRunSummary();
         }
 
-        /// <summary>A7.2: re-anchors the live offer panel to the head every frame (position only — see
-        /// BoonOfferPanel.Reposition) and runs the offer's fallback timer.</summary>
+        /// <summary>Runs the offer's fallback timer (the panel lazy-follows the head itself — P1-13)
+        /// and feeds the panel's last-10-seconds countdown.</summary>
         private void Update()
         {
             if (offerPanel == null) return;
 
-            if (Camera.main != null)
-            {
-                var camT = Camera.main.transform;
-                offerPanel.Reposition(camT.position + camT.forward * 1.3f);
-            }
+            if (offerFallbackDeadline >= 0f)
+                offerPanel.SetCountdown(RemainingOfferSeconds(offerFallbackDeadline, Time.unscaledTime));
 
             if (offerFallbackDeadline >= 0f && Time.unscaledTime >= offerFallbackDeadline)
             {
@@ -467,6 +464,7 @@ namespace Ronin7.Flow
                 AdvanceNode();
                 return;
             }
+            offerPanel.SetRerollTokens(RunState.RerollTokens);
             offerPanel.ChoiceSelected += OnBoonChoiceSelected;
             offerPanel.RerollRequested += OnRerollRequested;
             offerFallbackDeadline = Time.unscaledTime + BoonOfferFallbackSeconds;
@@ -547,7 +545,7 @@ namespace Ronin7.Flow
             }
             if (offerPanel == null) return;
             offerPanel.SetChoices(offerChoices);
-            offerPanel.SetRerollInteractable(RunState.RerollTokens > 0);
+            offerPanel.SetRerollTokens(RunState.RerollTokens);
         }
 
         /// <summary>

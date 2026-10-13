@@ -100,6 +100,7 @@ namespace Ronin7.World
             }
 
             ActivateFront(ReleaseCount(0, queued.Count, RunScaling.MaxConcurrentEnemies));
+            EventBus.Publish(new RoomProgress(aliveCount + queued.Count));
             // Scaled time: a paused run (timeScale 0) suspends the sweep along with everything else.
             InvokeRepeating(nameof(CheckBounds), 1f, 1f);
         }
@@ -285,6 +286,7 @@ namespace Ronin7.World
 
             ActivateFront(ReleaseCount(aliveCount, queued.Count, RunScaling.MaxConcurrentEnemies));
 
+            EventBus.Publish(new RoomProgress(aliveCount + queued.Count));
             if (aliveCount == 0 && queued.Count == 0) MarkCleared();
         }
 

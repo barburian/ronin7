@@ -16,6 +16,18 @@ namespace Ronin7.Flow
 
         public event Action Dismissed;
 
+        // Beside the menu (~30 deg left, 1.5 m ahead / 0.85 m left as before), lazily following (P1-13, BUG-16).
+        private const float Distance = 1.73f, YawOffset = -29.5f;
+        private readonly LazyFollow follow = new LazyFollow(Distance, YawOffset);
+
+        internal static void Place(Transform panel, Transform head) => new LazyFollow(Distance, YawOffset).Snap(panel, head);
+
+        private void Update()
+        {
+            var cam = Camera.main;
+            if (cam != null) follow.Tick(transform, cam.transform, Time.unscaledDeltaTime);
+        }
+
         /// <summary>
         /// Wire the dismiss button. The builder MUST call this after assigning <see cref="dismissButton"/>.
         /// It cannot live in <c>Awake</c>: <c>AddComponent</c> on an active GameObject runs <c>Awake</c>

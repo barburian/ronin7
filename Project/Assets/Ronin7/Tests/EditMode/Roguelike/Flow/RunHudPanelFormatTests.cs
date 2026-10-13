@@ -3,26 +3,25 @@ using Ronin7.Flow;
 
 namespace Ronin7.Tests.EditMode
 {
-    /// <summary>Coverage for <see cref="RunHudPanel.Format"/>, mirroring CampaignStatsDisplayFormatTests'
-    /// pure-formatter style — no scene/MonoBehaviour needed.</summary>
+    /// <summary>Coverage for <see cref="RunHudPanel.Format"/> (P1-13: four short lines, ≤18 chars each,
+    /// so the wrist HUD stays readable at arm reach).</summary>
     public class RunHudPanelFormatTests
     {
         [Test]
-        public void Format_FirstNodeFirstSectorNoBoonsNoEchoes()
+        public void Format_MatchesSpecLayout()
         {
-            Assert.AreEqual("NODE 1/15 / SECTOR 1 / BOONS 0 / ECHOES 0", RunHudPanel.Format(0, 0, 0, 0));
+            Assert.AreEqual("HP 72/110\nNODE 6/15 · S2\nFOES 3 LEFT\nBOONS 4 · " + RunHudPanel.EchoGlyph + " 85",
+                RunHudPanel.Format(72, 110, 5, 1, 3, 4, 85));
         }
 
         [Test]
-        public void Format_MidRun_MatchesExpectedLayout()
+        public void FourLines_MaxWidth18()
         {
-            Assert.AreEqual("NODE 8/15 / SECTOR 2 / BOONS 3 / ECHOES 240", RunHudPanel.Format(7, 1, 3, 240));
-        }
-
-        [Test]
-        public void Format_FinalNode()
-        {
-            Assert.AreEqual("NODE 15/15 / SECTOR 3 / BOONS 5 / ECHOES 900", RunHudPanel.Format(14, 2, 5, 900));
+            // Worst case per field: HP 999/999, NODE 15/15 · S3, FOES 99 LEFT, BOONS 99 · ◈ 9999.
+            string s = RunHudPanel.Format(999, 999, 14, 2, 99, 99, 9999);
+            var lines = s.Split('\n');
+            Assert.AreEqual(4, lines.Length);
+            foreach (var l in lines) Assert.LessOrEqual(l.Length, 18, l);
         }
     }
 }

@@ -40,4 +40,12 @@ namespace Ronin7.Core
         public readonly RoomKind Kind;
         public RunNodeEntered(int sector, RoomKind kind) { Sector = sector; Kind = kind; }
     }
+
+    /// <summary>P1-13: published by the arena on room activate and after each enemy death — enemies
+    /// still to beat (alive + queued). Feeds the HUD's FOES line.</summary>
+    public readonly struct RoomProgress
+    {
+        public readonly int Remaining;
+        public RoomProgress(int remaining) { Remaining = remaining; }
+    }
 }

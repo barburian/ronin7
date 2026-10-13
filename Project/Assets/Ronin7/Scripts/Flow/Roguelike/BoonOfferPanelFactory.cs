@@ -40,9 +40,7 @@ namespace Ronin7.Flow
             var rt = canvas.GetComponent<RectTransform>();
             rt.sizeDelta = new Vector2(1000f, 520f);
             rt.localScale = Vector3.one * 0.001f;
-            var camT = targetCamera.transform;
-            rt.position = camT.position + camT.forward * 1.3f;
-            rt.rotation = Quaternion.LookRotation(rt.position - camT.position, Vector3.up);
+            BoonOfferPanel.Place(rt, targetCamera.transform);
 
             var bg = canvasGo.AddComponent<Image>();
             bg.color = new Color(0f, 0f, 0f, 0.75f);
@@ -55,8 +53,9 @@ namespace Ronin7.Flow
             var choiceButtons = new Button[ChoiceCount];
             var choiceLabels = new Text[ChoiceCount];
             var descriptionLabels = new Text[ChoiceCount];
+            var ownedLabels = new Text[ChoiceCount];
             for (int i = 0; i < ChoiceCount; i++)
-                choiceButtons[i] = BuildChoiceButton(rt, font, (i - 1) * 320f, out choiceLabels[i], out descriptionLabels[i]);
+                choiceButtons[i] = BuildChoiceButton(rt, font, (i - 1) * 320f, out choiceLabels[i], out descriptionLabels[i], out ownedLabels[i]);
 
             var rerollButton = BuildRerollButton(rt, font);
 
@@ -65,6 +64,8 @@ namespace Ronin7.Flow
             panel.choiceLabels = choiceLabels;
             panel.descriptionLabels = descriptionLabels;
             panel.rerollButton = rerollButton;
+            panel.ownedLabels = ownedLabels;
+            panel.countdownLabel = BuildCountdownLabel(rt, font);
             // Must follow the field assignments above: AddComponent already ran Awake, so the button
             // listeners can only be attached now (see BoonOfferPanel.WireButtons).
             panel.WireButtons();
@@ -89,7 +90,7 @@ namespace Ronin7.Flow
             titleText.color = Color.white;
         }
 
-        private static Button BuildChoiceButton(RectTransform parent, Font font, float x, out Text titleLabel, out Text descriptionLabel)
+        private static Button BuildChoiceButton(RectTransform parent, Font font, float x, out Text titleLabel, out Text descriptionLabel, out Text ownedLabel)
         {
             var btnGo = new GameObject("Choice");
             btnGo.transform.SetParent(parent, false);
@@ -128,17 +129,49 @@ namespace Ronin7.Flow
             var descRt = descGo.AddComponent<RectTransform>();
             descRt.anchorMin = Vector2.zero;
             descRt.anchorMax = Vector2.one;
-            descRt.offsetMin = new Vector2(16f, 16f);
+            descRt.offsetMin = new Vector2(16f, 52f);
             descRt.offsetMax = new Vector2(-16f, -110f);
             descriptionLabel = descGo.AddComponent<Text>();
             descriptionLabel.font = font;
-            descriptionLabel.fontSize = 16;
+            descriptionLabel.fontSize = 22; // P1-13: >= 22 px readable at arm reach (1 canvas px = 1 mm)
             descriptionLabel.alignment = TextAnchor.UpperCenter;
             descriptionLabel.horizontalOverflow = HorizontalWrapMode.Wrap;
             descriptionLabel.verticalOverflow = VerticalWrapMode.Truncate;
             descriptionLabel.color = new Color(0.85f, 0.85f, 0.85f, 1f);
 
+            // OWNED n/max: pinned to the bottom of the button, its own rect so it never fights the description.
+            var ownedGo = new GameObject("Owned");
+            ownedGo.transform.SetParent(btnRt, false);
+            var ownedRt = ownedGo.AddComponent<RectTransform>();
+            ownedRt.anchorMin = Vector2.zero;
+            ownedRt.anchorMax = new Vector2(1f, 0f);
+            ownedRt.pivot = new Vector2(0.5f, 0f);
+            ownedRt.sizeDelta = new Vector2(-32f, 34f);
+            ownedRt.anchoredPosition = new Vector2(0f, 12f);
+            ownedLabel = ownedGo.AddComponent<Text>();
+            ownedLabel.font = font;
+            ownedLabel.fontSize = 22;
+            ownedLabel.fontStyle = FontStyle.Bold;
+            ownedLabel.alignment = TextAnchor.MiddleCenter;
+            ownedLabel.color = new Color(1f, 0.85f, 0.4f, 1f);
+
             return button;
+        }
+
+        private static Text BuildCountdownLabel(RectTransform parent, Font font)
+        {
+            var go = new GameObject("Countdown");
+            go.transform.SetParent(parent, false);
+            var rt = go.AddComponent<RectTransform>();
+            rt.sizeDelta = new Vector2(300f, 50f);
+            rt.anchoredPosition = new Vector2(350f, -220f); // right of the reroll button, inside the 1000 px panel
+            var t = go.AddComponent<Text>();
+            t.font = font;
+            t.fontSize = 26;
+            t.fontStyle = FontStyle.Bold;
+            t.alignment = TextAnchor.MiddleCenter;
+            t.color = new Color(1f, 0.6f, 0.3f, 1f);
+            return t;
         }
 
         private static Button BuildRerollButton(RectTransform parent, Font font)

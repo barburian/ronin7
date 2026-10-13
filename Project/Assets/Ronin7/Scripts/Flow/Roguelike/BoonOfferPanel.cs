@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Ronin7.Combat;
+using Ronin7.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,6 +27,10 @@ namespace Ronin7.Flow
         /// target, so it read as a label for the wrong boon. Optional: null entries are skipped.</summary>
         public Text[] descriptionLabels;
         public Button rerollButton;
+        /// <summary>P1-13: per-choice "OWNED n/max" line. Optional.</summary>
+        public Text[] ownedLabels;
+        /// <summary>P1-13: "AUTO-PICK IN n" for the last 10 s of the fallback timer. Optional.</summary>
+        public Text countdownLabel;
 
         /// <summary>Fired with the chosen choice's index (0..choiceButtons.Length-1).</summary>
         public event Action<int> ChoiceSelected;
@@ -75,7 +80,12 @@ namespace Ronin7.Flow
                 if (choiceButtons[i] != null) choiceButtons[i].gameObject.SetActive(has);
                 if (!has) continue;
                 if (choiceLabels != null && i < choiceLabels.Length && choiceLabels[i] != null)
+                {
                     choiceLabels[i].text = FormatChoiceTitle(choices[i]);
+                    choiceLabels[i].color = RarityColor(choices[i].rarity);
+                }
+                if (ownedLabels != null && i < ownedLabels.Length && ownedLabels[i] != null)
+                    ownedLabels[i].text = FormatOwned(RunState.BoonCount(choices[i].id), choices[i].maxStacks);
                 if (descriptionLabels != null && i < descriptionLabels.Length && descriptionLabels[i] != null)
                     descriptionLabels[i].text = FormatChoiceDescription(choices[i]);
             }
@@ -86,20 +96,59 @@ namespace Ronin7.Flow
             if (rerollButton != null) rerollButton.interactable = interactable;
         }
 
-        /// <summary>Re-anchors the panel to <paramref name="worldPosition"/> only — never touches
-        /// rotation. A7.2: called every frame while the panel is up so it follows the player without
-        /// ever rotating the world around them (VR comfort — CLAUDE.md forbids camera shake, and
-        /// continuously re-facing the panel is the same class of discomfort) and without any shake.
-        /// </summary>
-        public void Reposition(Vector3 worldPosition)
+        /// <summary>REROLL (n) with n = remaining reroll tokens; disabled at 0.</summary>
+        public void SetRerollTokens(int tokens)
         {
-            ((RectTransform)transform).position = worldPosition;
+            SetRerollInteractable(tokens > 0);
+            var label = rerollButton != null ? rerollButton.GetComponentInChildren<Text>(true) : null;
+            if (label != null) label.text = "REROLL (" + tokens + ")";
+        }
+
+        private int shownCountdown = -1;
+
+        /// <summary>Shows "AUTO-PICK IN n" only in the last <see cref="CountdownSeconds"/> s; the string
+        /// is rebuilt only when the whole-second value changes (no per-frame allocation).</summary>
+        public void SetCountdown(float secondsLeft)
+        {
+            if (countdownLabel == null) return;
+            int whole = secondsLeft > 0f && secondsLeft <= CountdownSeconds ? Mathf.CeilToInt(secondsLeft) : 0;
+            if (whole == shownCountdown) return;
+            shownCountdown = whole;
+            countdownLabel.text = whole > 0 ? "AUTO-PICK IN " + whole : string.Empty;
+        }
+
+        public const float CountdownSeconds = 10f;
+
+        private readonly LazyFollow follow = new LazyFollow(FollowDistance);
+        public const float FollowDistance = 1.3f;
+
+        /// <summary>Rest pose in front of <paramref name="head"/> (factory build).</summary>
+        internal static void Place(Transform panel, Transform head) => new LazyFollow(FollowDistance).Snap(panel, head);
+
+        /// <summary>P1-13 (BUG-16): lazy follow — see <see cref="LazyFollow"/>.</summary>
+        internal void Follow(Transform head, float dt) => follow.Tick(transform, head, dt);
+
+        private void Update()
+        {
+            var cam = Camera.main;
+            if (cam != null) Follow(cam.transform, Time.unscaledDeltaTime);
         }
 
         /// <summary>Pure title formatter — name + rarity, the choiceLabels line. Internal so it is
         /// unit-testable without building the panel.</summary>
         internal static string FormatChoiceTitle(BoonDefinition def) =>
-            def == null ? string.Empty : $"{def.displayName}\n<{def.rarity}>";
+            def == null ? string.Empty : TierWord(def.rarity) + " · " + def.displayName;
+
+        /// <summary>Tier word shown with the colour so rarity never rides on colour alone.</summary>
+        internal static string TierWord(BoonRarity r) => r == BoonRarity.Epic ? "EPIC" : r == BoonRarity.Rare ? "RARE" : "COMMON";
+
+        /// <summary>Common grey #B8C0CC, Rare blue #3FA9FF, Epic violet #B66BFF.</summary>
+        internal static Color RarityColor(BoonRarity r) =>
+            r == BoonRarity.Epic ? new Color32(0xB6, 0x6B, 0xFF, 255)
+            : r == BoonRarity.Rare ? new Color32(0x3F, 0xA9, 0xFF, 255)
+            : new Color32(0xB8, 0xC0, 0xCC, 255);
+
+        internal static string FormatOwned(int owned, int max) => "OWNED " + owned + "/" + max;
 
         /// <summary>Pure description formatter, the descriptionLabels line. Internal so it is
         /// unit-testable without building the panel; the overflow fix itself (A7.9) is the description

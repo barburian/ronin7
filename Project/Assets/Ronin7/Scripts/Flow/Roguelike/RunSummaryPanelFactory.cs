@@ -34,9 +34,7 @@ namespace Ronin7.Flow
             rt.localScale = Vector3.one * 0.001f;
 
             // Left of the menu at comfortable reading distance, at eye height. 1 unit = 1 m.
-            var camT = targetCamera.transform;
-            rt.position = camT.position + camT.forward * 1.5f - camT.right * 0.85f;
-            rt.rotation = Quaternion.LookRotation(rt.position - camT.position, Vector3.up);
+            RunSummaryPanel.Place(rt, targetCamera.transform);
 
             var bg = canvasGo.AddComponent<Image>();
             bg.color = new Color(0f, 0f, 0f, 0.85f);
