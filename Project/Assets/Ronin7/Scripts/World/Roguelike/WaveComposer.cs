@@ -104,6 +104,9 @@ namespace Ronin7.World
                 return result;
             }
 
+            if (node.Kind == RoomKind.Elite)
+                return ComposeElite(table, node, arenaHalfExtent, playerSpawn, ref rng);
+
             int count = RunScaling.EnemyCount(node.Index, node.Kind, ref rng);
             if (count <= 0) return result;
 
@@ -123,6 +126,51 @@ namespace Ronin7.World
             }
 
             return result;
+        }
+
+        /// <summary>P1-09 (BUG-09): one elite first (an eliteOnly pick when eligible, else the strongest
+        /// eligible trash by maxHealth), then escorts drawn from non-eliteOnly trash — 2 in sectors 0-1,
+        /// 3 in sector 2. Falls back to all eligible entries if no plain trash is eligible.</summary>
+        private static List<SpawnRequest> ComposeElite(
+            EnemySpawnTable table, RunNode node, float arenaHalfExtent, Vector3 playerSpawn, ref RunRng rng)
+        {
+            var result = new List<SpawnRequest>();
+            List<int> eligible = EligibleTrashIndices(table.trash, node);
+            if (eligible.Count == 0) return result;
+
+            var eliteOnly = new List<int>();
+            var plain = new List<int>();
+            foreach (int i in eligible) (table.trash[i].eliteOnly ? eliteOnly : plain).Add(i);
+
+            int leadIndex;
+            if (eliteOnly.Count > 0)
+                leadIndex = eliteOnly[Mathf.Max(0, rng.PickWeighted(Weights(table.trash, eliteOnly)))];
+            else
+            {
+                leadIndex = eligible[0];
+                foreach (int i in eligible)
+                    if (table.trash[i].definition.maxHealth > table.trash[leadIndex].definition.maxHealth) leadIndex = i;
+            }
+
+            List<int> escortPool = plain.Count > 0 ? plain : eligible;
+            int[] escortWeights = Weights(table.trash, escortPool);
+            int escorts = node.Sector >= 2 ? 3 : 2;
+
+            List<Vector3> positions = Positions(1 + escorts, arenaHalfExtent, playerSpawn, ref rng);
+            result.Add(new SpawnRequest(leadIndex, positions[0], isBoss: false, isElite: true));
+            for (int i = 0; i < escorts; i++)
+            {
+                int pick = rng.PickWeighted(escortWeights);
+                result.Add(new SpawnRequest(escortPool[pick >= 0 ? pick : 0], positions[1 + i], isBoss: false));
+            }
+            return result;
+        }
+
+        private static int[] Weights(EnemySpawnTable.Entry[] trash, List<int> indices)
+        {
+            var w = new int[indices.Count];
+            for (int i = 0; i < w.Length; i++) w[i] = trash[indices[i]].weight;
+            return w;
         }
 
         /// <summary>A5.1: excludes entries with a null <c>prefab</c> or null <c>definition</c>

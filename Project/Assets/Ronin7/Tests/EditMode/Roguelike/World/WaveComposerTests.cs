@@ -3,6 +3,7 @@ using NUnit.Framework;
 using Ronin7.Core;
 using Ronin7.Enemies;
 using Ronin7.World;
+using UnityEditor;
 using UnityEngine;
 
 namespace Ronin7.Tests.EditMode.Roguelike.World
@@ -358,6 +359,97 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
             Assert.IsTrue(result.Count > 0);
             foreach (var req in result)
                 Assert.AreEqual(0, req.EntryIndex);
+        }
+
+        // ---- P1-09 (BUG-09): elite rooms lead with an elite plus escorts ----
+
+        private EnemySpawnTable.Entry MakeEntryHp(float maxHealth, int minDepth = 0, bool eliteOnly = false)
+        {
+            var def = ScriptableObject.CreateInstance<EnemyDefinition>();
+            def.maxHealth = maxHealth;
+            _created.Add(def);
+            var e = MakeEntry(minDepth: minDepth, eliteOnly: eliteOnly);
+            e.definition = def;
+            return e;
+        }
+
+        [TestCase(0, 0, 3)]  // sector 0: no eliteOnly eligible -> strongest trash leads, 2 escorts
+        [TestCase(3, 0, 3)]
+        [TestCase(7, 1, 3)]  // sector 1: 1 elite + 2 escorts
+        [TestCase(12, 2, 4)] // sector 2: 1 elite + 3 escorts
+        public void Elite_FirstRequestIsElite(int depth, int sector, int expectedTotal)
+        {
+            var table = MakeTable(new[]
+            {
+                MakeEntryHp(60f),
+                MakeEntryHp(100f),                               // strongest non-elite-only
+                MakeEntryHp(150f, minDepth: 6, eliteOnly: true), // eligible from sector 1 on
+            });
+            var rng = new RunRng(77);
+
+            var result = WaveComposer.Compose(table, new RunNode(depth, sector, 0, RoomKind.Elite), 12f, Vector3.zero, ref rng);
+
+            Assert.AreEqual(expectedTotal, result.Count, "elite + escort count");
+            Assert.IsTrue(result[0].IsElite, "first request must be the elite");
+            for (int i = 1; i < result.Count; i++)
+                Assert.IsFalse(result[i].IsElite, $"escort {i} must not be flagged elite");
+            int expectedLead = depth >= 6 ? 2 : 1;
+            Assert.AreEqual(expectedLead, result[0].EntryIndex, "lead entry");
+            for (int i = 1; i < result.Count; i++)
+                Assert.AreNotEqual(2, result[i].EntryIndex, "escorts are trash, never an elite-only pick");
+        }
+
+        [Test]
+        public void EliteThreat_GreaterOrEqualCombatThreat_SameDepth()
+        {
+            var table = AssetDatabase.LoadAssetAtPath<EnemySpawnTable>("Assets/Ronin7/Data/Roguelike/EnemySpawnTable.asset");
+            if (table == null || table.trash == null || table.trash.Length == 0)
+                Assert.Ignore("Shipped spawn table not built yet.");
+
+            for (int depth = 0; depth <= 14; depth++)
+            {
+                int sector = depth / RunMapGenerator.NodesPerSector;
+                float eliteSum = 0f, combatSum = 0f;
+                const int Seeds = 60;
+                for (uint seed = 1; seed <= Seeds; seed++)
+                {
+                    var rngE = new RunRng(seed);
+                    var rngC = new RunRng(seed);
+                    eliteSum += Threat(table, WaveComposer.Compose(table, new RunNode(depth, sector, 0, RoomKind.Elite), 12f, Vector3.zero, ref rngE), depth, RoomKind.Elite);
+                    combatSum += Threat(table, WaveComposer.Compose(table, new RunNode(depth, sector, 0, RoomKind.Combat), 12f, Vector3.zero, ref rngC), depth, RoomKind.Combat);
+                }
+                // Mean over seeds: a single Combat roll can land 4 heavies; the design claim is on average.
+                Assert.GreaterOrEqual(eliteSum / Seeds, combatSum / Seeds,
+                    $"depth {depth} (sector {sector}): mean elite threat {eliteSum / Seeds:F1} < mean combat threat {combatSum / Seeds:F1}");
+            }
+        }
+
+        private static float Threat(EnemySpawnTable table, List<SpawnRequest> requests, int depth, RoomKind kind)
+        {
+            float sum = 0f;
+            foreach (var r in requests)
+                sum += table.trash[r.EntryIndex].definition.maxHealth * RunScaling.HealthMultiplier(depth, kind);
+            return sum;
+        }
+
+        [Test]
+        public void Compose_EliteNode_SameSeed_Deterministic()
+        {
+            var table = MakeTable(new[] { MakeEntryHp(60f), MakeEntryHp(100f, eliteOnly: true) });
+            var node = new RunNode(12, 2, 0, RoomKind.Elite);
+            var rngA = new RunRng(9);
+            var rngB = new RunRng(9);
+
+            var a = WaveComposer.Compose(table, node, 12f, Vector3.zero, ref rngA);
+            var b = WaveComposer.Compose(table, node, 12f, Vector3.zero, ref rngB);
+
+            Assert.AreEqual(a.Count, b.Count);
+            for (int i = 0; i < a.Count; i++)
+            {
+                Assert.AreEqual(a[i].EntryIndex, b[i].EntryIndex);
+                Assert.AreEqual(a[i].Position, b[i].Position);
+                Assert.AreEqual(a[i].IsElite, b[i].IsElite);
+            }
         }
 
         [Test]

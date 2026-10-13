@@ -46,13 +46,13 @@ MonoBehaviour:
   - prefab: {fileID: 3372851308560540462, guid: a6e85720dcf05014dba6ecac5433912a, type: 3}
     definition: {fileID: 11400000, guid: 996265719b7be5b459ded9e1e0337acb, type: 2}
     weight: 8
-    minDepth: 5
-    eliteOnly: 0
+    minDepth: 2
+    eliteOnly: 1
   - prefab: {fileID: 3989639387344550226, guid: 20739ada1f155bf44bbdbde322d3e299, type: 3}
     definition: {fileID: 11400000, guid: ebe89c05c76c33244ad11b5382b93cf3, type: 2}
     weight: 8
-    minDepth: 5
-    eliteOnly: 0
+    minDepth: 2
+    eliteOnly: 1
   - prefab: {fileID: 8550414386024033152, guid: b0d642fdf3cc8ad48ba768d41c95ccb8, type: 3}
     definition: {fileID: 11400000, guid: 554be3509f634854b8a3ffdf01ba28fb, type: 2}
     weight: 6
