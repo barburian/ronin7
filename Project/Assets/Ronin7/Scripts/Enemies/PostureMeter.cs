@@ -35,6 +35,10 @@ namespace Ronin7.Enemies
         [SerializeField] private float breakBonusDamage = 12f;
         [SerializeField] private float nearBreakFraction = 0.8f;
 
+        private float gainMultiplier_ = 1f;
+
+        public float BreakBonusDamage { get => breakBonusDamage; set => breakBonusDamage = value; }
+
         private Health health;
         private float current;
         private float lastDamageTime = float.NegativeInfinity;
@@ -47,8 +51,12 @@ namespace Ronin7.Enemies
         /// <summary>Set the posture-break threshold (used by data-driven enemies so tougher tiers take
         /// longer to stagger — mirrors <see cref="Health.Configure"/>). Resets current posture to 0.
         /// Meters that never call this keep their serialized postureMax exactly as authored.</summary>
-        public void Configure(float max)
+        public void Configure(float max) => Configure(max, 1f);
+
+        /// <summary>Also sets a posture-gain multiplier applied on top of gainPerDamage (poise).</summary>
+        public void Configure(float max, float gainMultiplier)
         {
+            gainMultiplier_ = gainMultiplier;
             postureMax = max;
             current = 0f;
             nearBreakArmed = true;
@@ -80,7 +88,7 @@ namespace Ronin7.Enemies
 
             lastDamageTime = Time.time;
             float previous = current;
-            current = Accumulate(current, info.Amount, gainPerDamage, postureMax);
+            current = Accumulate(current, info.Amount, gainPerDamage * gainMultiplier_, postureMax);
             bool broken = IsBroken(current, postureMax);
 
             if (CrossedNearBreak(previous, current, nearBreakFraction, postureMax, nearBreakArmed, broken))

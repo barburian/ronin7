@@ -96,7 +96,25 @@ namespace Ronin7.EditorTools
             foreach (var b in BossSpecs) EnsureClone(b.DefinitionName, "RL_" + b.RlName, Overrides(b.RlName));
         }
 
+        // P1-05 (BUG-18): posture-break threshold as a fraction of max HP.
+        private static float PostureFraction(string rlName)
+        {
+            switch (rlName)
+            {
+                case "Warden": case "VaneWraith": case "Maelgorn": return 0.35f; // bosses
+                case "HumanoidAutomaton": case "IronWarden":
+                case "GraveGuardian": case "RedactionConstruct": return 0.5f;    // heavies
+                default: return 0.6f;                                            // trash
+            }
+        }
+
         private static System.Action<EnemyDefinition> Overrides(string rlName)
+        {
+            var inner = OverridesCore(rlName);
+            return d => { inner(d); d.postureMaxFraction = PostureFraction(rlName); };
+        }
+
+        private static System.Action<EnemyDefinition> OverridesCore(string rlName)
         {
             switch (rlName)
             {

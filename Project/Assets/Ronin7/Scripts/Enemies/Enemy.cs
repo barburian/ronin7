@@ -62,7 +62,7 @@ namespace Ronin7.Enemies
             if (definition.postureMaxFraction > 0f)
             {
                 var posture = GetComponent<PostureMeter>();
-                if (posture != null) posture.Configure(definition.maxHealth * definition.postureMaxFraction);
+                if (posture != null) posture.Configure(definition.PostureMax(CampaignState.GalaxiesCompleted), definition.postureGainMultiplier);
             }
             if (bladeTip == null)
                 Debug.LogError("[Enemy] bladeTip not wired — parry detection disabled.", this);

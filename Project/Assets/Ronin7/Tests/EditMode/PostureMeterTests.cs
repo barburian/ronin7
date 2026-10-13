@@ -203,6 +203,47 @@ namespace Ronin7.Tests.EditMode
         }
 
         [Test]
+        public void Accumulate_WithGainMultiplier()
+        {
+            _go = new GameObject("PostureMeterGainTarget");
+            var health = _go.AddComponent<Health>();
+            health.Configure(1000f);
+            var meter = StartMeter(_go);
+            meter.Configure(1000f, 0.5f);
+
+            // 100 * gainPerDamage(0.9) * 0.5 = 45
+            health.ApplyDamage(new DamageInfo(100f, Vector3.zero, Vector3.forward, null));
+
+            Assert.AreEqual(45f, meter.Current, 1e-4f);
+        }
+
+        [Test]
+        public void BreakBonusDamage_IsSettable()
+        {
+            _go = new GameObject("PostureMeterBonusTarget");
+            _go.AddComponent<Health>().Configure(1000f);
+            var meter = StartMeter(_go);
+            meter.BreakBonusDamage = 30f;
+            Assert.AreEqual(30f, meter.BreakBonusDamage);
+        }
+
+        [Test]
+        public void Boss_PostureMax_ScalesWithHealth()
+        {
+            var boss = ScriptableObject.CreateInstance<EnemyDefinition>();
+            boss.maxHealth = 400f;
+            boss.postureMaxFraction = 0.35f;
+            Assert.AreEqual(140f, boss.PostureMax(0), 1e-3f);
+
+            boss.maxHealth = 800f; // run-scaled copy
+            Assert.AreEqual(280f, boss.PostureMax(0), 1e-3f);
+
+            boss.postureMaxFraction = 0f; // disabled -> 0
+            Assert.AreEqual(0f, boss.PostureMax(0));
+            Object.DestroyImmediate(boss);
+        }
+
+        [Test]
         public void Configure_ResetsCurrentPostureToZero()
         {
             _go = new GameObject("PostureMeterConfigureResetTarget");

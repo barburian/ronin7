@@ -30,4 +30,4 @@ MonoBehaviour:
   exploitMultiplier: 2
   heavySwingSpeed: 5.5
   materialClass: 0
-  postureMaxFraction: 0
+  postureMaxFraction: 0.5

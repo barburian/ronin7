@@ -64,6 +64,9 @@ namespace Ronin7.Enemies
         public float ScaledMaxHealth(int galaxiesCompleted)
             => ScaledByGalaxy(maxHealth, healthAddedPerGalaxy, galaxiesCompleted);
 
+        /// <summary>Posture-break threshold: scaled max health * postureMaxFraction (0 = disabled).</summary>
+        public float PostureMax(int galaxiesCompleted) => ScaledMaxHealth(galaxiesCompleted) * postureMaxFraction;
+
         /// <summary>Attack damage scaled by story progress via <see cref="damageAddedPerGalaxy"/>.</summary>
         public float ScaledDamage(int galaxiesCompleted)
             => ScaledByGalaxy(damage, damageAddedPerGalaxy, galaxiesCompleted);
