@@ -1256,6 +1256,51 @@ Binding as of tag `roguelike-phase0` (0.1.0). Each item names the task that land
 - **A8.10 Telemetry and dev tools (P0-11).** Every finished run appends one line to
   `persistentDataPath/runlog.jsonl` (local only). Dev shortcuts exist only under `RONIN7_DEV`.
 
+## Amendment 9 — Phase 1 combat/data numbers (Roguelike-Roadmap.md P1-01 … P1-15)
+
+Binding as of Phase 1 (`0.2.0`). The roadmap text called this "Amendment 8"; 8 was taken by Phase 0. Each
+item names the task that landed it.
+
+- **A9.1 Damage filter hook (P1-01).** `Health.DamageFilter` (`Func<DamageInfo,float>`, single slot, null =
+  unchanged) runs first, then `Health.IncomingDamageMultiplier` (default 1). A result that is not > 0
+  (including NaN) emits no events. `Damaged` / `EntityDamaged` / `EntityDied` carry the *applied* amount.
+  `DamageInfo` gained `Speed` (blade m/s behind the hit, 0 for non-blade).
+- **A9.2 Overdrive (P1-01, P1-06).** Explicit 1.5x damage via `PlayerCombatModifiers.OverdriveMultiplier`
+  (inside the 3x transient cap with ParryFlow x Combo; the old accidental bonus from a time-scaled fixed step
+  is gone). Swing speed divides the fixed step by `Time.timeScale` (`BladeDamager.RealFixedDt`; 0 when
+  paused), so it is time-scale independent. The perfect-parry window runs on `unscaledDeltaTime`.
+- **A9.3 Unbroken (P1-07).** Once per run in a run (`RunState.UnbrokenUsed`, persisted as the appended
+  `RunSnapshot.unbrokenUsed`; `CurrentVersion` stays 1, legacy files read false). The death interceptor tries
+  Unbroken first (revive at 1 HP, fraction 0), then Second Wind (30%).
+- **A9.4 Weakpoint Sight (P1-06).** No longer a flat damage slot. A blade hit is *precision* when the hit
+  point is in the top 20% of the victim's bounds (head) or the blade velocity is within ~46° of its axis
+  (thrust, dot > 0.7). Precision x1.25; x2.0 while Sight is active; body hits unchanged (x1).
+- **A9.5 Boon picker (P1-08).** Tier first: pick a tier by node weights (independent of boons per tier), then
+  uniformly within it. An empty tier falls to the next tier down (weight > 0 only), then up. Abilities
+  already granted this run are never offered. `AbilityAccess.Has` reads `RunState` only in a run and
+  `CampaignState` only outside one.
+- **A9.6 Elite rooms (P1-09).** One elite lead (eliteOnly pick if eligible, else the highest-`maxHealth`
+  eligible trash) plus escorts from non-eliteOnly trash: 2 in sectors 0-1, 3 in sector 2.
+  `RL_HumanoidAutomaton` and `RL_IronWarden` are `eliteOnly`, `minDepth` 2 (were 5, not elite-only).
+- **A9.7 Boss bands (P1-10).** Boss nodes use total HP by sector {450, 650, 900} and damage multiplier
+  {0.9, 1.1, 1.3} on base damage (out-of-range sectors clamp); other kinds keep the depth multipliers.
+  Maelgorn base damage 16 -> 24 (1.3x = 31.2 vs sector-1 VaneWraith 24 x 1.1 = 26.4).
+- **A9.8 Posture (P1-05).** `postureMaxFraction` x scaled max HP: trash 0.6, heavies 0.5 (HumanoidAutomaton,
+  IronWarden, GraveGuardian, RedactionConstruct), bosses 0.35 (Warden, VaneWraith, Maelgorn).
+- **A9.9 Super armor (P1-04).** `superArmor` on HumanoidAutomaton, IronWarden, Warden, VaneWraith, Maelgorn:
+  a hit during windup does not flinch-cancel it.
+- **A9.10 Telegraph (P1-14, P1-15).** An attacker outside +-50° of the player's forward yaw gets +0.25 s
+  telegraph (`MeleeAttacker.TelegraphFor`). The parry window is 0.75 x the attack's actual telegraph. The
+  windup pose is a smoothstep reaching full draw at 0.7 x that telegraph (ahead of the parry window); the
+  strike pose is an ease-out over the first 35% of Active. A 3 cm additive blade-edge line shows in
+  Windup/Active.
+- **A9.11 Data ownership (P1-02).** Every spawn-table enemy has its own `RL_<Name>` `EnemyDefinition`
+  cloned from its story source; the roguelike tunes only these (DreamGhost 90 HP / 12 dmg, GraveGuardian
+  120 HP). Story `Ch*` definitions stay untouched. `EnemyDefinition` gained timing, poise, weakness and pose
+  fields.
+- **A9.12 Enemy textures (P1-12).** Albedo / MR / Normal extracted to PNGs with ASTC on Android, max size
+  <= 1024, mipmaps on (`EnemyTextureTests` guards all 14 materials).
+
 ## Build status — 2026-09-19
 
 ### Compile
