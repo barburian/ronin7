@@ -24,11 +24,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 5423395853021963933, guid: 0d12143ad66516349aae55ee1ce2d359, type: 3}
+        m_Texture: {fileID: 2800000, guid: e0989b75cb6f5464cac730564e1329e2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: -5093840764248781454, guid: 0d12143ad66516349aae55ee1ce2d359, type: 3}
+        m_Texture: {fileID: 2800000, guid: fcb75d3b4ce2ad7419f13362fb21ff01, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -36,7 +36,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 73d7e57fc5a154e4bae3db34373d8e81, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -49,11 +49,15 @@ Material:
     - _EdgeFresnel: 2.5
     - _EdgePulse: 0
     - _EdgeSpeed: 0
-    - _Metallic: 0
+    - _FlashAmount: 0
+    - _MRGltf: 1
+    - _Metallic: 0.2
     - _OcclusionStrength: 1
-    - _Smoothness: 0
+    - _RimPower: 2.5
+    - _Smoothness: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _RimColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

@@ -4,6 +4,7 @@ using Ronin7.Enemies;
 using Ronin7.World;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 
 namespace Ronin7.EditorTools
 {
@@ -183,7 +184,7 @@ namespace Ronin7.EditorTools
 
             // BUG-17: glTFast's material reads baseColorFactor, so RendererTint's _BaseColor/_EmissionColor
             // MPB (the windup telegraph) did nothing. Swap onto one shared GrittyCyber material per type.
-            if (bodyRenderer != null) SwapToEnemyMaterial(instance, bodyRenderer, name);
+            if (bodyRenderer != null) SwapToEnemyMaterial(instance, bodyRenderer, name, sourceFolder);
 
             instance.AddComponent<Health>();
             // Posture/stagger: Enemy.Awake configures it from definition.postureMaxFraction when present
@@ -213,6 +214,9 @@ namespace Ronin7.EditorTools
             capsule.center = new Vector3(0f, 0.9f / scale, 0f);
 
             string outputPath = OutputFolder + "/" + name + ".prefab";
+            // P1-12: drop the variant link to the source art prefab, or its glTFast material (and the
+            // 2048 px embedded textures) stays a build dependency of every enemy.
+            PrefabUtility.UnpackPrefabInstance(instance, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
             PrefabUtility.SaveAsPrefabAsset(instance, outputPath);
             Object.DestroyImmediate(instance);
 
@@ -225,8 +229,8 @@ namespace Ronin7.EditorTools
         /// <summary>Creates/updates <c>&lt;name&gt;_Enemy.mat</c> on GrittyCyber from the body's glTF material
         /// and puts it on every body slot plus any other glTFast slot on the enemy. Emission is rim-only
         /// (black mask) and black at rest; MeleeAttacker drives the P1-11 _RimColor/_FlashAmount per renderer
-        /// via MPB. The glTF MR map (_MRGltf) is wired with texture extraction in P1-12.</summary>
-        private static void SwapToEnemyMaterial(GameObject instance, Renderer bodyRenderer, string name)
+        /// via MPB. The glTF textures are extracted by <see cref="ExtractTextures"/> (P1-12).</summary>
+        private static void SwapToEnemyMaterial(GameObject instance, Renderer bodyRenderer, string name, string sourceFolder)
         {
             var shader = Shader.Find(BodyShaderName);
             if (shader == null)
@@ -258,6 +262,7 @@ namespace Ronin7.EditorTools
             mat.SetTexture("_EmissionMap", AssetDatabase.LoadAssetAtPath<Texture2D>(BlackMaskPath));
             mat.SetFloat("_EdgeFresnel", 2.5f);
             mat.SetFloat("_RimPower", 2.5f);
+            if (src != null && src.shader != shader) ExtractTextures(sourceFolder, name, mat, src);
             EditorUtility.SetDirty(mat);
 
             var bodySlots = bodyRenderer.sharedMaterials;
@@ -277,6 +282,103 @@ namespace Ronin7.EditorTools
                 }
                 if (changed) r.sharedMaterials = slots;
             }
+        }
+
+
+        /// <summary>P1-12 (BUG-23): additive entry point. Re-extracts the textures from each existing baked
+        /// enemy's source art material onto its existing <c>_Enemy.mat</c>, without touching the prefabs.</summary>
+        [MenuItem("Tools/Space Samurai/Roguelike/Extract Enemy Textures (additive)")]
+        public static void ExtractAllEnemyTextures()
+        {
+            var report = new StringBuilder();
+            foreach (var (folder, names) in new[] { (EnemySourceFolder, TrashMobNames), (BossSourceFolder, BossNames) })
+            foreach (var name in names)
+            {
+                var source = AssetDatabase.LoadAssetAtPath<GameObject>(folder + "/" + name + ".prefab");
+                var mat = AssetDatabase.LoadAssetAtPath<Material>(MaterialFolder + "/" + name + "_Enemy.mat");
+                var r = source != null ? FindDeep(source.transform, "Visual_Skinned")?.GetComponent<Renderer>() : null;
+                var src = r != null ? r.sharedMaterial : null;
+                if (mat == null || src == null) { report.Append(name).Append(": SKIPPED (missing mat/source)\n"); continue; }
+                ExtractTextures(folder, name, mat, src);
+                EditorUtility.SetDirty(mat);
+                UnpackBaked(name);
+                report.Append(name).Append(": OK\n");
+            }
+            AssetDatabase.SaveAssets();
+            Debug.Log("[EnemyPrefabBaker] ExtractEnemyTextures\n" + report);
+        }
+
+        /// <summary>Unpacks an already-baked enemy prefab (no-op if already unpacked) so the source art
+        /// prefab's glTFast material stops being a build dependency. Root stays inactive (A3.1).</summary>
+        private static void UnpackBaked(string name)
+        {
+            string path = OutputFolder + "/" + name + ".prefab";
+            var root = PrefabUtility.LoadPrefabContents(path);
+            if (PrefabUtility.IsOutermostPrefabInstanceRoot(root))
+            {
+                PrefabUtility.UnpackPrefabInstance(root, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
+                PrefabUtility.SaveAsPrefabAsset(root, path);
+            }
+            PrefabUtility.UnloadPrefabContents(root);
+        }
+
+        /// <summary>Writes the glTFast albedo/MR/normal sub-asset textures of <paramref name="src"/> out as
+        /// readable PNGs (capped at 1024) under <c>&lt;folder&gt;/&lt;name&gt;_Tex/</c>, imports them with Quest
+        /// ASTC settings and assigns them to <paramref name="mat"/> with <c>_MRGltf = 1</c>.</summary>
+        public static void ExtractTextures(string folder, string name, Material mat, Material src)
+        {
+            string dir = folder + "/" + name + "_Tex";
+            EnsureFolder(dir);
+            var albedo = ExtractOne(src, "baseColorTexture", dir + "/Albedo.png", true, false);
+            var mr = ExtractOne(src, "metallicRoughnessTexture", dir + "/MR.png", false, false);
+            var normal = ExtractOne(src, "normalTexture", dir + "/Normal.png", false, true);
+            if (albedo != null) mat.SetTexture("_BaseMap", albedo);
+            if (normal != null) mat.SetTexture("_BumpMap", normal);
+            if (mr != null)
+            {
+                mat.SetTexture("_MetallicGlossMap", mr);
+                mat.SetFloat("_MRGltf", 1f);
+                // Capped at 0.2 (EnemyBodyMaterialTests): full metal has no diffuse and no reflection
+                // probe on Quest renders black. The B channel still varies it per texel.
+                mat.SetFloat("_Metallic", 0.2f);
+                mat.SetFloat("_Smoothness", 1f);
+            }
+        }
+
+        private static Texture2D ExtractOne(Material src, string prop, string path, bool srgb, bool normal)
+        {
+            var tex = src.HasProperty(prop) ? src.GetTexture(prop) as Texture2D : null;
+            if (tex == null) { Debug.LogWarning($"[EnemyPrefabBaker] '{src.name}' has no {prop} - {path} not written."); return null; }
+            if (GraphicsFormatUtility.IsSRGBFormat(tex.graphicsFormat) != srgb)
+                Debug.LogWarning($"[EnemyPrefabBaker] {path}: source sRGB={!srgb}, expected {srgb}; bytes copied as-is.");
+
+            int w = Mathf.Min(tex.width, 1024), h = Mathf.Min(tex.height, 1024);
+            var rt = RenderTexture.GetTemporary(w, h, 0, RenderTextureFormat.ARGB32,
+                srgb ? RenderTextureReadWrite.sRGB : RenderTextureReadWrite.Linear);
+            var prev = RenderTexture.active;
+            Graphics.Blit(tex, rt);
+            RenderTexture.active = rt;
+            var copy = new Texture2D(w, h, TextureFormat.RGBA32, false, !srgb);
+            copy.ReadPixels(new Rect(0, 0, w, h), 0, 0);
+            RenderTexture.active = prev;
+            RenderTexture.ReleaseTemporary(rt);
+            System.IO.File.WriteAllBytes(path, copy.EncodeToPNG());
+            Object.DestroyImmediate(copy);
+            AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
+
+            var imp = (TextureImporter)AssetImporter.GetAtPath(path);
+            imp.textureType = normal ? TextureImporterType.NormalMap : TextureImporterType.Default;
+            if (!normal) imp.sRGBTexture = srgb;
+            imp.mipmapEnabled = true;
+            imp.maxTextureSize = 1024;
+            imp.alphaSource = TextureImporterAlphaSource.None;
+            var a = imp.GetPlatformTextureSettings("Android");
+            a.overridden = true;
+            a.maxTextureSize = 1024;
+            a.format = normal ? TextureImporterFormat.ASTC_5x5 : TextureImporterFormat.ASTC_6x6;
+            imp.SetPlatformTextureSettings(a);
+            imp.SaveAndReimport();
+            return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
         }
 
         private static Transform FindDeep(Transform t, string name)
