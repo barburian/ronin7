@@ -10,15 +10,20 @@ namespace Ronin7.Core
         public readonly Vector3 Direction;
         public readonly GameObject Source;
         public readonly DamageType Type;
+        /// <summary>Blade speed (m/s) behind this hit; 0 when not a blade hit.</summary>
+        public readonly float Speed;
 
-        public DamageInfo(float amount, Vector3 point, Vector3 direction, GameObject source, DamageType type = DamageType.Melee)
+        public DamageInfo(float amount, Vector3 point, Vector3 direction, GameObject source, DamageType type = DamageType.Melee, float speed = 0f)
         {
+            Speed = speed;
             Amount = amount;
             Point = point;
             Direction = direction;
             Source = source;
             Type = type;
         }
+
+        public DamageInfo WithAmount(float a) => new DamageInfo(a, Point, Direction, Source, Type, Speed);
     }
 
     public enum DamageType

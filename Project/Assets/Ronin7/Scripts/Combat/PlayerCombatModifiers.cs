@@ -33,6 +33,9 @@ namespace Ronin7.Combat
         /// <summary>Ch7 weakpoint-sight's multiplier slot.</summary>
         public float WeakpointMultiplier { get; set; } = 1f;
 
+        /// <summary>Overdrive's explicit damage bonus (1.5x while active), in the transient group.</summary>
+        public float OverdriveMultiplier { get; set; } = 1f;
+
         /// <summary>Sunder Beat's parry-flow-streak multiplier slot.</summary>
         public float ParryFlowMultiplier { get; set; } = 1f;
 
@@ -65,7 +68,7 @@ namespace Ronin7.Combat
         /// individual slots instead.
         /// </summary>
         public float DamageMultiplier =>
-            Mathf.Min(WeakpointMultiplier * ParryFlowMultiplier * ComboMultiplier, MaxDamageMultiplier)
+            Mathf.Min(WeakpointMultiplier * ParryFlowMultiplier * ComboMultiplier * OverdriveMultiplier, MaxDamageMultiplier)
             * Mathf.Min(BoonMultiplier, MaxBoonMultiplier);
     }
 }

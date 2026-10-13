@@ -80,6 +80,7 @@ namespace Ronin7.Enemies
         protected Health health;
         protected State state = State.Idle;
         protected float timer;
+        private float realTimer; // unscaled time in state: the perfect-parry window stays real-time under Overdrive
         protected bool deflectedThisSwing;
         protected Vector3 currentEuler;
         protected Vector3 staggerFromEuler;
@@ -217,6 +218,7 @@ namespace Ronin7.Enemies
             if (target == null) { target = FindPlayer(); if (target == null) return; }
 
             timer += Time.deltaTime;
+            realTimer += Time.unscaledDeltaTime;
             BeforeStateTick();
 
             switch (state)
@@ -327,7 +329,7 @@ namespace Ronin7.Enemies
             // telegraph isn't a timing feat and shouldn't feed the streak.
             if (state == State.Active)
             {
-                float quality = ParryTiming.ParryQuality(timer, PerfectParryWindow);
+                float quality = ParryTiming.ParryQuality(realTimer, PerfectParryWindow);
                 if (quality > 0f) EventBus.Publish(new PerfectParry(point, gameObject, quality));
             }
 
@@ -424,7 +426,7 @@ namespace Ronin7.Enemies
             }
         }
 
-        protected void Enter(State next) { state = next; timer = 0f; SetAggroCounted(next != State.Idle && next != State.Dead); }
+        protected void Enter(State next) { state = next; timer = 0f; realTimer = 0f; SetAggroCounted(next != State.Idle && next != State.Dead); }
 
         protected void PoseWeapon(Vector3 fromEuler, Vector3 toEuler, float t)
         {

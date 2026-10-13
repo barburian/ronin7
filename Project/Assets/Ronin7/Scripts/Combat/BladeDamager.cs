@@ -75,7 +75,7 @@ namespace Ronin7.Combat
 
         private void FixedUpdate()
         {
-            speed = SmoothSpeed(lastPos, transform.position, Time.fixedDeltaTime, speed, speedSmoothing);
+            speed = SmoothSpeed(lastPos, transform.position, RealFixedDt(Time.fixedDeltaTime, Time.timeScale), speed, speedSmoothing);
             lastPos = transform.position;
             if (definition != null) ResetIfSwingEnded(lastHitTimes, speed, definition.minSwingSpeed);
         }
@@ -167,6 +167,13 @@ namespace Ronin7.Combat
         /// <c>Ronin7.Enemies.MeleeAttacker</c>'s enemy-side swing-speed tracker (G4 Blade Clash) can
         /// reuse the exact same math instead of duplicating it — Enemies cannot see Combat internals.
         /// </summary>
+        public static float RealFixedDt(float fixedDt, float timeScale) => timeScale > 0f ? fixedDt / timeScale : 0f;
+
+        /// <summary>
+        /// Real (unscaled) seconds between physics steps: TimeScaleArbiter shrinks fixedDeltaTime by
+        /// timeScale, so dividing it back out keeps swing speed independent of Overdrive (BUG-21).
+        /// 0 when paused, which <see cref="SmoothSpeed"/> treats as "keep previous speed".
+        /// </summary>
         public static float SmoothSpeed(Vector3 from, Vector3 to, float dt, float previousSpeed, float smoothing)
         {
             if (dt <= 0f) return previousSpeed;
@@ -217,7 +224,7 @@ namespace Ronin7.Combat
             if (dmg <= 0f) return;
 
             Vector3 dir = (other.transform.position - transform.position).normalized;
-            health.ApplyDamage(new DamageInfo(dmg, point, dir, transform.root.gameObject));
+            health.ApplyDamage(new DamageInfo(dmg, point, dir, transform.root.gameObject, DamageType.Melee, speed));
             EventBus.Publish(new SwordImpact(point, speed, health.gameObject));
         }
     }

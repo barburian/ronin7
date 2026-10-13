@@ -65,6 +65,13 @@ namespace Ronin7.Combat
         /// every scene/test that never sets this is byte-identical to today.</summary>
         public float ReviveFraction { get; set; }
 
+        /// <summary>Optional pre-damage filter (weakness/resist hook); returns the damage to apply.
+        /// Single slot, like <see cref="DeathInterceptor"/>. Null = unchanged.</summary>
+        public Func<DamageInfo, float> DamageFilter { get; set; }
+
+        /// <summary>Flat incoming-damage scale (e.g. damage reduction), applied after <see cref="DamageFilter"/>.</summary>
+        public float IncomingDamageMultiplier { get; set; } = 1f;
+
         private void Awake() => Current = maxHealth;
 
         private void OnEnable() { if (!Active.Contains(this)) Active.Add(this); }
@@ -88,11 +95,13 @@ namespace Ronin7.Combat
             if (!IsAlive) return;
             // Reject non-positive or NaN "damage": healing only happens via Heal(), and a bad amount
             // must never heal past max or emit spurious hit feedback. !(amount > 0) also rejects NaN.
-            if (!(info.Amount > 0f)) return;
+            float amount = (DamageFilter != null ? DamageFilter(info) : info.Amount) * IncomingDamageMultiplier;
+            if (!(amount > 0f)) return; // also rejects NaN; fully resisted = no events
+            var applied = amount == info.Amount ? info : info.WithAmount(amount);
 
-            Current = Mathf.Max(0f, Current - info.Amount);
-            Damaged?.Invoke(info);
-            EventBus.Publish(new EntityDamaged(gameObject, info, Current, maxHealth));
+            Current = Mathf.Max(0f, Current - applied.Amount);
+            Damaged?.Invoke(applied);
+            EventBus.Publish(new EntityDamaged(gameObject, applied, Current, maxHealth));
 
             if (Current <= 0f)
             {
@@ -103,7 +112,7 @@ namespace Ronin7.Combat
                 }
 
                 Died?.Invoke();
-                EventBus.Publish(new EntityDied(gameObject, info.Source));
+                EventBus.Publish(new EntityDied(gameObject, applied.Source));
             }
         }
 

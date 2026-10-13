@@ -28,6 +28,18 @@ namespace Ronin7.Tests.EditMode
         }
 
         [Test]
+        public void Speed_IndependentOfTimeScale()
+        {
+            // Same hand motion (1 m per real 0.02 s = 50 m/s). At timeScale 0.35 the arbiter shrinks
+            // fixedDeltaTime to 0.007, but the real interval between physics steps is still 0.02.
+            float full = BladeDamager.SmoothSpeed(Vector3.zero, Vector3.right, BladeDamager.RealFixedDt(0.02f, 1f), 0f, 0f);
+            float slow = BladeDamager.SmoothSpeed(Vector3.zero, Vector3.right, BladeDamager.RealFixedDt(0.007f, 0.35f), 0f, 0f);
+            Assert.AreEqual(full, slow, 1e-3f);
+            Assert.AreEqual(50f, slow, 1e-3f);
+            Assert.AreEqual(0f, BladeDamager.RealFixedDt(0.02f, 0f)); // paused: dt<=0 keeps previous speed
+        }
+
+        [Test]
         public void SmoothSpeed_SpikeFrame_DoesNotReachRawInstantaneous()
         {
             const float dt = 0.02f;        // 50Hz fixed step

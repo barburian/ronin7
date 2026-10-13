@@ -147,13 +147,25 @@ namespace Ronin7.Player
         private void ApplyTimeScale()
         {
             if (timeScaleApplied) return;
+            SetDamageBonus(OverdriveDamageMultiplier);
             TimeScaleArbiter.SetRequest(TimeScaleChannel.Overdrive, overdriveTimeScale);
             timeScaleApplied = true;
+        }
+
+        // Explicit bonus replaces the old accidental one (blade speed inflated by the slowed fixed step, BUG-21).
+        private const float OverdriveDamageMultiplier = 1.5f;
+        private PlayerCombatModifiers mods;
+
+        private void SetDamageBonus(float value)
+        {
+            if (mods == null) mods = GetComponentInParent<PlayerCombatModifiers>() ?? transform.root.GetComponentInChildren<PlayerCombatModifiers>();
+            if (mods != null) mods.OverdriveMultiplier = value;
         }
 
         private void RestoreTimeScale()
         {
             if (!timeScaleApplied) return;
+            SetDamageBonus(1f);
             TimeScaleArbiter.ClearRequest(TimeScaleChannel.Overdrive);
             timeScaleApplied = false;
         }
