@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Ronin7.Combat;
 using Ronin7.Core;
 using UnityEngine;
@@ -464,10 +465,14 @@ namespace Ronin7.Enemies
             RendererTint.Apply(bladeRenderer, EnemySwordVisual.BladeTint(c));
         }
 
-        protected static Health FindPlayer()
+        protected static Health FindPlayer() => FindPlayer(Health.Active);
+
+        // ponytail: player = the Health with a CharacterController; if a second player-like
+        // Health ever appears, tag it instead of widening this check.
+        internal static Health FindPlayer(IReadOnlyList<Health> candidates)
         {
-            foreach (var h in Object.FindObjectsByType<Health>())
-                if (h.GetComponent<CharacterController>() != null) return h;
+            for (int i = 0; i < candidates.Count; i++)
+                if (candidates[i].TryGetComponent<CharacterController>(out _)) return candidates[i];
             return null;
         }
     }
