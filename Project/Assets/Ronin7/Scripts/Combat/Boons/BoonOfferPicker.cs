@@ -47,23 +47,49 @@ namespace Ronin7.Combat
                 // A1.2: maxStacks <= 0 treated as 1, matching BoonInventory.Add, so a mis-authored asset
                 // degrades to "offerable once" rather than "silently never offerable".
                 if (held >= Mathf.Max(1, boon.maxStacks)) continue; // already maxed out
+                // P1-08 (BUG-14): an ability already granted this run would be a dead pick.
+                if (boon.effect == BoonEffectKind.GrantAbility && RunState.HasGrantedAbility(boon.abilityId)) continue;
                 eligible.Add(boon);
             }
 
+            // P1-08 (BUG-22): tier first (node weights, independent of how many boons each tier holds),
+            // then uniform within the tier. Two RNG draws per offered boon.
+            var tierWeights = new int[3];
+            for (int t = 0; t < 3; t++) tierWeights[t] = RarityWeight((BoonRarity)t, kind);
+
+            var inTier = new List<BoonDefinition>();
             for (int i = 0; i < count && eligible.Count > 0; i++)
             {
-                var weights = new int[eligible.Count];
-                for (int w = 0; w < eligible.Count; w++)
-                    weights[w] = RarityWeight(eligible[w].rarity, kind);
+                int tier = rng.PickWeighted(tierWeights);
+                if (tier < 0) break; // all tier weights zero
 
-                int pickIndex = rng.PickWeighted(weights);
-                if (pickIndex < 0) break; // all-zero weights left; nothing more to offer
+                // Empty tier falls to the next tier down (only tiers with weight > 0). If nothing is
+                // below, look up so a non-empty pool isn't starved by an unlucky tier roll.
+                int use = FirstNonEmptyTier(eligible, tierWeights, tier, -1);
+                if (use < 0) use = FirstNonEmptyTier(eligible, tierWeights, tier + 1, +1);
+                if (use < 0) break; // nothing with positive weight left; A1.6 short offer
 
-                result.Add(eligible[pickIndex]);
-                eligible.RemoveAt(pickIndex);
+                inTier.Clear();
+                for (int e = 0; e < eligible.Count; e++)
+                    if ((int)eligible[e].rarity == use) inTier.Add(eligible[e]);
+
+                var picked = inTier[rng.NextInt(inTier.Count)];
+                result.Add(picked);
+                eligible.Remove(picked);
             }
 
             return result;
+        }
+
+        private static int FirstNonEmptyTier(List<BoonDefinition> eligible, int[] tierWeights, int from, int step)
+        {
+            for (int t = from; t >= 0 && t < 3; t += step)
+            {
+                if (tierWeights[t] <= 0) continue;
+                for (int e = 0; e < eligible.Count; e++)
+                    if ((int)eligible[e].rarity == t) return t;
+            }
+            return -1;
         }
 
         /// <summary>

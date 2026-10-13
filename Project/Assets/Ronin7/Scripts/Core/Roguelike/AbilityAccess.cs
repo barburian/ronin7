@@ -12,6 +12,7 @@ namespace Ronin7.Core
     /// </summary>
     public static class AbilityAccess
     {
-        public static bool Has(string id) => CampaignState.HasAbility(id) || RunState.HasGrantedAbility(id);
+        public static bool Has(string id) =>
+            RunState.InRun ? RunState.HasGrantedAbility(id) : CampaignState.HasAbility(id);
     }
 }

@@ -184,15 +184,16 @@ namespace Ronin7.Tests.EditMode.Roguelike.Boons
         [Test]
         public void Pick_DrawCountStability_RngStateAdvancesByExactlyResultCountDraws()
         {
-            // Downstream per-node determinism depends on Pick consuming exactly one RunRng draw per
-            // boon it actually offers (and zero draws when it gives up early on all-zero weights).
+            // Downstream per-node determinism depends on Pick consuming a fixed number of RunRng draws
+            // per boon it actually offers. P1-08 tier-first: 2 NextUInt-based draws (tier + in-tier).
+            // (NextInt consumes one NextUInt each, so the state check below doubles per boon.)
             var pool = MakeVariedPool();
             var rng = new RunRng(2026);
 
             var offer = BoonOfferPicker.Pick(pool, _ => 0, RoomKind.Combat, ref rng, count: 3);
 
             var expectedRng = new RunRng(2026);
-            for (int i = 0; i < offer.Count; i++) expectedRng.NextUInt();
+            for (int i = 0; i < offer.Count * 2; i++) expectedRng.NextUInt();
 
             Assert.AreEqual(expectedRng.State, rng.State);
         }
@@ -367,6 +368,77 @@ namespace Ronin7.Tests.EditMode.Roguelike.Boons
 
             Assert.AreEqual(1, offer.Count);
             Assert.AreEqual("boon_rare", offer[0].id);
+        }
+
+        // ---- P1-08: tier-first picking (BUG-22), no dead ability offers, AbilityAccess (BUG-14) ----
+
+        [Test]
+        public void TierFirst_TierOddsIndependentOfPoolSize()
+        {
+            // Combat weights 55/38/7, but pools of wildly different size per tier (40 / 3 / 2).
+            // Per-boon weighting would give Common ~95%; tier-first must stay at the node weights.
+            var pool = new List<BoonDefinition>();
+            for (int i = 0; i < 40; i++) pool.Add(MakeBoon("c" + i, BoonRarity.Common));
+            for (int i = 0; i < 3; i++) pool.Add(MakeBoon("r" + i, BoonRarity.Rare));
+            for (int i = 0; i < 2; i++) pool.Add(MakeBoon("e" + i, BoonRarity.Epic));
+
+            var rng = new RunRng(2026);
+            var counts = new int[3];
+            const int n = 10000;
+            for (int i = 0; i < n; i++)
+            {
+                var offer = BoonOfferPicker.Pick(pool, _ => 0, RoomKind.Combat, ref rng, count: 1);
+                Assert.AreEqual(1, offer.Count);
+                counts[(int)offer[0].rarity]++;
+            }
+
+            var tiers = new[] { BoonRarity.Common, BoonRarity.Rare, BoonRarity.Epic };
+            for (int t = 0; t < 3; t++)
+            {
+                double expected = BoonOfferPicker.RarityWeight(tiers[t], RoomKind.Combat) / 100.0;
+                Assert.AreEqual(expected, counts[(int)tiers[t]] / (double)n, 0.02, tiers[t] + " tier frequency");
+            }
+        }
+
+        [Test]
+        public void OwnedAbility_NeverOffered()
+        {
+            RunState.Reset();
+            try
+            {
+                RunState.Begin(1);
+                RunState.GrantAbility("test_owned_ability");
+                var ability = MakeBoon("boon_ability", BoonRarity.Epic, maxStacks: 1);
+                ability.effect = BoonEffectKind.GrantAbility;
+                ability.abilityId = "test_owned_ability";
+                var pool = new List<BoonDefinition> { ability, MakeBoon("boon_common", BoonRarity.Common) };
+
+                for (uint seed = 1; seed <= 200; seed++)
+                {
+                    var rng = new RunRng(seed);
+                    var offer = BoonOfferPicker.Pick(pool, _ => 0, RoomKind.Boss, ref rng, count: 3);
+                    foreach (var b in offer) Assert.AreNotEqual("boon_ability", b.id, "seed " + seed);
+                }
+            }
+            finally { RunState.Reset(); }
+        }
+
+        [Test]
+        public void AbilityAccess_InRun_IgnoresCampaign()
+        {
+            RunState.Reset();
+            CampaignState.Reset();
+            try
+            {
+                CampaignState.UnlockAbility("test_campaign_ability");
+                Assert.IsTrue(AbilityAccess.Has("test_campaign_ability"), "out of run: campaign counts");
+
+                RunState.Begin(1);
+                Assert.IsFalse(AbilityAccess.Has("test_campaign_ability"), "in run: campaign ignored");
+                RunState.GrantAbility("test_run_ability");
+                Assert.IsTrue(AbilityAccess.Has("test_run_ability"));
+            }
+            finally { RunState.Reset(); CampaignState.Reset(); }
         }
 
         [Test]
