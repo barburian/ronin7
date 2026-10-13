@@ -907,10 +907,20 @@ namespace Ronin7.Flow
                 // ConsumeRevive already returns false once spent, so no separate HasRevive guard is
                 // needed in the composed delegate itself.
                 var previous = health.DeathInterceptor;
-                health.DeathInterceptor = () => boonInventory.ConsumeRevive() || (previous != null && previous());
-                health.ReviveFraction = boonInventory.HasRevive ? 0.3f : 0f;
+                health.DeathInterceptor = ComposeDeathInterceptor(health, previous, boonInventory.ConsumeRevive);
             }
         }
+
+        /// <summary>P1-07: Unbroken is tried first so the free save is spent before Second Wind. Each
+        /// branch sets its own revive fraction (Unbroken 0 = 1 HP, Second Wind 0.3) before returning,
+        /// which Health reads right after a true result. Null <paramref name="unbroken"/> is skipped.</summary>
+        internal static System.Func<bool> ComposeDeathInterceptor(Health health, System.Func<bool> unbroken, System.Func<bool> secondWind) =>
+            () =>
+            {
+                if (unbroken != null && unbroken()) { health.ReviveFraction = 0f; return true; }
+                if (secondWind()) { health.ReviveFraction = 0.3f; return true; }
+                return false;
+            };
 
         /// <summary>What a cleared node should do next. Pure, so it is unit-testable without a scene.</summary>
         internal enum PostClearAction { OfferBoon, AdvanceImmediately, WinRun }

@@ -73,9 +73,10 @@ namespace Ronin7.Player
         /// <summary>The Health.DeathInterceptor callback: spends the ward at most once per life.</summary>
         private bool TryIntercept()
         {
-            if (!ShouldIntercept(used)) return false;
+            if (!ShouldIntercept(RunState.InRun ? RunState.UnbrokenUsed : used)) return false;
 
             used = true;
+            if (RunState.InRun) RunState.NoteUnbrokenUsed();
             EventBus.Publish(new AbilityActivated(AbilityId.Unbroken));
             return true;
         }

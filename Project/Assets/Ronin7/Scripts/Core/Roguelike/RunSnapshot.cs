@@ -31,6 +31,10 @@ namespace Ronin7.Core
         /// <summary>This run's kills so far, so the run summary's kill delta survives a resume.</summary>
         public int runKills;
 
+        /// <summary>P1-07: Unbroken already spent this run. APPENDED field (no version bump): a legacy
+        /// run.json without it deserializes to false.</summary>
+        public bool unbrokenUsed;
+
         public static void Write(RunSnapshot snapshot)
         {
             try

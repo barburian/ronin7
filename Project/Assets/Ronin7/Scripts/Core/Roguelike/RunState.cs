@@ -18,6 +18,7 @@ namespace Ronin7.Core
         private static int echoesEarned;
         private static int rerollTokens;
         private static int revivesSpent;
+        private static bool unbrokenUsed;
         private static float playerHealth = -1f;
         private static readonly Dictionary<string, int> boonCounts = new();
         private static readonly HashSet<string> grantedAbilities = new();
@@ -37,6 +38,10 @@ namespace Ronin7.Core
         public static int EchoesEarned => echoesEarned;
         public static int RerollTokens => rerollTokens;
         public static int RevivesSpent => revivesSpent;
+
+        /// <summary>P1-07: Unbroken is once per run in the roguelike; durable across node reloads.</summary>
+        public static bool UnbrokenUsed => unbrokenUsed;
+        public static void NoteUnbrokenUsed() => unbrokenUsed = true;
 
         /// <summary>Durable player HP, carried across the fresh scene load every node performs
         /// (A4.2). Negative means "unset" — spawn at full HP, which is also the state at run start
@@ -69,6 +74,7 @@ namespace Ronin7.Core
             echoesEarned = 0;
             rerollTokens = 0;
             revivesSpent = 0;
+            unbrokenUsed = false;
             playerHealth = -1f;
             boonCounts.Clear();
             grantedAbilities.Clear();
@@ -142,6 +148,7 @@ namespace Ronin7.Core
                 echoesEarned = echoesEarned,
                 rerollTokens = rerollTokens,
                 revivesSpent = revivesSpent,
+                unbrokenUsed = unbrokenUsed,
                 playerHealth = playerHealth,
             };
             foreach (KeyValuePair<string, int> boon in boonCounts)
@@ -166,6 +173,7 @@ namespace Ronin7.Core
             echoesEarned = snapshot.echoesEarned;
             rerollTokens = snapshot.rerollTokens;
             revivesSpent = snapshot.revivesSpent;
+            unbrokenUsed = snapshot.unbrokenUsed;
             playerHealth = snapshot.playerHealth;
             foreach (string boonId in snapshot.boons) AddBoon(boonId);
             foreach (string abilityId in snapshot.grantedAbilities) GrantAbility(abilityId);
@@ -190,6 +198,7 @@ namespace Ronin7.Core
             echoesEarned = 0;
             rerollTokens = 0;
             revivesSpent = 0;
+            unbrokenUsed = false;
             playerHealth = -1f;
             boonCounts.Clear();
             grantedAbilities.Clear();
