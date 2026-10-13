@@ -47,6 +47,8 @@ namespace Ronin7.EditorTools
         private const string OutputFolder = "Assets/Ronin7/Prefabs/Roguelike/Enemies";
         private const string MaterialFolder = OutputFolder + "/Materials";
         private const string BodyShaderName = "Ronin7/GrittyCyber";
+        private const string EdgeMaterialPath = "Assets/Ronin7/Art/Materials/VfxNeon_Additive.mat"; // shared URP Particles/Unlit additive (already used by shipped VFX)
+        private const string EdgeObjectName = "BladeEdge";
         private const string BlackMaskPath = "Assets/Ronin7/Art/Textures/Black4.png";
 
         /// <summary>Adult human height (metres) every spawnable enemy is normalised to. 1 unit = 1 m
@@ -197,6 +199,7 @@ namespace Ronin7.EditorTools
             SetObjectRef(so, "bodyRenderer", bodyRenderer);
             // "target" and "definition" are deliberately left null — see the class doc.
             so.ApplyModifiedPropertiesWithoutUndo();
+            EnsureBladeEdge(instance);
 
             NpcWalkAnimator.EnsureOn(instance);
 
@@ -284,6 +287,55 @@ namespace Ronin7.EditorTools
             }
         }
 
+
+        /// <summary>P1-14: idempotently adds the 2-point blade-edge LineRenderer (shared additive material, 3 cm,
+        /// no shadows / probes, world space) and wires <c>MeleeAttacker.bladeEdge</c>. MeleeAttacker enables it
+        /// only in Windup/Active and writes the endpoints, so the positions here are placeholders.</summary>
+        private static void EnsureBladeEdge(GameObject root)
+        {
+            var enemy = root.GetComponent<Enemy>();
+            if (enemy == null) return;
+            var child = root.transform.Find(EdgeObjectName);
+            if (child == null)
+            {
+                child = new GameObject(EdgeObjectName).transform;
+                child.SetParent(root.transform, false);
+            }
+            var lr = child.GetComponent<LineRenderer>();
+            if (lr == null) lr = child.gameObject.AddComponent<LineRenderer>();
+            lr.positionCount = 2;
+            lr.useWorldSpace = true;
+            lr.widthMultiplier = 0.03f;
+            lr.numCapVertices = 0;
+            lr.alignment = LineAlignment.View;
+            lr.sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>(EdgeMaterialPath);
+            lr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            lr.receiveShadows = false;
+            lr.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.Off;
+            lr.reflectionProbeUsage = UnityEngine.Rendering.ReflectionProbeUsage.Off;
+            lr.enabled = false;
+            var so = new SerializedObject(enemy);
+            SetObjectRef(so, "bladeEdge", lr);
+            so.ApplyModifiedPropertiesWithoutUndo();
+        }
+
+        /// <summary>P1-14: additive entry point. Adds the blade edge to every existing baked enemy prefab
+        /// without re-baking (post-bake edits survive).</summary>
+        [MenuItem("Tools/Space Samurai/Roguelike/Add Enemy Blade Edge (additive)")]
+        public static void AddBladeEdgeToBaked()
+        {
+            foreach (var name in System.Linq.Enumerable.Concat(TrashMobNames, BossNames))
+            {
+                string path = OutputFolder + "/" + name + ".prefab";
+                if (AssetDatabase.LoadAssetAtPath<GameObject>(path) == null) { Debug.LogWarning("[EnemyPrefabBaker] missing " + path); continue; }
+                var root = PrefabUtility.LoadPrefabContents(path);
+                EnsureBladeEdge(root);
+                PrefabUtility.SaveAsPrefabAsset(root, path);
+                PrefabUtility.UnloadPrefabContents(root);
+            }
+            AssetDatabase.SaveAssets();
+            Debug.Log("[EnemyPrefabBaker] Added blade edge to baked enemies.");
+        }
 
         /// <summary>P1-12 (BUG-23): additive entry point. Re-extracts the textures from each existing baked
         /// enemy's source art material onto its existing <c>_Enemy.mat</c>, without touching the prefabs.</summary>

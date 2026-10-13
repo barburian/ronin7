@@ -43,7 +43,7 @@ namespace Ronin7.Enemies
         // Parry window includes late Windup so a player can pre-empt the chop.
         protected override bool IsInParryWindow()
             => state == State.Active
-            || (state == State.Windup && timer >= TelegraphTime * 0.75f);
+            || (state == State.Windup && timer >= CurrentTelegraph * 0.75f);
 
         // bladeTip is the point that actually sweeps through the chop (weapon is the static pivot) —
         // the same point already used for the parry capsule below, so it doubles as the G4 Blade

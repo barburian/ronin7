@@ -31,6 +31,8 @@ namespace Ronin7.Enemies
         [SerializeField] protected Renderer bodyRenderer;
         [SerializeField] protected Health target;
         [SerializeField] protected bool nonLethalDisable = false;
+        [Tooltip("P1-14: 2-point LineRenderer from the weapon hand to the blade tip; shown only in Windup/Active.")]
+        [SerializeField] private LineRenderer bladeEdge;
 
         [Header("Weapon poses (local euler) — overhead downward chop")]
         [SerializeField] protected Vector3 restEuler = new Vector3(15f, 0f, 0f);
@@ -78,6 +80,14 @@ namespace Ronin7.Enemies
         protected static readonly Color SightRim = new Color(1f, 0.75f, 0.2f) * 1.5f;
         private const float FlashTime = 0.08f;
 
+        // P1-14 telegraph grace: an attacker outside the player's +-ConeHalfAngle yaw cone gets +Grace s of warning.
+        private const float ConeHalfAngle = 50f;
+        private const float OffscreenGrace = 0.25f;
+
+        /// <summary>Pure: telegraph length for an attacker <paramref name="angleDeg"/> off the player's forward.</summary>
+        public static float TelegraphFor(float baseTime, float angleDeg)
+            => Mathf.Abs(Mathf.DeltaAngle(0f, angleDeg)) > ConeHalfAngle ? baseTime + OffscreenGrace : baseTime;
+
         // Blade renderer under weapon, resolved once in Awake (see EnemySwordVisual.FindBladeRenderer).
         // Null for TrainingDummy/art-prefab rigs with no "Blade"-named child — RendererTint.Apply is
         // null-safe so Tint() stays a no-op for the blade in that case.
@@ -88,6 +98,8 @@ namespace Ronin7.Enemies
         private PlayerCombatModifiers playerMods; // resolved with target; read for the Sight gold rim
         private bool sightRimShown;
         private float flashTimer;
+        private float telegraph; // this attack's telegraph (base + off-cone grace), set in BeginAttack
+        private Color edgeColor = Color.white;
 
         protected Health health;
         protected State state = State.Idle;
@@ -111,6 +123,8 @@ namespace Ronin7.Enemies
 
         // ---- Per-subclass tuning (sourced from SO or inline fields) ----
         protected abstract float TelegraphTime { get; }
+        /// <summary>Telegraph of the attack in progress (parry window = 0.75 x this).</summary>
+        protected float CurrentTelegraph => telegraph;
         protected abstract float ActiveTime { get; }
         protected abstract float RecoverTime { get; }
         protected abstract float StaggerTime { get; }
@@ -215,6 +229,8 @@ namespace Ronin7.Enemies
             if (weapon != null) weapon.localRotation = Quaternion.Euler(restEuler);
             EnemySwordVisual.EnsureVisible(weapon, transform); // placeholder katana so the chop has something to swing
             bladeRenderer = EnemySwordVisual.FindBladeRenderer(weapon);
+            telegraph = TelegraphTime;
+            if (bladeEdge != null) bladeEdge.enabled = false;
             Tint(IdleColor);
         }
 
@@ -263,10 +279,10 @@ namespace Ronin7.Enemies
                     break;
 
                 case State.Windup:
-                    PoseWeapon(restEuler, windupEuler, timer / TelegraphTime);
-                    Tint(Color.Lerp(IdleColor, TelegraphColor, timer / TelegraphTime),
-                         Color.Lerp(RestRim, TelegraphRim, timer / TelegraphTime));
-                    if (timer >= TelegraphTime)
+                    PoseWeapon(restEuler, windupEuler, timer / telegraph);
+                    Tint(Color.Lerp(IdleColor, TelegraphColor, timer / telegraph),
+                         Color.Lerp(RestRim, TelegraphRim, timer / telegraph));
+                    if (timer >= telegraph)
                     {
                         Log("STRIKE");
                         Enter(State.Active);
@@ -304,6 +320,16 @@ namespace Ronin7.Enemies
             }
         }
 
+        // After all pose/animator writes, so the edge tracks the real blade tip. Only runs the work while visible.
+        private void LateUpdate()
+        {
+            if (bladeEdge == null || !bladeEdge.enabled) return;
+            Transform tip = SwingTrackPoint;
+            if (weapon == null || tip == null) return;
+            bladeEdge.SetPosition(0, weapon.position);
+            bladeEdge.SetPosition(1, tip.position);
+        }
+
         protected virtual void FixedUpdate()
         {
             if (state == State.Dead) return;
@@ -336,10 +362,22 @@ namespace Ronin7.Enemies
         protected void BeginAttack()
         {
             OnBeginAttack();
+            telegraph = TelegraphFor(TelegraphTime, AngleFromPlayerForward());
             Log("telegraph");
             deflectedThisSwing = false;
             Enter(State.Windup);
             EventBus.Publish(new AttackWindupStarted(weapon != null ? weapon.position : transform.position, gameObject));
+        }
+
+        /// <summary>Yaw angle between the player's view direction and this enemy (0 when unknown).</summary>
+        private float AngleFromPlayerForward()
+        {
+            if (target == null) return 0f;
+            var cam = Camera.main;
+            Vector3 fwd = cam != null ? cam.transform.forward : target.transform.forward;
+            Vector3 to = transform.position - target.transform.position;
+            fwd.y = 0f; to.y = 0f;
+            return fwd.sqrMagnitude < 1e-4f || to.sqrMagnitude < 1e-4f ? 0f : Vector3.SignedAngle(fwd, to, Vector3.up);
         }
 
         protected void Deflect(Vector3 point) => Deflect(point, null);
@@ -458,7 +496,13 @@ namespace Ronin7.Enemies
             }
         }
 
-        protected void Enter(State next) { state = next; timer = 0f; realTimer = 0f; SetAggroCounted(next != State.Idle && next != State.Dead); }
+        protected void Enter(State next)
+        {
+            if (bladeEdge != null) bladeEdge.enabled = next == State.Windup || next == State.Active;
+            EnterCore(next);
+        }
+
+        private void EnterCore(State next) { state = next; timer = 0f; realTimer = 0f; SetAggroCounted(next != State.Idle && next != State.Dead); }
 
         protected void PoseWeapon(Vector3 fromEuler, Vector3 toEuler, float t)
         {
@@ -495,6 +539,11 @@ namespace Ronin7.Enemies
             if (bodyHasRim) RendererTint.Apply(bodyRenderer, c, rim);
             else RendererTint.Apply(bodyRenderer, c);
             RendererTint.Apply(bladeRenderer, EnemySwordVisual.BladeTint(c));
+            if (bladeEdge != null && bladeEdge.enabled)
+            {
+                edgeColor = c;
+                bladeEdge.startColor = bladeEdge.endColor = edgeColor;
+            }
         }
 
         private bool SightOn => playerMods != null && playerMods.WeakpointSightActive;
