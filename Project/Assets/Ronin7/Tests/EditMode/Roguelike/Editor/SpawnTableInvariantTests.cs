@@ -221,6 +221,31 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
             }
         }
 
+        // ---- BUG-10 / P1-10: boss total HP and damage must rise by sector ----
+
+        [Test]
+        public void BossTotalHealth_IsMonotonicBySector()
+        {
+            var table = LoadTableOrSkip();
+            if (table.bosses == null || table.bosses.Length < 3) Assert.Ignore("Spawn table lacks 3 boss entries.");
+
+            float prevHp = 0f, prevDmg = 0f;
+            for (int sector = 0; sector <= 2; sector++)
+            {
+                EnemySpawnTable.BossEntry boss = System.Array.Find(table.bosses, b => b != null && b.sector == sector);
+                Assert.IsNotNull(boss, $"No boss for sector {sector}.");
+                // Boss node = last node of its sector, exactly as RunMapGenerator lays it out.
+                int depth = sector * Ronin7.Core.RunMapGenerator.NodesPerSector + Ronin7.Core.RunMapGenerator.NodesPerSector - 1;
+                RunArenaController.ScaledStats(boss.definition.maxHealth, boss.definition.damage, depth,
+                    Ronin7.Core.RoomKind.Boss, sector, out float hp, out float dmg);
+
+                Assert.Greater(hp, prevHp, $"Boss HP not increasing: sector {sector} ({boss.definition.name}) = {hp:F0} <= previous {prevHp:F0}.");
+                Assert.Greater(dmg, prevDmg, $"Boss damage not increasing: sector {sector} ({boss.definition.name}) = {dmg:F1} <= previous {prevDmg:F1}.");
+                prevHp = hp;
+                prevDmg = dmg;
+            }
+        }
+
         private static IEnumerable<EnemyDefinition> TableDefinitions(EnemySpawnTable table)
         {
             foreach (var e in table.trash) yield return e.definition;

@@ -229,13 +229,29 @@ namespace Ronin7.World
         {
             if (source == null) return null;
 
-            float healthMul = RunScaling.HealthMultiplier(node.Index, node.Kind);
-            float damageMul = RunScaling.DamageMultiplier(node.Index, node.Kind);
+            ScaledStats(source.maxHealth, source.damage, node.Index, node.Kind, node.Sector, out float health, out float damage);
 
             EnemyDefinition scaled = Instantiate(source);
-            scaled.maxHealth = source.maxHealth * healthMul;
-            scaled.damage = source.damage * damageMul;
+            scaled.maxHealth = health;
+            scaled.damage = damage;
             return scaled;
+        }
+
+        /// <summary>Pure seam for <see cref="BuildScaledDefinition"/> (EditMode never runs Awake).
+        /// P1-10: Boss nodes use the per-sector target bands (total HP, not a multiplier on base);
+        /// every other kind uses the depth multipliers. Posture follows via Enemy.Awake reading
+        /// definition.PostureMax = scaled maxHealth x postureMaxFraction.</summary>
+        internal static void ScaledStats(float baseHealth, float baseDamage, int depth, RoomKind kind, int sector,
+            out float health, out float damage)
+        {
+            if (kind == RoomKind.Boss)
+            {
+                health = RunScaling.BossTargetHealth(sector);
+                damage = baseDamage * RunScaling.BossDamageMultiplier(sector);
+                return;
+            }
+            health = baseHealth * RunScaling.HealthMultiplier(depth, kind);
+            damage = baseDamage * RunScaling.DamageMultiplier(depth, kind);
         }
 
         /// <summary>Activates up to <paramref name="count"/> queued enemies (front of the queue

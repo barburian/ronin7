@@ -127,8 +127,10 @@ namespace Ronin7.EditorTools
                 case "IronWarden":
                 case "Warden":
                 case "VaneWraith":
-                case "Maelgorn":
                     return d => d.superArmor = true;
+                case "Maelgorn":
+                    // P1-10: base 24 so 1.3x (31.2) out-damages sector-1 VaneWraith (24 x 1.1 = 26.4).
+                    return d => { d.superArmor = true; d.damage = 24f; };
                 default:
                     return d => { };
             }

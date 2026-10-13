@@ -34,6 +34,17 @@ namespace Ronin7.Core
             return baseMultiplier * KindDamageFactor(kind);
         }
 
+        private static readonly float[] BossHealthBySector = { 450f, 650f, 900f };
+        private static readonly float[] BossDamageBySector = { 0.9f, 1.1f, 1.3f };
+
+        /// <summary>P1-10 (BUG-10): total boss HP by sector (replaces the depth multiplier for Boss
+        /// nodes). Out-of-range sectors clamp to the nearest band. Until Maelgorn's phases land
+        /// (P3-07) the whole 900 sits on his single definition.</summary>
+        public static float BossTargetHealth(int sector) => BossHealthBySector[Mathf.Clamp(sector, 0, BossHealthBySector.Length - 1)];
+
+        /// <summary>P1-10: damage multiplier on the boss's base damage, by sector (clamped).</summary>
+        public static float BossDamageMultiplier(int sector) => BossDamageBySector[Mathf.Clamp(sector, 0, BossDamageBySector.Length - 1)];
+
         /// <summary>Trash count for Combat, elite count for Elite, always 1 for Boss. Forge/Treasure
         /// have no fight, so they always return 0 without touching rng.</summary>
         public static int EnemyCount(int depth, RoomKind kind, ref RunRng rng)
