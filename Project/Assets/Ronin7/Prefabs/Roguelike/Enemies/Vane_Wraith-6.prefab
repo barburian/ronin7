@@ -103,6 +103,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1808377998228998325, guid: 3c364b1ededa13947aed2d2ee39e3042, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0a0b223e3a223c94fabe1e4d45698711, type: 2}
     - target: {fileID: 4254406790722363034, guid: 3c364b1ededa13947aed2d2ee39e3042, type: 3}
       propertyPath: m_Name
       value: Vane_Wraith-6
@@ -255,6 +259,11 @@ MonoBehaviour:
   windupEuler: {x: -140, y: 0, z: 0}
   strikeEuler: {x: 55, y: 0, z: 0}
   recoilEuler: {x: -120, y: 0, z: 0}
+  flinchTime: 0.2
+  reflinchImmunity: 0.4
+  flinchPush: 0.12
+  flinchTiltDegrees: 12
+  flinchCancelsWindup: 1
   swingSmoothing: 0.5
   definition: {fileID: 0}
   bladeTip: {fileID: 3612675219877341987}

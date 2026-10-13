@@ -115,6 +115,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5800358348645748658, guid: 8549f10b2b2caff478682dcb67c401cc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: efca2af0de26eee4aba443e37a3df585, type: 2}
     - target: {fileID: 8148360008121559036, guid: 8549f10b2b2caff478682dcb67c401cc, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.6990234
@@ -260,6 +264,11 @@ MonoBehaviour:
   windupEuler: {x: -140, y: 0, z: 0}
   strikeEuler: {x: 55, y: 0, z: 0}
   recoilEuler: {x: -120, y: 0, z: 0}
+  flinchTime: 0.2
+  reflinchImmunity: 0.4
+  flinchPush: 0.12
+  flinchTiltDegrees: 12
+  flinchCancelsWindup: 1
   swingSmoothing: 0.5
   definition: {fileID: 0}
   bladeTip: {fileID: 3797610331361347910}

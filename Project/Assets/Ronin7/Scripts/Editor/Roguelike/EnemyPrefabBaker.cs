@@ -44,6 +44,9 @@ namespace Ronin7.EditorTools
         private const string EnemySourceFolder = "Assets/Ronin7/Art/Generated/Characters3D/Enemies";
         private const string BossSourceFolder = "Assets/Ronin7/Art/Generated/Characters3D/Named";
         private const string OutputFolder = "Assets/Ronin7/Prefabs/Roguelike/Enemies";
+        private const string MaterialFolder = OutputFolder + "/Materials";
+        private const string BodyShaderName = "Ronin7/GrittyCyber";
+        private const string BlackMaskPath = "Assets/Ronin7/Art/Textures/Black4.png";
 
         /// <summary>Adult human height (metres) every spawnable enemy is normalised to. 1 unit = 1 m
         /// is a hard VR rule: an enemy that is 0.4 m short reads as a child at room scale.</summary>
@@ -178,6 +181,10 @@ namespace Ronin7.EditorTools
                                       "combat hit-flash tint will be a no-op for this enemy.");
             }
 
+            // BUG-17: glTFast's material reads baseColorFactor, so RendererTint's _BaseColor/_EmissionColor
+            // MPB (the windup telegraph) did nothing. Swap onto one shared GrittyCyber material per type.
+            if (bodyRenderer != null) SwapToEnemyMaterial(instance, bodyRenderer, name);
+
             instance.AddComponent<Health>();
             // Posture/stagger: Enemy.Awake configures it from definition.postureMaxFraction when present
             // (0 = keep PostureMeter's serialized postureMax). Without it, only a deflect ever staggers.
@@ -213,6 +220,61 @@ namespace Ronin7.EditorTools
                   .Append(" -> ").Append(TargetEnemyHeight.ToString("F2")).Append("m) -> ")
                   .Append(outputPath).Append('\n');
             return true;
+        }
+
+        /// <summary>Creates/updates <c>&lt;name&gt;_Enemy.mat</c> on GrittyCyber from the body's glTF material
+        /// and puts it on every body slot plus any other glTFast slot on the enemy. Emission is rim-only
+        /// (black mask) and black at rest; MeleeAttacker drives _EmissionColor per renderer via MPB.</summary>
+        private static void SwapToEnemyMaterial(GameObject instance, Renderer bodyRenderer, string name)
+        {
+            var shader = Shader.Find(BodyShaderName);
+            if (shader == null)
+            {
+                Debug.LogError($"[EnemyPrefabBaker] '{name}': shader {BodyShaderName} not found — body material left as-is.");
+                return;
+            }
+
+            EnsureFolder(MaterialFolder);
+            string path = MaterialFolder + "/" + name + "_Enemy.mat";
+            var mat = AssetDatabase.LoadAssetAtPath<Material>(path);
+            if (mat == null) { mat = new Material(shader); AssetDatabase.CreateAsset(mat, path); }
+            else mat.shader = shader;
+
+            // Source = the body's original glTF material (a re-bake starts from the source art prefab).
+            var src = bodyRenderer.sharedMaterial;
+            if (src != null && src.shader != shader)
+            {
+                if (src.HasProperty("baseColorTexture")) mat.SetTexture("_BaseMap", src.GetTexture("baseColorTexture"));
+                if (src.HasProperty("normalTexture")) mat.SetTexture("_BumpMap", src.GetTexture("normalTexture"));
+                if (src.HasProperty("roughnessFactor")) mat.SetFloat("_Smoothness", 1f - src.GetFloat("roughnessFactor"));
+            }
+            // glTF metallicFactor only scales the ORM map's B channel, and every Tripo export ships
+            // factor 1. GrittyCyber can't read ORM (it wants R=metal, A=smooth), so copying the bare
+            // factor made every enemy full metal: no diffuse, and with no reflection probe on Quest, black.
+            mat.SetFloat("_Metallic", 0f);
+            mat.SetTexture("_MetallicGlossMap", null); // shader default white: scalars above drive it
+            mat.SetColor("_EmissionColor", Color.black);
+            mat.SetTexture("_EmissionMap", AssetDatabase.LoadAssetAtPath<Texture2D>(BlackMaskPath));
+            mat.SetFloat("_EdgeFresnel", 2.5f);
+            EditorUtility.SetDirty(mat);
+
+            var bodySlots = bodyRenderer.sharedMaterials;
+            for (int i = 0; i < bodySlots.Length; i++) bodySlots[i] = mat;
+            bodyRenderer.sharedMaterials = bodySlots;
+
+            foreach (var r in instance.GetComponentsInChildren<Renderer>(true))
+            {
+                if (r == bodyRenderer) continue;
+                var slots = r.sharedMaterials;
+                bool changed = false;
+                for (int i = 0; i < slots.Length; i++)
+                {
+                    if (slots[i] == null || !slots[i].shader.name.Contains("glTF")) continue;
+                    slots[i] = mat;
+                    changed = true;
+                }
+                if (changed) r.sharedMaterials = slots;
+            }
         }
 
         private static Transform FindDeep(Transform t, string name)

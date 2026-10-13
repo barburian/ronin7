@@ -196,6 +196,7 @@ namespace Ronin7.Ship
 
             // Body: stretched cube
             var body = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            body.GetComponent<Renderer>().sharedMaterial = VrUiMaterials.SharedUnlit; // no default material on player builds
             body.name = "Body";
             body.transform.SetParent(root.transform, false);
             body.transform.localScale = new Vector3(6f, 2.5f, 9f);
@@ -203,6 +204,7 @@ namespace Ronin7.Ship
 
             // Nose marker
             var nose = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            nose.GetComponent<Renderer>().sharedMaterial = VrUiMaterials.SharedUnlit; // no default material on player builds
             nose.name = "Nose";
             Object.Destroy(nose.GetComponent<Collider>());
             nose.transform.SetParent(root.transform, false);

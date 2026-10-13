@@ -70,11 +70,11 @@ namespace Ronin7.EditorTools
             var light = lightGo.AddComponent<Light>();
             light.type = LightType.Directional;
             light.color = new Color(0.6f, 0.62f, 0.7f);
-            light.intensity = 0.4f;
+            light.intensity = 1.3f; // 0.4 + 0.08 ambient rendered black once the post grade went live (P0-06)
             lightGo.transform.rotation = Quaternion.Euler(55f, -35f, 0f);
 
             RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
-            RenderSettings.ambientLight = new Color(0.08f, 0.09f, 0.12f);
+            RenderSettings.ambientLight = new Color(0.3f, 0.31f, 0.36f);
             RenderSettings.fog = true;
             RenderSettings.fogMode = FogMode.Exponential;
             RenderSettings.fogColor = new Color(0.05f, 0.06f, 0.08f);

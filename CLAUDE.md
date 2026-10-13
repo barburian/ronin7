@@ -37,6 +37,15 @@ Unity.exe -runTests -batchmode -projectPath "Project" -testPlatform EditMode -te
 **Windows gotcha:** `Unity.exe` forks the editor and the launcher returns early. Wait for the
 `res.xml` results file, not the launcher's exit code. PlayMode tests need a graphics device.
 
+## Before any Quest build: check what the player will actually see
+
+Tests and `adb logcat` only prove shaders load. They cannot catch a frame that is correctly shaded but wrong (all black, pink, too dark). In 2026-10 a "fixed" build went to the headset all black because nobody rendered the scene at Quest settings first. Whatever the task asks you to check, ALSO do a real pre-build check you can run yourself:
+
+- Render the build's scenes in-editor at the **Mobile quality tier** (`Mobile_RPAsset`), loaded the way the build loads them (`Phase6_Boot` → `RunArena`). Render `Camera.main` → RenderTexture through the full URP post stack (see the memory note on game-view capture), then measure mean luminance and magenta ratio, and look at the PNG.
+- For any visual fix, render the **whole scene** (arena + enemies), not just the changed object, at both the PC and Quest tiers.
+- If an automated arena render check exists in the test suite or the editor menu, run it before building.
+- Only device-only causes (Vulkan, multiview, HDR on device) should ever need the headset to find. Say so when that's the case.
+
 ## Working through the MCP
 
 The `ai-game-developer` MCP is the primary way to inspect and modify the running editor. Reach for

@@ -75,8 +75,7 @@ Effort in engineer-days (rough, one person with agents): P0 ≈ 4–5, P1 ≈ 6�
 | BUG-14 | HIGH | **Epic "Grant ability" boons can be dead picks.** `AbilityAccess.Has` also returns true for abilities unlocked by the campaign. | `Core/Roguelike/AbilityAccess.cs:15`; `BoonOfferPicker.Pick` | P1-08 |
 | BUG-15 | HIGH | **Echoes cannot be spent.** `TrySpend` and `SetUpgradeLevel` have no callers, so meta-progression does not exist yet. | `Core/Roguelike/MetaProgression.cs` | P2-01 |
 | BUG-16 | HIGH | **The boon panel follows head position but never rotation.** Turn >90° and it ends up behind you, mirrored and unclickable. Looking down pushes it into the floor. | `Flow/Roguelike/BoonOfferPanel.cs:94` | P1-13 |
-| BUG-17 | MED | **The enemy telegraph tint is a no-op on art enemies.** `RendererTint` writes `_BaseColor`/`_Color`; the glTFast shader reads `baseColorFactor`. | `Core/RendererTint.cs` | P1-11 |
-| BUG-18 | MED | **Posture does not scale.** `postureMaxFraction = 0` everywhere, so posture breaks at a flat 100: trivial on bosses, irrelevant on trash. | all `EnemyDefinition` assets; `Enemy.cs:61-65` | P1-05 |
+| BUG-17 | MED | **The enemy telegraph tint is a no-op on art enemies.** `RendererTint` writes `_BaseColor`/`_Color`; the glTFast shader reads `baseColorFactor`. **Status:** the colour/rim, haptic and audio telegraph landed in this fix; the attack animation part is tracked by P1-15. | `Core/RendererTint.cs` | P1-11 || BUG-18 | MED | **Posture does not scale.** `postureMaxFraction = 0` everywhere, so posture breaks at a flat 100: trivial on bosses, irrelevant on trash. | all `EnemyDefinition` assets; `Enemy.cs:61-65` | P1-05 |
 | BUG-19 | MED | The heal-it-back "weakness" pattern (story `DreamPhantom` etc.) cannot block a lethal hit, because `Current = 0` is set before `Damaged` fires. | `Combat/Health.cs:86-108` | P1-01 (pre-filter) |
 | BUG-20 | MED | Combo boons do nothing against single targets, because a same-target hit resets the chain. That makes them dead on every boss. | `Player/ComboMomentumController.cs:93` | P4-05 (Reversal) |
 | BUG-21 | MED | **Overdrive inflates blade speed** by 2.86×, because `SmoothSpeed` divides by the slowed `fixedDeltaTime`. Any flick reaches max damage, and the perfect-parry window grows to 0.34 s. | `Combat/BladeDamager.cs:78`, `Core/TimeScaleArbiter.cs:61` | P1-06 |
@@ -525,6 +524,21 @@ This comes early because weakness tells (P3) depend on it.
 - Telegraph from outside the field of view: if the attacker is outside the player's ±50° yaw cone at `BeginAttack`, extend `telegraphTime` by +0.25 s. This uses pure `TelegraphFor(baseTime, angleDeg)`.
   - This is **not** an attack-slot cap. You rejected caps; this only lengthens the warning.
 - **Test:** `TelegraphFor_OutsideCone_AddsGrace`.
+
+### P1-15 Enemy attack animation (art enemies; follow-up to BUG-17)
+Today the Tripo/glTF enemies show **no** attack animation. The windup is carried only by the P1-11 rim tint, the directional haptic tick (`CombatFeedbackController` on `AttackWindupStarted`) and the windup audio cue (`AudioDirector`). This item adds the body language.
+1. **State sync:** windup, active and recover poses/clips driven from `MeleeAttacker` states (read the state; do not add timers).
+   - Windup must have a readable silhouette: weapon and arm raise and draw back, so the swing direction is telegraphed before the strike.
+   - Active is the strike; recover is the return to guard.
+2. **Approach decision (do first, record in the PR):** procedural pose vs authored clips.
+   - Tripo meshes use the procedural 6-bone NPC rig (`NpcWalkAnimator`, see `Rig NPC Characters For Walk`). Default is a procedural pose layer on those bones (arm/weapon bones, torso lean); authored clips only if the 6-bone rig cannot sell the windup.
+   - Any new per-type pose data goes in the `EnemyDefinition`/baker, not in scene objects.
+3. **Timing contract:** telegraph is 0.8 s (0.85 s for `Ch12SentinelDuelist` and `TrainingDummy`); the parry window opens at 0.75 × telegraph. The windup pose must reach full draw-back **before** the parry window opens, so the animation leads it. Scale pose speed from the actual `telegraphTime` (incl. the P1-14 +0.25 s grace), never a fixed clip length.
+4. **Constraints:** no camera shake (animate the enemy, never the camera); Quest 90 FPS (11.11 ms), so no per-frame allocations, no new `FindObjectsByType`, and a small bone count only; MPB tint writes stay on `RendererTint`.
+- **Dependencies:** P1-11 (rim tint is the colour half of the telegraph), P1-14 (blade edge, extended telegraph), P1-04 (windup stays uninterruptible only where super-armor says so; a flinch must cleanly cancel the pose).
+- **Test (EditMode, pure logic):** `WindupPoseProgress_ReachesFullBeforeParryWindow`: for telegraph 0.8 and 0.85, pose progress is 1.0 at or before `0.75 × telegraph`. Rig and visual checks are not unit-testable.
+- **Accept:** in-headset readability check on at least 3 enemy types (one humanoid, one drone, one boss): an unfamiliar tester can name the attack direction from the windup alone with the rim tint and audio muted. Profiler shows no added frame cost over the 11.11 ms budget on Quest.
+- **Export Gate:** run it before closing the item; confirm no Quest regression and that the tag/versions below still hold.
 
 ### P1 exit
 - Export Gate.

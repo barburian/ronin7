@@ -1,3 +1,4 @@
+using Ronin7.Enemies;
 using UnityEngine;
 
 namespace Ronin7.World
@@ -43,6 +44,12 @@ namespace Ronin7.World
         private float smoothedSpeed;
         private float amplitude;
 
+        // Right arm doubles as the enemy's weapon bone (MeleeAttacker.weapon); while the attacker is
+        // posing it we must not overwrite it, then ease back to the walk swing instead of snapping.
+        private const float ArmRBlendTime = 0.15f;
+        private MeleeAttacker melee;
+        private float armRBlend = 1f;
+
         /// <summary>Adds (or finds) a walk animator on the given NPC root.</summary>
         public static NpcWalkAnimator EnsureOn(GameObject npc)
         {
@@ -52,6 +59,7 @@ namespace Ronin7.World
 
         private void Awake()
         {
+            melee = GetComponent<MeleeAttacker>();
             body = FindDeep(transform, BodyBoneName);
             legL = FindDeep(transform, LegLBoneName);
             legR = FindDeep(transform, LegRBoneName);
@@ -79,9 +87,10 @@ namespace Ronin7.World
         }
 
         // LateUpdate so the coroutine-driven movement scripts have already moved us this frame.
-        private void LateUpdate()
+        private void LateUpdate() => Tick(Time.deltaTime);
+
+        internal void Tick(float dt)
         {
-            float dt = Time.deltaTime;
             if (dt <= 0f) return;
 
             Vector3 pos = transform.position;
@@ -112,8 +121,13 @@ namespace Ronin7.World
             legR.localRotation = legRRest * Quaternion.AngleAxis(-swing * legSwingDegrees, Vector3.right);
             if (armL != null)
                 armL.localRotation = armLRest * Quaternion.AngleAxis(-swing * armSwingDegrees, Vector3.right);
-            if (armR != null)
-                armR.localRotation = armRRest * Quaternion.AngleAxis(swing * armSwingDegrees, Vector3.right);
+            bool attacking = melee != null && melee.IsPosingWeapon;
+            armRBlend = attacking ? 0f : Mathf.MoveTowards(armRBlend, 1f, dt / ArmRBlendTime);
+            if (armR != null && !attacking)
+            {
+                Quaternion walk = armRRest * Quaternion.AngleAxis(swing * armSwingDegrees, Vector3.right);
+                armR.localRotation = armRBlend >= 1f ? walk : Quaternion.Slerp(armR.localRotation, walk, armRBlend);
+            }
             if (body != null)
             {
                 // Two bobs per cycle (one per step), rising as the legs pass each other.

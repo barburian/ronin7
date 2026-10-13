@@ -130,6 +130,24 @@ namespace Ronin7.Tests.EditMode
         }
 
         [Test]
+        public void OnEnable_SubscribesToAttackWindupStarted_PublishDoesNotThrow()
+        {
+            StartController();
+
+            Assert.IsTrue(HasSubscriber<AttackWindupStarted>());
+            Assert.DoesNotThrow(() => EventBus.Publish(new AttackWindupStarted(Vector3.forward, _go)));
+        }
+
+        [Test]
+        public void OnDisable_UnsubscribesFromAttackWindupStarted()
+        {
+            var controller = StartController();
+            Life(controller, "OnDisable");
+
+            Assert.IsFalse(HasSubscriber<AttackWindupStarted>());
+        }
+
+        [Test]
         public void PlayerHit_TwoArgCtor_SourceDefaultsToPoint()
         {
             var e = new PlayerHit(5f, new Vector3(1f, 2f, 3f));

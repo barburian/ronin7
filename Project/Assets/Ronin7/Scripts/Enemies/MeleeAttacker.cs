@@ -67,6 +67,10 @@ namespace Ronin7.Enemies
         protected static readonly Color IdleColor = Color.white;
         protected static readonly Color TelegraphColor = new Color(1f, 0.4f, 0.25f);
         protected static readonly Color StaggerColor = new Color(0.4f, 0.6f, 1f);
+        // HDR fresnel-rim emission (GrittyCyber _EmissionColor): >1 pushes through Bloom so the windup
+        // reads on textured art bodies, where a _BaseColor tint alone is barely visible.
+        protected static readonly Color TelegraphRim = TelegraphColor * 2.5f;
+        protected static readonly Color StaggerRim = StaggerColor * 2f;
 
         // Blade renderer under weapon, resolved once in Awake (see EnemySwordVisual.FindBladeRenderer).
         // Null for TrainingDummy/art-prefab rigs with no "Blade"-named child — RendererTint.Apply is
@@ -150,6 +154,11 @@ namespace Ronin7.Enemies
         /// <see cref="ParryTiming.IsClash"/> via the <see cref="Deflect(Vector3, BladeDamager)"/> overload.</summary>
         protected float SwingSpeed => swingSpeed;
 
+        /// <summary>True while Update is driving <see cref="weapon"/> (Windup..Stagger). NpcWalkAnimator
+        /// reads this so it doesn't overwrite the shared Rig_ArmR bone in LateUpdate.</summary>
+        public bool IsPosingWeapon =>
+            state == State.Windup || state == State.Active || state == State.Recover || state == State.Stagger;
+
         /// <summary>State to land in once Recover completes.</summary>
         protected virtual State StateAfterRecover => State.Idle;
 
@@ -222,7 +231,8 @@ namespace Ronin7.Enemies
 
                 case State.Windup:
                     PoseWeapon(restEuler, windupEuler, timer / TelegraphTime);
-                    Tint(Color.Lerp(IdleColor, TelegraphColor, timer / TelegraphTime));
+                    Tint(Color.Lerp(IdleColor, TelegraphColor, timer / TelegraphTime),
+                         TelegraphRim * Mathf.Clamp01(timer / TelegraphTime));
                     if (timer >= TelegraphTime)
                     {
                         Log("STRIKE");
@@ -242,7 +252,8 @@ namespace Ronin7.Enemies
 
                 case State.Recover:
                     PoseWeapon(strikeEuler, restEuler, timer / RecoverTime);
-                    Tint(Color.Lerp(TelegraphColor, IdleColor, timer / RecoverTime));
+                    Tint(Color.Lerp(TelegraphColor, IdleColor, timer / RecoverTime),
+                         Color.Lerp(TelegraphRim, Color.black, timer / RecoverTime));
                     if (timer >= RecoverTime) Enter(StateAfterRecover);
                     break;
 
@@ -252,7 +263,8 @@ namespace Ronin7.Enemies
                     else
                         PoseWeapon(recoilEuler, restEuler,
                             (timer - staggerLen * 0.35f) / (staggerLen * 0.65f));
-                    Tint(Color.Lerp(StaggerColor, IdleColor, timer / staggerLen));
+                    Tint(Color.Lerp(StaggerColor, IdleColor, timer / staggerLen),
+                         Color.Lerp(StaggerRim, Color.black, timer / staggerLen));
                     if (flinching) PoseFlinch(timer / staggerLen);
                     if (timer >= staggerLen) Enter(StateAfterStagger);
                     break;
@@ -326,7 +338,7 @@ namespace Ronin7.Enemies
             EndFlinchPose();
             staggerLen = StaggerTime;
             staggerFromEuler = currentEuler;
-            Tint(StaggerColor);
+            Tint(StaggerColor, StaggerRim);
             Log("DEFLECTED");
             EventBus.Publish(new SwordDeflected(point, gameObject));
             Enter(State.Stagger);
@@ -370,7 +382,7 @@ namespace Ronin7.Enemies
 
             staggerLen = Mathf.Max(0.01f, flinchTime);
             staggerFromEuler = currentEuler;
-            Tint(StaggerColor);
+            Tint(StaggerColor, StaggerRim);
             Enter(State.Stagger);
         }
 
@@ -441,9 +453,12 @@ namespace Ronin7.Enemies
                 transform.rotation = Quaternion.LookRotation(to);
         }
 
-        protected void Tint(Color c)
+        protected void Tint(Color c) => Tint(c, Color.black);
+
+        /// <summary>Body base tint plus HDR rim emission; the blade takes the base tint only.</summary>
+        protected void Tint(Color c, Color rim)
         {
-            RendererTint.Apply(bodyRenderer, c);
+            RendererTint.Apply(bodyRenderer, c, rim);
             RendererTint.Apply(bladeRenderer, EnemySwordVisual.BladeTint(c));
         }
 

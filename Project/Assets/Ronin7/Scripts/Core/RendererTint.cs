@@ -18,6 +18,7 @@ namespace Ronin7.Core
     {
         private static readonly int ColorId = Shader.PropertyToID("_Color");
         private static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
+        private static readonly int EmissionColorId = Shader.PropertyToID("_EmissionColor");
         private static MaterialPropertyBlock _mpb;
 
         /// <summary>Tint <paramref name="r"/> to <paramref name="c"/> without cloning its material.</summary>
@@ -28,6 +29,19 @@ namespace Ronin7.Core
             r.GetPropertyBlock(_mpb);
             _mpb.SetColor(ColorId, c);
             _mpb.SetColor(BaseColorId, c);
+            r.SetPropertyBlock(_mpb);
+        }
+
+        /// <summary>As <see cref="Apply(Renderer, Color)"/>, plus an HDR <c>_EmissionColor</c> (e.g. the
+        /// GrittyCyber fresnel rim). Pass black to clear it.</summary>
+        public static void Apply(Renderer r, Color c, Color emission)
+        {
+            if (r == null) return;
+            if (_mpb == null) _mpb = new MaterialPropertyBlock();
+            r.GetPropertyBlock(_mpb);
+            _mpb.SetColor(ColorId, c);
+            _mpb.SetColor(BaseColorId, c);
+            _mpb.SetColor(EmissionColorId, emission);
             r.SetPropertyBlock(_mpb);
         }
     }

@@ -36,6 +36,7 @@ namespace Ronin7.Player
             EventBus.Subscribe<PostureBroken>(OnPostureBroken);
             EventBus.Subscribe<PostureNearBreak>(OnPostureNearBreak);
             EventBus.Subscribe<GameModeChanged>(OnModeChanged);
+            EventBus.Subscribe<AttackWindupStarted>(OnWindup);
         }
 
         private void OnDisable()
@@ -46,6 +47,7 @@ namespace Ronin7.Player
             EventBus.Unsubscribe<PostureBroken>(OnPostureBroken);
             EventBus.Unsubscribe<PostureNearBreak>(OnPostureNearBreak);
             EventBus.Unsubscribe<GameModeChanged>(OnModeChanged);
+            EventBus.Unsubscribe<AttackWindupStarted>(OnWindup);
             RestoreTime();
         }
 
@@ -100,6 +102,17 @@ namespace Ronin7.Player
         }
 
         private void OnImpact(SwordImpact e) => PulseBoth(0.35f, 0.05f);
+
+        // "Incoming" tick on the hand nearest the attacker — weaker and shorter than OnImpact so a
+        // telegraph never reads as a landed blow.
+        private void OnWindup(AttackWindupStarted e)
+        {
+            if (head == null && Camera.main != null) head = Camera.main.transform;
+            if (head == null) { PulseBoth(0.15f, 0.04f); return; }
+            Vector2 w = HitSideWeights(head.position, head.right, e.Point, farHandMin);
+            Haptics.Pulse(XRNode.LeftHand, 0.15f * w.x, 0.04f);
+            Haptics.Pulse(XRNode.RightHand, 0.15f * w.y, 0.04f);
+        }
 
         // Strongest/longest pulse of the set — a posture break is the biggest combat payoff, so it
         // should read as distinctly bigger than the deflect pulse. No slow-mo here (unlike OnDeflect):
