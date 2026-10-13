@@ -104,6 +104,13 @@ namespace Ronin7.EditorTools
                     return d => { d.maxHealth = 90f; d.damage = 12f; d.moveSpeed = 1.4f; d.attackCooldown = 1.0f; };
                 case "GraveGuardian":
                     return d => d.maxHealth = 120f;
+                // BUG-11: heavy types keep their windup when hit.
+                case "HumanoidAutomaton":
+                case "IronWarden":
+                case "Warden":
+                case "VaneWraith":
+                case "Maelgorn":
+                    return d => d.superArmor = true;
                 default:
                     return d => { };
             }

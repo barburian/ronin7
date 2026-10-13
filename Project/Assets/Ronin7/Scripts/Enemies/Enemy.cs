@@ -35,6 +35,7 @@ namespace Ronin7.Enemies
         // After Recover/Stagger, drop back into Chase rather than Idle — the Idle state's
         // 0.2s settle gate is meant for the very first spawn only.
         protected override bool FlinchEnabled => true;
+        protected override bool FlinchCancelsWindup => !definition.superArmor && base.FlinchCancelsWindup;
 
         protected override State StateAfterRecover => State.Chase;
         protected override State StateAfterStagger => State.Chase;

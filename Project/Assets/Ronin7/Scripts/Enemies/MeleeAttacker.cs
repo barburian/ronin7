@@ -174,6 +174,8 @@ namespace Ronin7.Enemies
         /// <summary>Whether this enemy flinches on damage. Off by default (TrainingDummy stays put);
         /// <see cref="Enemy"/> turns it on.</summary>
         protected virtual bool FlinchEnabled => false;
+        /// <summary>Whether a Windup hit cancels the attack. Super-armor enemies override to false.</summary>
+        protected virtual bool FlinchCancelsWindup => flinchCancelsWindup;
 
         /// <summary>Optional per-subclass debug log. Default is silent.</summary>
         protected virtual void Log(string msg) { }
@@ -369,7 +371,7 @@ namespace Ronin7.Enemies
         {
             if (!FlinchEnabled) return;
             if (!FlinchTiming.ShouldFlinch(health.IsAlive, state == State.Stagger, state == State.Active,
-                    state == State.Windup, flinchCancelsWindup, Time.time, flinchImmuneUntil)) return;
+                    state == State.Windup, FlinchCancelsWindup, Time.time, flinchImmuneUntil)) return;
 
             flinchImmuneUntil = Time.time + reflinchImmunity;
 
