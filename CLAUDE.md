@@ -28,7 +28,7 @@ Scenes: `Assets/Ronin7/Scenes/ChNN_*.unity` (chapters + their `ChNN_Prologue` sh
 
 ## Build / Run / Test
 
-EditMode gate (baseline: **1359 tests green, 0 skips** at `roguelike` Phase 0; PlayMode: **15/15 green**):
+EditMode gate (baseline: **1437 tests green, 0 skips** at `roguelike` Phase 1; PlayMode: **15/15 green**):
 
 ```
 Unity.exe -runTests -batchmode -projectPath "Project" -testPlatform EditMode -testResults res.xml
