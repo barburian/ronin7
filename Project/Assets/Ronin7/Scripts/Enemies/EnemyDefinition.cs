@@ -2,6 +2,13 @@ using UnityEngine;
 
 namespace Ronin7.Enemies
 {
+    /// <summary>Per-enemy exploit rule (P3). Serialized: append-only.</summary>
+    public enum WeaknessKind { None, Backstab, HeavyBreak, Recovery, Alternating, Reflect,
+                               Linchpin, ParryGate, CounterHit, PostureOnly, Blink }
+
+    /// <summary>Body material class, drives hit VFX + audio. Serialized: append-only.</summary>
+    public enum MaterialClass { Organic, Mech, Spectral, Armored }
+
     /// <summary>Designer-tunable stats for a melee enemy.</summary>
     [CreateAssetMenu(menuName = "Space Samurai/Enemy Definition", fileName = "EnemyDefinition")]
     public class EnemyDefinition : ScriptableObject
@@ -31,6 +38,15 @@ namespace Ronin7.Enemies
         public float healthAddedPerGalaxy = 0f;
         [Tooltip("Extra attack damage per galaxy completed. 0 = no scaling (default).")]
         public float damageAddedPerGalaxy = 0f;
+
+        [Header("Poise")]
+        public bool superArmor;
+        public float postureGainMultiplier = 1f;
+
+        [Header("Weakness")]
+        public WeaknessKind weakness;
+        public float resistMultiplier = 0.15f, exploitMultiplier = 2f, heavySwingSpeed = 5.5f;
+        public MaterialClass materialClass; // VFX + audio
 
         [Header("Posture (opt-in)")]
         [Tooltip("Fraction of maxHealth used as this enemy's posture-break threshold, so tougher tiers " +

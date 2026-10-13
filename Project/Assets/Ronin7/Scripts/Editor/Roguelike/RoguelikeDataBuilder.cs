@@ -30,7 +30,8 @@ namespace Ronin7.EditorTools
         private struct TrashSpec
         {
             public string PrefabName;
-            public string DefinitionName;
+            public string DefinitionName; // story source asset (cloned into RL_<RlName>)
+            public string RlName;
             public int Weight;
             public int MinDepth;
             public bool EliteOnly;
@@ -39,7 +40,8 @@ namespace Ronin7.EditorTools
         private struct BossSpec
         {
             public string PrefabName;
-            public string DefinitionName;
+            public string DefinitionName; // story source asset (cloned into RL_<RlName>)
+            public string RlName;
             public int Sector;
         }
 
@@ -49,26 +51,26 @@ namespace Ronin7.EditorTools
         // > heavy > elite).
         private static readonly TrashSpec[] TrashSpecs =
         {
-            new TrashSpec { PrefabName = "Ash-World_Scavenger",       DefinitionName = "Ch7Scavenger",          Weight = 15, MinDepth = 0, EliteOnly = false },
-            new TrashSpec { PrefabName = "Coil_Syndicate_Ganger",     DefinitionName = "Ch9CoilRaider",         Weight = 15, MinDepth = 0, EliteOnly = false },
-            new TrashSpec { PrefabName = "Dominion_Trooper",          DefinitionName = "Ch10SyndicateGuard",    Weight = 12, MinDepth = 0, EliteOnly = false },
-            new TrashSpec { PrefabName = "Program_Operative_Grunt",   DefinitionName = "Bandit",                Weight = 12, MinDepth = 2, EliteOnly = false },
-            new TrashSpec { PrefabName = "Hunter_Drone",              DefinitionName = "Ch11GhostManifestation", Weight = 10, MinDepth = 3, EliteOnly = false },
-            new TrashSpec { PrefabName = "Dominion_Scan-Drone",       DefinitionName = "Ch13LabSecurity",       Weight = 10, MinDepth = 3, EliteOnly = false },
-            new TrashSpec { PrefabName = "Humanoid_Automaton",        DefinitionName = "Ch10MineAutomaton",     Weight = 8,  MinDepth = 5, EliteOnly = false },
-            new TrashSpec { PrefabName = "Iron_Dojo_Warden-Cadre",    DefinitionName = "Ch6Caradoc",            Weight = 8,  MinDepth = 5, EliteOnly = false },
-            new TrashSpec { PrefabName = "Spectral_Grave-Guardian",   DefinitionName = "Roguelike/Enemies/RL_GraveGuardian", Weight = 6,  MinDepth = 6, EliteOnly = true },
-            new TrashSpec { PrefabName = "Redaction_Construct",       DefinitionName = "Ch13Redactor",          Weight = 6,  MinDepth = 7, EliteOnly = true },
-            new TrashSpec { PrefabName = "Dream_Ghost_Manifestation", DefinitionName = "Roguelike/Enemies/RL_DreamGhost",    Weight = 6,  MinDepth = 8, EliteOnly = true },
+            new TrashSpec { PrefabName = "Ash-World_Scavenger",       DefinitionName = "Ch7Scavenger", RlName = "AshScavenger",          Weight = 15, MinDepth = 0, EliteOnly = false },
+            new TrashSpec { PrefabName = "Coil_Syndicate_Ganger",     DefinitionName = "Ch9CoilRaider", RlName = "CoilGanger",         Weight = 15, MinDepth = 0, EliteOnly = false },
+            new TrashSpec { PrefabName = "Dominion_Trooper",          DefinitionName = "Ch10SyndicateGuard", RlName = "DominionTrooper",    Weight = 12, MinDepth = 0, EliteOnly = false },
+            new TrashSpec { PrefabName = "Program_Operative_Grunt",   DefinitionName = "Bandit", RlName = "ProgramGrunt",                Weight = 12, MinDepth = 2, EliteOnly = false },
+            new TrashSpec { PrefabName = "Hunter_Drone",              DefinitionName = "Ch11GhostManifestation", RlName = "HunterDrone", Weight = 10, MinDepth = 3, EliteOnly = false },
+            new TrashSpec { PrefabName = "Dominion_Scan-Drone",       DefinitionName = "Ch13LabSecurity", RlName = "ScanDrone",       Weight = 10, MinDepth = 3, EliteOnly = false },
+            new TrashSpec { PrefabName = "Humanoid_Automaton",        DefinitionName = "Ch10MineAutomaton", RlName = "HumanoidAutomaton",     Weight = 8,  MinDepth = 5, EliteOnly = false },
+            new TrashSpec { PrefabName = "Iron_Dojo_Warden-Cadre",    DefinitionName = "Ch6Caradoc", RlName = "IronWarden",            Weight = 8,  MinDepth = 5, EliteOnly = false },
+            new TrashSpec { PrefabName = "Spectral_Grave-Guardian",   DefinitionName = "Ch8Buried", RlName = "GraveGuardian", Weight = 6,  MinDepth = 6, EliteOnly = true },
+            new TrashSpec { PrefabName = "Redaction_Construct",       DefinitionName = "Ch13Redactor", RlName = "RedactionConstruct",          Weight = 6,  MinDepth = 7, EliteOnly = true },
+            new TrashSpec { PrefabName = "Dream_Ghost_Manifestation", DefinitionName = "Ch11GhostManifestation", RlName = "DreamGhost", Weight = 6,  MinDepth = 8, EliteOnly = true },
         };
 
         // Appendix A's boss table — the 3 sector-capping bosses (spares Kerrax/Samurai-4/Sever_Ninja-2
         // are not wired here; nothing in the contract calls for them).
         private static readonly BossSpec[] BossSpecs =
         {
-            new BossSpec { PrefabName = "The-Warden",    DefinitionName = "Ch8Warden",          Sector = 0 },
-            new BossSpec { PrefabName = "Vane_Wraith-6",  DefinitionName = "Ch9Vane",            Sector = 1 },
-            new BossSpec { PrefabName = "Maelgorn",       DefinitionName = "Ch16MaelgornPhase1", Sector = 2 },
+            new BossSpec { PrefabName = "The-Warden",    DefinitionName = "Ch8Warden", RlName = "Warden",          Sector = 0 },
+            new BossSpec { PrefabName = "Vane_Wraith-6",  DefinitionName = "Ch9Vane", RlName = "VaneWraith",            Sector = 1 },
+            new BossSpec { PrefabName = "Maelgorn",       DefinitionName = "Ch16MaelgornPhase1", RlName = "Maelgorn", Sector = 2 },
         };
 
         [MenuItem("Tools/Space Samurai/Roguelike/Build Spawn Table + Room Library")]
@@ -82,23 +84,29 @@ namespace Ronin7.EditorTools
         }
 
         /// <summary>
-        /// BUG-08: two elite entries pointed at story definitions that are not fighters — the Dream
-        /// Ghost used Ch11DreamingArchive (1 HP, 0 damage, 0 speed, cooldown 999: an inert free kill)
-        /// and the Grave Guardian used Ch8Buried (45 HP, weaker than depth-0 trash). The chapters still
-        /// use those assets, so the roguelike gets its own RL_ clones instead of editing them.
-        /// Re-running re-derives each clone from its source and re-applies the overrides.
+        /// P1-02: every spawn-table enemy gets its own RL_ clone of its story definition, so the
+        /// roguelike can tune without touching chapter assets. BUG-08: the Dream Ghost and Grave
+        /// Guardian sources are not real fighters (Ch11DreamingArchive-style stubs), so they carry
+        /// overrides. Re-running re-derives each clone from its source and re-applies the overrides.
         /// </summary>
         private static void BuildRoguelikeDefinitions()
         {
             EnsureFolder(RoguelikeEnemyFolder);
-            EnsureClone("Ch11GhostManifestation", "RL_DreamGhost", d =>
+            foreach (var t in TrashSpecs) EnsureClone(t.DefinitionName, "RL_" + t.RlName, Overrides(t.RlName));
+            foreach (var b in BossSpecs) EnsureClone(b.DefinitionName, "RL_" + b.RlName, Overrides(b.RlName));
+        }
+
+        private static System.Action<EnemyDefinition> Overrides(string rlName)
+        {
+            switch (rlName)
             {
-                d.maxHealth = 90f;
-                d.damage = 12f;
-                d.moveSpeed = 1.4f;
-                d.attackCooldown = 1.0f;
-            });
-            EnsureClone("Ch8Buried", "RL_GraveGuardian", d => d.maxHealth = 120f);
+                case "DreamGhost":
+                    return d => { d.maxHealth = 90f; d.damage = 12f; d.moveSpeed = 1.4f; d.attackCooldown = 1.0f; };
+                case "GraveGuardian":
+                    return d => d.maxHealth = 120f;
+                default:
+                    return d => { };
+            }
         }
 
         private static void EnsureClone(string sourceName, string cloneName, System.Action<EnemyDefinition> tune)
@@ -134,12 +142,12 @@ namespace Ronin7.EditorTools
             foreach (var spec in TrashSpecs)
             {
                 var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(EnemyPrefabFolder + "/" + spec.PrefabName + ".prefab");
-                var def = AssetDatabase.LoadAssetAtPath<EnemyDefinition>(DataFolder + "/" + spec.DefinitionName + ".asset");
+                var def = AssetDatabase.LoadAssetAtPath<EnemyDefinition>(RoguelikeEnemyFolder + "/RL_" + spec.RlName + ".asset");
                 if (prefab == null || def == null)
                 {
                     Debug.LogError($"[RoguelikeDataBuilder] Trash entry '{spec.PrefabName}' skipped — " +
                         (prefab == null ? "baked prefab missing (run Bake Enemy Prefabs first). " : "") +
-                        (def == null ? $"EnemyDefinition '{spec.DefinitionName}' missing." : ""));
+                        (def == null ? $"EnemyDefinition 'RL_{spec.RlName}' missing." : ""));
                     continue;
                 }
                 trash.Add(new EnemySpawnTable.Entry
@@ -150,7 +158,7 @@ namespace Ronin7.EditorTools
                     minDepth = spec.MinDepth,
                     eliteOnly = spec.EliteOnly,
                 });
-                report.Append(spec.PrefabName).Append(" -> ").Append(spec.DefinitionName)
+                report.Append(spec.PrefabName).Append(" -> RL_").Append(spec.RlName)
                       .Append(" weight=").Append(spec.Weight).Append(" minDepth=").Append(spec.MinDepth)
                       .Append(spec.EliteOnly ? " eliteOnly" : "").Append('\n');
             }
@@ -159,17 +167,17 @@ namespace Ronin7.EditorTools
             foreach (var spec in BossSpecs)
             {
                 var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(EnemyPrefabFolder + "/" + spec.PrefabName + ".prefab");
-                var def = AssetDatabase.LoadAssetAtPath<EnemyDefinition>(DataFolder + "/" + spec.DefinitionName + ".asset");
+                var def = AssetDatabase.LoadAssetAtPath<EnemyDefinition>(RoguelikeEnemyFolder + "/RL_" + spec.RlName + ".asset");
                 if (prefab == null || def == null)
                 {
                     Debug.LogError($"[RoguelikeDataBuilder] Boss entry '{spec.PrefabName}' (sector {spec.Sector}) skipped — " +
                         (prefab == null ? "baked prefab missing (run Bake Enemy Prefabs first). " : "") +
-                        (def == null ? $"EnemyDefinition '{spec.DefinitionName}' missing." : ""));
+                        (def == null ? $"EnemyDefinition 'RL_{spec.RlName}' missing." : ""));
                     continue;
                 }
                 bosses.Add(new EnemySpawnTable.BossEntry { prefab = prefab, definition = def, sector = spec.Sector });
                 report.Append("Boss sector ").Append(spec.Sector).Append(": ").Append(spec.PrefabName)
-                      .Append(" -> ").Append(spec.DefinitionName).Append('\n');
+                      .Append(" -> RL_").Append(spec.RlName).Append('\n');
             }
 
             var table = AssetDatabase.LoadAssetAtPath<EnemySpawnTable>(SpawnTablePath);

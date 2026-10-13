@@ -220,5 +220,40 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
                     $"Elite-only '{e.prefab.name}' ({e.definition.name}, {e.definition.maxHealth} HP) is no tougher than depth-0 trash ({toughestDepth0} HP).");
             }
         }
+
+        private static IEnumerable<EnemyDefinition> TableDefinitions(EnemySpawnTable table)
+        {
+            foreach (var e in table.trash) yield return e.definition;
+            if (table.bosses != null) foreach (var b in table.bosses) yield return b.definition;
+        }
+
+        [Test]
+        public void EveryDefinition_TelegraphAtLeast055()
+        {
+            foreach (var d in TableDefinitions(LoadTableOrSkip()))
+                Assert.GreaterOrEqual(d.telegraphTime, 0.55f, $"{d.name} telegraph is unreadable in VR.");
+        }
+
+        [Test]
+        public void RL_Definitions_DoNotReferenceStoryAssets()
+        {
+            const string Folder = "Assets/Ronin7/Data/Roguelike/Enemies";
+            var table = LoadTableOrSkip();
+            int count = 0;
+            foreach (var d in TableDefinitions(table))
+            {
+                string path = AssetDatabase.GetAssetPath(d);
+                Assert.IsTrue(path.StartsWith(Folder + "/RL_"), $"Spawn table points at non-RL asset {path}.");
+                count++;
+            }
+            Assert.AreEqual(14, count, "Expected 11 trash + 3 boss definitions.");
+
+            foreach (var guid in AssetDatabase.FindAssets("t:EnemyDefinition", new[] { Folder }))
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                foreach (var dep in AssetDatabase.GetDependencies(path, true))
+                    Assert.IsFalse(System.IO.Path.GetFileName(dep).StartsWith("Ch"), $"{path} depends on story asset {dep}.");
+            }
+        }
     }
 }
