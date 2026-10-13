@@ -7,7 +7,7 @@ namespace Ronin7.Combat
     /// (via <see cref="DamageMultiplier"/>) to scale the wielder's swing damage. Each slot defaults to
     /// 1 (no effect) so every existing scene/test that doesn't place this component — or an ability
     /// that hasn't unlocked yet — is unaffected. Ch7's weakpoint-sight (<c>Ronin7.Player.WeakpointSight</c>)
-    /// drives <see cref="WeakpointMultiplier"/>; Sunder Beat's parry-flow streak
+    /// drives <see cref="WeakpointSightActive"/>; Sunder Beat's parry-flow streak
     /// (<c>Ronin7.Player.ParryFlowController</c>) drives <see cref="ParryFlowMultiplier"/>; Follow-
     /// Through's combo counter (<c>Ronin7.Player.ComboMomentumController</c>) drives
     /// <see cref="ComboMultiplier"/>. The coupling runs Player -> writes -> this component -> Combat
@@ -22,7 +22,7 @@ namespace Ronin7.Combat
     /// </summary>
     public class PlayerCombatModifiers : MonoBehaviour
     {
-        /// <summary>Hard cap on the transient (Weakpoint x ParryFlow x Combo) product (see
+        /// <summary>Hard cap on the transient (ParryFlow x Combo x Overdrive) product (see
         /// <see cref="DamageMultiplier"/>'s doc).</summary>
         private const float MaxDamageMultiplier = 3f;
 
@@ -30,8 +30,9 @@ namespace Ronin7.Combat
         /// cap rather than folded into the same product (see <see cref="DamageMultiplier"/>'s doc for why).</summary>
         private const float MaxBoonMultiplier = 2f;
 
-        /// <summary>Ch7 weakpoint-sight's multiplier slot.</summary>
-        public float WeakpointMultiplier { get; set; } = 1f;
+        /// <summary>Weakpoint Sight on: raises the precision-hit multiplier 1.25x -> 2x (see
+        /// <see cref="BladeDamager.PrecisionMultiplier"/>). No longer a flat damage slot (BUG-12).</summary>
+        public bool WeakpointSightActive { get; set; }
 
         /// <summary>Overdrive's explicit damage bonus (1.5x while active), in the transient group.</summary>
         public float OverdriveMultiplier { get; set; } = 1f;
@@ -55,7 +56,7 @@ namespace Ronin7.Combat
 
         /// <summary>
         /// The multiplier <see cref="BladeDamager"/> actually applies:
-        /// <c>min(Weakpoint * ParryFlow * Combo, 3x) * min(BoonMultiplier, 2x)</c>.
+        /// <c>min(ParryFlow * Combo * Overdrive, 3x) * min(BoonMultiplier, 2x)</c>.
         ///
         /// A1.5: these two groups are capped SEPARATELY, not folded into one flat 3x product. Max
         /// parry-flow is 1.40x and max combo is 1.60x — their product alone is already 2.24x, so under a
@@ -68,7 +69,7 @@ namespace Ronin7.Combat
         /// individual slots instead.
         /// </summary>
         public float DamageMultiplier =>
-            Mathf.Min(WeakpointMultiplier * ParryFlowMultiplier * ComboMultiplier * OverdriveMultiplier, MaxDamageMultiplier)
+            Mathf.Min(ParryFlowMultiplier * ComboMultiplier * OverdriveMultiplier, MaxDamageMultiplier)
             * Mathf.Min(BoonMultiplier, MaxBoonMultiplier);
     }
 }

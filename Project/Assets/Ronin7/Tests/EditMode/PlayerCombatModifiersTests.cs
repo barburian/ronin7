@@ -22,7 +22,7 @@ namespace Ronin7.Tests.EditMode
         {
             go = new GameObject("Rig");
             var mods = go.AddComponent<PlayerCombatModifiers>();
-            Assert.AreEqual(1f, mods.WeakpointMultiplier);
+            Assert.IsFalse(mods.WeakpointSightActive);
             Assert.AreEqual(1f, mods.ParryFlowMultiplier);
             Assert.AreEqual(1f, mods.ComboMultiplier);
             Assert.AreEqual(1f, mods.BoonMultiplier);
@@ -36,10 +36,9 @@ namespace Ronin7.Tests.EditMode
         {
             go = new GameObject("Rig");
             var mods = go.AddComponent<PlayerCombatModifiers>();
-            mods.WeakpointMultiplier = 2f;
             mods.ParryFlowMultiplier = 1.2f;
             mods.ComboMultiplier = 1.1f;
-            Assert.AreEqual(2f * 1.2f * 1.1f, mods.DamageMultiplier, 1e-5f);
+            Assert.AreEqual(1.2f * 1.1f, mods.DamageMultiplier, 1e-5f);
         }
 
         [Test]
@@ -47,8 +46,8 @@ namespace Ronin7.Tests.EditMode
         {
             go = new GameObject("Rig");
             var mods = go.AddComponent<PlayerCombatModifiers>();
-            mods.WeakpointMultiplier = 2f;
             mods.ParryFlowMultiplier = 1.4f;
+            mods.OverdriveMultiplier = 1.5f;
             mods.ComboMultiplier = 1.6f; // product = 4.48, well past the 3x cap
             Assert.AreEqual(3f, mods.DamageMultiplier);
         }
@@ -60,8 +59,8 @@ namespace Ronin7.Tests.EditMode
             // — this is the exact case the flat single-cap bug made dead weight.
             go = new GameObject("Rig");
             var mods = go.AddComponent<PlayerCombatModifiers>();
-            mods.WeakpointMultiplier = 2f;
             mods.ParryFlowMultiplier = 1.4f;
+            mods.OverdriveMultiplier = 1.5f;
             mods.ComboMultiplier = 1.6f; // transient product 4.48, capped to 3x
             mods.BoonMultiplier = 1.5f;  // under its own 2x cap, applies fully
             Assert.AreEqual(3f * 1.5f, mods.DamageMultiplier, 1e-5f);
@@ -81,8 +80,8 @@ namespace Ronin7.Tests.EditMode
         {
             go = new GameObject("Rig");
             var mods = go.AddComponent<PlayerCombatModifiers>();
-            mods.WeakpointMultiplier = 2f;
             mods.ParryFlowMultiplier = 1.4f;
+            mods.OverdriveMultiplier = 1.5f;
             mods.ComboMultiplier = 1.6f; // capped to 3x
             mods.BoonMultiplier = 10f;   // capped to 2x
             Assert.AreEqual(6f, mods.DamageMultiplier); // 3 * 2, the documented worst case

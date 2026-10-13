@@ -16,11 +16,11 @@ namespace Ronin7.Player
     /// Toggled by <see cref="toggleAction"/> (wired at build time to a dedicated "Toggle Weakpoint
     /// Sight" action bound to the left controller's primary/X button with a Hold(0.6s) interaction —
     /// left X also carries Crouch as a Tap, so a quick tap crouches and a held press toggles this
-    /// ability; read via <c>WasPerformedThisFrame</c> so the Hold interaction is respected). While active: drives the rig's
-    /// <see cref="PlayerCombatModifiers.WeakpointMultiplier"/> and shows marker spheres over nearby
+    /// ability; read via <c>WasPerformedThisFrame</c> so the Hold interaction is respected). While active: sets the rig's
+    /// <see cref="PlayerCombatModifiers.WeakpointSightActive"/> (precision hits 1.25x -> 2x, BUG-12) and shows marker spheres over nearby
     /// enemies, found via <see cref="Health"/> (this assembly doesn't reference Ronin7.Enemies).
     /// Publishes <see cref="AbilityActivated"/> on toggle-ON so <c>EchoPresence</c> reacts, per that
-    /// event's documented contract. <see cref="OnDisable"/> restores the multiplier to 1 and hides
+    /// event's documented contract. <see cref="OnDisable"/> clears the flag and hides
     /// markers as a failsafe (scene teardown, chapter transition).
     ///
     /// INPUT SHARING (resolved): Left X hosts both Crouch (Tap) and this ability (Hold 0.6s) as
@@ -100,7 +100,7 @@ namespace Ronin7.Player
 
         private void ApplyMultiplier()
         {
-            if (combatModifiers != null) combatModifiers.WeakpointMultiplier = state != null ? state.DamageMultiplier : 1f;
+            if (combatModifiers != null) combatModifiers.WeakpointSightActive = state != null && state.IsActive;
         }
 
         private void BuildMarkerPool()

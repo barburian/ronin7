@@ -43,6 +43,7 @@ namespace Ronin7.Combat
         private WeaponDefinition definition;
         private Vector3 lastPos;
         private float speed;
+        private Vector3 bladeVel; // raw world velocity (real time), for the thrust test
         // Per-swing dedup shared by OnTriggerEnter and the sweep. Cleared when the swing ends
         // (speed < minSwingSpeed), so it never accumulates stale/destroyed Health refs.
         private readonly Dictionary<Health, float> lastHitTimes = new();
@@ -76,6 +77,8 @@ namespace Ronin7.Combat
         private void FixedUpdate()
         {
             speed = SmoothSpeed(lastPos, transform.position, RealFixedDt(Time.fixedDeltaTime, Time.timeScale), speed, speedSmoothing);
+            float realDt = RealFixedDt(Time.fixedDeltaTime, Time.timeScale);
+            if (realDt > 0f) bladeVel = (transform.position - lastPos) / realDt;
             lastPos = transform.position;
             if (definition != null) ResetIfSwingEnded(lastHitTimes, speed, definition.minSwingSpeed);
         }
@@ -186,6 +189,20 @@ namespace Ronin7.Combat
         /// amount. Pure/stateless so the multiplier math (e.g. Ch7's weakpoint-sight 2x) is
         /// unit-testable without a physics trigger, mirroring <see cref="SmoothSpeed"/>.
         /// </summary>
+        internal const float PrecisionBaseMultiplier = 1.25f;
+        internal const float PrecisionSightMultiplier = 2f;
+
+        /// <summary>Head = hit point in the top 20% of the victim's bounds; thrust = blade velocity within ~46 deg of its axis.</summary>
+        internal static bool IsPrecisionHit(float hitY, Bounds victimBounds, Vector3 bladeVel, Vector3 bladeAxis)
+        {
+            if (hitY >= victimBounds.max.y - 0.2f * victimBounds.size.y) return true;
+            return Vector3.Dot(bladeVel.normalized, bladeAxis) > 0.7f; // zero velocity normalizes to zero -> false
+        }
+
+        /// <summary>Precision hits get 1.25x (2x with Weakpoint Sight); body hits are untouched.</summary>
+        internal static float PrecisionMultiplier(bool precision, bool sightActive)
+            => !precision ? 1f : sightActive ? PrecisionSightMultiplier : PrecisionBaseMultiplier;
+
         internal static float ApplyWielderMultiplier(float baseDamage, float multiplier) => baseDamage * multiplier;
 
         /// <summary>
@@ -221,6 +238,13 @@ namespace Ronin7.Combat
             // PlayerCombatModifiers (e.g. Ch7 weakpoint-sight) is reachable. Null (unheld / no rig) => 1x.
             if (wielderMods == null) wielderMods = transform.root.GetComponentInParent<PlayerCombatModifiers>();
             dmg = ApplyWielderMultiplier(dmg, wielderMods != null ? wielderMods.DamageMultiplier : 1f);
+            if (box != null)
+            {
+                BladeEndpoints(box.center, box.size, out Vector3 la, out Vector3 lb);
+                Vector3 axis = (transform.TransformPoint(lb) - transform.TransformPoint(la)).normalized;
+                bool precision = IsPrecisionHit(point.y, other.bounds, bladeVel, axis);
+                dmg *= PrecisionMultiplier(precision, wielderMods != null && wielderMods.WeakpointSightActive);
+            }
             if (dmg <= 0f) return;
 
             Vector3 dir = (other.transform.position - transform.position).normalized;

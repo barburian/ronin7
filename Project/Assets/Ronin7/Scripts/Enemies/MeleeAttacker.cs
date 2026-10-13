@@ -298,7 +298,7 @@ namespace Ronin7.Enemies
 
             bool tracking = state == State.Windup || state == State.Active;
             swingSpeed = tracking
-                ? BladeDamager.SmoothSpeed(lastSwingPos, tip.position, Time.fixedDeltaTime, swingSpeed, swingSmoothing)
+                ? BladeDamager.SmoothSpeed(lastSwingPos, tip.position, BladeDamager.RealFixedDt(Time.fixedDeltaTime, Time.timeScale), swingSpeed, swingSmoothing)
                 : 0f;
             lastSwingPos = tip.position;
         }
