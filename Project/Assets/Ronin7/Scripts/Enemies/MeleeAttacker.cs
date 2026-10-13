@@ -68,15 +68,26 @@ namespace Ronin7.Enemies
         protected static readonly Color IdleColor = Color.white;
         protected static readonly Color TelegraphColor = new Color(1f, 0.4f, 0.25f);
         protected static readonly Color StaggerColor = new Color(0.4f, 0.6f, 1f);
-        // HDR fresnel-rim emission (GrittyCyber _EmissionColor): >1 pushes through Bloom so the windup
-        // reads on textured art bodies, where a _BaseColor tint alone is barely visible.
+        // HDR fresnel rim (GrittyCyber _RimColor): >1 pushes through Bloom so the windup reads on
+        // textured art bodies, where a _BaseColor tint alone is barely visible.
+        // Rim priority (P1-11): telegraph/stagger > Weakpoint Sight gold > faction idle. There is no
+        // faction colour on MeleeAttacker yet, so idle rim is off.
         protected static readonly Color TelegraphRim = TelegraphColor * 2.5f;
         protected static readonly Color StaggerRim = StaggerColor * 2f;
+        protected static readonly Color IdleRim = Color.black;
+        protected static readonly Color SightRim = new Color(1f, 0.75f, 0.2f) * 1.5f;
+        private const float FlashTime = 0.08f;
 
         // Blade renderer under weapon, resolved once in Awake (see EnemySwordVisual.FindBladeRenderer).
         // Null for TrainingDummy/art-prefab rigs with no "Blade"-named child — RendererTint.Apply is
         // null-safe so Tint() stays a no-op for the blade in that case.
         private Renderer bladeRenderer;
+        // Body material reads _RimColor/_FlashAmount (GrittyCyber). False for e.g. SamuraiToon bodies, whose
+        // own material _RimColor must not be overridden by an MPB black.
+        private bool bodyHasRim;
+        private PlayerCombatModifiers playerMods; // resolved with target; read for the Sight gold rim
+        private bool sightRimShown;
+        private float flashTimer;
 
         protected Health health;
         protected State state = State.Idle;
@@ -197,6 +208,9 @@ namespace Ronin7.Enemies
             health.Died += OnDied;
             health.Damaged += OnDamagedFlinch;
             if (target == null) target = FindPlayer();
+            if (target != null) playerMods = target.GetComponentInParent<PlayerCombatModifiers>();
+            var bodyMat = bodyRenderer != null ? bodyRenderer.sharedMaterial : null;
+            bodyHasRim = bodyMat != null && bodyMat.HasProperty("_RimColor") && bodyMat.HasProperty("_FlashAmount");
             currentEuler = restEuler;
             if (weapon != null) weapon.localRotation = Quaternion.Euler(restEuler);
             EnemySwordVisual.EnsureVisible(weapon, transform); // placeholder katana so the chop has something to swing
@@ -217,8 +231,20 @@ namespace Ronin7.Enemies
 
         protected virtual void Update()
         {
+            // Hit flash 1 -> 0 over FlashTime; ticks before the Dead return so a killing blow still fades.
+            if (flashTimer > 0f)
+            {
+                flashTimer = Mathf.Max(0f, flashTimer - Time.deltaTime);
+                if (bodyHasRim) RendererTint.Flash(bodyRenderer, flashTimer / FlashTime);
+            }
+
             if (state == State.Dead) return;
-            if (target == null) { target = FindPlayer(); if (target == null) return; }
+            if (target == null)
+            {
+                target = FindPlayer();
+                if (target == null) return;
+                playerMods = target.GetComponentInParent<PlayerCombatModifiers>();
+            }
 
             timer += Time.deltaTime;
             realTimer += Time.unscaledDeltaTime;
@@ -227,17 +253,19 @@ namespace Ronin7.Enemies
             switch (state)
             {
                 case State.Idle:
+                    RefreshSightRim();
                     OnIdleTick();
                     break;
 
                 case State.Chase:
+                    RefreshSightRim();
                     OnChaseTick();
                     break;
 
                 case State.Windup:
                     PoseWeapon(restEuler, windupEuler, timer / TelegraphTime);
                     Tint(Color.Lerp(IdleColor, TelegraphColor, timer / TelegraphTime),
-                         TelegraphRim * Mathf.Clamp01(timer / TelegraphTime));
+                         Color.Lerp(RestRim, TelegraphRim, timer / TelegraphTime));
                     if (timer >= TelegraphTime)
                     {
                         Log("STRIKE");
@@ -258,7 +286,7 @@ namespace Ronin7.Enemies
                 case State.Recover:
                     PoseWeapon(strikeEuler, restEuler, timer / RecoverTime);
                     Tint(Color.Lerp(TelegraphColor, IdleColor, timer / RecoverTime),
-                         Color.Lerp(TelegraphRim, Color.black, timer / RecoverTime));
+                         Color.Lerp(TelegraphRim, RestRim, timer / RecoverTime));
                     if (timer >= RecoverTime) Enter(StateAfterRecover);
                     break;
 
@@ -269,7 +297,7 @@ namespace Ronin7.Enemies
                         PoseWeapon(recoilEuler, restEuler,
                             (timer - staggerLen * 0.35f) / (staggerLen * 0.65f));
                     Tint(Color.Lerp(StaggerColor, IdleColor, timer / staggerLen),
-                         Color.Lerp(StaggerRim, Color.black, timer / staggerLen));
+                         Color.Lerp(StaggerRim, RestRim, timer / staggerLen));
                     if (flinching) PoseFlinch(timer / staggerLen);
                     if (timer >= staggerLen) Enter(StateAfterStagger);
                     break;
@@ -369,6 +397,7 @@ namespace Ronin7.Enemies
         /// </summary>
         private void OnDamagedFlinch(DamageInfo info)
         {
+            flashTimer = FlashTime; // P1-11 hit flash, every damaging hit (also on non-flinching enemies)
             if (!FlinchEnabled) return;
             if (!FlinchTiming.ShouldFlinch(health.IsAlive, state == State.Stagger, state == State.Active,
                     state == State.Windup, FlinchCancelsWindup, Time.time, flinchImmuneUntil)) return;
@@ -458,13 +487,27 @@ namespace Ronin7.Enemies
                 transform.rotation = Quaternion.LookRotation(to);
         }
 
-        protected void Tint(Color c) => Tint(c, Color.black);
+        protected void Tint(Color c) => Tint(c, state == State.Dead ? IdleRim : RestRim);
 
-        /// <summary>Body base tint plus HDR rim emission; the blade takes the base tint only.</summary>
+        /// <summary>Body base tint plus HDR rim; the blade takes the base tint only.</summary>
         protected void Tint(Color c, Color rim)
         {
-            RendererTint.Apply(bodyRenderer, c, rim);
+            if (bodyHasRim) RendererTint.Apply(bodyRenderer, c, rim);
+            else RendererTint.Apply(bodyRenderer, c);
             RendererTint.Apply(bladeRenderer, EnemySwordVisual.BladeTint(c));
+        }
+
+        private bool SightOn => playerMods != null && playerMods.WeakpointSightActive;
+
+        /// <summary>Rim when no telegraph/stagger owns it: Sight gold, else the idle rim.</summary>
+        private Color RestRim => SightOn ? SightRim : IdleRim;
+
+        /// <summary>Idle/Chase: re-tint only when Weakpoint Sight flips, not every frame.</summary>
+        private void RefreshSightRim()
+        {
+            if (SightOn == sightRimShown) return;
+            sightRimShown = SightOn;
+            Tint(IdleColor, RestRim);
         }
 
         protected static Health FindPlayer() => FindPlayer(Health.Active);

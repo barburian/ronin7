@@ -23,6 +23,13 @@ Shader "Ronin7/GrittyCyber"
         _EdgeFresnel("Edge Fresnel Power", Range(0.5,16)) = 4.0
         _EdgeSpeed("Energy Flow Speed", Range(0,8)) = 0.0
         _EdgePulse("Edge Pulse Amount", Range(0,1)) = 0.0
+        // P1-11 enemy readability (BUG-17). All default to "off" so existing materials render unchanged.
+        // glTF packing for _MetallicGlossMap: metal = B, smoothness = 1 - G (Tripo ORM). A float, not a
+        // keyword, so it adds no shader variants (Quest variant budget).
+        [ToggleUI] _MRGltf("MR Map is glTF (B=metal, G=rough)", Float) = 0.0
+        [HDR] _RimColor("Rim Color (MPB: telegraph/stagger/sight)", Color) = (0,0,0,0)
+        _RimPower("Rim Power", Range(0.5,16)) = 2.5
+        _FlashAmount("Hit Flash (MPB)", Range(0,1)) = 0.0
     }
 
     SubShader
@@ -44,6 +51,10 @@ Shader "Ronin7/GrittyCyber"
             float  _EdgeFresnel;
             float  _EdgeSpeed;
             float  _EdgePulse;
+            float  _MRGltf;
+            float4 _RimColor;
+            float  _RimPower;
+            float  _FlashAmount;
         CBUFFER_END
         ENDHLSL
 
@@ -137,10 +148,15 @@ Shader "Ronin7/GrittyCyber"
                 half pulse = 1.0 - _EdgePulse * (0.5 - 0.5 * sin(_Time.y * 6.0));
                 half3 emission = _EmissionColor.rgb * max(mask, fres) * pulse;
 
+                // P1-11: telegraph rim (MPB) and hit flash (lerp to white + HDR emission past Bloom).
+                half rim = pow(saturate(1.0 - saturate(dot(normalWS, V))), _RimPower);
+                emission += _RimColor.rgb * rim + _FlashAmount * 1.5;
+                albedo.rgb = lerp(albedo.rgb, 1.0, _FlashAmount);
+
                 SurfaceData surface = (SurfaceData)0;
                 surface.albedo     = albedo.rgb;
-                surface.metallic   = mg.r * _Metallic;
-                surface.smoothness = mg.a * _Smoothness;
+                surface.metallic   = lerp(mg.r, mg.b, _MRGltf) * _Metallic;
+                surface.smoothness = lerp(mg.a, 1.0 - mg.g, _MRGltf) * _Smoothness;
                 surface.normalTS   = normalTS;
                 surface.occlusion  = occ;
                 surface.emission   = emission;

@@ -18,7 +18,9 @@ namespace Ronin7.Core
     {
         private static readonly int ColorId = Shader.PropertyToID("_Color");
         private static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
-        private static readonly int EmissionColorId = Shader.PropertyToID("_EmissionColor");
+        private static readonly int BaseColorFactorId = Shader.PropertyToID("baseColorFactor"); // glTFast stop-gap
+        private static readonly int RimColorId = Shader.PropertyToID("_RimColor");
+        private static readonly int FlashAmountId = Shader.PropertyToID("_FlashAmount");
         private static MaterialPropertyBlock _mpb;
 
         /// <summary>Tint <paramref name="r"/> to <paramref name="c"/> without cloning its material.</summary>
@@ -29,19 +31,31 @@ namespace Ronin7.Core
             r.GetPropertyBlock(_mpb);
             _mpb.SetColor(ColorId, c);
             _mpb.SetColor(BaseColorId, c);
+            _mpb.SetColor(BaseColorFactorId, c);
             r.SetPropertyBlock(_mpb);
         }
 
-        /// <summary>As <see cref="Apply(Renderer, Color)"/>, plus an HDR <c>_EmissionColor</c> (e.g. the
-        /// GrittyCyber fresnel rim). Pass black to clear it.</summary>
-        public static void Apply(Renderer r, Color c, Color emission)
+        /// <summary>As <see cref="Apply(Renderer, Color)"/>, plus the HDR GrittyCyber fresnel <c>_RimColor</c>.
+        /// Pass black to clear it. Only for rim-owning materials: SamuraiToon has its own material _RimColor.</summary>
+        public static void Apply(Renderer r, Color c, Color rim)
         {
             if (r == null) return;
             if (_mpb == null) _mpb = new MaterialPropertyBlock();
             r.GetPropertyBlock(_mpb);
             _mpb.SetColor(ColorId, c);
             _mpb.SetColor(BaseColorId, c);
-            _mpb.SetColor(EmissionColorId, emission);
+            _mpb.SetColor(BaseColorFactorId, c);
+            _mpb.SetColor(RimColorId, rim);
+            r.SetPropertyBlock(_mpb);
+        }
+
+        /// <summary>GrittyCyber hit flash: <c>_FlashAmount</c> 0..1 (lerp to white + emission) on the same MPB.</summary>
+        public static void Flash(Renderer r, float amount)
+        {
+            if (r == null) return;
+            if (_mpb == null) _mpb = new MaterialPropertyBlock();
+            r.GetPropertyBlock(_mpb);
+            _mpb.SetFloat(FlashAmountId, amount);
             r.SetPropertyBlock(_mpb);
         }
     }

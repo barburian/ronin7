@@ -224,7 +224,8 @@ namespace Ronin7.EditorTools
 
         /// <summary>Creates/updates <c>&lt;name&gt;_Enemy.mat</c> on GrittyCyber from the body's glTF material
         /// and puts it on every body slot plus any other glTFast slot on the enemy. Emission is rim-only
-        /// (black mask) and black at rest; MeleeAttacker drives _EmissionColor per renderer via MPB.</summary>
+        /// (black mask) and black at rest; MeleeAttacker drives the P1-11 _RimColor/_FlashAmount per renderer
+        /// via MPB. The glTF MR map (_MRGltf) is wired with texture extraction in P1-12.</summary>
         private static void SwapToEnemyMaterial(GameObject instance, Renderer bodyRenderer, string name)
         {
             var shader = Shader.Find(BodyShaderName);
@@ -256,6 +257,7 @@ namespace Ronin7.EditorTools
             mat.SetColor("_EmissionColor", Color.black);
             mat.SetTexture("_EmissionMap", AssetDatabase.LoadAssetAtPath<Texture2D>(BlackMaskPath));
             mat.SetFloat("_EdgeFresnel", 2.5f);
+            mat.SetFloat("_RimPower", 2.5f);
             EditorUtility.SetDirty(mat);
 
             var bodySlots = bodyRenderer.sharedMaterials;

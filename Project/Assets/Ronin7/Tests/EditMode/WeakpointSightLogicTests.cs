@@ -6,57 +6,65 @@ using UnityEngine;
 namespace Ronin7.Tests.EditMode
 {
     /// <summary>
-    /// Guards the two pure helpers behind Ch7's weakpoint-sight ability: the on/off toggle + damage
-    /// multiplier state machine (<see cref="WeakpointSightState"/>) and the marker distance-filter
+    /// Guards the two pure helpers behind Ch7's weakpoint-sight ability: the on/off toggle
+    /// state machine (<see cref="WeakpointSightState"/>) and the marker distance-filter
     /// (<see cref="WeakpointSightMarkers"/>). Mirrors <c>MultiObjectiveLogicTests</c>' style.
     /// </summary>
     public class WeakpointSightLogicTests
     {
         [Test]
-        public void InitialState_IsInactive_MultiplierIsOne()
+        public void InitialState_IsInactive()
         {
-            var state = new WeakpointSightState(2f);
+            var state = new WeakpointSightState();
             Assert.IsFalse(state.IsActive);
-            Assert.AreEqual(1f, state.DamageMultiplier);
         }
 
         [Test]
         public void Toggle_FirstCall_ActivatesAndReturnsTrue()
         {
-            var state = new WeakpointSightState(2f);
+            var state = new WeakpointSightState();
             bool result = state.Toggle();
             Assert.IsTrue(result);
             Assert.IsTrue(state.IsActive);
-            Assert.AreEqual(2f, state.DamageMultiplier);
         }
 
         [Test]
         public void Toggle_SecondCall_DeactivatesAndReturnsFalse()
         {
-            var state = new WeakpointSightState(2f);
+            var state = new WeakpointSightState();
             state.Toggle();
             bool result = state.Toggle();
             Assert.IsFalse(result);
             Assert.IsFalse(state.IsActive);
-            Assert.AreEqual(1f, state.DamageMultiplier);
         }
 
         [Test]
         public void Deactivate_WhileActive_ForcesInactive()
         {
-            var state = new WeakpointSightState(2f);
+            var state = new WeakpointSightState();
             state.Toggle();
             state.Deactivate();
             Assert.IsFalse(state.IsActive);
-            Assert.AreEqual(1f, state.DamageMultiplier);
         }
 
         [Test]
         public void Deactivate_WhileAlreadyInactive_IsIdempotent()
         {
-            var state = new WeakpointSightState(2f);
+            var state = new WeakpointSightState();
             state.Deactivate();
             Assert.IsFalse(state.IsActive);
+        }
+
+        [Test]
+        public void HeadPoint_SitsInPrecisionBand()
+        {
+            // 2 m tall body from y=0: head band is y >= 1.6, marker at its centre (1.8).
+            var b = new Bounds(new Vector3(3f, 1f, -2f), new Vector3(0.6f, 2f, 0.6f));
+            var p = WeakpointSightMarkers.HeadPoint(b);
+            Assert.AreEqual(1.8f, p.y, 1e-4f);
+            Assert.AreEqual(3f, p.x, 1e-4f);
+            Assert.AreEqual(-2f, p.z, 1e-4f);
+            Assert.GreaterOrEqual(p.y, b.max.y - 0.2f * b.size.y);
         }
 
         [Test]

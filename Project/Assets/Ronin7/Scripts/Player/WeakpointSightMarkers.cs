@@ -30,5 +30,10 @@ namespace Ronin7.Player
             }
             return result;
         }
+
+        /// <summary>Marker point on the precision zone: centre of the top 20% of the target's collider
+        /// bounds, the same head band <c>BladeDamager.IsPrecisionHit</c> scores (P1-06).</summary>
+        public static Vector3 HeadPoint(Bounds b)
+            => new Vector3(b.center.x, b.max.y - 0.1f * b.size.y, b.center.z);
     }
 }

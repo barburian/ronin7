@@ -38,8 +38,8 @@ namespace Ronin7.Player
 
         [SerializeField] private InputActionReference toggleAction;
         [SerializeField] private PlayerCombatModifiers combatModifiers;
-        [SerializeField] private float activeDamageMultiplier = 2f;
         [SerializeField] private float markerRadius = 15f;
+        [Tooltip("Fallback marker height (m) for a target with no Collider; otherwise the marker sits on the precision (head) zone.")]
         [SerializeField] private float markerChestHeight = 1.3f;
         [SerializeField] private Color markerColor = new Color(1f, 0.25f, 0.15f, 1f);
 
@@ -59,7 +59,7 @@ namespace Ronin7.Player
             }
 
             if (combatModifiers == null) combatModifiers = GetComponent<PlayerCombatModifiers>();
-            state = new WeakpointSightState(activeDamageMultiplier);
+            state = new WeakpointSightState();
             BuildMarkerPool();
         }
 
@@ -144,7 +144,11 @@ namespace Ronin7.Player
             {
                 if (i < targetsInRange.Count)
                 {
-                    markerPool[i].position = targetsInRange[i].transform.position + Vector3.up * markerChestHeight;
+                    var t = targetsInRange[i];
+                    var col = t.GetComponent<Collider>();
+                    markerPool[i].position = col != null
+                        ? WeakpointSightMarkers.HeadPoint(col.bounds)
+                        : t.transform.position + Vector3.up * markerChestHeight;
                     markerPool[i].gameObject.SetActive(true);
                 }
                 else
