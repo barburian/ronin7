@@ -25,6 +25,7 @@ namespace Ronin7.Enemies
 
         private float groundY;
         private float nextAttackTime;
+        private float chaseSpeed; // P2-11: ramped walk speed, m/s (0 outside Chase)
 
         protected override float TelegraphTime => definition.telegraphTime;
         protected override float ActiveTime => definition.activeTime;
@@ -41,6 +42,7 @@ namespace Ronin7.Enemies
         protected override float PoseTwistDegrees => definition.poseTwistDegrees;
         protected override float PoseLeanDegrees => definition.poseLeanDegrees;
         protected override bool PoseWholeBody => definition.poseWholeBody;
+        protected override float MaxTurnDegreesPerSecond => definition.turnRateDegrees;
 
         protected override State StateAfterRecover => State.Chase;
         protected override State StateAfterStagger => State.Chase;
@@ -81,6 +83,7 @@ namespace Ronin7.Enemies
         {
             if (state == State.Idle || state == State.Chase || state == State.Windup)
                 FacePlayer();
+            if (state != State.Chase) chaseSpeed = 0f; // every Chase entry ramps up from a standstill
         }
 
         protected override void OnIdleTick()
@@ -98,14 +101,23 @@ namespace Ronin7.Enemies
 
             if (dist > definition.attackRange)
             {
-                Vector3 step = to.normalized * definition.moveSpeed * Time.deltaTime;
-                Vector3 pos = transform.position + step;
+                // P2-11: walk where the body faces (turn first, no sideways/backwards slide), ramp the
+                // speed up and brake into attackRange instead of jumping between full speed and zero.
+                Vector3 fwd = transform.forward; fwd.y = 0f; fwd.Normalize();
+                float align = Mathf.Clamp01(Vector3.Dot(fwd, to / dist));
+                // Brake for the gap left after this frame's step, or the discrete ramp lags and stops hard.
+                float want = align * MovementSmoothing.ArrivalSpeed(definition.moveSpeed,
+                    dist - definition.attackRange - chaseSpeed * Time.deltaTime, definition.deceleration);
+                chaseSpeed = MovementSmoothing.StepSpeed(chaseSpeed, want,
+                    definition.acceleration, definition.deceleration, Time.deltaTime);
+                Vector3 pos = transform.position + fwd * (chaseSpeed * Time.deltaTime);
                 pos.y = groundY;
                 transform.position = pos;
             }
-            else if (Time.time >= nextAttackTime)
+            else
             {
-                BeginAttack();
+                chaseSpeed = 0f; // arrival braking already brought it to ~0 here
+                if (Time.time >= nextAttackTime) BeginAttack();
             }
         }
 

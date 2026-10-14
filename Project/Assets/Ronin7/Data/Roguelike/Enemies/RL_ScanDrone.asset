@@ -15,6 +15,9 @@ MonoBehaviour:
   maxHealth: 50
   moveSpeed: 1.4
   attackRange: 1.7
+  turnRateDegrees: 300
+  acceleration: 3
+  deceleration: 3
   telegraphTime: 0.8
   activeTime: 0.8
   recoverTime: 0.6

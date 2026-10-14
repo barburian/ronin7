@@ -43,6 +43,7 @@ namespace Ronin7.World
         private float phase;
         private float smoothedSpeed;
         private float amplitude;
+        internal float Phase => phase; // test seam (P2-11)
 
         // Right arm doubles as the enemy's weapon bone (MeleeAttacker.weapon); while the attacker is
         // posing it we must not overwrite it, then ease back to the walk swing instead of snapping.
@@ -99,7 +100,8 @@ namespace Ronin7.World
             delta.y = 0f;
 
             // EMA smoothing so a single stalled/teleported frame doesn't pop the pose.
-            float speed = delta.magnitude / dt;
+            float travelled = delta.magnitude;
+            float speed = travelled / dt;
             smoothedSpeed = Mathf.Lerp(smoothedSpeed, speed, 1f - Mathf.Exp(-8f * dt));
 
             float targetAmp = Mathf.Clamp01(smoothedSpeed / fullSwingSpeed);
@@ -107,15 +109,18 @@ namespace Ronin7.World
 
             if (amplitude > 0.001f)
             {
-                // One full cycle (two steps) per 2*strideLength travelled.
-                phase += Mathf.PI * (smoothedSpeed / strideLength) * dt;
+                // P2-11: one full cycle (two steps) per 2*strideLength ACTUALLY travelled, so the feet
+                // stay planted while the body speeds up or brakes (a lagging speed estimate slid them).
+                phase = MovementSmoothing.AdvanceWalkPhase(phase, travelled, strideLength);
             }
             else
             {
                 phase = 0f; // settled: snap the cycle so the rest pose is exact
             }
 
-            float swing = Mathf.Sin(phase) * amplitude;
+            // P2-11: rigid hulls (drones) glide; swinging their auto-rigged "legs" would crease the hull.
+            float amp = melee != null && melee.RigidHull ? 0f : amplitude;
+            float swing = Mathf.Sin(phase) * amp;
 
             legL.localRotation = legLRest * Quaternion.AngleAxis(swing * legSwingDegrees, Vector3.right);
             legR.localRotation = legRRest * Quaternion.AngleAxis(-swing * legSwingDegrees, Vector3.right);
@@ -131,7 +136,7 @@ namespace Ronin7.World
             if (body != null)
             {
                 // Two bobs per cycle (one per step), rising as the legs pass each other.
-                float bob = bobHeight * amplitude * 0.5f * (1f - Mathf.Cos(2f * phase));
+                float bob = bobHeight * amp * 0.5f * (1f - Mathf.Cos(2f * phase));
                 body.localPosition = bodyRestPos + Vector3.up * bob;
             }
         }

@@ -20,6 +20,12 @@ namespace Ronin7.Enemies
         public float moveSpeed = 1.4f;
         [Tooltip("Distance at which the enemy stops and starts an attack.")]
         public float attackRange = 1.7f;
+        [Tooltip("P2-11: max body turn rate, degrees/s. Small corrections still ease in; this caps big swings.")]
+        public float turnRateDegrees = 240f;
+        [Tooltip("P2-11: walk speed ramp-up, m/s^2.")]
+        public float acceleration = 4f;
+        [Tooltip("P2-11: braking, m/s^2. Also sets how early the enemy slows before attackRange.")]
+        public float deceleration = 6f;
 
         [Header("Attack timing (seconds)")]
         public float telegraphTime = 0.8f;

@@ -225,6 +225,10 @@ namespace Ronin7.Enemies
         /// TrainingDummy overrides to 5 for a slower, less twitchy track.</summary>
         protected virtual float FaceTurnRate => 8f;
 
+        /// <summary>P2-11: cap on <see cref="FacePlayer"/>'s turn speed, deg/s. Unlimited by default
+        /// (TrainingDummy keeps its old track); Enemy reads EnemyDefinition.turnRateDegrees.</summary>
+        protected virtual float MaxTurnDegreesPerSecond => float.PositiveInfinity;
+
         /// <summary>P1-15 per-type pose data (Enemy reads EnemyDefinition). Arm scale multiplies the weapon
         /// arc away from rest; twist/lean are the torso yaw / backward lean at full draw-back.</summary>
         protected virtual float PoseArmScale => 1f;
@@ -232,6 +236,8 @@ namespace Ronin7.Enemies
         protected virtual float PoseLeanDegrees => 0f;
         /// <summary>True: pose the whole rig (Rig_Root) instead of the torso, so a rigid drone hull lunges without creasing.</summary>
         protected virtual bool PoseWholeBody => false;
+        /// <summary>P2-11: rigid hull (drone). NpcWalkAnimator skips the limb swing and bob, which would crease it.</summary>
+        public bool RigidHull => PoseWholeBody;
 
         /// <summary>Whether this enemy flinches on damage. Off by default (TrainingDummy stays put);
         /// <see cref="Enemy"/> turns it on.</summary>
@@ -296,7 +302,7 @@ namespace Ronin7.Enemies
                 if (bodyHasRim) RendererTint.Flash(bodyRenderer, flashTimer / FlashTime);
             }
 
-            if (state == State.Dead) return;
+            if (state == State.Dead) { TickTopple(); return; }
             if (target == null)
             {
                 target = FindPlayer();
@@ -352,20 +358,23 @@ namespace Ronin7.Enemies
                     break;
 
                 case State.Recover:
-                    PoseWeapon(strikeEuler, restEuler, timer / RecoverTime);
-                    PoseBody(-StrikeLunge, 0f, timer / RecoverTime);
+                    // P2-11: eased (not linear) settle so the pose doesn't kink into the walk; same duration.
+                    float settle = Mathf.SmoothStep(0f, 1f, timer / RecoverTime);
+                    PoseWeapon(strikeEuler, restEuler, settle);
+                    PoseBody(-StrikeLunge, 0f, settle);
                     Tint(Color.Lerp(TelegraphColor, IdleColor, timer / RecoverTime),
                          Color.Lerp(TelegraphRim, RestRim, timer / RecoverTime));
                     if (timer >= RecoverTime) Enter(StateAfterRecover);
                     break;
 
                 case State.Stagger:
+                    // P2-11: each leg eased so the recoil starts/ends at rest instead of kinking.
                     if (timer < staggerLen * 0.35f)
-                        PoseWeapon(staggerFromEuler, recoilEuler, timer / (staggerLen * 0.35f));
+                        PoseWeapon(staggerFromEuler, recoilEuler, Mathf.SmoothStep(0f, 1f, timer / (staggerLen * 0.35f)));
                     else
                         PoseWeapon(recoilEuler, restEuler,
-                            (timer - staggerLen * 0.35f) / (staggerLen * 0.65f));
-                    PoseBody(staggerFromDraw, 0f, timer / (staggerLen * 0.35f)); // cancel: torso back to guard
+                            Mathf.SmoothStep(0f, 1f, (timer - staggerLen * 0.35f) / (staggerLen * 0.65f)));
+                    PoseBody(staggerFromDraw, 0f, Mathf.SmoothStep(0f, 1f, timer / (staggerLen * 0.35f))); // cancel: torso back to guard
                     Tint(Color.Lerp(StaggerColor, IdleColor, timer / staggerLen),
                          Color.Lerp(StaggerRim, RestRim, timer / staggerLen));
                     if (flinching) PoseFlinch(timer / staggerLen);
@@ -539,18 +548,32 @@ namespace Ronin7.Enemies
             Enter(State.Dead);
             OnDeathPose();
 
+            // P2-11: topple/slump eases in over ToppleTime (TickTopple) instead of popping in one frame.
+            toppleFrom = transform.rotation;
+            toppleT = 0f;
             if (nonLethalDisable)
             {
                 // Non-lethal: slumped/pinned pose with slate-blue tint.
                 Tint(new Color(0.45f, 0.5f, 0.62f));
-                transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, 70f);
+                toppleTo = Quaternion.Euler(0f, transform.eulerAngles.y, 70f);
             }
             else
             {
                 // Lethal: gray tint with topple pose.
                 Tint(Color.gray);
-                transform.rotation = Quaternion.Euler(85f, transform.eulerAngles.y, 0f);
+                toppleTo = Quaternion.Euler(85f, transform.eulerAngles.y, 0f);
             }
+        }
+
+        private const float ToppleTime = 0.35f;
+        private Quaternion toppleFrom, toppleTo;
+        private float toppleT = 1f;
+
+        private void TickTopple()
+        {
+            if (toppleT >= 1f) return;
+            toppleT = Mathf.Min(1f, toppleT + Time.deltaTime / ToppleTime);
+            transform.rotation = Quaternion.Slerp(toppleFrom, toppleTo, Mathf.SmoothStep(0f, 1f, toppleT));
         }
 
         protected void Enter(State next)
@@ -583,8 +606,12 @@ namespace Ronin7.Enemies
             Vector3 to = target.transform.position - transform.position;
             to.y = 0f;
             if (to.sqrMagnitude > 0.01f)
-                transform.rotation = Quaternion.Slerp(transform.rotation,
-                    Quaternion.LookRotation(to), FaceTurnRate * Time.deltaTime);
+            {
+                // P2-11: yaw-only, eased like the old Slerp for small errors but rate-capped for big swings.
+                float yaw = MovementSmoothing.StepYaw(transform.eulerAngles.y, Mathf.Atan2(to.x, to.z) * Mathf.Rad2Deg,
+                    MaxTurnDegreesPerSecond, FaceTurnRate, Time.deltaTime);
+                transform.rotation = Quaternion.Euler(0f, yaw, 0f);
+            }
         }
 
         protected void SnapFacePlayer()
