@@ -186,6 +186,10 @@ namespace Ronin7.Flow
             }
         }
 
+        /// <summary>A run is (re)starting with no run live, so a latch left stuck by an aborted run-end
+        /// load must not block it. Safe: StartRun/TryResumeRun return early while a run is still live.</summary>
+        internal void ClearEndingLatch() => EndingRun = false;
+
         /// <summary>Menu/hub entry (ENTER THE FRACTURE, RunLauncher): resumes the autosaved run if a
         /// valid <see cref="RunSnapshot"/> exists (a crash or app kill mid-run), otherwise starts a new
         /// run with a random seed.</summary>
@@ -198,6 +202,7 @@ namespace Ronin7.Flow
         public void StartRun(uint seed)
         {
             if (RunState.InRun) return; // guard against a double-tap on the hub launcher
+            ClearEndingLatch();
             RunState.Begin(seed);
             pathChoices = null;
             lastClearedNode = -1;
@@ -226,6 +231,7 @@ namespace Ronin7.Flow
                 RunSnapshot.Delete();
                 return false;
             }
+            ClearEndingLatch();
             pathChoices = null;
             lastClearedNode = -1;
             deferredClear = null;
@@ -652,6 +658,17 @@ namespace Ronin7.Flow
             choicePanel.FooterSelected += OnChoicePanelFooter;
         }
 
+        /// <summary>SAVE &amp; QUIT at the sector card: a Boss node's only out-edge is the next sector's
+        /// first node, so take it exactly as CONTINUE would (Path/Depth stay valid) and snapshot the entry
+        /// with the healed HP already noted by <see cref="ShowSectorCard"/>. False (nothing moved) otherwise.</summary>
+        internal bool CheckpointAdvance()
+        {
+            var next = RunState.NextChoices;
+            if (next.Count != 1 || !RunState.Advance(next[0])) return false;
+            WriteRunSnapshot();
+            return true;
+        }
+
         private static IEnumerator DelayThen(float seconds, Action then)
         {
             yield return new WaitForSecondsRealtime(seconds);
@@ -872,7 +889,11 @@ namespace Ronin7.Flow
             else if (panelMode == PanelMode.Sector)
             {
                 if (index == 0) LeaveRoom();
-                else SuspendRun();
+                else
+                {
+                    CheckpointAdvance(); // resume at the next sector's entry, not the boss
+                    SuspendRun();
+                }
             }
         }
 

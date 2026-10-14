@@ -311,6 +311,77 @@ namespace Ronin7.Tests.EditMode
         }
 
         [Test]
+        public void SectorCheckpoint_SaveAndQuit_ResumesAtNextSectorEntry()
+        {
+            var dir = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "ronin7_ckpt_" + Guid.NewGuid().ToString("N"));
+            System.IO.Directory.CreateDirectory(dir);
+            SaveSystem.DirectoryOverride = dir;
+            MetaProgression.ResetForTests();
+            MetaProgression.Load();
+            var go = new GameObject("RunDirector");
+            var director = go.AddComponent<RunDirector>();
+            try
+            {
+                RunState.Begin(7u);
+                while (RunState.CurrentNode.Kind != RoomKind.Boss) Assert.IsTrue(RunState.Advance(RunState.NextChoices[0]));
+                Assert.AreEqual(0, RunState.CurrentNode.Sector);
+                RunState.NotePlayerHealth(77f);
+
+                Assert.IsTrue(director.CheckpointAdvance());
+                int entry = RunState.NodeIndex;
+                Assert.AreEqual(1, RunState.CurrentNode.Sector, "advanced past the boss into sector 2");
+
+                RunState.Reset();
+                var snapshot = RunSnapshot.Read();
+                Assert.IsNotNull(snapshot);
+                Assert.IsTrue(RunState.Restore(snapshot));
+                Assert.AreEqual(entry, RunState.NodeIndex, "resume lands at the next sector's first room");
+                Assert.AreEqual(1, RunState.CurrentNode.Sector);
+                Assert.AreEqual(77f, RunState.PlayerHealth);
+            }
+            finally
+            {
+                RunState.Reset();
+                UnityEngine.Object.DestroyImmediate(go);
+                SaveSystem.DirectoryOverride = null;
+                MetaProgression.Reset();
+                try { System.IO.Directory.Delete(dir, true); } catch { }
+            }
+        }
+
+        [Test]
+        public void ClearEndingLatch_UnblocksLaterRuns()
+        {
+            var dir = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "ronin7_latch_" + Guid.NewGuid().ToString("N"));
+            System.IO.Directory.CreateDirectory(dir);
+            SaveSystem.DirectoryOverride = dir;
+            RunLog.DirectoryOverride = dir;
+            MetaProgression.ResetForTests();
+            MetaProgression.Load();
+            var go = new GameObject("RunDirector");
+            var director = go.AddComponent<RunDirector>();
+            try
+            {
+                RunState.Begin(1u);
+                director.EndRun(won: false, beat: false); // latches; the scene load is never completed (stuck)
+                LogAssert.Expect(LogType.Error, new System.Text.RegularExpressions.Regex("No GameFlowManager"));
+                RunState.Reset();
+                Assert.IsTrue(director.EndingRun);
+                director.ClearEndingLatch();
+                Assert.IsFalse(director.EndingRun);
+            }
+            finally
+            {
+                RunState.Reset();
+                UnityEngine.Object.DestroyImmediate(go);
+                SaveSystem.DirectoryOverride = null;
+                RunLog.DirectoryOverride = null;
+                MetaProgression.Reset();
+                try { System.IO.Directory.Delete(dir, true); } catch { }
+            }
+        }
+
+        [Test]
         public void EndRun_LatchesBeforeDelay()
         {
             var dir = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "ronin7_endrun_" + Guid.NewGuid().ToString("N"));
