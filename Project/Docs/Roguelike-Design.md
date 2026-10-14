@@ -1346,8 +1346,15 @@ Binding as of Phase 2 (`0.3.0`). Each item names the task that landed it.
 - **A10.12 Phase 2 exit (D-02).** `RunLauncher` and the hub patch (`RoguePatchHubLauncher` plus the hub's
   RunLauncher object) are removed; the build ships `Phase6_Boot` + `RunArena`. EditMode baseline after
   removal: 1518 (no tests referenced them).
-- **A10.13 Device numbers (G5/G6).** TODO: fill after the Quest and PCVR device run (frame times, GC, and any
-  tuning changes to the values above).
+- **A10.13 Device numbers (G5/G6).** Quest 3S, release 0.3.0 (code 3), 2026-10-14. G5: the user completed a
+  full run to the win screen on Quest and also did the room-1 death run and the PCVR-via-Link runs ("it's
+  fine"). Logcat for the Quest session had 0 exceptions, 0 "couldn't be loaded", 0 shader errors. The only
+  warning was "Main Camera does not use a Tracked Pose Driver" (BUG-37). The meta save after the win was
+  37 -> 321 Echoes and 4 -> 5 runs completed. G6 (VrApi logcat, release build, 98 samples over ~1.5 min of
+  gameplay): FPS avg 90.3, min 88, max 91 at 90 Hz. Stale frames: 0 in 91 samples; the rest were
+  1, 1, 1, 2, 2, 3, 4, about 14 frames of ~8,700 (~0.16%, under the 1% limit). This is not the full 2-minute
+  4-enemy OVR Metrics capture. G8 pause: confirmed by the user. Known issues carried to Phase 3: BUG-30..38
+  (see roadmap P3-00).
 
 ## Build status — 2026-09-19
 
