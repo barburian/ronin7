@@ -25,8 +25,12 @@ namespace Ronin7.Flow
         [Tooltip("P2-01: shows the banked Echoes balance on the menu.")]
         [SerializeField] private Text echoesLabel;
 
+        [Tooltip("P2-09: the boot scene's settings panel toggle (wired by the roguelike entry-point patcher).")]
+        [SerializeField] private Ronin7.Player.SettingsMenuToggle settings;
+
         private bool abandonArmed;
         private MetaShopPanel shop;
+        private bool settingsHidMenu;
 
         private void OnEnable()
         {
@@ -144,6 +148,23 @@ namespace Ronin7.Flow
             var canvas = GetComponent<Canvas>();
             canvas.enabled = false;
             shop.onClosed = () => { if (this != null) canvas.enabled = true; };
+        }
+
+        /// <summary>Menu "SETTINGS" (P2-09): comfort options must be reachable before the first run.</summary>
+        public void OnSettingsClicked()
+        {
+            if (settings != null) settings.Show();
+        }
+
+        // Hide the menu canvas while settings is open, however it was opened (button or controller
+        // Menu) and closed (BACK or Menu) — same overlap rule as the shrine. One bool compare per frame.
+        private void Update()
+        {
+            if (settings == null) return;
+            bool open = settings.IsOpen;
+            if (open == settingsHidMenu) return;
+            settingsHidMenu = open;
+            GetComponent<Canvas>().enabled = !open;
         }
 
         /// <summary>Menu "ABANDON": the first click asks for confirmation, the second discards the

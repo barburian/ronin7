@@ -29,6 +29,7 @@ namespace Ronin7.EditorTools
         private const string RogueAbandonButtonName = "Btn_AbandonRun";
         private const string RogueShrineButtonName = "Btn_Shrine";
         private const string RogueEchoesLabelName = "Txt_Echoes";
+        private const string RogueSettingsButtonName = "Btn_Settings";
 
         [MenuItem("Tools/Space Samurai/Roguelike/Patch Entry Points (additive)", priority = 510)]
         public static void PatchRoguelikeEntryPoints()
@@ -174,26 +175,70 @@ namespace Ronin7.EditorTools
                 echoes = t.transform;
             }
 
+            // P2-09: a seated / left-handed player must set comfort options BEFORE the first run.
+            var settingsToggle = RogueEnsureBootSettingsPanel();
+            if (canvasRt.Find(RogueSettingsButtonName) == null)
+            {
+                var settingsBtn = MenuMakeButton(canvasRt, "SETTINGS", new Vector2(0f, 16f));
+                settingsBtn.gameObject.name = RogueSettingsButtonName;
+                UnityEventTools.AddPersistentListener(settingsBtn.onClick,
+                    new UnityEngine.Events.UnityAction(controller.OnSettingsClicked));
+                Debug.Log("[RogueEntry] Added SETTINGS button to the boot menu.");
+            }
+
             var so = new SerializedObject(controller);
+            so.FindProperty("settings").objectReferenceValue = settingsToggle;
             so.FindProperty("runButton").objectReferenceValue = canvasRt.Find(RogueRunButtonName).GetComponent<Button>();
             so.FindProperty("abandonButton").objectReferenceValue = abandonBtn;
             so.FindProperty("echoesLabel").objectReferenceValue = echoes.GetComponent<Text>();
             so.ApplyModifiedPropertiesWithoutUndo();
 
-            // Restack: seven buttons at 82px spacing (80px tall) stay clear of the title (y=270) and
-            // inside the canvas (height 700 => +/-350). Matching by the label each button carries.
+            // Restack: eight buttons at 82px spacing (80px tall) stay clear of the title (y=270); the
+            // canvas grows to 900 (+/-450) so EXIT (bottom edge -434) stays inside it. Matching by the
+            // label each button carries.
             // BUG-27: ABANDON RUN sits 20+ cm (1 px = 1 mm) below ENTER THE FRACTURE / RESUME RUN —
-            // it used to be 9 cm under it, one slip from discarding the run.
+            // it used to be 9 cm under it, one slip from discarding the run (now 41 cm).
+            canvasRt.sizeDelta = new Vector2(canvasRt.sizeDelta.x, Mathf.Max(canvasRt.sizeDelta.y, 900f));
             RogueStack(canvasRt, "ENTER THE FRACTURE", 180f);
             RogueStack(canvasRt, "SHRINE", 98f);
-            RogueStack(canvasRt, "RECALIBRATE HEIGHT", 16f);
-            RogueStack(canvasRt, "START NEW GAME", -66f);
-            RogueStack(canvasRt, "ABANDON RUN", -148f);
-            RogueStack(canvasRt, "CONTINUE", -230f);
-            RogueStack(canvasRt, "EXIT GAME", -312f);
+            RogueStack(canvasRt, "SETTINGS", 16f);
+            RogueStack(canvasRt, "RECALIBRATE HEIGHT", -66f);
+            RogueStack(canvasRt, "START NEW GAME", -148f);
+            RogueStack(canvasRt, "ABANDON RUN", -230f);
+            RogueStack(canvasRt, "CONTINUE", -312f);
+            RogueStack(canvasRt, "EXIT GAME", -394f);
 
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
+        }
+
+        /// <summary>P2-09: the boot scene had no settings panel. Adds the standard one (comfort rows
+        /// included), hidden, with its <see cref="Ronin7.Player.SettingsMenuToggle"/>. "Return to Main
+        /// Menu" becomes BACK (we're already in it), wired to the toggle's Hide. Save slots stay but
+        /// are non-interactable here (SaveGate refuses GameMode.Boot). Idempotent.</summary>
+        private static Ronin7.Player.SettingsMenuToggle RogueEnsureBootSettingsPanel()
+        {
+            var toggle = Object.FindAnyObjectByType<Ronin7.Player.SettingsMenuToggle>(FindObjectsInactive.Include);
+            if (toggle != null && toggle.HasPanel) return toggle;
+
+            var panel = SettingsPanelBuilder.BuildCanvas();
+            SettingsPanelBuilder.EnsureMenuToggle(panel.gameObject);
+            toggle = Object.FindAnyObjectByType<Ronin7.Player.SettingsMenuToggle>(FindObjectsInactive.Include);
+
+            var so = new SerializedObject(panel);
+            var ret = so.FindProperty("returnToMenuButton");
+            var back = ret.objectReferenceValue as Button;
+            ret.objectReferenceValue = null;
+            so.ApplyModifiedPropertiesWithoutUndo();
+            if (back != null)
+            {
+                var label = back.GetComponentInChildren<Text>(true);
+                if (label != null) label.text = "BACK";
+                UnityEventTools.AddPersistentListener(back.onClick, new UnityEngine.Events.UnityAction(toggle.Hide));
+            }
+            panel.gameObject.SetActive(false);
+            Debug.Log("[RogueEntry] Added a hidden settings panel (with comfort options) to the boot scene.");
+            return toggle;
         }
 
         /// <summary>Move whichever button carries <paramref name="label"/> to <paramref name="y"/>.</summary>
