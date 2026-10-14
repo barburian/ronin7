@@ -560,5 +560,32 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             Assert.AreEqual(70, MetaProgression.Echoes);
             Assert.AreEqual(1, MetaProgression.UpgradeLevel(MetaUpgradeId.StartingBoon));
         }
+
+        // ---- P2-08 onboarding ----
+
+        [Test]
+        public void MetaSaveData_MissingTutorialField_DefaultsFalse()
+        {
+            var data = JsonUtility.FromJson<MetaSaveData>("{\"version\":1,\"metaEchoes\":5}");
+            Assert.IsFalse(data.tutorialDone);
+            MetaProgression.ApplyFrom(data);
+            Assert.IsFalse(MetaProgression.TutorialDone);
+        }
+
+        [Test]
+        public void ApplyFrom_ExistingPlayerWithRuns_TreatsTutorialAsDone()
+        {
+            MetaProgression.ApplyFrom(new MetaSaveData { metaRunsCompleted = 2 });
+            Assert.IsTrue(MetaProgression.TutorialDone);
+        }
+
+        [Test]
+        public void CompleteTutorial_Persists()
+        {
+            MetaProgression.CompleteTutorial();
+            MetaProgression.Reset();
+            MetaProgression.Load();
+            Assert.IsTrue(MetaProgression.TutorialDone);
+        }
     }
 }

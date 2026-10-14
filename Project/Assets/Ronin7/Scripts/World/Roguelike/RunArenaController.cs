@@ -140,7 +140,10 @@ namespace Ronin7.World
             // RunArena scene root) guarantees.
             Vector3 exclusionCentreLocal = transform.InverseTransformPoint(ResolveExclusionCentre());
 
-            List<SpawnRequest> requests = WaveComposer.Compose(spawnTable, node, halfExtent, exclusionCentreLocal, ref rng);
+            // P2-08: first run only (IsLoaded guard: never touches a save that was not loaded this session).
+            bool tutorial = MetaProgression.IsLoaded && !MetaProgression.TutorialDone && node.Depth == 0 && node.Kind == RoomKind.Combat;
+            if (tutorial) TutorialPrompt.Create(transform, halfExtent);
+            List<SpawnRequest> requests = WaveComposer.Compose(spawnTable, node, halfExtent, exclusionCentreLocal, ref rng, tutorial);
             foreach (SpawnRequest request in requests)
                 SpawnEnemy(request, node);
 

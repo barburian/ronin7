@@ -36,6 +36,24 @@ namespace Ronin7.Core
         public static int RunsCompleted => runsCompleted;
         public static int RunsWon => runsWon;
 
+        private static bool tutorialDone;
+
+        /// <summary>P2-08: first-run onboarding finished (or skipped because the player has completed runs).</summary>
+        public static bool TutorialDone => tutorialDone;
+
+        /// <summary>P2-08: pure load rule. A player who already finished runs before this field existed
+        /// has no use for the tutorial, so runsCompleted &gt; 0 counts as done.</summary>
+        internal static bool ResolveTutorialDone(MetaSaveData data) =>
+            data != null && (data.tutorialDone || data.metaRunsCompleted > 0);
+
+        /// <summary>P2-08: marks the tutorial done and persists (no-op once done).</summary>
+        public static void CompleteTutorial()
+        {
+            if (tutorialDone) return;
+            tutorialDone = true;
+            Save();
+        }
+
         /// <summary>Clamps negatives to 0 rather than letting Echoes go below zero.</summary>
         public static void AddEchoes(int amount)
         {
@@ -131,6 +149,7 @@ namespace Ronin7.Core
             bestDepth = data.metaBestDepth;
             runsCompleted = data.metaRunsCompleted;
             runsWon = data.metaRunsWon;
+            tutorialDone = ResolveTutorialDone(data);
 
             upgradeLevels.Clear();
             if (data.metaUpgrades != null)
@@ -158,6 +177,7 @@ namespace Ronin7.Core
             data.metaBestDepth = bestDepth;
             data.metaRunsCompleted = runsCompleted;
             data.metaRunsWon = runsWon;
+            data.tutorialDone = tutorialDone;
 
             List<string> ids = new List<string>();
             foreach (KeyValuePair<string, int> kvp in upgradeLevels)
@@ -247,6 +267,7 @@ namespace Ronin7.Core
             bestDepth = 0;
             runsCompleted = 0;
             runsWon = 0;
+            tutorialDone = false;
             upgradeLevels.Clear();
         }
 

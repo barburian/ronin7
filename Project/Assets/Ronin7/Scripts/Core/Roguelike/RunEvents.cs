@@ -25,6 +25,13 @@ namespace Ronin7.Core
         public RunEnded(int depthReached, bool won) { DepthReached = depthReached; Won = won; }
     }
 
+    /// <summary>P2-08: a <see cref="Grabbable"/> was picked up (the sword draw, for the tutorial prompt).</summary>
+    public readonly struct ObjectGrabbed
+    {
+        public readonly Transform Hand;
+        public ObjectGrabbed(Transform hand) { Hand = hand; }
+    }
+
     /// <summary>Published when the player picks a boon from an offer.</summary>
     public readonly struct BoonChosen
     {

@@ -46,6 +46,7 @@ namespace Ronin7.Core
             transform.position = hand.position + posOffset;
 
             Grabbed?.Invoke(hand);
+            EventBus.Publish(new ObjectGrabbed(hand));
         }
 
         public void Release(Vector3 linearVelocity, Vector3 angularVelocity)

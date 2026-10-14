@@ -127,7 +127,7 @@ namespace Ronin7.World
         /// <see cref="SpawnRequest"/> (<c>IsBoss = true</c>) picked from <c>bosses[]</c> matching
         /// <c>node.Sector</c>, falling back to the last boss entry if none match.</summary>
         public static List<SpawnRequest> Compose(
-            EnemySpawnTable table, RunNode node, float arenaHalfExtent, Vector3 playerSpawn, ref RunRng rng)
+            EnemySpawnTable table, RunNode node, float arenaHalfExtent, Vector3 playerSpawn, ref RunRng rng, bool tutorial = false)
         {
             var result = new List<SpawnRequest>();
             if (table == null) return result;
@@ -147,10 +147,17 @@ namespace Ronin7.World
             if (node.Kind == RoomKind.Elite)
                 return ComposeElite(table, node, arenaHalfExtent, playerSpawn, ref rng);
 
-            int count = RunScaling.EnemyCount(node.Depth, node.Kind, ref rng);
+            // P2-08: first run, start node = exactly 2 Scavengers (falls back to any eligible trash if the table has none).
+            bool firstRoom = tutorial && node.Kind == RoomKind.Combat && node.Depth == 0;
+            int count = firstRoom ? 2 : RunScaling.EnemyCount(node.Depth, node.Kind, ref rng);
             if (count <= 0) return result;
 
             List<int> eligible = EligibleTrashIndices(table.trash, node);
+            if (firstRoom)
+            {
+                var scavengers = eligible.FindAll(i => IsScavenger(table.trash[i]));
+                if (scavengers.Count > 0) eligible = scavengers;
+            }
             if (eligible.Count == 0) return result;
 
             List<Vector3> positions = Positions(count, arenaHalfExtent, playerSpawn, ref rng);
@@ -167,6 +174,9 @@ namespace Ronin7.World
 
             return result;
         }
+
+        private static bool IsScavenger(EnemySpawnTable.Entry e) =>
+            e.definition.name.Contains("Scavenger") || e.prefab.name.Contains("Scavenger");
 
         /// <summary>P1-09 (BUG-09): one elite first (an eliteOnly pick when eligible, else the strongest
         /// eligible trash by maxHealth), then escorts drawn from non-eliteOnly trash — 2 in sectors 0-1,

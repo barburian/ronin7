@@ -37,5 +37,7 @@ namespace Ronin7.Core
         public int metaRunsCompleted;
         public int metaRunsWon;
         public List<MetaUpgradeEntry> metaUpgrades = new List<MetaUpgradeEntry>();
+        /// <summary>P2-08: first-run onboarding finished. Appended field: an old meta.json without it loads false.</summary>
+        public bool tutorialDone = false;
     }
 }

@@ -664,5 +664,36 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
             var rng = new RunRng(5);
             Assert.IsFalse(WaveComposer.FrontArcPosition(new Vector2(0f, 4.9f), Vector2.up, 4f, 7f, 70f, 5f, ref rng, out _));
         }
+
+        // ---- P2-08 onboarding ----
+
+        [Test]
+        public void EnemyCount_FirstRun_Node0_IsTwo()
+        {
+            var scav = ScriptableObject.CreateInstance<EnemyDefinition>();
+            scav.name = "RL_AshScavenger";
+            _created.Add(scav);
+            var table = MakeTable(new[]
+            {
+                MakeEntry(),
+                new EnemySpawnTable.Entry { prefab = DummyPrefab(), definition = scav, weight = 1 },
+            });
+            var node = new RunNode(0, 0, 0, RoomKind.Combat);
+            var rng = new RunRng(9);
+
+            var result = WaveComposer.Compose(table, node, 12f, Vector3.zero, ref rng, tutorial: true);
+
+            Assert.AreEqual(2, result.Count);
+            foreach (var r in result) Assert.AreEqual(1, r.EntryIndex);
+        }
+
+        [Test]
+        public void EnemyCount_NotFirstRun_Node0_IsNormal()
+        {
+            var table = MakeTable(new[] { MakeEntry() });
+            var rng = new RunRng(9);
+            var result = WaveComposer.Compose(table, new RunNode(0, 0, 0, RoomKind.Combat), 12f, Vector3.zero, ref rng);
+            Assert.GreaterOrEqual(result.Count, 3);
+        }
     }
 }
