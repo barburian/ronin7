@@ -108,10 +108,37 @@ namespace Ronin7.EditorTools
             }
         }
 
-        private static System.Action<EnemyDefinition> Overrides(string rlName)
+        internal static System.Action<EnemyDefinition> Overrides(string rlName)
         {
             var inner = OverridesCore(rlName);
-            return d => { inner(d); d.postureMaxFraction = PostureFraction(rlName); };
+            return d => { inner(d); d.postureMaxFraction = PostureFraction(rlName); MovementAndPose(d, rlName); };
+        }
+
+        /// <summary>Test seam: (story source definition, RL name) for every clone this builder makes.</summary>
+        internal static IEnumerable<(string source, string rlName)> DefinitionSources()
+        {
+            foreach (var t in TrashSpecs) yield return (t.DefinitionName, t.RlName);
+            foreach (var b in BossSpecs) yield return (b.DefinitionName, b.RlName);
+        }
+
+        // P1-15 attack-pose data and P2-11 movement tuning per class (unlisted types keep the defaults).
+        private static void MovementAndPose(EnemyDefinition d, string rlName)
+        {
+            switch (rlName)
+            {
+                case "HunterDrone":
+                case "ScanDrone": // rigid hulls: whole-rig lunge, floaty glide
+                    d.poseArmScale = 0f; d.poseTwistDegrees = 10f; d.poseLeanDegrees = 30f; d.poseWholeBody = true;
+                    d.turnRateDegrees = 300f; d.acceleration = 3f; d.deceleration = 3f;
+                    break;
+                case "Warden":
+                case "Maelgorn":
+                    d.poseTwistDegrees = 35f; d.poseLeanDegrees = 15f;
+                    goto case "VaneWraith";
+                case "VaneWraith": // bosses: heavier turn and speed ramp
+                    d.turnRateDegrees = 150f; d.acceleration = 2.5f; d.deceleration = 4f;
+                    break;
+            }
         }
 
         private static System.Action<EnemyDefinition> OverridesCore(string rlName)
