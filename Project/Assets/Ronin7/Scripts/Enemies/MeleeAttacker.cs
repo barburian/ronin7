@@ -128,6 +128,7 @@ namespace Ronin7.Enemies
         protected float timer;
         private float realTimer; // unscaled time in state: the perfect-parry window stays real-time under Overdrive
         protected bool deflectedThisSwing;
+        private bool strikeResolved; // P2-10: the hit (or miss) was decided at strike contact; no parry after it
         protected Vector3 currentEuler;
         protected Vector3 staggerFromEuler;
         // P1-15 torso layer: Rig_Body, the parent of the Rig_ArmR weapon bone on art rigs (Rig_Root when
@@ -336,9 +337,15 @@ namespace Ronin7.Enemies
                     float strike = StrikePoseProgress(timer, ActiveTime);
                     PoseWeapon(windupEuler, strikeEuler, strike);
                     PoseBody(1f, -StrikeLunge, strike);
+                    // P2-10 (BUG-29): land the hit when the strike pose lands (end of its ease-out arc),
+                    // not 0.65 x Active later; the rest of Active is follow-through.
+                    if (!strikeResolved && strike >= 1f)
+                    {
+                        strikeResolved = true;
+                        if (!deflectedThisSwing && IsInLandHitRange()) LandHit();
+                    }
                     if (timer >= ActiveTime)
                     {
-                        if (!deflectedThisSwing && IsInLandHitRange()) LandHit();
                         OnActiveEnd();
                         Enter(State.Recover);
                     }
@@ -381,7 +388,7 @@ namespace Ronin7.Enemies
         {
             if (state == State.Dead) return;
             UpdateSwingSpeed();
-            if (deflectedThisSwing) return;
+            if (deflectedThisSwing || strikeResolved) return;
             if (!IsInParryWindow()) return;
             TryDetectParry();
         }
@@ -412,6 +419,7 @@ namespace Ronin7.Enemies
             telegraph = TelegraphFor(TelegraphTime, AngleFromPlayerForward());
             Log("telegraph");
             deflectedThisSwing = false;
+            strikeResolved = false;
             Enter(State.Windup);
             EventBus.Publish(new AttackWindupStarted(weapon != null ? weapon.position : transform.position, gameObject));
         }
