@@ -1872,7 +1872,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Ronin7.World::Ronin7.World.RunArenaController
   roomLibrary: {fileID: 11400000, guid: 793de6f611d049e479e88f96a2ee19ae, type: 2}
   spawnTable: {fileID: 11400000, guid: 2e258dca8fb90c04fba7379d17556df0, type: 2}
-  arenaHalfExtent: 12
+  arenaHalfExtent: 0
   playerSpawn: {fileID: 641910204}
 --- !u!4 &461483410
 Transform:

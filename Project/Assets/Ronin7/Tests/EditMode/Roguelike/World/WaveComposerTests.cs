@@ -111,7 +111,9 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
         }
 
         [TestCase(4f)]
+        [TestCase(5f)]
         [TestCase(6f)]
+        [TestCase(8f)]
         [TestCase(12f)]
         public void Positions_NonCentredPlayerSpawn_StaysWithinBoundsAndOnFloor(float halfExtent)
         {

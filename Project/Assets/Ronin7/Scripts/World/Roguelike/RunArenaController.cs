@@ -20,7 +20,9 @@ namespace Ronin7.World
     {
         [SerializeField] private ArenaRoomLibrary roomLibrary;
         [SerializeField] private EnemySpawnTable spawnTable;
-        [SerializeField] private float arenaHalfExtent = ArenaGeometryBuilder.DefaultHalfExtent;
+        /// <summary>Debug override (m); applies only when &gt; 0. Otherwise <see cref="RunScaling.ArenaHalfExtent"/> by node kind (P2-05).</summary>
+        [SerializeField] private float arenaHalfExtent;
+        private float halfExtent;
         [SerializeField] private Transform playerSpawn;
 
         public event Action Cleared;
@@ -74,7 +76,8 @@ namespace Ronin7.World
             // hard reference into this assembly — see RunNodeEntered's doc comment.
             EventBus.Publish(new RunNodeEntered(node.Sector, node.Kind));
 
-            ArenaGeometryBuilder.Build(transform, arenaHalfExtent, roomLibrary.ForSector(node.Sector), roomLibrary.surfaceMaterial, ref rng);
+            halfExtent = arenaHalfExtent > 0f ? arenaHalfExtent : RunScaling.ArenaHalfExtent(node.Kind);
+            ArenaGeometryBuilder.Build(transform, halfExtent, roomLibrary.ForSector(node.Sector), roomLibrary.surfaceMaterial, ref rng);
 
             // A5.3: geometry above is built in the controller's own local space; playerSpawn (and the
             // exclusion centre below) are world positions, so convert once here — this only works
@@ -82,7 +85,7 @@ namespace Ronin7.World
             // RunArena scene root) guarantees.
             Vector3 exclusionCentreLocal = transform.InverseTransformPoint(ResolveExclusionCentre());
 
-            List<SpawnRequest> requests = WaveComposer.Compose(spawnTable, node, arenaHalfExtent, exclusionCentreLocal, ref rng);
+            List<SpawnRequest> requests = WaveComposer.Compose(spawnTable, node, halfExtent, exclusionCentreLocal, ref rng);
             foreach (SpawnRequest request in requests)
                 SpawnEnemy(request, node);
 
@@ -119,7 +122,7 @@ namespace Ronin7.World
                 Health h = alive[i];
                 if (h == null || !h.IsAlive) continue;
                 Vector3 local = transform.InverseTransformPoint(h.transform.position);
-                if (!OutOfArena(local, arenaHalfExtent)) continue;
+                if (!OutOfArena(local, halfExtent)) continue;
                 Debug.LogWarning($"[RunArenaController] '{h.name}' left the arena at {local}; killing it so the room can clear.", this);
                 h.ApplyDamage(new DamageInfo(h.Max + h.Current + 1f, h.transform.position, Vector3.down, null));
             }

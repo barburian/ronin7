@@ -140,7 +140,7 @@ namespace Ronin7.EditorTools
             SetObjectRef(arenaSo, "roomLibrary", roomLibrary);
             SetObjectRef(arenaSo, "spawnTable", spawnTable);
             var halfExtentProp = arenaSo.FindProperty("arenaHalfExtent");
-            if (halfExtentProp != null) halfExtentProp.floatValue = ArenaGeometryBuilder.DefaultHalfExtent;
+            if (halfExtentProp != null) halfExtentProp.floatValue = 0f; // P2-05: 0 = per-node-kind size (RunScaling.ArenaHalfExtent)
             SetObjectRef(arenaSo, "playerSpawn", spawnGo.transform);
             arenaSo.ApplyModifiedPropertiesWithoutUndo();
 
@@ -156,7 +156,7 @@ namespace Ronin7.EditorTools
                       "RunArenaController " +
                       (roomLibrary != null ? "with ArenaRoomLibrary wired" : "— ArenaRoomLibrary MISSING, bake it first") + ", " +
                       (spawnTable != null ? "EnemySpawnTable wired" : "EnemySpawnTable MISSING, bake it first") +
-                      $", halfExtent={ArenaGeometryBuilder.DefaultHalfExtent}. Room geometry/enemies build " +
+                      ", halfExtent per node kind (RunScaling.ArenaHalfExtent). Room geometry/enemies build " +
                       "at runtime per node — no static walls authored here.");
 
             RogueEnsureRunDirectorInBootScene();

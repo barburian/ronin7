@@ -81,6 +81,16 @@ namespace Ronin7.Core
             return baseReward + depth; // deeper nodes pay a little more regardless of kind
         }
 
+        /// <summary>P2-05: comfort-sized room half-extent (m) by node kind. The default (5 m) also
+        /// covers Forge/Treasure and the Shop/Event kinds P2-04 adds later, so they inherit it.</summary>
+        public static float ArenaHalfExtent(RoomKind kind) => kind switch
+        {
+            RoomKind.Combat => 8f,
+            RoomKind.Elite => 9f,
+            RoomKind.Boss => 11f,
+            _ => 5f,
+        };
+
         private static int NodesPerSectorBoundary(int sector) => sector * RunMapGenerator.NodesPerSector;
 
         private static float KindHealthFactor(RoomKind kind) => kind switch

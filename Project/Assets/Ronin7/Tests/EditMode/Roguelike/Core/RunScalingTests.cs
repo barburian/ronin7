@@ -150,5 +150,15 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             // a test noticing — the value is load-bearing (no off-screen hit feedback, no camera shake).
             Assert.AreEqual(4, RunScaling.MaxConcurrentEnemies);
         }
+
+        [TestCase(RoomKind.Combat, 8f)]
+        [TestCase(RoomKind.Elite, 9f)]
+        [TestCase(RoomKind.Boss, 11f)]
+        [TestCase(RoomKind.Forge, 5f)]
+        [TestCase(RoomKind.Treasure, 5f)]
+        public void ArenaHalfExtent_PerKind(RoomKind kind, float expected)
+        {
+            Assert.AreEqual(expected, RunScaling.ArenaHalfExtent(kind));
+        }
     }
 }
