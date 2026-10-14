@@ -86,6 +86,7 @@ Effort in engineer-days (rough, one person with agents): P0 ≈ 4–5, P1 ≈ 6�
 | BUG-26 | LOW | Summary off-by-one: "ROOMS CLEARED" counts the room you died in, and BEST DEPTH is 0-based. | `Core/Roguelike/RunSummary.cs:61`; `MetaProgression.cs:76` | P2-03 |
 | BUG-27 | LOW | ABANDON RUN sits 9 cm under RESUME RUN with no confirmation, and it immediately starts a new run. | `RoguelikeEntryPointPatcher.cs:89-153` | P0-04 |
 | BUG-28 | LOW | The sword lost its roadmap `CyberSword` shader: "Build All Art Prefabs" reverts it to SamuraiToon. On PC (Forward+), custom shaders lack `_CLUSTER_LIGHT_LOOP`, so they get no point lights. | `Prefabs/Art/Sword_Katana.prefab`, `Art/Shaders/*` | P5-04 |
+| BUG-29 | MED | Player feels a slight **delay receiving damage** (hit lands, damage/feedback feels late). Investigate only: enemy hit timing vs Active window, Health -> CombatFeedbackController/Haptics/audio path, any frame-delayed event. | `Enemies/MeleeAttacker.cs`, `Combat/Health.cs`, `Player/CombatFeedbackController.cs` | P2-10 |
 
 ## A3. Domain findings in brief
 
@@ -544,6 +545,7 @@ Today the Tripo/glTF enemies show **no** attack animation. The windup is carried
 - Export Gate.
 - Write the new numbers into `Roguelike-Design.md` as Amendment 8: Unbroken per-run, Weakpoint Sight as precision, tier-first picker, boss bands, abilities come only from `RunState`.
 - Tag `roguelike-phase1`, version `0.2.0`.
+- **Phase 1 sign-off (2026-10-14):** user signed off after Quest headset runs. **G5 PCVR/Link half deferred by user choice**; it moves to the Phase 2 Export Gate and is run on the Phase 2 build directly. Headset notes slotted: BUG-29 -> P2-10 (damage-receive latency), P2-11 (enemy movement smoothness).
 
 ---
 
@@ -691,8 +693,27 @@ Add to `GameSettings` and `SettingsPanel`:
 - **Locomotion: Smooth / Teleport.** Reuse the XRI teleport provider on the left stick, and keep snap-turn on the right. The arenas are small (P2-05), so teleport is cheap to support.
 - **Tests:** `GameSettings_Roundtrip_NewFields`; `HudMountFor(LeftHanded)`.
 
+### P2-10 Player damage-receive latency (BUG-29)
+User report (Phase 1 headset runs): "a bit of delay in how the player receives damage". Investigate before changing anything; measure hit-lands to feedback in frames.
+1. Check enemy hit timing vs the Active window: is damage applied at Active start, or only on a later overlap/physics tick (`MeleeAttacker`, `FixedUpdate` vs `Update`)?
+2. Trace `Health.Damage` -> `Damaged` -> `CombatFeedbackController` / `Haptics` / `AudioDirector` for frame-delayed events (coroutines, queued events, pooled VFX warm-up, audio start latency).
+3. Check the P1-01 pre-damage filter / `TimeScaleArbiter` hit-stop does not defer the player's feedback.
+4. Fix only the confirmed cause; no camera shake, no per-frame allocs.
+- **Test:** `PlayerHit_FeedbackFiresSameFrameAsDamage` (EditMode/PlayMode, event ordering).
+- **Accept:** headset: hit, haptic and audio feel simultaneous with the blade connecting.
+
+### P2-11 Enemy movement smoothness (visual polish)
+User report: movement is functionally fine but visually ugly; needs to be much smoother.
+1. Audit the current path: steering/turning (snap vs rate-limited), accel/decel, root motion vs procedural pose (`NpcWalkAnimator` 6-bone rig), foot sliding, sudden snaps on state change (windup/flinch/recover).
+2. Pure-logic `MovementSmoothing` (internal): rate-limited yaw turn (deg/s), speed ramp with accel/decel limits, and walk-cycle phase driven by actual travelled distance to stop foot sliding.
+3. Blend pose layers on state changes (walk -> windup -> recover) with a short ease instead of hard cuts; a flinch cancels cleanly (P1-04).
+4. Constraints: Quest 90 FPS (11.11 ms), no per-frame allocations, no new `FindObjectsByType`, small bone count, no camera shake.
+- **Tests:** `Smoothing_TurnRate_NeverExceedsLimit`; `Smoothing_SpeedRamp_NoStepChange`.
+- **Accept:** headset: 3 enemy types (humanoid, drone, boss) move without visible snapping or foot sliding; Profiler shows no added frame cost or GC allocs on Quest.
+
 ### P2 exit
 - Export Gate. G7 must cover the v1 → v2 snapshot migration.
+- **G5 PCVR/Link smoke run (deferred from Phase 1):** run the full G5 on PCVR via Link on the Phase 2 build, in addition to the Quest run.
 - Update `Roguelike-Design.md` §1/§4: runs return to `Phase6_Boot`, and the map is branching.
 - Delete `RunLauncher` and the hub patch (default D-02). Remove its EditMode tests at the same time.
 - Tag `roguelike-phase2`, version `0.3.0`.
