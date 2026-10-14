@@ -190,7 +190,7 @@ namespace Ronin7.Flow
         /// load must not block it. Safe: StartRun/TryResumeRun return early while a run is still live.</summary>
         internal void ClearEndingLatch() => EndingRun = false;
 
-        /// <summary>Menu/hub entry (ENTER THE FRACTURE, RunLauncher): resumes the autosaved run if a
+        /// <summary>Menu/hub entry (ENTER THE FRACTURE): resumes the autosaved run if a
         /// valid <see cref="RunSnapshot"/> exists (a crash or app kill mid-run), otherwise starts a new
         /// run with a random seed.</summary>
         public void StartRun()

@@ -9,8 +9,8 @@ namespace Ronin7.EditorTools
 {
     /// <summary>
     /// Adds the roguelike's ENTRY POINTS to the shipped scenes. Without this the mode is unreachable:
-    /// <see cref="MainMenuController.OnStartRunClicked"/> existed but no button called it, and the hub
-    /// had no <see cref="RunLauncher"/> at all, so a player could never start a run.
+    /// <see cref="MainMenuController.OnStartRunClicked"/> existed but no button called it, so a player
+    /// could never start a run.
     ///
     /// ADDITIVE, like <c>ChapterVoiceWirer</c>/<c>EnemyArtWirer</c>: opens each shipped scene and
     /// patches it in place. It never rebuilds them — the chapter/boot scenes carry hand-wired
@@ -24,7 +24,6 @@ namespace Ronin7.EditorTools
     public static partial class XRRigBuilder
     {
         private const string RogueBootScenePath = SceneFolder + "/Phase6_Boot.unity";
-        private const string RogueHubScenePath = SceneFolder + "/Galaxy1_Ch1_Hub.unity";
         private const string RogueRunButtonName = "Btn_EnterTheFracture";
         private const string RogueAbandonButtonName = "Btn_AbandonRun";
         private const string RogueShrineButtonName = "Btn_Shrine";
@@ -35,7 +34,6 @@ namespace Ronin7.EditorTools
         public static void PatchRoguelikeEntryPoints()
         {
             RoguePatchBootMenu();
-            RoguePatchHubLauncher();
             RoguePatchRunArenaWristHud();
             RoguePatchRunArenaComfortRows();
             AssetDatabase.SaveAssets();
@@ -253,29 +251,6 @@ namespace Ronin7.EditorTools
                 rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, y);
                 return;
             }
-        }
-
-        /// <summary>Hub: give Kessler's ship a RunLauncher so a new run can be started from the hub —
-        /// the roguelike returns the player here after every run, win or permadeath.</summary>
-        private static void RoguePatchHubLauncher()
-        {
-            var scene = EditorSceneManager.OpenScene(RogueHubScenePath, OpenSceneMode.Single);
-
-            if (Object.FindFirstObjectByType<RunLauncher>() != null)
-            {
-                Debug.Log("[RogueEntry] Hub already has a RunLauncher — left as-is.");
-                return;
-            }
-
-            var host = GameObject.Find("RunLauncher");
-            if (host == null) host = new GameObject("RunLauncher");
-            host.AddComponent<RunLauncher>();
-
-            Debug.Log("[RogueEntry] Added RunLauncher to the hub. NOTE: it exposes LaunchRun() but is "
-                    + "not bound to an interactable yet — the boot menu is the working entry point.");
-
-            EditorSceneManager.MarkSceneDirty(scene);
-            EditorSceneManager.SaveScene(scene);
         }
     }
 }
