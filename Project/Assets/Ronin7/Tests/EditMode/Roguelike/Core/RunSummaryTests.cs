@@ -57,27 +57,27 @@ namespace Ronin7.Tests.EditMode
             Assert.AreNotEqual(RunSummary.FormatOutcome(true), RunSummary.FormatOutcome(false));
         }
 
-        [TestCase(0, false, 1)]    // died in the first room
-        [TestCase(7, false, 8)]    // depth is 0-based, display is 1-based
-        [TestCase(14, false, 15)]  // died on the final node
+        [TestCase(0, false, 0)]    // died in the first room: nothing cleared
+        [TestCase(7, false, 7)]    // the room you died in does not count (BUG-26)
+        [TestCase(14, false, 14)]  // died on the final node
         [TestCase(0, true, RunMapGenerator.TotalNodes)]  // a win always reads the full map
         [TestCase(14, true, RunMapGenerator.TotalNodes)]
-        public void RoomsClearedFor_IsOneBasedAndClamped(int depth, bool won, int expected)
+        public void RoomsClearedFor_ExcludesTheDeathRoom(int depth, bool won, int expected)
         {
             Assert.AreEqual(expected, RunSummary.RoomsClearedFor(depth, won));
         }
 
         [Test]
-        public void RoomsClearedFor_NeverExceedsTheMapOrDropsBelowOne()
+        public void RoomsClearedFor_NeverExceedsTheMapOrDropsBelowZero()
         {
-            Assert.AreEqual(1, RunSummary.RoomsClearedFor(-5, false));
+            Assert.AreEqual(0, RunSummary.RoomsClearedFor(-5, false));
             Assert.AreEqual(RunMapGenerator.TotalNodes, RunSummary.RoomsClearedFor(9999, false));
         }
 
         [Test]
         public void FormatDepth_ReadsAsProgressOutOfTheMap()
         {
-            Assert.AreEqual($"8 / {RunMapGenerator.TotalNodes}", RunSummary.FormatDepth(7, false));
+            Assert.AreEqual($"7 / {RunMapGenerator.TotalNodes}", RunSummary.FormatDepth(7, false));
             Assert.AreEqual($"{RunMapGenerator.TotalNodes} / {RunMapGenerator.TotalNodes}",
                 RunSummary.FormatDepth(14, true));
         }

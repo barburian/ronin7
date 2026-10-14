@@ -220,6 +220,16 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
         }
 
         [Test]
+        public void NoteRunEnded_BestDepth_IsRoomsClearedSoAWinIsTheFullMap()
+        {
+            MetaProgression.NoteRunEnded(14, false); // died in room 15: 14 cleared
+            Assert.AreEqual(14, MetaProgression.BestDepth);
+
+            MetaProgression.NoteRunEnded(RunMapGenerator.TotalNodes, true); // RunDirector.EndRun passes this on a win
+            Assert.AreEqual(RunMapGenerator.TotalNodes, MetaProgression.BestDepth);
+        }
+
+        [Test]
         public void WriteTo_ThenApplyFrom_RoundTripsThroughMetaSaveData()
         {
             MetaProgression.AddEchoes(120);

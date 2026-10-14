@@ -59,7 +59,7 @@ namespace Ronin7.Flow
 
             y -= 24f;
             AddText(rt, font, "LIFETIME", 26, FontStyle.Bold, new Color(0.7f, 0.8f, 1f), ref y, 48f);
-            AddRow(rt, font, "BEST DEPTH", MetaProgression.BestDepth.ToString(), ref y);
+            AddRow(rt, font, "BEST DEPTH", $"{MetaProgression.BestDepth} / {RunMapGenerator.TotalNodes}", ref y);
             AddRow(rt, font, "RUNS COMPLETED", MetaProgression.RunsCompleted.ToString(), ref y);
             AddRow(rt, font, "RUNS WON", MetaProgression.RunsWon.ToString(), ref y);
             AddRow(rt, font, "ECHOES BANKED", MetaProgression.Echoes.ToString(), ref y);

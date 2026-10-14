@@ -56,10 +56,10 @@ namespace Ronin7.Core
         // Ronin7.Flow, and this project's InternalsVisibleTo only ever grants Ronin7.Tests.EditMode,
         // never another runtime assembly (see the note on Combat/ParryTiming.cs). ----
 
-        /// <summary>Rooms actually cleared, 1-based for display: a loss on the first node reads "1".
-        /// A win reads the full <see cref="RunMapGenerator.TotalNodes"/>.</summary>
+        /// <summary>Rooms actually cleared: the room you died in does not count, so a loss on the
+        /// first node reads "0" (depth is the 0-based index of the death room). A win reads the full <see cref="RunMapGenerator.TotalNodes"/>.</summary>
         public static int RoomsClearedFor(int depth, bool won) =>
-            won ? RunMapGenerator.TotalNodes : Mathf.Clamp(depth + 1, 1, RunMapGenerator.TotalNodes);
+            won ? RunMapGenerator.TotalNodes : Mathf.Clamp(depth, 0, RunMapGenerator.TotalNodes);
 
         /// <summary>The headline. Deliberately unambiguous — there was previously no way to tell a
         /// win from a loss after the fact.</summary>
@@ -69,7 +69,7 @@ namespace Ronin7.Core
         public static string FormatOutcomeDetail(bool won, int depth) =>
             won
                 ? $"The Fracture is closed — all {RunMapGenerator.TotalNodes} rooms cleared."
-                : $"You fell in room {RoomsClearedFor(depth, false)} of {RunMapGenerator.TotalNodes}.";
+                : $"You fell in room {Mathf.Clamp(depth + 1, 1, RunMapGenerator.TotalNodes)} of {RunMapGenerator.TotalNodes}.";
 
         public static string FormatDepth(int depth, bool won) =>
             $"{RoomsClearedFor(depth, won)} / {RunMapGenerator.TotalNodes}";

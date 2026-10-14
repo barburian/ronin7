@@ -729,7 +729,7 @@ namespace Ronin7.Flow
             deferredClear = null;
             int depth = RunState.NodeIndex;
             MetaProgression.AddEchoes(RunState.EchoesEarned);
-            MetaProgression.NoteRunEnded(depth, won);
+            MetaProgression.NoteRunEnded(won ? RunMapGenerator.TotalNodes : depth, won);
 
             // Snapshot the result BEFORE RunState.End() wipes it (deferred to SceneLoadRoutine, but
             // capture here so nothing else can clear it first), then persist the lifetime totals this

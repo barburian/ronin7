@@ -82,7 +82,8 @@ namespace Ronin7.Core
             }
         }
 
-        /// <summary>Records a finished run (win or permadeath) into the lifetime counters.</summary>
+        /// <summary>Records a finished run (win or permadeath) into the lifetime counters.
+        /// <paramref name="depthReached"/> is rooms CLEARED (TotalNodes on a win), shown as n/15.</summary>
         public static void NoteRunEnded(int depthReached, bool won)
         {
             runsCompleted++;
