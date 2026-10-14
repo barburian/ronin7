@@ -8,6 +8,9 @@ namespace Ronin7.Core
     /// </summary>
     public enum GraphicsQuality { Low, High }
 
+    /// <summary>On-foot move style (D-10: Smooth is the default, Teleport is optional). Append-only.</summary>
+    public enum LocomotionMode { Smooth, Teleport }
+
     /// <summary>
     /// Plain, serializable player-comfort/audio settings model. Lives in Core (no engine
     /// dependency) so the settings service, the worldspace UI, and any system that wants to
@@ -31,6 +34,22 @@ namespace Ronin7.Core
         public GraphicsQuality Quality; // Low (Quest) / High (PCVR) — gates bloom + particles + blade lights
         public bool CombatBlood;        // true = red splatter on organic hits; false = neon sparks only
 
+        // P2-09 comfort options (appended; zero values ARE the defaults, so older saves load unchanged).
+        public bool Seated;              // raises the viewpoint by SeatedEyeOffset, relaxes the capsule posture guard
+        public bool LeftHanded;          // off-hand (HUD, haptics) = right; UI ray + katana holster mirrored
+        public LocomotionMode Locomotion; // Smooth (default) or Teleport on the move stick
+
+        /// <summary>Seated-play eye lift (metres) added on top of the calibrated <see cref="EyeHeightOffset"/>.</summary>
+        public const float SeatedEyeOffset = 0.45f;
+
+        /// <summary>The Y actually written to the rig's eye-height root: calibration + seated lift.</summary>
+        public float EffectiveEyeOffset => EyeHeightOffset + (Seated ? SeatedEyeOffset : 0f);
+
+        /// <summary>Last-applied settings snapshot, readable from any assembly (Player/Flow/World can't
+        /// reference the Audio-side SettingsService). Written only by SettingsService.Apply.
+        /// P2-04's exit gates read <c>GameSettings.Active.Seated</c> to fall back to the panel.</summary>
+        public static GameSettings Active { get; set; } = Default;
+
         /// <summary>Comfortable first-time-player defaults (mirror the existing serialized defaults).</summary>
         public static GameSettings Default => new GameSettings
         {
@@ -43,6 +62,9 @@ namespace Ronin7.Core
             EyeHeightOffset = 0f,
             Quality = GraphicsQuality.High, // platform default resolved in SettingsService.Load()
             CombatBlood = true,
+            Seated = false,
+            LeftHanded = false,
+            Locomotion = LocomotionMode.Smooth,
         };
     }
 

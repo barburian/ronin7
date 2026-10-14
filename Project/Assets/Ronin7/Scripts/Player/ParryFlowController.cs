@@ -1,7 +1,6 @@
 using Ronin7.Combat;
 using Ronin7.Core;
 using UnityEngine;
-using UnityEngine.XR;
 
 namespace Ronin7.Player
 {
@@ -20,10 +19,9 @@ namespace Ronin7.Player
     /// GetComponent on this rig" wiring mirrors <see cref="WeakpointSight"/>.
     ///
     /// HAPTICS: a short off-hand tick on every perfect parry, mirroring
-    /// <see cref="CombatFeedbackController"/>'s use of <see cref="Haptics.Pulse"/>. "Off-hand" is
-    /// hardcoded to <see cref="XRNode.LeftHand"/> — this codebase has no tracked handedness/dominant-hand
-    /// concept anywhere (checked: <c>Grabber</c> only knows which hand IT is, not which hand is
-    /// dominant), so there is nothing to branch on.
+    /// <see cref="CombatFeedbackController"/>'s use of <see cref="Haptics.Pulse"/>. "Off-hand" follows the
+    /// P2-09 handedness setting (<see cref="HandednessRig.OffHand"/>): left for right-handers, right for
+    /// left-handers.
     /// </summary>
     public class ParryFlowController : MonoBehaviour
     {
@@ -73,7 +71,7 @@ namespace Ronin7.Player
             streak = ParryTiming.NextStreak(streak, e.Quality, MaxStreak);
             lastPerfectParryUnscaledTime = Time.unscaledTime;
             ApplyMultiplier();
-            Haptics.Pulse(XRNode.LeftHand, 0.3f + 0.1f * streak, HapticDuration);
+            Haptics.Pulse(HandednessRig.OffHand(GameSettings.Active.LeftHanded), 0.3f + 0.1f * streak, HapticDuration);
 
             // H1 campaign-stats hook: publish only on forward progress, mirroring
             // ComboMomentumController's ComboChained hook.

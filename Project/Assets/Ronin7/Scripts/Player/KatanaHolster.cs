@@ -32,6 +32,16 @@ namespace Ronin7.Player
             }
         }
 
+        /// <summary>P2-09 left-handed: put the hip anchor on the other hip. The builder places it at
+        /// +x (right hip) for a right-handed player; left-handed mirrors it to -x. Idempotent.</summary>
+        public void SetMirrored(bool mirrored)
+        {
+            if (hipAnchor == null) return;
+            var p = hipAnchor.localPosition;
+            p.x = mirrored ? -Mathf.Abs(p.x) : Mathf.Abs(p.x);
+            hipAnchor.localPosition = p;
+        }
+
         private void LateUpdate()
         {
             // Safety net: if the sword somehow ended up loose without a Released event.

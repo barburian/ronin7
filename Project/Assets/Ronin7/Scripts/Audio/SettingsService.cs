@@ -22,15 +22,18 @@ namespace Ronin7.Audio
     {
         public static SettingsService Instance { get; private set; }
 
-        private const string KeySnapTurn = "ss.snapTurn";
-        private const string KeySnapDeg = "ss.snapTurnDegrees";
-        private const string KeyVignette = "ss.comfortVignette";
-        private const string KeySfx = "ss.sfxVolume";
-        private const string KeyMusic = "ss.musicVolume";
-        private const string KeyAmbience = "ss.ambienceVolume";
-        private const string KeyEyeHeight = "ss.eyeHeightOffset";
-        private const string KeyQuality = "ss.graphicsQuality";
-        private const string KeyBlood = "ss.combatBlood";
+        internal const string KeySnapTurn = "ss.snapTurn";
+        internal const string KeySnapDeg = "ss.snapTurnDegrees";
+        internal const string KeyVignette = "ss.comfortVignette";
+        internal const string KeySfx = "ss.sfxVolume";
+        internal const string KeyMusic = "ss.musicVolume";
+        internal const string KeyAmbience = "ss.ambienceVolume";
+        internal const string KeyEyeHeight = "ss.eyeHeightOffset";
+        internal const string KeyQuality = "ss.graphicsQuality";
+        internal const string KeyBlood = "ss.combatBlood";
+        internal const string KeySeated = "ss.seated";
+        internal const string KeyLeftHanded = "ss.leftHanded";
+        internal const string KeyLocomotion = "ss.locomotion";
 
         private GameSettings settings;
 
@@ -63,10 +66,12 @@ namespace Ronin7.Audio
         }
 
         // The rig-side calibrator computes the offset and publishes it; we own persistence.
+        // The calibrator measures the TOTAL offset (it strips the current one, seated lift included),
+        // so store it net of the seated lift — otherwise Apply would add the 0.45 m twice.
         private void OnEyeHeightCalibrated(EyeHeightCalibrated e)
         {
-            settings.EyeHeightOffset = e.OffsetY;
-            XREyeHeightCalibrator.ApplyOffset(e.OffsetY);
+            settings.EyeHeightOffset = e.OffsetY - (settings.Seated ? GameSettings.SeatedEyeOffset : 0f);
+            XREyeHeightCalibrator.ApplyOffset(settings.EffectiveEyeOffset);
             Persist();
         }
 
@@ -126,6 +131,24 @@ namespace Ronin7.Audio
             Persist(); Apply();
         }
 
+        public void SetSeated(bool on)
+        {
+            settings.Seated = on;
+            Persist(); Apply();
+        }
+
+        public void SetLeftHanded(bool on)
+        {
+            settings.LeftHanded = on;
+            Persist(); Apply();
+        }
+
+        public void SetLocomotion(LocomotionMode mode)
+        {
+            settings.Locomotion = mode;
+            Persist(); Apply();
+        }
+
         /// <summary>Push the current settings onto whatever live systems exist in the loaded scene(s).</summary>
         public void Apply()
         {
@@ -136,6 +159,8 @@ namespace Ronin7.Audio
             {
                 loco.SetTurnStyle(settings.SnapTurn, settings.SnapTurnDegrees);
                 loco.SetComfortVignette(settings.ComfortVignette);
+                loco.SetSeated(settings.Seated);
+                loco.SetTeleport(settings.Locomotion == LocomotionMode.Teleport);
             }
 
             var ship = ShipController.Instance;
@@ -153,13 +178,17 @@ namespace Ronin7.Audio
                 AudioDirector.Instance.SetAmbienceVolume(settings.AmbienceVolume);
             }
 
-            // Eye-height offset re-applies to the per-scene rebuilt rig (no-op if no rig yet).
-            XREyeHeightCalibrator.ApplyOffset(settings.EyeHeightOffset);
+            // Eye-height offset (+ seated lift) re-applies to the per-scene rebuilt rig (no-op if no rig yet).
+            XREyeHeightCalibrator.ApplyOffset(settings.EffectiveEyeOffset);
 
+            // Handedness: HUD mount, UI ray, katana holster side (no-op if no rig yet).
+            HandednessRig.Apply(settings.LeftHanded);
+
+            GameSettings.Active = settings;
             EventBus.Publish(new SettingsChanged(settings));
         }
 
-        private static GameSettings Load()
+        internal static GameSettings Load()
         {
             var d = GameSettings.Default;
             // Platform default for the graphics tier: Quest=Low, PCVR=High. Resolved here (engine
@@ -176,10 +205,16 @@ namespace Ronin7.Audio
                 EyeHeightOffset = PlayerPrefs.GetFloat(KeyEyeHeight, d.EyeHeightOffset),
                 Quality = (GraphicsQuality)PlayerPrefs.GetInt(KeyQuality, qualityDefault),
                 CombatBlood = PlayerPrefs.GetInt(KeyBlood, d.CombatBlood ? 1 : 0) != 0,
+                // P2-09: absent on pre-P2-09 installs → defaults (Standing, right-handed, Smooth).
+                Seated = PlayerPrefs.GetInt(KeySeated, d.Seated ? 1 : 0) != 0,
+                LeftHanded = PlayerPrefs.GetInt(KeyLeftHanded, d.LeftHanded ? 1 : 0) != 0,
+                Locomotion = (LocomotionMode)PlayerPrefs.GetInt(KeyLocomotion, (int)d.Locomotion),
             };
         }
 
-        private void Persist()
+        private void Persist() => Persist(settings);
+
+        internal static void Persist(GameSettings settings)
         {
             PlayerPrefs.SetInt(KeySnapTurn, settings.SnapTurn ? 1 : 0);
             PlayerPrefs.SetFloat(KeySnapDeg, settings.SnapTurnDegrees);
@@ -190,6 +225,9 @@ namespace Ronin7.Audio
             PlayerPrefs.SetFloat(KeyEyeHeight, settings.EyeHeightOffset);
             PlayerPrefs.SetInt(KeyQuality, (int)settings.Quality);
             PlayerPrefs.SetInt(KeyBlood, settings.CombatBlood ? 1 : 0);
+            PlayerPrefs.SetInt(KeySeated, settings.Seated ? 1 : 0);
+            PlayerPrefs.SetInt(KeyLeftHanded, settings.LeftHanded ? 1 : 0);
+            PlayerPrefs.SetInt(KeyLocomotion, (int)settings.Locomotion);
             PlayerPrefs.Save();
         }
     }

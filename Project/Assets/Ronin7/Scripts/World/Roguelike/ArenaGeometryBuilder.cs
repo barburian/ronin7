@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Ronin7.Core;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation;
 
 namespace Ronin7.World
 {
@@ -25,6 +26,10 @@ namespace Ronin7.World
         /// <summary>Default room half-extent (metres) — a 24m x 24m arena a human stands in.</summary>
         public const float DefaultHalfExtent = 12f;
         public const float CeilingHeight = 4.5f;
+
+        /// <summary>P2-09: XRI interaction-layer bit shared by the floor's TeleportationArea and the
+        /// rig's teleport ray, so the UI ray (which masks it out) can never teleport the player.</summary>
+        public const int TeleportLayerMask = 1 << 31;
 
         private const float WallThickness = 0.4f;
         private const float FloorThickness = 0.2f;
@@ -74,7 +79,9 @@ namespace Ronin7.World
             floor.transform.localScale = new Vector3(size, FloorThickness, size);
             ApplyMaterial(floor, material);
             RendererTint.Apply(floor.GetComponent<Renderer>(), floorColor);
-            // BoxCollider from CreatePrimitive stays — that's the walkable floor.
+            // BoxCollider from CreatePrimitive stays — that's the walkable floor, and (P2-09) the
+            // teleport target: only the rig's teleport ray (TeleportLayerMask) can select it.
+            floor.AddComponent<TeleportationArea>().interactionLayers = TeleportLayerMask;
 
             var ceiling = GameObject.CreatePrimitive(PrimitiveType.Cube);
             ceiling.name = "Ceiling";

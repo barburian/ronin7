@@ -1,6 +1,9 @@
+using Ronin7.Core;
 using Ronin7.Ship;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
+using UnityEngine.XR.Interaction.Toolkit.Locomotion;
 
 namespace Ronin7.Player
 {
@@ -9,6 +12,7 @@ namespace Ronin7.Player
     /// XRI's version-sensitive locomotion providers). Handles head-relative continuous
     /// movement, snap turning around the head, gravity, and keeping the CharacterController
     /// capsule under the tracked head each frame.
+    /// The optional Teleport mode (P2-09) is the one exception: it reuses XRI's teleport provider via <see cref="TeleportRig"/>.
     /// </summary>
     [RequireComponent(typeof(CharacterController))]
     public class ContinuousLocomotion : MonoBehaviour
@@ -90,6 +94,12 @@ namespace Ronin7.Player
         [Tooltip("Minimum capsule height so the player can't shrink to nothing when crouching the headset.")]
         [SerializeField] private float minHeight = 0.6f;
 
+        [Header("Teleport (P2-09, optional — D-10 default is Smooth)")]
+        [Tooltip("Move-stick forward deflection that starts the teleport arc.")]
+        [SerializeField] private float teleportAimThreshold = 0.75f;
+        [Tooltip("Move-stick deflection below which the aim is released (= teleport if the arc is valid).")]
+        [SerializeField] private float teleportReleaseThreshold = 0.25f;
+
         [Header("Zero-G")]
         [SerializeField] private float maxDriftSpeed = 2.5f;
 
@@ -121,6 +131,11 @@ namespace Ronin7.Player
         private Vector3 lastWallNormal;
         private Vector3 wallJumpBanNormal;
 
+        private float seatedLift;              // P2-09: capsule credit for a seated player's lower head
+        private bool teleportMode;
+        private bool teleportAiming;
+        private XRRayInteractor teleportRay;
+
         private static readonly RaycastHit[] WallProbeHits = new RaycastHit[4];
 
         private bool IsSliding => Time.time < slideEndTime;
@@ -142,6 +157,63 @@ namespace Ronin7.Player
             useComfortVignette = on;
             if (on) vignette = Ronin7.Ship.VignetteRig.Ensure(cameraTransform != null ? cameraTransform.GetComponent<Camera>() : Camera.main);
             else if (vignette != null) vignette.SetIntensity(0f);
+        }
+
+        /// <summary>P2-09 seated play: relaxes the posture guard — the capsule is sized as if the
+        /// player stood (head + <see cref="GameSettings.SeatedEyeOffset"/>), so sitting doesn't read as
+        /// a permanent crouch-height body.</summary>
+        public void SetSeated(bool on) => seatedLift = on ? GameSettings.SeatedEyeOffset : 0f;
+
+        /// <summary>P2-09 locomotion mode. Teleport: the move stick aims an XRI teleport arc instead of
+        /// walking; snap/continuous turn stays on the turn stick. The XRI chain is built lazily.</summary>
+        public void SetTeleport(bool on)
+        {
+            teleportMode = on;
+            if (on && teleportRay == null)
+            {
+                teleportRay = TeleportRig.Create(gameObject, out var provider);
+                provider.locomotionEnded -= OnTeleported;
+                provider.locomotionEnded += OnTeleported;
+            }
+            if (!on && teleportRay != null)
+            {
+                teleportAiming = false;
+                teleportRay.selectInput.QueueManualState(false, 0f);
+                teleportRay.gameObject.SetActive(false);
+            }
+        }
+
+        // XRI moves the origin transform directly; Physics.autoSyncTransforms is off in this project,
+        // so push the new pose to the CharacterController before our next Move() can snap it back.
+        private void OnTeleported(LocomotionProvider _)
+        {
+            Physics.SyncTransforms();
+            verticalVelocity = 0f;
+        }
+
+        /// <summary>Push forward to aim (arc shows), let the stick return to centre to teleport.</summary>
+        private void HandleTeleportAim()
+        {
+            if (teleportRay == null) return;
+            Vector2 stick = moveAction != null && moveAction.action != null
+                ? moveAction.action.ReadValue<Vector2>()
+                : Vector2.zero;
+
+            if (!teleportAiming && stick.y > teleportAimThreshold)
+            {
+                teleportAiming = true;
+                teleportRay.gameObject.SetActive(true);
+                teleportRay.selectInput.QueueManualState(true, 1f);
+            }
+            else if (teleportAiming && stick.magnitude < teleportReleaseThreshold)
+            {
+                teleportAiming = false;
+                teleportRay.selectInput.QueueManualState(false, 0f); // select exit → TeleportationArea fires
+            }
+            else if (!teleportAiming && teleportRay.gameObject.activeSelf && !teleportRay.hasSelection)
+            {
+                teleportRay.gameObject.SetActive(false); // hide only after the release has been processed
+            }
         }
 
         /// <summary>Enable/disable zero-gravity mode. When on, gravity is zeroed and stick input
@@ -250,6 +322,7 @@ namespace Ronin7.Player
             if (movementSuspended) return; // climbing owns motion; turn + head tracking stay live
 
             HandlePostureToggles();
+            if (teleportMode) HandleTeleportAim();
             TryStartDash();
             HandleMove();
         }
@@ -358,7 +431,7 @@ namespace Ronin7.Player
         {
             if (cameraTransform == null) return;
 
-            float headHeight = Mathf.Max(minHeight, cameraTransform.localPosition.y + currentEyeOffset);
+            float headHeight = Mathf.Max(minHeight, cameraTransform.localPosition.y + currentEyeOffset + seatedLift);
             controller.height = headHeight;
             controller.center = new Vector3(
                 cameraTransform.localPosition.x,
@@ -395,7 +468,8 @@ namespace Ronin7.Player
             }
             else
             {
-                Vector2 input = moveAction != null && moveAction.action != null
+                // Teleport mode: the move stick aims the arc instead of walking.
+                Vector2 input = !teleportMode && moveAction != null && moveAction.action != null
                     ? moveAction.action.ReadValue<Vector2>()
                     : Vector2.zero;
 

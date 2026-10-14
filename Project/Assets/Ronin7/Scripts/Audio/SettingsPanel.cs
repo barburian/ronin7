@@ -28,6 +28,11 @@ namespace Ronin7.Audio
         [SerializeField] private Toggle highQualityToggle; // on = High (PCVR), off = Low (Quest)
         [SerializeField] private Toggle bloodToggle;       // on = red splatter on organic hits
 
+        [Header("Comfort / Accessibility (P2-09)")]
+        [SerializeField] private Toggle seatedToggle;     // on = seated play (+0.45 m eye lift)
+        [SerializeField] private Toggle leftHandedToggle; // on = HUD on right controller, ray + holster mirrored
+        [SerializeField] private Toggle teleportToggle;   // on = Teleport locomotion, off = Smooth (default)
+
         [Header("Volume (0..1)")]
         [SerializeField] private Slider sfxSlider;
         [SerializeField] private Slider musicSlider;
@@ -49,6 +54,9 @@ namespace Ronin7.Audio
             if (vignetteToggle != null) vignetteToggle.onValueChanged.AddListener(OnVignetteChanged);
             if (highQualityToggle != null) highQualityToggle.onValueChanged.AddListener(OnHighQualityChanged);
             if (bloodToggle != null) bloodToggle.onValueChanged.AddListener(OnBloodChanged);
+            if (seatedToggle != null) seatedToggle.onValueChanged.AddListener(OnSeatedChanged);
+            if (leftHandedToggle != null) leftHandedToggle.onValueChanged.AddListener(OnLeftHandedChanged);
+            if (teleportToggle != null) teleportToggle.onValueChanged.AddListener(OnTeleportChanged);
             if (sfxSlider != null) sfxSlider.onValueChanged.AddListener(OnSfxChanged);
             if (musicSlider != null) musicSlider.onValueChanged.AddListener(OnMusicChanged);
             if (ambienceSlider != null) ambienceSlider.onValueChanged.AddListener(OnAmbienceChanged);
@@ -80,6 +88,9 @@ namespace Ronin7.Audio
             if (vignetteToggle != null) vignetteToggle.isOn = s.ComfortVignette;
             if (highQualityToggle != null) highQualityToggle.isOn = s.Quality == GraphicsQuality.High;
             if (bloodToggle != null) bloodToggle.isOn = s.CombatBlood;
+            if (seatedToggle != null) seatedToggle.isOn = s.Seated;
+            if (leftHandedToggle != null) leftHandedToggle.isOn = s.LeftHanded;
+            if (teleportToggle != null) teleportToggle.isOn = s.Locomotion == LocomotionMode.Teleport;
             if (sfxSlider != null) sfxSlider.value = s.SfxVolume;
             if (musicSlider != null) musicSlider.value = s.MusicVolume;
             if (ambienceSlider != null) ambienceSlider.value = s.AmbienceVolume;
@@ -117,6 +128,24 @@ namespace Ronin7.Audio
         {
             if (initializing || SettingsService.Instance == null) return;
             SettingsService.Instance.SetCombatBlood(v);
+        }
+
+        private void OnSeatedChanged(bool v)
+        {
+            if (initializing || SettingsService.Instance == null) return;
+            SettingsService.Instance.SetSeated(v);
+        }
+
+        private void OnLeftHandedChanged(bool v)
+        {
+            if (initializing || SettingsService.Instance == null) return;
+            SettingsService.Instance.SetLeftHanded(v);
+        }
+
+        private void OnTeleportChanged(bool v)
+        {
+            if (initializing || SettingsService.Instance == null) return;
+            SettingsService.Instance.SetLocomotion(v ? LocomotionMode.Teleport : LocomotionMode.Smooth);
         }
 
         private void OnSfxChanged(float v)

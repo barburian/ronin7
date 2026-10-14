@@ -36,11 +36,30 @@ namespace Ronin7.EditorTools
             RoguePatchBootMenu();
             RoguePatchHubLauncher();
             RoguePatchRunArenaWristHud();
+            RoguePatchRunArenaComfortRows();
             AssetDatabase.SaveAssets();
         }
 
+        /// <summary>P2-09: add the Seated / Left-Handed / Teleport rows to RunArena's shipped settings
+        /// panel(s). Additive and idempotent (see <see cref="SettingsPanelBuilder.AddComfortRows"/>).</summary>
+        private static void RoguePatchRunArenaComfortRows()
+        {
+            var scene = EditorSceneManager.OpenScene(RogueRunArenaScenePath, OpenSceneMode.Single);
+            bool changed = false;
+            foreach (var panel in Object.FindObjectsByType<Ronin7.Audio.SettingsPanel>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+                changed |= SettingsPanelBuilder.AddComfortRows(panel);
+            if (!changed)
+            {
+                Debug.Log("[RogueEntry] RunArena comfort rows already present (or no panel) — left as-is.");
+                return;
+            }
+            Debug.Log("[RogueEntry] Added Seated / Left-Handed / Teleport rows to RunArena's settings panel.");
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+        }
+
         private const string RogueRunArenaScenePath = SceneFolder + "/RunArena.unity";
-        private const string RogueWristHudName = "RunWristHud";
+        private const string RogueWristHudName = Ronin7.Player.HandednessRig.WristHudName;
 
         /// <summary>RunArena: mount a world-space <see cref="RunHudPanel"/> on the left controller so
         /// depth/boons/echoes are visible mid-run. Sits above and behind the controller (over the
