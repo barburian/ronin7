@@ -54,6 +54,8 @@ namespace Ronin7.Audio
 
         [Header("Roguelike run one-shots")]
         [SerializeField] private AudioClip boonChosen;
+        [Tooltip("P2-06 spawn telegraph cue; falls back to the attack-windup cue when unassigned.")]
+        [SerializeField] private AudioClip enemySpawning;
 
         [Header("Ambience (looping, per mode)")]
         [SerializeField] private AudioClip flightAmbience;
@@ -158,6 +160,7 @@ namespace Ronin7.Audio
             EventBus.Subscribe<EntityDied>(OnEntityDied);
             EventBus.Subscribe<AbilityActivated>(OnAbilityActivated);
             EventBus.Subscribe<BoonChosen>(OnBoonChosen);
+            EventBus.Subscribe<EnemySpawning>(OnEnemySpawning);
             EventBus.Subscribe<RunNodeEntered>(OnRunNodeEntered);
         }
 
@@ -179,6 +182,7 @@ namespace Ronin7.Audio
             EventBus.Unsubscribe<EntityDied>(OnEntityDied);
             EventBus.Unsubscribe<AbilityActivated>(OnAbilityActivated);
             EventBus.Unsubscribe<BoonChosen>(OnBoonChosen);
+            EventBus.Unsubscribe<EnemySpawning>(OnEnemySpawning);
             EventBus.Unsubscribe<RunNodeEntered>(OnRunNodeEntered);
         }
 
@@ -279,6 +283,8 @@ namespace Ronin7.Audio
 
         private void OnAbilityActivated(AbilityActivated _) => PlayAt(abilityActivate, ListenerPoint());
         private void OnBoonChosen(BoonChosen _) => PlayAt(boonChosen, ListenerPoint());
+
+        private void OnEnemySpawning(EnemySpawning e) => PlayAt(enemySpawning != null ? enemySpawning : attackWindup, e.Point);
 
         /// <summary>Sets the arena's looping ambience bed to the entered node's sector theme (rust /
         /// program / garden — see <see cref="SectorAmbience"/>); Update's StepCrossfade handles the

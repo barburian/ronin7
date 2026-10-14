@@ -32,6 +32,31 @@ namespace Ronin7.World
         /// <summary>P2-07: the next wave is due once at most one enemy is still alive.</summary>
         internal static bool NextWaveDue(int alive, int wavesRemaining) => wavesRemaining > 0 && alive <= 1;
 
+        /// <summary>P2-06: a spawn point in the player's front arc — radius in [minR, maxR], within
+        /// +/- <paramref name="halfAngleDeg"/> of <paramref name="forwardXZ"/>, inside the wall margin, y = 0.
+        /// Bounded rejection sampling; false if no sample fits (caller keeps its pre-rolled point).
+        /// Arena-local x/z. Pure and deterministic via <paramref name="rng"/>.</summary>
+        internal static bool FrontArcPosition(Vector2 headXZ, Vector2 forwardXZ, float minR, float maxR,
+            float halfAngleDeg, float arenaHalfExtent, ref RunRng rng, out Vector3 position)
+        {
+            position = default;
+            if (forwardXZ.sqrMagnitude < 1e-6f) return false;
+            forwardXZ.Normalize();
+            float bound = Mathf.Max(0.1f, arenaHalfExtent - WallMargin);
+            for (int attempt = 0; attempt < 16; attempt++)
+            {
+                float a = (rng.NextFloat() * 2f - 1f) * halfAngleDeg * Mathf.Deg2Rad;
+                float r = Mathf.Lerp(minR, maxR, rng.NextFloat());
+                float c = Mathf.Cos(a), s = Mathf.Sin(a);
+                Vector2 dir = new Vector2(forwardXZ.x * c - forwardXZ.y * s, forwardXZ.x * s + forwardXZ.y * c);
+                Vector2 p = headXZ + dir * r;
+                if (Mathf.Abs(p.x) > bound || Mathf.Abs(p.y) > bound) continue;
+                position = new Vector3(p.x, 0f, p.y);
+                return true;
+            }
+            return false;
+        }
+
         /// <summary>
         /// Places <paramref name="count"/> points inside the arena (a <paramref name="arenaHalfExtent"/>
         /// square centred on the origin), each at least <see cref="MinSeparation"/> apart and at least

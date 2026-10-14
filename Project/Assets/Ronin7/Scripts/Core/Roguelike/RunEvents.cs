@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Ronin7.Core
 {
     /// <summary>Published when a node's fight/reward is resolved. Lets Flow/World coordinate the
@@ -47,5 +49,13 @@ namespace Ronin7.Core
     {
         public readonly int Remaining;
         public RoomProgress(int remaining) { Remaining = remaining; }
+    }
+
+    /// <summary>P2-06: an enemy is about to materialise at <see cref="Point"/> (world space) after the
+    /// spawn telegraph delay. Lets audio play the cue without a hard reference into Ronin7.World.</summary>
+    public readonly struct EnemySpawning
+    {
+        public readonly Vector3 Point;
+        public EnemySpawning(Vector3 point) { Point = point; }
     }
 }

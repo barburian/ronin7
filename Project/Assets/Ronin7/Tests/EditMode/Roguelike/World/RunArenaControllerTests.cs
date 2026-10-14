@@ -141,5 +141,38 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
         {
             Assert.AreEqual(expected, RunArenaController.OutOfArena(new Vector3(x, y, z), 12f));
         }
+
+        // ---- P2-06: deferred release ----
+
+        [Test]
+        public void ReleaseSchedule_NotDueBeforeDelay()
+        {
+            Assert.IsFalse(RunArenaController.ReleaseSchedule(10.5f, 10f, 1.2f));
+        }
+
+        [Test]
+        public void ReleaseSchedule_DueAtAndAfterDelay()
+        {
+            Assert.IsTrue(RunArenaController.ReleaseSchedule(11.25f, 10f, 1.2f));
+            Assert.IsTrue(RunArenaController.ReleaseSchedule(20f, 10f, 1.2f));
+        }
+
+        [Test]
+        public void ReleaseSchedule_ZeroDelay_DueImmediately()
+        {
+            Assert.IsTrue(RunArenaController.ReleaseSchedule(10f, 10f, 0f));
+        }
+
+        [Test]
+        public void WaveDue_PendingEnemiesCount_NoDoubleTrigger()
+        {
+            // Wave 1 (3) is scheduled but not yet active: alive 0, pending 3, two waves left.
+            Assert.IsFalse(RunArenaController.WaveDue(0, 3, 2));
+            // Once pending drains into alive the old rule applies.
+            Assert.IsFalse(RunArenaController.WaveDue(3, 0, 2));
+            Assert.IsTrue(RunArenaController.WaveDue(1, 0, 2));
+            Assert.IsFalse(RunArenaController.WaveDue(1, 1, 2));
+            Assert.IsFalse(RunArenaController.WaveDue(0, 0, 0));
+        }
     }
 }

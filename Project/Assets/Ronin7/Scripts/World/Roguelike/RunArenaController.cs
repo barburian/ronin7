@@ -53,6 +53,17 @@ namespace Ronin7.World
         private const float OutOfArenaFloorY = -2f;
         private int currentNodeIndex;
 
+        // P2-06: dequeued-but-not-yet-active enemies (telegraph showing). Scaled time (Time.time) on
+        // purpose: TimeScaleArbiter slow-mo (hit-stop, Overdrive) and pause stretch/suspend the delay
+        // together with the enemy AI and animation it gates, so a spawn never "lands" mid-freeze.
+        private struct PendingSpawn { public QueuedEnemy Entry; public float StartTime; public int Disc; }
+        private readonly List<PendingSpawn> pending = new();
+        private const float SpawnDelay = 1.2f;
+        private const int DiscPoolSize = 4; // <= 3 telegraphs at once: a wave is <= 3 and the next waits on pending
+        private Renderer[] discs;
+        private int placedCount;
+        private uint runSeed;
+
         private void Start()
         {
             if (roomLibrary == null)
@@ -73,6 +84,7 @@ namespace Ronin7.World
 
             RunNode node = RunState.CurrentNode;
             currentNodeIndex = node.Index;
+            runSeed = RunState.Seed;
             RunRng rng = RunRng.ForNode(RunState.Seed, node.Index);
 
             // Audio (and anything else) reacts to the node's sector/kind via the EventBus rather than a
@@ -107,7 +119,7 @@ namespace Ronin7.World
 
             waves = WaveComposer.SplitWaves(queued.Count, WaveSize);
             ActivateNextWave();
-            EventBus.Publish(new RoomProgress(aliveCount + queued.Count));
+            EventBus.Publish(new RoomProgress(Remaining));
             // Scaled time: a paused run (timeScale 0) suspends the sweep along with everything else.
             InvokeRepeating(nameof(CheckBounds), 1f, 1f);
         }
@@ -262,18 +274,21 @@ namespace Ronin7.World
             damage = baseDamage * RunScaling.DamageMultiplier(depth, kind);
         }
 
-        /// <summary>P2-07: the single wave-activation point (P2-06 front-arc placement/telegraph hooks
-        /// in here, before <see cref="ActivateFront"/>). Takes the next wave's size, clamped by the
-        /// A5.5 cap via <see cref="ReleaseCount"/>.</summary>
+        private int Remaining => aliveCount + pending.Count + queued.Count;
+
+        /// <summary>P2-07: the single wave-activation point. Takes the next wave's size, clamped by the
+        /// A5.5 cap via <see cref="ReleaseCount"/>. Pending (telegraphing) enemies count toward the cap.</summary>
         private void ActivateNextWave()
         {
             int size = waves[nextWave++];
-            ActivateFront(Mathf.Min(size, ReleaseCount(aliveCount, queued.Count, RunScaling.MaxConcurrentEnemies)));
+            ActivateFront(Mathf.Min(size, ReleaseCount(aliveCount + pending.Count, queued.Count, RunScaling.MaxConcurrentEnemies)));
         }
 
-        /// <summary>Activates up to <paramref name="count"/> queued enemies (front of the queue
-        /// first — spawn order), subscribing each one's <see cref="Health.Died"/> at activation time
-        /// rather than instantiate time (A5.5), so the alive set and the queue stay disjoint.</summary>
+        /// <summary>P2-06: moves up to <paramref name="count"/> queued enemies (spawn order) into the
+        /// pending list: each is re-placed in the player's front arc (substream per enemy, so seeded and
+        /// deterministic; falls back to its pre-rolled point) and gets a floor-disc + audio telegraph.
+        /// <see cref="Update"/> activates it <see cref="SpawnDelay"/> later. The initial wave takes this
+        /// same path, so the first enemies also telegraph (during the fade-in).</summary>
         private void ActivateFront(int count)
         {
             for (int i = 0; i < count && queued.Count > 0; i++)
@@ -281,14 +296,104 @@ namespace Ronin7.World
                 QueuedEnemy entry = queued[0];
                 queued.RemoveAt(0);
 
-                entry.Health.gameObject.SetActive(true); // Awake runs now, reading the Configure'd definition
-                Health health = entry.Health;
-                EnemyDefinition definition = entry.Definition;
-                health.Died += () => OnEnemyDied(health, definition);
-                alive.Add(health);
-                aliveCount++;
+                Transform t = entry.Health.transform;
+                RunRng rng = RunRng.ForNode(runSeed, currentNodeIndex * 31 + placedCount++);
+                GetHeadLocal(out Vector2 head, out Vector2 fwd);
+                if (WaveComposer.FrontArcPosition(head, fwd, 4f, 7f, 70f, halfExtent, ref rng, out Vector3 p))
+                    t.localPosition = p;
+                Vector3 local = t.localPosition;
+                local.y = 0f;
+                t.localPosition = local;
+
+                int disc = ShowTelegraph(local);
+                EventBus.Publish(new EnemySpawning(transform.TransformPoint(local)));
+                pending.Add(new PendingSpawn { Entry = entry, StartTime = Time.time, Disc = disc });
             }
         }
+
+        private void GetHeadLocal(out Vector2 head, out Vector2 fwd)
+        {
+            head = Vector2.zero;
+            fwd = Vector2.up;
+            Camera cam = Camera.main;
+            if (cam == null) return;
+            Vector3 hp = transform.InverseTransformPoint(cam.transform.position);
+            Vector3 hf = transform.InverseTransformDirection(cam.transform.forward);
+            head = new Vector2(hp.x, hp.z);
+            if (hf.x * hf.x + hf.z * hf.z > 1e-4f) fwd = new Vector2(hf.x, hf.z);
+        }
+
+        private int ShowTelegraph(Vector3 local)
+        {
+            if (discs == null)
+            {
+                discs = new Renderer[DiscPoolSize];
+                for (int d = 0; d < DiscPoolSize; d++)
+                {
+                    GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+                    go.name = "SpawnTelegraph";
+                    Destroy(go.GetComponent<Collider>());
+                    go.transform.SetParent(transform, false);
+                    Renderer r = go.GetComponent<Renderer>();
+                    r.sharedMaterial = VrUiMaterials.SharedUnlit;
+                    r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                    r.receiveShadows = false;
+                    RendererTint.Apply(r, new Color(2.5f, 0.35f, 0.1f, 1f)); // HDR orange-red: reads as danger, not a pickup
+                    go.SetActive(false);
+                    discs[d] = r;
+                }
+            }
+            for (int d = 0; d < discs.Length; d++)
+            {
+                if (discs[d].gameObject.activeSelf) continue;
+                discs[d].transform.localPosition = new Vector3(local.x, 0.02f, local.z);
+                discs[d].transform.localScale = new Vector3(0.3f, 0.01f, 0.3f);
+                discs[d].gameObject.SetActive(true);
+                return d;
+            }
+            return -1; // pool exhausted (not reachable by the cap maths): spawn untelegraphed rather than fail
+        }
+
+        private void Update()
+        {
+            float now = Time.time;
+            for (int i = pending.Count - 1; i >= 0; i--)
+            {
+                PendingSpawn ps = pending[i];
+                if (!ReleaseSchedule(now, ps.StartTime, SpawnDelay))
+                {
+                    if (ps.Disc >= 0)
+                    {
+                        float k = Mathf.Clamp01((now - ps.StartTime) / SpawnDelay);
+                        float d = Mathf.Lerp(0.3f, 1.6f, k);
+                        discs[ps.Disc].transform.localScale = new Vector3(d, 0.01f, d);
+                    }
+                    continue;
+                }
+                pending.RemoveAt(i);
+                if (ps.Disc >= 0) discs[ps.Disc].gameObject.SetActive(false);
+                Activate(ps.Entry);
+            }
+        }
+
+        /// <summary>Activates one enemy, subscribing its <see cref="Health.Died"/> at activation time
+        /// (A5.5) so the alive set and the queue/pending sets stay disjoint.</summary>
+        private void Activate(QueuedEnemy entry)
+        {
+            entry.Health.gameObject.SetActive(true); // Awake runs now, reading the Configure'd definition
+            Health health = entry.Health;
+            EnemyDefinition definition = entry.Definition;
+            health.Died += () => OnEnemyDied(health, definition);
+            alive.Add(health);
+            aliveCount++;
+        }
+
+        /// <summary>Pure seam (P2-06): true once <paramref name="delay"/> seconds have passed since <paramref name="startTime"/>.</summary>
+        internal static bool ReleaseSchedule(float now, float startTime, float delay) => now >= startTime + delay;
+
+        /// <summary>Pure seam (P2-06): the next wave is due on the P2-07 rule counting scheduled-but-inactive enemies as present.</summary>
+        internal static bool WaveDue(int alive, int pendingCount, int wavesRemaining) =>
+            WaveComposer.NextWaveDue(alive + pendingCount, wavesRemaining);
 
         /// <summary>A5.5/A5.6: the concurrency-cap drip release. <see cref="Health.Died"/> fires
         /// synchronously inside <see cref="Health.ApplyDamage"/>, so deaths are never actually
@@ -300,10 +405,10 @@ namespace Ronin7.World
             alive.Remove(health);
             if (definition != null) Destroy(definition); // A5.7 — no orphaned runtime clone
 
-            if (WaveComposer.NextWaveDue(aliveCount, waves.Count - nextWave)) ActivateNextWave();
+            if (WaveDue(aliveCount, pending.Count, waves.Count - nextWave)) ActivateNextWave();
 
-            EventBus.Publish(new RoomProgress(aliveCount + queued.Count));
-            if (aliveCount == 0 && queued.Count == 0) MarkCleared();
+            EventBus.Publish(new RoomProgress(Remaining));
+            if (Remaining == 0) MarkCleared();
         }
 
         /// <summary>Pure seam (A3.3/A5.5/A5.8): how many queued enemies to activate right now, given

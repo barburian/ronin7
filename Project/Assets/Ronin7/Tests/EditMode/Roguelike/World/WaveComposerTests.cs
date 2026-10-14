@@ -626,5 +626,43 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
                 }
             }
         }
+
+        // ---- P2-06: front-arc placement ----
+
+        [Test]
+        public void FrontArc_WithinCone_WithinRadius_InBounds_Y0()
+        {
+            var head = new Vector2(1f, -2f);
+            var fwd = new Vector2(1f, 1f).normalized;
+            for (uint seed = 1; seed <= 200; seed++)
+            {
+                var rng = new RunRng(seed);
+                Assert.IsTrue(WaveComposer.FrontArcPosition(head, fwd, 4f, 7f, 70f, 12f, ref rng, out Vector3 p), $"seed {seed}");
+                Vector2 d = new Vector2(p.x, p.z) - head;
+                Assert.GreaterOrEqual(d.magnitude, 4f - 1e-3f);
+                Assert.LessOrEqual(d.magnitude, 7f + 1e-3f);
+                Assert.LessOrEqual(Vector2.Angle(fwd, d), 70f + 1e-2f);
+                Assert.LessOrEqual(Mathf.Abs(p.x), 11f + 1e-3f);
+                Assert.LessOrEqual(Mathf.Abs(p.z), 11f + 1e-3f);
+                Assert.AreEqual(0f, p.y);
+            }
+        }
+
+        [Test]
+        public void FrontArc_Deterministic()
+        {
+            var a = new RunRng(77); var b = new RunRng(77);
+            WaveComposer.FrontArcPosition(Vector2.zero, Vector2.up, 4f, 7f, 70f, 12f, ref a, out Vector3 pa);
+            WaveComposer.FrontArcPosition(Vector2.zero, Vector2.up, 4f, 7f, 70f, 12f, ref b, out Vector3 pb);
+            Assert.AreEqual(pa, pb);
+        }
+
+        [Test]
+        public void FrontArc_NoPointFits_ReturnsFalse()
+        {
+            // Facing straight at a wall with the head against it: every arc point is out of bounds.
+            var rng = new RunRng(5);
+            Assert.IsFalse(WaveComposer.FrontArcPosition(new Vector2(0f, 4.9f), Vector2.up, 4f, 7f, 70f, 5f, ref rng, out _));
+        }
     }
 }
