@@ -9,10 +9,10 @@ raise it — do not silently diverge, because parallel modules compile against i
 Ronin-7 is a blade-shadow descending into **the Fracture**, a shifting lattice of Program sectors.
 
 ```
-Hub (Galaxy1_Ch1_Hub)  --StartRun-->  Node 0 ... Node 14  --Boss killed--> Run won  --> Hub
-        ^                                   |
-        |                                   +-- player dies (permadeath) --> Run lost --> Hub
-        +-- spend Echoes on permanent unlocks between runs
+Phase6_Boot  --StartRun-->  Node 0 ... Node 14  --Boss killed--> Run won  --> Phase6_Boot
+     ^                            |
+     |                            +-- player dies (permadeath) --> Run lost --> Phase6_Boot
+     +-- spend Echoes at the SHRINE (boot menu) on permanent unlocks between runs
 ```
 
 * A **run** = 3 sectors x 5 nodes = **15 nodes**, ~25 min (VR session length is a design constraint).
@@ -20,17 +20,22 @@ Hub (Galaxy1_Ch1_Hub)  --StartRun-->  Node 0 ... Node 14  --Boss killed--> Run w
 * Each node loads the single reusable `RunArena` scene; the arena is **assembled at runtime from a
   seed** while the screen is still under GameFlowManager's black fade.
 
-### Node layout per sector (index within sector)
+### Map layout per sector (branching graph, Amendment 10)
 
-| idx | kind |
-|---|---|
-| 0 | `Combat` (always — a guaranteed soft opener) |
-| 1 | weighted `Combat` / `Elite` / `Treasure` |
-| 2 | weighted `Combat` / `Elite` / `Treasure` |
-| 3 | `Forge` (heal + reroll, no enemies) |
-| 4 | `Boss` |
+The map is a `RunMap` graph (`RunMapGenerator.GenerateGraph(seed)`), 5 rows per sector. A node's id is
+`RunState.NodeIndex`; `Depth` = sector x 5 + row, so a path is always 15 deep. Edges run from lane l to
+lanes l-1..l+1 of the next row.
 
-Weights for idx 1–2: Combat 55, Elite 30, Treasure 15. A sector never rolls two Treasures.
+| row | lanes | kinds |
+|---|---|---|
+| 0 | 1 | `Combat` (guaranteed soft opener) |
+| 1 | 2-3 | weighted: Combat 40 / Elite 25 / Event 15 / Treasure 10 / Shop 10 |
+| 2 | 2-3 | same weights; at most 1 Treasure and 1 Shop per sector |
+| 3 | 2 | `Forge` + `Shop` |
+| 4 | 1 | `Boss` |
+
+After a node's reward the player picks the next node: diegetic exit gates on the arena's north wall, or a
+"CHOOSE YOUR PATH" panel when seated or after 6 s without moving. `RunSnapshot` is v2 (adds the path).
 
 ### Rewards
 
@@ -39,7 +44,9 @@ Weights for idx 1–2: Combat 55, Elite 30, Treasure 15. A sector never rolls tw
 | `Combat` | boon offer, 3 choices |
 | `Elite` | boon offer, 3 choices, rarity weights shifted up |
 | `Treasure` | 1 guaranteed Rare, no fight |
-| `Forge` | heal 60% of missing HP + 1 reroll token |
+| `Forge` | MEND (heal 60% of missing HP) or TEMPER (+1 reroll token) |
+| `Shop` | spend this run's Echoes: 3 boons (30 / 60 / 120 by rarity) + MEND 25% for 40 |
+| `Event` | data-driven 2-option event (Blood Pact, Gamble, Meditate, Forgotten Shrine) |
 | `Boss` | boon offer, 3 choices, rarity weights shifted up hardest |
 
 ## 2. Reuse mandate
@@ -376,7 +383,7 @@ namespace Ronin7.Flow
     public class RunDirector : MonoBehaviour
     {
         public static RunDirector Instance { get; }
-        public void StartRun();             // random seed
+        public void StartRun();             // random seed (resumes a saved run if one exists)
         public void StartRun(uint seed);    // daily/known seed
         public void AbandonRun();
 
@@ -384,9 +391,6 @@ namespace Ronin7.Flow
         internal enum PostClearAction { OfferBoon, AdvanceImmediately, WinRun }
         internal static PostClearAction ResolvePostClear(RoomKind kind, bool isFinalNode);
     }
-
-    // Hub-side. Sits next to MissionLauncher on the hub console for the roguelike mode.
-    public class RunLauncher : MonoBehaviour { public void LaunchRun(); }
 }
 ```
 
@@ -395,7 +399,7 @@ Add to `GameFlowManager` a single `public IEnumerator LoadSceneFaded(string scen
 wrapper exposing the existing `FadeLoadFade`, and nothing else. Player death during a run is already
 funnelled through `GameFlowManager.OnEntityDied`; `RunDirector` subscribes to `EntityDied` too and
 ends the run, banking echoes, before the existing game-over path returns to the menu — for a run, it
-returns to the **hub** instead of the main menu.
+returns to **`Phase6_Boot`** (the boot menu) — there is no hub in the roguelike build (D-02).
 
 ### Module 5 — `Ronin7.Editor`, folder `Scripts/Editor/Roguelike/` (built after 1–4)
 
@@ -454,12 +458,12 @@ Spare/alternate bosses already tuned and available: `Kerrax` + `Ch4Kerrax`,
 These definitions are **existing project assets** — the runtime must `Instantiate()` a copy before
 applying `RunScaling`, never mutate the asset on disk.
 
-### Menu / hub integration points
+### Menu integration points
 
 * `Flow/MainMenuController.cs` — add `OnStartRunClicked()` calling `RunDirector.Instance.StartRun()`,
   matching the existing thin-bridge idiom (each method is one line delegating to a singleton).
-* `Flow/MissionLauncher.cs` — unchanged. `RunLauncher` sits beside it on the hub console so the
-  story campaign remains launchable; the roguelike is the new default path.
+* `Flow/MissionLauncher.cs` — unchanged (story code stays compiled). `RunLauncher` and the hub patch were
+  removed at the Phase 2 exit (D-02); runs start only from the boot menu's ENTER THE FRACTURE.
 
 ### Enemy art prefab rig shape (confirmed by inspecting `Dominion_Trooper.prefab`)
 
@@ -1300,6 +1304,50 @@ item names the task that landed it.
   fields.
 - **A9.12 Enemy textures (P1-12).** Albedo / MR / Normal extracted to PNGs with ASTC on Android, max size
   <= 1024, mipmaps on (`EnemyTextureTests` guards all 14 materials).
+
+## Amendment 10 — Phase 2 numbers (Roguelike-Roadmap.md P2-01 … P2-11)
+
+Binding as of Phase 2 (`0.3.0`). Each item names the task that landed it.
+
+- **A10.1 Echo shop (P2-01).** `MetaProgression.UpgradeCost` / `TryPurchase`. Costs: Starting Health and
+  Starting Damage 40 / 60 / 80 / 100 / 120 (5 levels); Starting Boon 80 / 150 / 250; Reroll Tokens
+  50 / 100 / 150. SHRINE button and "ECHOES n" label on the boot menu.
+- **A10.2 Arena size (P2-05).** `RunScaling.ArenaHalfExtent`: Combat 8 m, Elite 9, Boss 11, Forge / Treasure /
+  Shop / Event 5.
+- **A10.3 Waves (P2-07).** `WaveComposer.SplitWaves(n, 3)`: waves of <= 3; the next wave is due when
+  alive <= 1. `RunScaling.MaxConcurrentEnemies` stays 4.
+- **A10.4 Front-arc spawns (P2-06, BUG-24).** Enemies are placed 4-7 m from the head inside a 70 deg
+  half-angle front arc (substream `RunRng.ForNode(seed, nodeId*31+k)`; pre-rolled point if none fits),
+  telegraphed by a floor disc and audio for 1.2 s before activating.
+- **A10.5 Branching map (P2-04).** Rows and weights as in section 1 (rows 1-2 weights 40/25/15/10/10 for
+  Combat/Elite/Event/Treasure/Shop; <= 1 Treasure and <= 1 Shop per sector across rows 1-2; row 3 = Forge +
+  Shop). Golden kinds, seed 2026 (`|` separates rows, 3 sectors, 27 nodes):
+  `CBT | ELT SHP | CBT TRS ELT | FRG SHP | BOS | CBT | ELT ELT | EVT CBT CBT | FRG SHP | BOS | CBT | CBT SHP CBT | ELT TRS | FRG SHP | BOS`.
+  `RoomKind` appends `Shop`, `Event`; `RunNode` gains `Lane` and `Depth`. Snapshot v2 adds `path`, `depth`,
+  `maxHealthBonus`; v1 runs are discarded and their Echoes banked (A8.8). Fixture `TestData/saves_phase2`.
+- **A10.6 Shop and events (P2-04).** Boons cost 30 / 60 / 120 run-Echoes by Common / Rare / Epic; MEND 25%
+  costs 40. Events: Blood Pact (-15 max HP, Rare boon); Gamble (50% Epic boon, else 25 damage); Meditate
+  (heal 30% of max); Forgotten Shrine (spend 40 Echoes, +1 reroll, heal 15%).
+- **A10.7 Forge, sector, beats (P2-02).** Forge is revealed: MEND heals 60% of missing, TEMPER gives +1
+  reroll (until P4-07). Treasure shows a single TAKE card. Sector change heals 20% of missing and shows a
+  2.5 s title, then CONTINUE / SAVE & QUIT. Death beat 1.2 s, victory beat ("FRACTURE CLOSED") 2 s, both
+  unscaled, no shake.
+- **A10.8 Onboarding (P2-08).** `MetaSaveData.tutorialDone` (default false). Node 0 of a first run spawns
+  exactly 2 Scavengers and shows the north-wall prompt sequence; set on the first `RoomCleared`.
+- **A10.9 Comfort (P2-09).** Seated adds +0.45 m eye offset (`GameSettings.SeatedEyeOffset`), relaxes the
+  posture guard and forces the gate panel fallback; Left-Handed mirrors HUD mount, holster and parry hand;
+  locomotion Smooth / Teleport. Reachable from the boot menu.
+- **A10.10 Damage latency (P2-10, BUG-29).** The enemy strike resolves when the strike pose lands, at 0.35 of
+  Active, instead of at the end of Active; a landed blow closes the parry window for the follow-through. The
+  parry window shrinks from ~1.0 s to ~0.48 s. Damage -> feedback was already same-frame.
+- **A10.11 Movement tuning (P2-11).** `EnemyDefinition` turnRateDegrees / acceleration / deceleration:
+  humanoid default 240 deg/s, 4, 6; drones 300 / 3 / 3; bosses 150 / 2.5 / 4. `RoguelikeDataBuilder` keeps
+  these overrides.
+- **A10.12 Phase 2 exit (D-02).** `RunLauncher` and the hub patch (`RoguePatchHubLauncher` plus the hub's
+  RunLauncher object) are removed; the build ships `Phase6_Boot` + `RunArena`. EditMode baseline after
+  removal: 1518 (no tests referenced them).
+- **A10.13 Device numbers (G5/G6).** TODO: fill after the Quest and PCVR device run (frame times, GC, and any
+  tuning changes to the values above).
 
 ## Build status — 2026-09-19
 

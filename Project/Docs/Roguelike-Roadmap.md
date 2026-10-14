@@ -2,7 +2,7 @@
 
 **Date:** 2026-10-11 · **Branch:** `roguelike` (never `main`) · **Targets:** Meta Quest 2/3/3S/Pro (Android, IL2CPP, Vulkan) + PCVR (Win64, OpenXR)
 **Source:** five parallel read-only reviews of the working tree (enemies & weaknesses; skills, boons & stats; run flow & UX; graphics & performance; export, audio, comfort & everything else).
-**Contract:** `Roguelike-Design.md` (incl. Amendments 1–7) stays authoritative. Where this roadmap changes behaviour it says so and the amendment must be appended when the change lands.
+**Contract:** `Roguelike-Design.md` (incl. Amendments 1–10) stays authoritative. Where this roadmap changes behaviour it says so and the amendment must be appended when the change lands.
 
 Paths are relative to `Project/Assets/Ronin7/` unless they start with `Project/`.
 
