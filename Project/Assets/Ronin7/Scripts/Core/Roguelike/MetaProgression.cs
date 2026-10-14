@@ -82,6 +82,37 @@ namespace Ronin7.Core
             }
         }
 
+        // P2-01 price tables, indexed by (nextLevel - 1).
+        private static readonly int[] PowerCosts = { 40, 60, 80, 100, 120 };
+        private static readonly int[] BoonCosts = { 80, 150, 250 };
+        private static readonly int[] RerollCosts = { 50, 100, 150 };
+
+        /// <summary>Echo price of buying <paramref name="nextLevel"/> (1-based) of an upgrade; 0 if out of range.</summary>
+        public static int UpgradeCost(string id, int nextLevel)
+        {
+            int[] table;
+            switch (id)
+            {
+                case MetaUpgradeId.StartingHealth:
+                case MetaUpgradeId.StartingDamage: table = PowerCosts; break;
+                case MetaUpgradeId.StartingBoon: table = BoonCosts; break;
+                case MetaUpgradeId.RerollTokens: table = RerollCosts; break;
+                default: return 0;
+            }
+            return nextLevel >= 1 && nextLevel <= table.Length ? table[nextLevel - 1] : 0;
+        }
+
+        /// <summary>Buys the next level of an upgrade and persists. False (no change) if maxed or unaffordable.</summary>
+        public static bool TryPurchase(string id)
+        {
+            int level = UpgradeLevel(id);
+            if (level >= MaxLevel(id)) return false;
+            if (!TrySpend(UpgradeCost(id, level + 1))) return false;
+            SetUpgradeLevel(id, level + 1);
+            Save();
+            return true;
+        }
+
         /// <summary>Records a finished run (win or permadeath) into the lifetime counters.
         /// <paramref name="depthReached"/> is rooms CLEARED (TotalNodes on a win), shown as n/15.</summary>
         public static void NoteRunEnded(int depthReached, bool won)

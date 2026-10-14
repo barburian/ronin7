@@ -509,5 +509,56 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
 
             CollectionAssert.AreEqual(before, File.ReadAllBytes(SaveSystemMetaPathForTest()));
         }
+
+        // ---- P2-01 Shrine of Echoes ----
+
+        [Test]
+        public void UpgradeCost_Table()
+        {
+            CollectionAssert.AreEqual(new[] { 40, 60, 80, 100, 120 }, Costs(MetaUpgradeId.StartingHealth, 5));
+            CollectionAssert.AreEqual(new[] { 40, 60, 80, 100, 120 }, Costs(MetaUpgradeId.StartingDamage, 5));
+            CollectionAssert.AreEqual(new[] { 80, 150, 250 }, Costs(MetaUpgradeId.StartingBoon, 3));
+            CollectionAssert.AreEqual(new[] { 50, 100, 150 }, Costs(MetaUpgradeId.RerollTokens, 3));
+        }
+
+        private static int[] Costs(string id, int levels)
+        {
+            var c = new int[levels];
+            for (int i = 0; i < levels; i++) c[i] = MetaProgression.UpgradeCost(id, i + 1);
+            return c;
+        }
+
+        [Test]
+        public void TryPurchase_Insufficient_NoChange()
+        {
+            MetaProgression.AddEchoes(39);
+            Assert.IsFalse(MetaProgression.TryPurchase(MetaUpgradeId.StartingHealth));
+            Assert.AreEqual(39, MetaProgression.Echoes);
+            Assert.AreEqual(0, MetaProgression.UpgradeLevel(MetaUpgradeId.StartingHealth));
+        }
+
+        [Test]
+        public void TryPurchase_AtMax_False()
+        {
+            MetaProgression.AddEchoes(10000);
+            MetaProgression.SetUpgradeLevel(MetaUpgradeId.RerollTokens, 3);
+            Assert.IsFalse(MetaProgression.TryPurchase(MetaUpgradeId.RerollTokens));
+            Assert.AreEqual(10000, MetaProgression.Echoes);
+            Assert.AreEqual(3, MetaProgression.UpgradeLevel(MetaUpgradeId.RerollTokens));
+        }
+
+        [Test]
+        public void TryPurchase_Success_DeductsLevelsPersists()
+        {
+            MetaProgression.AddEchoes(150);
+            Assert.IsTrue(MetaProgression.TryPurchase(MetaUpgradeId.StartingBoon)); // 80
+            Assert.AreEqual(70, MetaProgression.Echoes);
+            Assert.AreEqual(1, MetaProgression.UpgradeLevel(MetaUpgradeId.StartingBoon));
+
+            MetaProgression.Reset();
+            MetaProgression.Load();
+            Assert.AreEqual(70, MetaProgression.Echoes);
+            Assert.AreEqual(1, MetaProgression.UpgradeLevel(MetaUpgradeId.StartingBoon));
+        }
     }
 }

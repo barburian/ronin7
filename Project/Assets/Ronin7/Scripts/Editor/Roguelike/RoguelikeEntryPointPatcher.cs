@@ -27,6 +27,8 @@ namespace Ronin7.EditorTools
         private const string RogueHubScenePath = SceneFolder + "/Galaxy1_Ch1_Hub.unity";
         private const string RogueRunButtonName = "Btn_EnterTheFracture";
         private const string RogueAbandonButtonName = "Btn_AbandonRun";
+        private const string RogueShrineButtonName = "Btn_Shrine";
+        private const string RogueEchoesLabelName = "Txt_Echoes";
 
         [MenuItem("Tools/Space Samurai/Roguelike/Patch Entry Points (additive)", priority = 510)]
         public static void PatchRoguelikeEntryPoints()
@@ -134,21 +136,42 @@ namespace Ronin7.EditorTools
                 abandonBtn = abandon.GetComponent<Button>();
             }
 
+            // P2-01: SHRINE (opens the Echo shop) + the "◈ ECHOES n" balance label.
+            var shrine = canvasRt.Find(RogueShrineButtonName);
+            if (shrine == null)
+            {
+                var shrineBtn = MenuMakeButton(canvasRt, "SHRINE", new Vector2(0f, 120f));
+                shrineBtn.gameObject.name = RogueShrineButtonName;
+                UnityEventTools.AddPersistentListener(shrineBtn.onClick,
+                    new UnityEngine.Events.UnityAction(controller.OnShrineClicked));
+                Debug.Log("[RogueEntry] Added SHRINE button to the boot menu.");
+            }
+            var echoes = canvasRt.Find(RogueEchoesLabelName);
+            if (echoes == null)
+            {
+                var t = MenuNewText(canvasRt, "◈ ECHOES 0", new Vector2(0f, 232f), new Vector2(480f, 40f), 28, TextAnchor.MiddleCenter);
+                t.gameObject.name = RogueEchoesLabelName;
+                t.color = new Color(1f, 0.85f, 0.4f);
+                echoes = t.transform;
+            }
+
             var so = new SerializedObject(controller);
             so.FindProperty("runButton").objectReferenceValue = canvasRt.Find(RogueRunButtonName).GetComponent<Button>();
             so.FindProperty("abandonButton").objectReferenceValue = abandonBtn;
+            so.FindProperty("echoesLabel").objectReferenceValue = echoes.GetComponent<Text>();
             so.ApplyModifiedPropertiesWithoutUndo();
 
-            // Restack: six buttons at 90px spacing (80px tall) stay clear of the title (y=270) and
+            // Restack: seven buttons at 82px spacing (80px tall) stay clear of the title (y=270) and
             // inside the canvas (height 700 => +/-350). Matching by the label each button carries.
-            // BUG-27: ABANDON RUN sits 27 cm (1 px = 1 mm) below ENTER THE FRACTURE / RESUME RUN —
+            // BUG-27: ABANDON RUN sits 20+ cm (1 px = 1 mm) below ENTER THE FRACTURE / RESUME RUN —
             // it used to be 9 cm under it, one slip from discarding the run.
-            RogueStack(canvasRt, "ENTER THE FRACTURE", 190f);
-            RogueStack(canvasRt, "RECALIBRATE HEIGHT", 100f);
-            RogueStack(canvasRt, "START NEW GAME", 10f);
-            RogueStack(canvasRt, "ABANDON RUN", -80f);
-            RogueStack(canvasRt, "CONTINUE", -170f);
-            RogueStack(canvasRt, "EXIT GAME", -260f);
+            RogueStack(canvasRt, "ENTER THE FRACTURE", 180f);
+            RogueStack(canvasRt, "SHRINE", 98f);
+            RogueStack(canvasRt, "RECALIBRATE HEIGHT", 16f);
+            RogueStack(canvasRt, "START NEW GAME", -66f);
+            RogueStack(canvasRt, "ABANDON RUN", -148f);
+            RogueStack(canvasRt, "CONTINUE", -230f);
+            RogueStack(canvasRt, "EXIT GAME", -312f);
 
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);

@@ -22,7 +22,11 @@ namespace Ronin7.Flow
         [Tooltip("ABANDON button; shown only when a saved run exists.")]
         [SerializeField] private Button abandonButton;
 
+        [Tooltip("P2-01: shows the banked Echoes balance on the menu.")]
+        [SerializeField] private Text echoesLabel;
+
         private bool abandonArmed;
+        private MetaShopPanel shop;
 
         private void OnEnable()
         {
@@ -59,6 +63,11 @@ namespace Ronin7.Flow
         private void RefreshRunButtons()
         {
             abandonArmed = false;
+            if (echoesLabel != null)
+            {
+                MetaProgression.EnsureLoaded();
+                echoesLabel.text = MetaShopPanel.EchoesText(MetaProgression.Echoes);
+            }
             SetAbandonLabel(RunEntryOptions.AbandonLabel);
             bool hasRun = RunEntryOptions.HasSavedRun();
             if (runButton != null)
@@ -122,6 +131,13 @@ namespace Ronin7.Flow
         public void OnStartRunClicked()
         {
             RunDirector.Instance?.StartRun();
+        }
+
+        /// <summary>Menu "SHRINE": open the Echo shop (P2-01).</summary>
+        public void OnShrineClicked()
+        {
+            MetaProgression.EnsureLoaded();
+            if (shop == null) shop = MetaShopPanelFactory.Build(Camera.main);
         }
 
         /// <summary>Menu "ABANDON": the first click asks for confirmation, the second discards the
