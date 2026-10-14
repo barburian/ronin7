@@ -87,6 +87,15 @@ Effort in engineer-days (rough, one person with agents): P0 ≈ 4–5, P1 ≈ 6�
 | BUG-27 | LOW | ABANDON RUN sits 9 cm under RESUME RUN with no confirmation, and it immediately starts a new run. | `RoguelikeEntryPointPatcher.cs:89-153` | P0-04 |
 | BUG-28 | LOW | The sword lost its roadmap `CyberSword` shader: "Build All Art Prefabs" reverts it to SamuraiToon. On PC (Forward+), custom shaders lack `_CLUSTER_LIGHT_LOOP`, so they get no point lights. | `Prefabs/Art/Sword_Katana.prefab`, `Art/Shaders/*` | P5-04 |
 | BUG-29 | MED | Player feels a slight **delay receiving damage** (hit lands, damage/feedback feels late). Investigate only: enemy hit timing vs Active window, Health -> CombatFeedbackController/Haptics/audio path, any frame-delayed event. | `Enemies/MeleeAttacker.cs`, `Combat/Health.cs`, `Player/CombatFeedbackController.cs` | P2-10 |
+| BUG-30 | HIGH | **Forge "no effect"** (Phase 2 headset playtest, 2026-10-14): the MEND/TEMPER panel appeared and was clicked, but no effect was visible. Cause unconfirmed. Suspects: MEND heals 60% of *missing* HP (0 at full HP) and shows no amount; TEMPER's +1 reroll is displayed nowhere; or the effect is not applied. | `Flow/Roguelike/` Forge panel; `RunDirector.cs` | P3-00 (TEMPER card: P4-07) |
+| BUG-31 | MED | `SceneDebugOverlay` shows a green scene-name label ~0.6 m in front of the player in **release builds** (no `RONIN7_DEV` gate). Still visible to the user. | `Flow/SceneDebugOverlay.cs` | P3-00 |
+| BUG-32 | LOW | **Onboarding cannot be re-verified**: the tutorial is skipped when `runsCompleted > 0` (by design, P2-08), so the Phase 2 prompts were never seen in the headset. | `Flow/Roguelike/` onboarding; `MetaProgression` | P3-00 (dev reset), P6-06 (Settings toggle) |
+| BUG-33 | MED | **One currency name for two things**: the user could not use the Shop because they had spent their Echoes at the Shrine. Design decision D-11: fully separate currencies. | `MetaProgression.cs`, `RunState`, Shop/Shrine/HUD | P4-11 |
+| BUG-34 | LOW | Hard-coded `LeftHand` haptics ignore `GameSettings.LeftHanded` (P2-09 fixed only `ParryFlowController`). | `Player/CombatFeedbackController.cs`, `AdrenalineFlow`, `BladeClashFeedback`, `HeartbeatHaptics` | P3-00 |
+| BUG-35 | LOW | `RunRng.ForNode` first draw barely varies across low seeds (seeds 1..64 gave the same Gamble outcome). Needs a seed mix; this changes goldens. | `Core/Roguelike/RunRng.cs` | P4-11 (same snapshot version bump) |
+| BUG-36 | LOW | `BuildMenu`: release and dev Windows builds share `Builds/Windows`; a dev build overwrites `UnityPlayer.dll`. | `Editor/BuildMenu.cs` | P3-00 |
+| BUG-37 | LOW | Quest logcat on every RunArena load: "Main Camera does not use a Tracked Pose Driver (Input System)". | `Editor/XRRigBuilder.BuildRig`; RunArena camera | P3-00 |
+| BUG-38 | LOW | Drones and bosses still move unsmoothly after P2-11 (humanoids are fine). User report, Phase 2 headset playtest. | `Enemies/MovementSmoothing.cs`, drone/boss behaviours | P3-09 |
 
 ## A3. Domain findings in brief
 
@@ -153,6 +162,8 @@ A phase is **done** only when all of the following pass. Add these to a checklis
 | G7 | **Save compatibility.** A `meta.json` and `run.json` written by the previous phase's build load correctly. Never bump `RunSnapshot.CurrentVersion` without the banking migration (P0-09). | Keep a `TestData/saves_phaseN/` fixture and add an EditMode test that loads it. |
 | G8 | **VRC sanity:** Quest menu button → pause; headset off → pause; controller tracking lost → no phantom swings; resume works. | Manual on device. |
 | G9 | **Ship it.** Bump `bundleVersion` (`0.N.0`) and `AndroidBundleVersionCode` (+1). Commit on `roguelike` with exact-path staging (no `.mcp.json` or NuGet noise). Tag it `roguelike-phaseN`. | `git tag roguelike-phase0` and so on |
+
+**G5 carry-over checks (Phase 2 playtest, 2026-10-14; not observed in the headset, verify at the next gate):** Treasure TAKE card; sector card and CHECKPOINT; Forge MEND/TEMPER visible effect (BUG-30); onboarding prompts via the dev reset (BUG-32); no green scene-name label in a release build (BUG-31); drone and boss smoothness (BUG-38).
 
 The **dev skip** used in G5 and all debug tooling sit behind the `RONIN7_DEV` scripting define, which is set only in Development builds, so release builds never contain them.
 
@@ -309,6 +320,7 @@ Conventions for every task:
 6. **Quest `File.Replace` with backup:**
    - Verify once on device that writing `meta.json` twice leaves `meta.json.bak` in place.
    - If it doesn't, fall back to `File.Copy` + `File.Delete`, guarded by `#if UNITY_ANDROID`.
+   - **Verified on device 2026-10-14:** `File.Replace` on Quest external storage logs an SELinux `link` denial, but the runtime falls back to copy; `meta.json.bak` is kept and saves are current. The fallback is not needed. The code comment on `SaveSystem.ReplaceWithBackup` is stale (docs-only change; fix it with the next code touch).
 7. **Map drift:** next to the `RunMapGenerator` golden vectors, add the comment `// if these change, bump RunSnapshot.CurrentVersion (banking migration in Read handles old runs)`.
 
 ### P0-10 Identity, scene list, packaging (export)
@@ -727,6 +739,17 @@ User report: movement is functionally fine but visually ugly; needs to be much s
 - Each has a unique, readable weakness, and every weakness also has a damage path that needs no ability.
 - Elite affixes.
 
+### P3-00 Phase 2 playtest carry-overs (do first)
+Source: Phase 2 headset playtest, 2026-10-14. Items 1-2 are must-fix before any new Phase 3 work.
+1. **Forge no-effect (BUG-30):** reproduce on device/PCVR and measure before changing anything. Check MEND amount at full vs missing HP, whether `Health.Current` actually changes, and whether TEMPER's +1 reroll is applied. Fix the confirmed cause, and make both effects visible (the healed amount, e.g. "+38 HP" or "HP FULL", and the reroll count on the HUD/panel).
+2. **Gate `SceneDebugOverlay` behind `RONIN7_DEV` (BUG-31).** Test: `SceneDebugOverlay_AbsentInRelease` (define check).
+3. **Dev tutorial reset (BUG-32), `RONIN7_DEV` only:** a dev action that sets `runsCompleted = 0` in memory so the P2-08 prompts can be verified in the headset.
+4. **Handedness haptics (BUG-34):** route `CombatFeedbackController`, `AdrenalineFlow`, `BladeClashFeedback`, `HeartbeatHaptics` through the same handedness lookup as `ParryFlowController`. Test: `HapticHand_FollowsLeftHanded`.
+5. **Build output folders (BUG-36):** separate `Builds/Windows` (release) from `Builds/Windows-Dev`.
+6. **Tracked Pose Driver warning (BUG-37):** investigate; add the Input System `TrackedPoseDriver` to the RunArena camera rig, or silence it with a note if it is harmless under OpenXR.
+7. **Tuning knob to revisit (P2-10):** the parry window was shortened from ~1.0 s to ~0.48 s (`StrikeFraction` 0.35); the user said damage feels better. Re-check with the P3-02/P3-05 weakness and parry work; do not change it blind.
+- **Accept:** Forge effect visible and confirmed on device; release build shows no debug label; EditMode green.
+
 ### P3-01 The weakness system (pure core)
 - **New:** `Enemies/WeaknessRules.cs` (`Ronin7.Enemies`, pure static).
   ```csharp
@@ -875,6 +898,14 @@ Implementation notes:
 - Shown only after the first hit; hidden 4 s after the last.
 - A yaw-billboard quad 0.25 m above the head, with the fill driven by MPB. No Canvas per enemy.
 - **No damage numbers** (VR clutter).
+
+### P3-09 Drone and boss movement smoothness (BUG-38)
+User report, Phase 2 headset playtest: after P2-11 humanoids are fine, drones and bosses are not. Builds on `MovementSmoothing` (`Enemies/MovementSmoothing.cs`; per-definition `turnRate`/`accel`/`decel`; drones 300/3/3, bosses 150/2.5/4).
+1. **Drones:** hover/bank/strafe feel instead of walking logic: bob and bank into the direction of travel, ease strafe direction changes, no instant reversals.
+2. **Bosses:** weight: turn in place before travelling, anticipation before a charge, heavier decel; blend between phases and attack states (ties into P3-07 `ForceStagger`).
+3. Tune per-definition values; keep it in `MovementSmoothing` plus thin per-type pose code. No new `Find*`, no per-frame allocations.
+- **Tests:** `Smoothing_Drone_BankFollowsLateralAccel`; `Smoothing_Boss_TurnInPlaceBeforeMove`.
+- **Accept:** headset confirms drones and bosses look smooth; no added frame cost or GC allocs (Profiler on Quest).
 
 ### P3 exit
 - Export Gate.
@@ -1085,6 +1116,15 @@ Extend the P2-01 table:
 | Archetype packs (Bleed / Storm / Executioner boons enter the pool only once bought) | 120 each |
 | **Keepsake**: start the run with one Epic you have picked in a past run | 200 each |
 
+### P4-11 Split currencies: Shards vs Echoes (BUG-33, BUG-35, D-11)
+Decision D-11 (user, 2026-10-14): **fully separate**. Source: Phase 2 headset playtest.
+1. **Shards** (working name): in-run currency, earned per room, spent at the Shop and in events (Forgotten Shrine), shown live on the wrist HUD, **lost when the run ends** and never converted to Echoes.
+2. **Echoes:** only from the end-of-run result (keep totals near current: ~320 win, 60-150 loss), spent only at the Shrine.
+3. Add shard fields to `RunState`/`RunSnapshot`. **Bump `RunSnapshot.CurrentVersion` together with the P0-09 banking migration** (v2 runs bank their unbanked echoes on discard). Add the `RunRng.ForNode` seed mix (BUG-35) in the same bump, because it changes the golden vectors (map-drift rule, P0-09 step 7).
+4. Relabel Shop, events, HUD and summary so the two names never overlap.
+- **Tests:** `Shards_LostOnRunEnd_NeverBanked`; `Echoes_FromResultOnly`; `VersionMismatch_BanksEchoes_V2`; `ForNode_LowSeeds_VaryFirstDraw`. Add a `TestData/saves_phase4/` fixture (G7).
+- **Accept:** Shop usable regardless of Shrine spending; HUD shows live Shards; G7 loads the v2 fixture.
+
 ### P4 exit
 - Export Gate.
 - `MetaSaveData` stays v1, with appended fields only. Add the test `MetaSave_V1WithoutNewFields_LoadsDefaults`.
@@ -1274,6 +1314,7 @@ In `ArtPrefabBuilder`:
    - Mono for 3D one-shots.
    - Decompress On Load under 200 KB; Compressed In Memory for music and ambience.
    - Preload off for loops.
+6. **Placeholders to replace:** `boonChosen`, `runLost`, `runWon`, `enemySpawning` are noise-burst procedural stand-ins (Phase 2 playtest, 2026-10-14); give them real or properly synthesised cues.
 - **Tests:** `AudioDirector.MusicFor(kind, sector)` selector; `VolumeToDb_*`. Add a dev log on null clips in `PlayAt`.
 
 ### P6-02 Haptics and comfort options
@@ -1320,6 +1361,10 @@ Add these to `SettingsPanel`:
    - PC: SteamVR + OpenXR, with Index/Vive bindings checked in the OpenXR interaction profiles.
 5. **Final soak:** 5 complete runs per platform, plus 10 runs with heat and the Daily seed. Read `runlog.jsonl`: no crash and no soft-lock.
 
+### P6-06 Replay tutorial (BUG-32)
+The tutorial is skipped when `runsCompleted > 0` (P2-08). Add a "Replay tutorial" toggle in `SettingsPanel` that forces the next run to show the prompts without touching `runsCompleted`. Placed in P6 (accessibility/onboarding) because players need it; the earlier verification need is covered by the dev reset in P3-00.
+- **Test:** `Settings_ReplayTutorial_Roundtrip`. **Accept:** headset: prompts show on a non-first run with the toggle on.
+
 ### P6 exit
 - Export Gate plus store submission.
 - Tag `roguelike-1.0.0`, version `1.0.0`.
@@ -1340,6 +1385,8 @@ Add these to `SettingsPanel`:
 | D-08 | Attack concurrency | **No cap** (you rejected one); out-of-view attackers get +0.25 s telegraph only | — |
 | D-09 | Mid-run save-scum (resume at node entry) | **Allowed** (Hades-style) | Resume at min(entry HP, 50%) |
 | D-10 | Snap vs teleport default | Smooth locomotion + snap turn + vignette; teleport optional | Teleport default (raises the comfort rating) |
+| D-11 | Run currency vs Echoes | **Fully separate** (decided by user 2026-10-14): Shards are in-run (Shop, events, live HUD, lost at run end); Echoes come only from the end-of-run result and are spent at the Shrine. See P4-11. | Convert unspent Shards to Echoes at run end |
+| D-12 | **Open question:** two Shops per sector are possible (row 3 is always Forge+Shop, and rows 1-2 can roll a Shop). Spec is ambiguous; the user has not decided. | Allow it until decided | Cap one Shop per sector |
 
 ---
 
