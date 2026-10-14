@@ -218,7 +218,7 @@ MonoBehaviour:
   attackWindup: {fileID: 8300000, guid: e37ca17f4fdc0c7479f52a0a05be191f, type: 3}
   enemyDefeated: {fileID: 8300000, guid: 64056d2884929874a99e177ff69e7fbb, type: 3}
   abilityActivate: {fileID: 0}
-  boonChosen: {fileID: 0}
+  boonChosen: {fileID: 8300000, guid: 8521608d64cb35047bdeb7a421ebebfb, type: 3}
   flightAmbience: {fileID: 0}
   onFootAmbience: {fileID: 0}
   ambienceVolume: 0.5

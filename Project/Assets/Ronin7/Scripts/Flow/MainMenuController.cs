@@ -137,7 +137,13 @@ namespace Ronin7.Flow
         public void OnShrineClicked()
         {
             MetaProgression.EnsureLoaded();
-            if (shop == null) shop = MetaShopPanelFactory.Build(Camera.main);
+            if (shop != null) return;
+            shop = MetaShopPanelFactory.Build(Camera.main);
+            if (shop == null) return;
+            // The shop spawns in front of the menu; hide the menu canvas (not this component) until it closes.
+            var canvas = GetComponent<Canvas>();
+            canvas.enabled = false;
+            shop.onClosed = () => { if (this != null) canvas.enabled = true; };
         }
 
         /// <summary>Menu "ABANDON": the first click asks for confirmation, the second discards the

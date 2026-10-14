@@ -20,6 +20,7 @@ namespace Ronin7.Flow
         internal Row[] rows;
         internal Text echoesLabel;
         internal Button closeButton;
+        internal System.Action onClosed;
         private readonly LazyFollow follow = new LazyFollow(1.3f);
 
         internal void Wire()
@@ -61,6 +62,8 @@ namespace Ronin7.Flow
 
         internal static string Pips(int level, int max) =>
             new string('●', Mathf.Clamp(level, 0, max)) + new string('○', Mathf.Max(0, max - level));
+
+        private void OnDestroy() => onClosed?.Invoke();
 
         private void Update()
         {
