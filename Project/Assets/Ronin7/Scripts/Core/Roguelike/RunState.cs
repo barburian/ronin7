@@ -256,6 +256,9 @@ namespace Ronin7.Core
         /// seam — testable without a rig.</summary>
         public static float HealAmountForForge(float current, float max) => Mathf.Max(0f, max - current) * 0.6f;
 
+        /// <summary>P2-02: the sector checkpoint heals 20% of missing HP. Pure.</summary>
+        public static float HealAmountForSector(float current, float max) => Mathf.Max(0f, max - current) * 0.2f;
+
         /// <summary>Pure arithmetic for carrying stored HP across a node hop when max HP changes
         /// (e.g. an Ironskin pickup raises max mid-run). Callers only pass a <paramref name="stored"/>
         /// that already passed the <c>PlayerHealth &gt;= 0</c> "is it set" check, so this only needs

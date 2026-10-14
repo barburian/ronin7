@@ -23,10 +23,10 @@ namespace Ronin7.Tests.EditMode
         [TestCase(RoomKind.Combat, true, nameof(RunDirector.PostClearAction.OfferBoon))]
         [TestCase(RoomKind.Elite, false, nameof(RunDirector.PostClearAction.OfferBoon))]
         [TestCase(RoomKind.Elite, true, nameof(RunDirector.PostClearAction.OfferBoon))]
-        [TestCase(RoomKind.Treasure, false, nameof(RunDirector.PostClearAction.AdvanceImmediately))]
-        [TestCase(RoomKind.Treasure, true, nameof(RunDirector.PostClearAction.AdvanceImmediately))]
-        [TestCase(RoomKind.Forge, false, nameof(RunDirector.PostClearAction.AdvanceImmediately))]
-        [TestCase(RoomKind.Forge, true, nameof(RunDirector.PostClearAction.AdvanceImmediately))]
+        [TestCase(RoomKind.Treasure, false, nameof(RunDirector.PostClearAction.OpenTreasure))]
+        [TestCase(RoomKind.Treasure, true, nameof(RunDirector.PostClearAction.OpenTreasure))]
+        [TestCase(RoomKind.Forge, false, nameof(RunDirector.PostClearAction.OpenForge))]
+        [TestCase(RoomKind.Forge, true, nameof(RunDirector.PostClearAction.OpenForge))]
         [TestCase(RoomKind.Boss, false, nameof(RunDirector.PostClearAction.OfferBoon))]
         [TestCase(RoomKind.Boss, true, nameof(RunDirector.PostClearAction.WinRun))]
         [TestCase(RoomKind.Shop, false, nameof(RunDirector.PostClearAction.OpenShop))]
@@ -282,6 +282,68 @@ namespace Ronin7.Tests.EditMode
         public void ShouldFinalizeRunEnd_Table(bool endingRun, string loaded, bool expected)
         {
             Assert.AreEqual(expected, RunDirector.ShouldFinalizeRunEnd(endingRun, loaded, "Phase6_Boot"));
+        }
+
+        // ---- P2-02: sector card, Forge MEND, death/victory beat ----
+
+        [TestCase(RoomKind.Boss, 0, true)]
+        [TestCase(RoomKind.Boss, 1, true)]
+        [TestCase(RoomKind.Boss, 2, false)]   // the last boss wins the run instead
+        [TestCase(RoomKind.Combat, 0, false)]
+        [TestCase(RoomKind.Elite, 1, false)]
+        public void ShouldShowSectorCard_OnlyAfterSector0And1Boss(RoomKind kind, int sector, bool expected)
+        {
+            Assert.AreEqual(expected, RunDirector.ShouldShowSectorCard(kind, sector));
+        }
+
+        [TestCase(0, "SECTOR 1 — THE RUST")]
+        [TestCase(1, "SECTOR 2 — THE PROGRAM")]
+        [TestCase(2, "SECTOR 3 — THE GARDEN")]
+        public void SectorTitle_UsesBiomeNames(int sector, string expected)
+        {
+            Assert.AreEqual(expected, SectorText.Title(sector));
+        }
+
+        [Test]
+        public void ForgeMend_Heals60PercentOfMissing()
+        {
+            Assert.That(RunDirector.ForgeResultHealth(40f, 100f), Is.EqualTo(76f).Within(0.001f));
+        }
+
+        [Test]
+        public void EndRun_LatchesBeforeDelay()
+        {
+            var dir = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "ronin7_endrun_" + Guid.NewGuid().ToString("N"));
+            System.IO.Directory.CreateDirectory(dir);
+            SaveSystem.DirectoryOverride = dir;
+            RunLog.DirectoryOverride = dir;
+            MetaProgression.ResetForTests();
+            MetaProgression.Load();
+            var go = new GameObject("RunDirector");
+            var director = go.AddComponent<RunDirector>();
+            int ended = 0;
+            Action<RunEnded> count = _ => ended++;
+            EventBus.Subscribe(count);
+            RunState.Begin(1u);
+            try
+            {
+                director.EndRun(won: false);
+                Assert.IsTrue(director.EndingRun, "latched immediately, before the 1.2 s delay");
+                director.EndRun(won: false); // a second death inside the beat
+                Assert.AreEqual(1, ended, "RunEnded must publish once");
+                // No scene load is attempted synchronously (that would log "No GameFlowManager"): the load waits out the beat.
+                LogAssert.NoUnexpectedReceived();
+            }
+            finally
+            {
+                EventBus.Unsubscribe(count);
+                RunState.Reset();
+                UnityEngine.Object.DestroyImmediate(go);
+                SaveSystem.DirectoryOverride = null;
+                RunLog.DirectoryOverride = null;
+                MetaProgression.Reset();
+                try { System.IO.Directory.Delete(dir, true); } catch { }
+            }
         }
 
         [Test]

@@ -4,8 +4,12 @@ using System.Collections.Generic;
 using Ronin7.Combat;
 using Ronin7.Core;
 using Ronin7.Player;
+using Ronin7.Ship;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.XR;
 
 namespace Ronin7.Flow
 {
@@ -114,7 +118,7 @@ namespace Ronin7.Flow
         internal const float PathPanelStillSeconds = 6f;
         private const float PathStillRadius = 0.5f;
         internal const int MendPrice = 40;
-        private enum PanelMode { None, Path, Shop, Event }
+        private enum PanelMode { None, Path, Shop, Event, Forge, Treasure, Sector }
         private PanelMode panelMode;
         private BoonOfferPanel choicePanel;
         private int[] pathChoices;
@@ -125,6 +129,14 @@ namespace Ronin7.Flow
         private bool mendSold;
         private RunEventDefinition activeEvent;
         private RunRng eventRng;
+
+        // ---- P2-02 reveal cards / beats ----
+        internal const float DeathBeatSeconds = 1.2f;
+        internal const float WinBeatSeconds = 2f;
+        internal const float SectorTitleSeconds = 2.5f;
+        private BoonDefinition treasureBoon;
+        private GameObject deathVolume;
+        private VolumeProfile deathProfile;
 
         private void Awake()
         {
@@ -154,6 +166,7 @@ namespace Ronin7.Flow
             DismissOfferPanel();
             DismissChoicePanel();
             DismissRunSummary();
+            ClearDeathVolume();
         }
 
         /// <summary>Runs the offer's fallback timer (the panel lazy-follows the head itself — P1-13)
@@ -240,7 +253,7 @@ namespace Ronin7.Flow
         {
             if (!RunState.InRun) return;
             deathBy = "abandoned";
-            EndRun(won: false);
+            EndRun(won: false, beat: false);
         }
 
         /// <summary>
@@ -385,8 +398,13 @@ namespace Ronin7.Flow
                     BeginBoonOffer(node);
                     break;
                 case PostClearAction.AdvanceImmediately:
-                    ApplyNonCombatReward(node);
                     AdvanceNode();
+                    break;
+                case PostClearAction.OpenForge:
+                    OpenForge();
+                    break;
+                case PostClearAction.OpenTreasure:
+                    OpenTreasure(node);
                     break;
                 case PostClearAction.OpenShop:
                     OpenShop(node);
@@ -397,30 +415,41 @@ namespace Ronin7.Flow
             }
         }
 
-        private void ApplyNonCombatReward(RunNode node)
+        // ---- P2-02 Forge / Treasure reveal cards (shown before the exit gates) ----
+
+        private void OpenForge()
         {
-            switch (node.Kind)
+            choicePanel = BoonOfferPanelFactory.BuildCustom(Camera.main, "FORGE", "Choose one.", 2);
+            if (choicePanel == null)
             {
-                case RoomKind.Forge:
-                    ApplyForgeReward();
-                    break;
-                case RoomKind.Treasure:
-                    GrantTreasureBoon(node);
-                    break;
+                Debug.LogWarning("[RunDirector] Forge panel could not be built (no camera/EventSystem); applying MEND and moving on.");
+                ApplyForgeMend();
+                AdvanceNode();
+                return;
             }
+            panelMode = PanelMode.Forge;
+            choicePanel.ChoiceSelected += OnChoicePanelSelected;
+            choicePanel.SetOption(0, "MEND", RoomKindText.Color(RoomKind.Forge), "Heal 60% of your missing health.", string.Empty, true);
+            // ponytail: TEMPER is +1 reroll until P4-07 lands weapon tempering.
+            choicePanel.SetOption(1, "TEMPER", RoomKindText.Color(RoomKind.Forge), "+1 reroll. (Weapon tempering arrives later.)", string.Empty, true);
         }
 
-        /// <summary>Forge: heal 60% of missing HP (against the durable stored HP, not a full-HP
-        /// assumption — A4.2/A7.3) + 1 reroll token, no boon choice.</summary>
-        private void ApplyForgeReward()
+        private void ChooseForge(int index)
+        {
+            if (index == 0) ApplyForgeMend();
+            else if (index == 1) RunState.AddRerollToken(1);
+            else return;
+            LeaveRoom();
+        }
+
+        /// <summary>MEND: heal 60% of missing HP (against the durable stored HP, not a full-HP
+        /// assumption — A4.2/A7.3).</summary>
+        private void ApplyForgeMend()
         {
             var health = VRRig.Instance != null ? VRRig.Instance.GetComponent<Health>() : null;
-            if (health != null)
-            {
-                health.SetCurrent(ForgeResultHealth(health.Current, health.Max));
-                RunState.NotePlayerHealth(health.Current); // re-store the post-heal value
-            }
-            RunState.AddRerollToken(1);
+            if (health == null) return;
+            health.SetCurrent(ForgeResultHealth(health.Current, health.Max));
+            RunState.NotePlayerHealth(health.Current); // re-store the post-heal value
         }
 
         /// <summary>HP after a Forge: carried HP plus 60% of what is missing, clamped to max.
@@ -429,25 +458,50 @@ namespace Ronin7.Flow
             Mathf.Clamp(stored + RunState.HealAmountForForge(stored, max), 0f, max);
 
         /// <summary>
-        /// Treasure: 1 guaranteed boon, no choice, no fight. Reuses <see cref="BoonOfferPicker"/>
-        /// with <see cref="RoomKind.Treasure"/> and count 1 rather than hand-rolling a filter —
-        /// BoonOfferPicker.RarityWeight already excludes Common for Treasure (its "guarantees at
-        /// least Rare" weighting, Rare/Epic only), so this is the single source of truth for what
-        /// "Treasure-tier" means, not a second guess at it.
+        /// Treasure: 1 guaranteed boon behind a single TAKE card. Reuses <see cref="BoonOfferPicker"/>
+        /// with <see cref="RoomKind.Treasure"/> and count 1 — its RarityWeight already excludes Common
+        /// for Treasure, so this is the single source of truth for what "Treasure-tier" means.
         /// </summary>
-        private void GrantTreasureBoon(RunNode node)
+        private void OpenTreasure(RunNode node)
         {
+            treasureBoon = null;
             if (boonCatalog == null || boonCatalog.boons == null)
             {
                 Debug.LogError("[RunDirector] No BoonCatalog assigned; cannot grant the Treasure boon.");
+                AdvanceNode();
                 return;
             }
-
             var rng = RunRng.ForNode(RunState.Seed, node.Index);
             var picks = BoonOfferPicker.Pick(boonCatalog.boons, RunState.BoonCount, RoomKind.Treasure, ref rng, count: 1);
-            if (picks.Count == 0) return; // pool exhausted; nothing left to grant this run
+            if (picks.Count == 0)
+            {
+                AdvanceNode(); // pool exhausted; nothing left to grant this run
+                return;
+            }
+            treasureBoon = picks[0];
+            choicePanel = BoonOfferPanelFactory.BuildCustom(Camera.main, "TREASURE", "A gift from the Fracture.", 1);
+            if (choicePanel == null)
+            {
+                Debug.LogWarning("[RunDirector] Treasure panel could not be built (no camera/EventSystem); granting the boon directly.");
+                GrantBoon(treasureBoon);
+                AdvanceNode();
+                return;
+            }
+            panelMode = PanelMode.Treasure;
+            choicePanel.ChoiceSelected += OnChoicePanelSelected;
+            choicePanel.SetOption(0, BoonOfferPanel.FormatChoiceTitle(treasureBoon), BoonOfferPanel.RarityColor(treasureBoon.rarity),
+                treasureBoon.description, "TAKE", true);
+        }
 
-            GrantBoon(picks[0]);
+        private void TakeTreasure()
+        {
+            if (treasureBoon == null) return;
+            var boon = treasureBoon;
+            treasureBoon = null;
+            if (choicePanel != null)
+                EventBus.Publish(new TreasureOpened(choicePanel.transform.position, BoonOfferPanel.RarityColor(boon.rarity)));
+            GrantBoon(boon);
+            LeaveRoom();
         }
 
         /// <summary>
@@ -478,7 +532,7 @@ namespace Ronin7.Flow
             {
                 case OfferResolution.AutoAdvanceNoChoices:
                     // Every boon in the pool is already at max stacks — nothing to offer; don't stall.
-                    AdvanceNode();
+                    AfterBoonOffer();
                     return;
                 case OfferResolution.AutoAdvanceNoEventSystem:
                     // A7.2/A7.8: without an EventSystem the panel's buttons can never be clicked — a
@@ -557,7 +611,51 @@ namespace Ronin7.Flow
                                "Advancing without a boon rather than stalling the run.");
             }
             DismissOfferPanel();
-            AdvanceNode();
+            AfterBoonOffer();
+        }
+
+        /// <summary>P2-02: after a sector-0/1 Boss boon the sector card comes first; otherwise the gates.</summary>
+        private void AfterBoonOffer()
+        {
+            if (ShouldShowSectorCard(offerNode.Kind, offerNode.Sector)) ShowSectorCard(offerNode.Sector + 1);
+            else AdvanceNode();
+        }
+
+        /// <summary>Pure: the sector card follows the Boss of every sector but the last (that one wins the run).</summary>
+        internal static bool ShouldShowSectorCard(RoomKind kind, int sector) =>
+            kind == RoomKind.Boss && sector < RunMapGenerator.SectorCount - 1;
+
+        /// <summary>Heals 20% of missing HP, shows the sector title for 2.5 s, then CONTINUE / SAVE &amp; QUIT.</summary>
+        private void ShowSectorCard(int newSector)
+        {
+            var health = VRRig.Instance != null ? VRRig.Instance.GetComponent<Health>() : null;
+            if (health != null)
+            {
+                health.SetCurrent(Mathf.Clamp(health.Current + RunState.HealAmountForSector(health.Current, health.Max), 0f, health.Max));
+                RunState.NotePlayerHealth(health.Current);
+            }
+            RunTitleCard.Show(Camera.main, SectorText.Title(newSector), SectorText.Color(newSector), SectorTitleSeconds);
+            StartCoroutine(DelayThen(SectorTitleSeconds, ShowSectorPanel));
+        }
+
+        private void ShowSectorPanel()
+        {
+            if (!RunState.InRun || EndingRun) return; // died or suspended during the title
+            choicePanel = BoonOfferPanelFactory.BuildCustom(Camera.main, "CHECKPOINT", "20% of your missing health restored.", 0, "CONTINUE", "SAVE & QUIT");
+            if (choicePanel == null)
+            {
+                Debug.LogWarning("[RunDirector] Sector panel could not be built (no camera/EventSystem); continuing.");
+                AdvanceNode();
+                return;
+            }
+            panelMode = PanelMode.Sector;
+            choicePanel.FooterSelected += OnChoicePanelFooter;
+        }
+
+        private static IEnumerator DelayThen(float seconds, Action then)
+        {
+            yield return new WaitForSecondsRealtime(seconds);
+            then();
         }
 
         /// <summary>
@@ -576,7 +674,7 @@ namespace Ronin7.Flow
             {
                 Debug.LogWarning("[RunDirector] Reroll left no offerable boons (A1.6); advancing without a choice rather than showing an unclickable panel.");
                 DismissOfferPanel();
-                AdvanceNode();
+                AfterBoonOffer();
                 return;
             }
             if (offerPanel == null) return;
@@ -754,6 +852,12 @@ namespace Ronin7.Flow
                 case PanelMode.Event:
                     ChooseEventOption(index);
                     break;
+                case PanelMode.Forge:
+                    ChooseForge(index);
+                    break;
+                case PanelMode.Treasure:
+                    TakeTreasure();
+                    break;
             }
         }
 
@@ -765,6 +869,11 @@ namespace Ronin7.Flow
                 else LeaveRoom();
             }
             else if (panelMode == PanelMode.Event) LeaveRoom();
+            else if (panelMode == PanelMode.Sector)
+            {
+                if (index == 0) LeaveRoom();
+                else SuspendRun();
+            }
         }
 
         private void LeaveRoom()
@@ -1026,8 +1135,9 @@ namespace Ronin7.Flow
         /// itself is deferred to <see cref="SceneLoadRoutine"/>, once the hub load has actually
         /// completed.
         /// </summary>
-        private void EndRun(bool won)
+        internal void EndRun(bool won, bool beat = true)
         {
+            if (EndingRun) return; // P2-02: a second death/clear during the beat must not double-bank
             EndingRun = true;
             deferredClear = null;
             int depth = RunState.Depth; // P2-04: rows cleared, never the node id
@@ -1052,7 +1162,65 @@ namespace Ronin7.Flow
             DismissOfferPanel();
             DismissChoicePanel();
             pathChoices = null;
-            StartSceneLoad(runEndScene);
+
+            // P2-02 beat: the RunEnded cue above (runLost / runWon) plays now; the menu load waits.
+            // Unscaled, so a paused or slowed run still gets the full beat. No camera shake.
+            if (!beat)
+            {
+                StartSceneLoad(runEndScene);
+                return;
+            }
+            float seconds = won ? WinBeatSeconds : DeathBeatSeconds;
+            if (won) RunTitleCard.Show(Camera.main, "FRACTURE CLOSED", new Color(1f, 0.85f, 0.4f), seconds);
+            else StartCoroutine(DeathFeedback(seconds));
+            StartCoroutine(DelayThen(seconds, () => StartSceneLoad(runEndScene)));
+        }
+
+        /// <summary>Death beat visuals/haptics: a closing grey vignette, a global URP saturation
+        /// ramp to -100 and a lub-dub heartbeat on both controllers. The volume is kept until the
+        /// menu has loaded (<see cref="ClearDeathVolume"/>) so the colour does not pop back mid-fade.</summary>
+        private IEnumerator DeathFeedback(float seconds)
+        {
+            var cam = Camera.main;
+            var vignette = cam != null ? VignetteRig.Ensure(cam) : null;
+            if (vignette != null) vignette.Flash(new Color(0.1f, 0.1f, 0.12f), 1f, seconds);
+
+            ClearDeathVolume();
+            deathVolume = new GameObject("Death Desaturate");
+            deathVolume.transform.SetParent(transform, false);
+            var volume = deathVolume.AddComponent<Volume>();
+            volume.isGlobal = true;
+            volume.priority = 1000f;
+            volume.weight = 0f;
+            deathProfile = ScriptableObject.CreateInstance<VolumeProfile>();
+            var adjust = deathProfile.Add<ColorAdjustments>(true);
+            adjust.saturation.Override(-100f);
+            volume.sharedProfile = deathProfile;
+
+            Haptics.Pulse(XRNode.LeftHand, 0.7f, 0.12f);
+            Haptics.Pulse(XRNode.RightHand, 0.7f, 0.12f);
+            float t = 0f;
+            bool second = false;
+            while (t < seconds)
+            {
+                t += Time.unscaledDeltaTime;
+                volume.weight = Mathf.Clamp01(t / seconds);
+                if (!second && t >= 0.25f)
+                {
+                    second = true;
+                    Haptics.Pulse(XRNode.LeftHand, 0.45f, 0.1f);
+                    Haptics.Pulse(XRNode.RightHand, 0.45f, 0.1f);
+                }
+                yield return null;
+            }
+        }
+
+        private void ClearDeathVolume()
+        {
+            if (deathVolume != null) Destroy(deathVolume);
+            if (deathProfile != null) Destroy(deathProfile);
+            deathVolume = null;
+            deathProfile = null;
         }
 
         private void StartSceneLoad(string scene)
@@ -1123,6 +1291,7 @@ namespace Ronin7.Flow
             {
                 EndingRun = false;
                 RunState.End();
+                ClearDeathVolume();
             }
 
             // Report the finished run on the menu we just arrived at.
@@ -1228,7 +1397,7 @@ namespace Ronin7.Flow
             };
 
         /// <summary>What a cleared node should do next. Pure, so it is unit-testable without a scene.</summary>
-        internal enum PostClearAction { OfferBoon, AdvanceImmediately, WinRun, OpenShop, OpenEvent }
+        internal enum PostClearAction { OfferBoon, AdvanceImmediately, WinRun, OpenShop, OpenEvent, OpenForge, OpenTreasure }
 
         /// <summary>
         /// Reward-table decision (see the design doc's per-node-kind reward table): Combat/Elite/Boss
@@ -1245,8 +1414,8 @@ namespace Ronin7.Flow
                 RoomKind.Combat => PostClearAction.OfferBoon,
                 RoomKind.Elite => PostClearAction.OfferBoon,
                 RoomKind.Boss => PostClearAction.OfferBoon,
-                RoomKind.Forge => PostClearAction.AdvanceImmediately,
-                RoomKind.Treasure => PostClearAction.AdvanceImmediately,
+                RoomKind.Forge => PostClearAction.OpenForge,
+                RoomKind.Treasure => PostClearAction.OpenTreasure,
                 RoomKind.Shop => PostClearAction.OpenShop,
                 RoomKind.Event => PostClearAction.OpenEvent,
                 _ => PostClearAction.AdvanceImmediately,

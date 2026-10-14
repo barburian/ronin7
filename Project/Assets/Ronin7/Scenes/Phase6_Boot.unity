@@ -219,6 +219,8 @@ MonoBehaviour:
   enemyDefeated: {fileID: 8300000, guid: 64056d2884929874a99e177ff69e7fbb, type: 3}
   abilityActivate: {fileID: 0}
   boonChosen: {fileID: 8300000, guid: 8521608d64cb35047bdeb7a421ebebfb, type: 3}
+  runLost: {fileID: 8300000, guid: 05e1ad57563e783419ce4cb390b0ee8b, type: 3}
+  runWon: {fileID: 8300000, guid: a5a9055087cef4a4ead835b381c0e93e, type: 3}
   enemySpawning: {fileID: 0}
   flightAmbience: {fileID: 0}
   onFootAmbience: {fileID: 0}

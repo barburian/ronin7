@@ -74,4 +74,13 @@ namespace Ronin7.Core
         public readonly int NodeId;
         public PathChosen(int nodeId) { NodeId = nodeId; }
     }
+
+    /// <summary>P2-02: the player took the Treasure boon at <see cref="Point"/> (world space);
+    /// <see cref="Color"/> is the boon's rarity colour. Lets the pooled VFX burst without a Flow reference.</summary>
+    public readonly struct TreasureOpened
+    {
+        public readonly Vector3 Point;
+        public readonly Color Color;
+        public TreasureOpened(Vector3 point, Color color) { Point = point; Color = color; }
+    }
 }

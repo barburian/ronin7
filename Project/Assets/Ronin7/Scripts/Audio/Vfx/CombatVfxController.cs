@@ -32,6 +32,7 @@ namespace Ronin7.Audio.Vfx
         private const int MuzzleBurst = 6;
         private const int BoltBurst = 7;
         private const int ExplosionBurst = 26;
+        private const int TreasureBurst = 30;
 
         // Sword sparks scale with swing speed (m/s) between these.
         private const int SparkMin = 4;
@@ -90,6 +91,7 @@ namespace Ronin7.Audio.Vfx
             EventBus.Subscribe<ProjectileImpact>(OnBoltImpact);
             EventBus.Subscribe<EnemyShipDestroyed>(OnEnemyShipDestroyed);
             EventBus.Subscribe<PlayerShipDestroyed>(OnPlayerShipDestroyed);
+            EventBus.Subscribe<TreasureOpened>(OnTreasureOpened);
         }
 
         internal void Unsubscribe()
@@ -102,6 +104,7 @@ namespace Ronin7.Audio.Vfx
             EventBus.Unsubscribe<ProjectileImpact>(OnBoltImpact);
             EventBus.Unsubscribe<EnemyShipDestroyed>(OnEnemyShipDestroyed);
             EventBus.Unsubscribe<PlayerShipDestroyed>(OnPlayerShipDestroyed);
+            EventBus.Unsubscribe<TreasureOpened>(OnTreasureOpened);
         }
 
         private void OnSwordImpact(SwordImpact e)
@@ -118,6 +121,9 @@ namespace Ronin7.Audio.Vfx
         private void OnDeflect(SwordDeflected e) { HandledCount++; Emit(deflect, e.Point, DeflectBurst); }
         private void OnDamaged(EntityDamaged e) { HandledCount++; Emit(hitFlash, e.Info.Point, DamageBurst); }
         private void OnDied(EntityDied e) { HandledCount++; Emit(death, Center(e.Entity), DeathBurst); }
+        // P2-02: Treasure TAKE — a rarity-coloured burst from the same pooled death-burst system.
+        private void OnTreasureOpened(TreasureOpened e) { HandledCount++; Emit(death, e.Point, TreasureBurst, e.Color); }
+
         private void OnShipFired(ShipWeaponFired e) { HandledCount++; Emit(muzzle, e.WorldPoint, MuzzleBurst); }
         private void OnBoltImpact(ProjectileImpact e) { HandledCount++; Emit(bolt, e.WorldPoint, BoltBurst); }
 
@@ -127,11 +133,11 @@ namespace Ronin7.Audio.Vfx
         private void OnPlayerShipDestroyed(PlayerShipDestroyed e)
         { HandledCount++; Emit(explosion, e.WorldPoint, ExplosionBurst); }
 
-        private void Emit(ParticleSystem prefab, Vector3 point, int baseCount)
+        private void Emit(ParticleSystem prefab, Vector3 point, int baseCount, Color32? tint = null)
         {
             if (pool == null) return; // edit-mode/tests: handler still counts, just nothing to spawn
             int count = Mathf.Max(1, Mathf.RoundToInt(baseCount * GraphicsRuntime.ParticleScale));
-            pool.Play(prefab, point, count);
+            pool.Play(prefab, point, count, tint);
         }
 
         // All on-foot enemies derive from MeleeAttacker (which RequireComponent(Health)); the sword

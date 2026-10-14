@@ -336,6 +336,14 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             Assert.AreEqual(expected, RunState.HealAmountForForge(current, max), 0.001f);
         }
 
+        [TestCase(40f, 100f, 12f)]
+        [TestCase(100f, 100f, 0f)]
+        [TestCase(0f, 50f, 10f)]
+        public void SectorHeal_20PercentOfMissing(float current, float max, float expected)
+        {
+            Assert.AreEqual(expected, RunState.HealAmountForSector(current, max), 0.001f);
+        }
+
         [Test]
         public void HealAmountForForge_AppliedThroughHealth_NeverOvershootsMax()
         {

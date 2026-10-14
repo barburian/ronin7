@@ -65,6 +65,8 @@ namespace Ronin7.Editor.Art
             ("Hit_AttackWindup", 0.15f, 401, FootstepSurface.Hard),
             ("Hit_EnemyDefeated", 0.35f, 402, FootstepSurface.Soft),
             ("Hit_BoonChosen", 0.2f, 403, FootstepSurface.Hard), // placeholder confirm tick (boon pick + Shrine purchase)
+            ("Hit_RunLost", 0.6f, 404, FootstepSurface.Soft), // P2-02 placeholder death sting: long dark thud
+            ("Hit_RunWon", 0.45f, 405, FootstepSurface.Hard), // P2-02 placeholder victory sting
         };
 
         [MenuItem("Tools/Space Samurai/Art/Generate Ambience & Footstep Clips")]
@@ -239,6 +241,8 @@ namespace Ronin7.Editor.Art
             AudioClip windup = hitClips.TryGetValue("Hit_AttackWindup", out var w) ? w : null;
             AudioClip defeated = hitClips.TryGetValue("Hit_EnemyDefeated", out var d) ? d : null;
             AudioClip boon = hitClips.TryGetValue("Hit_BoonChosen", out var b) ? b : null;
+            AudioClip lost = hitClips.TryGetValue("Hit_RunLost", out var l) ? l : null;
+            AudioClip won = hitClips.TryGetValue("Hit_RunWon", out var wn) ? wn : null;
 
             bool changed = false;
             changed |= AssignIfEmpty(so, "sectorAmbienceRust", rust);
@@ -247,6 +251,8 @@ namespace Ronin7.Editor.Art
             changed |= AssignIfEmpty(so, "attackWindup", windup);
             changed |= AssignIfEmpty(so, "enemyDefeated", defeated);
             changed |= AssignIfEmpty(so, "boonChosen", boon);
+            changed |= AssignIfEmpty(so, "runLost", lost);
+            changed |= AssignIfEmpty(so, "runWon", won);
 
             if (changed)
             {

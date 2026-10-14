@@ -54,6 +54,10 @@ namespace Ronin7.Audio
 
         [Header("Roguelike run one-shots")]
         [SerializeField] private AudioClip boonChosen;
+        [Tooltip("P2-02 death beat sting (RunEnded, lost).")]
+        [SerializeField] private AudioClip runLost;
+        [Tooltip("P2-02 victory beat sting (RunEnded, won).")]
+        [SerializeField] private AudioClip runWon;
         [Tooltip("P2-06 spawn telegraph cue; falls back to the attack-windup cue when unassigned.")]
         [SerializeField] private AudioClip enemySpawning;
 
@@ -162,6 +166,7 @@ namespace Ronin7.Audio
             EventBus.Subscribe<BoonChosen>(OnBoonChosen);
             EventBus.Subscribe<EnemySpawning>(OnEnemySpawning);
             EventBus.Subscribe<RunNodeEntered>(OnRunNodeEntered);
+            EventBus.Subscribe<RunEnded>(OnRunEnded);
         }
 
         private void OnDisable()
@@ -184,6 +189,7 @@ namespace Ronin7.Audio
             EventBus.Unsubscribe<BoonChosen>(OnBoonChosen);
             EventBus.Unsubscribe<EnemySpawning>(OnEnemySpawning);
             EventBus.Unsubscribe<RunNodeEntered>(OnRunNodeEntered);
+            EventBus.Unsubscribe<RunEnded>(OnRunEnded);
         }
 
         private void Update()
@@ -283,6 +289,7 @@ namespace Ronin7.Audio
 
         private void OnAbilityActivated(AbilityActivated _) => PlayAt(abilityActivate, ListenerPoint());
         private void OnBoonChosen(BoonChosen _) => PlayAt(boonChosen, ListenerPoint());
+        private void OnRunEnded(RunEnded e) => PlayAt(e.Won ? runWon : runLost, ListenerPoint());
 
         private void OnEnemySpawning(EnemySpawning e) => PlayAt(enemySpawning != null ? enemySpawning : attackWindup, e.Point);
 
