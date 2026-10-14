@@ -17,6 +17,21 @@ namespace Ronin7.World
         private const float WallMargin = 1f;
         private const int MaxAttemptsPerPoint = 30;
 
+        /// <summary>P2-07: splits <paramref name="n"/> enemies into balanced waves of at most
+        /// <paramref name="cap"/> (larger waves first, e.g. 7 -> 3,2,2). Pure and deterministic.
+        /// With the next wave due at alive &lt;= 1, concurrency peaks at cap + 1 (= 4 for cap 3).</summary>
+        internal static List<int> SplitWaves(int n, int cap)
+        {
+            var waves = new List<int>();
+            if (n <= 0 || cap <= 0) return waves;
+            int count = (n + cap - 1) / cap;
+            for (int i = 0; i < count; i++) waves.Add(n / count + (i < n % count ? 1 : 0));
+            return waves;
+        }
+
+        /// <summary>P2-07: the next wave is due once at most one enemy is still alive.</summary>
+        internal static bool NextWaveDue(int alive, int wavesRemaining) => wavesRemaining > 0 && alive <= 1;
+
         /// <summary>
         /// Places <paramref name="count"/> points inside the arena (a <paramref name="arenaHalfExtent"/>
         /// square centred on the origin), each at least <see cref="MinSeparation"/> apart and at least

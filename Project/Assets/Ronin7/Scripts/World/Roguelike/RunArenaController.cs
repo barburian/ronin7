@@ -10,8 +10,8 @@ namespace Ronin7.World
     /// <summary>
     /// Scene component on the RunArena scene root. In <see cref="Start"/>: builds the room shell
     /// and instantiates the node's full enemy wave (all inactive, A5.5), then drip-activates up to
-    /// <see cref="RunScaling.MaxConcurrentEnemies"/> at once — one more per death — so the arena is
-    /// never assembled or expanded mid-gameplay. Tracks alive enemies purely via each activated
+    /// <see cref="RunScaling.MaxConcurrentEnemies"/> at once — in waves of &lt;= 3 (P2-07), the next
+    /// when &lt;= 1 is alive — so the arena is never assembled or expanded mid-gameplay. Tracks alive enemies purely via each activated
     /// enemy's <see cref="Health.Died"/> (subscribe on activation, never a per-frame scan). Raises
     /// <see cref="Cleared"/> and publishes <see cref="RoomCleared"/> once the node's total is
     /// exhausted and no enemy remains alive; a Forge/Treasure node (zero enemies) clears immediately.
@@ -44,6 +44,9 @@ namespace Ronin7.World
         /// <summary>Activated, not-yet-dead enemies, for the 1 Hz out-of-bounds sweep (BUG-04).</summary>
         private readonly List<Health> alive = new();
         private int aliveCount;
+        private const int WaveSize = 3;
+        private List<int> waves = new();
+        private int nextWave;
 
         /// <summary>Margin (m) past the arena wall, and the floor depth, beyond which an enemy is lost.</summary>
         private const float OutOfArenaMargin = 0.5f;
@@ -102,7 +105,8 @@ namespace Ronin7.World
                 return;
             }
 
-            ActivateFront(ReleaseCount(0, queued.Count, RunScaling.MaxConcurrentEnemies));
+            waves = WaveComposer.SplitWaves(queued.Count, WaveSize);
+            ActivateNextWave();
             EventBus.Publish(new RoomProgress(aliveCount + queued.Count));
             // Scaled time: a paused run (timeScale 0) suspends the sweep along with everything else.
             InvokeRepeating(nameof(CheckBounds), 1f, 1f);
@@ -258,6 +262,15 @@ namespace Ronin7.World
             damage = baseDamage * RunScaling.DamageMultiplier(depth, kind);
         }
 
+        /// <summary>P2-07: the single wave-activation point (P2-06 front-arc placement/telegraph hooks
+        /// in here, before <see cref="ActivateFront"/>). Takes the next wave's size, clamped by the
+        /// A5.5 cap via <see cref="ReleaseCount"/>.</summary>
+        private void ActivateNextWave()
+        {
+            int size = waves[nextWave++];
+            ActivateFront(Mathf.Min(size, ReleaseCount(aliveCount, queued.Count, RunScaling.MaxConcurrentEnemies)));
+        }
+
         /// <summary>Activates up to <paramref name="count"/> queued enemies (front of the queue
         /// first — spawn order), subscribing each one's <see cref="Health.Died"/> at activation time
         /// rather than instantiate time (A5.5), so the alive set and the queue stay disjoint.</summary>
@@ -287,7 +300,7 @@ namespace Ronin7.World
             alive.Remove(health);
             if (definition != null) Destroy(definition); // A5.7 — no orphaned runtime clone
 
-            ActivateFront(ReleaseCount(aliveCount, queued.Count, RunScaling.MaxConcurrentEnemies));
+            if (WaveComposer.NextWaveDue(aliveCount, waves.Count - nextWave)) ActivateNextWave();
 
             EventBus.Publish(new RoomProgress(aliveCount + queued.Count));
             if (aliveCount == 0 && queued.Count == 0) MarkCleared();

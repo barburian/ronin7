@@ -580,5 +580,51 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
                     Assert.GreaterOrEqual(Vector3.Distance(result[i].Position, result[j].Position), 1.5f - 0.001f);
             }
         }
+
+        // ---- P2-07: explicit waves ----
+
+        [Test]
+        public void SplitWaves_SumsToN_EachWaveWithinCap_Deterministic()
+        {
+            for (int n = 0; n <= 40; n++)
+            {
+                var a = WaveComposer.SplitWaves(n, 3);
+                var b = WaveComposer.SplitWaves(n, 3);
+                int sum = 0;
+                foreach (int w in a) { Assert.That(w, Is.InRange(1, 3), $"n={n}"); sum += w; }
+                Assert.AreEqual(n, sum, $"n={n}");
+                CollectionAssert.AreEqual(a, b, $"n={n}");
+            }
+        }
+
+        [Test]
+        public void SplitWaves_Balanced_NoTinyStragglerWave()
+        {
+            CollectionAssert.AreEqual(new[] { 3, 2, 2 }, WaveComposer.SplitWaves(7, 3));
+            CollectionAssert.AreEqual(new[] { 2 }, WaveComposer.SplitWaves(2, 3));
+            Assert.AreEqual(0, WaveComposer.SplitWaves(0, 3).Count);
+        }
+
+        [Test]
+        public void Waves_AliveLeOneTrigger_NeverExceedsConcurrencyCap()
+        {
+            foreach (RoomKind kind in (RoomKind[])System.Enum.GetValues(typeof(RoomKind)))
+            {
+                for (int depth = 0; depth <= 14; depth++)
+                {
+                    var rng = new RunRng((uint)(depth * 7 + (int)kind + 1));
+                    var waves = WaveComposer.SplitWaves(RunScaling.EnemyCount(depth, kind, ref rng), 3);
+                    int next = 0, alive = 0, max = 0, killed = 0, total = 0;
+                    foreach (int w in waves) total += w;
+                    while (next < waves.Count || alive > 0)
+                    {
+                        if (WaveComposer.NextWaveDue(alive, waves.Count - next)) { alive += waves[next++]; max = Mathf.Max(max, alive); continue; }
+                        alive--; killed++;
+                    }
+                    Assert.LessOrEqual(max, RunScaling.MaxConcurrentEnemies, $"depth {depth} kind {kind}");
+                    Assert.AreEqual(total, killed, $"depth {depth} kind {kind}");
+                }
+            }
+        }
     }
 }
