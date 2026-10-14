@@ -12,9 +12,10 @@ using UnityEngine.TestTools;
 namespace Ronin7.Tests.PlayMode
 {
     /// <summary>
-    /// PlayMode lifecycle harness for <see cref="RunArenaController"/> (A5.8): the concurrency-cap
-    /// drip (5 queued, exactly 4 active, kill one, the 5th activates, all dead clears the room and
-    /// publishes <see cref="RoomCleared"/> exactly once) and the null-prefab-table soft-lock
+    /// PlayMode lifecycle harness for <see cref="RunArenaController"/> (A5.8, P2-06/P2-07): telegraphed
+    /// waves (5 queued split [3, 2], each wave activates after the spawn delay, wave 2 releases once
+    /// at most 1 is alive, all dead clears the room and publishes <see cref="RoomCleared"/> exactly
+    /// once) and the null-prefab-table soft-lock
     /// guard (A5.1 — the node must still clear rather than trap the player).
     /// </summary>
     public class RunArenaLifecycleTests
@@ -113,7 +114,7 @@ namespace Ronin7.Tests.PlayMode
         // ---- Tests ----
 
         [UnityTest]
-        public IEnumerator FiveQueued_FourActivate_KillOne_FifthActivates_AllDeadClearsRoom()
+        public IEnumerator FiveQueued_TelegraphedWavesOfThreeThenTwo_AllDeadClearsRoom()
         {
             AddMainCamera();
 
@@ -157,24 +158,36 @@ namespace Ronin7.Tests.PlayMode
             yield return null; // Start() runs
 
             Health[] all = controller.GetComponentsInChildren<Health>(true);
-            Assert.AreEqual(5, all.Length, "Expected all 5 enemies instantiated (queued + active).");
+            Assert.AreEqual(5, all.Length, "Expected all 5 enemies instantiated (queued + pending).");
 
             int ActiveCount() => controller.GetComponentsInChildren<Health>(false).Length;
-            Assert.AreEqual(4, ActiveCount(), "Exactly 4 should be active up front — the concurrency cap.");
+            void Kill(Health h) => h.ApplyDamage(new DamageInfo(9999f, Vector3.zero, Vector3.forward, null));
+
+            // P2-06: the first wave telegraphs before activating.
+            Assert.AreEqual(0, ActiveCount(), "Wave 1 must still be telegraphing on the first frame.");
+            yield return new WaitForSeconds(1.4f); // > RunArenaController.SpawnDelay (1.2 s)
+
+            // P2-07: 5 enemies split into waves of [3, 2].
+            Assert.AreEqual(3, ActiveCount(), "Wave 1 = 3 enemies.");
             Assert.IsFalse(controller.IsCleared);
 
-            // Kill one of the four active enemies.
-            Health firstVictim = System.Array.Find(all, h => h.gameObject.activeSelf);
-            firstVictim.ApplyDamage(new DamageInfo(9999f, Vector3.zero, Vector3.forward, null));
+            // Two alive after one kill: the next wave is not due yet.
+            Kill(System.Array.Find(all, h => h.gameObject.activeSelf && h.IsAlive));
+            yield return new WaitForSeconds(1.4f);
+            Assert.AreEqual(2, System.Array.FindAll(all, h => h.gameObject.activeSelf && h.IsAlive).Length,
+                "Wave 2 must not release while 2 enemies are alive.");
 
-            Assert.AreEqual(5, controller.GetComponentsInChildren<Health>(false).Length,
-                "The 5th (previously queued) enemy must activate immediately on the first death.");
-            Assert.IsFalse(controller.IsCleared, "Four enemies are still alive.");
+            // One alive after the second kill: wave 2 (2 enemies) telegraphs, then activates.
+            Kill(System.Array.Find(all, h => h.gameObject.activeSelf && h.IsAlive));
+            Assert.IsFalse(controller.IsCleared, "Wave 2 is pending.");
+            yield return new WaitForSeconds(1.4f);
+            Assert.AreEqual(3, System.Array.FindAll(all, h => h.gameObject.activeSelf && h.IsAlive).Length,
+                "1 survivor + wave 2's 2 enemies alive.");
 
             // Kill everything else.
             foreach (Health h in all)
             {
-                if (h.IsAlive) h.ApplyDamage(new DamageInfo(9999f, Vector3.zero, Vector3.forward, null));
+                if (h.IsAlive) Kill(h);
             }
 
             Assert.IsTrue(controller.IsCleared, "All 5 enemies are dead — the room must be cleared.");
