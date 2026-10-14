@@ -46,11 +46,16 @@ namespace Ronin7.Tests.PlayMode
             if (Directory.Exists(saveDir)) Directory.Delete(saveDir, true);
         }
 
-        /// <summary>Seed 1 kinds are "C E T F B ..." (A2.5 golden vector): node 2 Treasure, node 3 Forge.</summary>
-        private IEnumerator ClearZeroEnemyNodeBeforeRigRestore(int nodeIndex, RoomKind expectedKind, float carriedHp)
+        /// <summary>P2-04: walks seed 1's branching map to the first node of <paramref name="expectedKind"/>.</summary>
+        private IEnumerator ClearZeroEnemyNodeBeforeRigRestore(RoomKind expectedKind, float carriedHp)
         {
             RunState.Begin(1);
-            for (int i = 0; i < nodeIndex; i++) RunState.Advance();
+            int nodeIndex = -1;
+            for (int id = 0; id < RunState.Map.Count && nodeIndex < 0; id++)
+                if (RunState.Map[id].Kind == expectedKind) nodeIndex = id;
+            Assert.GreaterOrEqual(nodeIndex, 0, $"seed 1 has no {expectedKind} node");
+            var walk = RunState.Graph.PathTo(nodeIndex);
+            for (int i = 1; i < walk.Count; i++) Assert.IsTrue(RunState.Advance(walk[i]));
             Assert.AreEqual(expectedKind, RunState.CurrentNode.Kind);
             RunState.NotePlayerHealth(carriedHp);
 
@@ -74,23 +79,29 @@ namespace Ronin7.Tests.PlayMode
             EventBus.Publish(new RoomCleared(nodeIndex));
             Assert.AreEqual(nodeIndex, RunState.NodeIndex, "The clear must be parked until the rig is restored.");
 
-            // AdvanceNode then requests the next load; no GameFlowManager exists in this harness.
-            LogAssert.Expect(LogType.Error, new System.Text.RegularExpressions.Regex("No GameFlowManager"));
+            // The parked clear replays once the rig is restored: reward, then the P2-04 path choice.
             typeof(RunDirector).GetMethod("OnArenaLoaded", Private).Invoke(director, null);
-            Assert.AreEqual(nodeIndex + 1, RunState.NodeIndex, "The parked clear must replay once the rig is restored.");
+            Assert.AreEqual(nodeIndex, RunState.NodeIndex, "No advance until a path is picked.");
+            Assert.IsNotNull(typeof(RunDirector).GetField("pathChoices", Private).GetValue(director), "The parked clear must replay once the rig is restored.");
+
+            // Picking a path requests the next load; no GameFlowManager exists in this harness.
+            int next = RunState.NextChoices[0];
+            LogAssert.Expect(LogType.Error, new System.Text.RegularExpressions.Regex("No GameFlowManager"));
+            EventBus.Publish(new PathChosen(next));
+            Assert.AreEqual(next, RunState.NodeIndex);
         }
 
         [UnityTest]
         public IEnumerator Forge_HealsFromCarriedHp_NotPrefabFullHp()
         {
-            yield return ClearZeroEnemyNodeBeforeRigRestore(3, RoomKind.Forge, 40f);
+            yield return ClearZeroEnemyNodeBeforeRigRestore(RoomKind.Forge, 40f);
             Assert.That(RunState.PlayerHealth, Is.EqualTo(76f).Within(0.01f));
         }
 
         [UnityTest]
         public IEnumerator Treasure_KeepsCarriedHp()
         {
-            yield return ClearZeroEnemyNodeBeforeRigRestore(2, RoomKind.Treasure, 40f);
+            yield return ClearZeroEnemyNodeBeforeRigRestore(RoomKind.Treasure, 40f);
             Assert.That(RunState.PlayerHealth, Is.EqualTo(40f).Within(0.01f));
         }
     }

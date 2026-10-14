@@ -29,6 +29,8 @@ namespace Ronin7.Tests.EditMode
         [TestCase(RoomKind.Forge, true, nameof(RunDirector.PostClearAction.AdvanceImmediately))]
         [TestCase(RoomKind.Boss, false, nameof(RunDirector.PostClearAction.OfferBoon))]
         [TestCase(RoomKind.Boss, true, nameof(RunDirector.PostClearAction.WinRun))]
+        [TestCase(RoomKind.Shop, false, nameof(RunDirector.PostClearAction.OpenShop))]
+        [TestCase(RoomKind.Event, false, nameof(RunDirector.PostClearAction.OpenEvent))]
         public void ResolvePostClear_MatchesRewardTable(RoomKind kind, bool isFinalNode, string expected)
         {
             Assert.AreEqual(expected, RunDirector.ResolvePostClear(kind, isFinalNode).ToString());

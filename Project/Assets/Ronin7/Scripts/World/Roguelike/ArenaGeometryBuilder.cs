@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Ronin7.Core;
+using TMPro;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation;
 
@@ -180,6 +181,88 @@ namespace Ronin7.World
                 if (Application.isPlaying) Object.Destroy(meshColliders[i]);
                 else Object.DestroyImmediate(meshColliders[i]);
             }
+        }
+
+        // ---- P2-04 exit gates ----
+        public const float GateWidth = 1.6f;
+        public const float GateHeight = 2.6f;
+        /// <summary>How far into the room (from the north wall's inner face) the pick box reaches.</summary>
+        public const float GateDepth = 1.6f;
+        private const float GateSpacing = 3f;
+
+        /// <summary>Gate centre X (arena-local) for gate <paramref name="i"/> of <paramref name="count"/>,
+        /// spread along the north wall and kept clear of the side walls.</summary>
+        public static float GateX(int i, int count, float halfExtent)
+        {
+            float spacing = count > 1 ? Mathf.Min(GateSpacing, (2f * halfExtent - 2f - GateWidth) / (count - 1)) : 0f;
+            return (i - (count - 1) * 0.5f) * spacing;
+        }
+
+        /// <summary>Which gate's pick box an arena-local head position (XZ) is inside, or -1. A box spans
+        /// the arch's width and <see cref="GateDepth"/> in front of the north wall. Pure: polled each
+        /// frame by RunArenaController, so it works for smooth walking and teleporting alike (a
+        /// physics trigger would miss a teleport and needs a rigidbody on the rig).</summary>
+        public static int GateIndexAt(Vector2 headXZ, int count, float halfExtent)
+        {
+            float innerWall = halfExtent - WallThickness * 0.5f;
+            if (headXZ.y < innerWall - GateDepth) return -1;
+            for (int i = 0; i < count; i++)
+                if (Mathf.Abs(headXZ.x - GateX(i, count, halfExtent)) <= GateWidth * 0.5f) return i;
+            return -1;
+        }
+
+        /// <summary>Raises one arch per choice on the north wall: two posts, a lintel, a glowing kind-coloured
+        /// doorway and a big TextMeshPro label ("ELITE" + one-line hint). Called once, after the reward
+        /// is resolved. Returns the root (destroy it to drop the gates).</summary>
+        public static GameObject BuildExitGates(Transform parent, IReadOnlyList<RoomKind> choices, float halfExtent, Material surfaceMaterial)
+        {
+            var root = new GameObject("ExitGates");
+            root.transform.SetParent(parent, false);
+            int n = choices.Count;
+            float z = halfExtent - WallThickness * 0.5f - 0.15f;
+            for (int i = 0; i < n; i++)
+            {
+                RoomKind kind = choices[i];
+                Color c = RoomKindText.Color(kind);
+                var gate = new GameObject("Gate_" + i + "_" + kind);
+                gate.transform.SetParent(root.transform, false);
+                gate.transform.localPosition = new Vector3(GateX(i, n, halfExtent), 0f, z);
+
+                float half = GateWidth * 0.5f;
+                GatePart(gate.transform, "PostL", new Vector3(-half - 0.1f, GateHeight * 0.5f, 0f), new Vector3(0.2f, GateHeight, 0.3f), c * 0.6f, surfaceMaterial, true);
+                GatePart(gate.transform, "PostR", new Vector3(half + 0.1f, GateHeight * 0.5f, 0f), new Vector3(0.2f, GateHeight, 0.3f), c * 0.6f, surfaceMaterial, true);
+                GatePart(gate.transform, "Lintel", new Vector3(0f, GateHeight + 0.1f, 0f), new Vector3(GateWidth + 0.4f, 0.2f, 0.3f), c * 0.6f, surfaceMaterial, false);
+                // Doorway: unlit and brighter than 1 so bloom gives it a glow; reads as "a way through".
+                GatePart(gate.transform, "Doorway", new Vector3(0f, GateHeight * 0.5f, 0.1f), new Vector3(GateWidth, GateHeight, 0.02f), c * 1.6f, VrUiMaterials.SharedUnlit, false);
+
+                var labelGo = new GameObject("Label");
+                labelGo.transform.SetParent(gate.transform, false);
+                labelGo.transform.localPosition = new Vector3(0f, GateHeight + 0.75f, -0.05f);
+                var tmp = labelGo.AddComponent<TextMeshPro>();
+                tmp.rectTransform.sizeDelta = new Vector2(GateSpacing - 0.2f, 1.1f);
+                tmp.alignment = TextAlignmentOptions.Center;
+                tmp.textWrappingMode = TextWrappingModes.NoWrap;
+                tmp.fontStyle = FontStyles.Bold;
+                tmp.fontSize = 5f; // ponytail: first-guess size (~0.35 m caps), tune in-headset
+                tmp.color = c;
+                tmp.text = RoomKindText.Name(kind) + "\n<size=45%>" + RoomKindText.Hint(kind) + "</size>";
+            }
+            return root;
+        }
+
+        private static void GatePart(Transform parent, string name, Vector3 pos, Vector3 scale, Color color, Material material, bool solid)
+        {
+            var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            go.name = name;
+            go.transform.SetParent(parent, false);
+            go.transform.localPosition = pos;
+            go.transform.localScale = scale;
+            ApplyMaterial(go, material);
+            var r = go.GetComponent<Renderer>();
+            r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            RendererTint.Apply(r, color);
+            // Same edit/play-safe disable as the ceiling (A5.2): only the posts block.
+            if (!solid) go.GetComponent<Collider>().enabled = false;
         }
 
         /// <summary>Deterministic even-ring prop layout with light per-point jitter — always inside

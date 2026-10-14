@@ -11,9 +11,11 @@ namespace Ronin7.Core
     /// </summary>
     public static class RunState
     {
-        private static RunNode[] map;
+        private static RunMap graph;
         private static ReadOnlyCollection<RunNode> mapView;
         private static int nodeIndex;
+        private static readonly List<int> path = new();
+        private static float maxHealthBonus;
         private static uint seed;
         private static int echoesEarned;
         private static int rerollTokens;
@@ -25,16 +27,36 @@ namespace Ronin7.Core
 
         public static bool InRun { get; private set; }
         public static uint Seed => seed;
+        /// <summary>P2-04: the current node's id in <see cref="Graph"/> (not its depth — see <see cref="Depth"/>).</summary>
         public static int NodeIndex => nodeIndex;
+
+        /// <summary>P2-04: rows cleared before this node, 0..14 (sector x 5 + row). Scaling, summary,
+        /// meta best-depth and the HUD read this, never the id.</summary>
+        public static int Depth => CurrentNode.Depth;
 
         /// <summary>The node at <see cref="NodeIndex"/>. Returns <c>default</c> (a plausible-looking
         /// <c>{0, 0, 0, Combat}</c> node) when called outside a run — callers must check
         /// <see cref="InRun"/> first rather than trusting this value on its own.</summary>
-        public static RunNode CurrentNode => map != null && nodeIndex < map.Length ? map[nodeIndex] : default;
+        public static RunNode CurrentNode => graph != null && nodeIndex < graph.Nodes.Length ? graph.Nodes[nodeIndex] : default;
 
         /// <summary>A2.6: wrapped with <see cref="System.Array.AsReadOnly{T}"/> on <see cref="Begin"/>
-        /// so a caller can't downcast this back to the live <c>RunNode[]</c> and rewrite the run.</summary>
+        /// so a caller can't downcast this back to the live <c>RunNode[]</c> and rewrite the run.
+        /// Indexed by node id.</summary>
         public static IReadOnlyList<RunNode> Map => mapView;
+
+        /// <summary>P2-04: the branching graph (null outside a run). Treat as read-only.</summary>
+        public static RunMap Graph => graph;
+
+        /// <summary>P2-04: ids reachable from the current node (empty on the final Boss / outside a run).</summary>
+        public static IReadOnlyList<int> NextChoices => graph != null ? graph.Next[nodeIndex] : System.Array.Empty<int>();
+
+        /// <summary>P2-04: node ids visited this run, start first, current last.</summary>
+        public static IReadOnlyList<int> Path => path;
+
+        /// <summary>P2-04 events (Blood Pact): flat max-HP change for the rest of the run, applied on
+        /// top of boons at every node load.</summary>
+        public static float MaxHealthBonus => maxHealthBonus;
+        public static void AddMaxHealthBonus(float amount) => maxHealthBonus += amount;
         public static int EchoesEarned => echoesEarned;
         public static int RerollTokens => rerollTokens;
         public static int RevivesSpent => revivesSpent;
@@ -67,9 +89,12 @@ namespace Ronin7.Core
         public static void Begin(uint runSeed)
         {
             seed = runSeed;
-            map = RunMapGenerator.Generate(runSeed);
-            mapView = System.Array.AsReadOnly(map);
-            nodeIndex = 0;
+            graph = RunMapGenerator.GenerateGraph(runSeed);
+            mapView = System.Array.AsReadOnly(graph.Nodes);
+            nodeIndex = graph.StartId;
+            path.Clear();
+            path.Add(nodeIndex);
+            maxHealthBonus = 0f;
             InRun = true;
             echoesEarned = 0;
             rerollTokens = 0;
@@ -80,12 +105,13 @@ namespace Ronin7.Core
             grantedAbilities.Clear();
         }
 
-        /// <summary>Moves to the next node. Returns false (and does not move) when already on the
-        /// final node — the caller reads that as "run complete" (boss cleared).</summary>
-        public static bool Advance()
+        /// <summary>P2-04: moves along the edge to <paramref name="nextId"/>. Returns false (and does not
+        /// move) outside a run or when <paramref name="nextId"/> is not a successor of the current node.</summary>
+        public static bool Advance(int nextId)
         {
-            if (!InRun || map == null || nodeIndex >= map.Length - 1) return false;
-            nodeIndex++;
+            if (!InRun || graph == null || !graph.HasEdge(nodeIndex, nextId)) return false;
+            nodeIndex = nextId;
+            path.Add(nextId);
             return true;
         }
 
@@ -113,6 +139,14 @@ namespace Ronin7.Core
         public static void AddRerollToken(int amount)
         {
             rerollTokens = Mathf.Max(0, rerollTokens + amount);
+        }
+
+        /// <summary>P2-04 shop/shrine: spend this run's unbanked Echoes. False (no change) if short.</summary>
+        public static bool TrySpendEchoes(int amount)
+        {
+            if (amount < 0 || echoesEarned < amount) return false;
+            echoesEarned -= amount;
+            return true;
         }
 
         public static bool TrySpendRerollToken()
@@ -145,6 +179,8 @@ namespace Ronin7.Core
                 version = RunSnapshot.CurrentVersion,
                 seed = seed,
                 nodeIndex = nodeIndex,
+                depth = Depth,
+                maxHealthBonus = maxHealthBonus,
                 echoesEarned = echoesEarned,
                 rerollTokens = rerollTokens,
                 revivesSpent = revivesSpent,
@@ -154,22 +190,24 @@ namespace Ronin7.Core
             foreach (KeyValuePair<string, int> boon in boonCounts)
                 for (int i = 0; i < boon.Value; i++) snapshot.boons.Add(boon.Key);
             snapshot.grantedAbilities.AddRange(grantedAbilities);
+            snapshot.path.AddRange(path);
             return snapshot;
         }
 
         /// <summary>Rebuilds the run from <paramref name="snapshot"/>. False (and no run) if it is
-        /// null, from another <see cref="RunSnapshot.CurrentVersion"/>, or points past the map.</summary>
+        /// null, from another <see cref="RunSnapshot.CurrentVersion"/>, or its path is not a walk along
+        /// the seed's map ending at <see cref="RunSnapshot.nodeIndex"/>.</summary>
         public static bool Restore(RunSnapshot snapshot)
         {
             if (snapshot == null || snapshot.version != RunSnapshot.CurrentVersion) return false;
 
             Begin(snapshot.seed);
-            if (snapshot.nodeIndex < 0 || snapshot.nodeIndex >= map.Length)
+            if (!ReplayPath(snapshot.path) || nodeIndex != snapshot.nodeIndex)
             {
                 Reset();
                 return false;
             }
-            nodeIndex = snapshot.nodeIndex;
+            maxHealthBonus = snapshot.maxHealthBonus;
             echoesEarned = snapshot.echoesEarned;
             rerollTokens = snapshot.rerollTokens;
             revivesSpent = snapshot.revivesSpent;
@@ -188,13 +226,23 @@ namespace Ronin7.Core
         /// per the CampaignState convention.</summary>
         public static void Reset() => ClearRun();
 
+        private static bool ReplayPath(List<int> saved)
+        {
+            if (saved == null || saved.Count == 0 || saved[0] != graph.StartId) return false;
+            for (int i = 1; i < saved.Count; i++)
+                if (!Advance(saved[i])) return false;
+            return true;
+        }
+
         private static void ClearRun()
         {
             InRun = false;
             seed = 0;
-            map = null;
+            graph = null;
             mapView = null;
             nodeIndex = 0;
+            path.Clear();
+            maxHealthBonus = 0f;
             echoesEarned = 0;
             rerollTokens = 0;
             revivesSpent = 0;

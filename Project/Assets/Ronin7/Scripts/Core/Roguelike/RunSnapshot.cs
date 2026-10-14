@@ -15,8 +15,9 @@ namespace Ronin7.Core
     public class RunSnapshot
     {
         /// <summary>Bump whenever the fields below or the seed→map generation change meaning; a
-        /// snapshot with any other version is discarded rather than resumed.</summary>
-        public const int CurrentVersion = 1;
+        /// snapshot with any other version is discarded rather than resumed — its Echoes banked first
+        /// (P0-09). v2 (P2-04): branching map; nodeIndex is a node id, plus path/depth/maxHealthBonus.</summary>
+        public const int CurrentVersion = 2;
 
         public int version; // no initializer: a file missing the field reads as 0 → discarded
         public uint seed;
@@ -34,6 +35,20 @@ namespace Ronin7.Core
         /// <summary>P1-07: Unbroken already spent this run. APPENDED field (no version bump): a legacy
         /// run.json without it deserializes to false.</summary>
         public bool unbrokenUsed;
+
+        /// <summary>v2: node ids walked this run, start first; <see cref="nodeIndex"/> is the last.</summary>
+        public List<int> path = new List<int>();
+
+        /// <summary>v2: rows cleared before the current node (0..14). v1 files have no field; their
+        /// <see cref="nodeIndex"/> already was the depth (linear map) — see <see cref="DepthOf"/>.</summary>
+        public int depth;
+
+        /// <summary>v2: event max-HP change for the run (Blood Pact).</summary>
+        public float maxHealthBonus;
+
+        /// <summary>Depth reached by a saved run, for banking it as a loss: v1 (linear map) stored the
+        /// depth in nodeIndex; v2+ store it in <see cref="depth"/>.</summary>
+        public static int DepthOf(RunSnapshot s) => s.version <= 1 ? s.nodeIndex : s.depth;
 
         public static void Write(RunSnapshot snapshot)
         {
@@ -58,7 +73,7 @@ namespace Ronin7.Core
             Debug.LogWarning($"RunSnapshot: discarding version {snapshot.version} snapshot (current {CurrentVersion}); banking its {snapshot.echoesEarned} Echoes.");
             MetaProgression.EnsureLoaded();
             MetaProgression.AddEchoes(snapshot.echoesEarned);
-            MetaProgression.NoteRunEnded(snapshot.nodeIndex, false);
+            MetaProgression.NoteRunEnded(DepthOf(snapshot), false);
             MetaProgression.Save();
             Delete();
             return null;

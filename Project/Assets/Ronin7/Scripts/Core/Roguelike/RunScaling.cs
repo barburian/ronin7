@@ -53,6 +53,8 @@ namespace Ronin7.Core
             {
                 case RoomKind.Forge:
                 case RoomKind.Treasure:
+                case RoomKind.Shop:
+                case RoomKind.Event:
                     return 0;
                 case RoomKind.Boss:
                     return 1;
@@ -69,7 +71,7 @@ namespace Ronin7.Core
         /// the depth bonus below is for nodes that were actually fought.</summary>
         public static int EchoReward(int depth, RoomKind kind)
         {
-            if (kind == RoomKind.Forge) return 0;
+            if (kind == RoomKind.Forge || kind == RoomKind.Shop || kind == RoomKind.Event) return 0; // P2-04: no fight
 
             int baseReward = kind switch
             {

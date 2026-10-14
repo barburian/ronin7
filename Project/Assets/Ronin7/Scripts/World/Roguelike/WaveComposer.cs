@@ -122,8 +122,8 @@ namespace Ronin7.World
         }
 
         /// <summary>What to spawn for one node. Eligible trash entries are those with
-        /// <c>minDepth &lt;= node.Index</c>, and <c>eliteOnly</c> entries only when the node is
-        /// Elite/Boss. Forge/Treasure emit an empty list. Boss nodes emit exactly one
+        /// <c>minDepth &lt;= node.Depth</c>, and <c>eliteOnly</c> entries only when the node is
+        /// Elite/Boss. Forge/Treasure/Shop/Event emit an empty list. Boss nodes emit exactly one
         /// <see cref="SpawnRequest"/> (<c>IsBoss = true</c>) picked from <c>bosses[]</c> matching
         /// <c>node.Sector</c>, falling back to the last boss entry if none match.</summary>
         public static List<SpawnRequest> Compose(
@@ -132,7 +132,7 @@ namespace Ronin7.World
             var result = new List<SpawnRequest>();
             if (table == null) return result;
 
-            if (node.Kind == RoomKind.Forge || node.Kind == RoomKind.Treasure)
+            if (node.Kind == RoomKind.Forge || node.Kind == RoomKind.Treasure || node.Kind == RoomKind.Shop || node.Kind == RoomKind.Event)
                 return result;
 
             if (node.Kind == RoomKind.Boss)
@@ -147,7 +147,7 @@ namespace Ronin7.World
             if (node.Kind == RoomKind.Elite)
                 return ComposeElite(table, node, arenaHalfExtent, playerSpawn, ref rng);
 
-            int count = RunScaling.EnemyCount(node.Index, node.Kind, ref rng);
+            int count = RunScaling.EnemyCount(node.Depth, node.Kind, ref rng);
             if (count <= 0) return result;
 
             List<int> eligible = EligibleTrashIndices(table.trash, node);
@@ -229,7 +229,7 @@ namespace Ronin7.World
                 if (entry == null) continue;
                 if (entry.prefab == null || entry.definition == null) continue;
                 if (entry.weight <= 0) continue;
-                if (entry.minDepth > node.Index) continue;
+                if (entry.minDepth > node.Depth) continue;
                 if (entry.eliteOnly && !eliteAllowed) continue;
                 eligible.Add(i);
             }

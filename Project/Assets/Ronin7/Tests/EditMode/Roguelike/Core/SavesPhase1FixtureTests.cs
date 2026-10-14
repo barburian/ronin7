@@ -49,34 +49,23 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             Assert.AreEqual(1, MetaProgression.UpgradeLevel(MetaUpgradeId.StartingBoon));
         }
 
+        /// <summary>P2-04: v1 run.json can no longer resume (branching map, snapshot v2). The P0-09
+        /// migration banks its 88 Echoes on top of the phase-1 meta as a loss at depth 9.</summary>
         [Test]
-        public void RunJson_ResumesWithUnbrokenUnused_AndRoundTrips()
+        public void RunJson_V1_IsDiscardedAndBankedIntoMeta()
         {
             Assert.IsFalse(File.ReadAllText(Fixture("run.json")).Contains("unbrokenUsed"), "fixture must predate P1-07");
+            File.Copy(Fixture("meta.json"), Path.Combine(testDirectory, "meta.json"));
             File.Copy(Fixture("run.json"), Path.Combine(testDirectory, "run.json"));
 
-            RunSnapshot snapshot = RunSnapshot.Read();
-            Assert.IsNotNull(snapshot);
-            Assert.IsFalse(snapshot.unbrokenUsed);
-            Assert.IsTrue(RunState.Restore(snapshot));
+            UnityEngine.TestTools.LogAssert.Expect(LogType.Warning, new System.Text.RegularExpressions.Regex("discarding version 1"));
+            Assert.IsNull(RunSnapshot.Read());
 
-            Assert.AreEqual(777123u, RunState.Seed);
-            Assert.AreEqual(9, RunState.NodeIndex);
-            Assert.AreEqual(88, RunState.EchoesEarned);
-            Assert.AreEqual(1, RunState.RerollTokens);
-            Assert.AreEqual(0, RunState.RevivesSpent);
-            Assert.AreEqual(74.25f, RunState.PlayerHealth, 1e-4f);
-            Assert.AreEqual(2, RunState.BoonCount(BoonId.KeenEdge));
-            Assert.AreEqual(1, RunState.BoonCount(BoonId.SecondWind));
-            Assert.AreEqual(1, RunState.BoonCount(BoonId.Ironskin));
-            Assert.IsTrue(RunState.HasGrantedAbility(AbilityId.Overdrive));
-            Assert.IsFalse(RunState.UnbrokenUsed);
-            Assert.AreEqual(41, snapshot.runKills);
-
-            RunSnapshot again = RunState.ToSnapshot();
-            Assert.AreEqual(RunSnapshot.CurrentVersion, again.version);
-            Assert.AreEqual(9, again.nodeIndex);
-            Assert.IsFalse(again.unbrokenUsed);
+            Assert.AreEqual(310 + 88, MetaProgression.Echoes);
+            Assert.AreEqual(11, MetaProgression.BestDepth, "depth 9 does not beat the saved best of 11");
+            Assert.AreEqual(10, MetaProgression.RunsCompleted);
+            Assert.AreEqual(3, MetaProgression.UpgradeLevel(MetaUpgradeId.StartingDamage), "banking must keep the upgrades");
+            Assert.IsFalse(File.Exists(Path.Combine(testDirectory, "run.json")));
         }
     }
 }

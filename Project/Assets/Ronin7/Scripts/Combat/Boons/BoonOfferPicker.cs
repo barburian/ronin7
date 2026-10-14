@@ -41,14 +41,8 @@ namespace Ronin7.Combat
             for (int i = 0; i < pool.Count; i++)
             {
                 var boon = pool[i];
-                if (boon == null || string.IsNullOrEmpty(boon.id)) continue;
+                if (!IsOfferable(boon, stacksHeld)) continue;
                 if (!seenIds.Add(boon.id)) continue; // dedupe: distinct ids only
-                int held = stacksHeld != null ? stacksHeld(boon.id) : 0;
-                // A1.2: maxStacks <= 0 treated as 1, matching BoonInventory.Add, so a mis-authored asset
-                // degrades to "offerable once" rather than "silently never offerable".
-                if (held >= Mathf.Max(1, boon.maxStacks)) continue; // already maxed out
-                // P1-08 (BUG-14): an ability already granted this run would be a dead pick.
-                if (boon.effect == BoonEffectKind.GrantAbility && RunState.HasGrantedAbility(boon.abilityId)) continue;
                 eligible.Add(boon);
             }
 
@@ -79,6 +73,29 @@ namespace Ronin7.Combat
             }
 
             return result;
+        }
+
+        /// <summary>Not null, has an id, not at max stacks, and not an already-granted ability.</summary>
+        private static bool IsOfferable(BoonDefinition boon, Func<string, int> stacksHeld)
+        {
+            if (boon == null || string.IsNullOrEmpty(boon.id)) return false;
+            int held = stacksHeld != null ? stacksHeld(boon.id) : 0;
+            // A1.2: maxStacks <= 0 treated as 1, matching BoonInventory.Add, so a mis-authored asset
+            // degrades to "offerable once" rather than "silently never offerable".
+            if (held >= Mathf.Max(1, boon.maxStacks)) return false; // already maxed out
+            // P1-08 (BUG-14): an ability already granted this run would be a dead pick.
+            return !(boon.effect == BoonEffectKind.GrantAbility && RunState.HasGrantedAbility(boon.abilityId));
+        }
+
+        /// <summary>P2-04 events: one offerable boon of exactly <paramref name="rarity"/>, uniform; null if
+        /// none is left (the caller then falls back to a Treasure-weighted <see cref="Pick"/>).</summary>
+        public static BoonDefinition PickOfRarity(IReadOnlyList<BoonDefinition> pool, Func<string, int> stacksHeld, BoonRarity rarity, ref RunRng rng)
+        {
+            if (pool == null) return null;
+            var matches = new List<BoonDefinition>();
+            for (int i = 0; i < pool.Count; i++)
+                if (IsOfferable(pool[i], stacksHeld) && pool[i].rarity == rarity && !matches.Contains(pool[i])) matches.Add(pool[i]);
+            return matches.Count == 0 ? null : matches[rng.NextInt(matches.Count)];
         }
 
         private static int FirstNonEmptyTier(List<BoonDefinition> eligible, int[] tierWeights, int from, int step)

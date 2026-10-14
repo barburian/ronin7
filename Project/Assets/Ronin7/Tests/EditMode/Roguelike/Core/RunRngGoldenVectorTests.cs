@@ -4,7 +4,7 @@ using Ronin7.Core;
 namespace Ronin7.Tests.EditMode.Roguelike.Core
 {
     /// <summary>
-    /// Pins the EXACT RNG sequence and map layout for known seeds.
+    /// Pins the EXACT RNG sequence for known seeds (map goldens: RunMapGraphTests).
     ///
     /// Every other determinism test in this suite compares two calls made in the same process, so it
     /// passes trivially and would KEEP passing if someone reordered the xorshift steps, changed the
@@ -45,43 +45,6 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             }
         }
 
-        [Test]
-        public void Generate_Seed2026_MatchesGoldenLayout()
-        {
-            RoomKind[] expected =
-            {
-                RoomKind.Combat, RoomKind.Combat,   RoomKind.Elite,  RoomKind.Forge, RoomKind.Boss,
-                RoomKind.Combat, RoomKind.Treasure, RoomKind.Combat, RoomKind.Forge, RoomKind.Boss,
-                RoomKind.Combat, RoomKind.Elite,    RoomKind.Combat, RoomKind.Forge, RoomKind.Boss,
-            };
-
-            AssertLayout(2026u, expected);
-        }
-
-        [Test]
-        public void Generate_Seed1_MatchesGoldenLayout()
-        {
-            RoomKind[] expected =
-            {
-                RoomKind.Combat, RoomKind.Elite,  RoomKind.Treasure, RoomKind.Forge, RoomKind.Boss,
-                RoomKind.Combat, RoomKind.Elite,  RoomKind.Treasure, RoomKind.Forge, RoomKind.Boss,
-                RoomKind.Combat, RoomKind.Combat, RoomKind.Combat,   RoomKind.Forge, RoomKind.Boss,
-            };
-
-            AssertLayout(1u, expected);
-        }
-
-        // if these change, bump RunSnapshot.CurrentVersion (banking migration in Read handles old runs)
-        private static void AssertLayout(uint seed, RoomKind[] expected)
-        {
-            RunNode[] nodes = RunMapGenerator.Generate(seed);
-
-            Assert.AreEqual(RunMapGenerator.TotalNodes, nodes.Length, "map length changed");
-            for (int i = 0; i < expected.Length; i++)
-            {
-                Assert.AreEqual(expected[i], nodes[i].Kind,
-                    $"seed {seed} node {i} changed from {expected[i]} to {nodes[i].Kind}");
-            }
-        }
+        // Map-layout goldens moved to RunMapGraphTests (P2-04 branching map).
     }
 }

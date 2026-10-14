@@ -66,11 +66,88 @@ namespace Ronin7.Flow
             panel.rerollButton = rerollButton;
             panel.ownedLabels = ownedLabels;
             panel.countdownLabel = BuildCountdownLabel(rt, font);
+            panel.titleLabel = rt.Find("Title").GetComponent<Text>();
             // Must follow the field assignments above: AddComponent already ran Awake, so the button
             // listeners can only be attached now (see BoonOfferPanel.WireButtons).
             panel.WireButtons();
             panel.SetChoices(choices);
             panel.SetRerollInteractable(rerollAvailable);
+            return panel;
+        }
+
+        /// <summary>
+        /// P2-04: the same panel shell for the CHOOSE YOUR PATH / SHOP / EVENT screens — a title, a body
+        /// line, up to three option columns (title, description, sub-label such as a price) and
+        /// <paramref name="footerLabels"/> bottom buttons. Content is set through
+        /// <see cref="BoonOfferPanel.SetOption"/>/<see cref="BoonOfferPanel.SetFooter"/>; it lazy-follows
+        /// the head like the boon offer (P1-13). Null under the same conditions as <see cref="Build"/>.
+        /// </summary>
+        public static BoonOfferPanel BuildCustom(Camera targetCamera, string title, string subtitle, int optionCount, params string[] footerLabels)
+        {
+            if (targetCamera == null || EventSystem.current == null) return null;
+
+            var canvasGo = new GameObject("Choice Canvas");
+            var canvas = canvasGo.AddComponent<Canvas>();
+            canvas.renderMode = RenderMode.WorldSpace;
+            canvasGo.AddComponent<CanvasScaler>();
+            canvasGo.AddComponent<GraphicRaycaster>();
+            canvasGo.AddComponent<TrackedDeviceGraphicRaycaster>();
+
+            var rt = canvas.GetComponent<RectTransform>();
+            rt.sizeDelta = new Vector2(1000f, 600f);
+            rt.localScale = Vector3.one * 0.001f;
+            BoonOfferPanel.Place(rt, targetCamera.transform);
+
+            var bg = canvasGo.AddComponent<Image>();
+            bg.color = new Color(0.02f, 0.02f, 0.03f, 1f); // opaque: the glowing exit gates sit right behind it
+
+            var font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            if (font == null) font = Font.CreateDynamicFontFromOSFont("Arial", 16);
+
+            BuildTitle(rt, font);
+            var titleRt = (RectTransform)rt.Find("Title");
+            titleRt.anchoredPosition = new Vector2(0f, 250f);
+
+            var subGo = new GameObject("Subtitle");
+            subGo.transform.SetParent(rt, false);
+            var subRt = subGo.AddComponent<RectTransform>();
+            subRt.sizeDelta = new Vector2(940f, 70f);
+            subRt.anchoredPosition = new Vector2(0f, 190f);
+            var sub = subGo.AddComponent<Text>();
+            sub.font = font;
+            sub.fontSize = 24;
+            sub.alignment = TextAnchor.MiddleCenter;
+            sub.horizontalOverflow = HorizontalWrapMode.Wrap;
+            sub.verticalOverflow = VerticalWrapMode.Truncate;
+            sub.color = new Color(0.9f, 0.9f, 0.9f, 1f);
+
+            var choiceButtons = new Button[ChoiceCount];
+            var choiceLabels = new Text[ChoiceCount];
+            var descriptionLabels = new Text[ChoiceCount];
+            var ownedLabels = new Text[ChoiceCount];
+            for (int i = 0; i < ChoiceCount; i++)
+                choiceButtons[i] = BuildChoiceButton(rt, font, (i - 1) * 320f, out choiceLabels[i], out descriptionLabels[i], out ownedLabels[i]);
+
+            var footer = new Button[footerLabels.Length];
+            for (int i = 0; i < footer.Length; i++)
+            {
+                footer[i] = BuildRerollButton(rt, font);
+                footer[i].gameObject.name = "Footer_" + i;
+                ((RectTransform)footer[i].transform).anchoredPosition = new Vector2(BoonOfferPanel.ColumnX(i, footer.Length) * 1.15f, -240f);
+            }
+
+            var panel = canvasGo.AddComponent<BoonOfferPanel>();
+            panel.choiceButtons = choiceButtons;
+            panel.choiceLabels = choiceLabels;
+            panel.descriptionLabels = descriptionLabels;
+            panel.ownedLabels = ownedLabels;
+            panel.footerButtons = footer;
+            panel.titleLabel = titleRt.GetComponent<Text>();
+            panel.subtitleLabel = sub;
+            panel.WireButtons(); // after the field assignments (see Build)
+            panel.SetTitle(title, subtitle);
+            panel.ShowOptions(optionCount);
+            for (int i = 0; i < footer.Length; i++) panel.SetFooter(i, footerLabels[i], true);
             return panel;
         }
 

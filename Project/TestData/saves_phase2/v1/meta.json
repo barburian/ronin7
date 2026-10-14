@@ -1,0 +1,17 @@
+{
+    "version": 1,
+    "metaEchoes": 205,
+    "metaBestDepth": 9,
+    "metaRunsCompleted": 6,
+    "metaRunsWon": 1,
+    "metaUpgrades": [
+        {
+            "id": "meta_starting_health",
+            "level": 1
+        },
+        {
+            "id": "meta_starting_damage",
+            "level": 2
+        }
+    ]
+}

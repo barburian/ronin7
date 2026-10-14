@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11f686103b7e396438a2039b3f865b04, type: 3}
+  m_Name: BloodPact
+  m_EditorClassIdentifier: Ronin7.Flow::Ronin7.Flow.RunEventDefinition
+  title: Blood Pact
+  body: "A red sigil hums on the floor. It offers power \u2014 for a piece of you."
+  optionA:
+    label: ACCEPT THE PACT
+    hint: -15 max HP, gain a Rare boon
+    chance: 1
+    effects:
+    - kind: 0
+      amount: -15
+      rarity: 0
+    - kind: 3
+      amount: 0
+      rarity: 1
+    failEffects: []
+  optionB:
+    label: REFUSE
+    hint: Walk on unchanged
+    chance: 1
+    effects: []
+    failEffects: []

@@ -308,6 +308,11 @@ MonoBehaviour:
   runArenaScene: RunArena
   runEndScene: Phase6_Boot
   boonCatalog: {fileID: 11400000, guid: 1f78168d7332e4e439b03e3f727dc4a8, type: 2}
+  runEvents:
+  - {fileID: 11400000, guid: 2e09aca56cf7ad94dbb95bab2fe522fa, type: 2}
+  - {fileID: 11400000, guid: 17e17157ab9b0ef47a91844322d3a1f9, type: 2}
+  - {fileID: 11400000, guid: e83c351e59bd082479d3f1ac61e7895d, type: 2}
+  - {fileID: 11400000, guid: f50288d63e255e249afba70b68fa1757, type: 2}
 --- !u!1 &12788776
 GameObject:
   m_ObjectHideFlags: 0

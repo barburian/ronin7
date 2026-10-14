@@ -58,4 +58,20 @@ namespace Ronin7.Core
         public readonly Vector3 Point;
         public EnemySpawning(Vector3 point) { Point = point; }
     }
+
+    /// <summary>P2-04: the cleared node's reward is done; the player now picks the next node from
+    /// <see cref="Choices"/> (node ids). The arena raises exit gates for them; RunDirector may also show
+    /// the CHOOSE YOUR PATH panel. Published once per node.</summary>
+    public readonly struct PathChoiceOffered
+    {
+        public readonly int[] Choices;
+        public PathChoiceOffered(int[] choices) { Choices = choices; }
+    }
+
+    /// <summary>P2-04: the player picked node <see cref="NodeId"/> (exit gate walked into, or panel button).</summary>
+    public readonly struct PathChosen
+    {
+        public readonly int NodeId;
+        public PathChosen(int nodeId) { NodeId = nodeId; }
+    }
 }

@@ -70,7 +70,7 @@ namespace Ronin7.Tests.EditMode
             RunState.Reset();
             Assert.IsTrue(RunState.Restore(snap));
             Assert.IsTrue(RunState.UnbrokenUsed, "node reload must not refresh Unbroken");
-            Assert.AreEqual(1, RunSnapshot.CurrentVersion);
+            Assert.AreEqual(2, RunSnapshot.CurrentVersion, "P2-04 bump; unbrokenUsed itself never needed one");
 
             RunState.Begin(123u);
             Assert.IsFalse(RunState.UnbrokenUsed, "new run resets it");
@@ -79,7 +79,7 @@ namespace Ronin7.Tests.EditMode
         [Test]
         public void LegacySnapshotJson_WithoutUnbrokenField_LoadsAsFalse()
         {
-            RunSnapshot snap = JsonUtility.FromJson<RunSnapshot>("{\"version\":1,\"seed\":123,\"nodeIndex\":0}");
+            RunSnapshot snap = JsonUtility.FromJson<RunSnapshot>("{\"version\":2,\"seed\":123,\"nodeIndex\":0,\"path\":[0]}");
             Assert.IsTrue(RunState.Restore(snap));
             Assert.IsFalse(RunState.UnbrokenUsed);
         }

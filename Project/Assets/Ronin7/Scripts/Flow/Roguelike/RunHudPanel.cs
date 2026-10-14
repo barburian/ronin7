@@ -60,6 +60,7 @@ namespace Ronin7.Flow
         private int foes;
         private bool shown, ended;
         private (int hp, int hpMax, int node, int sector, int foes, int boons, int echoes) lastKey;
+        private static readonly System.Collections.Generic.List<RoomKind> nextKinds = new(3);
 
         private void Refresh()
         {
@@ -71,7 +72,10 @@ namespace Ronin7.Flow
             if (shown && key == lastKey) return; // no per-frame/poll string allocation when nothing changed
             lastKey = key;
             shown = true;
-            target.text = Format(key.Item1, key.Item2, key.Item3, key.Item4, key.Item5, key.Item6, key.Item7);
+            // key.node is the node id (changes on every advance); display the depth (P2-04).
+            nextKinds.Clear();
+            foreach (int id in RunState.NextChoices) nextKinds.Add(RunState.Map[id].Kind);
+            target.text = Format(key.Item1, key.Item2, RunState.Depth, key.Item4, key.Item5, key.Item6, key.Item7, FormatNext(nextKinds));
 #if RONIN7_DEV
             baseText = target.text;
 #endif
@@ -96,9 +100,25 @@ namespace Ronin7.Flow
         /// <summary>Glyph before the echo count; verified present in the LegacyRuntime font atlas.</summary>
         public const string EchoGlyph = "◈";
 
-        /// <summary>Pure formatter — four lines, each at most 18 chars (1-indexed for display;
-        /// <paramref name="nodeIndex"/>/<paramref name="sector"/> are the 0-indexed RunState values).</summary>
-        public static string Format(int hp, int hpMax, int nodeIndex, int sector, int foes, int boonCount, int echoes) =>
-            $"HP {hp}/{hpMax}\nNODE {nodeIndex + 1}/{RunMapGenerator.TotalNodes} · S{sector + 1}\nFOES {foes} LEFT\nBOONS {boonCount} · {EchoGlyph} {echoes}";
+        /// <summary>Pure formatter — five lines, each at most 18 chars (1-indexed for display;
+        /// <paramref name="depth"/>/<paramref name="sector"/> are the 0-indexed RunState values).
+        /// P2-04 adds the NEXT line (<see cref="FormatNext"/>).</summary>
+        public static string Format(int hp, int hpMax, int depth, int sector, int foes, int boonCount, int echoes, string next) =>
+            $"HP {hp}/{hpMax}\nNODE {depth + 1}/{RunMapGenerator.TotalNodes} · S{sector + 1}\nFOES {foes} LEFT\nBOONS {boonCount} · {EchoGlyph} {echoes}\n{next}";
+
+        /// <summary>P2-04 "NEXT:" line: one path shows its name ("NEXT: BOSS"), several show 3-letter
+        /// codes ("NEXT: ELT/EVT/SHP", 17 chars max); the final node shows "NEXT: EXIT".</summary>
+        public static string FormatNext(System.Collections.Generic.IReadOnlyList<RoomKind> kinds)
+        {
+            if (kinds == null || kinds.Count == 0) return "NEXT: EXIT";
+            if (kinds.Count == 1) return "NEXT: " + RoomKindText.Name(kinds[0]);
+            var sb = new System.Text.StringBuilder("NEXT: ");
+            for (int i = 0; i < kinds.Count; i++)
+            {
+                if (i > 0) sb.Append('/');
+                sb.Append(RoomKindText.Code(kinds[i]));
+            }
+            return sb.ToString();
+        }
     }
 }

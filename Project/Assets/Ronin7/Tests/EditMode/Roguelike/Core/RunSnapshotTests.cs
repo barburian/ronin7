@@ -39,8 +39,9 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
         private static void PlayIntoMidRun()
         {
             RunState.Begin(12345u);
-            RunState.Advance();
-            RunState.Advance();
+            RunState.Advance(RunState.NextChoices[RunState.NextChoices.Count - 1]);
+            RunState.Advance(RunState.NextChoices[0]);
+            RunState.AddMaxHealthBonus(-15f);
             RunState.AddEchoes(37);
             RunState.AddRerollToken(2);
             RunState.NoteReviveSpent();
@@ -57,6 +58,8 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             PlayIntoMidRun();
             var snapshot = RunState.ToSnapshot();
             snapshot.runKills = 7;
+            int node = RunState.NodeIndex;
+            var path = new System.Collections.Generic.List<int>(RunState.Path);
             RunSnapshot.Write(snapshot);
             RunState.Reset();
 
@@ -66,8 +69,13 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
 
             Assert.IsTrue(RunState.InRun);
             Assert.AreEqual(12345u, RunState.Seed);
-            Assert.AreEqual(2, RunState.NodeIndex);
-            CollectionAssert.AreEqual(RunMapGenerator.Generate(12345u), RunState.Map);
+            Assert.AreEqual(2, loaded.version);
+            Assert.AreEqual(node, RunState.NodeIndex);
+            Assert.AreEqual(2, RunState.Depth);
+            Assert.AreEqual(2, loaded.depth);
+            CollectionAssert.AreEqual(path, RunState.Path);
+            CollectionAssert.AreEqual(RunMapGenerator.GenerateGraph(12345u).Nodes, RunState.Map);
+            Assert.AreEqual(-15f, RunState.MaxHealthBonus);
             Assert.AreEqual(37, RunState.EchoesEarned);
             Assert.AreEqual(2, RunState.RerollTokens);
             Assert.AreEqual(1, RunState.RevivesSpent);
@@ -106,11 +114,15 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             stale.version = 0;
             var badNode = RunState.ToSnapshot();
             badNode.nodeIndex = 999;
+            var badPath = RunState.ToSnapshot();
+            badPath.path = new System.Collections.Generic.List<int> { 0, badPath.nodeIndex }; // skips a row: not an edge
             RunState.Reset();
 
             Assert.IsFalse(RunState.Restore(stale));
             Assert.IsFalse(RunState.InRun);
             Assert.IsFalse(RunState.Restore(badNode));
+            Assert.IsFalse(RunState.InRun);
+            Assert.IsFalse(RunState.Restore(badPath));
             Assert.IsFalse(RunState.InRun);
         }
 

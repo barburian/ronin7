@@ -117,14 +117,22 @@ namespace Ronin7.Tests.PlayMode
         {
             AddMainCamera();
 
-            // Seed 1 + node index 10 (sector 2, Combat per RunMapGenerator.Generate(1)'s documented
-            // "C E T F B  C E T F B  C C C F B" kinds) is a golden combination: RunScaling.EnemyCount's
-            // only rng draw for this node/seed resolves to exactly 5 (3 base + 2 per-sector bonus + 0),
-            // and the empty-biome room library consumes zero rng draws before that, so this is not a
-            // brittle coincidence — it is fully determined by the documented A2.5 golden vectors.
+            // P2-04: pick seed 1's first sector-2 Combat node whose own RunRng substream makes
+            // RunScaling.EnemyCount return exactly 5 (3 base + 2 per-sector bonus + 0). The empty-biome
+            // room library consumes zero rng draws before that, so the arena composes exactly 5.
             RunState.Begin(1);
-            for (int i = 0; i < 10; i++) RunState.Advance();
-            Assert.AreEqual(10, RunState.NodeIndex);
+            int target = -1;
+            for (int id = 0; id < RunState.Map.Count && target < 0; id++)
+            {
+                RunNode n = RunState.Map[id];
+                if (n.Sector != 2 || n.Kind != RoomKind.Combat) continue;
+                RunRng probe = RunRng.ForNode(1, id);
+                if (RunScaling.EnemyCount(n.Depth, n.Kind, ref probe) == 5) target = id;
+            }
+            Assert.GreaterOrEqual(target, 0, "seed 1 has no 5-enemy sector-2 Combat node");
+            var walk = RunState.Graph.PathTo(target);
+            for (int i = 1; i < walk.Count; i++) RunState.Advance(walk[i]);
+            Assert.AreEqual(target, RunState.NodeIndex);
             Assert.AreEqual(RoomKind.Combat, RunState.CurrentNode.Kind);
 
             var table = ScriptableObject.CreateInstance<EnemySpawnTable>();

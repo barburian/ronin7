@@ -39,6 +39,10 @@ namespace Ronin7.Flow
         [Tooltip("Source pool for starting boons, room-clear offers, and guaranteed Treasure rewards.")]
         [SerializeField] private BoonCatalog boonCatalog;
 
+        [Header("Events (P2-04)")]
+        [Tooltip("Pool an Event node draws from (seeded per node). Data/Roguelike/Events/*.asset.")]
+        [SerializeField] private RunEventDefinition[] runEvents;
+
         /// <summary>A7.2: how long the boon offer panel waits for player input before auto-picking
         /// choice 0 and advancing — the same safety net GameOverPanel gets from its own auto-dismiss
         /// timer, for a panel whose click is mandatory (not optional) to leave the node.</summary>
@@ -104,6 +108,24 @@ namespace Ronin7.Flow
         private readonly BoonInventory boonInventory = new BoonInventory();
         private readonly HashSet<string> warnedUnknownBoons = new HashSet<string>();
 
+        // ---- P2-04 path choice / shop / event state ----
+        /// <summary>Seconds without moving (head XZ within <see cref="PathStillRadius"/>) before the
+        /// CHOOSE YOUR PATH panel joins the exit gates.</summary>
+        internal const float PathPanelStillSeconds = 6f;
+        private const float PathStillRadius = 0.5f;
+        internal const int MendPrice = 40;
+        private enum PanelMode { None, Path, Shop, Event }
+        private PanelMode panelMode;
+        private BoonOfferPanel choicePanel;
+        private int[] pathChoices;
+        private float stillSeconds;
+        private Vector3 stillAnchor;
+        private List<BoonDefinition> shopStock;
+        private bool[] shopSold;
+        private bool mendSold;
+        private RunEventDefinition activeEvent;
+        private RunRng eventRng;
+
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -119,6 +141,7 @@ namespace Ronin7.Flow
         {
             EventBus.Subscribe<RoomCleared>(OnRoomCleared);
             EventBus.Subscribe<EntityDied>(OnEntityDied);
+            EventBus.Subscribe<PathChosen>(OnPathChosen);
         }
 
         // Balances OnEnable's subscriptions (incl. a destroyed duplicate's) — no leak across
@@ -127,7 +150,9 @@ namespace Ronin7.Flow
         {
             EventBus.Unsubscribe<RoomCleared>(OnRoomCleared);
             EventBus.Unsubscribe<EntityDied>(OnEntityDied);
+            EventBus.Unsubscribe<PathChosen>(OnPathChosen);
             DismissOfferPanel();
+            DismissChoicePanel();
             DismissRunSummary();
         }
 
@@ -135,6 +160,7 @@ namespace Ronin7.Flow
         /// and feeds the panel's last-10-seconds countdown.</summary>
         private void Update()
         {
+            if (pathChoices != null && choicePanel == null) TickPathStillness();
             if (offerPanel == null) return;
 
             if (offerFallbackDeadline >= 0f)
@@ -160,6 +186,7 @@ namespace Ronin7.Flow
         {
             if (RunState.InRun) return; // guard against a double-tap on the hub launcher
             RunState.Begin(seed);
+            pathChoices = null;
             lastClearedNode = -1;
             deferredClear = null;
             warnedUnknownBoons.Clear();
@@ -186,6 +213,7 @@ namespace Ronin7.Flow
                 RunSnapshot.Delete();
                 return false;
             }
+            pathChoices = null;
             lastClearedNode = -1;
             deferredClear = null;
             warnedUnknownBoons.Clear();
@@ -224,6 +252,8 @@ namespace Ronin7.Flow
         {
             if (!RunState.InRun || EndingRun) return;
             DismissOfferPanel();
+            DismissChoicePanel();
+            pathChoices = null;
             deferredClear = null;
             RunState.Reset();
             StartSceneLoad(runEndScene); // the run-end scene loads as GameMode.Boot: no autosave
@@ -245,7 +275,7 @@ namespace Ronin7.Flow
             var snapshot = RunSnapshot.Read();
             if (snapshot == null) return;
             MetaProgression.AddEchoes(snapshot.echoesEarned);
-            MetaProgression.NoteRunEnded(snapshot.nodeIndex, won: false);
+            MetaProgression.NoteRunEnded(RunSnapshot.DepthOf(snapshot), won: false);
             MetaProgression.Save();
             RunSnapshot.Delete();
         }
@@ -343,9 +373,9 @@ namespace Ronin7.Flow
             lastClearedNode = evt.NodeIndex;
 
             var node = RunState.CurrentNode;
-            RunState.AddEchoes(RunScaling.EchoReward(node.Index, node.Kind));
+            RunState.AddEchoes(RunScaling.EchoReward(node.Depth, node.Kind));
 
-            bool isFinalNode = node.Index == RunMapGenerator.TotalNodes - 1;
+            bool isFinalNode = RunState.NextChoices.Count == 0;
             switch (ResolvePostClear(node.Kind, isFinalNode))
             {
                 case PostClearAction.WinRun:
@@ -357,6 +387,12 @@ namespace Ronin7.Flow
                 case PostClearAction.AdvanceImmediately:
                     ApplyNonCombatReward(node);
                     AdvanceNode();
+                    break;
+                case PostClearAction.OpenShop:
+                    OpenShop(node);
+                    break;
+                case PostClearAction.OpenEvent:
+                    OpenEvent(node);
                     break;
             }
         }
@@ -602,6 +638,7 @@ namespace Ronin7.Flow
                 frozenOfferSeconds = -1f;
             }
             if (offerPanel != null) offerPanel.gameObject.SetActive(!freeze);
+            if (choicePanel != null) choicePanel.gameObject.SetActive(!freeze);
         }
 
         /// <summary>Seconds left before the offer auto-picks, never negative. Pure. P0-03 test seam.</summary>
@@ -618,20 +655,286 @@ namespace Ronin7.Flow
             offerPanel = null;
         }
 
+        /// <summary>P2-04: the node's reward is resolved — let the player pick the next node. Raises the
+        /// exit gates (via <see cref="PathChoiceOffered"/>, the arena builds them) and, when seated, the
+        /// CHOOSE YOUR PATH panel straight away; otherwise the panel follows after
+        /// <see cref="PathPanelStillSeconds"/> without moving.</summary>
         private void AdvanceNode()
         {
-            NoteCurrentPlayerHealth();
-            bool hasNext = RunState.Advance();
-            if (!hasNext)
+            var next = RunState.NextChoices;
+            if (next.Count == 0)
             {
-                // Safety net: the Boss/final-node case is normally caught by ResolvePostClear before
-                // Advance() is ever called (see WinRun above); this only fires if the map's length
-                // ever disagreed with RunMapGenerator.TotalNodes.
+                // Safety net: the final Boss is normally caught by ResolvePostClear (WinRun) first.
                 EndRun(won: true);
+                return;
+            }
+            pathChoices = new int[next.Count];
+            for (int i = 0; i < pathChoices.Length; i++) pathChoices[i] = next[i];
+            stillSeconds = 0f;
+            stillAnchor = Camera.main != null ? Camera.main.transform.position : Vector3.zero;
+            EventBus.Publish(new PathChoiceOffered(pathChoices));
+            if (ShouldShowPathPanel(GameSettings.Active.Seated, 0f)) ShowPathPanel();
+        }
+
+        /// <summary>Pure: the panel shows when seated, or once the player has stood still long enough.</summary>
+        internal static bool ShouldShowPathPanel(bool seated, float stillSeconds) =>
+            seated || stillSeconds >= PathPanelStillSeconds;
+
+        private void TickPathStillness()
+        {
+            var cam = Camera.main;
+            if (cam == null) return;
+            Vector3 d = cam.transform.position - stillAnchor;
+            d.y = 0f;
+            if (d.sqrMagnitude > PathStillRadius * PathStillRadius)
+            {
+                stillAnchor = cam.transform.position;
+                stillSeconds = 0f;
+                return;
+            }
+            stillSeconds += Time.deltaTime; // scaled: a paused run does not count as standing still
+            if (ShouldShowPathPanel(false, stillSeconds)) ShowPathPanel();
+        }
+
+        private void ShowPathPanel()
+        {
+            DismissChoicePanel();
+            choicePanel = BoonOfferPanelFactory.BuildCustom(Camera.main, "CHOOSE YOUR PATH",
+                "Walk through an arch, or point and pull the trigger.", pathChoices.Length);
+            if (choicePanel == null)
+            {
+                if (GameSettings.Active.Seated)
+                {
+                    // Seated with no clickable panel: never strand the run.
+                    Debug.LogWarning("[RunDirector] Path panel could not be built while seated; taking the first path.");
+                    AdvanceTo(pathChoices[0]);
+                }
+                else stillSeconds = float.NegativeInfinity; // gates still work; don't retry every frame
+                return;
+            }
+            panelMode = PanelMode.Path;
+            for (int i = 0; i < pathChoices.Length; i++)
+            {
+                RoomKind kind = RunState.Map[pathChoices[i]].Kind;
+                choicePanel.SetOption(i, RoomKindText.Name(kind), RoomKindText.Color(kind), RoomKindText.Hint(kind), string.Empty, true);
+            }
+            choicePanel.ChoiceSelected += OnChoicePanelSelected;
+        }
+
+        private void OnPathChosen(PathChosen evt)
+        {
+            if (pathChoices == null || Array.IndexOf(pathChoices, evt.NodeId) < 0) return;
+            AdvanceTo(evt.NodeId);
+        }
+
+        private void AdvanceTo(int nodeId)
+        {
+            pathChoices = null;
+            DismissChoicePanel();
+            NoteCurrentPlayerHealth();
+            if (!RunState.Advance(nodeId))
+            {
+                Debug.LogError($"[RunDirector] Node {nodeId} is not reachable from {RunState.NodeIndex}; ignoring the pick.");
                 return;
             }
             WriteRunSnapshot();
             StartSceneLoad(runArenaScene);
+        }
+
+        private void OnChoicePanelSelected(int index)
+        {
+            switch (panelMode)
+            {
+                case PanelMode.Path:
+                    if (pathChoices != null && index >= 0 && index < pathChoices.Length) AdvanceTo(pathChoices[index]);
+                    break;
+                case PanelMode.Shop:
+                    BuyShopBoon(index);
+                    break;
+                case PanelMode.Event:
+                    ChooseEventOption(index);
+                    break;
+            }
+        }
+
+        private void OnChoicePanelFooter(int index)
+        {
+            if (panelMode == PanelMode.Shop)
+            {
+                if (index == 0) BuyMend();
+                else LeaveRoom();
+            }
+            else if (panelMode == PanelMode.Event) LeaveRoom();
+        }
+
+        private void LeaveRoom()
+        {
+            DismissChoicePanel();
+            AdvanceNode();
+        }
+
+        private void DismissChoicePanel()
+        {
+            panelMode = PanelMode.None;
+            if (choicePanel == null) return;
+            choicePanel.ChoiceSelected -= OnChoicePanelSelected;
+            choicePanel.FooterSelected -= OnChoicePanelFooter;
+            Destroy(choicePanel.gameObject);
+            choicePanel = null;
+        }
+
+        // ---- P2-04 Shop: spend THIS run's unbanked Echoes ----
+
+        /// <summary>Shop boon price by rarity: Common 30, Rare 60, Epic 120.</summary>
+        internal static int ShopPrice(BoonRarity rarity) => rarity == BoonRarity.Epic ? 120 : rarity == BoonRarity.Rare ? 60 : 30;
+
+        /// <summary>HP after MEND 25%: a quarter of max HP, clamped to max.</summary>
+        internal static float MendResult(float current, float max) => Mathf.Min(max, current + 0.25f * max);
+
+        private void OpenShop(RunNode node)
+        {
+            var rng = RunRng.ForNode(RunState.Seed, node.Index);
+            shopStock = boonCatalog != null && boonCatalog.boons != null
+                ? BoonOfferPicker.Pick(boonCatalog.boons, RunState.BoonCount, RoomKind.Shop, ref rng, 3)
+                : new List<BoonDefinition>();
+            shopSold = new bool[shopStock.Count];
+            mendSold = false;
+            choicePanel = BoonOfferPanelFactory.BuildCustom(Camera.main, "SHOP", null, shopStock.Count, "MEND", "LEAVE");
+            if (choicePanel == null)
+            {
+                Debug.LogWarning("[RunDirector] Shop panel could not be built (no camera/EventSystem); skipping the shop.");
+                AdvanceNode();
+                return;
+            }
+            panelMode = PanelMode.Shop;
+            choicePanel.ChoiceSelected += OnChoicePanelSelected;
+            choicePanel.FooterSelected += OnChoicePanelFooter;
+            RefreshShop();
+        }
+
+        private void RefreshShop()
+        {
+            if (choicePanel == null) return;
+            int echoes = RunState.EchoesEarned;
+            choicePanel.SetTitle("SHOP · " + RunHudPanel.EchoGlyph + " " + echoes, "Spend this run's Echoes — what you spend is not banked.");
+            for (int i = 0; i < shopStock.Count; i++)
+            {
+                var b = shopStock[i];
+                int price = ShopPrice(b.rarity);
+                choicePanel.SetOption(i, BoonOfferPanel.FormatChoiceTitle(b), BoonOfferPanel.RarityColor(b.rarity), b.description,
+                    shopSold[i] ? "SOLD" : RunHudPanel.EchoGlyph + " " + price, !shopSold[i] && echoes >= price);
+            }
+            choicePanel.SetFooter(0, mendSold ? "MEND · SOLD" : "MEND 25% · " + RunHudPanel.EchoGlyph + " " + MendPrice, true, !mendSold && echoes >= MendPrice);
+        }
+
+        private void BuyShopBoon(int index)
+        {
+            if (shopStock == null || index < 0 || index >= shopStock.Count || shopSold[index]) return;
+            if (!RunState.TrySpendEchoes(ShopPrice(shopStock[index].rarity))) return;
+            shopSold[index] = true;
+            GrantBoon(shopStock[index]); // applies from the next node load, like every pick
+            RefreshShop();
+        }
+
+        private void BuyMend()
+        {
+            if (mendSold || !RunState.TrySpendEchoes(MendPrice)) return;
+            mendSold = true;
+            var health = VRRig.Instance != null ? VRRig.Instance.GetComponent<Health>() : null;
+            if (health != null)
+            {
+                health.SetCurrent(MendResult(health.Current, health.Max));
+                RunState.NotePlayerHealth(health.Current);
+            }
+            RefreshShop();
+        }
+
+        // ---- P2-04 Event: a 2-option data event ----
+
+        private void OpenEvent(RunNode node)
+        {
+            eventRng = RunRng.ForNode(RunState.Seed, node.Index);
+            activeEvent = runEvents != null && runEvents.Length > 0 ? runEvents[eventRng.NextInt(runEvents.Length)] : null;
+            if (activeEvent == null)
+            {
+                Debug.LogWarning("[RunDirector] No RunEventDefinitions assigned; skipping the event.");
+                AdvanceNode();
+                return;
+            }
+            choicePanel = BoonOfferPanelFactory.BuildCustom(Camera.main, activeEvent.title.ToUpperInvariant(), activeEvent.body, 2, "CONTINUE");
+            if (choicePanel == null)
+            {
+                Debug.LogWarning("[RunDirector] Event panel could not be built (no camera/EventSystem); skipping the event.");
+                AdvanceNode();
+                return;
+            }
+            panelMode = PanelMode.Event;
+            choicePanel.ChoiceSelected += OnChoicePanelSelected;
+            choicePanel.FooterSelected += OnChoicePanelFooter;
+            choicePanel.SetFooter(0, "CONTINUE", false);
+            SetEventOption(0, activeEvent.optionA);
+            SetEventOption(1, activeEvent.optionB);
+        }
+
+        private void SetEventOption(int i, RunEventOption o)
+        {
+            int cost = RunEventResolver.EchoCost(o);
+            bool afford = RunEventResolver.CanAfford(o, RunState.EchoesEarned);
+            string sub = cost > 0 ? (afford ? RunHudPanel.EchoGlyph + " " + cost : "NEED " + RunHudPanel.EchoGlyph + " " + cost) : string.Empty;
+            choicePanel.SetOption(i, o.label, Color.white, o.hint, sub, afford);
+        }
+
+        private void ChooseEventOption(int index)
+        {
+            if (activeEvent == null || index < 0 || index > 1) return;
+            var option = index == 0 ? activeEvent.optionA : activeEvent.optionB;
+            if (!RunEventResolver.CanAfford(option, RunState.EchoesEarned)) return;
+            var outcome = RunEventResolver.Resolve(option, ref eventRng);
+            string result = ApplyEventOutcome(outcome);
+            activeEvent = null;
+            choicePanel.ShowOptions(0);
+            choicePanel.SetTitle(option.label.ToUpperInvariant(), result);
+            choicePanel.SetFooter(0, "CONTINUE", true);
+        }
+
+        /// <summary>Applies an event outcome to the run and the live rig; returns the line shown to the player.</summary>
+        private string ApplyEventOutcome(RunEventOutcome o)
+        {
+            var parts = new List<string>();
+            if (o.EchoesSpent > 0 && RunState.TrySpendEchoes(o.EchoesSpent)) parts.Add("-" + o.EchoesSpent + " " + RunHudPanel.EchoGlyph);
+            if (o.Rerolls != 0) { RunState.AddRerollToken(o.Rerolls); parts.Add("+" + o.Rerolls + " reroll"); }
+            if (o.MaxHealthDelta != 0f)
+            {
+                RunState.AddMaxHealthBonus(o.MaxHealthDelta);
+                parts.Add((o.MaxHealthDelta > 0f ? "+" : "") + o.MaxHealthDelta + " max HP");
+            }
+            var health = VRRig.Instance != null ? VRRig.Instance.GetComponent<Health>() : null;
+            if (health != null && (o.MaxHealthDelta != 0f || o.HealFraction > 0f || o.Damage > 0f))
+            {
+                RunEventResolver.ApplyHealth(health.Current, health.Max, o, out float newMax, out float newCurrent);
+                if (!Mathf.Approximately(newMax, health.Max)) health.Configure(newMax); // Configure refills; SetCurrent below restores
+                health.SetCurrent(newCurrent);
+                RunState.NotePlayerHealth(health.Current);
+            }
+            if (o.HealFraction > 0f) parts.Add("healed " + Mathf.RoundToInt(o.HealFraction * 100f) + "%");
+            if (o.Damage > 0f) parts.Add("-" + o.Damage + " HP");
+            foreach (var rarity in o.Boons)
+            {
+                var boon = PickEventBoon(rarity);
+                if (boon == null) continue;
+                GrantBoon(boon);
+                parts.Add(BoonOfferPanel.TierWord(boon.rarity) + " · " + boon.displayName);
+            }
+            return parts.Count == 0 ? "Nothing happens." : string.Join("   ", parts);
+        }
+
+        private BoonDefinition PickEventBoon(BoonRarity rarity)
+        {
+            if (boonCatalog == null || boonCatalog.boons == null) return null;
+            var boon = BoonOfferPicker.PickOfRarity(boonCatalog.boons, RunState.BoonCount, rarity, ref eventRng);
+            if (boon != null) return boon;
+            var picks = BoonOfferPicker.Pick(boonCatalog.boons, RunState.BoonCount, RoomKind.Treasure, ref eventRng, 1);
+            return picks.Count > 0 ? picks[0] : null;
         }
 
         /// <summary>A4.2/A7.3: capture the player's current HP immediately before leaving a node — while
@@ -727,7 +1030,7 @@ namespace Ronin7.Flow
         {
             EndingRun = true;
             deferredClear = null;
-            int depth = RunState.NodeIndex;
+            int depth = RunState.Depth; // P2-04: rows cleared, never the node id
             MetaProgression.AddEchoes(RunState.EchoesEarned);
             MetaProgression.NoteRunEnded(won ? RunMapGenerator.TotalNodes : depth, won);
 
@@ -747,6 +1050,8 @@ namespace Ronin7.Flow
 
             EventBus.Publish(new RunEnded(depth, won));
             DismissOfferPanel();
+            DismissChoicePanel();
+            pathChoices = null;
             StartSceneLoad(runEndScene);
         }
 
@@ -895,7 +1200,9 @@ namespace Ronin7.Flow
                 // is a per-scene component with no DontDestroyOnLoad, so it's always rebuilt fresh from
                 // prefab on every load — if a rig ever survived a load this would compound into
                 // base + 15x add instead of a flat add.
-                if (boonInventory.MaxHealthAdd > 0f) health.Configure(health.Max + boonInventory.MaxHealthAdd);
+                // P2-04: event max-HP changes (Blood Pact) ride on top of boons for the rest of the run.
+                float maxAdd = boonInventory.MaxHealthAdd + RunState.MaxHealthBonus;
+                if (maxAdd != 0f) health.Configure(Mathf.Max(1f, health.Max + maxAdd));
                 if (RunState.PlayerHealth >= 0f)
                     health.SetCurrent(RunState.CarryOverHealth(RunState.PlayerHealth, health.Max));
 
@@ -921,7 +1228,7 @@ namespace Ronin7.Flow
             };
 
         /// <summary>What a cleared node should do next. Pure, so it is unit-testable without a scene.</summary>
-        internal enum PostClearAction { OfferBoon, AdvanceImmediately, WinRun }
+        internal enum PostClearAction { OfferBoon, AdvanceImmediately, WinRun, OpenShop, OpenEvent }
 
         /// <summary>
         /// Reward-table decision (see the design doc's per-node-kind reward table): Combat/Elite/Boss
@@ -940,6 +1247,8 @@ namespace Ronin7.Flow
                 RoomKind.Boss => PostClearAction.OfferBoon,
                 RoomKind.Forge => PostClearAction.AdvanceImmediately,
                 RoomKind.Treasure => PostClearAction.AdvanceImmediately,
+                RoomKind.Shop => PostClearAction.OpenShop,
+                RoomKind.Event => PostClearAction.OpenEvent,
                 _ => PostClearAction.AdvanceImmediately,
             };
         }

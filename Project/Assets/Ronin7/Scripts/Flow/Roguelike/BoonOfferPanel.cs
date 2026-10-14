@@ -31,10 +31,16 @@ namespace Ronin7.Flow
         public Text[] ownedLabels;
         /// <summary>P1-13: "AUTO-PICK IN n" for the last 10 s of the fallback timer. Optional.</summary>
         public Text countdownLabel;
+        /// <summary>P2-04 generic panels (path / shop / event): optional bottom buttons and a body line.</summary>
+        public Button[] footerButtons;
+        public Text titleLabel;
+        public Text subtitleLabel;
 
         /// <summary>Fired with the chosen choice's index (0..choiceButtons.Length-1).</summary>
         public event Action<int> ChoiceSelected;
         public event Action RerollRequested;
+        /// <summary>P2-04: fired with the footer button's index.</summary>
+        public event Action<int> FooterSelected;
 
         /// <summary>
         /// Wire every button to its event. The builder MUST call this after assigning the button
@@ -65,6 +71,66 @@ namespace Ronin7.Flow
                 rerollButton.onClick.RemoveAllListeners();
                 rerollButton.onClick.AddListener(() => RerollRequested?.Invoke());
             }
+            if (footerButtons != null)
+            {
+                for (int i = 0; i < footerButtons.Length; i++)
+                {
+                    if (footerButtons[i] == null) continue;
+                    int index = i;
+                    footerButtons[i].onClick.RemoveAllListeners();
+                    footerButtons[i].onClick.AddListener(() => FooterSelected?.Invoke(index));
+                }
+            }
+        }
+
+        // ---- P2-04 generic content (path / shop / event panels) ----
+
+        public void SetTitle(string title, string subtitle = null)
+        {
+            if (titleLabel != null) titleLabel.text = title;
+            if (subtitleLabel != null) subtitleLabel.text = subtitle ?? string.Empty;
+        }
+
+        /// <summary>Shows the first <paramref name="count"/> choice buttons, centred (1, 2 or 3 columns).</summary>
+        public void ShowOptions(int count)
+        {
+            if (choiceButtons == null) return;
+            for (int i = 0; i < choiceButtons.Length; i++)
+            {
+                if (choiceButtons[i] == null) continue;
+                bool on = i < count;
+                choiceButtons[i].gameObject.SetActive(on);
+                if (!on) continue;
+                var rt = (RectTransform)choiceButtons[i].transform;
+                rt.anchoredPosition = new Vector2(ColumnX(i, count), rt.anchoredPosition.y);
+            }
+        }
+
+        /// <summary>Column centre for option <paramref name="i"/> of <paramref name="count"/> (320 px pitch).</summary>
+        internal static float ColumnX(int i, int count) => (i - (count - 1) * 0.5f) * 320f;
+
+        public void SetOption(int i, string title, Color titleColor, string description, string subLabel, bool interactable)
+        {
+            if (choiceButtons == null || i < 0 || i >= choiceButtons.Length) return;
+            if (choiceLabels != null && i < choiceLabels.Length && choiceLabels[i] != null)
+            {
+                choiceLabels[i].text = title;
+                choiceLabels[i].color = titleColor;
+            }
+            if (descriptionLabels != null && i < descriptionLabels.Length && descriptionLabels[i] != null)
+                descriptionLabels[i].text = description;
+            if (ownedLabels != null && i < ownedLabels.Length && ownedLabels[i] != null)
+                ownedLabels[i].text = subLabel;
+            choiceButtons[i].interactable = interactable;
+        }
+
+        public void SetFooter(int i, string label, bool visible, bool interactable = true)
+        {
+            if (footerButtons == null || i < 0 || i >= footerButtons.Length || footerButtons[i] == null) return;
+            footerButtons[i].gameObject.SetActive(visible);
+            footerButtons[i].interactable = interactable;
+            var t = footerButtons[i].GetComponentInChildren<Text>(true);
+            if (t != null) t.text = label;
         }
 
         /// <summary>

@@ -225,6 +225,13 @@ namespace Ronin7.EditorTools
             var catalog = RogueLoadOptional<BoonCatalog>(RogueBoonCatalogPath, "BoonCatalog");
             var runDirectorSo = new SerializedObject(runDirector);
             SetObjectRef(runDirectorSo, "boonCatalog", catalog);
+            // P2-04: Event-node pool (authored by RunEventBuilder).
+            var eventGuids = AssetDatabase.FindAssets("t:RunEventDefinition", new[] { RunEventBuilder.EventsFolder });
+            var eventsProp = runDirectorSo.FindProperty("runEvents");
+            eventsProp.arraySize = eventGuids.Length;
+            for (int i = 0; i < eventGuids.Length; i++)
+                eventsProp.GetArrayElementAtIndex(i).objectReferenceValue =
+                    AssetDatabase.LoadAssetAtPath<RunEventDefinition>(AssetDatabase.GUIDToAssetPath(eventGuids[i]));
             runDirectorSo.ApplyModifiedPropertiesWithoutUndo();
 
             EditorSceneManager.MarkSceneDirty(bootScene);

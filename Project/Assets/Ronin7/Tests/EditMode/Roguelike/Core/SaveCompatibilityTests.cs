@@ -55,24 +55,20 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             Assert.AreEqual(1, MetaProgression.UpgradeLevel(MetaUpgradeId.RerollTokens));
         }
 
+        /// <summary>P2-04 bumped RunSnapshot to v2 (branching map): a phase-0 (v1) run cannot resume on
+        /// the new map, so the P0-09 migration banks its 45 Echoes as a loss at depth 6 and deletes it.</summary>
         [Test]
-        public void Phase0_RunJson_ResumesTheSameRun()
+        public void Phase0_RunJson_IsBankedByTheV2Migration()
         {
             Install("saves_phase0", "run.json");
 
-            RunSnapshot snapshot = RunSnapshot.Read();
-            Assert.IsNotNull(snapshot, "A phase-0 run.json must still be resumable (or banked by a migration).");
-            Assert.IsTrue(RunState.Restore(snapshot));
+            UnityEngine.TestTools.LogAssert.Expect(LogType.Warning, new System.Text.RegularExpressions.Regex("discarding version 1"));
+            Assert.IsNull(RunSnapshot.Read());
 
-            Assert.AreEqual(2026u, RunState.Seed);
-            Assert.AreEqual(6, RunState.NodeIndex);
-            Assert.AreEqual(45, RunState.EchoesEarned);
-            Assert.AreEqual(2, RunState.RerollTokens);
-            Assert.AreEqual(1, RunState.RevivesSpent);
-            Assert.AreEqual(61.5f, RunState.PlayerHealth, 1e-4f);
-            Assert.AreEqual(2, RunState.BoonCount(BoonId.Ironskin));
-            Assert.AreEqual(1, RunState.BoonCount(BoonId.KeenEdge));
-            Assert.AreEqual(19, snapshot.runKills);
+            Assert.AreEqual(45, MetaProgression.Echoes);
+            Assert.AreEqual(6, MetaProgression.BestDepth);
+            Assert.AreEqual(1, MetaProgression.RunsCompleted);
+            Assert.IsFalse(File.Exists(SaveSystem.RunSnapshotPath));
         }
     }
 }

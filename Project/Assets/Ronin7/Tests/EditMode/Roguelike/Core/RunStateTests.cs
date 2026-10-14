@@ -77,14 +77,16 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             Assert.IsTrue(RunState.InRun);
             Assert.AreEqual(123u, RunState.Seed);
             Assert.AreEqual(0, RunState.NodeIndex);
-            Assert.AreEqual(RunMapGenerator.TotalNodes, RunState.Map.Count);
+            Assert.AreEqual(RunMapGenerator.GenerateGraph(123).Nodes.Length, RunState.Map.Count);
             Assert.AreEqual(RunState.Map[0].Index, RunState.CurrentNode.Index);
+            Assert.AreEqual(0, RunState.Depth);
+            CollectionAssert.AreEqual(new[] { 0 }, RunState.Path);
         }
 
         [Test]
         public void Begin_MapMatchesRunMapGenerator_ForSameSeed()
         {
-            RunNode[] expected = RunMapGenerator.Generate(777);
+            RunNode[] expected = RunMapGenerator.GenerateGraph(777).Nodes;
 
             RunState.Begin(777);
 
@@ -102,23 +104,27 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
 
             for (int step = 0; step < RunMapGenerator.TotalNodes - 1; step++)
             {
-                bool advanced = RunState.Advance();
+                int next = RunState.NextChoices[RunState.NextChoices.Count - 1]; // walk the right edge
+                bool advanced = RunState.Advance(next);
                 Assert.IsTrue(advanced, $"expected step {step} to advance");
-                Assert.AreEqual(step + 1, RunState.NodeIndex);
+                Assert.AreEqual(next, RunState.NodeIndex);
+                Assert.AreEqual(step + 1, RunState.Depth);
             }
 
-            // Now on the final node (Boss). Further Advance calls must return false and not move,
-            // repeatedly and without throwing (Advance past the end).
-            Assert.IsFalse(RunState.Advance());
-            Assert.AreEqual(RunMapGenerator.TotalNodes - 1, RunState.NodeIndex);
-            Assert.IsFalse(RunState.Advance());
-            Assert.AreEqual(RunMapGenerator.TotalNodes - 1, RunState.NodeIndex);
+            // Now on the final node (Boss): no successors, so any Advance is refused.
+            int final = RunState.NodeIndex;
+            Assert.AreEqual(RoomKind.Boss, RunState.CurrentNode.Kind);
+            Assert.AreEqual(0, RunState.NextChoices.Count);
+            Assert.IsFalse(RunState.Advance(final));
+            Assert.IsFalse(RunState.Advance(0));
+            Assert.AreEqual(final, RunState.NodeIndex);
+            Assert.AreEqual(RunMapGenerator.TotalNodes, RunState.Path.Count);
         }
 
         [Test]
         public void Advance_BeforeBegin_ReturnsFalse_DoesNotThrow()
         {
-            Assert.DoesNotThrow(() => Assert.IsFalse(RunState.Advance()));
+            Assert.DoesNotThrow(() => Assert.IsFalse(RunState.Advance(1)));
         }
 
         [Test]
@@ -211,7 +217,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             RunState.AddEchoes(10);
             RunState.AddRerollToken(1);
             RunState.NoteReviveSpent();
-            RunState.Advance();
+            RunState.Advance(RunState.NextChoices[0]);
 
             RunState.End();
 

@@ -64,6 +64,46 @@ namespace Ronin7.World
         private int placedCount;
         private uint runSeed;
 
+        // P2-04 exit gates: node ids behind each raised arch (null = no gates up) and the gate the
+        // head was in last frame, so only stepping/teleporting INTO an arch picks it.
+        private int[] gateChoices;
+        private GameObject gatesRoot;
+        private int lastGate = -1;
+        private readonly List<RoomKind> gateKinds = new(3);
+
+        private void OnEnable() => EventBus.Subscribe<PathChoiceOffered>(OnPathChoiceOffered);
+        private void OnDisable() => EventBus.Unsubscribe<PathChoiceOffered>(OnPathChoiceOffered);
+
+        /// <summary>P2-04: raise one arch per choice on the north wall (after the reward is resolved).</summary>
+        private void OnPathChoiceOffered(PathChoiceOffered offer)
+        {
+            if (offer.Choices == null || offer.Choices.Length == 0 || RunState.Map == null) return;
+            if (gatesRoot != null) Destroy(gatesRoot);
+            gateKinds.Clear();
+            foreach (int id in offer.Choices) gateKinds.Add(RunState.Map[id].Kind);
+            if (halfExtent <= 0f) halfExtent = arenaHalfExtent > 0f ? arenaHalfExtent : RunScaling.ArenaHalfExtent(RunState.CurrentNode.Kind);
+            gatesRoot = ArenaGeometryBuilder.BuildExitGates(transform, gateKinds, halfExtent,
+                roomLibrary != null ? roomLibrary.surfaceMaterial : null);
+            gateChoices = offer.Choices;
+            GetHeadLocal(out Vector2 head, out _);
+            lastGate = ArenaGeometryBuilder.GateIndexAt(head, gateChoices.Length, halfExtent);
+        }
+
+        /// <summary>Head-in-arch poll (no allocation). Fires <see cref="PathChosen"/> once.</summary>
+        private void PollGates()
+        {
+            GetHeadLocal(out Vector2 head, out _);
+            int gate = ArenaGeometryBuilder.GateIndexAt(head, gateChoices.Length, halfExtent);
+            if (gate >= 0 && gate != lastGate)
+            {
+                int id = gateChoices[gate];
+                gateChoices = null;
+                EventBus.Publish(new PathChosen(id));
+                return;
+            }
+            lastGate = gate;
+        }
+
         private void Start()
         {
             if (roomLibrary == null)
@@ -249,7 +289,7 @@ namespace Ronin7.World
         {
             if (source == null) return null;
 
-            ScaledStats(source.maxHealth, source.damage, node.Index, node.Kind, node.Sector, out float health, out float damage);
+            ScaledStats(source.maxHealth, source.damage, node.Depth, node.Kind, node.Sector, out float health, out float damage);
 
             EnemyDefinition scaled = Instantiate(source);
             scaled.maxHealth = health;
@@ -356,6 +396,7 @@ namespace Ronin7.World
 
         private void Update()
         {
+            if (gateChoices != null) PollGates();
             float now = Time.time;
             for (int i = pending.Count - 1; i >= 0; i--)
             {

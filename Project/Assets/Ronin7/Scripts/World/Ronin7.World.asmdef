@@ -6,7 +6,8 @@
         "Ronin7.Combat",
         "Ronin7.Enemies",
         "Unity.XR.Interaction.Toolkit",
-        "Unity.InputSystem"
+        "Unity.InputSystem",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

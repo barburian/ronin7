@@ -40,8 +40,8 @@ namespace Ronin7.Tests.EditMode
         private static void WriteMidRunSnapshot(int echoes)
         {
             RunState.Begin(7u);
-            RunState.Advance();
-            RunState.Advance();
+            RunState.Advance(RunState.NextChoices[0]);
+            RunState.Advance(RunState.NextChoices[0]);
             RunState.AddEchoes(echoes);
             RunSnapshot.Write(RunState.ToSnapshot());
         }
@@ -59,7 +59,7 @@ namespace Ronin7.Tests.EditMode
             Assert.IsFalse(RunState.InRun, "Suspending must clear InRun so ENTER THE FRACTURE works again.");
             var snapshot = RunSnapshot.Read();
             Assert.IsNotNull(snapshot, "The node-entry snapshot must survive so the menu offers RESUME RUN.");
-            Assert.AreEqual(2, snapshot.nodeIndex);
+            Assert.AreEqual(2, snapshot.depth, "two rows walked (nodeIndex is now a node id, P2-04)");
             Assert.AreEqual(0, MetaProgression.Echoes, "Suspending banks nothing.");
         }
 

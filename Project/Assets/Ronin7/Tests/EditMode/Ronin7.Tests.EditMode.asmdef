@@ -12,6 +12,7 @@
         "Ronin7.Audio",
         "Ronin7.Editor",
         "Unity.InputSystem",
+        "Unity.TextMeshPro",
         "Unity.RenderPipelines.Core.Runtime",
         "Unity.RenderPipelines.Universal.Runtime",
         "UnityEngine.TestRunner",
