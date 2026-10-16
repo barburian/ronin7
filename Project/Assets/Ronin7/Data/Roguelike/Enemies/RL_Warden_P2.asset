@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124031ca89272a245b6bae3d880a5cf0, type: 3}
+  m_Name: RL_Warden_P2
+  m_EditorClassIdentifier: Ronin7.Enemies::Ronin7.Enemies.EnemyDefinition
+  maxHealth: 450
+  moveSpeed: 0.9
+  attackRange: 1.7
+  turnRateDegrees: 150
+  acceleration: 2.5
+  deceleration: 4
+  telegraphTime: 1
+  telegraphMaxTime: 0
+  activeTime: 0.8
+  recoverTime: 0.6
+  staggerTime: 1.2
+  attackCooldown: 1.1
+  poseArmScale: 1
+  poseTwistDegrees: 35
+  poseLeanDegrees: 15
+  poseWholeBody: 0
+  damage: 26
+  healthAddedPerGalaxy: 0
+  damageAddedPerGalaxy: 0
+  superArmor: 1
+  postureGainMultiplier: 1
+  weakness: 1
+  resistMultiplier: 0.15
+  exploitMultiplier: 2
+  heavySwingSpeed: 5.5
+  materialClass: 0
+  postureBreakBonusFraction: 0
+  chainHits: 1
+  blinkBehind: 0
+  postureMaxFraction: 0.35
+  vampiric: 0
+  eliteRim: {r: 0, g: 0, b: 0, a: 1}

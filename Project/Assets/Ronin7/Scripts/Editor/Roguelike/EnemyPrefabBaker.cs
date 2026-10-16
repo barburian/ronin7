@@ -337,6 +337,127 @@ namespace Ronin7.EditorTools
             Debug.Log("[EnemyPrefabBaker] Added blade edge to baked enemies.");
         }
 
+        // P3-04: baked prefab name -> archetype class, plus hover bottom height (0 = grounded).
+        private const float DroneArtHeight = 0.8f, DroneHoverBottom = 1.4f; // centre ~1.8 m, inside the 1.6-2.0 m band
+
+        /// <summary>P3-04 (additive, idempotent): swaps <c>Enemy</c> for the archetype subclass on the baked
+        /// Charger / Hunter / Scan-Drone / Teleporter prefabs (serialized fields survive via m_Script),
+        /// wires their optional streak / beam / glyph, and rebakes the two drones as ~0.8 m hover art:
+        /// Visual_Skinned and Rig_Root lifted by the hover height, root pivot untouched at y=0.</summary>
+        [MenuItem("Tools/Space Samurai/Roguelike/Patch Archetype Prefabs (additive)")]
+        public static void PatchArchetypePrefabs()
+        {
+            PatchOne("Coil_Syndicate_Ganger", typeof(ChargerEnemy), false);
+            PatchOne("Hunter_Drone", typeof(Ronin7.Ship.RangedEnemy), true);
+            PatchOne("Dominion_Scan-Drone", typeof(SupportDrone), true);
+            PatchOne("Dream_Ghost_Manifestation", typeof(BlinkEnemy), false);
+            PatchOne("Vane_Wraith-6", typeof(BlinkEnemy), false); // P3-07: blinks only in its Blink-weakness phase 2
+            AssetDatabase.SaveAssets();
+            Debug.Log("[EnemyPrefabBaker] Archetype prefabs patched.");
+        }
+
+        private static void PatchOne(string name, System.Type type, bool hover)
+        {
+            string path = OutputFolder + "/" + name + ".prefab";
+            if (AssetDatabase.LoadAssetAtPath<GameObject>(path) == null) { Debug.LogWarning("[EnemyPrefabBaker] missing " + path); return; }
+            var root = PrefabUtility.LoadPrefabContents(path);
+            try
+            {
+                var enemy = root.GetComponent<Enemy>();
+                if (enemy.GetType() != type)
+                {
+                    var script = System.Array.Find(
+                        System.Array.ConvertAll(AssetDatabase.FindAssets("t:MonoScript " + type.Name), g => AssetDatabase.LoadAssetAtPath<MonoScript>(AssetDatabase.GUIDToAssetPath(g))),
+                        m => m != null && m.GetClass() == type);
+                    var so = new SerializedObject(enemy);
+                    so.FindProperty("m_Script").objectReferenceValue = script;
+                    so.ApplyModifiedPropertiesWithoutUndo();
+                    enemy = root.GetComponent<Enemy>();
+                }
+                var eso = new SerializedObject(enemy);
+                if (type == typeof(ChargerEnemy)) SetObjectRef(eso, "streak", EnsureLine(root, "ChargeStreak", 0.12f));
+                else if (type == typeof(SupportDrone)) SetObjectRef(eso, "beam", EnsureLine(root, "BuffBeam", 0.05f));
+                else if (type == typeof(BlinkEnemy)) SetObjectRef(eso, "glyph", EnsureGlyph(root));
+                eso.ApplyModifiedPropertiesWithoutUndo();
+                if (hover) BakeHover(root);
+                PrefabUtility.SaveAsPrefabAsset(root, path);
+            }
+            finally { PrefabUtility.UnloadPrefabContents(root); }
+        }
+
+        private static LineRenderer EnsureLine(GameObject root, string childName, float width)
+        {
+            var child = root.transform.Find(childName);
+            if (child == null) { child = new GameObject(childName).transform; child.SetParent(root.transform, false); }
+            var lr = child.GetComponent<LineRenderer>();
+            if (lr == null) lr = child.gameObject.AddComponent<LineRenderer>();
+            lr.positionCount = 2;
+            lr.useWorldSpace = true;
+            lr.widthMultiplier = width;
+            lr.SetPositions(new[] { Vector3.up * (width * 0.5f), Vector3.up * (width * 0.5f) }); // placeholder bounds stay above the floor
+            lr.alignment = LineAlignment.TransformZ; // streak lies flat on the floor; beam is thin enough not to care
+            lr.sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>(EdgeMaterialPath);
+            lr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            lr.receiveShadows = false;
+            lr.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.Off;
+            lr.reflectionProbeUsage = UnityEngine.Rendering.ReflectionProbeUsage.Off;
+            lr.enabled = false;
+            return lr;
+        }
+
+        /// <summary>1 m floor quad (shared additive material, no collider) the Teleporter parks on its destination.
+        /// World-sized: the root scale is divided out.</summary>
+        private static Transform EnsureGlyph(GameObject root)
+        {
+            var t = root.transform.Find("BlinkGlyph");
+            if (t == null)
+            {
+                t = new GameObject("BlinkGlyph").transform;
+                t.SetParent(root.transform, false);
+                t.gameObject.AddComponent<MeshFilter>().sharedMesh = Resources.GetBuiltinResource<Mesh>("Quad.fbx");
+                var mr = t.gameObject.AddComponent<MeshRenderer>();
+                mr.sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>(EdgeMaterialPath);
+                mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                mr.receiveShadows = false;
+            }
+            t.localRotation = Quaternion.Euler(90f, 0f, 0f);
+            t.localPosition = new Vector3(0f, 0.02f / root.transform.localScale.y, 0f);
+            t.localScale = Vector3.one / root.transform.localScale.y;
+            t.gameObject.SetActive(false);
+            return t;
+        }
+
+        /// <summary>Idempotent: rescales the root so the art is DroneArtHeight tall, lifts Visual_Skinned and
+        /// Rig_Root so it floats DroneHoverBottom above the root pivot, and refits the capsule to it.</summary>
+        private static void BakeHover(GameObject root)
+        {
+            Bounds Measure()
+            {
+                var rends = root.GetComponentsInChildren<Renderer>(true);
+                Bounds b = default; bool first = true;
+                foreach (var r in rends)
+                {
+                    if (r is LineRenderer || r.gameObject.name == "BlinkGlyph") continue;
+                    if (first) { b = r.bounds; first = false; } else b.Encapsulate(r.bounds);
+                }
+                return b;
+            }
+            Bounds m = Measure();
+            if (m.size.y > 0.01f) root.transform.localScale *= DroneArtHeight / m.size.y;
+            m = Measure();
+            float s = root.transform.localScale.y;
+            Vector3 lift = root.transform.InverseTransformVector(Vector3.up * (root.transform.position.y + DroneHoverBottom - m.min.y));
+            foreach (var n in new[] { "Visual_Skinned", "Rig_Root" })
+            {
+                var c = FindDeep(root.transform, n);
+                if (c != null) c.localPosition += lift;
+            }
+            var cap = root.GetComponent<CapsuleCollider>();
+            cap.height = DroneArtHeight / s;
+            cap.radius = 0.3f / s;
+            cap.center = new Vector3(0f, (DroneHoverBottom + DroneArtHeight * 0.5f) / s, 0f);
+        }
+
         /// <summary>P1-12 (BUG-23): additive entry point. Re-extracts the textures from each existing baked
         /// enemy's source art material onto its existing <c>_Enemy.mat</c>, without touching the prefabs.</summary>
         [MenuItem("Tools/Space Samurai/Roguelike/Extract Enemy Textures (additive)")]

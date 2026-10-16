@@ -5,6 +5,7 @@ using NUnit.Framework;
 using Ronin7.Combat;
 using Ronin7.Core;
 using Ronin7.Flow;
+using Ronin7.Player;
 using UnityEngine;
 using UnityEngine.TestTools;
 
@@ -308,6 +309,51 @@ namespace Ronin7.Tests.EditMode
         public void ForgeMend_Heals60PercentOfMissing()
         {
             Assert.That(RunDirector.ForgeResultHealth(40f, 100f), Is.EqualTo(76f).Within(0.001f));
+        }
+
+        // ---- BUG-30: Forge effects are visible on the cards ----
+
+        [TestCase(40f, 100f, "+36 HP")]
+        [TestCase(90f, 100f, "+6 HP")]
+        [TestCase(99.5f, 100f, "HP FULL")] // HUD already shows 100/100: nothing visible to gain
+        [TestCase(100f, 100f, "HP FULL")]
+        public void ForgeMendLabel_ShowsHudVisibleGainOrHpFull(float current, float max, string expected)
+        {
+            Assert.AreEqual(expected, RunDirector.ForgeMendLabel(current, max));
+        }
+
+        [TestCase(0, "REROLLS 0 > 1")]
+        [TestCase(2, "REROLLS 2 > 3")]
+        public void ForgeTemperLabel_ShowsRerollCountBeforeAndAfter(int tokens, string expected)
+        {
+            Assert.AreEqual(expected, RunDirector.ForgeTemperLabel(tokens));
+        }
+
+        [Test]
+        public void ForgeMend_AppliedToRig_ChangesHealthAndStoredHp()
+        {
+            var rig = new GameObject("rig");
+            var dirGo = new GameObject("director");
+            var instance = typeof(VRRig).GetProperty("Instance");
+            try
+            {
+                instance.SetValue(null, rig.AddComponent<VRRig>());
+                var health = rig.AddComponent<Health>();
+                health.Configure(100f);
+                health.SetCurrent(40f);
+                var director = dirGo.AddComponent<RunDirector>();
+                typeof(RunDirector).GetMethod("ApplyForgeMend", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                    .Invoke(director, null);
+                Assert.AreEqual(76f, health.Current, 0.001f);
+                Assert.AreEqual(76f, RunState.PlayerHealth, 0.001f);
+            }
+            finally
+            {
+                instance.SetValue(null, null);
+                RunState.Reset();
+                UnityEngine.Object.DestroyImmediate(rig);
+                UnityEngine.Object.DestroyImmediate(dirGo);
+            }
         }
 
         [Test]

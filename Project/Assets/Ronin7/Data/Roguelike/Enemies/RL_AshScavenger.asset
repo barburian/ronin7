@@ -12,14 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124031ca89272a245b6bae3d880a5cf0, type: 3}
   m_Name: RL_AshScavenger
   m_EditorClassIdentifier: Ronin7.Enemies::Ronin7.Enemies.EnemyDefinition
-  maxHealth: 50
-  moveSpeed: 1.6
+  maxHealth: 30
+  moveSpeed: 2
   attackRange: 1.7
-  telegraphTime: 0.8
-  activeTime: 0.8
+  turnRateDegrees: 240
+  acceleration: 4
+  deceleration: 6
+  telegraphTime: 0.6
+  telegraphMaxTime: 0
+  activeTime: 0.35
   recoverTime: 0.6
   staggerTime: 1.2
-  attackCooldown: 0.9
+  attackCooldown: 0.6
+  poseArmScale: 1
+  poseTwistDegrees: 30
+  poseLeanDegrees: 12
+  poseWholeBody: 0
   damage: 8
   healthAddedPerGalaxy: 0
   damageAddedPerGalaxy: 0
@@ -30,4 +38,9 @@ MonoBehaviour:
   exploitMultiplier: 2
   heavySwingSpeed: 5.5
   materialClass: 0
+  postureBreakBonusFraction: 0
+  chainHits: 1
+  blinkBehind: 0
   postureMaxFraction: 0.6
+  vampiric: 0
+  eliteRim: {r: 0, g: 0, b: 0, a: 1}

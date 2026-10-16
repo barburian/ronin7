@@ -13,6 +13,7 @@ namespace Ronin7.Flow
     /// scripting define (set by the build script's -dev flag), so release builds never contain it.
     /// During a run: hold the right stick click 2 s to kill every enemy in the room; hold the left
     /// stick click 2 s to grant a random boon (it takes effect from the next node, like any pick).
+    /// Outside a run (hub/menu): hold BOTH stick clicks 2 s to reset the tutorial in memory (BUG-32).
     /// </summary>
     public class DevRunTools : MonoBehaviour
     {
@@ -21,8 +22,8 @@ namespace Ronin7.Flow
 
         private InputAction killAllAction;
         private InputAction grantBoonAction;
-        private float killHeld, boonHeld;
-        private bool killFired, boonFired;
+        private float killHeld, boonHeld, tutHeld;
+        private bool killFired, boonFired, tutFired;
         private readonly List<Health> scratch = new List<Health>();
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -55,6 +56,12 @@ namespace Ronin7.Flow
             if (Held(live && killAllAction.IsPressed(), ref killHeld, ref killFired)) KillAllEnemies();
             if (Held(live && grantBoonAction.IsPressed(), ref boonHeld, ref boonFired))
                 RunDirector.Instance?.DevGrantRandomBoon();
+            bool both = !RunState.InRun && killAllAction.IsPressed() && grantBoonAction.IsPressed();
+            if (Held(both, ref tutHeld, ref tutFired))
+            {
+                MetaProgression.ResetTutorialInMemory();
+                Debug.Log("[DevRunTools] Tutorial reset in memory: start a run to see the prompts.");
+            }
         }
 
         /// <summary>True once per hold, when it reaches <see cref="HoldSeconds"/>.</summary>

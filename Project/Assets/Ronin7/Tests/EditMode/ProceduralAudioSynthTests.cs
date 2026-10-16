@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using Ronin7.Audio;
+using UnityEngine;
 
 namespace Ronin7.Tests.EditMode
 {
@@ -16,6 +17,18 @@ namespace Ronin7.Tests.EditMode
         {
             var samples = ProceduralAudioSynth.GenerateFootstepThud(SampleRate, 0.25f, 1, FootstepSurface.Hard);
             Assert.AreEqual(SampleRate / 4, samples.Length);
+        }
+
+        [Test]
+        public void GenerateMetalStrike_InRange_Audible_AndDeterministic()
+        {
+            var a = ProceduralAudioSynth.GenerateMetalStrike(SampleRate, 0.3f, 7, 1400f, 1800f, 9f);
+            var b = ProceduralAudioSynth.GenerateMetalStrike(SampleRate, 0.3f, 7, 1400f, 1800f, 9f);
+            Assert.AreEqual(Mathf.RoundToInt(SampleRate * 0.3f), a.Length);
+            float peak = 0f;
+            foreach (float s in a) { Assert.LessOrEqual(Mathf.Abs(s), 1f); peak = Mathf.Max(peak, Mathf.Abs(s)); }
+            Assert.Greater(peak, 0.1f);
+            CollectionAssert.AreEqual(a, b);
         }
 
         [Test]

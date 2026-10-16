@@ -29,6 +29,8 @@ namespace Ronin7.Enemies
 
         [Header("Attack timing (seconds)")]
         public float telegraphTime = 0.8f;
+        [Tooltip("P3-07 feints: when > telegraphTime, each windup draws its telegraph from [telegraphTime, this] (seeded). 0 = fixed.")]
+        public float telegraphMaxTime;
         public float activeTime = 0.8f;     // the parry window
         public float recoverTime = 0.6f;
         public float staggerTime = 1.2f;
@@ -64,11 +66,25 @@ namespace Ronin7.Enemies
         public float resistMultiplier = 0.15f, exploitMultiplier = 2f, heavySwingSpeed = 5.5f;
         public MaterialClass materialClass; // VFX + audio
 
+        [Header("Archetype (P3-04)")]
+        [Tooltip("Posture-break bonus damage as a fraction of max HP (Construct 0.25). 0 = PostureMeter's own breakBonusDamage.")]
+        public float postureBreakBonusFraction = 0f;
+        [Tooltip("Consecutive attacks per engagement (Parry master 2). 1 = single attack.")]
+        public int chainHits = 1;
+        [Tooltip("P3-07 (BlinkEnemy): blink behind the player instead of to a flank (Vane phase 2).")]
+        public bool blinkBehind;
+
         [Header("Posture (opt-in)")]
         [Tooltip("Fraction of maxHealth used as this enemy's posture-break threshold, so tougher tiers " +
                  "take longer to stagger (see PostureMeter.Configure). 0 = disabled — PostureMeter keeps " +
                  "its own serialized postureMax unchanged (default).")]
         public float postureMaxFraction = 0f;
+
+        [Header("Elite (P3-06, set on runtime clones only)")]
+        [Tooltip("Heals the enemy for 50% of damage it lands on the player.")]
+        public bool vampiric;
+        [Tooltip("HDR idle rim colour marking an elite affix. Black = none.")]
+        public Color eliteRim = Color.black;
 
         /// <summary>Pure scaling helper: base value plus a flat per-galaxy bonus. Negative
         /// galaxiesCompleted is clamped to 0 (can't happen via CampaignState, but keeps this safe

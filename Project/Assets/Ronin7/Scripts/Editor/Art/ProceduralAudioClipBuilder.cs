@@ -69,6 +69,13 @@ namespace Ronin7.Editor.Art
             ("Hit_RunWon", 0.45f, 405, FootstepSurface.Hard), // P2-02 placeholder victory sting
         };
 
+        // P3-03 weakness feedback (GenerateMetalStrike): name, duration, seed, baseHz, riseHz, decayRate.
+        private static readonly (string name, float duration, int seed, float baseHz, float riseHz, float decay)[] MetalStrikeJobs =
+        {
+            ("Hit_HitResisted", 0.3f, 411, 210f, 0f, 14f),      // low, dull clank
+            ("Hit_WeaknessHit", 0.45f, 412, 1400f, 1800f, 9f),  // bright shing with a rising tone
+        };
+
         [MenuItem("Tools/Space Samurai/Art/Generate Ambience & Footstep Clips")]
         public static void GenerateAmbienceAndFootstepClips()
         {
@@ -113,6 +120,12 @@ namespace Ronin7.Editor.Art
                 CreateOrUpdateClip($"{CombatHitFolder}/{job.name}.wav", samples);
                 count++;
             }
+            foreach (var job in MetalStrikeJobs)
+            {
+                float[] samples = ProceduralAudioSynth.GenerateMetalStrike(SampleRate, job.duration, job.seed, job.baseHz, job.riseHz, job.decay);
+                CreateOrUpdateClip($"{CombatHitFolder}/{job.name}.wav", samples);
+                count++;
+            }
 
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
@@ -138,6 +151,8 @@ namespace Ronin7.Editor.Art
             // any other not-yet-authored clip field.
             var hitClips = new Dictionary<string, AudioClip>();
             foreach (var job in CombatHitJobs)
+                hitClips[job.name] = AssetDatabase.LoadAssetAtPath<AudioClip>($"{CombatHitFolder}/{job.name}.wav");
+            foreach (var job in MetalStrikeJobs)
                 hitClips[job.name] = AssetDatabase.LoadAssetAtPath<AudioClip>($"{CombatHitFolder}/{job.name}.wav");
 
             if (footstepClips.Count == 0 || ambienceClips.Count == 0)
@@ -253,6 +268,8 @@ namespace Ronin7.Editor.Art
             changed |= AssignIfEmpty(so, "boonChosen", boon);
             changed |= AssignIfEmpty(so, "runLost", lost);
             changed |= AssignIfEmpty(so, "runWon", won);
+            changed |= AssignIfEmpty(so, "hitResisted", hitClips.TryGetValue("Hit_HitResisted", out var hr) ? hr : null);
+            changed |= AssignIfEmpty(so, "weaknessHit", hitClips.TryGetValue("Hit_WeaknessHit", out var wh) ? wh : null);
 
             if (changed)
             {

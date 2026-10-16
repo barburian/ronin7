@@ -37,8 +37,23 @@ namespace Ronin7.World
         {
             public readonly Health Health;
             public readonly EnemyDefinition Definition;
-            public QueuedEnemy(Health health, EnemyDefinition definition) { Health = health; Definition = definition; }
+            /// <summary>P3-06: elite carries the Volatile affix (death ring + blast).</summary>
+            public readonly bool Volatile;
+            /// <summary>P3-07: the boss's later-phase runtime clones (null for everything else).</summary>
+            public readonly EnemyDefinition[] Phases;
+            public QueuedEnemy(Health health, EnemyDefinition definition, bool isVolatile = false, EnemyDefinition[] phases = null)
+            { Health = health; Definition = definition; Volatile = isVolatile; Phases = phases; }
         }
+
+        // P3-07: the boss, its adds (instantiated inactive in Start like every other enemy — A5.5: never
+        // Instantiate inside the blade-contact frame that triggers the phase change) and its north-wall bar.
+        private Health boss;
+        private readonly List<QueuedEnemy> reservedAdds = new();
+        private float[] bossPhaseHealth; // scaled HP per phase, in order
+        private int bossPhase;
+        private Transform bossBarFill;
+        private float bossBarShown = -1f;
+        private const float BossBarWidth = 6f, BossBarHeight = 0.2f, BossBarY = 3.7f;
 
         private readonly List<QueuedEnemy> queued = new();
         /// <summary>Activated, not-yet-dead enemies, for the 1 Hz out-of-bounds sweep (BUG-04).</summary>
@@ -71,8 +86,38 @@ namespace Ronin7.World
         private int lastGate = -1;
         private readonly List<RoomKind> gateKinds = new(3);
 
-        private void OnEnable() => EventBus.Subscribe<PathChoiceOffered>(OnPathChoiceOffered);
-        private void OnDisable() => EventBus.Unsubscribe<PathChoiceOffered>(OnPathChoiceOffered);
+        private void OnEnable()
+        {
+            EventBus.Subscribe<PathChoiceOffered>(OnPathChoiceOffered);
+            EventBus.Subscribe<BossPhaseChanged>(OnBossPhaseChanged);
+        }
+
+        private void OnDisable()
+        {
+            EventBus.Unsubscribe<PathChoiceOffered>(OnPathChoiceOffered);
+            EventBus.Unsubscribe<BossPhaseChanged>(OnBossPhaseChanged);
+        }
+
+        /// <summary>P3-07: the first phase change releases the boss's adds through the normal wave path.</summary>
+        private void OnBossPhaseChanged(BossPhaseChanged e)
+        {
+            if (boss == null || e.Boss != boss.gameObject) return;
+            bossPhase = e.Phase;
+            SpawnAdds();
+        }
+
+        /// <summary>P3-07: moves the pre-instantiated adds into the queue as extra waves (<= WaveSize each) and releases it
+        /// via <see cref="ActivateNextWave"/> → <see cref="ActivateFront"/>, so the
+        /// <see cref="RunScaling.MaxConcurrentEnemies"/> cap, telegraphs and clear logic all apply.</summary>
+        private void SpawnAdds()
+        {
+            if (reservedAdds.Count == 0) return;
+            queued.AddRange(reservedAdds);
+            waves.AddRange(WaveComposer.SplitWaves(reservedAdds.Count, WaveSize)); // waves <= WaveSize so none strand behind the release cap
+            reservedAdds.Clear();
+            if (WaveDue(aliveCount, pending.Count, waves.Count - nextWave)) ActivateNextWave();
+            EventBus.Publish(new RoomProgress(Remaining));
+        }
 
         /// <summary>P2-04: raise one arch per choice on the north wall (after the reward is resolved).</summary>
         private void OnPathChoiceOffered(PathChoiceOffered offer)
@@ -145,7 +190,10 @@ namespace Ronin7.World
             if (tutorial) TutorialPrompt.Create(transform, halfExtent);
             List<SpawnRequest> requests = WaveComposer.Compose(spawnTable, node, halfExtent, exclusionCentreLocal, ref rng, tutorial);
             foreach (SpawnRequest request in requests)
+            {
                 SpawnEnemy(request, node);
+                if (request.IsBoss) ReserveBossAdds(request, node);
+            }
 
             if (queued.Count == 0)
             {
@@ -161,7 +209,9 @@ namespace Ronin7.World
             }
 
             waves = WaveComposer.SplitWaves(queued.Count, WaveSize);
+            if (node.Kind == RoomKind.Elite) BuildBlastPool(); // pre-build the Volatile rings, not in the kill frame
             ActivateNextWave();
+            if (boss != null) BuildBossBar();
             EventBus.Publish(new RoomProgress(Remaining));
             // Scaled time: a paused run (timeScale 0) suspends the sweep along with everything else.
             InvokeRepeating(nameof(CheckBounds), 1f, 1f);
@@ -237,12 +287,9 @@ namespace Ronin7.World
             instance.transform.SetParent(transform, false);
             instance.transform.localPosition = request.Position; // arena-local (A5.3)
 
-            EnemyDefinition scaled = BuildScaledDefinition(definitionAsset, node);
-            if (scaled != null)
-            {
-                Enemy enemy = instance.GetComponent<Enemy>();
-                if (enemy != null) enemy.Configure(scaled); // A3.1 — no reflection
-            }
+            EnemyDefinition scaled = BuildScaledDefinition(definitionAsset, node, request.IsElite, request.IsBoss, runSeed, out bool isVolatile);
+            Enemy enemy = instance.GetComponent<Enemy>();
+            if (scaled != null && enemy != null) enemy.Configure(scaled, halfExtent); // A3.1 (P3-04: halfExtent bounds Displace) — no reflection
 
             Health health = instance.GetComponent<Health>();
             if (health == null)
@@ -255,7 +302,65 @@ namespace Ronin7.World
                 return;
             }
 
-            queued.Add(new QueuedEnemy(health, scaled));
+            if (enemy != null) enemy.SeedTelegraph(RunRng.ForNode(runSeed ^ 0x7E1E6Au, node.Index * 31 + queued.Count).NextUInt()); // P3-07 feints
+            EnemyDefinition[] phases = request.IsBoss && scaled != null && enemy != null ? BuildBossPhases(request, node, scaled, enemy) : null;
+            if (request.IsBoss) boss = health;
+            queued.Add(new QueuedEnemy(health, scaled, isVolatile, phases));
+        }
+
+        /// <summary>P3-07: clones and scales the boss entry's later phases (see <see cref="PhaseHealths"/>),
+        /// re-scales the first phase to its share and arms <see cref="Enemy.ConfigurePhases"/>. Null when
+        /// the entry has no usable phases (single-phase boss, behaviour unchanged).</summary>
+        private EnemyDefinition[] BuildBossPhases(SpawnRequest request, RunNode node, EnemyDefinition first, Enemy enemy)
+        {
+            EnemySpawnTable.BossEntry entry = spawnTable.bosses[request.EntryIndex];
+            if (entry.phases == null) return null;
+            var sources = new List<EnemyDefinition>(entry.phases.Length + 1) { entry.definition };
+            foreach (EnemyDefinition p in entry.phases) if (p != null) sources.Add(p);
+            if (sources.Count == 1) return null;
+
+            var weights = new float[sources.Count];
+            for (int i = 0; i < weights.Length; i++) weights[i] = sources[i].maxHealth;
+            bossPhaseHealth = PhaseHealths(first.maxHealth, weights); // first.maxHealth = BossTargetHealth (P1-10)
+            first.maxHealth = bossPhaseHealth[0];
+
+            var clones = new EnemyDefinition[sources.Count - 1];
+            for (int i = 0; i < clones.Length; i++)
+            {
+                clones[i] = Instantiate(sources[i + 1]);
+                clones[i].maxHealth = bossPhaseHealth[i + 1];
+                clones[i].damage = sources[i + 1].damage * RunScaling.BossDamageMultiplier(node.Sector);
+            }
+            enemy.ConfigurePhases(clones);
+            return clones;
+        }
+
+        /// <summary>Pure (P3-07) share rule: phase i gets <paramref name="total"/> x weight_i / sum(weights),
+        /// where each weight is that phase asset's own maxHealth (so the authored per-phase numbers only set
+        /// proportions — the total is always RunScaling.BossTargetHealth). Any non-positive weight → equal shares.</summary>
+        internal static float[] PhaseHealths(float total, float[] weights)
+        {
+            float sum = 0f;
+            bool valid = weights.Length > 0;
+            foreach (float w in weights) { if (!(w > 0f)) valid = false; sum += w; }
+            var hp = new float[weights.Length];
+            for (int i = 0; i < hp.Length; i++) hp[i] = valid ? total * weights[i] / sum : total / hp.Length;
+            return hp;
+        }
+
+        /// <summary>P3-07: instantiates the boss entry's adds now (inactive, under the fade) and holds them
+        /// out of the queue until the first <see cref="BossPhaseChanged"/>.</summary>
+        private void ReserveBossAdds(SpawnRequest bossRequest, RunNode node)
+        {
+            // Only a multi-phase boss that just spawned (a single-phase boss never changes phase, so no adds).
+            if (bossPhaseHealth == null || queued.Count == 0 || queued[queued.Count - 1].Health != boss || reservedAdds.Count > 0) return;
+            EnemySpawnTable.BossEntry entry = spawnTable.bosses[bossRequest.EntryIndex];
+            if (entry.addEntry < 0 || spawnTable.trash == null || entry.addEntry >= spawnTable.trash.Length) return;
+            int before = queued.Count;
+            for (int i = 0; i < entry.addCount; i++)
+                SpawnEnemy(new SpawnRequest(entry.addEntry, bossRequest.Position, isBoss: false), node);
+            reservedAdds.AddRange(queued.GetRange(before, queued.Count - before));
+            queued.RemoveRange(before, queued.Count - before);
         }
 
         private void ResolveEntry(SpawnRequest request, out GameObject prefab, out EnemyDefinition definitionAsset)
@@ -288,15 +393,28 @@ namespace Ronin7.World
         /// left to <see cref="Enemy.Configure"/> + the enemy's own (deferred) <c>Awake</c>, which also
         /// configures Health/PostureMeter from it — calling <c>Health.Configure</c> here too would be
         /// redundant and would hide the definition-swap-timing bug A3.1 fixed.</summary>
-        private static EnemyDefinition BuildScaledDefinition(EnemyDefinition source, RunNode node)
+        private static EnemyDefinition BuildScaledDefinition(EnemyDefinition source, RunNode node,
+            bool isElite, bool isBoss, uint seed, out bool isVolatile)
         {
+            isVolatile = false;
             if (source == null) return null;
 
-            ScaledStats(source.maxHealth, source.damage, node.Depth, node.Kind, node.Sector, out float health, out float damage);
+            ScaledStats(source.maxHealth, source.damage, node.Depth, node.Kind, node.Sector, out float health, out float damage, isBoss);
 
             EnemyDefinition scaled = Instantiate(source);
             scaled.maxHealth = health;
             scaled.damage = damage;
+
+            if (isElite)
+            {
+                // P3-06: affixes mutate the clone only; own RNG stream so map/spawn goldens never move.
+                RunRng affixRng = EliteAffixes.Stream(seed, node.Index);
+                foreach (EliteAffix a in EliteAffixes.Pick(node.Sector, ref affixRng))
+                {
+                    EliteAffixes.Apply(scaled, a);
+                    isVolatile |= a == EliteAffix.Volatile;
+                }
+            }
             return scaled;
         }
 
@@ -305,9 +423,9 @@ namespace Ronin7.World
         /// every other kind uses the depth multipliers. Posture follows via Enemy.Awake reading
         /// definition.PostureMax = scaled maxHealth x postureMaxFraction.</summary>
         internal static void ScaledStats(float baseHealth, float baseDamage, int depth, RoomKind kind, int sector,
-            out float health, out float damage)
+            out float health, out float damage, bool isBoss = true)
         {
-            if (kind == RoomKind.Boss)
+            if (kind == RoomKind.Boss && isBoss) // P3-07: boss adds on a Boss node take the depth multipliers instead
             {
                 health = RunScaling.BossTargetHealth(sector);
                 damage = baseDamage * RunScaling.BossDamageMultiplier(sector);
@@ -397,10 +515,82 @@ namespace Ronin7.World
             return -1; // pool exhausted (not reachable by the cap maths): spawn untelegraphed rather than fail
         }
 
+        // P3-06 Volatile: tiny fixed pool of floor rings (pre-created on first use, reused; the
+        // same SharedUnlit material as the spawn telegraph, tinted via MPB). Blast = Health.Active scan.
+        private struct Blast { public Renderer Ring; public Vector3 Centre; public float Start, Damage; public bool Live; }
+        private const int BlastPoolSize = 3;
+        private Blast[] blasts;
+
+        private void BuildBlastPool()
+        {
+            blasts = new Blast[BlastPoolSize];
+            for (int i = 0; i < BlastPoolSize; i++)
+            {
+                GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+                go.name = "VolatileRing";
+                Destroy(go.GetComponent<Collider>());
+                go.transform.SetParent(transform, false);
+                Renderer r = go.GetComponent<Renderer>();
+                r.sharedMaterial = VrUiMaterials.SharedUnlit;
+                r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                r.receiveShadows = false;
+                RendererTint.Apply(r, new Color(3f, 1.1f, 0.1f, 1f)); // HDR orange
+                go.SetActive(false);
+                blasts[i].Ring = r;
+            }
+        }
+
+        private void StartBlast(Vector3 centre, float damage)
+        {
+            if (blasts == null) BuildBlastPool();
+            for (int i = 0; i < blasts.Length; i++)
+            {
+                if (blasts[i].Live) continue;
+                blasts[i].Live = true;
+                blasts[i].Centre = centre;
+                blasts[i].Start = Time.time;
+                blasts[i].Damage = damage;
+                Transform t = blasts[i].Ring.transform;
+                t.position = new Vector3(centre.x, transform.position.y + 0.03f, centre.z);
+                t.localScale = new Vector3(0.3f, 0.01f, 0.3f);
+                t.gameObject.SetActive(true);
+                return;
+            }
+            // pool exhausted (cap of 4 alive makes this near-unreachable): skip the blast rather than allocate
+        }
+
+        private void UpdateBlasts(float now)
+        {
+            for (int i = 0; i < blasts.Length; i++)
+            {
+                if (!blasts[i].Live) continue;
+                float k = (now - blasts[i].Start) / EliteAffixes.RingSeconds;
+                if (k < 1f)
+                {
+                    float d = EliteAffixes.RingDiameter(k);
+                    blasts[i].Ring.transform.localScale = new Vector3(d, 0.01f, d);
+                    continue;
+                }
+                blasts[i].Live = false;
+                blasts[i].Ring.gameObject.SetActive(false);
+                Vector3 c = blasts[i].Centre;
+                float blastDamage = blasts[i].Damage; // locals: ApplyDamage can kill a Volatile and reuse this slot
+                for (int h = Health.Active.Count - 1; h >= 0; h--) // backwards: ApplyDamage may disable a Health
+                {
+                    if (h >= Health.Active.Count) continue;
+                    Health hp = Health.Active[h];
+                    if (hp == null || !hp.IsAlive || !EliteAffixes.InBlast(c, hp.transform.position)) continue;
+                    hp.ApplyDamage(new DamageInfo(blastDamage, hp.transform.position, Vector3.up, null));
+                }
+            }
+        }
+
         private void Update()
         {
             if (gateChoices != null) PollGates();
+            if (bossBarFill != null) UpdateBossBar();
             float now = Time.time;
+            if (blasts != null) UpdateBlasts(now);
             for (int i = pending.Count - 1; i >= 0; i--)
             {
                 PendingSpawn ps = pending[i];
@@ -427,10 +617,70 @@ namespace Ronin7.World
             entry.Health.gameObject.SetActive(true); // Awake runs now, reading the Configure'd definition
             Health health = entry.Health;
             EnemyDefinition definition = entry.Definition;
-            health.Died += () => OnEnemyDied(health, definition);
+            bool isVolatile = entry.Volatile;
+            EnemyDefinition[] phases = entry.Phases;
+            health.Died += () => OnEnemyDied(health, definition, isVolatile, phases);
             alive.Add(health);
             aliveCount++;
+            if (EnemyHealthBar.Wants(health, boss)) EnemyHealthBar.Attach(health, transform); // P3-08 (bosses use the north-wall bar)
         }
+
+        /// <summary>P3-07: diegetic boss bar on the north wall — a dark backing quad, a fill quad scaled from the
+        /// left edge by <see cref="HealthBarFill"/> of the whole fight (all phases), and thin markers at the
+        /// phase thresholds. Runtime-built like the spawn discs: shared unlit material, colour via MPB
+        /// (<see cref="RendererTint"/>), no Canvas, no new Material.</summary>
+        private void BuildBossBar()
+        {
+            var root = new GameObject("BossBar").transform;
+            root.SetParent(transform, false);
+            root.localPosition = new Vector3(0f, BossBarY, halfExtent - 0.25f); // just inside the north wall, above the exit arches
+            BarQuad(root, "Back", Vector3.zero, new Vector2(BossBarWidth + 0.08f, BossBarHeight + 0.08f), new Color(0.05f, 0.02f, 0.02f, 1f));
+            bossBarFill = BarQuad(root, "Fill", new Vector3(0f, 0f, -0.01f), new Vector2(BossBarWidth, BossBarHeight), new Color(2.2f, 0.25f, 0.15f, 1f));
+            if (bossPhaseHealth == null) return;
+            float total = 0f, acc = 0f;
+            foreach (float h in bossPhaseHealth) total += h;
+            for (int i = 0; i < bossPhaseHealth.Length - 1; i++)
+            {
+                acc += bossPhaseHealth[i];
+                float x = (0.5f - HealthBarFill(acc, total)) * BossBarWidth; // phase i ends when the bar drains to here
+                BarQuad(root, "PhaseMark", new Vector3(x, 0f, -0.02f), new Vector2(0.04f, BossBarHeight + 0.16f), new Color(1.6f, 1.6f, 1.6f, 1f));
+            }
+        }
+
+        private static Transform BarQuad(Transform parent, string name, Vector3 local, Vector2 size, Color c)
+        {
+            GameObject go = GameObject.CreatePrimitive(PrimitiveType.Quad); // faces -Z: readable from inside the room
+            go.name = name;
+            Destroy(go.GetComponent<Collider>());
+            go.transform.SetParent(parent, false);
+            go.transform.localPosition = local;
+            go.transform.localScale = new Vector3(size.x, size.y, 1f);
+            Renderer r = go.GetComponent<Renderer>();
+            r.sharedMaterial = VrUiMaterials.SharedUnlit;
+            r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            r.receiveShadows = false;
+            RendererTint.Apply(r, c);
+            return go.transform;
+        }
+
+        private void UpdateBossBar()
+        {
+            float remaining = boss.Current, total = boss.Max;
+            if (bossPhaseHealth != null)
+            {
+                total = 0f;
+                foreach (float h in bossPhaseHealth) total += h;
+                for (int i = bossPhase + 1; i < bossPhaseHealth.Length; i++) remaining += bossPhaseHealth[i];
+            }
+            float fill = boss.gameObject.activeSelf ? HealthBarFill(remaining, total) : 1f; // still telegraphing: Health not configured yet
+            if (Mathf.Approximately(fill, bossBarShown)) return;
+            bossBarShown = fill;
+            bossBarFill.localScale = new Vector3(BossBarWidth * fill, BossBarHeight, 1f);
+            bossBarFill.localPosition = new Vector3((fill - 1f) * 0.5f * BossBarWidth, 0f, -0.01f); // drains toward the left edge
+        }
+
+        /// <summary>Pure (P3-07): bar fill fraction, clamped to 0..1 (0 when max is not positive).</summary>
+        internal static float HealthBarFill(float current, float max) => max > 0f ? Mathf.Clamp01(current / max) : 0f;
 
         /// <summary>Pure seam (P2-06): true once <paramref name="delay"/> seconds have passed since <paramref name="startTime"/>.</summary>
         internal static bool ReleaseSchedule(float now, float startTime, float delay) => now >= startTime + delay;
@@ -443,11 +693,14 @@ namespace Ronin7.World
         /// synchronously inside <see cref="Health.ApplyDamage"/>, so deaths are never actually
         /// simultaneous — this handler always completes before the next one starts, which is what
         /// makes reading <see cref="aliveCount"/> fresh (via <see cref="ReleaseCount"/>) correct.</summary>
-        private void OnEnemyDied(Health health, EnemyDefinition definition)
+        private void OnEnemyDied(Health health, EnemyDefinition definition, bool isVolatile, EnemyDefinition[] phases)
         {
             aliveCount--;
             alive.Remove(health);
+            if (isVolatile) StartBlast(health.transform.position, definition != null ? definition.damage : 0f);
             if (definition != null) Destroy(definition); // A5.7 — no orphaned runtime clone
+            if (phases != null) foreach (EnemyDefinition p in phases) if (p != null) Destroy(p); // P3-07: every phase clone too
+            if (health == boss && bossBarFill != null) bossBarFill.parent.gameObject.SetActive(false);
 
             if (WaveDue(aliveCount, pending.Count, waves.Count - nextWave)) ActivateNextWave();
 

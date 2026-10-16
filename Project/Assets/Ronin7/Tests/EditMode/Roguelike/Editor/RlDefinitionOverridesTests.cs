@@ -31,7 +31,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
                 finally { Object.DestroyImmediate(rebuilt); }
                 checkedCount++;
             }
-            Assert.AreEqual(14, checkedCount);
+            Assert.AreEqual(18, checkedCount); // 14 + 4 boss phases (P3-04)
         }
     }
 }

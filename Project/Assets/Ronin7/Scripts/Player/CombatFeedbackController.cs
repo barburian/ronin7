@@ -37,6 +37,8 @@ namespace Ronin7.Player
             EventBus.Subscribe<PostureNearBreak>(OnPostureNearBreak);
             EventBus.Subscribe<GameModeChanged>(OnModeChanged);
             EventBus.Subscribe<AttackWindupStarted>(OnWindup);
+            EventBus.Subscribe<HitResisted>(OnHitResisted);
+            EventBus.Subscribe<WeaknessExploited>(OnWeaknessExploited);
         }
 
         private void OnDisable()
@@ -48,6 +50,8 @@ namespace Ronin7.Player
             EventBus.Unsubscribe<PostureNearBreak>(OnPostureNearBreak);
             EventBus.Unsubscribe<GameModeChanged>(OnModeChanged);
             EventBus.Unsubscribe<AttackWindupStarted>(OnWindup);
+            EventBus.Unsubscribe<HitResisted>(OnHitResisted);
+            EventBus.Unsubscribe<WeaknessExploited>(OnWeaknessExploited);
             RestoreTime();
         }
 
@@ -102,6 +106,10 @@ namespace Ronin7.Player
         }
 
         private void OnImpact(SwordImpact e) => PulseBoth(0.35f, 0.05f);
+
+        // P3-03: a dull thud for a resisted hit; the deflect-strength pulse (no slow-mo) for an exploited weakness.
+        private void OnHitResisted(HitResisted e) => PulseBoth(0.15f, 0.03f);
+        private void OnWeaknessExploited(WeaknessExploited e) => PulseBoth(0.8f, 0.12f);
 
         // "Incoming" tick on the hand nearest the attacker — weaker and shorter than OnImpact so a
         // telegraph never reads as a landed blow.

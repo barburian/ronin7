@@ -29,6 +29,8 @@ namespace Ronin7.Enemies
         [Header("Refs (MeleeAttacker)")]
         [SerializeField] protected Transform weapon;
         [SerializeField] protected Renderer bodyRenderer;
+        /// <summary>P3-03: lets feedback code flash the body without a Find*.</summary>
+        public Renderer BodyRenderer => bodyRenderer;
         [SerializeField] protected Health target;
         [SerializeField] protected bool nonLethalDisable = false;
         [Tooltip("P1-14: 2-point LineRenderer from the weapon hand to the blade tip; shown only in Windup/Active.")]
@@ -136,12 +138,16 @@ namespace Ronin7.Enemies
         // bodyDraw is 1 at full draw-back, 0 at guard, negative on the strike follow-through.
         private Transform torso;
         private Quaternion torsoRest;
+        private Vector3 torsoRestPos; // P3-09
+        private float hoverBank;      // P3-09: drone bank, degrees (+ = right)
         private float bodyDraw, staggerFromDraw;
         private bool aggroCounted;
 
         // Stagger duration in use: StaggerTime for a deflect/posture break, flinchTime for a flinch.
         private float staggerLen;
         private bool flinching;
+        /// <summary>In State.Stagger because of a light flinch, not a deflect/posture break.</summary>
+        protected bool IsFlinching => flinching;
         private float flinchImmuneUntil;
         private Vector3 flinchDir, flinchStartPos;
         private Quaternion flinchBaseRot;
@@ -274,6 +280,7 @@ namespace Ronin7.Enemies
             {
                 torso = PoseWholeBody && weapon.parent.parent != null ? weapon.parent.parent : weapon.parent;
                 torsoRest = torso.localRotation;
+                torsoRestPos = torso.localPosition;
             }
             EnemySwordVisual.EnsureVisible(weapon, transform); // placeholder katana so the chop has something to swing
             bladeRenderer = EnemySwordVisual.FindBladeRenderer(weapon);
@@ -455,18 +462,20 @@ namespace Ronin7.Enemies
         /// against a slow swing. <paramref name="attackerBlade"/> null (e.g. <see cref="ForceStagger"/>'s
         /// posture-break path) skips the clash check entirely.
         /// </summary>
-        protected void Deflect(Vector3 point, BladeDamager attackerBlade)
+        protected void Deflect(Vector3 point, BladeDamager attackerBlade) => Stagger(point, attackerBlade, true);
+
+        private void Stagger(Vector3 point, BladeDamager attackerBlade, bool asParry)
         {
             // Sunder Beat: only a deflect that lands while this enemy is actually Active (mid-swing) can
             // be "perfect" — Enemy also widens the parry window into late Windup, but pre-empting a
             // telegraph isn't a timing feat and shouldn't feed the streak.
-            if (state == State.Active)
+            if (asParry && state == State.Active)
             {
                 float quality = ParryTiming.ParryQuality(realTimer, PerfectParryWindow);
                 if (quality > 0f) EventBus.Publish(new PerfectParry(point, gameObject, quality));
             }
 
-            if (attackerBlade != null && ParryTiming.IsClash(attackerBlade.Speed, swingSpeed, ClashThreshold))
+            if (asParry && attackerBlade != null && ParryTiming.IsClash(attackerBlade.Speed, swingSpeed, ClashThreshold))
                 EventBus.Publish(new BladeClash(point, gameObject));
 
             deflectedThisSwing = true;
@@ -476,20 +485,25 @@ namespace Ronin7.Enemies
             staggerFromDraw = bodyDraw;
             Tint(StaggerColor, StaggerRim);
             Log("DEFLECTED");
-            EventBus.Publish(new SwordDeflected(point, gameObject));
+            if (asParry) EventBus.Publish(new SwordDeflected(point, gameObject));
             Enter(State.Stagger);
         }
 
         /// <summary>Test/system hook: force this enemy into Stagger as if its swing had just been
         /// deflected (e.g. a posture-meter break). Mirrors DuelYield's Force* hooks.</summary>
-        public void ForceStagger() => Deflect(transform.position);
+        public void ForceStagger() => Stagger(transform.position, null, false);
+
+        /// <summary>P3-07: <see cref="ForceStagger()"/> held for <paramref name="seconds"/> instead of StaggerTime (boss phase swap).</summary>
+        public void ForceStagger(float seconds) { Stagger(transform.position, null, false); staggerLen = seconds; }
 
         protected void LandHit()
         {
             if (target == null || !target.IsAlive) return;
             Vector3 dir = (target.transform.position - transform.position).normalized;
+            float hpBefore = target.Current;
             target.ApplyDamage(new DamageInfo(AttackDamage, target.transform.position, dir, gameObject));
             Log("hit player");
+            if (LifestealFraction > 0f) health.Heal((hpBefore - target.Current) * LifestealFraction); // heal off the HP actually taken
             EventBus.Publish(new PlayerHit(AttackDamage, target.transform.position, transform.position));
         }
 
@@ -597,7 +611,16 @@ namespace Ronin7.Enemies
         {
             bodyDraw = Mathf.Lerp(fromDraw, toDraw, Mathf.Clamp01(t));
             if (torso != null)
-                torso.localRotation = torsoRest * Quaternion.Euler(-PoseLeanDegrees * bodyDraw, PoseTwistDegrees * bodyDraw, 0f);
+                torso.localRotation = torsoRest * Quaternion.Euler(-PoseLeanDegrees * bodyDraw, PoseTwistDegrees * bodyDraw, -hoverBank);
+        }
+
+        /// <summary>P3-09: bank + bob a hover drone's rig (visual child only, never the root) on top of the attack pose.</summary>
+        protected void PoseHover(float bankDeg, float bobY)
+        {
+            hoverBank = bankDeg;
+            if (torso == null || !PoseWholeBody) return;
+            torso.localPosition = torsoRestPos + Vector3.up * bobY;
+            PoseBody(bodyDraw, bodyDraw, 0f);
         }
 
         protected void FacePlayer()
@@ -641,7 +664,13 @@ namespace Ronin7.Enemies
         private bool SightOn => playerMods != null && playerMods.WeakpointSightActive;
 
         /// <summary>Rim when no telegraph/stagger owns it: Sight gold, else the idle rim.</summary>
-        private Color RestRim => SightOn ? SightRim : IdleRim;
+        private Color RestRim => SightOn ? SightRim : EliteRim;
+
+        /// <summary>P3-06: idle rim marking an elite affix. Black = none.</summary>
+        protected virtual Color EliteRim => IdleRim;
+
+        /// <summary>P3-06: fraction of landed damage healed back (Vampiric). 0 = none.</summary>
+        protected virtual float LifestealFraction => 0f;
 
         /// <summary>Idle/Chase: re-tint only when Weakpoint Sight flips, not every frame.</summary>
         private void RefreshSightRim()

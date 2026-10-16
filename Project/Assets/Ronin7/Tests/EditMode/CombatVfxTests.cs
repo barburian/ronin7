@@ -63,6 +63,27 @@ namespace Ronin7.Tests.EditMode
         }
 
         [Test]
+        public void Controller_HandlesHitResistedAndWeaknessExploited()
+        {
+            var go = new GameObject("CombatVfx");
+            var controller = go.AddComponent<CombatVfxController>();
+            try
+            {
+                controller.Subscribe();
+                EventBus.Publish(new HitResisted(Vector3.zero, null));
+                Assert.AreEqual(1, controller.HandledCount);
+                EventBus.Publish(new WeaknessExploited(Vector3.zero, null, 1));
+                Assert.AreEqual(2, controller.HandledCount);
+
+                controller.Unsubscribe();
+                EventBus.Publish(new HitResisted(Vector3.zero, null));
+                EventBus.Publish(new WeaknessExploited(Vector3.zero, null, 1));
+                Assert.AreEqual(2, controller.HandledCount, "No leaked handlers after Unsubscribe.");
+            }
+            finally { Object.DestroyImmediate(go); }
+        }
+
+        [Test]
         public void BuiltPrefab_IsQuestCapped_AndNotPlayOnAwake()
         {
             const string path = "Assets/Ronin7/Resources/Vfx/SwordSpark.prefab";

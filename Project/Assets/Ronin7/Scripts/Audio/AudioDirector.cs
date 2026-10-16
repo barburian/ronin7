@@ -34,6 +34,10 @@ namespace Ronin7.Audio
         [SerializeField] private AudioClip swordDeflect;
         [SerializeField] private AudioClip swordImpact;
         [SerializeField] private AudioClip playerHit;
+        [Tooltip("P3-03: dull metallic clank when a hit lands on a resisted side.")]
+        [SerializeField] private AudioClip hitResisted;
+        [Tooltip("P3-03: bright shing + rising tone when a hit exploits a weakness.")]
+        [SerializeField] private AudioClip weaknessHit;
 
         [Header("Space-combat one-shots")]
         [SerializeField] private AudioClip shipGunFire;
@@ -167,6 +171,8 @@ namespace Ronin7.Audio
             EventBus.Subscribe<EnemySpawning>(OnEnemySpawning);
             EventBus.Subscribe<RunNodeEntered>(OnRunNodeEntered);
             EventBus.Subscribe<RunEnded>(OnRunEnded);
+            EventBus.Subscribe<HitResisted>(OnHitResisted);
+            EventBus.Subscribe<WeaknessExploited>(OnWeaknessExploited);
         }
 
         private void OnDisable()
@@ -190,6 +196,8 @@ namespace Ronin7.Audio
             EventBus.Unsubscribe<EnemySpawning>(OnEnemySpawning);
             EventBus.Unsubscribe<RunNodeEntered>(OnRunNodeEntered);
             EventBus.Unsubscribe<RunEnded>(OnRunEnded);
+            EventBus.Unsubscribe<HitResisted>(OnHitResisted);
+            EventBus.Unsubscribe<WeaknessExploited>(OnWeaknessExploited);
         }
 
         private void Update()
@@ -273,6 +281,8 @@ namespace Ronin7.Audio
         private void OnDeflect(SwordDeflected e) => PlayAt(swordDeflect, e.Point);
         private void OnImpact(SwordImpact e) => PlayAt(swordImpact, e.Point);
         private void OnPlayerHit(PlayerHit e) => PlayAt(playerHit, e.Point);
+        private void OnHitResisted(HitResisted e) => PlayAt(hitResisted, e.Point);
+        private void OnWeaknessExploited(WeaknessExploited e) => PlayAt(weaknessHit, e.Point);
         private void OnLanding(LandingRequested _) => PlayAt(landing, ListenerPoint());
         private void OnExtracted(ZoneCompleted _) => PlayAt(extraction, ListenerPoint());
 

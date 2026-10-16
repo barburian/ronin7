@@ -35,6 +35,7 @@ namespace Ronin7.EditorTools
             public int Weight;
             public int MinDepth;
             public bool EliteOnly;
+            public int MaxPerRoom; // 0 = unlimited
         }
 
         private struct BossSpec
@@ -43,6 +44,9 @@ namespace Ronin7.EditorTools
             public string DefinitionName; // story source asset (cloned into RL_<RlName>)
             public string RlName;
             public int Sector;
+            public string[] Phases;  // P3-07: RL names of the later phases, in order
+            public string AddRl;     // P3-07: trash RL name called at the first phase change (null = none)
+            public int AddCount;
         }
 
         // Appendix A's exact prefab -> definition -> minDepth mapping. Weight favors the lighter/
@@ -51,12 +55,12 @@ namespace Ronin7.EditorTools
         // > heavy > elite).
         private static readonly TrashSpec[] TrashSpecs =
         {
-            new TrashSpec { PrefabName = "Ash-World_Scavenger",       DefinitionName = "Ch7Scavenger", RlName = "AshScavenger",          Weight = 15, MinDepth = 0, EliteOnly = false },
-            new TrashSpec { PrefabName = "Coil_Syndicate_Ganger",     DefinitionName = "Ch9CoilRaider", RlName = "CoilGanger",         Weight = 15, MinDepth = 0, EliteOnly = false },
+            new TrashSpec { PrefabName = "Ash-World_Scavenger",       DefinitionName = "Ch7Scavenger", RlName = "AshScavenger",          Weight = 18, MinDepth = 0, EliteOnly = false },
+            new TrashSpec { PrefabName = "Coil_Syndicate_Ganger",     DefinitionName = "Ch9CoilRaider", RlName = "CoilGanger",         Weight = 12, MinDepth = 0, EliteOnly = false },
             new TrashSpec { PrefabName = "Dominion_Trooper",          DefinitionName = "Ch10SyndicateGuard", RlName = "DominionTrooper",    Weight = 12, MinDepth = 0, EliteOnly = false },
-            new TrashSpec { PrefabName = "Program_Operative_Grunt",   DefinitionName = "Bandit", RlName = "ProgramGrunt",                Weight = 12, MinDepth = 2, EliteOnly = false },
-            new TrashSpec { PrefabName = "Hunter_Drone",              DefinitionName = "Ch11GhostManifestation", RlName = "HunterDrone", Weight = 10, MinDepth = 3, EliteOnly = false },
-            new TrashSpec { PrefabName = "Dominion_Scan-Drone",       DefinitionName = "Ch13LabSecurity", RlName = "ScanDrone",       Weight = 10, MinDepth = 3, EliteOnly = false },
+            new TrashSpec { PrefabName = "Program_Operative_Grunt",   DefinitionName = "Bandit", RlName = "ProgramGrunt",                Weight = 10, MinDepth = 2, EliteOnly = false },
+            new TrashSpec { PrefabName = "Hunter_Drone",              DefinitionName = "Ch11GhostManifestation", RlName = "HunterDrone", Weight = 10, MinDepth = 2, EliteOnly = false },
+            new TrashSpec { PrefabName = "Dominion_Scan-Drone",       DefinitionName = "Ch13LabSecurity", RlName = "ScanDrone",       Weight = 6, MinDepth = 4, EliteOnly = false, MaxPerRoom = 1 },
             new TrashSpec { PrefabName = "Humanoid_Automaton",        DefinitionName = "Ch10MineAutomaton", RlName = "HumanoidAutomaton",     Weight = 8,  MinDepth = 2, EliteOnly = true },
             new TrashSpec { PrefabName = "Iron_Dojo_Warden-Cadre",    DefinitionName = "Ch6Caradoc", RlName = "IronWarden",            Weight = 8,  MinDepth = 2, EliteOnly = true },
             new TrashSpec { PrefabName = "Spectral_Grave-Guardian",   DefinitionName = "Ch8Buried", RlName = "GraveGuardian", Weight = 6,  MinDepth = 6, EliteOnly = true },
@@ -68,9 +72,22 @@ namespace Ronin7.EditorTools
         // are not wired here; nothing in the contract calls for them).
         private static readonly BossSpec[] BossSpecs =
         {
-            new BossSpec { PrefabName = "The-Warden",    DefinitionName = "Ch8Warden", RlName = "Warden",          Sector = 0 },
-            new BossSpec { PrefabName = "Vane_Wraith-6",  DefinitionName = "Ch9Vane", RlName = "VaneWraith",            Sector = 1 },
-            new BossSpec { PrefabName = "Maelgorn",       DefinitionName = "Ch16MaelgornPhase1", RlName = "Maelgorn", Sector = 2 },
+            new BossSpec { PrefabName = "The-Warden",    DefinitionName = "Ch8Warden", RlName = "Warden",          Sector = 0,
+                           Phases = new[] { "Warden_P2" }, AddRl = "ScanDrone", AddCount = 2 },      // P2 at 50%: 2 Linchpin Scan-Drones
+            new BossSpec { PrefabName = "Vane_Wraith-6",  DefinitionName = "Ch9Vane", RlName = "VaneWraith",            Sector = 1,
+                           Phases = new[] { "VaneWraith_P2" } },                                     // P2 blinks behind the player
+            new BossSpec { PrefabName = "Maelgorn",       DefinitionName = "Ch16MaelgornPhase1", RlName = "Maelgorn", Sector = 2,
+                           Phases = new[] { "Maelgorn_P2", "Maelgorn_P3" }, AddRl = "AshScavenger", AddCount = 2 }, // P2 + 2 Scavengers
+        };
+
+        // P3-04: per-phase boss definitions, wired by BossSpec.Phases (P3-07). Their maxHealth is only a
+        // weight: RunArenaController splits BossTargetHealth by maxHealth / sum over all phases.
+        private static readonly (string source, string rlName)[] PhaseSpecs =
+        {
+            ("Ch8Warden", "Warden_P2"),
+            ("Ch9Vane", "VaneWraith_P2"),
+            ("Ch16MaelgornPhase2", "Maelgorn_P2"),
+            ("Ch16MaelgornPhase3", "Maelgorn_P3"),
         };
 
         [MenuItem("Tools/Space Samurai/Roguelike/Build Spawn Table + Room Library")]
@@ -94,12 +111,13 @@ namespace Ronin7.EditorTools
             EnsureFolder(RoguelikeEnemyFolder);
             foreach (var t in TrashSpecs) EnsureClone(t.DefinitionName, "RL_" + t.RlName, Overrides(t.RlName));
             foreach (var b in BossSpecs) EnsureClone(b.DefinitionName, "RL_" + b.RlName, Overrides(b.RlName));
+            foreach (var (source, rlName) in PhaseSpecs) EnsureClone(source, "RL_" + rlName, Overrides(rlName));
         }
 
         // P1-05 (BUG-18): posture-break threshold as a fraction of max HP.
         private static float PostureFraction(string rlName)
         {
-            switch (rlName)
+            switch (rlName.Split('_')[0])
             {
                 case "Warden": case "VaneWraith": case "Maelgorn": return 0.35f; // bosses
                 case "HumanoidAutomaton": case "IronWarden":
@@ -119,12 +137,13 @@ namespace Ronin7.EditorTools
         {
             foreach (var t in TrashSpecs) yield return (t.DefinitionName, t.RlName);
             foreach (var b in BossSpecs) yield return (b.DefinitionName, b.RlName);
+            foreach (var p in PhaseSpecs) yield return p;
         }
 
         // P1-15 attack-pose data and P2-11 movement tuning per class (unlisted types keep the defaults).
         private static void MovementAndPose(EnemyDefinition d, string rlName)
         {
-            switch (rlName)
+            switch (rlName.Split('_')[0])
             {
                 case "HunterDrone":
                 case "ScanDrone": // rigid hulls: whole-rig lunge, floaty glide
@@ -145,22 +164,53 @@ namespace Ronin7.EditorTools
         {
             switch (rlName)
             {
-                case "DreamGhost":
-                    return d => { d.maxHealth = 90f; d.damage = 12f; d.moveSpeed = 1.4f; d.attackCooldown = 1.0f; };
-                case "GraveGuardian":
-                    return d => d.maxHealth = 120f;
-                // BUG-11: heavy types keep their windup when hit.
-                case "HumanoidAutomaton":
-                case "IronWarden":
+                // P3-04 roster (Roguelike-Roadmap.md): HP / speed / timings / weakness straight from the spec table.
+                case "AshScavenger": // Swarmer: the teaching enemy, no weakness
+                    return d => { d.maxHealth = 30f; d.moveSpeed = 2f; d.telegraphTime = 0.6f; d.activeTime = 0.35f; d.attackCooldown = 0.6f; d.weakness = WeaknessKind.None; };
+                case "CoilGanger": // Charger: resisted mid-charge, exploited in recovery
+                    return d => { d.maxHealth = 70f; d.telegraphTime = 1f; Weak(d, WeaknessKind.Recovery, 0.5f, 2.5f); };
+                case "DominionTrooper": // Shield trooper
+                    return d => { d.maxHealth = 80f; Weak(d, WeaknessKind.HeavyBreak, 0.15f, 1.5f); d.heavySwingSpeed = 5.5f; };
+                case "ProgramGrunt": // Pattern duelist
+                    return d => { d.maxHealth = 70f; Weak(d, WeaknessKind.Alternating, 0.2f, 1.5f); };
+                case "HunterDrone": // Ranged gunner (RangedEnemy); a deflected bolt kills (Max x exploit)
+                    return d => { d.maxHealth = 35f; Weak(d, WeaknessKind.Reflect, 0.15f, 2f); };
+                case "ScanDrone": // Support (SupportDrone)
+                    return d => { d.maxHealth = 25f; d.weakness = WeaknessKind.Linchpin; };
+                case "HumanoidAutomaton": // Armored heavy
+                    return d => { d.maxHealth = 160f; d.damage = 18f; d.telegraphTime = 1.2f; d.superArmor = true; Weak(d, WeaknessKind.Backstab, 0.3f, 2.5f); };
+                case "IronWarden": // Parry master (BUG-11 keeps super-armor)
+                    return d => { d.maxHealth = 120f; d.superArmor = true; d.staggerTime = 2f; d.chainHits = 2; Weak(d, WeaknessKind.ParryGate, 0.1f, 2f); };
+                case "GraveGuardian": // Phaser (BUG-08 stub source)
+                    return d => { d.maxHealth = 120f; d.weakness = WeaknessKind.CounterHit; d.resistMultiplier = 0f; }; // spec: Resisted Idle/Chase (x0)
+                case "RedactionConstruct": // Construct
+                    return d => { d.maxHealth = 180f; d.weakness = WeaknessKind.PostureOnly; d.postureBreakBonusFraction = 0.25f; };
+                case "DreamGhost": // Teleporter (BUG-08 stub source)
+                    return d => { d.maxHealth = 90f; d.damage = 12f; d.moveSpeed = 1.4f; d.attackCooldown = 1.0f; Weak(d, WeaknessKind.Blink, 0.15f, 1.75f); };
+                // Bosses. BUG-11: super-armor keeps their windups when hit.
                 case "Warden":
-                case "VaneWraith":
-                    return d => d.superArmor = true;
+                    return d => { d.maxHealth = 450f; d.superArmor = true; d.telegraphTime = 1f; d.weakness = WeaknessKind.Backstab; };
+                case "Warden_P2": // P3-07 adds 2 Scan-Drones at the swap
+                    return d => { d.maxHealth = 450f; d.superArmor = true; d.telegraphTime = 1f; d.weakness = WeaknessKind.Backstab; };
+                case "VaneWraith": // P3-07 feints: telegraph drawn from 0.6-1.0 s per windup (seeded by the node)
+                    return d => { d.maxHealth = 650f; d.superArmor = true; d.weakness = WeaknessKind.Alternating; d.telegraphTime = 0.6f; d.telegraphMaxTime = 1f; };
+                case "VaneWraith_P2": // BlinkEnemy: blinks only under the Blink weakness; behind the player
+                    return d => { d.maxHealth = 650f; d.superArmor = true; Weak(d, WeaknessKind.Blink, 0.15f, 1.75f); d.blinkBehind = true; };
                 case "Maelgorn":
                     // P1-10: base 24 so 1.3x (31.2) out-damages sector-1 VaneWraith (24 x 1.1 = 26.4).
-                    return d => { d.superArmor = true; d.damage = 24f; };
+                    return d => { d.maxHealth = 300f; d.superArmor = true; d.damage = 24f; d.weakness = WeaknessKind.HeavyBreak; };
+                case "Maelgorn_P2":
+                    return d => { d.maxHealth = 300f; d.superArmor = true; d.damage = 24f; d.weakness = WeaknessKind.CounterHit; d.resistMultiplier = 0f; };
+                case "Maelgorn_P3":
+                    return d => { d.maxHealth = 300f; d.superArmor = true; d.damage = 24f; d.chainHits = 2; d.weakness = WeaknessKind.ParryGate; };
                 default:
                     return d => { };
             }
+        }
+
+        private static void Weak(EnemyDefinition d, WeaknessKind kind, float resist, float exploit)
+        {
+            d.weakness = kind; d.resistMultiplier = resist; d.exploitMultiplier = exploit;
         }
 
         private static void EnsureClone(string sourceName, string cloneName, System.Action<EnemyDefinition> tune)
@@ -193,6 +243,7 @@ namespace Ronin7.EditorTools
             var report = new StringBuilder();
 
             var trash = new List<EnemySpawnTable.Entry>();
+            var trashIndex = new Dictionary<string, int>(); // RL name -> trash[] index (P3-07 boss adds)
             foreach (var spec in TrashSpecs)
             {
                 var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(EnemyPrefabFolder + "/" + spec.PrefabName + ".prefab");
@@ -204,6 +255,7 @@ namespace Ronin7.EditorTools
                         (def == null ? $"EnemyDefinition 'RL_{spec.RlName}' missing." : ""));
                     continue;
                 }
+                trashIndex[spec.RlName] = trash.Count;
                 trash.Add(new EnemySpawnTable.Entry
                 {
                     prefab = prefab,
@@ -211,6 +263,7 @@ namespace Ronin7.EditorTools
                     weight = spec.Weight,
                     minDepth = spec.MinDepth,
                     eliteOnly = spec.EliteOnly,
+                    maxPerRoom = spec.MaxPerRoom,
                 });
                 report.Append(spec.PrefabName).Append(" -> RL_").Append(spec.RlName)
                       .Append(" weight=").Append(spec.Weight).Append(" minDepth=").Append(spec.MinDepth)
@@ -229,9 +282,24 @@ namespace Ronin7.EditorTools
                         (def == null ? $"EnemyDefinition 'RL_{spec.RlName}' missing." : ""));
                     continue;
                 }
-                bosses.Add(new EnemySpawnTable.BossEntry { prefab = prefab, definition = def, sector = spec.Sector });
+                var phases = new List<EnemyDefinition>();
+                foreach (string rl in spec.Phases ?? new string[0])
+                {
+                    var phase = AssetDatabase.LoadAssetAtPath<EnemyDefinition>(RoguelikeEnemyFolder + "/RL_" + rl + ".asset");
+                    if (phase != null) phases.Add(phase);
+                    else Debug.LogError($"[RoguelikeDataBuilder] Boss '{spec.PrefabName}' phase 'RL_{rl}' missing — skipped.");
+                }
+                int addEntry = spec.AddRl != null && trashIndex.TryGetValue(spec.AddRl, out int ai) ? ai : -1;
+                if (spec.AddRl != null && addEntry < 0)
+                    Debug.LogError($"[RoguelikeDataBuilder] Boss '{spec.PrefabName}' adds '{spec.AddRl}' not in the trash table — no adds.");
+                bosses.Add(new EnemySpawnTable.BossEntry
+                {
+                    prefab = prefab, definition = def, sector = spec.Sector,
+                    phases = phases.ToArray(), addEntry = addEntry, addCount = addEntry >= 0 ? spec.AddCount : 0,
+                });
                 report.Append("Boss sector ").Append(spec.Sector).Append(": ").Append(spec.PrefabName)
-                      .Append(" -> RL_").Append(spec.RlName).Append('\n');
+                      .Append(" -> RL_").Append(spec.RlName).Append(" phases=").Append(phases.Count + 1)
+                      .Append(addEntry >= 0 ? $" adds={spec.AddCount}x{spec.AddRl}" : "").Append('\n');
             }
 
             var table = AssetDatabase.LoadAssetAtPath<EnemySpawnTable>(SpawnTablePath);

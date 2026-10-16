@@ -165,14 +165,16 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
                     instance.SetActive(true); // baked inactive (A3.1); renderers need to be live to measure
                     instance.transform.position = Vector3.zero;
 
-                    var rends = instance.GetComponentsInChildren<Renderer>(true);
+                    var rends = System.Array.FindAll(instance.GetComponentsInChildren<Renderer>(true), r => !(r is LineRenderer)); // world-space telegraph lines have placeholder bounds
                     Assert.Greater(rends.Length, 0, $"'{prefab.name}' has no renderers to measure.");
                     Bounds b = rends[0].bounds;
                     for (int i = 1; i < rends.Length; i++) b.Encapsulate(rends[i].bounds);
 
-                    Assert.AreEqual(0f, b.min.y, 0.02f,
+                    // P3-04: hover drones are 0.8 m art floating 1.4 m above the (still y=0) root pivot.
+                    bool drone = prefab.name == "Hunter_Drone" || prefab.name == "Dominion_Scan-Drone";
+                    Assert.AreEqual(drone ? 1.4f : 0f, b.min.y, 0.02f,
                         $"'{prefab.name}' feet must sit on the root's pivot (y=0), but bounds.min.y is {b.min.y:F3}.");
-                    Assert.AreEqual(1.8f, b.size.y, 0.05f,
+                    Assert.AreEqual(drone ? 0.8f : 1.8f, b.size.y, 0.05f,
                         $"'{prefab.name}' must be normalised to adult human height, but is {b.size.y:F3} m tall.");
                 }
                 finally

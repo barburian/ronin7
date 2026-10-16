@@ -15,6 +15,23 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
     /// </summary>
     public class RunArenaControllerTests
     {
+        [Test]
+        public void BossAdds_FiveAdds_AllReleaseAndRoomClears()
+        {
+            // The boss is alive (1) while its adds release through the cap; adds die between waves.
+            var waves = WaveComposer.SplitWaves(5, 3);
+            Assert.AreEqual(5, System.Linq.Enumerable.Sum(waves));
+            int queued = 5, alive = 1;
+            foreach (int size in waves)
+            {
+                int released = Math.Min(size, RunArenaController.ReleaseCount(alive, queued, RunScaling.MaxConcurrentEnemies));
+                Assert.AreEqual(size, released, "no wave is clipped by the cap");
+                queued -= released;
+                // that wave dies before the next is due (alive <= 1 => boss only)
+            }
+            Assert.AreEqual(0, queued, "Remaining reaches 0 once the released adds die");
+        }
+
         // ---- ReleaseCount: direct formula coverage ----
 
         [TestCase(0, 0, 0)] // nothing queued -> nothing to release
@@ -173,6 +190,54 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
             Assert.IsTrue(RunArenaController.WaveDue(1, 0, 2));
             Assert.IsFalse(RunArenaController.WaveDue(1, 1, 2));
             Assert.IsFalse(RunArenaController.WaveDue(0, 0, 0));
+        }
+
+        // ---- P3-07: boss phases, adds, bar ----
+
+        [Test]
+        public void HealthBarFill_Clamps()
+        {
+            Assert.AreEqual(0.5f, RunArenaController.HealthBarFill(50f, 100f), 1e-6f);
+            Assert.AreEqual(1f, RunArenaController.HealthBarFill(150f, 100f));
+            Assert.AreEqual(0f, RunArenaController.HealthBarFill(-5f, 100f));
+            Assert.AreEqual(0f, RunArenaController.HealthBarFill(10f, 0f));
+        }
+
+        [Test]
+        public void PhaseHealths_SplitTargetByWeight_SumsToTarget()
+        {
+            float[] equal = RunArenaController.PhaseHealths(900f, new[] { 300f, 300f, 300f });
+            CollectionAssert.AreEqual(new[] { 300f, 300f, 300f }, equal);
+            float[] warden = RunArenaController.PhaseHealths(450f, new[] { 450f, 450f }); // P2 at 50%
+            CollectionAssert.AreEqual(new[] { 225f, 225f }, warden);
+            float[] weighted = RunArenaController.PhaseHealths(600f, new[] { 1f, 2f });
+            Assert.AreEqual(200f, weighted[0], 1e-4f); Assert.AreEqual(400f, weighted[1], 1e-4f);
+            float[] bad = RunArenaController.PhaseHealths(600f, new[] { 0f, 2f }); // non-positive weight -> equal shares
+            CollectionAssert.AreEqual(new[] { 300f, 300f }, bad);
+        }
+
+        [Test]
+        public void BossAdds_RespectConcurrentCap()
+        {
+            // The adds wave goes through ActivateNextWave: released = ReleaseCount(alive + pending, adds, cap).
+            int cap = RunScaling.MaxConcurrentEnemies;
+            for (int alive = 1; alive <= cap; alive++) // the boss is always alive when its adds are called
+            for (int pending = 0; pending + alive <= cap; pending++)
+            for (int adds = 0; adds <= 4; adds++)
+            {
+                int released = RunArenaController.ReleaseCount(alive + pending, adds, cap);
+                Assert.LessOrEqual(alive + pending + released, cap, $"alive {alive} pending {pending} adds {adds}");
+            }
+            Assert.AreEqual(2, RunArenaController.ReleaseCount(1, 2, cap), "boss alone: both adds come in");
+        }
+
+        [Test]
+        public void ScaledStats_BossAddOnBossNode_UsesDepthMultipliers()
+        {
+            RunArenaController.ScaledStats(30f, 10f, 4, RoomKind.Boss, 0, out float hp, out _, isBoss: false);
+            Assert.AreEqual(30f * RunScaling.HealthMultiplier(4, RoomKind.Boss), hp, 1e-4f);
+            RunArenaController.ScaledStats(30f, 10f, 4, RoomKind.Boss, 0, out float bossHp, out _);
+            Assert.AreEqual(RunScaling.BossTargetHealth(0), bossHp);
         }
     }
 }

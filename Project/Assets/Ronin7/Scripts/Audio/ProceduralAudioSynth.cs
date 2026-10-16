@@ -51,6 +51,37 @@ namespace Ronin7.Audio
         }
 
         /// <summary>
+        /// P3-03 metallic strike: inharmonic sine partials (ratios of <paramref name="baseHz"/>) plus a short
+        /// noise transient, exponentially decayed. Low base + fast decay = a dull "clank"; high base +
+        /// <paramref name="riseHz"/> (a linear pitch glide added to every partial over the clip) = a bright
+        /// "shing" with a rising tone. Deterministic per seed.
+        /// </summary>
+        public static float[] GenerateMetalStrike(int sampleRate, float durationSeconds, int seed, float baseHz, float riseHz, float decayRate)
+        {
+            int n = Mathf.Max(1, Mathf.RoundToInt(sampleRate * durationSeconds));
+            var rng = new System.Random(seed);
+            var samples = new float[n];
+            float[] ratios = { 1f, 1.51f, 2.76f, 4.07f };
+            float[] gains = { 0.5f, 0.35f, 0.25f, 0.15f };
+            var phase = new float[ratios.Length];
+            for (int i = 0; i < n; i++)
+            {
+                float t = i / (float)sampleRate;
+                float glide = riseHz * t / durationSeconds;
+                float v = 0f;
+                for (int k = 0; k < ratios.Length; k++)
+                {
+                    phase[k] += 2f * Mathf.PI * (baseHz * ratios[k] + glide) / sampleRate;
+                    v += Mathf.Sin(phase[k]) * gains[k];
+                }
+                float noise = (float)(rng.NextDouble() * 2.0 - 1.0) * Mathf.Exp(-300f * t) * 0.6f; // strike transient
+                float attack = Mathf.Clamp01(t / 0.002f);
+                samples[i] = Mathf.Clamp((v + noise) * attack * Mathf.Exp(-decayRate * t), -1f, 1f);
+            }
+            return samples;
+        }
+
+        /// <summary>
         /// Loopable ambience bed: a low sine drone layered with filtered noise, weighted per
         /// <paramref name="theme"/> (more noise/less tone for wind, more tone/less noise for a dread
         /// drone, a balance for a hangar hum). The tail is crossfaded into the head so the returned

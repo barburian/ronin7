@@ -11,7 +11,7 @@ namespace Ronin7.Editor
     /// P0-12: one-click and batchmode player builds for the two shipping targets.
     ///   Menu:      Tools/Ronin7/Build/Quest (APK) and Tools/Ronin7/Build/Windows (PCVR) (+ Dev variants)
     ///   Batchmode: Unity.exe -batchmode -quit -projectPath Project -executeMethod Ronin7.Editor.BuildMenu.BuildWindows [-dev]
-    /// Builds the enabled scenes of EditorBuildSettings into &lt;repo&gt;/Builds/&lt;target&gt;/Ronin7_&lt;version&gt;.&lt;ext&gt;
+    /// Builds the enabled scenes of EditorBuildSettings into &lt;repo&gt;/Builds/&lt;target&gt;[-Dev]/Ronin7_&lt;version&gt;.&lt;ext&gt;
     /// and writes the build summary beside it as report.txt. In batchmode a failed build exits with
     /// code 1 so CI and scripts see it. -dev makes a Development build with the RONIN7_DEV define
     /// (the dev tools of P0-11); the define is passed per build and never written to Player Settings.
@@ -41,15 +41,15 @@ namespace Ronin7.Editor
 
         internal static bool IsDev(string[] args) => args != null && args.Any(a => a == "-dev");
 
-        internal static string TargetFolderName(BuildTarget target) =>
-            target == BuildTarget.Android ? "Quest" : "Windows";
+        internal static string TargetFolderName(BuildTarget target, bool dev) =>
+            target == BuildTarget.Android ? "Quest" : dev ? "Windows-Dev" : "Windows"; // BUG-36: a Windows player is a folder (UnityPlayer.dll), so dev needs its own. APKs differ by file name.
 
         /// <summary>&lt;repoRoot&gt;/Builds/&lt;Quest|Windows&gt;/Ronin7_&lt;version&gt;[-dev].&lt;apk|exe&gt;. Pure. P0-12 test seam.</summary>
         internal static string OutputPath(string repoRoot, BuildTarget target, string version, bool dev)
         {
             string ext = target == BuildTarget.Android ? "apk" : "exe";
             string file = $"Ronin7_{version}{(dev ? "-dev" : "")}.{ext}";
-            return Path.Combine(repoRoot, "Builds", TargetFolderName(target), file);
+            return Path.Combine(repoRoot, "Builds", TargetFolderName(target, dev), file);
         }
 
         /// <summary>The repository root: the folder above the Unity project (Application.dataPath is &lt;repo&gt;/Project/Assets).</summary>
@@ -92,7 +92,7 @@ namespace Ronin7.Editor
 
             Debug.Log($"[BuildMenu] Building {target}{(dev ? " (dev)" : "")} -> {output} with {scenes.Length} scene(s): {string.Join(", ", scenes)}");
             BuildReport report = BuildPipeline.BuildPlayer(options);
-            WriteReport(report, target);
+            WriteReport(report, target, dev);
 
             if (report.summary.result != BuildResult.Succeeded)
             {
@@ -103,10 +103,10 @@ namespace Ronin7.Editor
             return report;
         }
 
-        private static void WriteReport(BuildReport report, BuildTarget target)
+        private static void WriteReport(BuildReport report, BuildTarget target, bool dev)
         {
             var s = report.summary;
-            string path = Path.Combine(RepoRoot, "Builds", TargetFolderName(target), "report.txt");
+            string path = Path.Combine(RepoRoot, "Builds", TargetFolderName(target, dev), "report.txt");
             string text =
                 $"result: {s.result}\n" +
                 $"platform: {s.platform}\n" +

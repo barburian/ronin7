@@ -1,6 +1,7 @@
 using Ronin7.Combat;
 using Ronin7.Flow;
 using Ronin7.Player;
+using Ronin7.Ship;
 using Ronin7.World;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -125,6 +126,9 @@ namespace Ronin7.EditorTools
             settingsToggleSo.FindProperty("listenForMenuButton").boolValue = false;
             settingsToggleSo.ApplyModifiedPropertiesWithoutUndo();
 
+            // ---- P3-05: one shared bolt pool (capacity 8) for ranged enemies (RangedEnemy finds it once in Awake). ----
+            EnsureProjectilePool();
+
             // ---- Player spawn point: a plain Transform RunArenaController falls back to for its
             // no-spawn exclusion centre when Camera.main is unavailable. ----
             var spawnGo = new GameObject("PlayerSpawn");
@@ -160,6 +164,15 @@ namespace Ronin7.EditorTools
                       "at runtime per node — no static walls authored here.");
 
             RogueEnsureRunDirectorInBootScene();
+        }
+
+        /// <summary>P3-05: adds the shared ProjectilePool (capacity 8) if the open scene has none. Idempotent, additive.</summary>
+        internal static void EnsureProjectilePool()
+        {
+            if (Object.FindAnyObjectByType<ProjectilePool>() != null) return;
+            var so = new SerializedObject(new GameObject("ProjectilePool").AddComponent<ProjectilePool>());
+            so.FindProperty("capacity").intValue = 8;
+            so.ApplyModifiedPropertiesWithoutUndo();
         }
 
         /// <summary>

@@ -15,19 +15,32 @@ MonoBehaviour:
   maxHealth: 120
   moveSpeed: 1.3
   attackRange: 1.7
+  turnRateDegrees: 240
+  acceleration: 4
+  deceleration: 6
   telegraphTime: 0.8
+  telegraphMaxTime: 0
   activeTime: 0.8
   recoverTime: 0.6
   staggerTime: 1.2
   attackCooldown: 0.85
+  poseArmScale: 1
+  poseTwistDegrees: 30
+  poseLeanDegrees: 12
+  poseWholeBody: 0
   damage: 9
   healthAddedPerGalaxy: 0
   damageAddedPerGalaxy: 0
   superArmor: 0
   postureGainMultiplier: 1
-  weakness: 0
-  resistMultiplier: 0.15
+  weakness: 8
+  resistMultiplier: 0
   exploitMultiplier: 2
   heavySwingSpeed: 5.5
   materialClass: 0
+  postureBreakBonusFraction: 0
+  chainHits: 1
+  blinkBehind: 0
   postureMaxFraction: 0.5
+  vampiric: 0
+  eliteRim: {r: 0, g: 0, b: 0, a: 1}

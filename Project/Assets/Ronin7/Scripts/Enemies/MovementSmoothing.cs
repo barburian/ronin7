@@ -32,5 +32,32 @@ namespace Ronin7.Enemies
         /// one full cycle (two steps) per 2 x stride, independent of frame rate or speed estimate.</summary>
         internal static float AdvanceWalkPhase(float phase, float travelled, float strideLength)
             => (phase + Mathf.PI * travelled / strideLength) % (2f * Mathf.PI);
+
+        // ---- P3-09 (BUG-38): drone hover + boss weight ----
+        internal const float MaxBankDegrees = 18f, BankAccelForMax = 3f, BankEase = 8f;
+        internal const float HoverBobAmplitude = 0.05f, HoverBobHz = 0.5f;
+        internal const float BossGateFullDeg = 10f, BossGateZeroDeg = 45f, BossBrakeScale = 0.7f;
+
+        /// <summary>Next planar velocity: accel-limited toward <paramref name="want"/> (decel-limited when
+        /// slowing), so a reversal passes through zero over several frames instead of flipping.</summary>
+        internal static Vector3 StepVelocity(Vector3 v, Vector3 want, float accel, float decel, float dt)
+            => Vector3.MoveTowards(v, want, (want.sqrMagnitude > v.sqrMagnitude ? accel : decel) * dt);
+
+        /// <summary>Signed bank (degrees, + = lean right) for a body-right acceleration, clamped at MaxBankDegrees.</summary>
+        internal static float BankTarget(float lateralAccel)
+            => Mathf.Clamp(lateralAccel / BankAccelForMax, -1f, 1f) * MaxBankDegrees;
+
+        /// <summary>Frame-rate independent exponential ease of <paramref name="cur"/> toward <paramref name="target"/>.</summary>
+        internal static float StepEase(float cur, float target, float rate, float dt)
+            => Mathf.Lerp(cur, target, 1f - Mathf.Exp(-rate * dt));
+
+        /// <summary>Vertical hover bob (metres).</summary>
+        internal static float HoverBob(float time, float phase)
+            => Mathf.Sin(2f * Mathf.PI * HoverBobHz * time + phase) * HoverBobAmplitude;
+
+        /// <summary>Boss travel gate 0..1: 0 while the yaw error exceeds BossGateZeroDeg (turn in place),
+        /// 1 once it is under BossGateFullDeg.</summary>
+        internal static float TurnGate(float yawErrorDeg)
+            => 1f - Mathf.InverseLerp(BossGateFullDeg, BossGateZeroDeg, Mathf.Abs(yawErrorDeg));
     }
 }

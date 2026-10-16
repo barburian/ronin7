@@ -12,22 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124031ca89272a245b6bae3d880a5cf0, type: 3}
   m_Name: RL_IronWarden
   m_EditorClassIdentifier: Ronin7.Enemies::Ronin7.Enemies.EnemyDefinition
-  maxHealth: 240
+  maxHealth: 120
   moveSpeed: 1.6
   attackRange: 1.7
+  turnRateDegrees: 240
+  acceleration: 4
+  deceleration: 6
   telegraphTime: 0.8
+  telegraphMaxTime: 0
   activeTime: 0.8
   recoverTime: 0.6
-  staggerTime: 1.2
+  staggerTime: 2
   attackCooldown: 0.7
+  poseArmScale: 1
+  poseTwistDegrees: 30
+  poseLeanDegrees: 12
+  poseWholeBody: 0
   damage: 20
   healthAddedPerGalaxy: 0
   damageAddedPerGalaxy: 0
   superArmor: 1
   postureGainMultiplier: 1
-  weakness: 0
-  resistMultiplier: 0.15
+  weakness: 7
+  resistMultiplier: 0.1
   exploitMultiplier: 2
   heavySwingSpeed: 5.5
   materialClass: 0
+  postureBreakBonusFraction: 0
+  chainHits: 2
+  blinkBehind: 0
   postureMaxFraction: 0.5
+  vampiric: 0
+  eliteRim: {r: 0, g: 0, b: 0, a: 1}

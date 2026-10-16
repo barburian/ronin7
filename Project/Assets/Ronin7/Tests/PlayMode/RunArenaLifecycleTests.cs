@@ -226,5 +226,78 @@ namespace Ronin7.Tests.PlayMode
 
             EventBus.Unsubscribe(onCleared);
         }
+
+        /// <summary>P3-07: a two-phase boss. Lethal damage in phase 1 swaps to phase 2 (no death), the arena
+        /// releases the pre-instantiated adds through the capped wave path, and the final death destroys
+        /// every runtime phase clone (A5.7) and clears the room.</summary>
+        [UnityTest]
+        public IEnumerator BossNode_PhaseChangeReleasesAdds_DeathDestroysPhaseClones()
+        {
+            AddMainCamera();
+
+            RunState.Begin(1);
+            int target = -1;
+            for (int id = 0; id < RunState.Map.Count && target < 0; id++)
+                if (RunState.Map[id].Kind == RoomKind.Boss) target = id;
+            Assert.GreaterOrEqual(target, 0, "seed 1 has no Boss node");
+            var walk = RunState.Graph.PathTo(target);
+            for (int i = 1; i < walk.Count; i++) RunState.Advance(walk[i]);
+            int sector = RunState.CurrentNode.Sector;
+
+            var table = ScriptableObject.CreateInstance<EnemySpawnTable>();
+            _created.Add(table);
+            table.trash = new[]
+            {
+                new EnemySpawnTable.Entry { prefab = BuildEnemyPrefabSource("AddPrefab"), definition = MakeDefinition(), weight = 10 },
+            };
+            table.bosses = new[]
+            {
+                new EnemySpawnTable.BossEntry
+                {
+                    prefab = BuildEnemyPrefabSource("BossPrefab"), definition = MakeDefinition(), sector = sector,
+                    phases = new[] { MakeDefinition() }, addEntry = 0, addCount = 2,
+                },
+            };
+
+            int roomClearedCount = 0;
+            System.Action<RoomCleared> onCleared = _ => roomClearedCount++;
+            EventBus.Subscribe(onCleared);
+
+            RunArenaController controller = CreateController(MakeEmptyRoomLibrary(), table);
+            yield return null; // Start(): boss queued + 2 adds reserved, all inactive
+
+            Health[] all = controller.GetComponentsInChildren<Health>(true);
+            Assert.AreEqual(3, all.Length, "boss + 2 pre-instantiated adds");
+            int ActiveAlive() => System.Array.FindAll(all, h => h.gameObject.activeSelf && h.IsAlive).Length;
+            void Kill(Health h) => h.ApplyDamage(new DamageInfo(9999f, Vector3.zero, Vector3.forward, null));
+
+            yield return new WaitForSeconds(1.4f);
+            Assert.AreEqual(1, ActiveAlive(), "only the boss activates; adds wait for the phase change");
+            Health boss = System.Array.Find(all, h => h.gameObject.activeSelf);
+            FieldInfo defField = typeof(Enemy).GetField("definition", BindingFlags.NonPublic | BindingFlags.Instance);
+            var phase1 = (EnemyDefinition)defField.GetValue(boss.GetComponent<Enemy>());
+            Assert.AreEqual(RunScaling.BossTargetHealth(sector) * 0.5f, boss.Max, 1e-3f, "equal-weight phases split the target 50/50");
+
+            Kill(boss);
+            Assert.IsTrue(boss.IsAlive, "phase 1 'death' advances to phase 2");
+            var phase2 = (EnemyDefinition)defField.GetValue(boss.GetComponent<Enemy>());
+            Assert.AreNotSame(phase1, phase2);
+
+            yield return new WaitForSeconds(1.4f);
+            Assert.AreEqual(3, ActiveAlive(), "boss + 2 adds");
+            Assert.LessOrEqual(ActiveAlive(), RunScaling.MaxConcurrentEnemies);
+
+            foreach (Health h in all) if (h != boss && h.IsAlive) Kill(h);
+            Assert.IsFalse(controller.IsCleared);
+            Kill(boss);
+            Assert.IsFalse(boss.IsAlive);
+            Assert.IsTrue(controller.IsCleared);
+            Assert.AreEqual(1, roomClearedCount);
+
+            yield return null; // Object.Destroy is end-of-frame
+            Assert.IsTrue(phase1 == null && phase2 == null, "every runtime phase clone is destroyed with the boss (A5.7)");
+
+            EventBus.Unsubscribe(onCleared);
+        }
     }
 }

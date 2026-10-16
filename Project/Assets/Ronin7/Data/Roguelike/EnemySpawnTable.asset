@@ -15,66 +15,90 @@ MonoBehaviour:
   trash:
   - prefab: {fileID: 5142214897794221663, guid: e25fc5a9ff1446d45a67ccb53bff3a04, type: 3}
     definition: {fileID: 11400000, guid: d95ef8451026c84418f9f717b8827ab3, type: 2}
-    weight: 15
+    weight: 18
     minDepth: 0
     eliteOnly: 0
+    maxPerRoom: 0
   - prefab: {fileID: 4808927160386080507, guid: 720e15579e4df7e44aa9b16b5f180067, type: 3}
     definition: {fileID: 11400000, guid: 1c2202d68a9bf454d867f38b46404b0e, type: 2}
-    weight: 15
+    weight: 12
     minDepth: 0
     eliteOnly: 0
+    maxPerRoom: 0
   - prefab: {fileID: 9166627839566804211, guid: 9d2239b64a3dda94aa32870b7070bc95, type: 3}
     definition: {fileID: 11400000, guid: 0263b6f185004814087cbe7a88b652b2, type: 2}
     weight: 12
     minDepth: 0
     eliteOnly: 0
+    maxPerRoom: 0
   - prefab: {fileID: 8634392853671692880, guid: dccc5fde401c77542973cd70f7d3986f, type: 3}
     definition: {fileID: 11400000, guid: f85b560031789a64584c814abbbd9b28, type: 2}
-    weight: 12
+    weight: 10
     minDepth: 2
     eliteOnly: 0
+    maxPerRoom: 0
   - prefab: {fileID: 7043011938888400025, guid: 1a13095029947784a88d4c46db914505, type: 3}
     definition: {fileID: 11400000, guid: 46c1f15eed43be04ba056adbccd29d97, type: 2}
     weight: 10
-    minDepth: 3
+    minDepth: 2
     eliteOnly: 0
+    maxPerRoom: 0
   - prefab: {fileID: 6460438669832031860, guid: 8d669a71cb1359b429b828c2e7dfcc2e, type: 3}
     definition: {fileID: 11400000, guid: 5c1568c98c084b84dadf32a47ec08377, type: 2}
-    weight: 10
-    minDepth: 3
+    weight: 6
+    minDepth: 4
     eliteOnly: 0
+    maxPerRoom: 1
   - prefab: {fileID: 3372851308560540462, guid: a6e85720dcf05014dba6ecac5433912a, type: 3}
     definition: {fileID: 11400000, guid: 996265719b7be5b459ded9e1e0337acb, type: 2}
     weight: 8
     minDepth: 2
     eliteOnly: 1
+    maxPerRoom: 0
   - prefab: {fileID: 3989639387344550226, guid: 20739ada1f155bf44bbdbde322d3e299, type: 3}
     definition: {fileID: 11400000, guid: ebe89c05c76c33244ad11b5382b93cf3, type: 2}
     weight: 8
     minDepth: 2
     eliteOnly: 1
+    maxPerRoom: 0
   - prefab: {fileID: 8550414386024033152, guid: b0d642fdf3cc8ad48ba768d41c95ccb8, type: 3}
     definition: {fileID: 11400000, guid: 554be3509f634854b8a3ffdf01ba28fb, type: 2}
     weight: 6
     minDepth: 6
     eliteOnly: 1
+    maxPerRoom: 0
   - prefab: {fileID: 2618830459434312720, guid: 290ea93500a4e9a4a82289e5b8dd313a, type: 3}
     definition: {fileID: 11400000, guid: b6c2f0dc47976d846905979aa183e4fa, type: 2}
     weight: 6
     minDepth: 7
     eliteOnly: 1
+    maxPerRoom: 0
   - prefab: {fileID: 1792532119144589718, guid: b4410fd13c954be4da6d51267b67c9ca, type: 3}
     definition: {fileID: 11400000, guid: e31f81c8375cec74baf172479e155a74, type: 2}
     weight: 6
     minDepth: 8
     eliteOnly: 1
+    maxPerRoom: 0
   bosses:
   - prefab: {fileID: 5497403558466260732, guid: 3f113a65b5112c84587edcc28a18ae31, type: 3}
     definition: {fileID: 11400000, guid: 827814da30a066f4887a89086b4bf1c1, type: 2}
     sector: 0
+    phases:
+    - {fileID: 11400000, guid: 5b56249b36a0be540b759358d8af6a3b, type: 2}
+    addEntry: 5
+    addCount: 2
   - prefab: {fileID: 4964568157888359081, guid: ce005d45733eea84d8673bc7657ccd63, type: 3}
     definition: {fileID: 11400000, guid: 29e4c2a45b9fdc847aa622b588a03a27, type: 2}
     sector: 1
+    phases:
+    - {fileID: 11400000, guid: aca01e138a930f140a8643f3f3506fa3, type: 2}
+    addEntry: -1
+    addCount: 0
   - prefab: {fileID: 3236774156031892715, guid: 0ef6588e996f7a248abdcf154d4a13be, type: 3}
     definition: {fileID: 11400000, guid: 63e1c56627983474d8abf57958804ce7, type: 2}
     sector: 2
+    phases:
+    - {fileID: 11400000, guid: 0cda3b6f425a7e54f8321153bf0f7a41, type: 2}
+    - {fileID: 11400000, guid: 7cbdd0e7f107819499aed555822d4531, type: 2}
+    addEntry: 0
+    addCount: 2

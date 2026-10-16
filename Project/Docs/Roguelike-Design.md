@@ -1423,3 +1423,68 @@ of soft-locking.
 immediately with code 1 regardless of whether the editor holds the project lock — it is the
 graphics-device requirement CLAUDE.md already notes, not a lock conflict. Run it **windowed**
 instead: `Unity.exe -runTests -projectPath "Project" -testPlatform PlayMode -testResults out.xml`.
+
+
+## Amendment 11 — Phase 3 weakness contract and soft-lock gate (Roguelike-Roadmap.md P3-01 … P3-08)
+
+Binding as of Phase 3. The Phase 3 brief called this "Amendment 9"; 9 (Phase 1) and 10 (Phase 2) are taken.
+
+- **A11.1 WeaknessKind is append-only.** The enum is serialized in `EnemyDefinition.cs`: `None, Backstab,
+  HeavyBreak, Recovery, Alternating, Reflect, Linchpin, ParryGate, CounterHit, PostureOnly, Blink`. Never
+  reorder or remove. `WeaknessRules.Evaluate(kind, ctx, heavySwingSpeed)` is pure and returns Neutral /
+  Resisted / Exploited:
+
+  | Kind | Exploited | Resisted | Else |
+  |---|---|---|---|
+  | Backstab | staggered, or hit from >= 110 deg off forward | front hit | - |
+  | HeavyBreak | swing speed >= `heavySwingSpeed` | slower swing | Neutral from behind |
+  | Recovery | staggered or recovering | attacking | Neutral |
+  | Alternating | opposite side to the last hit | same side as the last hit within 4 s | Neutral (first hit or > 4 s) |
+  | Reflect | player-sourced Projectile | - | Neutral |
+  | ParryGate | staggered | not staggered | - |
+  | CounterHit | attacking, staggered, Weakpoint Sight active, or ally source | otherwise | - |
+  | PostureOnly | never | always (HP x0.2) | posture gain x5 |
+  | Blink | within 1 s of a blink | - | Neutral |
+  | None, Linchpin | - | - | Neutral (Linchpin's death effect is wired elsewhere) |
+
+- **A11.2 Soft-lock gate.** `WeaknessRulesTests.EveryWeaknessKind_HasAbilityFreeDamagePath` enumerates every
+  `WeaknessKind` and brute-forces both facings, slow/fast swings, both
+  hit ages and all 256 flag combinations; each kind must reach a multiplier >= 1 with no ability. A newly
+  appended kind fails the suite until it has such a path. The one exception is `PostureOnly`: its HP is always
+  Resisted, so its path is the posture break (`PostureOnlyPostureMultiplier` >= 1 is asserted instead).
+- **A11.3 FilterDamage contract (`Enemy.FilterDamage`, installed as `Health.DamageFilter` only when
+  `weakness != None`).**
+  - Posture-break bonus damage (`PostureMeter.ApplyingBonus`) passes through unchanged: it is not a new hit.
+  - **Resisted: no flinch and no posture.** `NextHitGainScale = 0` and a `HitResisted` event; HP x
+    `resistMultiplier` (PostureOnly: x0.2, with posture scale x5 instead).
+  - **Exploited:** `WeaknessExploited` event; HP x `exploitMultiplier`. HeavyBreak and ParryGate force-stagger
+    **only if the enemy is not already staggered**. This deviates from the P3-02 spec, which would re-stagger
+    on every exploit, because that allows a stunlock.
+  - **Melee uses the hit point, not the rig root,** as the source position (roomscale puts the player rig
+    root metres from the sword). Other damage types use the source transform.
+  - **Reflect** exploit deals `Max HP x exploitMultiplier` (a fraction of max health), so it works on any HP
+    pool.
+- **A11.4 Reflect uses player-owned bolts.** `Projectile.Reflect` (blade speed >= `ReflectMinSpeed` 2.5 m/s)
+  hands ownership to the player root, re-aims at the firer, and doubles speed, once per bolt. The hit then
+  reaches `Health` as a player-sourced `Projectile`, which is what `WeaknessKind.Reflect` exploits.
+- **A11.5 Elite affixes (`EliteAffixes`).** `Armored, Swift, Unflinching, Vampiric, Volatile` (append-only:
+  the values are part of the seeded pick order). Picked from their **own RNG stream,
+  `RunRng.ForNode(runSeed, nodeId ^ 0x0E117E)`,** never the map or spawn stream, so existing golden vectors
+  cannot move. One affix in sectors 0-1, two from sector 2; **never Swift together with Volatile**. Applied to
+  the runtime definition clone only, never a shared asset. Swift leaves `telegraphTime` untouched (fairness).
+  Volatile's blast tests horizontal (XZ) distance only, radius 2 m, 1.2 s floor ring.
+- **A11.6 Boss phases scale by weight share.** Each phase asset's own `maxHealth` is only a weight: phase i gets
+  `RunScaling.BossTargetHealth(sector) x weight_i / sum(weights)` (`RunArenaController.PhaseHealths`; any
+  non-positive weight falls back to equal shares). The fight's total is therefore always BossTargetHealth.
+- **A11.7 Boss adds (A5.1 / A5.5).** Adds are pre-instantiated **inactive at Start** with every other enemy
+  (A5.5: nothing is instantiated mid-fight) and held in `reservedAdds`, out of the queue. The first
+  `BossPhaseChanged` makes `RunArenaController` release them as one extra wave through the normal wave path.
+  The boss never spawns adds itself (A5.1: spawning is the arena's job). A single-phase boss never reserves
+  adds. Every phase clone is destroyed on death (A5.7).
+- **A11.8 Health bars, no damage numbers.** Bosses get a runtime-built north-wall bar showing the whole fight
+  (all phases) with phase-threshold markers; non-bosses get `EnemyHealthBar` (shown on first hit, hidden 4 s
+  after the last, yaw-billboard). Both use the shared unlit material with colour via MPB (no Canvas, no new
+  Material). There are no floating damage numbers: feedback is haptics, audio (`HitResisted`,
+  `WeaknessExploited`) and the bars.
+- **A11.9 Save format.** Phase 3 added no serialized save fields: `RunSnapshot.CurrentVersion` stays 2 and
+  `MetaSaveData.CurrentVersion` stays 1. Fixture `TestData/saves_phase3`.

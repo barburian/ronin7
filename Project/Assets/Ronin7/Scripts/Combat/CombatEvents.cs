@@ -126,4 +126,40 @@ namespace Ronin7.Combat
         public readonly GameObject Attacker;
         public BladeClash(Vector3 point, GameObject attacker) { Point = point; Attacker = attacker; }
     }
+
+    /// <summary>P3-02: a hit landed on an enemy's resisted side (see <c>Ronin7.Enemies.WeaknessRules</c>):
+    /// reduced damage, no flinch, no posture.</summary>
+    public readonly struct HitResisted
+    {
+        public readonly Vector3 Point;
+        public readonly GameObject Victim;
+        public HitResisted(Vector3 point, GameObject victim) { Point = point; Victim = victim; }
+    }
+
+    /// <summary>P3-02: a hit exploited an enemy's weakness. <see cref="Kind"/> is the
+    /// <c>(int)Ronin7.Enemies.WeaknessKind</c>; an int because Combat cannot reference Enemies.</summary>
+    public readonly struct WeaknessExploited
+    {
+        public readonly Vector3 Point;
+        public readonly GameObject Victim;
+        public readonly int Kind;
+        public WeaknessExploited(Vector3 point, GameObject victim, int kind) { Point = point; Victim = victim; Kind = kind; }
+    }
+
+    /// <summary>P3-07: a boss advanced to its next phase (0-based <see cref="Phase"/>).</summary>
+    public readonly struct BossPhaseChanged
+    {
+        public readonly GameObject Boss;
+        public readonly int Phase;
+        public BossPhaseChanged(GameObject boss, int phase) { Boss = boss; Phase = phase; }
+    }
+
+    /// <summary>P3-04: a teleporting enemy chose its blink <see cref="Destination"/>; the positional cue
+    /// should play from there (the blink lands ~0.5 s later).</summary>
+    public readonly struct EnemyBlinkTelegraph
+    {
+        public readonly Vector3 Destination;
+        public readonly GameObject Enemy;
+        public EnemyBlinkTelegraph(Vector3 destination, GameObject enemy) { Destination = destination; Enemy = enemy; }
+    }
 }

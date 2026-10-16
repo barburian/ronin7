@@ -332,6 +332,31 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
                 Assert.AreEqual(0, req.EntryIndex); // only index 0 (lowDepth) is eligible
         }
 
+        // P3-04: Entry.maxPerRoom caps copies in one room even when the capped entry dominates the weights.
+        [Test]
+        public void SupportDrone_AtMostOnePerRoom()
+        {
+            var support = MakeEntry(weight: 1000);
+            support.maxPerRoom = 1;
+            var table = MakeTable(new[] { MakeEntry(weight: 1), support });
+            for (uint seed = 1; seed <= 60; seed++)
+            {
+                var rng = new RunRng(seed);
+                var result = WaveComposer.Compose(table, new RunNode(8, 2, 3, RoomKind.Combat), 12f, Vector3.zero, ref rng);
+                Assert.LessOrEqual(result.FindAll(r => r.EntryIndex == 1).Count, 1, "seed " + seed);
+                Assert.Greater(result.Count, 1, "cap must not stop the room filling with other entries");
+            }
+        }
+
+        [Test]
+        public void MaxPerRoom_Zero_IsUnlimited()
+        {
+            var table = MakeTable(new[] { MakeEntry(weight: 1000) });
+            var rng = new RunRng(7);
+            var result = WaveComposer.Compose(table, new RunNode(8, 2, 3, RoomKind.Combat), 12f, Vector3.zero, ref rng);
+            Assert.GreaterOrEqual(result.Count, 2);
+        }
+
         [Test]
         public void Compose_CombatNode_ExcludesEliteOnlyEntries()
         {

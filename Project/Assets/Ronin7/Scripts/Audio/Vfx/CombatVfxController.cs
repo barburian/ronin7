@@ -33,6 +33,9 @@ namespace Ronin7.Audio.Vfx
         private const int BoltBurst = 7;
         private const int ExplosionBurst = 26;
         private const int TreasureBurst = 30;
+        private const int ResistedBurst = DeflectBurst / 4;
+        private static readonly Color32 ResistedTint = new Color32(120, 140, 170, 255); // blue-grey
+        private static readonly Color32 WeaknessTint = new Color32(255, 200, 60, 255);  // gold
 
         // Sword sparks scale with swing speed (m/s) between these.
         private const int SparkMin = 4;
@@ -92,6 +95,8 @@ namespace Ronin7.Audio.Vfx
             EventBus.Subscribe<EnemyShipDestroyed>(OnEnemyShipDestroyed);
             EventBus.Subscribe<PlayerShipDestroyed>(OnPlayerShipDestroyed);
             EventBus.Subscribe<TreasureOpened>(OnTreasureOpened);
+            EventBus.Subscribe<HitResisted>(OnHitResisted);
+            EventBus.Subscribe<WeaknessExploited>(OnWeaknessExploited);
         }
 
         internal void Unsubscribe()
@@ -105,6 +110,8 @@ namespace Ronin7.Audio.Vfx
             EventBus.Unsubscribe<EnemyShipDestroyed>(OnEnemyShipDestroyed);
             EventBus.Unsubscribe<PlayerShipDestroyed>(OnPlayerShipDestroyed);
             EventBus.Unsubscribe<TreasureOpened>(OnTreasureOpened);
+            EventBus.Unsubscribe<HitResisted>(OnHitResisted);
+            EventBus.Unsubscribe<WeaknessExploited>(OnWeaknessExploited);
         }
 
         private void OnSwordImpact(SwordImpact e)
@@ -123,6 +130,18 @@ namespace Ronin7.Audio.Vfx
         private void OnDied(EntityDied e) { HandledCount++; Emit(death, Center(e.Entity), DeathBurst); }
         // P2-02: Treasure TAKE — a rarity-coloured burst from the same pooled death-burst system.
         private void OnTreasureOpened(TreasureOpened e) { HandledCount++; Emit(death, e.Point, TreasureBurst, e.Color); }
+
+        // P3-03: resisted = quarter-burst blue-grey deflect flash; exploited = max gold sparks plus a full
+        // hit flash on the victim's body (MeleeAttacker's own flash timer fades it back, no new state).
+        private void OnHitResisted(HitResisted e) { HandledCount++; Emit(deflect, e.Point, ResistedBurst, ResistedTint); }
+
+        private void OnWeaknessExploited(WeaknessExploited e)
+        {
+            HandledCount++;
+            Emit(spark, e.Point, SparkMax, WeaknessTint);
+            var body = e.Victim != null ? e.Victim.GetComponentInParent<MeleeAttacker>() : null;
+            if (body != null) RendererTint.Flash(body.BodyRenderer, 1f);
+        }
 
         private void OnShipFired(ShipWeaponFired e) { HandledCount++; Emit(muzzle, e.WorldPoint, MuzzleBurst); }
         private void OnBoltImpact(ProjectileImpact e) { HandledCount++; Emit(bolt, e.WorldPoint, BoltBurst); }

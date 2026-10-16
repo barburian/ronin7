@@ -13,8 +13,18 @@ namespace Ronin7.Tests.EditMode
         {
             Assert.AreEqual(Path.Combine("R", "Builds", "Quest", "Ronin7_0.1.0.apk"),
                 BuildMenu.OutputPath("R", BuildTarget.Android, "0.1.0", dev: false));
-            Assert.AreEqual(Path.Combine("R", "Builds", "Windows", "Ronin7_0.1.0-dev.exe"),
+            Assert.AreEqual(Path.Combine("R", "Builds", "Windows-Dev", "Ronin7_0.1.0-dev.exe"),
                 BuildMenu.OutputPath("R", BuildTarget.StandaloneWindows64, "0.1.0", dev: true));
+        }
+
+        [Test]
+        public void BuildOutputPath_DevAndReleaseDiffer()
+        {
+            var win = BuildTarget.StandaloneWindows64;
+            Assert.AreNotEqual(Path.GetDirectoryName(BuildMenu.OutputPath("R", win, "1", dev: false)),
+                Path.GetDirectoryName(BuildMenu.OutputPath("R", win, "1", dev: true)));
+            Assert.AreNotEqual(BuildMenu.OutputPath("R", BuildTarget.Android, "1", dev: false),
+                BuildMenu.OutputPath("R", BuildTarget.Android, "1", dev: true));
         }
 
         [Test]

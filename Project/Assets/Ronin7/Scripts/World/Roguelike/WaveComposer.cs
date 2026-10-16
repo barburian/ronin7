@@ -165,10 +165,11 @@ namespace Ronin7.World
             for (int i = 0; i < eligible.Count; i++)
                 weights[i] = table.trash[eligible[i]].weight;
 
+            var used = new int[table.trash.Length];
             for (int i = 0; i < count; i++)
             {
-                int pick = rng.PickWeighted(weights);
-                int entryIndex = eligible[pick >= 0 ? pick : 0];
+                int entryIndex = PickCapped(table.trash, eligible, weights, used, ref rng);
+                if (entryIndex < 0) break; // every eligible entry is at its per-room cap
                 result.Add(new SpawnRequest(entryIndex, positions[i], isBoss: false));
             }
 
@@ -208,12 +209,27 @@ namespace Ronin7.World
 
             List<Vector3> positions = Positions(1 + escorts, arenaHalfExtent, playerSpawn, ref rng);
             result.Add(new SpawnRequest(leadIndex, positions[0], isBoss: false, isElite: true));
+            var used = new int[table.trash.Length];
             for (int i = 0; i < escorts; i++)
             {
-                int pick = rng.PickWeighted(escortWeights);
-                result.Add(new SpawnRequest(escortPool[pick >= 0 ? pick : 0], positions[1 + i], isBoss: false));
+                int entryIndex = PickCapped(table.trash, escortPool, escortWeights, used, ref rng);
+                if (entryIndex < 0) break;
+                result.Add(new SpawnRequest(entryIndex, positions[1 + i], isBoss: false));
             }
             return result;
+        }
+
+        /// <summary>P3-04: weighted pick that honours <c>Entry.maxPerRoom</c> (0 = unlimited): once an entry
+        /// reaches its cap its weight is zeroed. Returns the trash index, or -1 when nothing is pickable.
+        /// RNG use is identical to a plain pick while no cap is hit.</summary>
+        private static int PickCapped(EnemySpawnTable.Entry[] trash, List<int> pool, int[] weights, int[] used, ref RunRng rng)
+        {
+            int pick = rng.PickWeighted(weights);
+            if (pick < 0) return -1;
+            int index = pool[pick];
+            int cap = trash[index].maxPerRoom;
+            if (cap > 0 && ++used[index] >= cap) weights[pick] = 0;
+            return index;
         }
 
         private static int[] Weights(EnemySpawnTable.Entry[] trash, List<int> indices)

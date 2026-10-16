@@ -54,6 +54,14 @@ namespace Ronin7.Core
             Save();
         }
 
+        /// <summary>BUG-32 dev reset (only called from DevRunTools): in-memory only, never saved, so the
+        /// P2-08 prompts show again; the next Save would persist it, which is fine for a dev build.</summary>
+        public static void ResetTutorialInMemory()
+        {
+            runsCompleted = 0;
+            tutorialDone = false;
+        }
+
         /// <summary>Clamps negatives to 0 rather than letting Echoes go below zero.</summary>
         public static void AddEchoes(int amount)
         {

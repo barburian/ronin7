@@ -435,10 +435,27 @@ namespace Ronin7.Flow
             }
             panelMode = PanelMode.Forge;
             choicePanel.ChoiceSelected += OnChoicePanelSelected;
-            choicePanel.SetOption(0, "MEND", RoomKindText.Color(RoomKind.Forge), "Heal 60% of your missing health.", string.Empty, true);
+            // BUG-30: show what each card does now — MEND heals 0 at full HP, so it says so and is disabled.
+            var health = VRRig.Instance != null ? VRRig.Instance.GetComponent<Health>() : null;
+            string mend = health != null ? ForgeMendLabel(health.Current, health.Max) : ForgeHpFull;
+            choicePanel.SetOption(0, "MEND", RoomKindText.Color(RoomKind.Forge), "Heal 60% of your missing health.", mend, mend != ForgeHpFull);
             // ponytail: TEMPER is +1 reroll until P4-07 lands weapon tempering.
-            choicePanel.SetOption(1, "TEMPER", RoomKindText.Color(RoomKind.Forge), "+1 reroll. (Weapon tempering arrives later.)", string.Empty, true);
+            choicePanel.SetOption(1, "TEMPER", RoomKindText.Color(RoomKind.Forge), "+1 reroll. (Weapon tempering arrives later.)",
+                ForgeTemperLabel(RunState.RerollTokens), true);
         }
+
+        internal const string ForgeHpFull = "HP FULL";
+
+        /// <summary>BUG-30: MEND card sub-label — the whole HP the HUD will gain ("+36 HP"), or
+        /// "HP FULL" when MEND would heal nothing. Uses the HUD's ceil rounding. Pure.</summary>
+        internal static string ForgeMendLabel(float current, float max)
+        {
+            int gain = Mathf.CeilToInt(ForgeResultHealth(current, max)) - Mathf.CeilToInt(current);
+            return gain > 0 ? "+" + gain + " HP" : ForgeHpFull;
+        }
+
+        /// <summary>BUG-30: TEMPER card sub-label — rerolls now and after ("REROLLS 0 > 1"). Pure.</summary>
+        internal static string ForgeTemperLabel(int tokens) => "REROLLS " + tokens + " > " + (tokens + 1);
 
         private void ChooseForge(int index)
         {

@@ -1,3 +1,4 @@
+using Ronin7.Combat;
 using Ronin7.Core;
 using UnityEngine;
 
@@ -36,6 +37,11 @@ namespace Ronin7.Ship
         private float speed;               // units/sec along transform.forward
         private float lifeRemaining;
         private bool live;
+        private bool reflected;            // P3-05: already deflected by the player's blade (once per bolt)
+
+        /// <summary>P3-05: minimum blade speed (m/s) that deflects a bolt instead of letting it through.</summary>
+        public const float ReflectMinSpeed = 2.5f;
+        internal bool Reflected => reflected;
 
         /// <summary>
         /// True while this bolt sits idle in its <see cref="ProjectilePool"/>'s available queue. The
@@ -74,6 +80,7 @@ namespace Ronin7.Ship
             speed = boltSpeed;
             damage = boltDamage;
             lifeRemaining = lifetime;
+            reflected = false;
 
             transform.SetParent(parent, worldPositionStays: true);
             transform.SetPositionAndRotation(worldPosition, worldRotation);
@@ -149,14 +156,50 @@ namespace Ronin7.Ship
         {
             if (other == null) return false;
 
+            if (!reflected)
+            {
+                var blade = other.GetComponentInParent<BladeDamager>();
+                if (blade != null && blade.Speed >= ReflectMinSpeed)
+                {
+                    var mods = blade.GetComponentInParent<PlayerCombatModifiers>();
+                    Reflect(mods != null ? mods.gameObject : blade.transform.root.gameObject);
+                    return false; // deflected, not consumed: keep flying
+                }
+            }
+
             var damageable = other.GetComponentInParent<IDamageable>();
             if (!ShouldDamage(owner, other.transform, damageable?.IsAlive ?? false)) return false;
 
             damageable.ApplyDamage(new DamageInfo(damage, point, dir, owner, DamageType.Projectile));
             OnHit(point, damageable);
+            if (other.GetComponentInParent<CharacterController>() != null)
+                EventBus.Publish(new PlayerHit(damage, point, owner != null ? owner.transform.position : point));
             EventBus.Publish(new ProjectileImpact(point));
             Recycle();
             return true;
+        }
+
+        /// <summary>Pure (P3-05): unit direction from the bolt to its target; zero distance reverses the current direction.</summary>
+        public static Vector3 ReflectDirection(Vector3 boltPos, Vector3 targetPos, Vector3 currentDir)
+        {
+            Vector3 d = targetPos - boltPos;
+            return d.sqrMagnitude < 1e-8f ? -currentDir : d.normalized;
+        }
+
+        /// <summary>
+        /// P3-05: the player's blade deflects this bolt. Ownership passes to <paramref name="playerRoot"/>
+        /// (so the hit reaches Health as a player-sourced Projectile hit, which Reflect weakness exploits),
+        /// it re-aims at the original firer and flies at double speed. Once per bolt.
+        /// </summary>
+        internal void Reflect(GameObject playerRoot)
+        {
+            GameObject firer = owner;
+            Vector3 aim = firer == null ? transform.position
+                : firer.TryGetComponent(out Collider c) ? c.bounds.center : firer.transform.position + Vector3.up;
+            transform.rotation = Quaternion.LookRotation(ReflectDirection(transform.position, aim, transform.forward));
+            owner = playerRoot;
+            speed *= 2f;
+            reflected = true;
         }
 
         private void Recycle()

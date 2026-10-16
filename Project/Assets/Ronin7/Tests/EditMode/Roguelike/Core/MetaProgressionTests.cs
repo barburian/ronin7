@@ -587,5 +587,15 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             MetaProgression.Load();
             Assert.IsTrue(MetaProgression.TutorialDone);
         }
+
+        [Test]
+        public void ResetTutorialInMemory_ReArmsPrompts()
+        {
+            MetaProgression.ApplyFrom(new MetaSaveData { metaRunsCompleted = 3 });
+            Assert.IsTrue(MetaProgression.TutorialDone);
+            MetaProgression.ResetTutorialInMemory();
+            Assert.AreEqual(0, MetaProgression.RunsCompleted);
+            Assert.IsFalse(MetaProgression.TutorialDone);
+        }
     }
 }

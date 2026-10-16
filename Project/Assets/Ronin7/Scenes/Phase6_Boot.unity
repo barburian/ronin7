@@ -209,6 +209,8 @@ MonoBehaviour:
   swordDeflect: {fileID: 0}
   swordImpact: {fileID: 0}
   playerHit: {fileID: 0}
+  hitResisted: {fileID: 8300000, guid: 52ca31bb21c6ebb468bc946e0ab4808e, type: 3}
+  weaknessHit: {fileID: 8300000, guid: 5aa7d472a3726ec4a9a1015348013242, type: 3}
   shipGunFire: {fileID: 0}
   boltImpact: {fileID: 0}
   enemyExplosion: {fileID: 0}
@@ -15660,7 +15662,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &1626959634
 Canvas:
   m_ObjectHideFlags: 0

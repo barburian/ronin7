@@ -83,6 +83,20 @@ namespace Ronin7.Tests.EditMode
             Assert.DoesNotThrow(() => EventBus.Publish(new PostureNearBreak(_go)));
         }
 
+        [Test]
+        public void OnEnable_SubscribesToWeaknessEvents_AndOnDisableUnsubscribes_PublishDoesNotThrow()
+        {
+            var controller = StartController();
+            Assert.IsTrue(HasSubscriber<HitResisted>());
+            Assert.IsTrue(HasSubscriber<WeaknessExploited>());
+            Assert.DoesNotThrow(() => EventBus.Publish(new HitResisted(Vector3.zero, _go)));
+            Assert.DoesNotThrow(() => EventBus.Publish(new WeaknessExploited(Vector3.zero, _go, 1)));
+
+            Life(controller, "OnDisable");
+            Assert.IsFalse(HasSubscriber<HitResisted>());
+            Assert.IsFalse(HasSubscriber<WeaknessExploited>());
+        }
+
         // HitSideWeights: head at origin facing +Z, right = +X. Returns (left, right).
         private const float FarMin = 0.3f;
         private static Vector2 Weights(Vector3 source) =>

@@ -28,7 +28,7 @@ Scenes: `Assets/Ronin7/Scenes/ChNN_*.unity` (chapters + their `ChNN_Prologue` sh
 
 ## Build / Run / Test
 
-EditMode gate (baseline: **1518 tests green, 0 skips** at `roguelike` Phase 2; PlayMode: **15/15 green**):
+EditMode gate (baseline: **1627 tests green, 0 skips** at `roguelike` Phase 3; PlayMode: **16/16 green**):
 
 ```
 Unity.exe -runTests -batchmode -projectPath "Project" -testPlatform EditMode -testResults res.xml
@@ -44,6 +44,7 @@ Tests and `adb logcat` only prove shaders load. They cannot catch a frame that i
 - Render the build's scenes in-editor at the **Mobile quality tier** (`Mobile_RPAsset`), loaded the way the build loads them (`Phase6_Boot` → `RunArena`). Render `Camera.main` → RenderTexture through the full URP post stack (see the memory note on game-view capture), then measure mean luminance and magenta ratio, and look at the PNG.
 - For any visual fix, render the **whole scene** (arena + enemies), not just the changed object, at both the PC and Quest tiers.
 - If an automated arena render check exists in the test suite or the editor menu, run it before building.
+- In-editor there is no HMD pose: Camera.main sits at y=0 inside the floor with hand meshes over the lens and renders ~black. Raise the camera's local Y to ~1.6 m (or hide XR Origin renderers) and freeze time the same tick enemies spawn before measuring.
 - Only device-only causes (Vulkan, multiview, HDR on device) should ever need the headset to find. Say so when that's the case.
 
 ## Working through the MCP

@@ -45,6 +45,13 @@ namespace Ronin7.Enemies
         private bool applyingBonus;
         private bool nearBreakArmed = true;
 
+        /// <summary>P3-02: posture-gain scale for the next damaging hit only (0 = resisted, 5 = PostureOnly),
+        /// set by Enemy.FilterDamage and reset to 1 once consumed.</summary>
+        internal float NextHitGainScale = 1f;
+
+        /// <summary>True while the break bonus hit is being applied (Enemy.FilterDamage passes it through).</summary>
+        internal bool ApplyingBonus => applyingBonus;
+
         /// <summary>Current posture (0..postureMax), for UI/inspection.</summary>
         public float Current => current;
 
@@ -88,7 +95,8 @@ namespace Ronin7.Enemies
 
             lastDamageTime = Time.time;
             float previous = current;
-            current = Accumulate(current, info.Amount, gainPerDamage * gainMultiplier_, postureMax);
+            current = Accumulate(current, info.Amount * NextHitGainScale, gainPerDamage * gainMultiplier_, postureMax);
+            NextHitGainScale = 1f;
             bool broken = IsBroken(current, postureMax);
 
             if (CrossedNearBreak(previous, current, nearBreakFraction, postureMax, nearBreakArmed, broken))

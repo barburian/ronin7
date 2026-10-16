@@ -12,22 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124031ca89272a245b6bae3d880a5cf0, type: 3}
   m_Name: RL_CoilGanger
   m_EditorClassIdentifier: Ronin7.Enemies::Ronin7.Enemies.EnemyDefinition
-  maxHealth: 55
+  maxHealth: 70
   moveSpeed: 1.5
   attackRange: 1.7
-  telegraphTime: 0.8
+  turnRateDegrees: 240
+  acceleration: 4
+  deceleration: 6
+  telegraphTime: 1
+  telegraphMaxTime: 0
   activeTime: 0.8
   recoverTime: 0.6
   staggerTime: 1.2
   attackCooldown: 0.9
+  poseArmScale: 1
+  poseTwistDegrees: 30
+  poseLeanDegrees: 12
+  poseWholeBody: 0
   damage: 9
   healthAddedPerGalaxy: 0
   damageAddedPerGalaxy: 0
   superArmor: 0
   postureGainMultiplier: 1
-  weakness: 0
-  resistMultiplier: 0.15
-  exploitMultiplier: 2
+  weakness: 3
+  resistMultiplier: 0.5
+  exploitMultiplier: 2.5
   heavySwingSpeed: 5.5
   materialClass: 0
+  postureBreakBonusFraction: 0
+  chainHits: 1
+  blinkBehind: 0
   postureMaxFraction: 0.6
+  vampiric: 0
+  eliteRim: {r: 0, g: 0, b: 0, a: 1}

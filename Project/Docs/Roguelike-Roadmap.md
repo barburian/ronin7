@@ -91,10 +91,10 @@ Effort in engineer-days (rough, one person with agents): P0 ≈ 4–5, P1 ≈ 6�
 | BUG-31 | MED | `SceneDebugOverlay` shows a green scene-name label ~0.6 m in front of the player in **release builds** (no `RONIN7_DEV` gate). Still visible to the user. | `Flow/SceneDebugOverlay.cs` | P3-00 |
 | BUG-32 | LOW | **Onboarding cannot be re-verified**: the tutorial is skipped when `runsCompleted > 0` (by design, P2-08), so the Phase 2 prompts were never seen in the headset. | `Flow/Roguelike/` onboarding; `MetaProgression` | P3-00 (dev reset), P6-06 (Settings toggle) |
 | BUG-33 | MED | **One currency name for two things**: the user could not use the Shop because they had spent their Echoes at the Shrine. Design decision D-11: fully separate currencies. | `MetaProgression.cs`, `RunState`, Shop/Shrine/HUD | P4-11 |
-| BUG-34 | LOW | Hard-coded `LeftHand` haptics ignore `GameSettings.LeftHanded` (P2-09 fixed only `ParryFlowController`). | `Player/CombatFeedbackController.cs`, `AdrenalineFlow`, `BladeClashFeedback`, `HeartbeatHaptics` | P3-00 |
+| BUG-34 | LOW | Hard-coded `LeftHand` haptics ignore `GameSettings.LeftHanded` (P2-09 fixed only `ParryFlowController`). | `Player/CombatFeedbackController.cs`, `AdrenalineFlow`, `BladeClashFeedback`, `HeartbeatHaptics` | P3-00 | Resolved P3-00: not reproducible — all four pulse both hands (side-weighted for hits), handedness-neutral; no code change. Guard test `HapticHand_FollowsLeftHanded` covers the shared `HandednessRig.OffHand` lookup.
 | BUG-35 | LOW | `RunRng.ForNode` first draw barely varies across low seeds (seeds 1..64 gave the same Gamble outcome). Needs a seed mix; this changes goldens. | `Core/Roguelike/RunRng.cs` | P4-11 (same snapshot version bump) |
 | BUG-36 | LOW | `BuildMenu`: release and dev Windows builds share `Builds/Windows`; a dev build overwrites `UnityPlayer.dll`. | `Editor/BuildMenu.cs` | P3-00 |
-| BUG-37 | LOW | Quest logcat on every RunArena load: "Main Camera does not use a Tracked Pose Driver (Input System)". | `Editor/XRRigBuilder.BuildRig`; RunArena camera | P3-00 |
+| BUG-37 | LOW | Quest logcat on every RunArena load: "Main Camera does not use a Tracked Pose Driver (Input System)". | `Editor/XRRigBuilder.BuildRig`; RunArena camera | P3-00 (resolved: harmless, camera driven by `PoseFollower`; see P3-00 item 6) |
 | BUG-38 | LOW | Drones and bosses still move unsmoothly after P2-11 (humanoids are fine). User report, Phase 2 headset playtest. | `Enemies/MovementSmoothing.cs`, drone/boss behaviours | P3-09 |
 
 ## A3. Domain findings in brief
@@ -744,9 +744,9 @@ Source: Phase 2 headset playtest, 2026-10-14. Items 1-2 are must-fix before any 
 1. **Forge no-effect (BUG-30):** reproduce on device/PCVR and measure before changing anything. Check MEND amount at full vs missing HP, whether `Health.Current` actually changes, and whether TEMPER's +1 reroll is applied. Fix the confirmed cause, and make both effects visible (the healed amount, e.g. "+38 HP" or "HP FULL", and the reroll count on the HUD/panel).
 2. **Gate `SceneDebugOverlay` behind `RONIN7_DEV` (BUG-31).** Test: `SceneDebugOverlay_AbsentInRelease` (define check).
 3. **Dev tutorial reset (BUG-32), `RONIN7_DEV` only:** a dev action that sets `runsCompleted = 0` in memory so the P2-08 prompts can be verified in the headset.
-4. **Handedness haptics (BUG-34):** route `CombatFeedbackController`, `AdrenalineFlow`, `BladeClashFeedback`, `HeartbeatHaptics` through the same handedness lookup as `ParryFlowController`. Test: `HapticHand_FollowsLeftHanded`.
+4. **Handedness haptics (BUG-34):** route `CombatFeedbackController`, `AdrenalineFlow`, `BladeClashFeedback`, `HeartbeatHaptics` through the same handedness lookup as `ParryFlowController`. Test: `HapticHand_FollowsLeftHanded`. Resolved P3-00: not reproducible — all four pulse both hands (side-weighted for hits), handedness-neutral; no code change. Guard test `HapticHand_FollowsLeftHanded` covers the shared `HandednessRig.OffHand` lookup.
 5. **Build output folders (BUG-36):** separate `Builds/Windows` (release) from `Builds/Windows-Dev`.
-6. **Tracked Pose Driver warning (BUG-37):** investigate; add the Input System `TrackedPoseDriver` to the RunArena camera rig, or silence it with a note if it is harmless under OpenXR.
+6. **Tracked Pose Driver warning (BUG-37):** investigate; add the Input System `TrackedPoseDriver` to the RunArena camera rig, or silence it with a note if it is harmless under OpenXR. Resolved P3-00: harmless, documented, no code change. The warning is a hardcoded type check in `XROrigin.Awake` (com.unity.xr.core-utils) for `UnityEngine.InputSystem.XR.TrackedPoseDriver`. Our rig tracks the camera with `Player/PoseFollower` (Input System Head actions, applied in Update + onBeforeRender, see `XRRigBuilder`); adding a TrackedPoseDriver would double-drive the head pose, so it is deliberately not added.
 7. **Tuning knob to revisit (P2-10):** the parry window was shortened from ~1.0 s to ~0.48 s (`StrikeFraction` 0.35); the user said damage feels better. Re-check with the P3-02/P3-05 weakness and parry work; do not change it blind.
 - **Accept:** Forge effect visible and confirmed on device; release build shows no debug label; EditMode green.
 
@@ -795,6 +795,7 @@ Source: Phase 2 headset playtest, 2026-10-14. Items 1-2 are must-fix before any 
    - Return `Amount × Multiplier`. For `Reflect`, return `health.Max * exploitMultiplier`.
 3. `Enemy.FlinchEnabled => !definition.superArmor && !ConsumeResisted();`. Resisted hits do not flinch and add no posture.
 4. A HeavyBreak or ParryGate exploit calls the existing `ForceStagger()`.
+   - Deviation: exploit force-staggers only if not already staggered - prevents stunlock. Melee backstab direction uses the hit point (not the player rig root).
 5. **Events** (`Combat/CombatEvents.cs`, append): `HitResisted { Point, Victim }`, `WeaknessExploited { Point, Victim, Kind }`, `BossPhaseChanged { Boss, Phase }`, `EnemySpawning { Position }`, `RoomProgress { Remaining }` (if not added in P1).
 - **Tests (`WeaknessRulesTests`):**
   - one test per table row, at both boundaries
@@ -848,6 +849,7 @@ Implementation notes:
 - **Spawn table:**
   - Update `RoguelikeDataBuilder` with the new weights: Swarmer 18, Charger 12, Trooper 12, Duelist 10, Gunner 10 (minDepth 2), Support 6 (minDepth 4, max 1 per room); the elites are eliteOnly.
   - Add the invariant `SupportDrone_AtMostOnePerRoom`.
+- **Design review flag:** Construct `PostureOnly` net posture gain is x1.0 (the x5 posture multiplier is applied to the x0.2 HP damage). Unchanged; flagged for design review.
 
 ### P3-05 Ranged enemies and reflectable bolts
 1. Add `"Ronin7.Enemies"` to `Scripts/Ship/Ronin7.Ship.asmdef`. There is no cycle: Enemies → Core and Combat only. **Ship still must not reference Player.**
@@ -910,7 +912,7 @@ User report, Phase 2 headset playtest: after P2-11 humanoids are fine, drones an
 ### P3 exit
 - Export Gate.
 - G6 perf check with the **worst case**: a boss in phase 2 with 2 adds, 1 Volatile ring, 8 bolts and VFX.
-- Amendment 9 (the weakness contract and the soft-lock gate).
+- Amendment 11 (the weakness contract and the soft-lock gate). (9 and 10 were already used by Phase 1/2 numbers.)
 - Tag `roguelike-phase3`, version `0.4.0`.
 
 ---
