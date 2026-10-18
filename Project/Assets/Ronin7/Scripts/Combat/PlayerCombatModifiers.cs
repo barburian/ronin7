@@ -54,6 +54,25 @@ namespace Ronin7.Combat
         /// <c>ComboMomentumController</c>'s per-stack bonus. Default 0 (no effect).</summary>
         public float BoonComboBonus { get; set; }
 
+        /// <summary>P4-01: number of <see cref="BoonEffectKind"/> members (append-only, so contiguous from 0).</summary>
+        public static readonly int BoonKindCount = System.Enum.GetValues(typeof(BoonEffectKind)).Length;
+
+        /// <summary>P4-01 generic stat slots, indexed by <see cref="BoonEffectKind"/>. Each value is the
+        /// bonus over the stat's base (a fraction for scale stats, points/charges for count stats);
+        /// 0 is neutral. Written by RunDirector from <c>BoonInventory.Bonus</c> on every load and pick.
+        /// Consumers read <see cref="Boon"/> at use time — never cache it in Awake (onLoaded runs after
+        /// Awake).</summary>
+        private readonly float[] boonStats = new float[BoonKindCount];
+
+        /// <summary>The bonus held for <paramref name="kind"/>; 0 (neutral) for an out-of-range kind.</summary>
+        public float Boon(BoonEffectKind kind) =>
+            (uint)kind < (uint)boonStats.Length ? boonStats[(int)kind] : 0f;
+
+        internal void SetBoon(BoonEffectKind kind, float value)
+        {
+            if ((uint)kind < (uint)boonStats.Length) boonStats[(int)kind] = value;
+        }
+
         /// <summary>
         /// The multiplier <see cref="BladeDamager"/> actually applies:
         /// <c>min(ParryFlow * Combo * Overdrive, 3x) * min(BoonMultiplier, 2x)</c>.

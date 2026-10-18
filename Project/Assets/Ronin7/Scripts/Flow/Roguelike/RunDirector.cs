@@ -552,9 +552,13 @@ namespace Ronin7.Flow
         /// player "chose" this run, so they shouldn't republish BoonChosen (and Common-tier starting
         /// boons never carry a GrantAbility effect anyway).
         /// </summary>
-        private static void GrantBoon(BoonDefinition boon)
+        private void GrantBoon(BoonDefinition boon)
         {
             RunState.AddBoon(boon.id);
+            // P4-01: stat slots take effect on the pick itself; max HP still applies from the next load.
+            boonInventory.Add(boon);
+            var modifiers = VRRig.Instance != null ? VRRig.Instance.GetComponent<PlayerCombatModifiers>() : null;
+            if (modifiers != null) PushBoonStats(modifiers, boonInventory);
             EventBus.Publish(new BoonChosen(boon.id));
             if (boon.effect == BoonEffectKind.GrantAbility) RunState.GrantAbility(boon.abilityId);
         }
@@ -1000,7 +1004,7 @@ namespace Ronin7.Flow
             if (shopStock == null || index < 0 || index >= shopStock.Count || shopSold[index]) return;
             if (!RunState.TrySpendEchoes(ShopPrice(shopStock[index].rarity))) return;
             shopSold[index] = true;
-            GrantBoon(shopStock[index]); // applies from the next node load, like every pick
+            GrantBoon(shopStock[index]); // stat slots apply now; max HP from the next node load, like every pick
             RefreshShop();
         }
 
@@ -1394,6 +1398,17 @@ namespace Ronin7.Flow
             if (next != null) StartSceneLoad(next);
         }
 
+        /// <summary>P4-01: writes the inventory's numbers onto the rig's modifier slots — the named slots
+        /// plus one generic stat slot per <see cref="BoonEffectKind"/>. Runs on every load and every pick.</summary>
+        internal static void PushBoonStats(PlayerCombatModifiers modifiers, BoonInventory inventory)
+        {
+            modifiers.BoonMultiplier = inventory.BladeDamageMultiplier;
+            modifiers.BoonParryFlowBonus = inventory.ParryFlowBonus;
+            modifiers.BoonComboBonus = inventory.ComboBonus;
+            for (int k = 0; k < PlayerCombatModifiers.BoonKindCount; k++)
+                modifiers.SetBoon((BoonEffectKind)k, inventory.Bonus((BoonEffectKind)k));
+        }
+
         /// <summary>BUG-02: onLoaded hook for arena loads — restore the rig first, then replay a
         /// zero-enemy node's parked clear so its Forge/Treasure reward sees the carried HP.</summary>
         private void OnArenaLoaded()
@@ -1449,9 +1464,7 @@ namespace Ronin7.Flow
             // every damage/parry-flow/combo boon silently does nothing on the arena rig.
             var modifiers = VRRig.Instance.GetComponent<PlayerCombatModifiers>();
             if (modifiers == null) modifiers = VRRig.Instance.gameObject.AddComponent<PlayerCombatModifiers>();
-            modifiers.BoonMultiplier = boonInventory.BladeDamageMultiplier;
-            modifiers.BoonParryFlowBonus = boonInventory.ParryFlowBonus;
-            modifiers.BoonComboBonus = boonInventory.ComboBonus;
+            PushBoonStats(modifiers, boonInventory);
 
             var health = VRRig.Instance.GetComponent<Health>();
             if (health != null)

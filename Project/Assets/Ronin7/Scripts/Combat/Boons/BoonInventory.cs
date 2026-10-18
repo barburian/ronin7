@@ -84,7 +84,13 @@ namespace Ronin7.Combat
             _spentRevives = 0;
         }
 
-        private float MultiplierProduct(BoonEffectKind kind)
+        /// <summary>P4-01: the generic stat-slot value for <paramref name="kind"/> as a bonus over the
+        /// stat's base (0 = neutral): <c>MultiplierProduct - 1</c> for BladeDamageMultiplier (the one
+        /// multiplicatively stacking kind), <see cref="AdditiveSum"/> for every other kind.</summary>
+        public float Bonus(BoonEffectKind kind) =>
+            kind == BoonEffectKind.BladeDamageMultiplier ? MultiplierProduct(kind) - 1f : AdditiveSum(kind);
+
+        public float MultiplierProduct(BoonEffectKind kind)
         {
             float product = 1f;
             foreach (var pair in _definitions)
@@ -95,7 +101,7 @@ namespace Ronin7.Combat
             return product;
         }
 
-        private float AdditiveSum(BoonEffectKind kind)
+        public float AdditiveSum(BoonEffectKind kind)
         {
             float sum = 0f;
             foreach (var pair in _definitions)

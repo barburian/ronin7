@@ -86,5 +86,19 @@ namespace Ronin7.Tests.EditMode
             mods.BoonMultiplier = 10f;   // capped to 2x
             Assert.AreEqual(6f, mods.DamageMultiplier); // 3 * 2, the documented worst case
         }
+
+        [Test]
+        public void BoonStats_DefaultZero_SetBoonRoundTrips_AndCoverEveryKind()
+        {
+            go = new GameObject("Rig");
+            var mods = go.AddComponent<PlayerCombatModifiers>();
+            Assert.AreEqual(System.Enum.GetValues(typeof(BoonEffectKind)).Length, PlayerCombatModifiers.BoonKindCount);
+            for (int k = 0; k < PlayerCombatModifiers.BoonKindCount; k++)
+                Assert.AreEqual(0f, mods.Boon((BoonEffectKind)k));
+
+            mods.SetBoon(BoonEffectKind.HealOnKill, 3f);
+            Assert.AreEqual(3f, mods.Boon(BoonEffectKind.HealOnKill));
+            Assert.AreEqual(0f, mods.Boon((BoonEffectKind)999), "out-of-range kind is neutral, not a throw");
+        }
     }
 }

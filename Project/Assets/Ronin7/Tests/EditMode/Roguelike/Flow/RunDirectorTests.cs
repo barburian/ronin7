@@ -492,5 +492,31 @@ namespace Ronin7.Tests.EditMode
                 UnityEngine.Object.DestroyImmediate(go);
             }
         }
+
+        // ---- P4-01: every kind is pushed onto the rig's generic stat slots ----
+
+        [Test]
+        public void PushBoonStats_WritesEveryKindAndNamedSlots()
+        {
+            var rig = new GameObject("rig");
+            var mods = rig.AddComponent<PlayerCombatModifiers>();
+            var heal = ScriptableObject.CreateInstance<BoonDefinition>();
+            heal.id = "heal"; heal.effect = BoonEffectKind.HealOnKill; heal.magnitude = 3f; heal.maxStacks = 3;
+            var blade = ScriptableObject.CreateInstance<BoonDefinition>();
+            blade.id = "blade"; blade.effect = BoonEffectKind.BladeDamageMultiplier; blade.magnitude = 0.2f; blade.maxStacks = 3;
+            var inv = new BoonInventory();
+            inv.Add(heal); inv.Add(heal); inv.Add(blade);
+
+            RunDirector.PushBoonStats(mods, inv);
+
+            Assert.AreEqual(6f, mods.Boon(BoonEffectKind.HealOnKill), 1e-5f);
+            Assert.AreEqual(0.2f, mods.Boon(BoonEffectKind.BladeDamageMultiplier), 1e-5f);
+            Assert.AreEqual(1.2f, mods.BoonMultiplier, 1e-5f);
+            Assert.AreEqual(0f, mods.Boon(BoonEffectKind.ComboBonus));
+
+            UnityEngine.Object.DestroyImmediate(heal);
+            UnityEngine.Object.DestroyImmediate(blade);
+            UnityEngine.Object.DestroyImmediate(rig);
+        }
     }
 }

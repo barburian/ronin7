@@ -9,6 +9,10 @@ namespace Ronin7.Combat
     /// possible consumer (ContinuousLocomotion exposes no speed hook and its comfort vignette ignores
     /// linear speed — a shippable speed boon is a VR-comfort hazard, not just dead code; and
     /// PerfectParryWindow is a private const that can't be scaled at runtime).
+    ///
+    /// APPEND-ONLY (P4-01): authored BoonDefinition assets serialize this enum by its numeric value,
+    /// and PlayerCombatModifiers indexes its boon-stat array by it. Never reorder, remove or insert —
+    /// only add new members at the end. Pinned by BoonEffectKind_ExistingValues_ArePinned.
     /// </summary>
     public enum BoonEffectKind
     {

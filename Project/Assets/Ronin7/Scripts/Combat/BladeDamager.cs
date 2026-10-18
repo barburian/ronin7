@@ -4,6 +4,8 @@ using Ronin7.Core;
 using UnityEngine;
 
 [assembly: InternalsVisibleTo("Ronin7.Tests.EditMode")]
+// P4-01: RunDirector (Ronin7.Flow) is the sole writer of PlayerCombatModifiers.SetBoon.
+[assembly: InternalsVisibleTo("Ronin7.Flow")]
 
 namespace Ronin7.Combat
 {

@@ -354,5 +354,36 @@ namespace Ronin7.Tests.EditMode.Roguelike.Boons
 
             Assert.IsFalse(rebuilt.HasRevive, "a spent Second Wind must not resurrect on rebuild");
         }
+
+        // ---- P4-01: append-only enum + generic stat slots ----
+
+        [Test]
+        public void BoonEffectKind_ExistingValues_ArePinned()
+        {
+            Assert.AreEqual(0, (int)BoonEffectKind.BladeDamageMultiplier);
+            Assert.AreEqual(1, (int)BoonEffectKind.MaxHealthAdd);
+            Assert.AreEqual(2, (int)BoonEffectKind.HealOnKill);
+            Assert.AreEqual(3, (int)BoonEffectKind.ParryFlowBonus);
+            Assert.AreEqual(4, (int)BoonEffectKind.ComboBonus);
+            Assert.AreEqual(5, (int)BoonEffectKind.ReviveOnce);
+            Assert.AreEqual(6, (int)BoonEffectKind.GrantAbility);
+        }
+
+        [Test]
+        public void Bonus_IsProductMinusOneForBladeDamage_SumOtherwise_ZeroWhenEmpty()
+        {
+            Assert.AreEqual(0f, _inventory.Bonus(BoonEffectKind.BladeDamageMultiplier), 1e-5f);
+            Assert.AreEqual(0f, _inventory.Bonus(BoonEffectKind.MaxHealthAdd), 1e-5f);
+
+            var blade = MakeBoon("blade", BoonEffectKind.BladeDamageMultiplier, 0.1f);
+            _inventory.Add(blade);
+            _inventory.Add(blade);
+            _inventory.Add(MakeBoon("hp", BoonEffectKind.MaxHealthAdd, 20f));
+
+            Assert.AreEqual(1.1f * 1.1f - 1f, _inventory.Bonus(BoonEffectKind.BladeDamageMultiplier), 1e-5f);
+            Assert.AreEqual(20f, _inventory.Bonus(BoonEffectKind.MaxHealthAdd), 1e-5f);
+            Assert.AreEqual(20f, _inventory.AdditiveSum(BoonEffectKind.MaxHealthAdd), 1e-5f);
+            Assert.AreEqual(1.21f, _inventory.MultiplierProduct(BoonEffectKind.BladeDamageMultiplier), 1e-5f);
+        }
     }
 }
