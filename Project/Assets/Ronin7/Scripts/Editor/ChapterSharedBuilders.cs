@@ -1049,6 +1049,25 @@ namespace Ronin7.EditorTools
                 if (vrRig != null) SetObjectRef(mirrorSo, "headTransform", vrRig.Head);
                 mirrorSo.ApplyModifiedPropertiesWithoutUndo();
             }
+
+            EnsureArtDispatcher(rig, refs);
+        }
+
+        /// <summary>P4-03: Weapon Art (right trigger) / Off-hand Art (left trigger) dispatcher on the rig
+        /// root. Idempotent; also (re)wires the actions and the two hand Grabbers on an existing one.</summary>
+        internal static void EnsureArtDispatcher(GameObject rig, Object[] refs)
+        {
+            var vrRig = rig.GetComponent<VRRig>();
+            if (vrRig == null) return;
+            var d = rig.GetComponent<ArtInputDispatcher>();
+            if (d == null) d = rig.AddComponent<ArtInputDispatcher>();
+            var so = new SerializedObject(d);
+            SetObjectRef(so, "weaponArtAction", FindRef(refs, "Gameplay", "WeaponArt"));
+            SetObjectRef(so, "offhandArtAction", FindRef(refs, "Gameplay", "OffhandArt"));
+            SetObjectRef(so, "rightGrabber", vrRig.RightHand != null ? vrRig.RightHand.GetComponent<Grabber>() : null);
+            SetObjectRef(so, "leftGrabber", vrRig.LeftHand != null ? vrRig.LeftHand.GetComponent<Grabber>() : null);
+            so.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(d);
         }
     }
 }

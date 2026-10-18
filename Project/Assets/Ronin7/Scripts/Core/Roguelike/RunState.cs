@@ -24,6 +24,8 @@ namespace Ronin7.Core
         private static float playerHealth = -1f;
         private static readonly Dictionary<string, int> boonCounts = new();
         private static readonly HashSet<string> grantedAbilities = new();
+        private static string weaponArtId = "";
+        private static string offhandArtId = "";
 
         public static bool InRun { get; private set; }
         public static uint Seed => seed;
@@ -72,6 +74,14 @@ namespace Ronin7.Core
 
         public static IReadOnlyCollection<string> Boons => boonCounts.Keys;
 
+        /// <summary>P4-03: equipped Weapon Art / Off-hand Art skill id ("" = none). One per slot; set
+        /// via <c>ArtSlots.Equip</c>. Cleared with the run. NOT yet in RunSnapshot: persisting is deferred to
+        /// P4-11 (the single v3 bump), because the Phase 2/3 fixtures assert byte-for-byte round-trip.</summary>
+        public static string WeaponArtId => weaponArtId;
+        public static string OffhandArtId => offhandArtId;
+        public static void SetWeaponArt(string id) => weaponArtId = id ?? "";
+        public static void SetOffhandArt(string id) => offhandArtId = id ?? "";
+
         /// <summary>Records that a run-picked Epic boon grants this ability for the run only (A7.7:
         /// unlike a story unlock this must never touch <see cref="CampaignState"/> — a run pick must
         /// not permanently unlock a campaign ability, and a completed-campaign player must not find the
@@ -103,6 +113,8 @@ namespace Ronin7.Core
             playerHealth = -1f;
             boonCounts.Clear();
             grantedAbilities.Clear();
+            weaponArtId = "";
+            offhandArtId = "";
         }
 
         /// <summary>P2-04: moves along the edge to <paramref name="nextId"/>. Returns false (and does not
@@ -250,6 +262,8 @@ namespace Ronin7.Core
             playerHealth = -1f;
             boonCounts.Clear();
             grantedAbilities.Clear();
+            weaponArtId = "";
+            offhandArtId = "";
         }
 
         /// <summary>Pure arithmetic for the Forge reward (§1: "heal 60% of missing HP"). A4.3 test

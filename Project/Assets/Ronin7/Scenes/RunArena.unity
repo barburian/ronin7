@@ -1541,6 +1541,7 @@ GameObject:
   - component: {fileID: 408161202}
   - component: {fileID: 408161201}
   - component: {fileID: 408161200}
+  - component: {fileID: 408161218}
   m_Layer: 0
   m_Name: XR Origin (Space Samurai)
   m_TagString: Untagged
@@ -1871,6 +1872,22 @@ Transform:
   - {fileID: 265269847}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &408161218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 408161199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f136397a6afb0459c25e9b5d0f6271, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Player::Ronin7.Player.ArtInputDispatcher
+  weaponArtAction: {fileID: -889038730992246847, guid: d5a2441a867c2484c888f3631c932d48, type: 3}
+  offhandArtAction: {fileID: 1922115370587253494, guid: d5a2441a867c2484c888f3631c932d48, type: 3}
+  rightGrabber: {fileID: 1492808230}
+  leftGrabber: {fileID: 308564145}
 --- !u!1 &408956133
 GameObject:
   m_ObjectHideFlags: 0

@@ -2325,6 +2325,14 @@ namespace Ronin7.EditorTools
                 objects.Add(mirror.gameObject);
             }
 
+            // P4-03: Weapon/Off-hand Art dispatcher (additive: adds it to scenes built before the actions existed).
+            foreach (var vrRig in Object.FindObjectsByType<VRRig>(FindObjectsInactive.Include))
+            {
+                EnsureArtDispatcher(vrRig.gameObject, refs);
+                components++;
+                objects.Add(vrRig.gameObject);
+            }
+
             // Prompt advancers are built inactive like dialogue panels and share the Talk action.
             foreach (var prompt in Object.FindObjectsByType<PromptInputAdvancer>(FindObjectsInactive.Include))
             {
