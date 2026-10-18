@@ -17,7 +17,17 @@ namespace Ronin7.Flow
             public Button buy;
         }
 
+        /// <summary>P4-08 LOADOUT rack slot: one button per weapon.</summary>
+        internal struct Loadout
+        {
+            public string id, name;
+            public int cost; // P4-10 Shrine unlock price, shown while locked
+            public Text label;
+            public Button button;
+        }
+
         internal Row[] rows;
+        internal Loadout[] loadouts = System.Array.Empty<Loadout>();
         internal Text echoesLabel;
         internal Button closeButton;
         internal System.Action onClosed;
@@ -29,6 +39,11 @@ namespace Ronin7.Flow
             {
                 string id = rows[i].id;
                 rows[i].buy.onClick.AddListener(() => Buy(id));
+            }
+            foreach (var l in loadouts)
+            {
+                string id = l.id;
+                l.button.onClick.AddListener(() => SelectLoadout(id));
             }
             closeButton.onClick.AddListener(() => Destroy(gameObject));
             Refresh();
@@ -45,6 +60,20 @@ namespace Ronin7.Flow
             Refresh();
         }
 
+        /// <summary>P4-08: locked weapons can't be picked (their button is also non-interactable).</summary>
+        internal void SelectLoadout(string id)
+        {
+            if (MetaProgression.TrySelectLoadout(id))
+            {
+                Haptics.Pulse(XRNode.RightHand, 0.4f, 0.06f);
+                MetaProgression.Save();
+            }
+            Refresh();
+        }
+
+        internal static string LoadoutText(string name, bool unlocked, bool selected, int cost) =>
+            !unlocked ? name + "\nLOCKED ◈ " + cost : selected ? "● " + name : name; // glyphs the LegacyRuntime font already renders
+
         internal void Refresh()
         {
             echoesLabel.text = EchoesText(MetaProgression.Echoes);
@@ -55,6 +84,13 @@ namespace Ronin7.Flow
                 r.pipsText.text = Pips(level, max);
                 r.costText.text = level >= max ? "MAX" : "◈ " + cost;
                 r.buy.interactable = level < max && MetaProgression.Echoes >= cost;
+            }
+            string selected = MetaProgression.SelectedLoadout;
+            foreach (var l in loadouts)
+            {
+                bool unlocked = MetaProgression.IsWeaponUnlocked(l.id);
+                l.label.text = LoadoutText(l.name, unlocked, l.id == selected, l.cost);
+                l.button.interactable = unlocked;
             }
         }
 

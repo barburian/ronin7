@@ -70,6 +70,34 @@ namespace Ronin7.Core
             if (!string.IsNullOrEmpty(packId) && !unlockedPacks.Contains(packId)) unlockedPacks.Add(packId);
         }
 
+        // P4-08: weapons unlocked (P4-10 Shrine sells them) and the LOADOUT rack pick.
+        private static readonly List<string> unlockedWeapons = new();
+        private static string selectedLoadout = WeaponId.Katana;
+
+        /// <summary>P4-08 dev path (RONIN7_DEV / editor smoke): every weapon reads unlocked. In memory only, never saved.</summary>
+        public static bool DevUnlockAllWeapons { get; set; }
+
+        /// <summary>P4-08: the katana is always unlocked; the rest need a P4-10 Shrine purchase.</summary>
+        public static bool IsWeaponUnlocked(string weaponId) =>
+            weaponId == WeaponId.Katana || DevUnlockAllWeapons || (!string.IsNullOrEmpty(weaponId) && unlockedWeapons.Contains(weaponId));
+
+        /// <summary>Marks a weapon unlocked in memory; the caller (P4-10 Shrine purchase) saves.</summary>
+        public static void UnlockWeapon(string weaponId)
+        {
+            if (!string.IsNullOrEmpty(weaponId) && !unlockedWeapons.Contains(weaponId)) unlockedWeapons.Add(weaponId);
+        }
+
+        /// <summary>P4-08: the loadout the next run starts with. A locked pick (e.g. a dev unlock that ended) reads as the katana.</summary>
+        public static string SelectedLoadout => IsWeaponUnlocked(selectedLoadout) ? selectedLoadout : WeaponId.Katana;
+
+        /// <summary>P4-08 LOADOUT rack: selects <paramref name="weaponId"/> if unlocked (false, no change, if locked). Caller saves.</summary>
+        public static bool TrySelectLoadout(string weaponId)
+        {
+            if (!IsWeaponUnlocked(weaponId)) return false;
+            selectedLoadout = weaponId;
+            return true;
+        }
+
         /// <summary>P2-08: pure load rule. A player who already finished runs before this field existed
         /// has no use for the tutorial, so runsCompleted &gt; 0 counts as done.</summary>
         internal static bool ResolveTutorialDone(MetaSaveData data) =>
@@ -194,6 +222,10 @@ namespace Ronin7.Core
             unlockedPacks.Clear();
             if (data.unlockedPacks != null)
                 foreach (string id in data.unlockedPacks) UnlockPack(id);
+            unlockedWeapons.Clear();
+            if (data.unlockedWeapons != null)
+                foreach (string id in data.unlockedWeapons) UnlockWeapon(id);
+            selectedLoadout = string.IsNullOrEmpty(data.selectedLoadout) ? WeaponId.Katana : data.selectedLoadout;
 
             upgradeLevels.Clear();
             if (data.metaUpgrades != null)
@@ -226,6 +258,9 @@ namespace Ronin7.Core
             data.seenWeaknesses.Sort();
             data.unlockedPacks = new List<string>(unlockedPacks);
             data.unlockedPacks.Sort(System.StringComparer.Ordinal);
+            data.unlockedWeapons = new List<string>(unlockedWeapons);
+            data.unlockedWeapons.Sort(System.StringComparer.Ordinal);
+            data.selectedLoadout = SelectedLoadout;
 
             List<string> ids = new List<string>();
             foreach (KeyValuePair<string, int> kvp in upgradeLevels)
@@ -308,6 +343,7 @@ namespace Ronin7.Core
             loaded = false;
             saveBlocked = false;
             DevUnlockAllPacks = false;
+            DevUnlockAllWeapons = false;
         }
 
         public static void Reset()
@@ -319,6 +355,8 @@ namespace Ronin7.Core
             tutorialDone = false;
             seenWeaknesses.Clear();
             unlockedPacks.Clear();
+            unlockedWeapons.Clear();
+            selectedLoadout = WeaponId.Katana;
             upgradeLevels.Clear();
         }
 

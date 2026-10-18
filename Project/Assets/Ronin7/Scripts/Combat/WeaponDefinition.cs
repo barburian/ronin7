@@ -9,6 +9,9 @@ namespace Ronin7.Combat
     [CreateAssetMenu(menuName = "Space Samurai/Weapon Definition", fileName = "WeaponDefinition")]
     public class WeaponDefinition : ScriptableObject
     {
+        [Tooltip("P4-08 loadout id (Ronin7.Core.WeaponId). Persisted in meta.json; never rename.")]
+        public string id = "katana";
+
         [Header("Swing → Damage")]
         [Tooltip("Blade speed (m/s) below which a contact does no damage.")]
         public float minSwingSpeed = 1.5f;

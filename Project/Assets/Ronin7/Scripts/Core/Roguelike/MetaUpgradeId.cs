@@ -10,4 +10,13 @@ namespace Ronin7.Core
         public const string StartingBoon = "meta_starting_boon";       // start with N tier-1 boons, max 3
         public const string RerollTokens = "meta_reroll_tokens";       // +1 starting reroll, max 3
     }
+
+    /// <summary>P4-08 stable loadout ids (persisted in meta.json; must match <c>WeaponDefinition.id</c>; never rename).</summary>
+    public static class WeaponId
+    {
+        public const string Katana = "katana";                // always unlocked
+        public const string Nodachi = "nodachi";              // P4-10 Shrine: 150 Echoes
+        public const string Tanto = "tanto";                  // P4-10 Shrine: 150 Echoes
+        public const string TwinWakizashi = "twin_wakizashi"; // P4-10 Shrine: 300 Echoes; blocks the Off-hand Art
+    }
 }

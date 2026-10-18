@@ -9,6 +9,9 @@ namespace Ronin7.Player
     /// </summary>
     public class KatanaHolster : MonoBehaviour
     {
+        /// <summary>P4-08: child of the rig that carries the Twin Wakizashi's left-blade holster (and is its hip anchor).</summary>
+        public const string OffhandAnchorName = "OffhandHolster";
+
         [SerializeField] private Grabbable sword;
         [SerializeField] private Transform hipAnchor;
 

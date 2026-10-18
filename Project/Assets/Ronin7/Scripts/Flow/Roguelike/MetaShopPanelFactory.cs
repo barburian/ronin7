@@ -18,6 +18,15 @@ namespace Ronin7.Flow
             (MetaUpgradeId.RerollTokens, "REROLL TOKENS"),
         };
 
+        // P4-08 LOADOUT rack. Costs are the P4-10 Shrine unlock prices (shown while locked).
+        private static readonly (string id, string name, int cost)[] Loadouts =
+        {
+            (WeaponId.Katana, "KATANA", 0),
+            (WeaponId.Nodachi, "NODACHI", 150),
+            (WeaponId.Tanto, "TANTO", 150),
+            (WeaponId.TwinWakizashi, "TWIN WAKIZASHI", 300),
+        };
+
         public static MetaShopPanel Build(Camera targetCamera)
         {
             if (targetCamera == null || EventSystem.current == null) return null;
@@ -30,7 +39,7 @@ namespace Ronin7.Flow
             canvasGo.AddComponent<TrackedDeviceGraphicRaycaster>();
 
             var rt = canvas.GetComponent<RectTransform>();
-            rt.sizeDelta = new Vector2(1000f, 620f);
+            rt.sizeDelta = new Vector2(1000f, 800f); // P4-08: +180 for the LOADOUT rack under the upgrades
             rt.localScale = Vector3.one * 0.001f;
             BoonOfferPanel.Place(rt, targetCamera.transform);
             canvasGo.AddComponent<Image>().color = new Color(0f, 0f, 0f, 0.85f);
@@ -39,13 +48,13 @@ namespace Ronin7.Flow
             if (font == null) font = Font.CreateDynamicFontFromOSFont("Arial", 16);
 
             var panel = canvasGo.AddComponent<MetaShopPanel>();
-            MakeText(rt, font, "SHRINE OF ECHOES", 48, TextAnchor.MiddleCenter, new Vector2(-150f, 255f), new Vector2(600f, 80f), Color.white);
-            panel.echoesLabel = MakeText(rt, font, "", 34, TextAnchor.MiddleRight, new Vector2(330f, 255f), new Vector2(320f, 80f), new Color(1f, 0.85f, 0.4f));
+            MakeText(rt, font, "SHRINE OF ECHOES", 48, TextAnchor.MiddleCenter, new Vector2(-150f, 345f), new Vector2(600f, 80f), Color.white);
+            panel.echoesLabel = MakeText(rt, font, "", 34, TextAnchor.MiddleRight, new Vector2(330f, 345f), new Vector2(320f, 80f), new Color(1f, 0.85f, 0.4f));
 
             panel.rows = new MetaShopPanel.Row[Upgrades.Length];
             for (int i = 0; i < Upgrades.Length; i++)
             {
-                float y = 125f - i * 100f;
+                float y = 215f - i * 100f;
                 var r = new MetaShopPanel.Row { id = Upgrades[i].id };
                 r.nameText = MakeText(rt, font, Upgrades[i].name, 30, TextAnchor.MiddleLeft, new Vector2(-300f, y), new Vector2(380f, 80f), Color.white);
                 r.pipsText = MakeText(rt, font, "", 34, TextAnchor.MiddleCenter, new Vector2(10f, y), new Vector2(240f, 80f), new Color(0.5f, 0.9f, 1f));
@@ -53,7 +62,16 @@ namespace Ronin7.Flow
                 r.buy = MakeButton(rt, font, "BUY", new Vector2(390f, y), new Vector2(160f, 80f));
                 panel.rows[i] = r;
             }
-            panel.closeButton = MakeButton(rt, font, "CLOSE", new Vector2(0f, -270f), new Vector2(320f, 70f));
+            MakeText(rt, font, "LOADOUT", 34, TextAnchor.MiddleCenter, new Vector2(0f, -195f), new Vector2(400f, 50f), new Color(0.5f, 0.9f, 1f));
+            panel.loadouts = new MetaShopPanel.Loadout[Loadouts.Length];
+            for (int i = 0; i < Loadouts.Length; i++)
+            {
+                var b = MakeButton(rt, font, Loadouts[i].name, new Vector2(-345f + i * 230f, -270f), new Vector2(210f, 90f));
+                var label = b.GetComponentInChildren<Text>();
+                label.fontSize = 24;
+                panel.loadouts[i] = new MetaShopPanel.Loadout { id = Loadouts[i].id, name = Loadouts[i].name, cost = Loadouts[i].cost, label = label, button = b };
+            }
+            panel.closeButton = MakeButton(rt, font, "CLOSE", new Vector2(0f, -360f), new Vector2(320f, 70f));
             panel.Wire();
             return panel;
         }

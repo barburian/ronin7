@@ -45,5 +45,10 @@ namespace Ronin7.Core
         /// <summary>P4-05: <see cref="BoonPackId"/>s bought (P4-10 Shrine). Appended field (version stays 1): an old
         /// meta.json without it loads an empty list, i.e. every archetype pack locked.</summary>
         public List<string> unlockedPacks = new List<string>();
+        /// <summary>P4-08: <see cref="WeaponId"/>s unlocked (P4-10 Shrine). Appended field (version stays 1): an old
+        /// meta.json without it loads an empty list, i.e. only the katana.</summary>
+        public List<string> unlockedWeapons = new List<string>();
+        /// <summary>P4-08: the LOADOUT rack pick. Appended field (version stays 1): missing / locked loads the katana.</summary>
+        public string selectedLoadout = WeaponId.Katana;
     }
 }

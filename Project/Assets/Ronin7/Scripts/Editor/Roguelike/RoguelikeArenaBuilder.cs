@@ -1,4 +1,5 @@
 using Ronin7.Combat;
+using Ronin7.Core;
 using Ronin7.Flow;
 using Ronin7.Player;
 using Ronin7.Ship;
@@ -94,6 +95,7 @@ namespace Ronin7.EditorTools
             EnsureBoonProcs(rig); // P4-05
             BuildSword(new Vector3(0.3f, 1f, 1.6f), weapon);
             RogueUpscaleSword();
+            EnsureOffhandSword(); // P4-08 Twin Wakizashi left blade (inactive until equipped)
 
             // ---- Combat feedback (P0-05/BUG-05): hit haptics, the deflect slow-mo and the hit-flash
             // vignette (the only off-screen hit cue), the low-HP heartbeat and the blade-clash pulse.
@@ -214,6 +216,78 @@ namespace Ronin7.EditorTools
             Debug.Log($"[RogueEntry] Katana visual scaled x{SwordScale} (~0.74m -> ~1.0m overall).");
         }
 
+        /// <summary>P4-08: every loadout definition (Katana + the roadmap's Nodachi / Tanto / Twin Wakizashi),
+        /// creating any missing asset beside Katana.asset. Existing assets are returned untouched (tuning survives).</summary>
+        public static WeaponDefinition[] EnsureLoadoutDefinitions() => new[]
+        {
+            EnsureWeaponDefinition(),
+            EnsureLoadoutDefinition("Nodachi", WeaponId.Nodachi, 2f, 7f, 14f, 60f, 0.35f),
+            EnsureLoadoutDefinition("Tanto", WeaponId.Tanto, 1f, 4.5f, 6f, 28f, 0.18f),
+            // User decision (Amendment 12): 0.6x katana damage per blade, 1.25x swing speed (katana thresholds
+            // and cooldown / 1.25). Supersedes the roadmap's 6-26.
+            EnsureLoadoutDefinition("TwinWakizashi", WeaponId.TwinWakizashi, 1.2f, 4.8f, 4.8f, 24f, 0.2f),
+        };
+
+        private static WeaponDefinition EnsureLoadoutDefinition(string file, string id, float minSpeed, float refSpeed,
+            float minDamage, float maxDamage, float cooldown)
+        {
+            string path = DataFolder + "/" + file + ".asset";
+            var existing = AssetDatabase.LoadAssetAtPath<WeaponDefinition>(path);
+            if (existing != null) return existing;
+            var def = ScriptableObject.CreateInstance<WeaponDefinition>();
+            def.id = id;
+            def.minSwingSpeed = minSpeed;
+            def.referenceSwingSpeed = refSpeed;
+            def.minDamage = minDamage;
+            def.maxDamage = maxDamage;
+            def.hitCooldown = cooldown;
+            AssetDatabase.CreateAsset(def, path);
+            AssetDatabase.SaveAssets();
+            return def;
+        }
+
+        private static void SetObjectRefArray(SerializedObject so, string property, Object[] values)
+        {
+            var prop = so.FindProperty(property);
+            prop.arraySize = values.Length;
+            for (int i = 0; i < values.Length; i++) prop.GetArrayElementAtIndex(i).objectReferenceValue = values[i];
+        }
+
+        /// <summary>
+        /// P4-08 Twin Wakizashi: a second instance of the scene's sword (same Grabbable / Sword / BladeDamager
+        /// pattern) on its own <see cref="KatanaHolster"/>, which sits on the rig's
+        /// <see cref="KatanaHolster.OffhandAnchorName"/> child (the left hip, mirroring HipAnchor). Inactive until
+        /// RunDirector.ApplyLoadout equips the Twin, so other loadouts pay nothing for it. Idempotent and
+        /// additive: safe to run on the shipped RunArena (edit mode only).
+        /// </summary>
+        public static void EnsureOffhandSword()
+        {
+            var vrRig = Object.FindAnyObjectByType<VRRig>(FindObjectsInactive.Include);
+            var mainHolster = vrRig != null ? vrRig.GetComponent<KatanaHolster>() : null;
+            if (mainHolster == null || mainHolster.Sword == null)
+            {
+                Debug.LogWarning("[RogueEntry] No VRRig KatanaHolster with a sword — skipped the Twin Wakizashi left blade.");
+                return;
+            }
+            if (vrRig.transform.Find(KatanaHolster.OffhandAnchorName) != null) return;
+
+            var anchor = new GameObject(KatanaHolster.OffhandAnchorName).transform;
+            anchor.SetParent(vrRig.transform, false);
+            anchor.localPosition = new Vector3(-0.15f, 0.9f, 0.05f); // HipAnchor mirrored to the left hip
+
+            var left = Object.Instantiate(mainHolster.Sword.gameObject);
+            left.name = "SwordLeft";
+            left.transform.position += new Vector3(-0.6f, 0f, 0f);
+            left.SetActive(false);
+
+            var holster = anchor.gameObject.AddComponent<KatanaHolster>();
+            var so = new SerializedObject(holster);
+            SetObjectRef(so, "sword", left.GetComponent<Grabbable>());
+            SetObjectRef(so, "hipAnchor", anchor);
+            so.ApplyModifiedPropertiesWithoutUndo();
+            EditorSceneManager.MarkSceneDirty(vrRig.gameObject.scene);
+        }
+
         private static void RogueEnsureRunDirectorInBootScene()
         {
             var bootScene = EditorSceneManager.OpenScene(BootScenePath, OpenSceneMode.Single);
@@ -239,6 +313,7 @@ namespace Ronin7.EditorTools
             var catalog = RogueLoadOptional<BoonCatalog>(RogueBoonCatalogPath, "BoonCatalog");
             var runDirectorSo = new SerializedObject(runDirector);
             SetObjectRef(runDirectorSo, "boonCatalog", catalog);
+            SetObjectRefArray(runDirectorSo, "weapons", EnsureLoadoutDefinitions()); // P4-08
             // P2-04: Event-node pool (authored by RunEventBuilder).
             var eventGuids = AssetDatabase.FindAssets("t:RunEventDefinition", new[] { RunEventBuilder.EventsFolder });
             var eventsProp = runDirectorSo.FindProperty("runEvents");

@@ -27,6 +27,7 @@ namespace Ronin7.Core
         private static readonly List<string> temperLevels = new();
         private static string weaponArtId = "";
         private static string offhandArtId = "";
+        private static string loadoutId = WeaponId.Katana;
 
         public static bool InRun { get; private set; }
         public static uint Seed => seed;
@@ -95,6 +96,11 @@ namespace Ronin7.Core
         public static void SetWeaponArt(string id) => weaponArtId = id ?? "";
         public static void SetOffhandArt(string id) => offhandArtId = id ?? "";
 
+        /// <summary>P4-08: the run's weapon (<see cref="WeaponId"/>), taken from the boot-menu LOADOUT rack
+        /// (<see cref="MetaProgression.SelectedLoadout"/>) at <see cref="Begin"/>, so a resumed run re-reads it too.
+        /// NOT yet in RunSnapshot: P4-11 (the single v3 bump) persists it; the Phase 2/3 fixtures are byte-exact.</summary>
+        public static string LoadoutId => loadoutId;
+
         /// <summary>Records that a run-picked Epic boon grants this ability for the run only (A7.7:
         /// unlike a story unlock this must never touch <see cref="CampaignState"/> — a run pick must
         /// not permanently unlock a campaign ability, and a completed-campaign player must not find the
@@ -129,6 +135,7 @@ namespace Ronin7.Core
             temperLevels.Clear();
             weaponArtId = "";
             offhandArtId = "";
+            loadoutId = MetaProgression.SelectedLoadout;
         }
 
         /// <summary>P2-04: moves along the edge to <paramref name="nextId"/>. Returns false (and does not
@@ -279,6 +286,7 @@ namespace Ronin7.Core
             temperLevels.Clear();
             weaponArtId = "";
             offhandArtId = "";
+            loadoutId = WeaponId.Katana;
         }
 
         /// <summary>Pure arithmetic for the Forge reward (§1: "heal 60% of missing HP"). A4.3 test

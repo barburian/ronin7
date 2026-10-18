@@ -42,6 +42,10 @@ namespace Ronin7.Player
 
             var holster = rig.GetComponent<KatanaHolster>();
             if (holster != null) holster.SetMirrored(leftHanded);
+            // P4-08 Twin Wakizashi: the left blade sits on the opposite hip.
+            var offAnchor = rig.transform.Find(KatanaHolster.OffhandAnchorName);
+            var offHolster = offAnchor != null ? offAnchor.GetComponent<KatanaHolster>() : null;
+            if (offHolster != null) offHolster.SetMirrored(!leftHanded);
 
             var ray = rig.RightHand.GetComponent<XRRayInteractor>();
             if (ray == null) return;

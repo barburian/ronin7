@@ -317,6 +317,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 17e17157ab9b0ef47a91844322d3a1f9, type: 2}
   - {fileID: 11400000, guid: e83c351e59bd082479d3f1ac61e7895d, type: 2}
   - {fileID: 11400000, guid: f50288d63e255e249afba70b68fa1757, type: 2}
+  weapons:
+  - {fileID: 11400000, guid: 5f2c779399c5ec248a2d179e7aaf8a8f, type: 2}
+  - {fileID: 11400000, guid: cd2e209422f8f5f448f2070591dd836b, type: 2}
+  - {fileID: 11400000, guid: a7080c3ceb0039f4a9bed9c4e59de50e, type: 2}
+  - {fileID: 11400000, guid: 2f547c0ac11b6d542b7b1470288ef978, type: 2}
 --- !u!1 &12788776
 GameObject:
   m_ObjectHideFlags: 0

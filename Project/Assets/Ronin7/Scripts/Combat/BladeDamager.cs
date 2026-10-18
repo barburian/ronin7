@@ -58,6 +58,16 @@ namespace Ronin7.Combat
         private readonly Vector3[] curSamples = new Vector3[MaxSamples];
         private static readonly RaycastHit[] sweepHits = new RaycastHit[HitBufferSize];
 
+        /// <summary>P4-08: the weapon stats this blade reads at hit time.</summary>
+        public WeaponDefinition Definition => definition;
+
+        /// <summary>P4-08: swaps the loadout in after scene load. Awake resolves <see cref="Sword.Definition"/>
+        /// before RunDirector knows the run's loadout, so RunDirector.ApplyBoonInventoryToRig calls this. Null is ignored.</summary>
+        public void SetDefinition(WeaponDefinition def)
+        {
+            if (def != null) definition = def;
+        }
+
         /// <summary>Current blade speed in m/s (world), exponentially smoothed.</summary>
         public float Speed => speed;
 

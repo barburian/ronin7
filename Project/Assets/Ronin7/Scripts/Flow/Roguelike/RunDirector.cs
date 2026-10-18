@@ -47,6 +47,10 @@ namespace Ronin7.Flow
         [Tooltip("Pool an Event node draws from (seeded per node). Data/Roguelike/Events/*.asset.")]
         [SerializeField] private RunEventDefinition[] runEvents;
 
+        [Header("Loadouts (P4-08)")]
+        [Tooltip("Every WeaponDefinition the LOADOUT rack can pick, matched by WeaponDefinition.id. Data/*.asset.")]
+        [SerializeField] private WeaponDefinition[] weapons;
+
         /// <summary>A7.2: how long the boon offer panel waits for player input before auto-picking
         /// choice 0 and advancing — the same safety net GameOverPanel gets from its own auto-dismiss
         /// timer, for a panel whose click is mandatory (not optional) to leave the node.</summary>
@@ -1562,6 +1566,8 @@ namespace Ronin7.Flow
 
             // A7.5: RoguelikeArenaBuilder doesn't add this (Module 5's rig-wiring gap) — without it
             // every damage/parry-flow/combo boon silently does nothing on the arena rig.
+            ApplyLoadout(VRRig.Instance.transform, weapons, RunState.LoadoutId);
+
             var modifiers = VRRig.Instance.GetComponent<PlayerCombatModifiers>();
             if (modifiers == null) modifiers = VRRig.Instance.gameObject.AddComponent<PlayerCombatModifiers>();
             PushBoonStats(modifiers, boonInventory);
@@ -1590,6 +1596,37 @@ namespace Ronin7.Flow
                 var previous = health.DeathInterceptor;
                 health.DeathInterceptor = ComposeDeathInterceptor(health, previous, boonInventory.ConsumeRevive);
             }
+        }
+
+        /// <summary>P4-08: equips the run's weapon on the freshly loaded rig. The main sword (the rig's
+        /// <see cref="KatanaHolster"/>) takes the definition; Twin Wakizashi also activates the left blade on the
+        /// <see cref="KatanaHolster.OffhandAnchorName"/> holster and blocks the Off-hand Art. An id with no
+        /// matching definition leaves the scene's katana as built.</summary>
+        internal static void ApplyLoadout(Transform rig, WeaponDefinition[] weapons, string loadoutId)
+        {
+            WeaponDefinition def = null;
+            if (weapons != null)
+                foreach (var w in weapons)
+                    if (w != null && w.id == loadoutId) { def = w; break; }
+            bool twin = def != null && loadoutId == WeaponId.TwinWakizashi;
+            ArtSlots.OffhandBlocked = twin;
+
+            var main = rig.GetComponent<KatanaHolster>();
+            if (def != null && main != null) EquipBlade(main.Sword, def);
+
+            var anchor = rig.Find(KatanaHolster.OffhandAnchorName);
+            var off = anchor != null ? anchor.GetComponent<KatanaHolster>() : null;
+            if (off == null || off.Sword == null) return;
+            off.Sword.gameObject.SetActive(twin);
+            if (twin) EquipBlade(off.Sword, def);
+        }
+
+        private static void EquipBlade(Grabbable sword, WeaponDefinition def)
+        {
+            if (sword == null) return;
+            var s = sword.GetComponent<Sword>();
+            if (s != null) s.Definition = def;
+            foreach (var d in sword.GetComponentsInChildren<BladeDamager>(true)) d.SetDefinition(def);
         }
 
         /// <summary>P1-07: Unbroken is tried first so the free save is spent before Second Wind. Each
