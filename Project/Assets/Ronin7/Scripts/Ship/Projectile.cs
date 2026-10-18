@@ -172,7 +172,7 @@ namespace Ronin7.Ship
 
             damageable.ApplyDamage(new DamageInfo(damage, point, dir, owner, DamageType.Projectile));
             OnHit(point, damageable);
-            if (other.GetComponentInParent<CharacterController>() != null)
+            if (other.GetComponentInParent<CharacterController>() != null && !(damageable is Health h && h.IsInvulnerable))
                 EventBus.Publish(new PlayerHit(damage, point, owner != null ? owner.transform.position : point));
             EventBus.Publish(new ProjectileImpact(point));
             Recycle();

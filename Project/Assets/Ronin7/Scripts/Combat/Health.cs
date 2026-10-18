@@ -72,6 +72,10 @@ namespace Ronin7.Combat
         /// <summary>Flat incoming-damage scale (e.g. damage reduction), applied after <see cref="DamageFilter"/>.</summary>
         public float IncomingDamageMultiplier { get; set; } = 1f;
 
+        /// <summary>Incoming damage is fully negated (e.g. Phase Step i-frames set the multiplier to 0).
+        /// Attackers check this so a negated hit publishes no <see cref="PlayerHit"/>.</summary>
+        public bool IsInvulnerable => IncomingDamageMultiplier <= 0f;
+
         /// <summary>P4-02: DamageReduction boon cap.</summary>
         internal const float MaxDamageReduction = 0.4f;
 

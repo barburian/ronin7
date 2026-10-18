@@ -529,7 +529,8 @@ namespace Ronin7.Enemies
 
         protected void LandHit()
         {
-            if (target == null || !target.IsAlive) return;
+            // i-frames (Phase Step): no damage lands, so no PlayerHit (haptics, parry-streak reset).
+            if (target == null || !target.IsAlive || target.IsInvulnerable) return;
             Vector3 dir = (target.transform.position - transform.position).normalized;
             float hpBefore = target.Current;
             target.ApplyDamage(new DamageInfo(AttackDamage, target.transform.position, dir, gameObject));

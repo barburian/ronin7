@@ -293,6 +293,29 @@ namespace Ronin7.Tests.EditMode
             Assert.AreEqual(50f + taken * 0.5f, h.Current, 1e-3f);
         }
 
+        [Test] public void LandHit_DuringIFrames_PublishesNoPlayerHit()
+        {
+            var e = Spawn<Enemy>(Vector3.zero);
+            var tgt = Spawn<Enemy>(new Vector3(0, 0, 1));
+            var th = tgt.GetComponent<Health>();
+            typeof(MeleeAttacker).GetField("target", BfAll).SetValue(e, th);
+            int hits = 0;
+            System.Action<PlayerHit> on = _ => hits++;
+            EventBus.Subscribe(on);
+            try
+            {
+                th.IncomingDamageMultiplier = 0f; // Phase Step i-frames
+                typeof(MeleeAttacker).GetMethod("LandHit", BfAll).Invoke(e, null);
+                Assert.AreEqual(0, hits);
+                Assert.AreEqual(th.Max, th.Current, 1e-4f);
+
+                th.IncomingDamageMultiplier = 1f;
+                typeof(MeleeAttacker).GetMethod("LandHit", BfAll).Invoke(e, null);
+                Assert.AreEqual(1, hits);
+            }
+            finally { EventBus.Unsubscribe(on); }
+        }
+
         [Test] public void Support_SecondDrone_PrefersUnbeamedTarget()
         {
             var d1 = Spawn<SupportDrone>(new Vector3(0, 0, 5));
