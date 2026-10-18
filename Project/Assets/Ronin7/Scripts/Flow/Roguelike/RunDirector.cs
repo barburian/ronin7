@@ -156,7 +156,14 @@ namespace Ronin7.Flow
             EventBus.Subscribe<HitResisted>(OnHitResisted);
             EventBus.Subscribe<WeaknessExploited>(OnWeaknessExploited);
             EventBus.Subscribe<PathChosen>(OnPathChosen);
+            if (Instance == this) ArtSlots.ModalOpen = IsModalOpen; // P4-04: Arts stay quiet under a panel
         }
+
+        /// <summary>P4-04 modal gate: a boon offer, a choice panel (path/forge/shop/treasure/checkpoint/event),
+        /// the run summary or the pause menu is up.</summary>
+        public bool IsModalOpen() =>
+            offerPanel != null || choicePanel != null || summaryPanel != null
+            || (RunPauseController.Instance != null && RunPauseController.Instance.IsPaused);
 
         // Balances OnEnable's subscriptions (incl. a destroyed duplicate's) — no leak across
         // LoadSceneMode.Single, same reasoning as GameFlowManager's OnDisable.
@@ -167,6 +174,7 @@ namespace Ronin7.Flow
             EventBus.Unsubscribe<HitResisted>(OnHitResisted);
             EventBus.Unsubscribe<WeaknessExploited>(OnWeaknessExploited);
             EventBus.Unsubscribe<PathChosen>(OnPathChosen);
+            if (Instance == this) ArtSlots.ModalOpen = null;
             DismissOfferPanel();
             DismissChoicePanel();
             DismissRunSummary();
@@ -860,7 +868,7 @@ namespace Ronin7.Flow
         {
             DismissChoicePanel();
             choicePanel = BoonOfferPanelFactory.BuildCustom(Camera.main, "CHOOSE YOUR PATH",
-                "Walk through an arch, or point and pull the trigger.", pathChoices.Length);
+                "Walk through an arch, or point and squeeze grip.", pathChoices.Length);
             if (choicePanel == null)
             {
                 if (GameSettings.Active.Seated)

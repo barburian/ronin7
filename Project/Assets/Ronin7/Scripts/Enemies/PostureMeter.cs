@@ -98,9 +98,27 @@ namespace Ronin7.Enemies
 
             lastDamageTime = Time.time;
             float previous = current;
-            float postureScale = PostureDamageScale(SourceBoon(info.Source, BoonEffectKind.PostureDamage));
+            float postureScale = PostureDamageScale(SourceBoon(info.Source, BoonEffectKind.PostureDamage))
+                                 * (info.Source != null && sourceMods != null ? sourceMods.HitPostureScale : 1f); // P4-04 Riposte
             current = Accumulate(current, info.Amount * NextHitGainScale * postureScale, gainPerDamage * gainMultiplier_, postureMax);
             NextHitGainScale = 1f;
+            Resolve(previous, info.Direction, info.Source);
+        }
+
+        /// <summary>P4-04 S6 Kiai Palm: adds <paramref name="amount"/> raw posture points (no damage, no
+        /// gain-per-damage scaling), with the usual near-break cue and break. <paramref name="source"/> is
+        /// credited for the break's bonus hit.</summary>
+        public void AddPosture(float amount, GameObject source = null)
+        {
+            if (amount <= 0f || health == null || !health.IsAlive) return;
+            lastDamageTime = Time.time;
+            float previous = current;
+            current = Mathf.Clamp(current + amount, 0f, postureMax);
+            Resolve(previous, Vector3.zero, source);
+        }
+
+        private void Resolve(float previous, Vector3 direction, GameObject source)
+        {
             bool broken = IsBroken(current, postureMax);
 
             if (CrossedNearBreak(previous, current, nearBreakFraction, postureMax, nearBreakArmed, broken))
@@ -114,7 +132,7 @@ namespace Ronin7.Enemies
             current = 0f;
             nearBreakArmed = true; // meter reset on break -> re-arm for the next approach
             applyingBonus = true;
-            health.ApplyDamage(new DamageInfo(breakBonusDamage, transform.position, info.Direction, info.Source));
+            health.ApplyDamage(new DamageInfo(breakBonusDamage, transform.position, direction, source));
             applyingBonus = false;
 
             // The bonus damage can be lethal, and Health fires Died synchronously inside ApplyDamage —

@@ -21,5 +21,9 @@ namespace Ronin7.Core
         /// <summary><c>Ronin7.Flow.WeaknessTeach</c> (BUG-39): 0.5x for 0.4 s real time on the first exploit of
         /// each weakness kind in a save. Appended.</summary>
         WeaknessTeach,
+
+        /// <summary><c>Ronin7.Player.ZanshinController</c> (P4-04 S3): 0.4x for 0.6 s real time after a
+        /// perfect parry. Appended.</summary>
+        Zanshin,
     }
 }

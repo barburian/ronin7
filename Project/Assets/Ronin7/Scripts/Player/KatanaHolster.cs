@@ -14,6 +14,15 @@ namespace Ronin7.Player
 
         private Rigidbody swordBody;
 
+        /// <summary>P4-04 S5 Blade Throw: while true the holster leaves a released sword alone (no snap back on
+        /// Released, no safety-net resheathe). Set by <see cref="BladeThrowController"/> while armed or thrown.</summary>
+        public bool SuppressResheathe { get; set; }
+
+        public Grabbable Sword => sword;
+
+        /// <summary>True while the sword rests on the hip anchor.</summary>
+        public bool IsSheathed => sword != null && !sword.IsHeld && sword.transform.parent == hipAnchor;
+
         private void Awake()
         {
             if (sword != null && hipAnchor != null)
@@ -45,7 +54,7 @@ namespace Ronin7.Player
         private void LateUpdate()
         {
             // Safety net: if the sword somehow ended up loose without a Released event.
-            if (sword != null && hipAnchor != null && !sword.IsHeld && sword.transform.parent != hipAnchor)
+            if (!SuppressResheathe && sword != null && hipAnchor != null && !sword.IsHeld && sword.transform.parent != hipAnchor)
             {
                 Resheathe();
             }
@@ -53,6 +62,7 @@ namespace Ronin7.Player
 
         private void Resheathe()
         {
+            if (SuppressResheathe) return;
             sword.transform.SetParent(hipAnchor);
             sword.transform.localPosition = Vector3.zero;
             sword.transform.localRotation = Quaternion.identity;

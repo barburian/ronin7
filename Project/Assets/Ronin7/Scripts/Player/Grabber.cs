@@ -31,6 +31,9 @@ namespace Ronin7.Player
         /// <see cref="WallClimbLocomotion"/> so a full hand can never also grip a climbing hold.</summary>
         public bool IsHolding => held != null;
 
+        /// <summary>P4-04 S5: grip currently squeezed (recall on an empty hand).</summary>
+        public bool GripHeld => wasPressed;
+
         private static readonly Collider[] _grabHits = new Collider[8];
 
         private XRNode Node => leftHand ? XRNode.LeftHand : XRNode.RightHand;
@@ -90,9 +93,16 @@ namespace Ronin7.Player
             }
 
             if (best == null) return;
-            best.Grab(transform);
-            held = best;
-            heldBlade = best.GetComponentInChildren<BladeDamager>(true);
+            GrabDirect(best);
+        }
+
+        /// <summary>Grabs <paramref name="g"/> regardless of reach (P4-04 S5 recall lands the blade in the hand).</summary>
+        public void GrabDirect(Grabbable g)
+        {
+            if (g == null || g.IsHeld || held != null) return;
+            g.Grab(transform);
+            held = g;
+            heldBlade = g.GetComponentInChildren<BladeDamager>(true);
             Haptics.Pulse(Node, 0.4f, 0.06f);
         }
 

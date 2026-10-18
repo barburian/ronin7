@@ -2305,6 +2305,7 @@ namespace Ronin7.EditorTools
             {
                 var so = new SerializedObject(phaseStep);
                 SetObjectRef(so, "activateAction", FindRef(refs, "Right Hand", "Phase Step"));
+                SetObjectRef(so, "moveAction", FindRef(refs, "Left Hand", "Move")); // P4-04
                 so.ApplyModifiedPropertiesWithoutUndo();
                 EditorUtility.SetDirty(phaseStep);
                 components++;
@@ -2329,6 +2330,7 @@ namespace Ronin7.EditorTools
             foreach (var vrRig in Object.FindObjectsByType<VRRig>(FindObjectsInactive.Include))
             {
                 EnsureArtDispatcher(vrRig.gameObject, refs);
+                EnsureSkills(vrRig.gameObject); // P4-04, additive
                 components++;
                 objects.Add(vrRig.gameObject);
             }

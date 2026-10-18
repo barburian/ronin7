@@ -18,6 +18,8 @@ namespace Ronin7.Flow
     /// Outside a run (hub/menu): hold BOTH stick clicks 2 s to reset the tutorial in memory (BUG-32).
     /// In a run, BOTH stick clicks 2 s = P4-00e G6 worst case: off a Boss node it jumps to the next
     /// boss; on the Boss node it forces boss phase 2 (adds release), a Volatile ring and 8 bolts.
+    /// P4-04: keyboard 1-5 equips an Art (1 Charged Slash, 2 Blade Throw, 3 Kiai Palm, 4 Chain Hook,
+    /// 5 Element Imbue), 0 clears both slots; <see cref="DevEquipArt"/> does the same from the editor/MCP.
     /// </summary>
     public class DevRunTools : MonoBehaviour
     {
@@ -63,12 +65,40 @@ namespace Ronin7.Flow
             if (Held(live && boon && !kill, ref boonHeld, ref boonFired))
                 RunDirector.Instance?.DevGrantRandomBoon();
             if (Held(live && kill && boon, ref g6Held, ref g6Fired)) SpawnG6WorstCase();
+            PollArtKeys();
             bool both = !RunState.InRun && killAllAction.IsPressed() && grantBoonAction.IsPressed();
             if (Held(both, ref tutHeld, ref tutFired))
             {
                 MetaProgression.ResetTutorialInMemory();
                 Debug.Log("[DevRunTools] Tutorial reset in memory: start a run to see the prompts.");
             }
+        }
+
+        private static readonly string[] DevArts =
+            { ArtId.ChargedSlash, ArtId.BladeThrow, ArtId.KiaiPalm, ArtId.ChainHook, ArtId.ElementImbue };
+
+        private static void PollArtKeys()
+        {
+            var kb = Keyboard.current;
+            if (kb == null) return;
+            if (kb.digit0Key.wasPressedThisFrame) { ArtSlots.Equip(ArtSlot.Weapon, ""); ArtSlots.Equip(ArtSlot.Offhand, ""); }
+            if (kb.digit1Key.wasPressedThisFrame) DevEquipArt(DevArts[0]);
+            if (kb.digit2Key.wasPressedThisFrame) DevEquipArt(DevArts[1]);
+            if (kb.digit3Key.wasPressedThisFrame) DevEquipArt(DevArts[2]);
+            if (kb.digit4Key.wasPressedThisFrame) DevEquipArt(DevArts[3]);
+            if (kb.digit5Key.wasPressedThisFrame) DevEquipArt(DevArts[4]);
+        }
+
+        /// <summary>P4-04: equip an Art into its slot (S4/S5 Weapon, S6-S8 Off-hand). Element Imbue also grants
+        /// both elements when none is owned yet (P4-05 boons will own them for real).</summary>
+        public static void DevEquipArt(string id)
+        {
+            bool weapon = id == ArtId.ChargedSlash || id == ArtId.BladeThrow;
+            ArtSlots.Equip(weapon ? ArtSlot.Weapon : ArtSlot.Offhand, id);
+            if (id == ArtId.ElementImbue && VRRig.Instance != null
+                && VRRig.Instance.TryGetComponent(out PlayerCombatModifiers mods) && mods.OwnedElements == ImbueElement.None)
+                mods.OwnedElements = ImbueElement.Bleed | ImbueElement.Storm;
+            Debug.Log($"[DevRunTools] Equipped Art '{id}' ({(weapon ? "Weapon" : "Off-hand")}).");
         }
 
         /// <summary>True once per hold, when it reaches <see cref="HoldSeconds"/>.</summary>

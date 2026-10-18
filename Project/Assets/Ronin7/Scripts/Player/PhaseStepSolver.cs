@@ -27,5 +27,22 @@ namespace Ronin7.Player
             if (direction.sqrMagnitude < 1e-6f) return origin;
             return origin + direction.normalized * distance;
         }
+
+        /// <summary>P4-04 fix: the left stick (head-relative, past <paramref name="deadzone"/>) picks the blink
+        /// direction; otherwise head-forward. Horizontal only.</summary>
+        public static Vector3 BlinkDirection(Vector2 stick, Vector3 headForward, Vector3 headRight, float deadzone)
+        {
+            headForward.y = 0f;
+            headRight.y = 0f;
+            if (stick.sqrMagnitude <= deadzone * deadzone) return headForward.normalized;
+            Vector3 d = headForward.normalized * stick.y + headRight.normalized * stick.x;
+            return d.sqrMagnitude > 1e-6f ? d.normalized : headForward.normalized;
+        }
+
+        /// <summary>P4-04 fix: i-frames last this long from the start of the fade.</summary>
+        public const float InvulnerableSeconds = 0.2f;
+
+        /// <summary>True while <paramref name="now"/> is inside the i-frame window opened at <paramref name="start"/>.</summary>
+        public static bool IsInvulnerable(float now, float start) => start >= 0f && now >= start && now - start < InvulnerableSeconds;
     }
 }

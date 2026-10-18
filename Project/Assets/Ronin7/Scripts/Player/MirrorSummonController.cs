@@ -92,7 +92,7 @@ namespace Ronin7.Player
             var action = activateAction != null ? activateAction.action : null;
             if (!logic.IsActive && action != null && action.WasPerformedThisFrame())
             {
-                if (logic.TrySummon(Ronin7.Combat.PlayerCombatModifiers.CooldownScale(HasteBonus())))
+                if (logic.TrySummon(Ronin7.Combat.PlayerCombatModifiers.CooldownScale(HasteBonus()))) // also resolves mods
                 {
                     phantomInstance = SpawnPhantom();
                     EventBus.Publish(new AbilityActivated(AbilityId.Mirror));
@@ -124,9 +124,16 @@ namespace Ronin7.Player
             if (col != null) Destroy(col); // a ghost double, not a physical body — never blocks the player
             body.GetComponent<Renderer>().sharedMaterial = MemoryFlashbackController.MakeGhostMaterial();
 
-            go.AddComponent<AllyCombatant>();
+            go.AddComponent<AllyCombatant>().Configure(AllyDamage(
+                RunState.InRun ? RunScaling.HealthMultiplier(RunState.Depth, RunState.CurrentNode.Kind) : 1f,
+                mods != null ? mods.BoonMultiplier : 1f));
             return go;
         }
+
+        /// <summary>P4-04: 8 x depth health scaling x the boon damage multiplier (no longer flat 8 late in a run).</summary>
+        internal static float AllyDamage(float depthScale, float boonMultiplier) => BaseAllyDamage * depthScale * boonMultiplier;
+
+        internal const float BaseAllyDamage = 8f;
 
         private void DespawnPhantom()
         {

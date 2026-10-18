@@ -1021,6 +1021,7 @@ namespace Ronin7.EditorTools
                 var phaseStep = rig.AddComponent<PhaseStepController>();
                 var psSo = new SerializedObject(phaseStep);
                 SetObjectRef(psSo, "activateAction", FindRef(refs, "Right Hand", "Phase Step"));
+                SetObjectRef(psSo, "moveAction", FindRef(refs, "Left Hand", "Move")); // P4-04 stick-aimed blink
                 var vrRig = rig.GetComponent<VRRig>();
                 if (vrRig != null) SetObjectRef(psSo, "headTransform", vrRig.Head);
                 psSo.ApplyModifiedPropertiesWithoutUndo();
@@ -1051,6 +1052,49 @@ namespace Ronin7.EditorTools
             }
 
             EnsureArtDispatcher(rig, refs);
+            EnsureSkills(rig);
+        }
+
+        private const string ChainLineMaterialPath = "Assets/Ronin7/Art/Materials/VfxNeon_Additive.mat";
+
+        /// <summary>P4-04: the eight skill components on the rig root (S1-S3 self-gate on their boon grant;
+        /// S4-S8 idle until equipped in an Art slot) plus the Chain Hook's line. Idempotent and additive.</summary>
+        internal static void EnsureSkills(GameObject rig)
+        {
+            if (rig.GetComponent<VRRig>() == null) return;
+            EnsureComponent<RiposteController>(rig);
+            EnsureComponent<QuickDrawController>(rig);
+            EnsureComponent<ZanshinController>(rig);
+            EnsureComponent<ChargedSlashController>(rig);
+            EnsureComponent<BladeThrowController>(rig);
+            EnsureComponent<KiaiPalmController>(rig);
+            EnsureComponent<ElementImbueController>(rig);
+            var chain = EnsureComponent<ChainHookController>(rig);
+
+            var lineT = rig.transform.Find("ChainHookLine");
+            if (lineT == null) { lineT = new GameObject("ChainHookLine").transform; lineT.SetParent(rig.transform, false); }
+            var lr = lineT.GetComponent<LineRenderer>();
+            if (lr == null) lr = lineT.gameObject.AddComponent<LineRenderer>();
+            lr.positionCount = 2;
+            lr.useWorldSpace = true;
+            lr.widthMultiplier = 0.015f;
+            lr.sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>(ChainLineMaterialPath);
+            lr.startColor = lr.endColor = new Color(0.4f, 0.9f, 1f, 1f);
+            lr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            lr.receiveShadows = false;
+            lr.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.Off;
+            lr.reflectionProbeUsage = UnityEngine.Rendering.ReflectionProbeUsage.Off;
+            lr.enabled = false;
+            var so = new SerializedObject(chain);
+            SetObjectRef(so, "chainLine", lr);
+            so.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(chain);
+        }
+
+        private static T EnsureComponent<T>(GameObject go) where T : Component
+        {
+            var c = go.GetComponent<T>();
+            return c != null ? c : go.AddComponent<T>();
         }
 
         /// <summary>P4-03: Weapon Art (right trigger) / Off-hand Art (left trigger) dispatcher on the rig

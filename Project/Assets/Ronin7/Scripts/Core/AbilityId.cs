@@ -12,5 +12,10 @@ namespace Ronin7.Core
         public const string PhaseStep = "phase_step";
         public const string Unbroken = "unbroken";
         public const string Mirror = "mirror";
+
+        // P4-04 roguelike passives, granted by boons (P4-05) through RunState.GrantAbility.
+        public const string Riposte = "riposte";
+        public const string QuickDraw = "quick_draw";
+        public const string Zanshin = "zanshin";
     }
 }

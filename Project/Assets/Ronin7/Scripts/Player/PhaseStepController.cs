@@ -48,6 +48,9 @@ namespace Ronin7.Player
     public class PhaseStepController : MonoBehaviour
     {
         [SerializeField] private InputActionReference activateAction;
+        [Tooltip("P4-04: left-stick Move; past the deadzone it aims the blink, otherwise head-forward.")]
+        [SerializeField] private InputActionReference moveAction;
+        [SerializeField] private float stickDeadzone = 0.3f;
         [Tooltip("Head/camera transform whose horizontal forward is the blink direction. Falls back to this transform's forward if unset.")]
         [SerializeField] private Transform headTransform;
         [SerializeField] private float maxDistance = 4f;
@@ -66,6 +69,10 @@ namespace Ronin7.Player
         private float rechargeRemaining;
         private PlayerCombatModifiers mods;
         private bool blinking;
+        // P4-04 i-frames: the player's Health, its multiplier before the blink, and the window start (-1 = none).
+        private Health health;
+        private float savedIncoming = 1f;
+        private float invulnStart = -1f;
         private static readonly RaycastHit[] _probeHits = new RaycastHit[16];
 
         /// <summary>True while the fade-hidden teleport coroutine is running.</summary>
@@ -82,7 +89,18 @@ namespace Ronin7.Player
 
         private void OnEnable() => activateAction?.action?.Enable();
 
-        private void OnDisable() => activateAction?.action?.Disable();
+        private void OnDisable()
+        {
+            activateAction?.action?.Disable();
+            EndInvulnerability();
+        }
+
+        private void EndInvulnerability()
+        {
+            if (invulnStart < 0f) return;
+            invulnStart = -1f;
+            if (health != null) health.IncomingDamageMultiplier = savedIncoming;
+        }
 
         private void Update()
         {
@@ -91,6 +109,7 @@ namespace Ronin7.Player
             int max = MaxCharges(Boon(BoonEffectKind.PhaseCharges));
             if (charges < 0) charges = max;
             TickCharges(ref charges, ref rechargeRemaining, Time.unscaledDeltaTime, max, cooldown);
+            if (invulnStart >= 0f && !PhaseStepSolver.IsInvulnerable(Time.unscaledTime, invulnStart)) EndInvulnerability();
             if (blinking || charges <= 0) return;
 
             var action = activateAction != null ? activateAction.action : null;
@@ -139,8 +158,9 @@ namespace Ronin7.Player
             blinking = true;
             TryConsumeCharge(ref charges, ref rechargeRemaining, cooldown);
 
-            Vector3 forward = headTransform != null ? headTransform.forward : transform.forward;
-            forward.y = 0f;
+            Transform head = headTransform != null ? headTransform : transform;
+            Vector2 stick = moveAction != null && moveAction.action != null ? moveAction.action.ReadValue<Vector2>() : Vector2.zero;
+            Vector3 forward = PhaseStepSolver.BlinkDirection(stick, head.forward, head.right, stickDeadzone);
             Vector3 destination = PhaseStepSolver.ComputeDestination(transform.position, forward, maxDistance);
 
             // Ground validation (VR comfort): the blink is horizontal, so a destination past a tier edge
@@ -180,6 +200,15 @@ namespace Ronin7.Player
                 blinking = false;
                 yield break;
             }
+
+            // P4-04: 0.2 s of i-frames from the start of the fade.
+            if (health == null) health = GetComponent<Health>();
+            if (health != null && invulnStart < 0f)
+            {
+                savedIncoming = health.IncomingDamageMultiplier;
+                health.IncomingDamageMultiplier = 0f;
+            }
+            invulnStart = Time.unscaledTime;
 
             yield return fader.FadeOut(fadeDuration);
 

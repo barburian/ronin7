@@ -99,5 +99,51 @@ namespace Ronin7.Combat
         public float DamageMultiplier =>
             Mathf.Min(ParryFlowMultiplier * ComboMultiplier * OverdriveMultiplier, MaxDamageMultiplier)
             * Mathf.Min(BoonMultiplier, MaxBoonMultiplier);
+
+        /// <summary>P4-04: a one-hit skill bonus for a blade hit on <paramref name="victim"/>. Returns the damage
+        /// scale (1 = none) and writes the posture scale. Implementations consume themselves on a bonus.</summary>
+        public delegate float HitBonus(GameObject victim, out float postureScale);
+
+        /// <summary>P4-04 S1 Riposte: multiplied INSIDE the boon group (under its 2x cap).</summary>
+        public HitBonus RiposteBonus;
+
+        /// <summary>P4-04 S2 Quick Draw: an opener multiplied on top of both caps (a x2.5 under the 2x boon cap
+        /// would be a lie).</summary>
+        public HitBonus QuickDrawBonus;
+
+        /// <summary>Posture scale of the blade hit currently being applied; <see cref="BladeDamager"/> sets it
+        /// around <c>Health.ApplyDamage</c> and <c>PostureMeter</c> reads it synchronously. 1 otherwise.</summary>
+        public float HitPostureScale { get; set; } = 1f;
+
+        /// <summary>P4-04: <see cref="DamageMultiplier"/> plus the per-victim skill bonuses. Call once per
+        /// LANDED hit: it consumes Riposte / Quick Draw.</summary>
+        public float DamageMultiplierFor(GameObject victim, out float postureScale)
+        {
+            postureScale = 1f;
+            float riposte = 1f, draw = 1f;
+            if (RiposteBonus != null) { riposte = RiposteBonus(victim, out float p); postureScale *= p; }
+            if (QuickDrawBonus != null) { draw = QuickDrawBonus(victim, out float p); postureScale *= p; }
+            return Mathf.Min(ParryFlowMultiplier * ComboMultiplier * OverdriveMultiplier, MaxDamageMultiplier)
+                   * Mathf.Min(BoonMultiplier * riposte, MaxBoonMultiplier) * draw;
+        }
+
+        /// <summary>P4-04 S8: elements the player owns via boons (P4-05 sets it from Bleed/Storm tags).</summary>
+        public ImbueElement OwnedElements { get; set; }
+
+        /// <summary>P4-04 S8: the element the blade is imbued with right now (None when not imbued).</summary>
+        public ImbueElement Imbued { get; set; }
+
+        /// <summary>P4-04 S8: element procs (P4-05 RunBoonProcs) roll at this rate scale. x2 while imbued.</summary>
+        public float ProcRateScale => Imbued != ImbueElement.None ? 2f : 1f;
+    }
+
+    /// <summary>P4-04 S8 Element Imbue elements. Flags so <see cref="PlayerCombatModifiers.OwnedElements"/>
+    /// can hold both.</summary>
+    [System.Flags]
+    public enum ImbueElement
+    {
+        None = 0,
+        Bleed = 1,
+        Storm = 2,
     }
 }

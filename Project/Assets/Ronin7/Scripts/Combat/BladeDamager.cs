@@ -61,6 +61,31 @@ namespace Ronin7.Combat
         /// <summary>Current blade speed in m/s (world), exponentially smoothed.</summary>
         public float Speed => speed;
 
+        /// <summary>P4-04: raw world blade velocity (real time).</summary>
+        public Vector3 Velocity => bladeVel;
+
+        /// <summary>P4-04 S5: the rig that last grabbed this sword. Kept while thrown, so a thrown blade still
+        /// skips its owner and credits him as <see cref="DamageInfo.Source"/>.</summary>
+        public Transform WielderRoot { get; private set; }
+
+        /// <summary>P4-04: world base and tip of the blade (box ends along its longest axis).</summary>
+        public void WorldEndpoints(out Vector3 baseWorld, out Vector3 tipWorld)
+        {
+            if (box == null) { baseWorld = tipWorld = transform.position; return; }
+            BladeEndpoints(box.center, box.size, out Vector3 a, out Vector3 b);
+            baseWorld = transform.TransformPoint(a);
+            tipWorld = transform.TransformPoint(b);
+        }
+
+        /// <summary>P4-04 S4: what a plain swing at the current speed would deal (DamageForSpeed x the wielder's
+        /// <see cref="PlayerCombatModifiers.DamageMultiplier"/>), without consuming any skill bonus.</summary>
+        public float SwingDamageNow()
+        {
+            if (definition == null) return 0f;
+            var mods = Mods();
+            return definition.DamageForSpeed(speed, ThresholdScale()) * (mods != null ? mods.DamageMultiplier : 1f);
+        }
+
         private void Awake()
         {
             definition = definitionOverride != null
@@ -71,10 +96,22 @@ namespace Ronin7.Combat
             // Same layers the blade's trigger can touch, so the sweep and OnTriggerEnter agree.
             for (int l = 0; l < 32; l++)
                 if (!Physics.GetIgnoreLayerCollision(gameObject.layer, l)) sweepMask |= 1 << l;
+            var grabbable = GetComponentInParent<Grabbable>();
+            if (grabbable != null) grabbable.Grabbed += OnGrabbed;
             // NOTE: the wielder's PlayerCombatModifiers is resolved lazily in OnTriggerEnter, not here.
             // At Awake the sword is an unparented world Grabbable (transform.root == the sword itself),
             // so there is no rig above it to find yet; it is only reparented under the hand on grab.
         }
+
+        private void OnGrabbed(Transform hand)
+        {
+            if (hand.root == WielderRoot) return;
+            WielderRoot = hand.root;
+            wielderMods = null; // re-resolve against the new wielder
+        }
+
+        // While held the rig is transform.root; while thrown (S5) the stored wielder stands in for it.
+        private Transform OwnerRoot => WielderRoot != null ? WielderRoot : transform.root;
 
         private void FixedUpdate()
         {
@@ -214,7 +251,7 @@ namespace Ronin7.Combat
         // Resolved lazily: at Awake the sword is unparented, the rig only sits above it once grabbed.
         private PlayerCombatModifiers Mods()
         {
-            if (wielderMods == null) wielderMods = transform.root.GetComponentInParent<PlayerCombatModifiers>();
+            if (wielderMods == null) wielderMods = OwnerRoot.GetComponentInParent<PlayerCombatModifiers>();
             return wielderMods;
         }
 
@@ -250,7 +287,7 @@ namespace Ronin7.Combat
             if (health == null || !health.IsAlive) return;
 
             // Don't damage whoever is holding the sword (sword is parented under them).
-            if (((Component)health).transform.root == transform.root) return;
+            if (((Component)health).transform.root == OwnerRoot) return;
 
             if (!TryRegisterHit(lastHitTimes, health, Time.time, definition.hitCooldown)) return;
 
@@ -258,7 +295,8 @@ namespace Ronin7.Combat
             // PlayerCombatModifiers (e.g. Ch7 weakpoint-sight) is reachable. Null (unheld / no rig) => 1x.
             Mods();
             float dmg = definition.DamageForSpeed(speed, ThresholdScale());
-            dmg = ApplyWielderMultiplier(dmg, wielderMods != null ? wielderMods.DamageMultiplier : 1f);
+            float postureScale = 1f;
+            dmg = ApplyWielderMultiplier(dmg, wielderMods != null ? wielderMods.DamageMultiplierFor(health.gameObject, out postureScale) : 1f);
             if (box != null)
             {
                 BladeEndpoints(box.center, box.size, out Vector3 la, out Vector3 lb);
@@ -270,7 +308,9 @@ namespace Ronin7.Combat
             if (dmg <= 0f) return;
 
             Vector3 dir = (other.transform.position - transform.position).normalized;
-            health.ApplyDamage(new DamageInfo(dmg, point, dir, transform.root.gameObject, DamageType.Melee, speed));
+            if (wielderMods != null) wielderMods.HitPostureScale = postureScale;
+            health.ApplyDamage(new DamageInfo(dmg, point, dir, OwnerRoot.gameObject, DamageType.Melee, speed));
+            if (wielderMods != null) wielderMods.HitPostureScale = 1f;
             EventBus.Publish(new SwordImpact(point, speed, health.gameObject));
         }
     }

@@ -30,6 +30,11 @@ namespace Ronin7.Enemies
         private float timeSinceLastAttack;
         private float timeSinceLastRetarget;
 
+        /// <summary>P4-04: per-hit damage (Mirror scales it by depth and the boon multiplier).</summary>
+        public void Configure(float dmg) => damagePerHit = dmg;
+
+        public float DamagePerHit => damagePerHit;
+
         /// <summary>The current target's Health, or null if idle.</summary>
         public Health CurrentTarget => currentTarget;
 
