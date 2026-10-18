@@ -38,6 +38,19 @@ namespace Ronin7.Core
 
         private static bool tutorialDone;
 
+        // BUG-39: (int)WeaknessKind values already taught (Core cannot see the Enemies enum).
+        private static readonly List<int> seenWeaknesses = new();
+
+        /// <summary>BUG-39: true once the first-encounter teach for this weakness kind has run in this save.</summary>
+        public static bool HasSeen(int weaknessKind) => seenWeaknesses.Contains(weaknessKind);
+
+        /// <summary>BUG-39: records a taught weakness kind. In memory only: persisted by the next Save
+        /// (run end / purchase), so no file IO lands mid-fight.</summary>
+        public static void MarkSeen(int weaknessKind)
+        {
+            if (!seenWeaknesses.Contains(weaknessKind)) seenWeaknesses.Add(weaknessKind);
+        }
+
         /// <summary>P2-08: first-run onboarding finished (or skipped because the player has completed runs).</summary>
         public static bool TutorialDone => tutorialDone;
 
@@ -60,6 +73,7 @@ namespace Ronin7.Core
         {
             runsCompleted = 0;
             tutorialDone = false;
+            seenWeaknesses.Clear(); // BUG-39: the weakness teaches replay too
         }
 
         /// <summary>Clamps negatives to 0 rather than letting Echoes go below zero.</summary>
@@ -158,6 +172,9 @@ namespace Ronin7.Core
             runsCompleted = data.metaRunsCompleted;
             runsWon = data.metaRunsWon;
             tutorialDone = ResolveTutorialDone(data);
+            seenWeaknesses.Clear();
+            if (data.seenWeaknesses != null)
+                foreach (int k in data.seenWeaknesses) MarkSeen(k);
 
             upgradeLevels.Clear();
             if (data.metaUpgrades != null)
@@ -186,6 +203,8 @@ namespace Ronin7.Core
             data.metaRunsCompleted = runsCompleted;
             data.metaRunsWon = runsWon;
             data.tutorialDone = tutorialDone;
+            data.seenWeaknesses = new List<int>(seenWeaknesses);
+            data.seenWeaknesses.Sort();
 
             List<string> ids = new List<string>();
             foreach (KeyValuePair<string, int> kvp in upgradeLevels)
@@ -276,6 +295,7 @@ namespace Ronin7.Core
             runsCompleted = 0;
             runsWon = 0;
             tutorialDone = false;
+            seenWeaknesses.Clear();
             upgradeLevels.Clear();
         }
 

@@ -720,5 +720,14 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
             var result = WaveComposer.Compose(table, new RunNode(0, 0, 0, RoomKind.Combat), 12f, Vector3.zero, ref rng);
             Assert.GreaterOrEqual(result.Count, 3);
         }
+
+        [Test]
+        public void YawToward_FacesTarget_AndGuardsZeroVector()
+        {
+            Assert.AreEqual(0f, WaveComposer.YawToward(Vector2.zero, new Vector2(0f, 5f)), 1e-3f);
+            Assert.AreEqual(90f, WaveComposer.YawToward(Vector2.zero, new Vector2(5f, 0f)), 1e-3f);
+            Assert.AreEqual(180f, Mathf.Abs(WaveComposer.YawToward(new Vector2(0f, 5f), Vector2.zero)), 1e-3f);
+            Assert.AreEqual(42f, WaveComposer.YawToward(Vector2.one, Vector2.one, 42f));
+        }
     }
 }

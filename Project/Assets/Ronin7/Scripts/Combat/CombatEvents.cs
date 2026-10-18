@@ -146,6 +146,25 @@ namespace Ronin7.Combat
         public WeaknessExploited(Vector3 point, GameObject victim, int kind) { Point = point; Victim = victim; Kind = kind; }
     }
 
+    /// <summary>
+    /// BUG-39: one per feedback listener (haptics, audio, VFX). <see cref="HitResisted"/> and
+    /// <see cref="WeaknessExploited"/> publish inside <c>Health.ApplyDamage</c>, before that same hit's
+    /// <see cref="EntityDamaged"/> and <see cref="SwordImpact"/>, so a listener marks the victim on the
+    /// weakness event and skips its generic impact/damage feedback for that victim on the same frame.
+    /// No new events; other victims hit that frame still get the generic feedback.
+    /// </summary>
+    public struct HitConfirmLatch
+    {
+        private int frame;
+        private GameObject victim;
+
+        public void Mark(GameObject v) => Mark(v, Time.frameCount);
+        public bool Suppresses(GameObject v) => Suppresses(v, Time.frameCount);
+
+        public void Mark(GameObject v, int frameCount) { victim = v; frame = frameCount; }
+        public bool Suppresses(GameObject v, int frameCount) => victim != null && v == victim && frameCount == frame;
+    }
+
     /// <summary>P3-07: a boss advanced to its next phase (0-based <see cref="Phase"/>).</summary>
     public readonly struct BossPhaseChanged
     {

@@ -153,6 +153,8 @@ namespace Ronin7.Flow
         {
             EventBus.Subscribe<RoomCleared>(OnRoomCleared);
             EventBus.Subscribe<EntityDied>(OnEntityDied);
+            EventBus.Subscribe<HitResisted>(OnHitResisted);
+            EventBus.Subscribe<WeaknessExploited>(OnWeaknessExploited);
             EventBus.Subscribe<PathChosen>(OnPathChosen);
         }
 
@@ -162,6 +164,8 @@ namespace Ronin7.Flow
         {
             EventBus.Unsubscribe<RoomCleared>(OnRoomCleared);
             EventBus.Unsubscribe<EntityDied>(OnEntityDied);
+            EventBus.Unsubscribe<HitResisted>(OnHitResisted);
+            EventBus.Unsubscribe<WeaknessExploited>(OnWeaknessExploited);
             EventBus.Unsubscribe<PathChosen>(OnPathChosen);
             DismissOfferPanel();
             DismissChoicePanel();
@@ -214,6 +218,8 @@ namespace Ronin7.Flow
             // report THIS run's kills as a delta rather than the campaign total.
             enemiesDefeatedAtRunStart = CampaignStats.EnemiesDefeated;
             ApplyStartingBonuses();
+            RunTally.Reset();
+            RunLog.Append(new RunLogEntry { utc = DateTime.UtcNow.ToString("o"), seed = seed, evt = "start", build = BuildTag() });
             EventBus.Publish(new RunStarted(seed));
             WriteRunSnapshot();
             StartSceneLoad(runArenaScene);
@@ -239,6 +245,7 @@ namespace Ronin7.Flow
             runStartRealtime = Time.realtimeSinceStartup;
             deathBy = null;
             enemiesDefeatedAtRunStart = CampaignStats.EnemiesDefeated - snapshot.runKills;
+            RunTally.Reset(); // counts cover the resumed part only
             EventBus.Publish(new RunStarted(RunState.Seed));
             StartSceneLoad(runArenaScene);
             return true;
@@ -258,7 +265,7 @@ namespace Ronin7.Flow
         public void AbandonRun()
         {
             if (!RunState.InRun) return;
-            deathBy = "abandoned";
+            deathBy = RunLog.AbandonedMarker;
             EndRun(won: false, beat: false);
         }
 
@@ -296,6 +303,14 @@ namespace Ronin7.Flow
             MetaProgression.AddEchoes(snapshot.echoesEarned);
             MetaProgression.NoteRunEnded(RunSnapshot.DepthOf(snapshot), won: false);
             MetaProgression.Save();
+            // Skips EndRun, so log it here; counters belong to a prior session, sector is not in the snapshot (-1).
+            RunLog.Append(new RunLogEntry
+            {
+                utc = DateTime.UtcNow.ToString("o"), seed = snapshot.seed, won = false,
+                depth = RunSnapshot.DepthOf(snapshot), kills = snapshot.runKills, boons = snapshot.boons.Count,
+                echoes = snapshot.echoesEarned, boonIds = snapshot.boons.ToArray(), deathBy = RunLog.AbandonedMarker,
+                build = BuildTag(), evt = "end", outcome = RunLog.AbandonedMarker, sector = -1,
+            });
             RunSnapshot.Delete();
         }
 
@@ -623,6 +638,12 @@ namespace Ronin7.Flow
         /// </summary>
         private void OnBoonChoiceSelected(int index)
         {
+            if (offerChoices != null)
+            {
+                var offeredIds = new List<string>();
+                foreach (var b in offerChoices) offeredIds.Add(b.id);
+                RunTally.NoteOffer(offeredIds, CanHonourChoice(offerChoices, index) ? offerChoices[index].id : "");
+            }
             if (CanHonourChoice(offerChoices, index))
             {
                 GrantBoon(offerChoices[index]);
@@ -1109,10 +1130,18 @@ namespace Ronin7.Flow
                 if (health != null) health.Heal(healOnKill);
             }
 
+            if (playerObj != null && evt.Entity != playerObj && evt.Entity != null)
+                RunTally.NoteKill(KillerName(evt.Entity));
+
             if (playerObj == null || evt.Entity != playerObj) return;
             deathBy = KillerName(evt.Killer);
             EndRun(won: false);
         }
+
+        private static void OnHitResisted(HitResisted e) { if (RunState.InRun) RunTally.Resisted++; }
+        private static void OnWeaknessExploited(WeaknessExploited e) { if (RunState.InRun) RunTally.Exploited++; }
+
+        private static string BuildTag() => Application.version + (Debug.isDebugBuild ? "-dev" : "");
 
         private RunLogEntry BuildLogEntry(int depth, bool won)
         {
@@ -1132,7 +1161,17 @@ namespace Ronin7.Flow
                 seconds = Time.realtimeSinceStartup - runStartRealtime,
                 boonIds = ids.ToArray(),
                 deathBy = won ? null : deathBy,
-                build = Application.version + (Debug.isDebugBuild ? "-dev" : ""),
+                build = BuildTag(),
+                evt = "end",
+                outcome = RunLog.Outcome(won, deathBy),
+                sector = RunState.CurrentNode.Sector,
+                elites = RunTally.Elites,
+                resistedHits = RunTally.Resisted,
+                weaknessHits = RunTally.Exploited,
+                spawnCounts = RunTally.Spawns(),
+                killCounts = RunTally.Kills(),
+                affixCounts = RunTally.Affixes(),
+                boonOffers = RunTally.Offers(),
             };
         }
 
@@ -1149,6 +1188,22 @@ namespace Ronin7.Flow
             var pick = pool[UnityEngine.Random.Range(0, pool.Count)];
             GrantBoon(pick);
             Debug.Log($"[DevRunTools] Granted boon '{pick.id}' (applies from the next node).");
+        }
+
+        /// <summary>P4-00e dev tool (G6 worst case): walk the map along the first successor to the next
+        /// Boss node and load it. False when already on a Boss node (or no Boss is ahead).</summary>
+        public bool DevJumpToBoss()
+        {
+            if (!RunState.InRun || EndingRun || RunState.CurrentNode.Kind == RoomKind.Boss) return false;
+            NoteCurrentPlayerHealth();
+            while (RunState.CurrentNode.Kind != RoomKind.Boss)
+                if (RunState.NextChoices.Count == 0 || !RunState.Advance(RunState.NextChoices[0])) return false;
+            DismissChoicePanel();
+            pathChoices = null;
+            WriteRunSnapshot();
+            StartSceneLoad(runArenaScene);
+            Debug.Log($"[DevRunTools] Jumped to boss node {RunState.NodeIndex}.");
+            return true;
         }
 #endif
 

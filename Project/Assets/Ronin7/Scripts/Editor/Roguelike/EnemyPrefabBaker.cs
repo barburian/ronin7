@@ -55,37 +55,52 @@ namespace Ronin7.EditorTools
         /// is a hard VR rule: an enemy that is 0.4 m short reads as a child at room scale.</summary>
         private const float TargetEnemyHeight = 1.8f;
 
-        /// <summary>Uniformly scales <paramref name="go"/> so its combined renderer bounds are
-        /// <paramref name="targetHeight"/> tall, and drops its art so the feet sit on the root's own
-        /// ground plane — leaving the ROOT pivot itself untouched. Returns the scale factor applied
-        /// (1 when the mesh has no renderers or zero height).</summary>
-        private static float NormaliseHeightTo(GameObject go, float targetHeight)
+        /// <summary>World bounds of the visible art. P4-00b: a SkinnedMeshRenderer's bounds carry the rig's ~0.2-unit
+        /// padding per side, so sizing against them left humanoids 1.28 m tall with feet 0.26 m off the floor and the
+        /// drones ~0.4 m (the padded box read 1.8 m / 0.8 m). Skinned art is measured from its mesh instead; telegraph
+        /// lines, the blink glyph and the archetype mark are not body art.</summary>
+        internal static Bounds ArtBounds(GameObject go)
         {
-            var rends = go.GetComponentsInChildren<Renderer>(true);
-            if (rends.Length == 0) return 1f;
+            Bounds b = default;
+            bool first = true;
+            foreach (var r in go.GetComponentsInChildren<Renderer>(true))
+            {
+                if (r is LineRenderer || r.name == "BlinkGlyph" || r.name == MarkName || r.name.StartsWith(WeakMarkName)) continue;
+                Bounds rb = r.bounds;
+                if (r is SkinnedMeshRenderer smr && smr.sharedMesh != null)
+                {
+                    var m = smr.transform.localToWorldMatrix;
+                    var mb = smr.sharedMesh.bounds;
+                    rb = new Bounds(m.MultiplyPoint3x4(mb.center), Vector3.zero);
+                    for (int i = 0; i < 8; i++)
+                        rb.Encapsulate(m.MultiplyPoint3x4(mb.center + Vector3.Scale(mb.extents,
+                            new Vector3((i & 1) == 0 ? -1f : 1f, (i & 2) == 0 ? -1f : 1f, (i & 4) == 0 ? -1f : 1f))));
+                }
+                if (first) { b = rb; first = false; } else b.Encapsulate(rb);
+            }
+            return b;
+        }
 
-            Bounds b = rends[0].bounds;
-            for (int i = 1; i < rends.Length; i++) b.Encapsulate(rends[i].bounds);
-            if (b.size.y <= 0.01f) return 1f;
-
-            float scale = targetHeight / b.size.y;
-            go.transform.localScale *= scale;
-
-            // Re-measure after scaling and ground the feet, so spawn positions (which assume y=0 is
-            // the floor) put the enemy on the floor rather than sunk into or floating above it.
-            // The Tripo meshes pivot at their bounds CENTRE, so this lift is ~half the body height.
-            // It must land on the CHILDREN, never on the root: RunArenaController assigns the root's
-            // localPosition wholesale at spawn (arena-local, y=0), which discards any root-level
-            // offset and leaves the enemy half-sunk with its capsule floating above the body. Root
-            // pivot = feet is the convention everywhere else (EnemyArtWirer.FitAndGround,
-            // XRRigBuilder.BuildEnemy), and the capsule baked below assumes it too.
-            rends = go.GetComponentsInChildren<Renderer>(true);
-            b = rends[0].bounds;
-            for (int i = 1; i < rends.Length; i++) b.Encapsulate(rends[i].bounds);
-            Vector3 lift = go.transform.InverseTransformVector(
-                Vector3.up * (go.transform.position.y - b.min.y));
-            foreach (Transform child in go.transform) child.localPosition += lift;
-            return scale;
+        /// <summary>Idempotent: uniformly scales the root so the art is <paramref name="height"/> tall, lifts
+        /// Visual_Skinned and Rig_Root so the art's bottom sits <paramref name="bottom"/> above the root pivot (the
+        /// ROOT stays at y=0: RunArenaController overwrites its localPosition at spawn), and refits the capsule.</summary>
+        private static void FitArt(GameObject root, float height, float bottom, float radius)
+        {
+            Bounds m = ArtBounds(root);
+            if (m.size.y > 0.01f) root.transform.localScale *= height / m.size.y;
+            m = ArtBounds(root);
+            float s = root.transform.localScale.y;
+            Vector3 lift = root.transform.InverseTransformVector(Vector3.up * (root.transform.position.y + bottom - m.min.y));
+            foreach (var n in new[] { "Visual_Skinned", "Rig_Root" })
+            {
+                var c = FindDeep(root.transform, n);
+                if (c != null) c.localPosition += lift;
+            }
+            var cap = root.GetComponent<CapsuleCollider>();
+            if (cap == null) cap = root.AddComponent<CapsuleCollider>();
+            cap.height = height / s;
+            cap.radius = radius / s;
+            cap.center = new Vector3(0f, (bottom + height * 0.5f) / s, 0f);
         }
 
         // The 11 trash-mob prefabs (Appendix A).
@@ -207,14 +222,8 @@ namespace Ronin7.EditorTools
             // child-sized next to a 1.6 m player in VR — confirmed in-headset. EnemyArtWirer.FitAndGround
             // only rescales outside [1.2, 2.4] m, so 1.40 m slips through it untouched; here we always
             // normalise, because at room scale a 0.4 m height error is glaring.
-            float scale = NormaliseHeightTo(instance, TargetEnemyHeight);
-
-            // Collider is authored in world metres, so divide by the root scale we just applied or it
-            // would be scaled a second time and end up ~2.3 m tall around a 1.8 m body.
-            var capsule = instance.AddComponent<CapsuleCollider>();
-            capsule.height = 1.8f / scale;
-            capsule.radius = 0.35f / scale;
-            capsule.center = new Vector3(0f, 0.9f / scale, 0f);
+            FitArt(instance, TargetEnemyHeight, 0f, 0.35f);
+            float scale = instance.transform.localScale.y;
 
             string outputPath = OutputFolder + "/" + name + ".prefab";
             // P1-12: drop the variant link to the source art prefab, or its glTFast material (and the
@@ -352,6 +361,7 @@ namespace Ronin7.EditorTools
             PatchOne("Dominion_Scan-Drone", typeof(SupportDrone), true);
             PatchOne("Dream_Ghost_Manifestation", typeof(BlinkEnemy), false);
             PatchOne("Vane_Wraith-6", typeof(BlinkEnemy), false); // P3-07: blinks only in its Blink-weakness phase 2
+            ApplyArchetypeMarks(); // P4-00b: after BakeHover, so the drone marks sit on the lifted art
             AssetDatabase.SaveAssets();
             Debug.Log("[EnemyPrefabBaker] Archetype prefabs patched.");
         }
@@ -429,33 +439,99 @@ namespace Ronin7.EditorTools
 
         /// <summary>Idempotent: rescales the root so the art is DroneArtHeight tall, lifts Visual_Skinned and
         /// Rig_Root so it floats DroneHoverBottom above the root pivot, and refits the capsule to it.</summary>
-        private static void BakeHover(GameObject root)
+        private static void BakeHover(GameObject root) => FitArt(root, DroneArtHeight, DroneHoverBottom, 0.3f);
+
+        // P4-00b (BUG-40): one unlit accent primitive + HDR colour per trash archetype, so each reads at 3-8 m
+        // in a dark arena. MeleeAttacker.Awake gives it VrUiMaterials.SharedUnlit and the colour via
+        // RendererTint (MPB): no new material, no light, opaque, no shadows, +1 draw per enemy. The Scavenger
+        // (the baseline swarmer) stays unmarked; bosses are unique art and fight alone, so are left as-is.
+        // pos: x/z metres from the body-mesh centre (+z = facing), y = fraction of mesh height above its bottom
+        // (metres above the root pivot when bone is null); size = world extents in metres. Marks overlap the (padded) SMR bounds, never the body.
+        internal const string MarkName = "ArchetypeMark";
+        internal static readonly (string prefab, string mesh, string bone, Vector3 pos, Vector3 size, Vector3 euler, Color color)[] MarkSpecs =
         {
-            Bounds Measure()
+            ("Coil_Syndicate_Ganger",     "Cylinder", "Rig_Body", new Vector3(0f, 0.45f, 0f),       new Vector3(1.3f, 0.03f, 1.3f),    Vector3.zero,             new Color(1f, 0.1f, 0.75f) * 2f),  // charger: magenta waist ring
+            ("Dominion_Trooper",          "Cube",     "Rig_ArmL", new Vector3(-0.4f, 0.5f, 0.25f),  new Vector3(0.5f, 0.8f, 0.05f),    Vector3.zero,             new Color(0.1f, 0.75f, 1f) * 2f),  // shield trooper: cyan shield slab
+            ("Program_Operative_Grunt",   "Cube",     "Rig_Body", new Vector3(0f, 0.9f, 0.16f),     new Vector3(0.3f, 0.07f, 0.06f),   Vector3.zero,             new Color(0.4f, 0.2f, 1f) * 2f),   // duelist: indigo visor bar (BUG-39: was lime, too close to gold "open")
+            ("Hunter_Drone",              "Cylinder", "Rig_Body", new Vector3(0f, 0.35f, 0.5f),     new Vector3(0.08f, 0.6f, 0.08f),   new Vector3(90f, 0f, 0f), new Color(1f, 0.15f, 0.4f) * 2f),  // gunner: rose forward barrel (BUG-39: was yellow, gold now means "open")
+            ("Dominion_Scan-Drone",       "Cylinder", "Rig_Body", new Vector3(0f, 1.2f, 0f),        new Vector3(0.8f, 0.03f, 0.8f),    Vector3.zero,             new Color(0.2f, 1f, 0.35f) * 2f),  // support: green halo disc
+            ("Humanoid_Automaton",        "Sphere",   "Rig_Body", new Vector3(0f, 0.62f, 0.4f),     new Vector3(0.4f, 0.4f, 0.4f),     Vector3.zero,             new Color(0.25f, 0.4f, 1f) * 2f),  // heavy: blue chest core
+            ("Iron_Dojo_Warden-Cadre",    "Cube",     "Rig_Body", new Vector3(0f, 1f, -0.2f),       new Vector3(0.3f, 0.7f, 0.04f),    Vector3.zero,             new Color(1f, 0.12f, 0.12f) * 2f), // parry master: red banner behind the head
+            ("Spectral_Grave-Guardian",   "Cylinder", null,       new Vector3(0f, 0.02f, 0f),       new Vector3(1.8f, 0.01f, 1.8f),    Vector3.zero,             new Color(0.4f, 1f, 0.9f) * 1.5f), // phaser: ice floor pool
+            ("Redaction_Construct",       "Cube",     "Rig_Body", new Vector3(0f, 0.82f, 0f),       new Vector3(1.1f, 0.08f, 0.25f),   Vector3.zero,             Color.white * 2f),                 // construct: white shoulder yoke
+            ("Dream_Ghost_Manifestation", "Sphere",   "Rig_Body", new Vector3(0f, 1.12f, 0f),       new Vector3(0.28f, 0.28f, 0.28f),  Vector3.zero,             new Color(0.75f, 0.35f, 1f) * 2f), // teleporter: violet orb overhead
+        };
+
+        // BUG-39: weak-point markers (wired into Enemy.weakMarks in order; same placement rules as MarkSpecs).
+        // Colour/visibility is runtime (Enemy.InitWeakMarks): gold = open, blue-grey = guarded.
+        internal const string WeakMarkName = "WeakMark";
+        internal static readonly (string prefab, string mesh, string bone, Vector3 pos, Vector3 size)[] WeakMarkSpecs =
+        {
+            ("Program_Operative_Grunt", "Cube", "Rig_Body", new Vector3(-0.22f, 0.8f, 0f),   new Vector3(0.2f, 0.07f, 0.2f)),   // [0] left shoulder (Alternating)
+            ("Program_Operative_Grunt", "Cube", "Rig_Body", new Vector3(0.22f, 0.8f, 0f),    new Vector3(0.2f, 0.07f, 0.2f)),   // [1] right shoulder
+            ("Humanoid_Automaton",      "Cube", "Rig_Body", new Vector3(0f, 0.62f, -0.32f),  new Vector3(0.4f, 0.45f, 0.04f)),  // back plate (Backstab): body hides it from the front
+            ("Redaction_Construct",     "Cube", "Rig_Body", new Vector3(0f, 0.6f, 0.3f),     new Vector3(0.6f, 0.05f, 0.04f)),  // chest crack (PostureOnly): grows with posture
+        };
+
+        /// <summary>P4-00b (additive, idempotent): re-sizes every baked enemy against its real mesh (see
+        /// <see cref="ArtBounds"/>) - 1.8 m grounded, drones 0.8 m hovering - then re-places the archetype marks.</summary>
+        [MenuItem("Tools/Space Samurai/Roguelike/Refit Enemy Art Height (additive)")]
+        public static void RefitBakedArt()
+        {
+            foreach (var name in System.Linq.Enumerable.Concat(TrashMobNames, BossNames))
             {
-                var rends = root.GetComponentsInChildren<Renderer>(true);
-                Bounds b = default; bool first = true;
-                foreach (var r in rends)
+                string path = OutputFolder + "/" + name + ".prefab";
+                if (AssetDatabase.LoadAssetAtPath<GameObject>(path) == null) { Debug.LogWarning("[EnemyPrefabBaker] missing " + path); continue; }
+                var root = PrefabUtility.LoadPrefabContents(path);
+                try
                 {
-                    if (r is LineRenderer || r.gameObject.name == "BlinkGlyph") continue;
-                    if (first) { b = r.bounds; first = false; } else b.Encapsulate(r.bounds);
+                    if (name == "Hunter_Drone" || name == "Dominion_Scan-Drone") BakeHover(root);
+                    else FitArt(root, TargetEnemyHeight, 0f, 0.35f);
+                    if (root.transform.Find("BlinkGlyph") != null) EnsureGlyph(root); // re-derive its world size
+                    PrefabUtility.SaveAsPrefabAsset(root, path);
                 }
-                return b;
+                finally { PrefabUtility.UnloadPrefabContents(root); }
             }
-            Bounds m = Measure();
-            if (m.size.y > 0.01f) root.transform.localScale *= DroneArtHeight / m.size.y;
-            m = Measure();
-            float s = root.transform.localScale.y;
-            Vector3 lift = root.transform.InverseTransformVector(Vector3.up * (root.transform.position.y + DroneHoverBottom - m.min.y));
-            foreach (var n in new[] { "Visual_Skinned", "Rig_Root" })
+            ApplyArchetypeMarks();
+        }
+
+        /// <summary>P4-00b (additive, idempotent): (re)builds each archetype's <see cref="MarkName"/> child on the
+        /// baked prefab from <see cref="MarkSpecs"/>, placed from the body mesh bounds and parented to a bone so it
+        /// follows the walk/attack poses, and wires <c>MeleeAttacker.archetypeMark/archetypeColor</c>.</summary>
+        public static void ApplyArchetypeMarks()
+        {
+            foreach (var m in MarkSpecs)
             {
-                var c = FindDeep(root.transform, n);
-                if (c != null) c.localPosition += lift;
+                string path = OutputFolder + "/" + m.prefab + ".prefab";
+                if (AssetDatabase.LoadAssetAtPath<GameObject>(path) == null) { Debug.LogWarning("[EnemyPrefabBaker] missing " + path); continue; }
+                var root = PrefabUtility.LoadPrefabContents(path);
+                try
+                {
+                    Transform old;
+                    while ((old = FindDeep(root.transform, MarkName)) != null) Object.DestroyImmediate(old.gameObject);
+                    while ((old = FindDeepPrefix(root.transform, WeakMarkName)) != null) Object.DestroyImmediate(old.gameObject);
+                    var enemy = root.GetComponent<Enemy>();
+                    var so = new SerializedObject(enemy);
+                    Bounds b = ArtBounds(root);
+
+                    SetObjectRef(so, "archetypeMark", BuildMark(root, b, MarkName, m.mesh, m.bone, m.pos, m.size, m.euler));
+                    so.FindProperty("archetypeColor").colorValue = m.color;
+
+                    // BUG-39 weak-point markers for this prefab (empty array for the rest).
+                    var weak = so.FindProperty("weakMarks");
+                    weak.arraySize = 0;
+                    foreach (var w in WeakMarkSpecs)
+                    {
+                        if (w.prefab != m.prefab) continue;
+                        int i = weak.arraySize++;
+                        weak.GetArrayElementAtIndex(i).objectReferenceValue = BuildMark(root, b, WeakMarkName + i, w.mesh, w.bone, w.pos, w.size, Vector3.zero);
+                    }
+                    so.ApplyModifiedPropertiesWithoutUndo();
+                    PrefabUtility.SaveAsPrefabAsset(root, path);
+                }
+                finally { PrefabUtility.UnloadPrefabContents(root); }
             }
-            var cap = root.GetComponent<CapsuleCollider>();
-            cap.height = DroneArtHeight / s;
-            cap.radius = 0.3f / s;
-            cap.center = new Vector3(0f, (DroneHoverBottom + DroneArtHeight * 0.5f) / s, 0f);
+            AssetDatabase.SaveAssets();
         }
 
         /// <summary>P1-12 (BUG-23): additive entry point. Re-extracts the textures from each existing baked
@@ -552,6 +628,39 @@ namespace Ronin7.EditorTools
             imp.SetPlatformTextureSettings(a);
             imp.SaveAndReimport();
             return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+        }
+
+        /// <summary>One unlit-ready accent primitive (no collider, no shadows/probes), placed from the art bounds
+        /// (see <see cref="MarkSpecs"/> for the pos/size convention) and parented to <paramref name="boneName"/>.</summary>
+        private static MeshRenderer BuildMark(GameObject root, Bounds b, string name, string meshName, string boneName,
+            Vector3 pos, Vector3 size, Vector3 euler)
+        {
+            var go = new GameObject(name); // no CreatePrimitive: no collider to strip
+            var mesh = Resources.GetBuiltinResource<Mesh>(meshName + ".fbx");
+            go.AddComponent<MeshFilter>().sharedMesh = mesh;
+            var mr = go.AddComponent<MeshRenderer>();
+            mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            mr.receiveShadows = false;
+            mr.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.Off;
+            mr.reflectionProbeUsage = UnityEngine.Rendering.ReflectionProbeUsage.Off;
+            go.transform.SetPositionAndRotation(
+                new Vector3(b.center.x + pos.x, boneName == null ? pos.y : b.min.y + pos.y * b.size.y, b.center.z + pos.z),
+                Quaternion.Euler(euler));
+            go.transform.localScale = new Vector3(size.x / mesh.bounds.size.x, size.y / mesh.bounds.size.y, size.z / mesh.bounds.size.z); // no parent yet
+            var bone = boneName != null ? FindDeep(root.transform, boneName) : null;
+            go.transform.SetParent(bone != null ? bone : root.transform, true);
+            return mr;
+        }
+
+        private static Transform FindDeepPrefix(Transform t, string prefix)
+        {
+            if (t.name.StartsWith(prefix)) return t;
+            for (int i = 0; i < t.childCount; i++)
+            {
+                var found = FindDeepPrefix(t.GetChild(i), prefix);
+                if (found != null) return found;
+            }
+            return null;
         }
 
         private static Transform FindDeep(Transform t, string name)

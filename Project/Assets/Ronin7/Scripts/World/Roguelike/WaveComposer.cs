@@ -32,6 +32,14 @@ namespace Ronin7.World
         /// <summary>P2-07: the next wave is due once at most one enemy is still alive.</summary>
         internal static bool NextWaveDue(int alive, int wavesRemaining) => wavesRemaining > 0 && alive <= 1;
 
+        /// <summary>Yaw (degrees, Unity convention: 0 = +Z) from <paramref name="fromXZ"/> toward
+        /// <paramref name="toXZ"/>; <paramref name="fallback"/> if they coincide.</summary>
+        internal static float YawToward(Vector2 fromXZ, Vector2 toXZ, float fallback = 0f)
+        {
+            Vector2 d = toXZ - fromXZ;
+            return d.sqrMagnitude < 1e-6f ? fallback : Mathf.Atan2(d.x, d.y) * Mathf.Rad2Deg;
+        }
+
         /// <summary>P2-06: a spawn point in the player's front arc — radius in [minR, maxR], within
         /// +/- <paramref name="halfAngleDeg"/> of <paramref name="forwardXZ"/>, inside the wall margin, y = 0.
         /// Bounded rejection sampling; false if no sample fits (caller keeps its pre-rolled point).

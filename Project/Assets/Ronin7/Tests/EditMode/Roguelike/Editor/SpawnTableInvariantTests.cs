@@ -165,10 +165,8 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
                     instance.SetActive(true); // baked inactive (A3.1); renderers need to be live to measure
                     instance.transform.position = Vector3.zero;
 
-                    var rends = System.Array.FindAll(instance.GetComponentsInChildren<Renderer>(true), r => !(r is LineRenderer)); // world-space telegraph lines have placeholder bounds
-                    Assert.Greater(rends.Length, 0, $"'{prefab.name}' has no renderers to measure.");
-                    Bounds b = rends[0].bounds;
-                    for (int i = 1; i < rends.Length; i++) b.Encapsulate(rends[i].bounds);
+                    // P4-00b: the real mesh extents - the SMR's padded bounds read 1.8 m around 1.28 m art.
+                    Bounds b = Ronin7.EditorTools.EnemyPrefabBaker.ArtBounds(instance);
 
                     // P3-04: hover drones are 0.8 m art floating 1.4 m above the (still y=0) root pivot.
                     bool drone = prefab.name == "Hunter_Drone" || prefab.name == "Dominion_Scan-Drone";
@@ -280,6 +278,92 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
                 string path = AssetDatabase.GUIDToAssetPath(guid);
                 foreach (var dep in AssetDatabase.GetDependencies(path, true))
                     Assert.IsFalse(System.IO.Path.GetFileName(dep).StartsWith("Ch"), $"{path} depends on story asset {dep}.");
+            }
+        }
+
+        // ---- P4-00b (BUG-40): spawn audit + archetype marks ----
+
+        [Test]
+        public void EveryTrashArchetype_HasOwnPrefabMeshAndMaterial()
+        {
+            var table = LoadTableOrSkip();
+            var prefabs = new HashSet<GameObject>();
+            var meshes = new HashSet<Mesh>();
+            var materials = new HashSet<Material>();
+            foreach (var e in table.trash)
+            {
+                var body = e.prefab.GetComponentInChildren<SkinnedMeshRenderer>(true);
+                Assert.IsNotNull(body, $"'{e.prefab.name}' has no skinned body.");
+                Assert.IsTrue(prefabs.Add(e.prefab), $"'{e.prefab.name}' is used by two trash entries.");
+                Assert.IsTrue(meshes.Add(body.sharedMesh), $"'{e.prefab.name}' shares its body mesh with another archetype.");
+                Assert.IsTrue(materials.Add(body.sharedMaterial), $"'{e.prefab.name}' shares its body material with another archetype.");
+            }
+        }
+
+        [Test]
+        public void ShippedTable_EveryTrashArchetype_SpawnsOverRealRunMaps()
+        {
+            var table = LoadTableOrSkip();
+            var tally = new int[table.trash.Length];
+            for (uint seed = 1; seed <= 200; seed++)
+            {
+                var map = Ronin7.Core.RunMapGenerator.GenerateGraph(seed);
+                foreach (var node in map.Nodes)
+                {
+                    if (node.Kind != Ronin7.Core.RoomKind.Combat && node.Kind != Ronin7.Core.RoomKind.Elite) continue;
+                    var rng = Ronin7.Core.RunRng.ForNode(seed, node.Index); // exactly as RunArenaController seeds it
+                    foreach (var r in WaveComposer.Compose(table, node, 6f, Vector3.zero, ref rng)) tally[r.EntryIndex]++;
+                }
+            }
+            var report = new System.Text.StringBuilder("Trash spawns over 200 seeds x every Combat/Elite node:\n");
+            for (int i = 0; i < tally.Length; i++) report.Append(table.trash[i].prefab.name).Append(": ").Append(tally[i]).Append('\n');
+            TestContext.WriteLine(report);
+            for (int i = 0; i < tally.Length; i++)
+                Assert.Greater(tally[i], 0, $"'{table.trash[i].prefab.name}' never spawned.\n{report}");
+        }
+
+        [Test]
+        public void EveryTrashArchetypeButScavenger_HasDistinctWiredMark()
+        {
+            var table = LoadTableOrSkip();
+            var colours = new HashSet<Color>();
+            foreach (var e in table.trash)
+            {
+                var so = new SerializedObject(e.prefab.GetComponent<Enemy>());
+                var mark = so.FindProperty("archetypeMark").objectReferenceValue as Renderer;
+                if (e.prefab.name == "Ash-World_Scavenger") { Assert.IsNull(mark, "the baseline swarmer stays unmarked"); continue; }
+                Assert.IsNotNull(mark, $"'{e.prefab.name}' has no archetype mark - run Patch Archetype Prefabs.");
+                Assert.AreEqual(Ronin7.EditorTools.EnemyPrefabBaker.MarkName, mark.name);
+                Assert.IsNull(mark.GetComponent<Collider>(), $"'{e.prefab.name}' mark must not collide.");
+                Assert.AreEqual(UnityEngine.Rendering.ShadowCastingMode.Off, mark.shadowCastingMode, e.prefab.name);
+                Assert.IsTrue(colours.Add(so.FindProperty("archetypeColor").colorValue), $"'{e.prefab.name}' mark colour is not unique.");
+            }
+        }
+
+        // BUG-39: gold (~41 deg) means "open now", so no saturated archetype mark may sit in the yellow band;
+        // the weak-point markers are wired on the three archetypes whose tell is a marker.
+        [Test]
+        public void ArchetypeMarks_AvoidGoldHue_AndWeakPointMarkersWired()
+        {
+            var table = LoadTableOrSkip();
+            foreach (var e in table.trash)
+            {
+                var so = new SerializedObject(e.prefab.GetComponent<Enemy>());
+                Color.RGBToHSV(so.FindProperty("archetypeColor").colorValue, out float h, out float sat, out _);
+                float deg = h * 360f;
+                if (sat > 0.3f) Assert.IsFalse(deg > 25f && deg < 95f, $"'{e.prefab.name}' mark hue {deg:0} deg reads as gold 'open'.");
+
+                int want = e.prefab.name == "Program_Operative_Grunt" ? 2
+                    : e.prefab.name == "Humanoid_Automaton" || e.prefab.name == "Redaction_Construct" ? 1 : 0;
+                var weak = so.FindProperty("weakMarks");
+                Assert.AreEqual(want, weak.arraySize, $"'{e.prefab.name}' weak-point markers - run Patch Archetype Prefabs.");
+                for (int i = 0; i < weak.arraySize; i++)
+                {
+                    var r = weak.GetArrayElementAtIndex(i).objectReferenceValue as Renderer;
+                    Assert.IsNotNull(r, e.prefab.name);
+                    Assert.IsNull(r.GetComponent<Collider>(), e.prefab.name);
+                    Assert.AreEqual(UnityEngine.Rendering.ShadowCastingMode.Off, r.shadowCastingMode, e.prefab.name);
+                }
             }
         }
     }

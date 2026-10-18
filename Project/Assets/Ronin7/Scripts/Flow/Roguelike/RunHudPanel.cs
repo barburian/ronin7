@@ -59,6 +59,19 @@ namespace Ronin7.Flow
 
         private int foes;
         private bool shown, ended;
+
+        // BUG-39: one short teach line (<= 5 words) under the run stats, shown for a few real seconds.
+        private static string hint;
+        private static float hintUntil;
+        private string lastHint;
+
+        /// <summary>BUG-39: show <paramref name="text"/> on the wrist HUD for <paramref name="seconds"/> real time
+        /// (picked up by the 0.25 s poll; static so the teach needs no reference to the wrist object).</summary>
+        public static void ShowHint(string text, float seconds)
+        {
+            hint = text;
+            hintUntil = Time.unscaledTime + seconds;
+        }
         private (int hp, int hpMax, int node, int sector, int foes, int boons, int echoes) lastKey;
         private static readonly System.Collections.Generic.List<RoomKind> nextKinds = new(3);
 
@@ -69,13 +82,16 @@ namespace Ronin7.Flow
             var health = VRRig.Instance != null ? VRRig.Instance.GetComponent<Health>() : null;
             var key = (health != null ? Mathf.CeilToInt(health.Current) : 0, health != null ? Mathf.CeilToInt(health.Max) : 0,
                 RunState.NodeIndex, RunState.CurrentNode.Sector, foes, RunState.Boons.Count, RunState.EchoesEarned);
-            if (shown && key == lastKey) return; // no per-frame/poll string allocation when nothing changed
+            string h = Time.unscaledTime < hintUntil ? hint : null;
+            if (shown && key == lastKey && ReferenceEquals(h, lastHint)) return; // no per-frame/poll string allocation when nothing changed
             lastKey = key;
+            lastHint = h;
             shown = true;
             // key.node is the node id (changes on every advance); display the depth (P2-04).
             nextKinds.Clear();
             foreach (int id in RunState.NextChoices) nextKinds.Add(RunState.Map[id].Kind);
             target.text = Format(key.Item1, key.Item2, RunState.Depth, key.Item4, key.Item5, key.Item6, key.Item7, FormatNext(nextKinds));
+            if (h != null) target.text += "\n" + h;
 #if RONIN7_DEV
             baseText = target.text;
 #endif

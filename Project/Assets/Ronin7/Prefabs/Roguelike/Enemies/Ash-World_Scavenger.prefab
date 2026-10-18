@@ -252,7 +252,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.2875105, y: 1.2875105, z: 1.2875105}
+  m_LocalScale: {x: 1.8035226, y: 1.8035226, z: 1.8035226}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1699437030736826925}
@@ -308,6 +308,8 @@ MonoBehaviour:
   target: {fileID: 0}
   nonLethalDisable: 0
   bladeEdge: {fileID: 4649779458167941739}
+  archetypeMark: {fileID: 0}
+  archetypeColor: {r: 1, g: 1, b: 1, a: 1}
   restEuler: {x: 15, y: 0, z: 0}
   windupEuler: {x: -140, y: 0, z: 0}
   strikeEuler: {x: 55, y: 0, z: 0}
@@ -358,10 +360,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.27184245
-  m_Height: 1.3980469
+  m_Radius: 0.19406466
+  m_Height: 0.9980468
   m_Direction: 1
-  m_Center: {x: 0, y: 0.6990234, z: 0}
+  m_Center: {x: 0, y: 0.4990234, z: 0}
 --- !u!1 &6089021250302656456
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,7 +389,7 @@ Transform:
   m_GameObject: {fileID: 6089021250302656456}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.6990234, z: 0}
+  m_LocalPosition: {x: 0, y: 0.49902344, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -454,7 +456,7 @@ Transform:
   m_GameObject: {fileID: 8127575476207164533}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.6990234, z: 0}
+  m_LocalPosition: {x: 0, y: 0.49902344, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

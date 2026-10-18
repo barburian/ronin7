@@ -279,10 +279,14 @@ namespace Ronin7.Audio
         }
 
         private void OnDeflect(SwordDeflected e) => PlayAt(swordDeflect, e.Point);
-        private void OnImpact(SwordImpact e) => PlayAt(swordImpact, e.Point);
+        private void OnImpact(SwordImpact e)
+        {
+            if (latch.Suppresses(e.Victim)) return; // BUG-39: the resist/exploit clip is that hit's only sound
+            PlayAt(swordImpact, e.Point);
+        }
         private void OnPlayerHit(PlayerHit e) => PlayAt(playerHit, e.Point);
-        private void OnHitResisted(HitResisted e) => PlayAt(hitResisted, e.Point);
-        private void OnWeaknessExploited(WeaknessExploited e) => PlayAt(weaknessHit, e.Point);
+        private void OnHitResisted(HitResisted e) { latch.Mark(e.Victim); PlayAt(hitResisted, e.Point); }
+        private void OnWeaknessExploited(WeaknessExploited e) { latch.Mark(e.Victim); PlayAt(weaknessHit, e.Point, ExploitGain); }
         private void OnLanding(LandingRequested _) => PlayAt(landing, ListenerPoint());
         private void OnExtracted(ZoneCompleted _) => PlayAt(extraction, ListenerPoint());
 
@@ -349,11 +353,15 @@ namespace Ronin7.Audio
                 musicTarget = exploreMusic;
         }
 
-        private void PlayAt(AudioClip clip, Vector3 point)
+        private void PlayAt(AudioClip clip, Vector3 point, float gain = 1f)
         {
             if (clip == null || sfxVolume <= 0f) return;
-            oneShots.Play(clip, point, sfxVolume);
+            oneShots.Play(clip, point, Mathf.Min(1f, sfxVolume * gain)); // AudioSource.volume caps at 1
         }
+
+        // BUG-39: +3 dB on the exploit clip (only audible below full SFX volume; at 1.0 it is capped).
+        private const float ExploitGain = 1.41f;
+        private HitConfirmLatch latch;
 
         /// <summary>World point near the listener, so non-positional cues (landing/extract) read as present.</summary>
         private static Vector3 ListenerPoint()

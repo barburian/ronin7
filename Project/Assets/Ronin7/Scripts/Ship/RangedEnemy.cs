@@ -44,7 +44,7 @@ namespace Ronin7.Ship
             var cam = Camera.main;
             Vector3 head = cam != null ? cam.transform.position : target.transform.position + Vector3.up * 1.6f;
             pool.Fire(gameObject, muzzle, Quaternion.LookRotation(head - muzzle), BoltSpeed, AttackDamage,
-                BoltLife, BoltRadius, TelegraphColor, null);
+                BoltLife, BoltRadius, OpenColor, null); // BUG-39: gold = "send it back" (Reflect)
         }
     }
 }

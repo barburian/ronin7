@@ -85,6 +85,27 @@ namespace Ronin7.Enemies
             }
         }
 
+        /// <summary>BUG-39: true while the enemy's state-based weakness is open right now, i.e. the body rim
+        /// shows gold ("hit now"). Only the kinds whose window is a state: the positional / swing-speed / side
+        /// / projectile kinds (Backstab plate, HeavyBreak slab, Alternating shoulders, Reflect bolts) carry
+        /// their own marker instead, so they are false here except Backstab's stagger window.</summary>
+        public static bool IsOpen(WeaknessKind k, bool staggered, bool attacking, bool recovering, bool recentlyBlinked)
+        {
+            switch (k)
+            {
+                case WeaknessKind.Recovery: return staggered || recovering;
+                case WeaknessKind.Backstab:
+                case WeaknessKind.ParryGate: return staggered;
+                case WeaknessKind.CounterHit: return attacking || staggered;
+                case WeaknessKind.Blink: return recentlyBlinked;
+                default: return false; // None, HeavyBreak, Alternating, Reflect, Linchpin, PostureOnly
+            }
+        }
+
+        /// <summary>BUG-39: kinds whose rim rests blue-grey ("guarded") whenever <see cref="IsOpen"/> is false.</summary>
+        public static bool RestsGuarded(WeaknessKind k) =>
+            k == WeaknessKind.ParryGate || k == WeaknessKind.CounterHit || k == WeaknessKind.PostureOnly;
+
         public static float Multiplier(WeaknessResult r, float resist, float exploit) =>
             r == WeaknessResult.Resisted ? resist : r == WeaknessResult.Exploited ? exploit : 1f;
 

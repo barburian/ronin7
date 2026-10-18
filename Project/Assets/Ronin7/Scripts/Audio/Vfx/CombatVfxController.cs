@@ -114,8 +114,12 @@ namespace Ronin7.Audio.Vfx
             EventBus.Unsubscribe<WeaknessExploited>(OnWeaknessExploited);
         }
 
+        // BUG-39: resisted/exploited hits own their VFX; the generic sparks + damage flash skip that victim this frame.
+        private HitConfirmLatch latch;
+
         private void OnSwordImpact(SwordImpact e)
         {
+            if (latch.Suppresses(e.Victim)) return;
             HandledCount++;
             float t = Mathf.InverseLerp(SparkSpeedLo, SparkSpeedHi, e.Speed);
             Emit(spark, e.Point, Mathf.RoundToInt(Mathf.Lerp(SparkMin, SparkMax, t)));
@@ -126,17 +130,23 @@ namespace Ronin7.Audio.Vfx
         }
 
         private void OnDeflect(SwordDeflected e) { HandledCount++; Emit(deflect, e.Point, DeflectBurst); }
-        private void OnDamaged(EntityDamaged e) { HandledCount++; Emit(hitFlash, e.Info.Point, DamageBurst); }
+        private void OnDamaged(EntityDamaged e)
+        {
+            if (latch.Suppresses(e.Entity)) return;
+            HandledCount++;
+            Emit(hitFlash, e.Info.Point, DamageBurst);
+        }
         private void OnDied(EntityDied e) { HandledCount++; Emit(death, Center(e.Entity), DeathBurst); }
         // P2-02: Treasure TAKE — a rarity-coloured burst from the same pooled death-burst system.
         private void OnTreasureOpened(TreasureOpened e) { HandledCount++; Emit(death, e.Point, TreasureBurst, e.Color); }
 
         // P3-03: resisted = quarter-burst blue-grey deflect flash; exploited = max gold sparks plus a full
         // hit flash on the victim's body (MeleeAttacker's own flash timer fades it back, no new state).
-        private void OnHitResisted(HitResisted e) { HandledCount++; Emit(deflect, e.Point, ResistedBurst, ResistedTint); }
+        private void OnHitResisted(HitResisted e) { latch.Mark(e.Victim); HandledCount++; Emit(deflect, e.Point, ResistedBurst, ResistedTint); }
 
         private void OnWeaknessExploited(WeaknessExploited e)
         {
+            latch.Mark(e.Victim);
             HandledCount++;
             Emit(spark, e.Point, SparkMax, WeaknessTint);
             var body = e.Victim != null ? e.Victim.GetComponentInParent<MeleeAttacker>() : null;

@@ -26,6 +26,9 @@ namespace Ronin7.Player
         [SerializeField] private float hitFlashSeconds = 0.25f;
 
         private float slowMoEndUnscaled = -1f;
+        private float exploitBeat2Unscaled = -1f; // BUG-39: second beat of the exploit double pulse
+        private HitConfirmLatch latch;             // BUG-39: resist/exploit own the haptics of their hit
+        private const float ExploitBeatGap = 0.06f;
         private Ronin7.Ship.ComfortVignette vignette;
 
         private void OnEnable()
@@ -70,6 +73,11 @@ namespace Ronin7.Player
         {
             if (slowMoEndUnscaled > 0f && Time.unscaledTime >= slowMoEndUnscaled)
                 RestoreTime();
+            if (exploitBeat2Unscaled > 0f && Time.unscaledTime >= exploitBeat2Unscaled)
+            {
+                exploitBeat2Unscaled = -1f;
+                PulseBoth(1.0f, 0.1f);
+            }
         }
 
         private void OnDeflect(SwordDeflected e)
@@ -105,11 +113,26 @@ namespace Ronin7.Player
             return new Vector2(left, right);
         }
 
-        private void OnImpact(SwordImpact e) => PulseBoth(0.35f, 0.05f);
+        private void OnImpact(SwordImpact e)
+        {
+            if (latch.Suppresses(e.Victim)) return; // BUG-39: a resisted/exploited hit already has its own pulse
+            PulseBoth(0.35f, 0.05f);
+        }
 
-        // P3-03: a dull thud for a resisted hit; the deflect-strength pulse (no slow-mo) for an exploited weakness.
-        private void OnHitResisted(HitResisted e) => PulseBoth(0.15f, 0.03f);
-        private void OnWeaknessExploited(WeaknessExploited e) => PulseBoth(0.8f, 0.12f);
+        // BUG-39: resisted = one tiny tick on the sword hand only; exploited = two beats (0.8/0.08, then
+        // 1.0/0.1 at +60 ms real time). Both replace the generic impact pulse for that hit.
+        private void OnHitResisted(HitResisted e)
+        {
+            latch.Mark(e.Victim);
+            Haptics.Pulse(GameSettings.Active.LeftHanded ? XRNode.LeftHand : XRNode.RightHand, 0.12f, 0.02f);
+        }
+
+        private void OnWeaknessExploited(WeaknessExploited e)
+        {
+            latch.Mark(e.Victim);
+            PulseBoth(0.8f, 0.08f);
+            exploitBeat2Unscaled = Time.unscaledTime + ExploitBeatGap;
+        }
 
         // "Incoming" tick on the hand nearest the attacker — weaker and shorter than OnImpact so a
         // telegraph never reads as a landed blow.

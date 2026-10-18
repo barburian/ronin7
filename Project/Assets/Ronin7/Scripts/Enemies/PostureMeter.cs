@@ -55,6 +55,9 @@ namespace Ronin7.Enemies
         /// <summary>Current posture (0..postureMax), for UI/inspection.</summary>
         public float Current => current;
 
+        /// <summary>BUG-39: current / max (0..1), drives the Construct's crack marker.</summary>
+        public float Fraction => postureMax > 0f ? current / postureMax : 0f;
+
         /// <summary>Set the posture-break threshold (used by data-driven enemies so tougher tiers take
         /// longer to stagger — mirrors <see cref="Health.Configure"/>). Resets current posture to 0.
         /// Meters that never call this keep their serialized postureMax exactly as authored.</summary>

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using Ronin7.Combat;
 using Ronin7.Core;
+using Ronin7.Enemies;
 using Ronin7.Player;
+using Ronin7.Ship;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,6 +16,8 @@ namespace Ronin7.Flow
     /// During a run: hold the right stick click 2 s to kill every enemy in the room; hold the left
     /// stick click 2 s to grant a random boon (it takes effect from the next node, like any pick).
     /// Outside a run (hub/menu): hold BOTH stick clicks 2 s to reset the tutorial in memory (BUG-32).
+    /// In a run, BOTH stick clicks 2 s = P4-00e G6 worst case: off a Boss node it jumps to the next
+    /// boss; on the Boss node it forces boss phase 2 (adds release), a Volatile ring and 8 bolts.
     /// </summary>
     public class DevRunTools : MonoBehaviour
     {
@@ -23,7 +27,8 @@ namespace Ronin7.Flow
         private InputAction killAllAction;
         private InputAction grantBoonAction;
         private float killHeld, boonHeld, tutHeld;
-        private bool killFired, boonFired, tutFired;
+        private bool killFired, boonFired, tutFired, g6Fired;
+        private float g6Held;
         private readonly List<Health> scratch = new List<Health>();
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -32,7 +37,7 @@ namespace Ronin7.Flow
             var go = new GameObject(nameof(DevRunTools));
             DontDestroyOnLoad(go);
             go.AddComponent<DevRunTools>();
-            Debug.Log("[DevRunTools] RONIN7_DEV: hold right stick 2 s = clear room, hold left stick 2 s = random boon.");
+            Debug.Log("[DevRunTools] RONIN7_DEV: hold right stick 2 s = clear room, hold left stick 2 s = random boon, hold both 2 s = G6 worst case.");
         }
 
         private void OnEnable()
@@ -53,9 +58,11 @@ namespace Ronin7.Flow
         private void Update()
         {
             bool live = RunState.InRun && Time.timeScale > 0f;
-            if (Held(live && killAllAction.IsPressed(), ref killHeld, ref killFired)) KillAllEnemies();
-            if (Held(live && grantBoonAction.IsPressed(), ref boonHeld, ref boonFired))
+            bool kill = killAllAction.IsPressed(), boon = grantBoonAction.IsPressed();
+            if (Held(live && kill && !boon, ref killHeld, ref killFired)) KillAllEnemies();
+            if (Held(live && boon && !kill, ref boonHeld, ref boonFired))
                 RunDirector.Instance?.DevGrantRandomBoon();
+            if (Held(live && kill && boon, ref g6Held, ref g6Fired)) SpawnG6WorstCase();
             bool both = !RunState.InRun && killAllAction.IsPressed() && grantBoonAction.IsPressed();
             if (Held(both, ref tutHeld, ref tutFired))
             {
@@ -72,6 +79,37 @@ namespace Ronin7.Flow
             if (fired || !HoldToConfirmButton.HoldComplete(held, HoldSeconds)) return false;
             fired = true;
             return true;
+        }
+
+        /// <summary>P4-00e G6 worst case (boss P2 + adds + Volatile ring + 8 bolts + hit VFX), reusing the
+        /// real paths: the boss's phase interceptor releases the adds, the arena's Volatile ring pool,
+        /// and the shared <see cref="ProjectilePool"/>. Public so it can be driven from the editor.</summary>
+        public void SpawnG6WorstCase()
+        {
+            if (RunDirector.Instance != null && RunDirector.Instance.DevJumpToBoss()) return; // trigger again on the boss node
+            Health player = VRRig.Instance != null ? VRRig.Instance.GetComponent<Health>() : null;
+            Health boss = null;
+            foreach (Health h in Health.Active)
+                if (h != null && h != player && h.IsAlive && h.DeathInterceptor != null && h.GetComponent<Enemy>() != null) { boss = h; break; }
+            if (boss == null) { Debug.LogWarning("[DevRunTools] G6: no live multi-phase boss (wait for it to spawn)."); return; }
+
+            // Lethal blow -> Enemy.AdvancePhase -> BossPhaseChanged -> the arena releases the adds.
+            // Max x 100: the boss's weakness DamageFilter scales a resisted hit down, so Current + 1 is not lethal.
+            boss.ApplyDamage(new DamageInfo(boss.Max * 100f, boss.transform.position + Vector3.up, Vector3.down, player != null ? player.gameObject : null));
+            Vector3 c = boss.transform.position;
+            if (boss.transform.parent != null) boss.transform.parent.SendMessage("DevStartVolatileRing", c, SendMessageOptions.DontRequireReceiver);
+
+            var pool = FindAnyObjectByType<ProjectilePool>();
+            Camera cam = Camera.main;
+            if (pool == null || cam == null) { Debug.LogWarning("[DevRunTools] G6: no ProjectilePool/Camera; bolts skipped."); return; }
+            Vector3 head = cam.transform.position;
+            for (int i = 0; i < 8; i++)
+            {
+                // Slow, long-lived ring of bolts at 6 m so all 8 are in flight together for ~10 s.
+                Vector3 from = head + Quaternion.Euler(0f, i * 45f, 0f) * Vector3.forward * 6f;
+                pool.Fire(boss.gameObject, from, Quaternion.LookRotation(head - from), 0.6f, 1f, 12f, 0.12f, new Color(2f, 1.4f, 0.2f), null);
+            }
+            Debug.Log($"[DevRunTools] G6 worst case: boss '{boss.name}' forced to phase 2, Volatile ring + 8 bolts.");
         }
 
         private void KillAllEnemies()

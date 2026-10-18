@@ -76,7 +76,7 @@ namespace Ronin7.Enemies
         protected override void Awake()
         {
             base.Awake();
-            if (beam != null) { beam.useWorldSpace = true; beam.positionCount = 2; beam.enabled = false; }
+            if (beam != null) { beam.useWorldSpace = true; beam.positionCount = 2; beam.enabled = false; beam.startColor = beam.endColor = OpenColor; } // BUG-39: gold Linchpin beam
         }
 
         protected override bool IsInLandHitRange() => false;

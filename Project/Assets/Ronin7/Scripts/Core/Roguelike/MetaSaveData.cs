@@ -39,5 +39,8 @@ namespace Ronin7.Core
         public List<MetaUpgradeEntry> metaUpgrades = new List<MetaUpgradeEntry>();
         /// <summary>P2-08: first-run onboarding finished. Appended field: an old meta.json without it loads false.</summary>
         public bool tutorialDone = false;
+        /// <summary>BUG-39: <c>(int)WeaknessKind</c> values whose first-encounter teach has run. Appended field
+        /// (version stays 1): an old meta.json without it loads an empty list.</summary>
+        public List<int> seenWeaknesses = new List<int>();
     }
 }

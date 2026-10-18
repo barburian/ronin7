@@ -35,6 +35,12 @@ namespace Ronin7.Enemies
         [SerializeField] protected bool nonLethalDisable = false;
         [Tooltip("P1-14: 2-point LineRenderer from the weapon hand to the blade tip; shown only in Windup/Active.")]
         [SerializeField] private LineRenderer bladeEdge;
+        [Tooltip("P4-00b (BUG-40): baked per-archetype accent primitive; gets the shared unlit material + archetypeColor in Awake.")]
+        [SerializeField] private Renderer archetypeMark;
+        [SerializeField, ColorUsage(false, true)] private Color archetypeColor = Color.white;
+        /// <summary>BUG-39: the Shield Trooper's slab doubles as its guard arc (Enemy hides/flickers it).</summary>
+        protected Renderer ArchetypeMark => archetypeMark;
+        protected Color ArchetypeColor => archetypeColor;
 
         [Header("Weapon poses (local euler) — overhead downward chop")]
         [SerializeField] protected Vector3 restEuler = new Vector3(15f, 0f, 0f);
@@ -79,7 +85,12 @@ namespace Ronin7.Enemies
         protected static readonly Color TelegraphRim = TelegraphColor * 2.5f;
         protected static readonly Color StaggerRim = StaggerColor * 2f;
         protected static readonly Color IdleRim = Color.black;
-        protected static readonly Color SightRim = new Color(1f, 0.75f, 0.2f) * 1.5f;
+        // BUG-39 colour rule: gold = "open now" (Sight, open weakness, Reflect bolts, Linchpin beam),
+        // blue-grey = "guarded" (same hue as CombatVfxController's resisted deflect).
+        protected static readonly Color OpenColor = new Color(1f, 0.75f, 0.2f);
+        protected static readonly Color SightRim = OpenColor * 1.5f;
+        protected static readonly Color GuardColor = new Color(0.47f, 0.55f, 0.67f);
+        protected static readonly Color GuardRim = GuardColor * 1.6f; // below TelegraphRim (2.5x) so the windup still wins
         private const float FlashTime = 0.08f;
 
         // P1-14 telegraph grace: an attacker outside the player's +-ConeHalfAngle yaw cone gets +Grace s of warning.
@@ -120,7 +131,7 @@ namespace Ronin7.Enemies
         // own material _RimColor must not be overridden by an MPB black.
         private bool bodyHasRim;
         private PlayerCombatModifiers playerMods; // resolved with target; read for the Sight gold rim
-        private bool sightRimShown;
+        private Color lastRim; // last rim actually applied (Idle/Chase only re-tint when it would change)
         private float flashTimer;
         private float telegraph; // this attack's telegraph (base + off-cone grace), set in BeginAttack
         private Color edgeColor = Color.white;
@@ -287,6 +298,11 @@ namespace Ronin7.Enemies
             telegraph = TelegraphTime;
             if (bladeEdge != null) bladeEdge.enabled = false;
             Tint(IdleColor);
+            if (archetypeMark != null)
+            {
+                archetypeMark.sharedMaterial = VrUiMaterials.SharedUnlit;
+                RendererTint.Apply(archetypeMark, archetypeColor);
+            }
         }
 
         protected virtual void OnDisable()
@@ -651,6 +667,8 @@ namespace Ronin7.Enemies
         /// <summary>Body base tint plus HDR rim; the blade takes the base tint only.</summary>
         protected void Tint(Color c, Color rim)
         {
+            if (state != State.Dead && WeakOpen) rim = SightRim; // BUG-39: open beats the telegraph rim
+            lastRim = rim;
             if (bodyHasRim) RendererTint.Apply(bodyRenderer, c, rim);
             else RendererTint.Apply(bodyRenderer, c);
             RendererTint.Apply(bladeRenderer, EnemySwordVisual.BladeTint(c));
@@ -664,7 +682,8 @@ namespace Ronin7.Enemies
         private bool SightOn => playerMods != null && playerMods.WeakpointSightActive;
 
         /// <summary>Rim when no telegraph/stagger owns it: Sight gold, else the idle rim.</summary>
-        private Color RestRim => SightOn ? SightRim : EliteRim;
+        // BUG-39: an elite affix rim beats the guarded rim (it is the rarer, run-specific tell).
+        private Color RestRim => SightOn ? SightRim : EliteRim != IdleRim ? EliteRim : WeakGuarded ? GuardRim : IdleRim;
 
         /// <summary>P3-06: idle rim marking an elite affix. Black = none.</summary>
         protected virtual Color EliteRim => IdleRim;
@@ -675,10 +694,19 @@ namespace Ronin7.Enemies
         /// <summary>Idle/Chase: re-tint only when Weakpoint Sight flips, not every frame.</summary>
         private void RefreshSightRim()
         {
-            if (SightOn == sightRimShown) return;
-            sightRimShown = SightOn;
-            Tint(IdleColor, RestRim);
+            Color want = WeakOpen ? SightRim : RestRim;
+            if (want == lastRim) return;
+            Tint(IdleColor, want);
         }
+
+        /// <summary>BUG-39: the state-based weakness is open right now: the rim shows gold over telegraph/stagger.</summary>
+        protected virtual bool WeakOpen => false;
+
+        /// <summary>BUG-39: the rest rim is blue-grey "guarded" (see WeaknessRules.RestsGuarded).</summary>
+        protected virtual bool WeakGuarded => false;
+
+        /// <summary>BUG-39: counted toward CombatActivity (chasing/attacking/staggered), for the first-encounter teach.</summary>
+        public bool IsAggro => aggroCounted;
 
         protected static Health FindPlayer() => FindPlayer(Health.Active);
 

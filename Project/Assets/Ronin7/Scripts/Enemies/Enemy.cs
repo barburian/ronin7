@@ -21,6 +21,10 @@ namespace Ronin7.Enemies
 
         [SerializeField] private bool debugLogs = false;
 
+        [Header("BUG-39 weak-point markers (baked by EnemyPrefabBaker)")]
+        [Tooltip("Alternating: [0] left, [1] right shoulder. Backstab: [0] back plate. PostureOnly: [0] crack bar.")]
+        [SerializeField] private Renderer[] weakMarks;
+
         private static readonly Collider[] _bladeHits = new Collider[4];
 
         private float groundY;
@@ -75,6 +79,15 @@ namespace Ronin7.Enemies
         protected override bool PoseWholeBody => definition.poseWholeBody;
         protected override float MaxTurnDegreesPerSecond => definition.turnRateDegrees;
 
+        // BUG-39 tells: gold rim while the state-based weakness is open, blue-grey rest rim for guarded kinds.
+        protected override bool WeakOpen => definition != null && WeaknessRules.IsOpen(definition.weakness,
+            state == State.Stagger && !IsFlinching, state == State.Windup || state == State.Active,
+            state == State.Recover, Time.time - lastBlinkTime < WeaknessRules.BlinkWindow);
+        protected override bool WeakGuarded => definition != null && WeaknessRules.RestsGuarded(definition.weakness);
+
+        /// <summary>BUG-39: this enemy's current weakness rule (first-encounter teach key).</summary>
+        public WeaknessKind Weakness => definition != null ? definition.weakness : WeaknessKind.None;
+
         protected override State StateAfterRecover => State.Chase;
         protected override State StateAfterStagger => State.Chase;
 
@@ -101,6 +114,107 @@ namespace Ronin7.Enemies
             if (bladeTip == null)
                 Debug.LogError("[Enemy] bladeTip not wired — parry detection disabled.", this);
             groundY = transform.position.y;
+            InitWeakMarks();
+        }
+
+        // ---- BUG-39 weak-point markers ----
+        private const float SlabFlickerSeconds = 0.12f, FlareSeconds = 0.2f;
+        private static readonly Color OpenMarkColor = OpenColor * 2f;   // HDR: reads at 3-8 m in the dark arena
+        private static readonly Color GuardMarkColor = GuardColor * 1.5f;
+        private Vector3[] markBaseScale; // [i] = weakMarks[i]; [Length] = ArchetypeMark
+        private float slabFlickerUntil = -1f;
+        private float fxStart, fxEnd = -1f;
+        private bool fxPulse; // true: first-encounter pulse, false: exploit flare
+        private bool crackGold;
+
+        private void InitWeakMarks()
+        {
+            int n = weakMarks != null ? weakMarks.Length : 0;
+            markBaseScale = new Vector3[n + 1];
+            for (int i = 0; i < n; i++)
+            {
+                if (weakMarks[i] == null) continue;
+                weakMarks[i].sharedMaterial = VrUiMaterials.SharedUnlit;
+                markBaseScale[i] = weakMarks[i].transform.localScale;
+                RendererTint.Apply(weakMarks[i], definition.weakness == WeaknessKind.PostureOnly ? GuardMarkColor : OpenMarkColor);
+                // Alternating shoulders only show while open; Backstab plate / Construct crack are always on.
+                weakMarks[i].enabled = definition.weakness != WeaknessKind.Alternating;
+            }
+            if (ArchetypeMark != null) markBaseScale[n] = ArchetypeMark.transform.localScale;
+        }
+
+        /// <summary>BUG-39 first-encounter cue: pulse the weak-point marker (the archetype mark when there
+        /// is none) for <paramref name="seconds"/> real time.</summary>
+        public void PulseWeakPoint(float seconds) { fxPulse = true; fxStart = Time.unscaledTime; fxEnd = fxStart + seconds; }
+
+        private void FlareWeakPoint() { fxPulse = false; fxStart = Time.unscaledTime; fxEnd = fxStart + FlareSeconds; }
+
+        /// <summary>Per frame, allocation-free: slab guard state, shoulder side, crack growth, pulse/flare scale.</summary>
+        private void TickWeakMarks()
+        {
+            if (state == State.Dead || markBaseScale == null) return;
+            var kind = definition.weakness;
+            bool broken = state == State.Stagger && !IsFlinching;
+            Renderer slab = ArchetypeMark;
+
+            // HeavyBreak: the archetype slab IS the guard arc. Up (archetype cyan) = guarded; a resisted
+            // slow hit flickers it blue-grey; a heavy-break stagger hides it ("shattered") until recovery.
+            if (kind == WeaknessKind.HeavyBreak && slab != null)
+            {
+                if (slab.enabled == broken) slab.enabled = !broken;
+                if (slabFlickerUntil > 0f && Time.unscaledTime >= slabFlickerUntil)
+                {
+                    slabFlickerUntil = -1f;
+                    RendererTint.Apply(slab, ArchetypeColor);
+                }
+            }
+
+            int n = weakMarks != null ? weakMarks.Length : 0;
+            float fx = MarkFxScale();
+            if (kind == WeaknessKind.Alternating && n >= 2)
+            {
+                // Gold on the shoulder opposite the last hit while the alternating window is live.
+                int open = lastHitSide != 0 && Time.time - lastHitTime < WeaknessRules.AlternatingWindow ? -lastHitSide : 0;
+                bool pulsing = fxEnd > 0f && fxPulse;
+                SetMark(0, open < 0 || pulsing);
+                SetMark(1, open > 0 || pulsing);
+            }
+            else if (kind == WeaknessKind.PostureOnly && n >= 1 && weakMarks[0] != null)
+            {
+                // Crack grows with posture; flares gold at the break (stagger).
+                if (broken != crackGold) { crackGold = broken; RendererTint.Apply(weakMarks[0], broken ? OpenMarkColor : GuardMarkColor); }
+                float f = posture != null ? posture.Fraction : 0f;
+                Vector3 b = markBaseScale[0];
+                weakMarks[0].transform.localScale = new Vector3(b.x * Mathf.Lerp(0.15f, 1f, broken ? 1f : f) * fx, b.y * fx, b.z * fx);
+                if (fxEnd > 0f && Time.unscaledTime >= fxEnd) fxEnd = -1f;
+                return;
+            }
+
+            if (fxEnd < 0f) return;
+            if (n > 0) for (int i = 0; i < n; i++) ScaleMark(weakMarks[i], markBaseScale[i], fx);
+            else ScaleMark(slab, markBaseScale[n], fx);
+            if (Time.unscaledTime >= fxEnd) fxEnd = -1f; // fx was 1 this frame: scales are back at rest
+        }
+
+        private float MarkFxScale()
+        {
+            if (fxEnd < 0f) return 1f;
+            float now = Time.unscaledTime;
+            if (now >= fxEnd) return 1f;
+            float t = now - fxStart;
+            return fxPulse ? 1f + 0.4f * Mathf.Abs(Mathf.Sin(t * Mathf.PI * 3f)) // 3 beats a second
+                           : 1f + 0.5f * (1f - t / (fxEnd - fxStart));         // pop, then settle
+        }
+
+        private void SetMark(int i, bool on)
+        {
+            var r = weakMarks[i];
+            if (r != null && r.enabled != on) r.enabled = on;
+        }
+
+        private static void ScaleMark(Renderer r, Vector3 baseScale, float k)
+        {
+            if (r != null) r.transform.localScale = baseScale * k;
         }
 
         /// <summary>Health, posture and weakness filter from <see cref="definition"/>. Awake, and again on
@@ -209,6 +323,7 @@ namespace Ronin7.Enemies
         protected override void Update()
         {
             base.Update();
+            TickWeakMarks();
             if (hovering && state != State.Dead) HoverTick(Time.deltaTime);
             if (displaceLeft <= 0f) return;
             if (state == State.Dead || state == State.Stagger) { displaceLeft = 0f; return; } // a deflected lunge stops
@@ -355,12 +470,18 @@ namespace Ronin7.Enemies
             if (result == WeaknessResult.Resisted)
             {
                 EventBus.Publish(new HitResisted(info.Point, gameObject));
+                if (kind == WeaknessKind.HeavyBreak && ArchetypeMark != null)
+                {
+                    RendererTint.Apply(ArchetypeMark, GuardMarkColor); // slab flicker: "too slow"
+                    slabFlickerUntil = Time.unscaledTime + SlabFlickerSeconds;
+                }
                 float resist = kind == WeaknessKind.PostureOnly ? WeaknessRules.PostureOnlyHpMultiplier : definition.resistMultiplier;
                 return info.Amount * resist;
             }
             if (result == WeaknessResult.Neutral) return info.Amount;
 
             EventBus.Publish(new WeaknessExploited(info.Point, gameObject, (int)kind));
+            FlareWeakPoint();
             if (!staggered && (kind == WeaknessKind.HeavyBreak || kind == WeaknessKind.ParryGate)) ForceStagger(); // not while staggered: prevents stunlock
             return kind == WeaknessKind.Reflect ? health.Max * definition.exploitMultiplier
                 : info.Amount * definition.exploitMultiplier;

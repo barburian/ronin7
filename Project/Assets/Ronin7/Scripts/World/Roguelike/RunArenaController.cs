@@ -302,6 +302,7 @@ namespace Ronin7.World
                 return;
             }
 
+            RunTally.NoteSpawn(prefab.name, request.IsElite);
             if (enemy != null) enemy.SeedTelegraph(RunRng.ForNode(runSeed ^ 0x7E1E6Au, node.Index * 31 + queued.Count).NextUInt()); // P3-07 feints
             EnemyDefinition[] phases = request.IsBoss && scaled != null && enemy != null ? BuildBossPhases(request, node, scaled, enemy) : null;
             if (request.IsBoss) boss = health;
@@ -412,6 +413,7 @@ namespace Ronin7.World
                 foreach (EliteAffix a in EliteAffixes.Pick(node.Sector, ref affixRng))
                 {
                     EliteAffixes.Apply(scaled, a);
+                    RunTally.NoteAffix(a.ToString());
                     isVolatile |= a == EliteAffix.Volatile;
                 }
             }
@@ -465,6 +467,7 @@ namespace Ronin7.World
                 Vector3 local = t.localPosition;
                 local.y = 0f;
                 t.localPosition = local;
+                t.localRotation = Quaternion.Euler(0f, WaveComposer.YawToward(new Vector2(local.x, local.z), head, t.localEulerAngles.y), 0f); // spawn facing the player
 
                 int disc = ShowTelegraph(local);
                 EventBus.Publish(new EnemySpawning(transform.TransformPoint(local)));
@@ -558,6 +561,11 @@ namespace Ronin7.World
             }
             // pool exhausted (cap of 4 alive makes this near-unreachable): skip the blast rather than allocate
         }
+
+#if RONIN7_DEV
+        // P4-00e G6 worst case: DevRunTools (Flow cannot reference World) reaches this via SendMessage.
+        private void DevStartVolatileRing(Vector3 centre) => StartBlast(centre, 0f);
+#endif
 
         private void UpdateBlasts(float now)
         {

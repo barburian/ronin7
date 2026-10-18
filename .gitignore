@@ -36,3 +36,4 @@ Builds/
 # Release signing keys must never be committed
 *.keystore
 *.jks
+playtests/

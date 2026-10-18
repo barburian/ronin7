@@ -23,6 +23,7 @@ namespace Ronin7.Tests.EditMode
             testDirectory = Path.Combine(Path.GetTempPath(), "ronin7_exit_" + Guid.NewGuid().ToString("N"));
             Directory.CreateDirectory(testDirectory);
             SaveSystem.DirectoryOverride = testDirectory;
+            RunLog.DirectoryOverride = testDirectory; // AbandonSavedRun appends to runlog.jsonl
             MetaProgression.Load(); // fresh, from the empty temp dir
             directorGo = new GameObject("RunDirector");
         }
@@ -34,6 +35,7 @@ namespace Ronin7.Tests.EditMode
             RunState.Reset();
             MetaProgression.Reset();
             SaveSystem.DirectoryOverride = null;
+            RunLog.DirectoryOverride = null;
             if (Directory.Exists(testDirectory)) Directory.Delete(testDirectory, recursive: true);
         }
 

@@ -17,5 +17,9 @@ namespace Ronin7.Core
         /// <summary><c>Ronin7.Flow.RunPauseController</c>: scale 0 while the run is paused (focus loss,
         /// headset off, Menu button). Appended — this enum is append-only.</summary>
         Pause,
+
+        /// <summary><c>Ronin7.Flow.WeaknessTeach</c> (BUG-39): 0.5x for 0.4 s real time on the first exploit of
+        /// each weakness kind in a save. Appended.</summary>
+        WeaknessTeach,
     }
 }
