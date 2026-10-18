@@ -69,7 +69,7 @@ namespace Ronin7.Core
 
         /// <summary>A2.3: Forge is a no-fight heal room and must always pay 0, regardless of depth —
         /// the depth bonus below is for nodes that were actually fought.</summary>
-        public static int EchoReward(int depth, RoomKind kind)
+        public static int ShardReward(int depth, RoomKind kind)
         {
             if (kind == RoomKind.Forge || kind == RoomKind.Shop || kind == RoomKind.Event) return 0; // P2-04: no fight
 
@@ -82,6 +82,11 @@ namespace Ronin7.Core
             };
             return baseReward + depth; // deeper nodes pay a little more regardless of kind
         }
+
+        /// <summary>P4-11 (D-11): the run's Echoes, paid ONCE at run end (before EchoGain / heat). Win = 320; a loss
+        /// pays 60 + 6 per row cleared, so 60 at depth 0 up to 150 at depth 15 — the roadmap's "~320 win, 60-150
+        /// loss" anchors (P4-11 item 2, no formula given). Discarded/abandoned saves bank the loss value.</summary>
+        public static int EchoResult(int depth, bool won) => won ? 320 : 60 + 6 * Mathf.Clamp(depth, 0, RunMapGenerator.TotalNodes);
 
         /// <summary>P2-05: comfort-sized room half-extent (m) by node kind. The default (5 m) also
         /// covers Forge/Treasure and the Shop/Event kinds P2-04 adds later, so they inherit it.</summary>

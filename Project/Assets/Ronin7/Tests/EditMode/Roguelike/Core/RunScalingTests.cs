@@ -115,10 +115,10 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
         }
 
         [Test]
-        public void EchoReward_DeeperNodes_RewardMoreForSameKind()
+        public void ShardReward_DeeperNodes_RewardMoreForSameKind()
         {
-            int shallow = RunScaling.EchoReward(0, RoomKind.Combat);
-            int deep = RunScaling.EchoReward(14, RoomKind.Combat);
+            int shallow = RunScaling.ShardReward(0, RoomKind.Combat);
+            int deep = RunScaling.ShardReward(14, RoomKind.Combat);
 
             Assert.Greater(deep, shallow);
         }
@@ -126,19 +126,19 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
         [TestCase(0)]
         [TestCase(7)]
         [TestCase(13)]
-        public void EchoReward_Forge_IsAlwaysZero_RegardlessOfDepth(int depth)
+        public void ShardReward_Forge_IsAlwaysZero_RegardlessOfDepth(int depth)
         {
             // A2.3 regression: baseReward was 0 for Forge but depth was added unconditionally, so a
             // depth-13 Forge paid 13 Echoes for a no-fight heal room. The original test only checked
             // depth 0, where the bug is invisible.
-            Assert.AreEqual(0, RunScaling.EchoReward(depth, RoomKind.Forge));
+            Assert.AreEqual(0, RunScaling.ShardReward(depth, RoomKind.Forge));
         }
 
         [Test]
-        public void EchoReward_Boss_ExceedsCombatAtSameDepth()
+        public void ShardReward_Boss_ExceedsCombatAtSameDepth()
         {
-            int combat = RunScaling.EchoReward(4, RoomKind.Combat);
-            int boss = RunScaling.EchoReward(4, RoomKind.Boss);
+            int combat = RunScaling.ShardReward(4, RoomKind.Combat);
+            int boss = RunScaling.ShardReward(4, RoomKind.Boss);
 
             Assert.Greater(boss, combat);
         }

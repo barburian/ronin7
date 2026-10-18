@@ -44,7 +44,7 @@ namespace Ronin7.Tests.EditMode
             RunState.Begin(7u);
             RunState.Advance(RunState.NextChoices[0]);
             RunState.Advance(RunState.NextChoices[0]);
-            RunState.AddEchoes(echoes);
+            RunState.AddShards(echoes);
             RunSnapshot.Write(RunState.ToSnapshot());
         }
 
@@ -76,8 +76,44 @@ namespace Ronin7.Tests.EditMode
 
             Assert.IsFalse(RunState.InRun, "ABANDON must not start a new run (BUG-27).");
             Assert.IsNull(RunSnapshot.Read(), "The abandoned snapshot is deleted.");
-            Assert.AreEqual(12, MetaProgression.Echoes, "Its Echoes are banked once.");
+            Assert.AreEqual(RunScaling.EchoResult(2, false), MetaProgression.Echoes, "P4-11: the loss Echo result for its depth is banked once, never its Shards.");
             Assert.AreEqual(1, MetaProgression.RunsCompleted);
+        }
+
+        /// <summary>P4-11 (D-11): unspent Shards vanish with the run; only the Echo result is banked.</summary>
+        [Test]
+        public void Shards_LostOnRunEnd_NeverBanked()
+        {
+            RunState.Begin(7u);
+            RunState.Advance(RunState.NextChoices[0]);
+            RunState.AddShards(500);
+            var director = directorGo.AddComponent<RunDirector>();
+
+            LogAssert.Expect(LogType.Error, new Regex("No GameFlowManager"));
+            director.AbandonRun();
+
+            Assert.AreEqual(RunScaling.EchoResult(1, false), MetaProgression.Echoes, "500 unspent Shards must not reach the bank");
+            Assert.AreEqual(RunScaling.EchoResult(1, false), RunSummary.EchoesEarned, "the summary shows the Echo result");
+            RunSummary.Clear();
+        }
+
+        /// <summary>P4-11: Echoes come only from the end-of-run result: 320 a win, 60 + 6/row a loss, then EchoGain
+        /// (cap x1.5), then heat (+10%/rank). Room clears pay Shards, which never touch MetaProgression.</summary>
+        [Test]
+        public void Echoes_FromResultOnly()
+        {
+            Assert.AreEqual(320, RunDirector.RunEchoResult(true, 7, 0f, 0), "a win pays the same at any recorded depth");
+            Assert.AreEqual(60, RunDirector.RunEchoResult(false, 0, 0f, 0));
+            Assert.AreEqual(144, RunDirector.RunEchoResult(false, 14, 0f, 0));
+            Assert.AreEqual(150, RunScaling.EchoResult(RunMapGenerator.TotalNodes, false));
+            Assert.AreEqual(480, RunDirector.RunEchoResult(true, 0, 0.5f, 0), "EchoGain scales the result");
+            Assert.AreEqual(480, RunDirector.RunEchoResult(true, 0, 9f, 0), "EchoGain caps at x1.5");
+            Assert.AreEqual(448, RunDirector.RunEchoResult(true, 0, 0f, 4), "heat x1.4 scales the result");
+            Assert.AreEqual(672, RunDirector.RunEchoResult(true, 0, 0.5f, 4), "EchoGain then heat");
+
+            RunState.Begin(7u);
+            RunState.AddShards(RunScaling.ShardReward(3, RoomKind.Boss));
+            Assert.AreEqual(0, MetaProgression.Echoes, "earning Shards banks nothing");
         }
 
         [Test]

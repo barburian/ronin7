@@ -11,7 +11,7 @@ namespace Ronin7.Tests.EditMode
         [Test]
         public void Format_MatchesSpecLayout()
         {
-            Assert.AreEqual("HP 72/110\nNODE 6/15 · S2\nFOES 3 LEFT\nBOONS 4 · " + RunHudPanel.EchoGlyph + " 85\nNEXT: BOSS",
+            Assert.AreEqual("HP 72/110\nNODE 6/15 · S2\nFOES 3 LEFT\nBOONS 4 · " + RunHudPanel.ShardGlyph + " 85\nNEXT: BOSS",
                 RunHudPanel.Format(72, 110, 5, 1, 3, 4, 85, "NEXT: BOSS"));
         }
 

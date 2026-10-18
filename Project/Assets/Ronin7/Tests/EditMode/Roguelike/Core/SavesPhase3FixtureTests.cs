@@ -52,7 +52,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             Assert.AreEqual(8, RunState.NodeIndex);
             Assert.AreEqual(4, RunState.Depth);
             CollectionAssert.AreEqual(new[] { 0, 2, 5, 7, 8 }, RunState.Path);
-            Assert.AreEqual(88, RunState.EchoesEarned);
+            Assert.AreEqual(88, RunState.Shards);
             Assert.AreEqual(2, RunState.BoonCount(BoonId.Ironskin));
             Assert.IsTrue(RunState.HasGrantedAbility(AbilityId.Overdrive));
 

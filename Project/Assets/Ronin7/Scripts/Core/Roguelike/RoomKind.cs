@@ -9,7 +9,7 @@ namespace Ronin7.Core
         Treasure,
         Forge,
         Boss,
-        Shop,  // P2-04: spend this run's unbanked Echoes
+        Shop,  // P2-04: spend this run's Shards (P4-11)
         Event  // P2-04: a 2-option RunEventDefinition
     }
 
@@ -36,7 +36,7 @@ namespace Ronin7.Core
             RoomKind.Treasure => "a free boon",
             RoomKind.Forge => "heal and +1 reroll",
             RoomKind.Boss => "the sector guardian",
-            RoomKind.Shop => "spend run Echoes",
+            RoomKind.Shop => "spend run Shards",
             RoomKind.Event => "an unknown choice",
             _ => string.Empty,
         };

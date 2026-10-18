@@ -154,7 +154,7 @@ namespace Ronin7.EditorTools
                 abandonBtn = abandon.GetComponent<Button>();
             }
 
-            // P2-01: SHRINE (opens the Echo shop) + the "◈ ECHOES n" balance label.
+            // P2-01: SHRINE (opens the Echo shop) + the "ECHOES n" balance label.
             var shrine = canvasRt.Find(RogueShrineButtonName);
             if (shrine == null)
             {
@@ -167,7 +167,7 @@ namespace Ronin7.EditorTools
             var echoes = canvasRt.Find(RogueEchoesLabelName);
             if (echoes == null)
             {
-                var t = MenuNewText(canvasRt, "◈ ECHOES 0", new Vector2(0f, 232f), new Vector2(480f, 40f), 28, TextAnchor.MiddleCenter);
+                var t = MenuNewText(canvasRt, "ECHOES 0", new Vector2(0f, 232f), new Vector2(480f, 40f), 28, TextAnchor.MiddleCenter);
                 t.gameObject.name = RogueEchoesLabelName;
                 t.color = new Color(1f, 0.85f, 0.4f);
                 echoes = t.transform;

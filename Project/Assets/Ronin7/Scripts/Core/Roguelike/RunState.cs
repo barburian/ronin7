@@ -17,7 +17,7 @@ namespace Ronin7.Core
         private static readonly List<int> path = new();
         private static float maxHealthBonus;
         private static uint seed;
-        private static int echoesEarned;
+        private static int shards;
         private static int rerollTokens;
         private static int revivesSpent;
         private static bool unbrokenUsed;
@@ -63,7 +63,9 @@ namespace Ronin7.Core
         /// top of boons at every node load.</summary>
         public static float MaxHealthBonus => maxHealthBonus;
         public static void AddMaxHealthBonus(float amount) => maxHealthBonus += amount;
-        public static int EchoesEarned => echoesEarned;
+        /// <summary>P4-11 (D-11): this run's Shards: earned per room, spent at the Shop and events, lost at run end
+        /// (never banked or converted; Echoes come only from the end-of-run result).</summary>
+        public static int Shards => shards;
         public static int RerollTokens => rerollTokens;
         public static int RevivesSpent => revivesSpent;
 
@@ -136,7 +138,7 @@ namespace Ronin7.Core
             path.Add(nodeIndex);
             maxHealthBonus = 0f;
             InRun = true;
-            echoesEarned = 0;
+            shards = 0;
             rerollTokens = 0;
             revivesSpent = 0;
             unbrokenUsed = false;
@@ -180,23 +182,23 @@ namespace Ronin7.Core
             return boonCounts.TryGetValue(boonId, out int count) ? count : 0;
         }
 
-        /// <summary>Clamps negatives to 0 rather than letting EchoesEarned go below zero.</summary>
-        public static void AddEchoes(int amount)
+        /// <summary>Clamps negatives to 0 rather than letting Shards go below zero.</summary>
+        public static void AddShards(int amount)
         {
-            echoesEarned = Mathf.Max(0, echoesEarned + amount);
+            shards = Mathf.Max(0, shards + amount);
         }
 
-        /// <summary>Clamps negatives to 0, mirroring AddEchoes.</summary>
+        /// <summary>Clamps negatives to 0, mirroring AddShards.</summary>
         public static void AddRerollToken(int amount)
         {
             rerollTokens = Mathf.Max(0, rerollTokens + amount);
         }
 
-        /// <summary>P2-04 shop/shrine: spend this run's unbanked Echoes. False (no change) if short.</summary>
-        public static bool TrySpendEchoes(int amount)
+        /// <summary>P2-04 Shop / events: spend this run's Shards. False (no change) if short.</summary>
+        public static bool TrySpendShards(int amount)
         {
-            if (amount < 0 || echoesEarned < amount) return false;
-            echoesEarned -= amount;
+            if (amount < 0 || shards < amount) return false;
+            shards -= amount;
             return true;
         }
 
@@ -232,7 +234,7 @@ namespace Ronin7.Core
                 nodeIndex = nodeIndex,
                 depth = Depth,
                 maxHealthBonus = maxHealthBonus,
-                echoesEarned = echoesEarned,
+                echoesEarned = shards, // P4-11 commit 1: v2 slot; v3 gets its own shards field
                 rerollTokens = rerollTokens,
                 revivesSpent = revivesSpent,
                 unbrokenUsed = unbrokenUsed,
@@ -259,7 +261,7 @@ namespace Ronin7.Core
                 return false;
             }
             maxHealthBonus = snapshot.maxHealthBonus;
-            echoesEarned = snapshot.echoesEarned;
+            shards = snapshot.echoesEarned;
             rerollTokens = snapshot.rerollTokens;
             revivesSpent = snapshot.revivesSpent;
             unbrokenUsed = snapshot.unbrokenUsed;
@@ -270,7 +272,7 @@ namespace Ronin7.Core
         }
 
         /// <summary>Clears run-scoped state at the end of a run (win or permadeath). Callers bank
-        /// EchoesEarned into <see cref="MetaProgression"/> before calling this.</summary>
+        /// the Echo result (<c>RunScaling.EchoResult</c>) into <see cref="MetaProgression"/> before calling this; Shards are dropped.</summary>
         public static void End() => ClearRun();
 
         /// <summary>Hard reset for tests/menu. Same effect as End(); kept as a separate entry point
@@ -294,7 +296,7 @@ namespace Ronin7.Core
             nodeIndex = 0;
             path.Clear();
             maxHealthBonus = 0f;
-            echoesEarned = 0;
+            shards = 0;
             rerollTokens = 0;
             revivesSpent = 0;
             unbrokenUsed = false;

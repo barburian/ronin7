@@ -309,12 +309,14 @@ namespace Ronin7.Flow
             BankAndDeleteSavedRun();
         }
 
-        /// <summary>Banks a saved run's Echoes as a loss and deletes the snapshot. No-op without one.</summary>
+        /// <summary>Banks a saved run's LOSS Echo result for its depth (P4-11: never its Shards) and deletes the
+        /// snapshot. No-op without one.</summary>
         internal static void BankAndDeleteSavedRun()
         {
             var snapshot = RunSnapshot.Read();
             if (snapshot == null) return;
-            MetaProgression.AddEchoes(snapshot.echoesEarned);
+            int echoes = SavedRunEchoes(snapshot);
+            MetaProgression.AddEchoes(echoes);
             MetaProgression.NoteRunEnded(RunSnapshot.DepthOf(snapshot), won: false);
             MetaProgression.Save();
             // Skips EndRun, so log it here; counters belong to a prior session, sector is not in the snapshot (-1).
@@ -322,11 +324,14 @@ namespace Ronin7.Flow
             {
                 utc = DateTime.UtcNow.ToString("o"), seed = snapshot.seed, won = false,
                 depth = RunSnapshot.DepthOf(snapshot), kills = snapshot.runKills, boons = snapshot.boons.Count,
-                echoes = snapshot.echoesEarned, boonIds = snapshot.boons.ToArray(), deathBy = RunLog.AbandonedMarker,
+                echoes = echoes, boonIds = snapshot.boons.ToArray(), deathBy = RunLog.AbandonedMarker,
                 build = BuildTag(), evt = "end", outcome = RunLog.AbandonedMarker, sector = -1,
             });
             RunSnapshot.Delete();
         }
+
+        /// <summary>P4-11: what abandoning a saved run banks: the loss result for its depth (EchoGain is not re-derived).</summary>
+        internal static int SavedRunEchoes(RunSnapshot snapshot) => RunScaling.EchoResult(RunSnapshot.DepthOf(snapshot), false);
 
         private static uint GenerateSeed() => (uint)UnityEngine.Random.Range(1, int.MaxValue);
 
@@ -442,10 +447,8 @@ namespace Ronin7.Flow
             lastClearedNode = evt.NodeIndex;
 
             var node = RunState.CurrentNode;
-            // P4-02 EchoGain + P4-09 heat multiplier at the per-room add for now; P4-11 moves Echo payout to
-            // run end (keep the math in ApplyEchoGain / ApplyHeatEchoes so both move with it).
-            RunState.AddEchoes(ApplyHeatEchoes(ApplyEchoGain(RunScaling.EchoReward(node.Depth, node.Kind),
-                boonInventory.Bonus(BoonEffectKind.EchoGain)), RunState.HeatTotal));
+            // P4-11 (D-11): rooms pay Shards (run currency). EchoGain + heat now scale only the run-end Echo result (EndRun).
+            RunState.AddShards(RunScaling.ShardReward(node.Depth, node.Kind));
 
             bool isFinalNode = RunState.NextChoices.Count == 0;
             switch (ResolvePostClear(node.Kind, isFinalNode))
@@ -1062,9 +1065,9 @@ namespace Ronin7.Flow
             choicePanel = null;
         }
 
-        // ---- P2-04 Shop: spend THIS run's unbanked Echoes ----
+        // ---- P2-04 Shop: spend THIS run's Shards (P4-11; BUG-33: never Shrine Echoes) ----
 
-        /// <summary>Shop boon price by rarity: Common 30, Rare 60, Epic 120.</summary>
+        /// <summary>Shop boon price in Shards by rarity: Common 30, Rare 60, Epic 120.</summary>
         internal static int ShopPrice(BoonRarity rarity) => rarity >= BoonRarity.Epic ? 120 : rarity == BoonRarity.Rare ? 60 : 30;
 
         /// <summary>HP after MEND 25%: a quarter of max HP, clamped to max.</summary>
@@ -1094,22 +1097,22 @@ namespace Ronin7.Flow
         private void RefreshShop()
         {
             if (choicePanel == null) return;
-            int echoes = RunState.EchoesEarned;
-            choicePanel.SetTitle("SHOP · " + RunHudPanel.EchoGlyph + " " + echoes, "Spend this run's Echoes — what you spend is not banked.");
+            int shards = RunState.Shards;
+            choicePanel.SetTitle("SHOP · " + RunHudPanel.ShardGlyph + " " + shards + " SHARDS", "Shards are this run's currency; they are lost when the run ends.");
             for (int i = 0; i < shopStock.Count; i++)
             {
                 var b = shopStock[i];
                 int price = ShopPrice(b.rarity);
                 choicePanel.SetOption(i, BoonOfferPanel.FormatChoiceTitle(b), BoonOfferPanel.RarityColor(b.rarity), b.description,
-                    shopSold[i] ? "SOLD" : RunHudPanel.EchoGlyph + " " + price, !shopSold[i] && echoes >= price);
+                    shopSold[i] ? "SOLD" : RunHudPanel.ShardGlyph + " " + price, !shopSold[i] && shards >= price);
             }
-            choicePanel.SetFooter(0, mendSold ? "MEND · SOLD" : "MEND 25% · " + RunHudPanel.EchoGlyph + " " + MendPrice, true, !mendSold && echoes >= MendPrice);
+            choicePanel.SetFooter(0, mendSold ? "MEND · SOLD" : "MEND 25% · " + RunHudPanel.ShardGlyph + " " + MendPrice, true, !mendSold && shards >= MendPrice);
         }
 
         private void BuyShopBoon(int index)
         {
             if (shopStock == null || index < 0 || index >= shopStock.Count || shopSold[index]) return;
-            if (!RunState.TrySpendEchoes(ShopPrice(shopStock[index].rarity))) return;
+            if (!RunState.TrySpendShards(ShopPrice(shopStock[index].rarity))) return;
             shopSold[index] = true;
             GrantBoon(shopStock[index]); // stat slots apply now; max HP from the next node load, like every pick
             RefreshShop();
@@ -1117,7 +1120,7 @@ namespace Ronin7.Flow
 
         private void BuyMend()
         {
-            if (mendSold || !RunState.TrySpendEchoes(MendPrice)) return;
+            if (mendSold || !RunState.TrySpendShards(MendPrice)) return;
             mendSold = true;
             var health = VRRig.Instance != null ? VRRig.Instance.GetComponent<Health>() : null;
             if (health != null)
@@ -1157,9 +1160,9 @@ namespace Ronin7.Flow
 
         private void SetEventOption(int i, RunEventOption o)
         {
-            int cost = RunEventResolver.EchoCost(o);
-            bool afford = RunEventResolver.CanAfford(o, RunState.EchoesEarned);
-            string sub = cost > 0 ? (afford ? RunHudPanel.EchoGlyph + " " + cost : "NEED " + RunHudPanel.EchoGlyph + " " + cost) : string.Empty;
+            int cost = RunEventResolver.ShardCost(o);
+            bool afford = RunEventResolver.CanAfford(o, RunState.Shards);
+            string sub = cost > 0 ? (afford ? RunHudPanel.ShardGlyph + " " + cost : "NEED " + RunHudPanel.ShardGlyph + " " + cost) : string.Empty;
             choicePanel.SetOption(i, o.label, Color.white, o.hint, sub, afford);
         }
 
@@ -1167,7 +1170,7 @@ namespace Ronin7.Flow
         {
             if (activeEvent == null || index < 0 || index > 1) return;
             var option = index == 0 ? activeEvent.optionA : activeEvent.optionB;
-            if (!RunEventResolver.CanAfford(option, RunState.EchoesEarned)) return;
+            if (!RunEventResolver.CanAfford(option, RunState.Shards)) return;
             var outcome = RunEventResolver.Resolve(option, ref eventRng);
             string result = ApplyEventOutcome(outcome);
             activeEvent = null;
@@ -1180,7 +1183,7 @@ namespace Ronin7.Flow
         private string ApplyEventOutcome(RunEventOutcome o)
         {
             var parts = new List<string>();
-            if (o.EchoesSpent > 0 && RunState.TrySpendEchoes(o.EchoesSpent)) parts.Add("-" + o.EchoesSpent + " " + RunHudPanel.EchoGlyph);
+            if (o.ShardsSpent > 0 && RunState.TrySpendShards(o.ShardsSpent)) parts.Add("-" + o.ShardsSpent + " " + RunHudPanel.ShardGlyph);
             if (o.Rerolls != 0) { RunState.AddRerollToken(o.Rerolls); parts.Add("+" + o.Rerolls + " reroll"); }
             if (o.MaxHealthDelta != 0f)
             {
@@ -1255,7 +1258,7 @@ namespace Ronin7.Flow
 
         private static string BuildTag() => Application.version + (Debug.isDebugBuild ? "-dev" : "");
 
-        private RunLogEntry BuildLogEntry(int depth, bool won)
+        private RunLogEntry BuildLogEntry(int depth, bool won, int echoes)
         {
             // One entry per stack, so the log shows how a build was actually stacked.
             var ids = new List<string>();
@@ -1269,7 +1272,7 @@ namespace Ronin7.Flow
                 depth = depth,
                 kills = CampaignStats.EnemiesDefeated - enemiesDefeatedAtRunStart,
                 boons = RunState.Boons.Count, // distinct boons, as the run summary counts them
-                echoes = RunState.EchoesEarned,
+                echoes = echoes, // P4-11: the banked Echo result, not Shards
                 seconds = Time.realtimeSinceStartup - runStartRealtime,
                 boonIds = ids.ToArray(),
                 deathBy = won ? null : deathBy,
@@ -1340,8 +1343,12 @@ namespace Ronin7.Flow
         /// <summary>P4-09: Echo multiplier for a run carrying <paramref name="heatRanks"/> total Fracture Pressure ranks.</summary>
         internal static float HeatEchoMultiplier(int heatRanks) => 1f + 0.1f * Mathf.Max(0, heatRanks);
 
-        /// <summary>P4-09: scales an echo payout by <see cref="HeatEchoMultiplier"/>, rounded. Pure; moves with ApplyEchoGain in P4-11.</summary>
+        /// <summary>P4-09: scales an echo payout by <see cref="HeatEchoMultiplier"/>, rounded. Pure; applied to the run-end result (P4-11).</summary>
         internal static int ApplyHeatEchoes(int echoes, int heatRanks) => Mathf.RoundToInt(echoes * HeatEchoMultiplier(heatRanks));
+
+        /// <summary>P4-11: the Echoes a finished run banks: <see cref="RunScaling.EchoResult"/> scaled by EchoGain, then heat.</summary>
+        internal static int RunEchoResult(bool won, int depth, float echoGainBonus, int heatRanks) =>
+            ApplyHeatEchoes(ApplyEchoGain(RunScaling.EchoResult(won ? RunMapGenerator.TotalNodes : depth, won), echoGainBonus), heatRanks);
 
         /// <summary>
         /// A7.1: ends the run's bookkeeping and starts the hub load, but does NOT call
@@ -1361,7 +1368,9 @@ namespace Ronin7.Flow
             EndingRun = true;
             deferredClear = null;
             int depth = RunState.Depth; // P2-04: rows cleared, never the node id
-            MetaProgression.AddEchoes(RunState.EchoesEarned);
+            // P4-11 (D-11): Echoes are paid once, here, from the result; Shards are dropped with the run.
+            int echoes = RunEchoResult(won, depth, boonInventory.Bonus(BoonEffectKind.EchoGain), RunState.HeatTotal);
+            MetaProgression.AddEchoes(echoes);
             MetaProgression.NoteRunEnded(won ? RunMapGenerator.TotalNodes : depth, won);
 
             // Snapshot the result BEFORE RunState.End() wipes it (deferred to SceneLoadRoutine, but
@@ -1371,9 +1380,9 @@ namespace Ronin7.Flow
                 depth, won,
                 CampaignStats.EnemiesDefeated - enemiesDefeatedAtRunStart,
                 RunState.Boons.Count,
-                RunState.EchoesEarned);
+                echoes);
             MetaProgression.Save();
-            RunLog.Append(BuildLogEntry(depth, won));
+            RunLog.Append(BuildLogEntry(depth, won, echoes));
             // After the bank is saved (a crash in between must not lose the Echoes): the run is over,
             // so nothing is left to resume — win, permadeath and abandon all end here.
             RunSnapshot.Delete();

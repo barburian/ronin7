@@ -42,7 +42,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             RunState.Advance(RunState.NextChoices[RunState.NextChoices.Count - 1]);
             RunState.Advance(RunState.NextChoices[0]);
             RunState.AddMaxHealthBonus(-15f);
-            RunState.AddEchoes(37);
+            RunState.AddShards(37);
             RunState.AddRerollToken(2);
             RunState.NoteReviveSpent();
             RunState.NotePlayerHealth(42.5f);
@@ -76,7 +76,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             CollectionAssert.AreEqual(path, RunState.Path);
             CollectionAssert.AreEqual(RunMapGenerator.GenerateGraph(12345u).Nodes, RunState.Map);
             Assert.AreEqual(-15f, RunState.MaxHealthBonus);
-            Assert.AreEqual(37, RunState.EchoesEarned);
+            Assert.AreEqual(37, RunState.Shards);
             Assert.AreEqual(2, RunState.RerollTokens);
             Assert.AreEqual(1, RunState.RevivesSpent);
             Assert.AreEqual(42.5f, RunState.PlayerHealth);

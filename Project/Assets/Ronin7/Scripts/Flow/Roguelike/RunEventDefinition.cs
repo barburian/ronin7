@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Ronin7.Flow
 {
     /// <summary>P2-04: what one event option does. Append-only (serialized in Data/Roguelike/Events).
-    /// MaxHealthAdd mirrors the boon effect of the same name; the rest are the HP/echo/reroll deltas.</summary>
+    /// MaxHealthAdd mirrors the boon effect of the same name; the rest are the HP/shard/reroll deltas.</summary>
     public enum RunEventEffectKind
     {
         /// <summary>amount = flat max-HP change for the rest of the run (negative allowed).</summary>
@@ -20,8 +20,8 @@ namespace Ronin7.Flow
         GrantBoon,
         /// <summary>amount = reroll tokens added.</summary>
         AddReroll,
-        /// <summary>amount = this run's unbanked Echoes spent; the option is disabled when short.</summary>
-        SpendEchoes,
+        /// <summary>amount = this run's Shards spent (P4-11; enum value unchanged, assets keep their int); the option is disabled when short.</summary>
+        SpendShards,
     }
 
     [Serializable]
@@ -62,24 +62,24 @@ namespace Ronin7.Flow
         public float HealFraction;
         public float Damage;
         public int Rerolls;
-        public int EchoesSpent;
+        public int ShardsSpent;
         public List<BoonRarity> Boons;
     }
 
     /// <summary>Pure event maths (EditMode-testable). RunDirector applies the outcome to the run and rig.</summary>
     internal static class RunEventResolver
     {
-        /// <summary>Echoes the option charges up front (its success-branch SpendEchoes).</summary>
-        internal static int EchoCost(RunEventOption option)
+        /// <summary>Shards the option charges up front (its success-branch SpendShards).</summary>
+        internal static int ShardCost(RunEventOption option)
         {
             int cost = 0;
             if (option?.effects != null)
                 foreach (var e in option.effects)
-                    if (e != null && e.kind == RunEventEffectKind.SpendEchoes) cost += Mathf.RoundToInt(e.amount);
+                    if (e != null && e.kind == RunEventEffectKind.SpendShards) cost += Mathf.RoundToInt(e.amount);
             return cost;
         }
 
-        internal static bool CanAfford(RunEventOption option, int runEchoes) => runEchoes >= EchoCost(option);
+        internal static bool CanAfford(RunEventOption option, int runShards) => runShards >= ShardCost(option);
 
         /// <summary>Rolls <see cref="RunEventOption.chance"/> (one draw only when 0 &lt; chance &lt; 1) and sums
         /// the applied branch.</summary>
@@ -100,7 +100,7 @@ namespace Ronin7.Flow
                     case RunEventEffectKind.Damage: o.Damage += e.amount; break;
                     case RunEventEffectKind.GrantBoon: o.Boons.Add(e.rarity); break;
                     case RunEventEffectKind.AddReroll: o.Rerolls += Mathf.RoundToInt(e.amount); break;
-                    case RunEventEffectKind.SpendEchoes: o.EchoesSpent += Mathf.RoundToInt(e.amount); break;
+                    case RunEventEffectKind.SpendShards: o.ShardsSpent += Mathf.RoundToInt(e.amount); break;
                 }
             }
             return o;

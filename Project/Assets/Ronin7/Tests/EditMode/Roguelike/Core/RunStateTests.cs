@@ -63,7 +63,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             Assert.IsFalse(RunState.InRun);
             Assert.AreEqual(0, RunState.NodeIndex);
             Assert.IsNull(RunState.Map);
-            Assert.AreEqual(0, RunState.EchoesEarned);
+            Assert.AreEqual(0, RunState.Shards);
             Assert.AreEqual(0, RunState.RerollTokens);
             Assert.AreEqual(0, RunState.RevivesSpent);
             Assert.AreEqual(0, RunState.Boons.Count);
@@ -164,10 +164,10 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
         {
             RunState.Begin(1);
 
-            RunState.AddEchoes(10);
-            RunState.AddEchoes(5);
+            RunState.AddShards(10);
+            RunState.AddShards(5);
 
-            Assert.AreEqual(15, RunState.EchoesEarned);
+            Assert.AreEqual(15, RunState.Shards);
         }
 
         [Test]
@@ -175,10 +175,10 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
         {
             RunState.Begin(1);
 
-            RunState.AddEchoes(5);
-            RunState.AddEchoes(-100);
+            RunState.AddShards(5);
+            RunState.AddShards(-100);
 
-            Assert.AreEqual(0, RunState.EchoesEarned);
+            Assert.AreEqual(0, RunState.Shards);
         }
 
         [Test]
@@ -214,7 +214,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
         {
             RunState.Begin(1);
             RunState.AddBoon(BoonId.KeenEdge);
-            RunState.AddEchoes(10);
+            RunState.AddShards(10);
             RunState.AddRerollToken(1);
             RunState.NoteReviveSpent();
             RunState.Advance(RunState.NextChoices[0]);
@@ -224,7 +224,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             Assert.IsFalse(RunState.InRun);
             Assert.AreEqual(0, RunState.NodeIndex);
             Assert.IsNull(RunState.Map);
-            Assert.AreEqual(0, RunState.EchoesEarned);
+            Assert.AreEqual(0, RunState.Shards);
             Assert.AreEqual(0, RunState.RerollTokens);
             Assert.AreEqual(0, RunState.RevivesSpent);
             Assert.AreEqual(0, RunState.Boons.Count);

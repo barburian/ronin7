@@ -264,7 +264,7 @@ namespace Ronin7.Flow
             button.interactable = owned || MetaProgression.Echoes >= cost;
         }
 
-        internal static string EchoesText(int n) => "◈ ECHOES " + n;
+        internal static string EchoesText(int n) => "ECHOES " + n; // P4-11: ◈ is the Shard glyph now
 
         internal static string Pips(int level, int max) =>
             new string('●', Mathf.Clamp(level, 0, max)) + new string('○', Mathf.Max(0, max - level));

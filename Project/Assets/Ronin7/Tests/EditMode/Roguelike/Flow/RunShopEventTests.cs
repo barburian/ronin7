@@ -35,15 +35,15 @@ namespace Ronin7.Tests.EditMode
         }
 
         [Test]
-        public void TrySpendEchoes_Insufficient_NoChange_Sufficient_Deducts()
+        public void TrySpendShards_Insufficient_NoChange_Sufficient_Deducts()
         {
             RunState.Begin(1);
-            RunState.AddEchoes(59);
-            Assert.IsFalse(RunState.TrySpendEchoes(RunDirector.ShopPrice(BoonRarity.Rare)));
-            Assert.AreEqual(59, RunState.EchoesEarned);
-            Assert.IsTrue(RunState.TrySpendEchoes(RunDirector.ShopPrice(BoonRarity.Common)));
-            Assert.AreEqual(29, RunState.EchoesEarned, "spent Echoes are no longer banked at run end");
-            Assert.IsFalse(RunState.TrySpendEchoes(-5));
+            RunState.AddShards(59);
+            Assert.IsFalse(RunState.TrySpendShards(RunDirector.ShopPrice(BoonRarity.Rare)));
+            Assert.AreEqual(59, RunState.Shards);
+            Assert.IsTrue(RunState.TrySpendShards(RunDirector.ShopPrice(BoonRarity.Common)));
+            Assert.AreEqual(29, RunState.Shards, "spent Shards are gone");
+            Assert.IsFalse(RunState.TrySpendShards(-5));
         }
 
         [Test]
@@ -97,11 +97,11 @@ namespace Ronin7.Tests.EditMode
         public void ForgottenShrine_Spends40_PlusReroll_Heals15()
         {
             var opt = Load("ForgottenShrine").optionA;
-            Assert.AreEqual(40, RunEventResolver.EchoCost(opt));
+            Assert.AreEqual(40, RunEventResolver.ShardCost(opt));
             Assert.IsFalse(RunEventResolver.CanAfford(opt, 39));
             Assert.IsTrue(RunEventResolver.CanAfford(opt, 40));
             var o = Resolve(opt, 1);
-            Assert.AreEqual(40, o.EchoesSpent);
+            Assert.AreEqual(40, o.ShardsSpent);
             Assert.AreEqual(1, o.Rerolls);
             Assert.AreEqual(0.15f, o.HealFraction, 1e-5f);
         }
@@ -115,7 +115,7 @@ namespace Ronin7.Tests.EditMode
                 Assert.IsFalse(string.IsNullOrEmpty(def.title), name);
                 Assert.IsFalse(string.IsNullOrEmpty(def.optionA.label), name);
                 Assert.IsFalse(string.IsNullOrEmpty(def.optionB.label), name);
-                Assert.AreEqual(0, RunEventResolver.EchoCost(def.optionB), name);
+                Assert.AreEqual(0, RunEventResolver.ShardCost(def.optionB), name);
             }
         }
 

@@ -41,10 +41,10 @@ namespace Ronin7.EditorTools
                 Ensure("Meditate", "Meditate", "A quiet alcove, out of the Fracture's noise.",
                     Opt("MEDITATE", "Heal 30% of max HP", 1f, new[] { Fx(RunEventEffectKind.HealFraction, 0.3f) }),
                     Opt("MOVE ON", "No time to rest", 1f)),
-                Ensure("ForgottenShrine", "Forgotten Shrine", "An old shrine still answers to Echoes.",
-                    Opt("MAKE AN OFFERING", "Spend 40 Echoes: +1 reroll, heal 15%", 1f,
-                        new[] { Fx(RunEventEffectKind.SpendEchoes, 40f), Fx(RunEventEffectKind.AddReroll, 1f), Fx(RunEventEffectKind.HealFraction, 0.15f) }),
-                    Opt("LEAVE", "Keep your Echoes", 1f)),
+                Ensure("ForgottenShrine", "Forgotten Shrine", "An old shrine still answers to Shards.",
+                    Opt("MAKE AN OFFERING", "Spend 40 Shards: +1 reroll, heal 15%", 1f,
+                        new[] { Fx(RunEventEffectKind.SpendShards, 40f), Fx(RunEventEffectKind.AddReroll, 1f), Fx(RunEventEffectKind.HealFraction, 0.15f) }),
+                    Opt("LEAVE", "Keep your Shards", 1f)),
             };
             AssetDatabase.SaveAssets();
             return result;

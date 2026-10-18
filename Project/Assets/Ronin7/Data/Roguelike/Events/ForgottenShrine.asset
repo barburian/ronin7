@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: ForgottenShrine
   m_EditorClassIdentifier: Ronin7.Flow::Ronin7.Flow.RunEventDefinition
   title: Forgotten Shrine
-  body: An old shrine still answers to Echoes.
+  body: An old shrine still answers to Shards.
   optionA:
     label: MAKE AN OFFERING
-    hint: 'Spend 40 Echoes: +1 reroll, heal 15%'
+    hint: 'Spend 40 Shards: +1 reroll, heal 15%'
     chance: 1
     effects:
     - kind: 5
@@ -31,7 +31,7 @@ MonoBehaviour:
     failEffects: []
   optionB:
     label: LEAVE
-    hint: Keep your Echoes
+    hint: Keep your Shards
     chance: 1
     effects: []
     failEffects: []

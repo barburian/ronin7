@@ -7,7 +7,7 @@ namespace Ronin7.Flow
 {
     /// <summary>
     /// Wrist- or hub-mounted HUD for the active run: depth ("node x/15"), sector, boon count, and
-    /// echoes earned so far. Deliberately event-driven (<see cref="RunStarted"/>,
+    /// the run's live Shards (P4-11). Deliberately event-driven (<see cref="RunStarted"/>,
     /// <see cref="RoomCleared"/>, <see cref="BoonChosen"/>, <see cref="RunEnded"/>) rather than
     /// polled — unlike e.g. <c>CampaignStatsDisplay</c>'s throttled-Update idiom, this refreshes only
     /// on the handful of events that can actually change these numbers, so it costs nothing out of
@@ -72,7 +72,7 @@ namespace Ronin7.Flow
             hint = text;
             hintUntil = Time.unscaledTime + seconds;
         }
-        private (int hp, int hpMax, int node, int sector, int foes, int boons, int echoes) lastKey;
+        private (int hp, int hpMax, int node, int sector, int foes, int boons, int shards) lastKey;
         private static readonly System.Collections.Generic.List<RoomKind> nextKinds = new(3);
 
         private void Refresh()
@@ -81,7 +81,7 @@ namespace Ronin7.Flow
             if (!RunState.InRun) { if (target.text.Length != 0) target.text = string.Empty; shown = false; return; }
             var health = VRRig.Instance != null ? VRRig.Instance.GetComponent<Health>() : null;
             var key = (health != null ? Mathf.CeilToInt(health.Current) : 0, health != null ? Mathf.CeilToInt(health.Max) : 0,
-                RunState.NodeIndex, RunState.CurrentNode.Sector, foes, RunState.Boons.Count, RunState.EchoesEarned);
+                RunState.NodeIndex, RunState.CurrentNode.Sector, foes, RunState.Boons.Count, RunState.Shards);
             string h = Time.unscaledTime < hintUntil ? hint : null;
             if (shown && key == lastKey && ReferenceEquals(h, lastHint)) return; // no per-frame/poll string allocation when nothing changed
             lastKey = key;
@@ -113,14 +113,14 @@ namespace Ronin7.Flow
         }
 #endif
 
-        /// <summary>Glyph before the echo count; verified present in the LegacyRuntime font atlas.</summary>
-        public const string EchoGlyph = "◈";
+        /// <summary>P4-11: glyph before the Shard count (HUD, Shop, events; Echoes are spelled out); verified present in the LegacyRuntime font atlas.</summary>
+        public const string ShardGlyph = "◈";
 
         /// <summary>Pure formatter — five lines, each at most 18 chars (1-indexed for display;
         /// <paramref name="depth"/>/<paramref name="sector"/> are the 0-indexed RunState values).
         /// P2-04 adds the NEXT line (<see cref="FormatNext"/>).</summary>
-        public static string Format(int hp, int hpMax, int depth, int sector, int foes, int boonCount, int echoes, string next) =>
-            $"HP {hp}/{hpMax}\nNODE {depth + 1}/{RunMapGenerator.TotalNodes} · S{sector + 1}\nFOES {foes} LEFT\nBOONS {boonCount} · {EchoGlyph} {echoes}\n{next}";
+        public static string Format(int hp, int hpMax, int depth, int sector, int foes, int boonCount, int shards, string next) =>
+            $"HP {hp}/{hpMax}\nNODE {depth + 1}/{RunMapGenerator.TotalNodes} · S{sector + 1}\nFOES {foes} LEFT\nBOONS {boonCount} · {ShardGlyph} {shards}\n{next}";
 
         /// <summary>P2-04 "NEXT:" line: one path shows its name ("NEXT: BOSS"), several show 3-letter
         /// codes ("NEXT: ELT/EVT/SHP", 17 chars max); the final node shows "NEXT: EXIT".</summary>

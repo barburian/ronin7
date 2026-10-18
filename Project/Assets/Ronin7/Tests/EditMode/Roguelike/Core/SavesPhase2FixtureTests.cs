@@ -87,7 +87,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             Assert.AreEqual(11, RunState.NodeIndex);
             Assert.AreEqual(6, RunState.Depth);
             CollectionAssert.AreEqual(new[] { 0, 2, 5, 7, 8, 9, 11 }, RunState.Path);
-            Assert.AreEqual(73, RunState.EchoesEarned);
+            Assert.AreEqual(73, RunState.Shards);
             Assert.AreEqual(1, RunState.RerollTokens);
             Assert.AreEqual(58.5f, RunState.PlayerHealth, 1e-4f);
             Assert.AreEqual(2, RunState.BoonCount(BoonId.KeenEdge));
