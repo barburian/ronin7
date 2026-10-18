@@ -1,0 +1,32 @@
+{
+    "version": 1,
+    "metaEchoes": 940,
+    "metaBestDepth": 15,
+    "metaRunsCompleted": 30,
+    "metaRunsWon": 6,
+    "metaUpgrades": [
+        {
+            "id": "meta_starting_health",
+            "level": 3
+        },
+        {
+            "id": "meta_weapon_art_slot",
+            "level": 1
+        },
+        {
+            "id": "meta_offhand_art_slot",
+            "level": 1
+        }
+    ],
+    "tutorialDone": true,
+    "seenWeaknesses": [1, 2, 6],
+    "unlockedPacks": ["pack_bleed", "pack_executioner"],
+    "unlockedWeapons": ["nodachi", "tanto"],
+    "selectedLoadout": "nodachi",
+    "heatRanks": [2, 1, 0, 0, 1, 0, 0, 0],
+    "pastEpics": ["boon_grant_overdrive", "boon_grant_mirror"],
+    "keepsakes": ["boon_grant_overdrive"],
+    "selectedKeepsake": "boon_grant_overdrive",
+    "weaponArt": "art.charged_slash",
+    "offhandArt": "art.kiai_palm"
+}

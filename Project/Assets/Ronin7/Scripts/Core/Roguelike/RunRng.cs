@@ -91,6 +91,13 @@ namespace Ronin7.Core
         public static RunRng ForNode(uint runSeed, int nodeIndex)
         {
             uint mixed = runSeed ^ (uint)(nodeIndex * 0x9E3779B1u + 0x85EBCA6Bu);
+            // BUG-35 (P4-11, RunSnapshot v3): murmur3 fmix32 avalanche. Without it, low seeds (1..64) differ only in
+            // low bits, xorshift's first draw barely moves and e.g. every Gamble rolled the same. Changes goldens.
+            mixed ^= mixed >> 16;
+            mixed *= 0x85EBCA6Bu;
+            mixed ^= mixed >> 13;
+            mixed *= 0xC2B2AE35u;
+            mixed ^= mixed >> 16;
             return new RunRng(mixed);
         }
     }

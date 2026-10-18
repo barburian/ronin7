@@ -80,9 +80,8 @@ namespace Ronin7.Core
 
         public static IReadOnlyCollection<string> Boons => boonCounts.Keys;
 
-        /// <summary>P4-07 Forge Tempering: one entry (a boon id) per temper level applied this run. NOT yet in
-        /// RunSnapshot: P4-11 (the single v3 bump) persists it, because the Phase 2/3 fixtures assert
-        /// byte-for-byte round-trip. Cleared with the run.</summary>
+        /// <summary>P4-07 Forge Tempering: one entry (a boon id) per temper level applied this run. Persisted
+        /// in RunSnapshot v3 (P4-11). Cleared with the run.</summary>
         public static IReadOnlyList<string> TemperLevels => temperLevels;
         public static void AddTemper(string boonId) { if (!string.IsNullOrEmpty(boonId)) temperLevels.Add(boonId); }
         public static int TemperLevel(string boonId)
@@ -93,22 +92,20 @@ namespace Ronin7.Core
         }
 
         /// <summary>P4-03: equipped Weapon Art / Off-hand Art skill id ("" = none). One per slot; set
-        /// via <c>ArtSlots.Equip</c>. Cleared with the run. NOT yet in RunSnapshot: persisting is deferred to
-        /// P4-11 (the single v3 bump), because the Phase 2/3 fixtures assert byte-for-byte round-trip.</summary>
+        /// via <c>ArtSlots.Equip</c>. Cleared with the run. Persisted in RunSnapshot v3 (P4-11).</summary>
         public static string WeaponArtId => weaponArtId;
         public static string OffhandArtId => offhandArtId;
         public static void SetWeaponArt(string id) => weaponArtId = id ?? "";
         public static void SetOffhandArt(string id) => offhandArtId = id ?? "";
 
         /// <summary>P4-08: the run's weapon (<see cref="WeaponId"/>), taken from the boot-menu LOADOUT rack
-        /// (<see cref="MetaProgression.SelectedLoadout"/>) at <see cref="Begin"/>, so a resumed run re-reads it too.
-        /// NOT yet in RunSnapshot: P4-11 (the single v3 bump) persists it; the Phase 2/3 fixtures are byte-exact.</summary>
+        /// (<see cref="MetaProgression.SelectedLoadout"/>) at <see cref="Begin"/>.
+        /// Persisted in RunSnapshot v3 (P4-11), so a resumed run keeps its own weapon.</summary>
         public static string LoadoutId => loadoutId;
 
         /// <summary>P4-09: this run's Fracture Pressure ranks, copied at <see cref="Begin"/>: the Daily Fracture set for a
-        /// daily seed (<see cref="Heat.IsDailySeed"/>), else the boot-menu pick. NOT yet in RunSnapshot: P4-11 (the single
-        /// v3 bump) snapshots it. Until then a resumed run re-reads it here, like <see cref="LoadoutId"/>; the boot-menu
-        /// heat selector is locked while a saved run exists, so the pick cannot change between save and resume.</summary>
+        /// daily seed (<see cref="Heat.IsDailySeed"/>), else the boot-menu pick. Persisted in
+        /// RunSnapshot v3 (P4-11); <see cref="Restore"/> overrides the meta-read ranks with the snapshot's.</summary>
         public static int HeatRankOf(HeatRank r) => (uint)r < Heat.Count ? heatRanks[(int)r] : 0;
 
         /// <summary>P4-09: sum of this run's ranks (drives the Echo multiplier).</summary>
@@ -234,7 +231,10 @@ namespace Ronin7.Core
                 nodeIndex = nodeIndex,
                 depth = Depth,
                 maxHealthBonus = maxHealthBonus,
-                echoesEarned = shards, // P4-11 commit 1: v2 slot; v3 gets its own shards field
+                shards = shards,
+                weaponArtId = weaponArtId,
+                offhandArtId = offhandArtId,
+                loadoutId = loadoutId,
                 rerollTokens = rerollTokens,
                 revivesSpent = revivesSpent,
                 unbrokenUsed = unbrokenUsed,
@@ -244,6 +244,8 @@ namespace Ronin7.Core
                 for (int i = 0; i < boon.Value; i++) snapshot.boons.Add(boon.Key);
             snapshot.grantedAbilities.AddRange(grantedAbilities);
             snapshot.path.AddRange(path);
+            snapshot.temperLevels.AddRange(temperLevels);
+            snapshot.heatRanks.AddRange(heatRanks);
             return snapshot;
         }
 
@@ -261,13 +263,24 @@ namespace Ronin7.Core
                 return false;
             }
             maxHealthBonus = snapshot.maxHealthBonus;
-            shards = snapshot.echoesEarned;
+            shards = snapshot.shards;
             rerollTokens = snapshot.rerollTokens;
             revivesSpent = snapshot.revivesSpent;
             unbrokenUsed = snapshot.unbrokenUsed;
             playerHealth = snapshot.playerHealth;
             foreach (string boonId in snapshot.boons) AddBoon(boonId);
             foreach (string abilityId in snapshot.grantedAbilities) GrantAbility(abilityId);
+            // v3 (P4-11): restore the run's own picks, not today's meta (Begin read loadout/heat from meta as defaults).
+            temperLevels.AddRange(snapshot.temperLevels);
+            weaponArtId = snapshot.weaponArtId ?? "";
+            offhandArtId = snapshot.offhandArtId ?? "";
+            if (!string.IsNullOrEmpty(snapshot.loadoutId)) loadoutId = snapshot.loadoutId;
+            heatTotal = 0;
+            for (int i = 0; i < Heat.Count; i++)
+            {
+                heatRanks[i] = i < snapshot.heatRanks.Count ? snapshot.heatRanks[i] : 0;
+                heatTotal += heatRanks[i];
+            }
             return true;
         }
 

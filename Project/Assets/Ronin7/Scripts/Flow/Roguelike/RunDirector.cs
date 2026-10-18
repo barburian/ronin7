@@ -330,8 +330,13 @@ namespace Ronin7.Flow
             RunSnapshot.Delete();
         }
 
-        /// <summary>P4-11: what abandoning a saved run banks: the loss result for its depth (EchoGain is not re-derived).</summary>
-        internal static int SavedRunEchoes(RunSnapshot snapshot) => RunScaling.EchoResult(RunSnapshot.DepthOf(snapshot), false);
+        /// <summary>P4-11: what abandoning a saved run banks: the loss result for its depth, scaled by its heat (EchoGain is not re-derived).</summary>
+        internal static int SavedRunEchoes(RunSnapshot snapshot)
+        {
+            int heat = 0;
+            foreach (int r in snapshot.heatRanks) heat += r;
+            return ApplyHeatEchoes(RunScaling.EchoResult(RunSnapshot.DepthOf(snapshot), false), heat);
+        }
 
         private static uint GenerateSeed() => (uint)UnityEngine.Random.Range(1, int.MaxValue);
 
@@ -1593,6 +1598,9 @@ namespace Ronin7.Flow
                 }
                 int stacks = RunState.BoonCount(boonId);
                 for (int i = 0; i < stacks; i++) boonInventory.Add(def);
+                // P4-11: re-note Epics on every rebuild, so a pick that survived a crash in the snapshot still
+                // reaches pastEpics (saved with meta at run end; no file IO here).
+                if (def.rarity == BoonRarity.Epic) MetaProgression.NoteEpicPicked(def.id);
                 boonInventory.SetTemper(boonId, RunState.TemperLevel(boonId));
             }
             boonInventory.SetRevivesSpent(RunState.RevivesSpent);

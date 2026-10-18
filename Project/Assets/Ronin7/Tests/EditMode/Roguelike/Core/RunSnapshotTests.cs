@@ -69,7 +69,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
 
             Assert.IsTrue(RunState.InRun);
             Assert.AreEqual(12345u, RunState.Seed);
-            Assert.AreEqual(2, loaded.version);
+            Assert.AreEqual(3, loaded.version);
             Assert.AreEqual(node, RunState.NodeIndex);
             Assert.AreEqual(2, RunState.Depth);
             Assert.AreEqual(2, loaded.depth);
@@ -141,24 +141,87 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             Assert.IsNull(RunSnapshot.Read(), "an ended run must not be resurrected from its backup");
         }
 
+        /// <summary>P4-11: a v2 (pre-split) run.json stored the run's unbanked Echoes; discarding it banks them (BUG-25).</summary>
         [Test]
-        public void VersionMismatch_BanksEchoes()
+        public void VersionMismatch_BanksEchoes_V2()
         {
             MetaProgression.ResetForTests();
-            PlayIntoMidRun(); // 37 unbanked Echoes at node 2
+            PlayIntoMidRun();
             var snapshot = RunState.ToSnapshot();
-            snapshot.version = RunSnapshot.CurrentVersion + 1;
+            snapshot.version = 2;
+            snapshot.echoesEarned = 37;
+            snapshot.shards = 0;
             RunSnapshot.Write(snapshot);
             RunState.Reset();
 
-            LogAssert.Expect(LogType.Warning, new System.Text.RegularExpressions.Regex(".*discarding version.*"));
+            LogAssert.Expect(LogType.Warning, new System.Text.RegularExpressions.Regex(".*discarding version 2.*"));
             Assert.IsNull(RunSnapshot.Read());
 
-            Assert.AreEqual(37, MetaProgression.Echoes, "A discarded run's Echoes must be banked, not lost.");
+            Assert.AreEqual(37, MetaProgression.Echoes, "A discarded v2 run's Echoes must be banked, not lost.");
             Assert.AreEqual(1, MetaProgression.RunsCompleted);
             MetaProgression.ResetForTests();
             MetaProgression.Load();
             Assert.AreEqual(37, MetaProgression.Echoes, "...and persisted to meta.json.");
+        }
+
+        /// <summary>P4-11: a v3+ snapshot holds Shards, which are never banked; discarding it banks the loss
+        /// Echo result for the depth reached instead.</summary>
+        [Test]
+        public void VersionMismatch_V3Plus_BanksLossResultNotShards()
+        {
+            MetaProgression.ResetForTests();
+            PlayIntoMidRun(); // 37 Shards at depth 2
+            var snapshot = RunState.ToSnapshot();
+            Assert.AreEqual(37, snapshot.shards);
+            Assert.AreEqual(0, snapshot.echoesEarned, "v3 writes Shards to their own field");
+            snapshot.version = 99;
+            RunSnapshot.Write(snapshot);
+            RunState.Reset();
+
+            LogAssert.Expect(LogType.Warning, new System.Text.RegularExpressions.Regex(".*discarding version 99.*"));
+            Assert.IsNull(RunSnapshot.Read());
+
+            Assert.AreEqual(RunScaling.EchoResult(2, false), MetaProgression.Echoes);
+            Assert.AreEqual(72, MetaProgression.Echoes, "60 + 6 x depth 2; the 37 Shards are dropped");
+            Assert.AreEqual(1, MetaProgression.RunsCompleted);
+        }
+
+        /// <summary>P4-11 v3: every deferred run field survives ToSnapshot -> JSON -> Restore, and the snapshot's
+        /// loadout/heat override what Begin read from today's meta.</summary>
+        [Test]
+        public void V3_RoundTrip_AllDeferredFields()
+        {
+            PlayIntoMidRun();
+            RunState.AddTemper(BoonId.KeenEdge);
+            RunState.AddTemper(BoonId.KeenEdge);
+            RunState.AddTemper(BoonId.Ironskin);
+            RunState.SetWeaponArt("art_weapon_test");
+            RunState.SetOffhandArt("art_offhand_test");
+            var snapshot = RunState.ToSnapshot();
+            Assert.AreEqual(3, snapshot.version);
+            snapshot.loadoutId = WeaponId.Nodachi;           // meta still says katana / no heat
+            snapshot.heatRanks = new System.Collections.Generic.List<int> { 2, 0, 1, 0, 1 }; // short list: rest read 0
+            string json = JsonUtility.ToJson(snapshot);
+            RunState.Reset();
+
+            Assert.IsTrue(RunState.Restore(JsonUtility.FromJson<RunSnapshot>(json)));
+            Assert.AreEqual(37, RunState.Shards);
+            Assert.AreEqual(2, RunState.TemperLevel(BoonId.KeenEdge));
+            Assert.AreEqual(1, RunState.TemperLevel(BoonId.Ironskin));
+            Assert.AreEqual("art_weapon_test", RunState.WeaponArtId);
+            Assert.AreEqual("art_offhand_test", RunState.OffhandArtId);
+            Assert.AreEqual(WeaponId.Nodachi, RunState.LoadoutId);
+            Assert.AreEqual(2, RunState.HeatRankOf(HeatRank.SharpenedProgram));
+            Assert.AreEqual(1, RunState.HeatRankOf(HeatRank.QuickTelegraph));
+            Assert.AreEqual(1, RunState.HeatRankOf(HeatRank.RustedForge));
+            Assert.AreEqual(0, RunState.HeatRankOf(HeatRank.EscortedBosses));
+            Assert.AreEqual(4, RunState.HeatTotal);
+
+            var again = RunState.ToSnapshot();
+            CollectionAssert.AreEqual(new[] { 2, 0, 1, 0, 1, 0, 0, 0 }, again.heatRanks);
+            CollectionAssert.AreEqual(snapshot.temperLevels, again.temperLevels);
+            Assert.AreEqual(WeaponId.Nodachi, again.loadoutId);
+            Assert.AreEqual(37, again.shards);
         }
     }
 }

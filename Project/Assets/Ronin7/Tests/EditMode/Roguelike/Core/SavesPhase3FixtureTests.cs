@@ -33,8 +33,10 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             if (Directory.Exists(testDirectory)) Directory.Delete(testDirectory, true);
         }
 
+        /// <summary>P4-11: snapshot v3 discards the Phase 3 (v2) run.json and banks its stored 88 Echoes as a
+        /// loss at depth 4. The Phase 3 meta.json still loads unchanged (MetaSaveData stays v1).</summary>
         [Test]
-        public void Phase3Pair_ResumesAndRoundTripsExactly()
+        public void Phase3Pair_MetaLoads_RunDiscardedAndBanked()
         {
             File.Copy(Fixture("meta.json"), Path.Combine(testDirectory, "meta.json"));
             File.Copy(Fixture("run.json"), Path.Combine(testDirectory, "run.json"));
@@ -44,21 +46,42 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             Assert.AreEqual(3, MetaProgression.UpgradeLevel(MetaUpgradeId.StartingHealth));
             Assert.IsTrue(MetaProgression.TutorialDone);
 
-            RunSnapshot snapshot = RunSnapshot.Read();
-            Assert.IsNotNull(snapshot);
-            Assert.AreEqual(RunSnapshot.CurrentVersion, snapshot.version, "Phase 3 must not bump the snapshot version");
-            Assert.IsTrue(RunState.Restore(snapshot));
-            Assert.AreEqual(2026u, RunState.Seed);
-            Assert.AreEqual(8, RunState.NodeIndex);
-            Assert.AreEqual(4, RunState.Depth);
-            CollectionAssert.AreEqual(new[] { 0, 2, 5, 7, 8 }, RunState.Path);
-            Assert.AreEqual(88, RunState.Shards);
-            Assert.AreEqual(2, RunState.BoonCount(BoonId.Ironskin));
-            Assert.IsTrue(RunState.HasGrantedAbility(AbilityId.Overdrive));
+            UnityEngine.TestTools.LogAssert.Expect(LogType.Warning,
+                new System.Text.RegularExpressions.Regex("discarding version 2 .*banking its 88 Echoes"));
+            Assert.IsNull(RunSnapshot.Read());
+            Assert.IsFalse(File.Exists(SaveSystem.RunSnapshotPath));
+            Assert.AreEqual(612 + 88, MetaProgression.Echoes);
+            Assert.AreEqual(22, MetaProgression.RunsCompleted);
+            Assert.AreEqual(14, MetaProgression.BestDepth);
+        }
 
-            RunSnapshot again = RunState.ToSnapshot();
-            again.runKills = snapshot.runKills;
-            Assert.AreEqual(File.ReadAllText(Fixture("run.json")), JsonUtility.ToJson(again), "snapshot must round-trip byte-for-byte");
+        /// <summary>P4-11: a Phase-3-era meta.json lacks every Phase 4 field; each must read as its default.</summary>
+        [Test]
+        public void MetaSave_V1WithoutNewFields_LoadsDefaults()
+        {
+            string json = File.ReadAllText(Fixture("meta.json"));
+            foreach (string f in new[] { "seenWeaknesses", "unlockedPacks", "unlockedWeapons", "selectedLoadout", "heatRanks",
+                         "pastEpics", "keepsakes", "selectedKeepsake", "weaponArt", "offhandArt" })
+                StringAssert.DoesNotContain(f, json, "fixture must predate Phase 4");
+
+            MetaSaveData data = JsonUtility.FromJson<MetaSaveData>(json);
+            Assert.AreEqual(1, data.version);
+            Assert.AreEqual(612, data.metaEchoes);
+            CollectionAssert.IsEmpty(data.seenWeaknesses);
+            CollectionAssert.IsEmpty(data.unlockedPacks);
+            CollectionAssert.IsEmpty(data.unlockedWeapons);
+            Assert.AreEqual(WeaponId.Katana, data.selectedLoadout);
+            CollectionAssert.IsEmpty(data.heatRanks);
+            CollectionAssert.IsEmpty(data.pastEpics);
+            CollectionAssert.IsEmpty(data.keepsakes);
+            Assert.AreEqual("", data.selectedKeepsake);
+            Assert.AreEqual("", data.weaponArt);
+            Assert.AreEqual("", data.offhandArt);
+
+            File.Copy(Fixture("meta.json"), Path.Combine(testDirectory, "meta.json"));
+            MetaProgression.Load();
+            Assert.AreEqual(WeaponId.Katana, MetaProgression.SelectedLoadout);
+            for (int i = 0; i < Heat.Count; i++) Assert.AreEqual(0, MetaProgression.HeatRankOf((HeatRank)i));
         }
     }
 }

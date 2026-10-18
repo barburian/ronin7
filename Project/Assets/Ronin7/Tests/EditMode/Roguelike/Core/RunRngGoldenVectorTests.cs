@@ -45,6 +45,30 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             }
         }
 
+        /// <summary>Pins <see cref="RunRng.ForNode"/>. New golden (P4-11, RunSnapshot v3): the BUG-35 murmur3 fmix32
+        /// seed mix deliberately changed every per-node stream (events, shop stock, offers, arena, affixes).</summary>
+        [Test]
+        public void ForNode_Seed2026Node5_MatchesGoldenVector()
+        {
+            RunRng rng = RunRng.ForNode(2026u, 5);
+            uint[] expected = { 2833071292u, 3860715577u, 4265607220u };
+
+            for (int i = 0; i < expected.Length; i++)
+            {
+                Assert.AreEqual(expected[i], rng.NextUInt(), $"ForNode stream changed at draw {i}");
+            }
+        }
+
+        /// <summary>BUG-35: before the seed mix, seeds 1..64 at one node all drew the same first coin flip (0/64 under 0.5).</summary>
+        [Test]
+        public void ForNode_LowSeeds_VaryFirstDraw()
+        {
+            int hits = 0;
+            for (uint seed = 1; seed <= 64; seed++)
+                if (RunRng.ForNode(seed, 3).NextFloat() < 0.5f) hits++;
+            Assert.That(hits, Is.InRange(16, 48), $"first draw not spread across low seeds ({hits}/64 under 0.5)");
+        }
+
         // Map-layout goldens moved to RunMapGraphTests (P2-04 branching map).
     }
 }

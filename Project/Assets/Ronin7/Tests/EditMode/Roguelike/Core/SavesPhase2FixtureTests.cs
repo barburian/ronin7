@@ -70,9 +70,12 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             Assert.AreEqual(1, MetaProgression.UpgradeLevel(MetaUpgradeId.StartingHealth));
         }
 
+        /// <summary>P4-11: snapshot v3 (Shards split, BUG-35 seed mix) can no longer resume a v2 run. Its stored
+        /// echoesEarned (73) is banked as a loss at depth 6, like the v1 migration above.</summary>
         [Test]
-        public void V2Pair_ResumesAndRoundTripsExactly()
+        public void V2RunJson_IsDiscarded_AndItsEchoesBankedIntoMeta()
         {
+            StringAssert.Contains("\"version\":2", File.ReadAllText(Fixture("v2", "run.json")));
             Install("v2", "meta.json");
             Install("v2", "run.json");
 
@@ -80,25 +83,16 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             Assert.AreEqual(455, MetaProgression.Echoes);
             Assert.AreEqual(1, MetaProgression.UpgradeLevel(MetaUpgradeId.RerollTokens));
 
-            RunSnapshot snapshot = RunSnapshot.Read();
-            Assert.IsNotNull(snapshot);
-            Assert.IsTrue(RunState.Restore(snapshot));
-            Assert.AreEqual(2026u, RunState.Seed);
-            Assert.AreEqual(11, RunState.NodeIndex);
-            Assert.AreEqual(6, RunState.Depth);
-            CollectionAssert.AreEqual(new[] { 0, 2, 5, 7, 8, 9, 11 }, RunState.Path);
-            Assert.AreEqual(73, RunState.Shards);
-            Assert.AreEqual(1, RunState.RerollTokens);
-            Assert.AreEqual(58.5f, RunState.PlayerHealth, 1e-4f);
-            Assert.AreEqual(2, RunState.BoonCount(BoonId.KeenEdge));
-            Assert.AreEqual(1, RunState.BoonCount(BoonId.Ironskin));
-            Assert.IsTrue(RunState.HasGrantedAbility(AbilityId.Overdrive));
-            Assert.IsTrue(RunState.UnbrokenUsed);
-            Assert.AreEqual(-15f, RunState.MaxHealthBonus);
+            LogAssert.Expect(LogType.Warning, new Regex("discarding version 2 .*banking its 73 Echoes"));
+            Assert.IsNull(RunSnapshot.Read());
+            Assert.IsFalse(File.Exists(SaveSystem.RunSnapshotPath), "discarded, so it never prompts RESUME again");
+            Assert.AreEqual(455 + 73, MetaProgression.Echoes);
+            Assert.AreEqual(15, MetaProgression.RunsCompleted);
+            Assert.AreEqual(12, MetaProgression.BestDepth, "depth 6 does not beat 12");
 
-            RunSnapshot again = RunState.ToSnapshot();
-            again.runKills = snapshot.runKills;
-            Assert.AreEqual(File.ReadAllText(Fixture("v2", "run.json")), JsonUtility.ToJson(again), "v2 must round-trip byte-for-byte");
+            MetaProgression.ResetForTests();
+            MetaProgression.Load();
+            Assert.AreEqual(455 + 73, MetaProgression.Echoes);
         }
 
         [Test]

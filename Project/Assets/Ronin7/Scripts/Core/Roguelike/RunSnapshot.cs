@@ -16,12 +16,15 @@ namespace Ronin7.Core
     {
         /// <summary>Bump whenever the fields below or the seed→map generation change meaning; a
         /// snapshot with any other version is discarded rather than resumed — its Echoes banked first
-        /// (P0-09). v2 (P2-04): branching map; nodeIndex is a node id, plus path/depth/maxHealthBonus.</summary>
-        public const int CurrentVersion = 2;
+        /// (P0-09). v2 (P2-04): branching map; nodeIndex is a node id, plus path/depth/maxHealthBonus.
+        /// v3 (P4-11): Shards split from Echoes, the deferred P4-03..P4-09 run fields, and the BUG-35
+        /// <see cref="RunRng.ForNode"/> seed mix (a v2 run would resume with different node contents).</summary>
+        public const int CurrentVersion = 3;
 
         public int version; // no initializer: a file missing the field reads as 0 → discarded
         public uint seed;
         public int nodeIndex;
+        /// <summary>v1/v2 only: the run's unbanked Echoes (banked on discard). v3 writes 0; see <see cref="shards"/>.</summary>
         public int echoesEarned;
         public int rerollTokens;
         public int revivesSpent;
@@ -46,6 +49,22 @@ namespace Ronin7.Core
         /// <summary>v2: event max-HP change for the run (Blood Pact).</summary>
         public float maxHealthBonus;
 
+        /// <summary>v3 (P4-11): the run's Shards. Never banked: a discarded v3+ run banks its loss Echo result.</summary>
+        public int shards;
+
+        /// <summary>v3: equipped Weapon / Off-hand Art ids ("" = none) (P4-03/P4-10).</summary>
+        public string weaponArtId = "";
+        public string offhandArtId = "";
+
+        /// <summary>v3: one boon id per Forge temper level (P4-07).</summary>
+        public List<string> temperLevels = new List<string>();
+
+        /// <summary>v3: the run's weapon (WeaponId) (P4-08).</summary>
+        public string loadoutId = "";
+
+        /// <summary>v3: the run's Fracture Pressure ranks, indexed by HeatRank (P4-09).</summary>
+        public List<int> heatRanks = new List<int>();
+
         /// <summary>Depth reached by a saved run, for banking it as a loss: v1 (linear map) stored the
         /// depth in nodeIndex; v2+ store it in <see cref="depth"/>.</summary>
         public static int DepthOf(RunSnapshot s) => s.version <= 1 ? s.nodeIndex : s.depth;
@@ -62,17 +81,23 @@ namespace Ronin7.Core
             }
         }
 
+        /// <summary>Echoes a discarded snapshot banks: v1/v2 stored unbanked Echoes (bank them, BUG-25); v3+ hold
+        /// Shards, which are never banked, so bank the normal LOSS result for the depth reached (P4-11).</summary>
+        public static int DiscardEchoes(RunSnapshot s) =>
+            s.version <= 2 ? s.echoesEarned : RunScaling.EchoResult(DepthOf(s), false);
+
         /// <summary>The saved snapshot, or null if there is none, it can't be parsed, or it is from
-        /// another version. A discarded snapshot first banks its unbanked Echoes as a lost run
+        /// another version. A discarded snapshot first banks <see cref="DiscardEchoes"/> as a lost run
         /// (BUG-25: they used to vanish), then is deleted so it never prompts again.</summary>
         public static RunSnapshot Read()
         {
             RunSnapshot snapshot = SaveSystem.ReadJson<RunSnapshot>(SaveSystem.RunSnapshotPath);
             if (snapshot == null || snapshot.version == CurrentVersion) return snapshot;
 
-            Debug.LogWarning($"RunSnapshot: discarding version {snapshot.version} snapshot (current {CurrentVersion}); banking its {snapshot.echoesEarned} Echoes.");
+            int echoes = DiscardEchoes(snapshot);
+            Debug.LogWarning($"RunSnapshot: discarding version {snapshot.version} snapshot (current {CurrentVersion}); banking its {echoes} Echoes.");
             MetaProgression.EnsureLoaded();
-            MetaProgression.AddEchoes(snapshot.echoesEarned);
+            MetaProgression.AddEchoes(echoes);
             MetaProgression.NoteRunEnded(DepthOf(snapshot), false);
             MetaProgression.Save();
             Delete();

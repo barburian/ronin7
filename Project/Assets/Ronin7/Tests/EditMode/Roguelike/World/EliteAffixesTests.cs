@@ -19,9 +19,10 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
         public void Pick_Deterministic()
         {
             // Golden vectors (xorshift32 over ForNode(seed, node ^ 0x0E117E)); the enum is append-only.
-            Assert.AreEqual(new[] { EliteAffix.Swift }, PickFor(0, 12345u, 3));
-            Assert.AreEqual(new[] { EliteAffix.Swift, EliteAffix.Armored }, PickFor(2, 12345u, 3));
-            Assert.AreEqual(new[] { EliteAffix.Vampiric, EliteAffix.Armored }, PickFor(2, 777u, 10));
+            // Updated deliberately: BUG-35 seed mix (P4-11, RunSnapshot v3) changed ForNode streams.
+            Assert.AreEqual(new[] { EliteAffix.Unflinching }, PickFor(0, 12345u, 3));
+            Assert.AreEqual(new[] { EliteAffix.Unflinching, EliteAffix.Vampiric }, PickFor(2, 12345u, 3));
+            Assert.AreEqual(new[] { EliteAffix.Unflinching, EliteAffix.Armored }, PickFor(2, 777u, 10));
             Assert.AreEqual(PickFor(2, 777u, 10), PickFor(2, 777u, 10));
         }
 
