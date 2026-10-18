@@ -481,6 +481,19 @@ namespace Ronin7.Enemies
         /// </summary>
         protected void Deflect(Vector3 point, BladeDamager attackerBlade) => Stagger(point, attackerBlade, true);
 
+        /// <summary>P4-09 Unforgiving Guard chip on a non-perfect deflect: damage plus <see cref="GuardChipped"/>
+        /// (light haptic), never <see cref="PlayerHit"/>. Static test seam.</summary>
+        internal static bool TryGuardChip(Health target, float attackDamage, GameObject source)
+        {
+            if (RunState.HeatRankOf(HeatRank.UnforgivingGuard) <= 0 || target == null || !target.IsAlive || target.IsInvulnerable)
+                return false;
+            float chip = attackDamage * Heat.ChipFraction;
+            Vector3 from = source != null ? source.transform.position : target.transform.position;
+            target.ApplyDamage(new DamageInfo(chip, target.transform.position, (target.transform.position - from).normalized, source));
+            EventBus.Publish(new GuardChipped(chip));
+            return true;
+        }
+
         private void Stagger(Vector3 point, BladeDamager attackerBlade, bool asParry)
         {
             // Sunder Beat: only a deflect that lands while this enemy is actually Active (mid-swing) can
@@ -494,10 +507,7 @@ namespace Ronin7.Enemies
                 if (quality > 0f) EventBus.Publish(new PerfectParry(point, gameObject, quality));
             }
             // P4-09 Unforgiving Guard: a non-perfect deflect still lets 30% through. No PlayerHit: it was a deflect.
-            if (asParry && quality <= 0f && RunState.HeatRankOf(HeatRank.UnforgivingGuard) > 0
-                && target != null && target.IsAlive && !target.IsInvulnerable)
-                target.ApplyDamage(new DamageInfo(AttackDamage * Heat.ChipFraction, target.transform.position,
-                    (target.transform.position - transform.position).normalized, gameObject));
+            if (asParry && quality <= 0f) TryGuardChip(target, AttackDamage, gameObject);
 
             if (asParry && attackerBlade != null && ParryTiming.IsClash(attackerBlade.Speed, swingSpeed, ClashThreshold))
                 EventBus.Publish(new BladeClash(point, gameObject));

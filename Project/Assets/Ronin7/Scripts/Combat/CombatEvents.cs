@@ -130,6 +130,14 @@ namespace Ronin7.Combat
         public BladeClash(Vector3 point, GameObject attacker) { Point = point; Attacker = attacker; }
     }
 
+    /// <summary>P4-09/P4-10: Unforgiving Guard let chip damage through a non-perfect deflect. Deliberately not a
+    /// <see cref="PlayerHit"/> (that would reset the parry streak); CombatFeedbackController gives it a light sword-hand pulse.</summary>
+    public readonly struct GuardChipped
+    {
+        public readonly float Damage;
+        public GuardChipped(float damage) { Damage = damage; }
+    }
+
     /// <summary>P3-02: a hit landed on an enemy's resisted side (see <c>Ronin7.Enemies.WeaknessRules</c>):
     /// reduced damage, no flinch, no posture.</summary>
     public readonly struct HitResisted

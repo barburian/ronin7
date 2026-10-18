@@ -42,6 +42,8 @@ namespace Ronin7.Flow
         [Header("Boons")]
         [Tooltip("Source pool for starting boons, room-clear offers, and guaranteed Treasure rewards.")]
         [SerializeField] private BoonCatalog boonCatalog;
+        /// <summary>P4-10: the Shrine reads Keepsake names from it.</summary>
+        internal BoonCatalog Catalog => boonCatalog;
 
         [Header("Events (P2-04)")]
         [Tooltip("Pool an Event node draws from (seeded per node). Data/Roguelike/Events/*.asset.")]
@@ -351,6 +353,27 @@ namespace Ronin7.Flow
 
             int rerollLevel = MetaProgression.UpgradeLevel(MetaUpgradeId.RerollTokens);
             if (rerollLevel > 0) RunState.AddRerollToken(rerollLevel);
+
+            ApplyMetaArts();
+            ApplyKeepsake(boonCatalog);
+        }
+
+        /// <summary>P4-10: the Shrine's Art picks go into this run's slots ("" for an unbought slot).</summary>
+        internal static void ApplyMetaArts()
+        {
+            ArtSlots.Equip(ArtSlot.Weapon, MetaProgression.EquippedArt(true));
+            ArtSlots.Equip(ArtSlot.Offhand, MetaProgression.EquippedArt(false));
+        }
+
+        /// <summary>P4-10 Keepsake: the run starts holding the chosen past Epic. Like the other starting
+        /// bonuses it is not a pick: no BoonChosen, and it is not re-recorded as a past Epic.</summary>
+        internal static void ApplyKeepsake(BoonCatalog catalog)
+        {
+            string id = MetaProgression.SelectedKeepsake;
+            var def = catalog != null && id.Length > 0 ? catalog.Find(id) : null;
+            if (def == null) return;
+            RunState.AddBoon(def.id);
+            if (def.effect == BoonEffectKind.GrantAbility) RunState.GrantAbility(def.abilityId);
         }
 
         /// <summary>Grants up to <paramref name="level"/> stacks of a meta-upgrade boon, clamped to the
@@ -640,6 +663,7 @@ namespace Ronin7.Flow
             }
             EventBus.Publish(new BoonChosen(boon.id));
             if (boon.effect == BoonEffectKind.GrantAbility) RunState.GrantAbility(boon.abilityId);
+            if (boon.rarity == BoonRarity.Epic) MetaProgression.NoteEpicPicked(boon.id); // P4-10 Keepsake candidates
         }
 
         private void BeginBoonOffer(RunNode node)

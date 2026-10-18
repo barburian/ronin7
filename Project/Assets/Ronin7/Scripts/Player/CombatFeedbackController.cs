@@ -29,6 +29,8 @@ namespace Ronin7.Player
         private float exploitBeat2Unscaled = -1f; // BUG-39: second beat of the exploit double pulse
         private HitConfirmLatch latch;             // BUG-39: resist/exploit own the haptics of their hit
         private const float ExploitBeatGap = 0.06f;
+        private float chipBeatUnscaled = -1f; // P4-10: Unforgiving Guard chip tick, after the deflect pulse
+        private const float ChipBeatGap = 0.14f; // the same-frame deflect pulse runs 0.12 s and would mask it
         private Ronin7.Ship.ComfortVignette vignette;
 
         private void OnEnable()
@@ -42,6 +44,7 @@ namespace Ronin7.Player
             EventBus.Subscribe<AttackWindupStarted>(OnWindup);
             EventBus.Subscribe<HitResisted>(OnHitResisted);
             EventBus.Subscribe<WeaknessExploited>(OnWeaknessExploited);
+            EventBus.Subscribe<GuardChipped>(OnGuardChipped);
         }
 
         private void OnDisable()
@@ -55,6 +58,7 @@ namespace Ronin7.Player
             EventBus.Unsubscribe<AttackWindupStarted>(OnWindup);
             EventBus.Unsubscribe<HitResisted>(OnHitResisted);
             EventBus.Unsubscribe<WeaknessExploited>(OnWeaknessExploited);
+            EventBus.Unsubscribe<GuardChipped>(OnGuardChipped);
             RestoreTime();
         }
 
@@ -77,6 +81,11 @@ namespace Ronin7.Player
             {
                 exploitBeat2Unscaled = -1f;
                 PulseBoth(1.0f, 0.1f);
+            }
+            if (chipBeatUnscaled > 0f && Time.unscaledTime >= chipBeatUnscaled)
+            {
+                chipBeatUnscaled = -1f;
+                Haptics.Pulse(SwordHand, 0.3f, 0.05f);
             }
         }
 
@@ -126,6 +135,11 @@ namespace Ronin7.Player
             latch.Mark(e.Victim);
             Haptics.Pulse(GameSettings.Active.LeftHanded ? XRNode.LeftHand : XRNode.RightHand, 0.12f, 0.02f);
         }
+
+        // P4-10: Unforgiving Guard chip = one light tick on the sword hand once the deflect pulse ends. No vignette, no shake.
+        private void OnGuardChipped(GuardChipped e) => chipBeatUnscaled = Time.unscaledTime + ChipBeatGap;
+
+        private static XRNode SwordHand => GameSettings.Active.LeftHanded ? XRNode.LeftHand : XRNode.RightHand;
 
         private void OnWeaknessExploited(WeaknessExploited e)
         {

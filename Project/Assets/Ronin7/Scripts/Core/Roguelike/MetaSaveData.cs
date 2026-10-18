@@ -53,5 +53,14 @@ namespace Ronin7.Core
         /// <summary>P4-09: the boot-menu Fracture Pressure pick, indexed by <c>(int)HeatRank</c>. Appended field
         /// (version stays 1): an old meta.json without it loads an empty list, i.e. no heat.</summary>
         public List<int> heatRanks = new List<int>();
+        /// <summary>P4-10: Epic boon ids picked in past runs (Keepsake candidates). Appended field (version stays 1).</summary>
+        public List<string> pastEpics = new List<string>();
+        /// <summary>P4-10: Keepsakes bought (subset of <see cref="pastEpics"/>). Appended field (version stays 1).</summary>
+        public List<string> keepsakes = new List<string>();
+        /// <summary>P4-10: the Keepsake the next run starts with ("" = none). Appended field (version stays 1).</summary>
+        public string selectedKeepsake = "";
+        /// <summary>P4-10: Shrine Art picks per slot ("" = none). Appended fields (version stays 1); only read once the slot is bought.</summary>
+        public string weaponArt = "";
+        public string offhandArt = "";
     }
 }

@@ -9,6 +9,8 @@ namespace Ronin7.Core
         public const string StartingDamage = "meta_starting_damage";   // +5% blade damage per level, max 5
         public const string StartingBoon = "meta_starting_boon";       // start with N tier-1 boons, max 3
         public const string RerollTokens = "meta_reroll_tokens";       // +1 starting reroll, max 3
+        public const string WeaponArtSlot = "meta_weapon_art_slot";    // P4-10 Shrine: 250 Echoes, max 1
+        public const string OffhandArtSlot = "meta_offhand_art_slot";  // P4-10 Shrine: 250 Echoes, max 1
     }
 
     /// <summary>P4-08 stable loadout ids (persisted in meta.json; must match <c>WeaponDefinition.id</c>; never rename).</summary>
