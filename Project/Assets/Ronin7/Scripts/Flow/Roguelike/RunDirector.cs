@@ -419,10 +419,10 @@ namespace Ronin7.Flow
             lastClearedNode = evt.NodeIndex;
 
             var node = RunState.CurrentNode;
-            // P4-02 EchoGain at the per-room add for now; P4-11 moves Echo payout to run end (keep the
-            // math in ApplyEchoGain so it moves with it).
-            RunState.AddEchoes(ApplyEchoGain(RunScaling.EchoReward(node.Depth, node.Kind),
-                boonInventory.Bonus(BoonEffectKind.EchoGain)));
+            // P4-02 EchoGain + P4-09 heat multiplier at the per-room add for now; P4-11 moves Echo payout to
+            // run end (keep the math in ApplyEchoGain / ApplyHeatEchoes so both move with it).
+            RunState.AddEchoes(ApplyHeatEchoes(ApplyEchoGain(RunScaling.EchoReward(node.Depth, node.Kind),
+                boonInventory.Bonus(BoonEffectKind.EchoGain)), RunState.HeatTotal));
 
             bool isFinalNode = RunState.NextChoices.Count == 0;
             switch (ResolvePostClear(node.Kind, isFinalNode))
@@ -468,7 +468,7 @@ namespace Ronin7.Flow
             // BUG-30: show what each card does now — MEND heals 0 at full HP, so it says so and is disabled.
             var health = VRRig.Instance != null ? VRRig.Instance.GetComponent<Health>() : null;
             string mend = MendCursed ? ForgeMendCursed : health != null ? ForgeMendLabel(health.Current, health.Max) : ForgeHpFull;
-            choicePanel.SetOption(0, "MEND", RoomKindText.Color(RoomKind.Forge), "Heal 60% of your missing health.", mend, mend != ForgeHpFull && mend != ForgeMendCursed);
+            choicePanel.SetOption(0, "MEND", RoomKindText.Color(RoomKind.Forge), RunState.HeatRankOf(HeatRank.RustedForge) > 0 ? "Heal 30% of your missing health." : "Heal 60% of your missing health.", mend, mend != ForgeHpFull && mend != ForgeMendCursed);
             // P4-07: TEMPER opens a boon picker; disabled when nothing owned is eligible.
             bool canTemper = boonInventory.TemperCandidates().Count > 0;
             choicePanel.SetOption(1, "TEMPER", RoomKindText.Color(RoomKind.Forge), "Strengthen one owned boon by 50%.",
@@ -1312,6 +1312,12 @@ namespace Ronin7.Flow
         /// Pure so P4-11 can move it to the end-of-run payout unchanged.</summary>
         internal static int ApplyEchoGain(int echoes, float echoGainBonus) =>
             Mathf.RoundToInt(echoes * (1f + Mathf.Clamp(echoGainBonus, 0f, 0.5f)));
+
+        /// <summary>P4-09: Echo multiplier for a run carrying <paramref name="heatRanks"/> total Fracture Pressure ranks.</summary>
+        internal static float HeatEchoMultiplier(int heatRanks) => 1f + 0.1f * Mathf.Max(0, heatRanks);
+
+        /// <summary>P4-09: scales an echo payout by <see cref="HeatEchoMultiplier"/>, rounded. Pure; moves with ApplyEchoGain in P4-11.</summary>
+        internal static int ApplyHeatEchoes(int echoes, int heatRanks) => Mathf.RoundToInt(echoes * HeatEchoMultiplier(heatRanks));
 
         /// <summary>
         /// A7.1: ends the run's bookkeeping and starts the hub load, but does NOT call

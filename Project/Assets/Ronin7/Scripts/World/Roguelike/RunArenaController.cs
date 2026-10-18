@@ -188,7 +188,9 @@ namespace Ronin7.World
             // P2-08: first run only (IsLoaded guard: never touches a save that was not loaded this session).
             bool tutorial = MetaProgression.IsLoaded && !MetaProgression.TutorialDone && node.Depth == 0 && node.Kind == RoomKind.Combat;
             if (tutorial) TutorialPrompt.Create(transform, halfExtent);
-            List<SpawnRequest> requests = WaveComposer.Compose(spawnTable, node, halfExtent, exclusionCentreLocal, ref rng, tutorial);
+            List<SpawnRequest> requests = WaveComposer.Compose(spawnTable, node, halfExtent, exclusionCentreLocal, ref rng, tutorial,
+                RunState.HeatRankOf(HeatRank.SwarmProtocol)); // P4-09 Swarm Protocol: more total, same concurrent cap
+
             foreach (SpawnRequest request in requests)
             {
                 SpawnEnemy(request, node);
@@ -330,7 +332,8 @@ namespace Ronin7.World
             {
                 clones[i] = Instantiate(sources[i + 1]);
                 clones[i].maxHealth = bossPhaseHealth[i + 1];
-                clones[i].damage = sources[i + 1].damage * RunScaling.BossDamageMultiplier(node.Sector);
+                clones[i].damage = sources[i + 1].damage * RunScaling.BossDamageMultiplier(node.Sector)
+                    * Heat.DamageFactor(RunState.HeatRankOf(HeatRank.SharpenedProgram));
             }
             enemy.ConfigurePhases(clones);
             return clones;
@@ -358,7 +361,8 @@ namespace Ronin7.World
             EnemySpawnTable.BossEntry entry = spawnTable.bosses[bossRequest.EntryIndex];
             if (entry.addEntry < 0 || spawnTable.trash == null || entry.addEntry >= spawnTable.trash.Length) return;
             int before = queued.Count;
-            for (int i = 0; i < entry.addCount; i++)
+            int addCount = entry.addCount + RunState.HeatRankOf(HeatRank.EscortedBosses); // P4-09 Escorted Bosses
+            for (int i = 0; i < addCount; i++)
                 SpawnEnemy(new SpawnRequest(entry.addEntry, bossRequest.Position, isBoss: false), node);
             reservedAdds.AddRange(queued.GetRange(before, queued.Count - before));
             queued.RemoveRange(before, queued.Count - before);
@@ -427,14 +431,17 @@ namespace Ronin7.World
         internal static void ScaledStats(float baseHealth, float baseDamage, int depth, RoomKind kind, int sector,
             out float health, out float damage, bool isBoss = true)
         {
+            // P4-09 Hardened Shells / Sharpened Program: on every enemy, boss included (1 with no heat).
+            float heatHealth = Heat.HealthFactor(RunState.HeatRankOf(HeatRank.HardenedShells));
+            float heatDamage = Heat.DamageFactor(RunState.HeatRankOf(HeatRank.SharpenedProgram));
             if (kind == RoomKind.Boss && isBoss) // P3-07: boss adds on a Boss node take the depth multipliers instead
             {
-                health = RunScaling.BossTargetHealth(sector);
-                damage = baseDamage * RunScaling.BossDamageMultiplier(sector);
+                health = RunScaling.BossTargetHealth(sector) * heatHealth;
+                damage = baseDamage * RunScaling.BossDamageMultiplier(sector) * heatDamage;
                 return;
             }
-            health = baseHealth * RunScaling.HealthMultiplier(depth, kind);
-            damage = baseDamage * RunScaling.DamageMultiplier(depth, kind);
+            health = baseHealth * RunScaling.HealthMultiplier(depth, kind) * heatHealth;
+            damage = baseDamage * RunScaling.DamageMultiplier(depth, kind) * heatDamage;
         }
 
         private int Remaining => aliveCount + pending.Count + queued.Count;

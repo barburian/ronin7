@@ -55,7 +55,8 @@ namespace Ronin7.Combat
         /// durable <see cref="RunState.RevivesSpent"/> via <see cref="SetRevivesSpent"/> — this instance
         /// gets rebuilt every arena-scene reload, so a transient counter alone would resurrect a used
         /// Second Wind on the next node.</summary>
-        public bool HasRevive => _grantedRevives - _spentRevives > 0;
+        // P4-09 No Second Chances: no revive while that heat rank is on.
+        public bool HasRevive => _grantedRevives - _spentRevives > 0 && RunState.HeatRankOf(HeatRank.NoSecondChances) == 0;
 
         /// <summary>A1.1: syncs the spent-revive count from the durable <see cref="RunState.RevivesSpent"/>
         /// after this inventory is rebuilt (e.g. on an arena-scene reload). The caller (RunDirector) owns

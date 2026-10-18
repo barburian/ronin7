@@ -98,6 +98,23 @@ namespace Ronin7.Core
             return true;
         }
 
+        // P4-09: the Fracture Pressure pick (indexed by HeatRank). Only read while heat is unlocked.
+        private static readonly int[] heatRanks = new int[Heat.Count];
+
+        /// <summary>P4-09: Fracture Pressure unlocks after the first win.</summary>
+        public static bool HeatUnlocked => Heat.Unlocked(runsWon);
+
+        /// <summary>P4-09: picked ranks of <paramref name="r"/> (0 while heat is locked).</summary>
+        public static int HeatRankOf(HeatRank r) => HeatUnlocked && (uint)r < Heat.Count ? heatRanks[(int)r] : 0;
+
+        /// <summary>P4-09 heat selector: sets a rank (clamped to its max). False, no change, while locked. Caller saves.</summary>
+        public static bool TrySetHeatRank(HeatRank r, int ranks)
+        {
+            if (!HeatUnlocked || (uint)r >= Heat.Count) return false;
+            heatRanks[(int)r] = Mathf.Clamp(ranks, 0, Heat.Max(r));
+            return true;
+        }
+
         /// <summary>P2-08: pure load rule. A player who already finished runs before this field existed
         /// has no use for the tutorial, so runsCompleted &gt; 0 counts as done.</summary>
         internal static bool ResolveTutorialDone(MetaSaveData data) =>
@@ -226,6 +243,10 @@ namespace Ronin7.Core
             if (data.unlockedWeapons != null)
                 foreach (string id in data.unlockedWeapons) UnlockWeapon(id);
             selectedLoadout = string.IsNullOrEmpty(data.selectedLoadout) ? WeaponId.Katana : data.selectedLoadout;
+            System.Array.Clear(heatRanks, 0, Heat.Count);
+            if (data.heatRanks != null)
+                for (int i = 0; i < Heat.Count && i < data.heatRanks.Count; i++)
+                    heatRanks[i] = Mathf.Clamp(data.heatRanks[i], 0, Heat.Max((HeatRank)i));
 
             upgradeLevels.Clear();
             if (data.metaUpgrades != null)
@@ -261,6 +282,7 @@ namespace Ronin7.Core
             data.unlockedWeapons = new List<string>(unlockedWeapons);
             data.unlockedWeapons.Sort(System.StringComparer.Ordinal);
             data.selectedLoadout = SelectedLoadout;
+            data.heatRanks = new List<int>(heatRanks);
 
             List<string> ids = new List<string>();
             foreach (KeyValuePair<string, int> kvp in upgradeLevels)
@@ -357,6 +379,7 @@ namespace Ronin7.Core
             unlockedPacks.Clear();
             unlockedWeapons.Clear();
             selectedLoadout = WeaponId.Katana;
+            System.Array.Clear(heatRanks, 0, Heat.Count);
             upgradeLevels.Clear();
         }
 

@@ -50,5 +50,8 @@ namespace Ronin7.Core
         public List<string> unlockedWeapons = new List<string>();
         /// <summary>P4-08: the LOADOUT rack pick. Appended field (version stays 1): missing / locked loads the katana.</summary>
         public string selectedLoadout = WeaponId.Katana;
+        /// <summary>P4-09: the boot-menu Fracture Pressure pick, indexed by <c>(int)HeatRank</c>. Appended field
+        /// (version stays 1): an old meta.json without it loads an empty list, i.e. no heat.</summary>
+        public List<int> heatRanks = new List<int>();
     }
 }

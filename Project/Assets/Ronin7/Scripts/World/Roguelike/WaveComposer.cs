@@ -135,7 +135,8 @@ namespace Ronin7.World
         /// <see cref="SpawnRequest"/> (<c>IsBoss = true</c>) picked from <c>bosses[]</c> matching
         /// <c>node.Sector</c>, falling back to the last boss entry if none match.</summary>
         public static List<SpawnRequest> Compose(
-            EnemySpawnTable table, RunNode node, float arenaHalfExtent, Vector3 playerSpawn, ref RunRng rng, bool tutorial = false)
+            EnemySpawnTable table, RunNode node, float arenaHalfExtent, Vector3 playerSpawn, ref RunRng rng, bool tutorial = false,
+            int swarmRanks = 0)
         {
             var result = new List<SpawnRequest>();
             if (table == null) return result;
@@ -157,7 +158,9 @@ namespace Ronin7.World
 
             // P2-08: first run, start node = exactly 2 Scavengers (falls back to any eligible trash if the table has none).
             bool firstRoom = tutorial && node.Kind == RoomKind.Combat && node.Depth == 0;
-            int count = firstRoom ? 2 : RunScaling.EnemyCount(node.Depth, node.Kind, ref rng);
+            // P4-09 Swarm Protocol: +1 TOTAL per rank on Combat rooms. Only the room total grows; the arena's
+            // drip release still never has more than RunScaling.MaxConcurrentEnemies live at once.
+            int count = firstRoom ? 2 : RunScaling.EnemyCount(node.Depth, node.Kind, ref rng) + Mathf.Max(0, swarmRanks);
             if (count <= 0) return result;
 
             List<int> eligible = EligibleTrashIndices(table.trash, node);

@@ -448,7 +448,8 @@ namespace Ronin7.Enemies
         protected void BeginAttack()
         {
             OnBeginAttack();
-            telegraph = TelegraphFor(TelegraphTime, AngleFromPlayerForward());
+            // P4-09 Quick Telegraph shortens the base (floor 0.6 s) before the off-cone grace is added.
+            telegraph = TelegraphFor(Heat.Telegraph(TelegraphTime, RunState.HeatRankOf(HeatRank.QuickTelegraph)), AngleFromPlayerForward());
             Log("telegraph");
             deflectedThisSwing = false;
             strikeResolved = false;
@@ -485,12 +486,18 @@ namespace Ronin7.Enemies
             // Sunder Beat: only a deflect that lands while this enemy is actually Active (mid-swing) can
             // be "perfect" — Enemy also widens the parry window into late Windup, but pre-empting a
             // telegraph isn't a timing feat and shouldn't feed the streak.
+            float quality = 0f;
             if (asParry && state == State.Active)
             {
-                float quality = ParryTiming.ParryQuality(realTimer,
+                quality = ParryTiming.ParryQuality(realTimer,
                     ParryTiming.PerfectWindow(PerfectParryWindow, TargetBoon(BoonEffectKind.ParryWindow)));
                 if (quality > 0f) EventBus.Publish(new PerfectParry(point, gameObject, quality));
             }
+            // P4-09 Unforgiving Guard: a non-perfect deflect still lets 30% through. No PlayerHit: it was a deflect.
+            if (asParry && quality <= 0f && RunState.HeatRankOf(HeatRank.UnforgivingGuard) > 0
+                && target != null && target.IsAlive && !target.IsInvulnerable)
+                target.ApplyDamage(new DamageInfo(AttackDamage * Heat.ChipFraction, target.transform.position,
+                    (target.transform.position - transform.position).normalized, gameObject));
 
             if (asParry && attackerBlade != null && ParryTiming.IsClash(attackerBlade.Speed, swingSpeed, ClashThreshold))
                 EventBus.Publish(new BladeClash(point, gameObject));

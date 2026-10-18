@@ -28,6 +28,8 @@ namespace Ronin7.Core
         private static string weaponArtId = "";
         private static string offhandArtId = "";
         private static string loadoutId = WeaponId.Katana;
+        private static readonly int[] heatRanks = new int[Heat.Count];
+        private static int heatTotal;
 
         public static bool InRun { get; private set; }
         public static uint Seed => seed;
@@ -101,6 +103,15 @@ namespace Ronin7.Core
         /// NOT yet in RunSnapshot: P4-11 (the single v3 bump) persists it; the Phase 2/3 fixtures are byte-exact.</summary>
         public static string LoadoutId => loadoutId;
 
+        /// <summary>P4-09: this run's Fracture Pressure ranks, copied at <see cref="Begin"/>: the Daily Fracture set for a
+        /// daily seed (<see cref="Heat.IsDailySeed"/>), else the boot-menu pick. NOT yet in RunSnapshot: P4-11 (the single
+        /// v3 bump) snapshots it. Until then a resumed run re-reads it here, like <see cref="LoadoutId"/>; the boot-menu
+        /// heat selector is locked while a saved run exists, so the pick cannot change between save and resume.</summary>
+        public static int HeatRankOf(HeatRank r) => (uint)r < Heat.Count ? heatRanks[(int)r] : 0;
+
+        /// <summary>P4-09: sum of this run's ranks (drives the Echo multiplier).</summary>
+        public static int HeatTotal => heatTotal;
+
         /// <summary>Records that a run-picked Epic boon grants this ability for the run only (A7.7:
         /// unlike a story unlock this must never touch <see cref="CampaignState"/> — a run pick must
         /// not permanently unlock a campaign ability, and a completed-campaign player must not find the
@@ -136,6 +147,13 @@ namespace Ronin7.Core
             weaponArtId = "";
             offhandArtId = "";
             loadoutId = MetaProgression.SelectedLoadout;
+            bool daily = Heat.IsDailySeed(runSeed);
+            heatTotal = 0;
+            for (int i = 0; i < Heat.Count; i++)
+            {
+                heatRanks[i] = daily ? Heat.DailyRank((HeatRank)i) : MetaProgression.HeatRankOf((HeatRank)i);
+                heatTotal += heatRanks[i];
+            }
         }
 
         /// <summary>P2-04: moves along the edge to <paramref name="nextId"/>. Returns false (and does not
@@ -287,11 +305,14 @@ namespace Ronin7.Core
             weaponArtId = "";
             offhandArtId = "";
             loadoutId = WeaponId.Katana;
+            System.Array.Clear(heatRanks, 0, Heat.Count);
+            heatTotal = 0;
         }
 
-        /// <summary>Pure arithmetic for the Forge reward (§1: "heal 60% of missing HP"). A4.3 test
-        /// seam — testable without a rig.</summary>
-        public static float HealAmountForForge(float current, float max) => Mathf.Max(0f, max - current) * 0.6f;
+        /// <summary>Pure arithmetic for the Forge reward (§1: "heal 60% of missing HP"; 30% under P4-09 Rusted Forge).
+        /// A4.3 test seam — testable without a rig.</summary>
+        public static float HealAmountForForge(float current, float max) =>
+            Mathf.Max(0f, max - current) * Heat.ForgeMendFraction(HeatRankOf(HeatRank.RustedForge));
 
         /// <summary>P2-02: the sector checkpoint heals 20% of missing HP. Pure.</summary>
         public static float HealAmountForSector(float current, float max) => Mathf.Max(0f, max - current) * 0.2f;
