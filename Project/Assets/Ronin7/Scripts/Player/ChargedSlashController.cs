@@ -112,7 +112,7 @@ namespace Ronin7.Player
                 struck[count++] = h;
                 Vector3 point = hits[i].distance > 0f ? hits[i].point : h.transform.position;
                 h.ApplyDamage(new DamageInfo(dmg, point, dir, transform.root.gameObject, DamageType.Melee, blade.Speed));
-                EventBus.Publish(new SwordImpact(point, blade.Speed, h.gameObject));
+                EventBus.Publish(new SwordImpact(point, blade.Speed, h.gameObject, blade.Velocity));
             }
             System.Array.Clear(struck, 0, count);
         }

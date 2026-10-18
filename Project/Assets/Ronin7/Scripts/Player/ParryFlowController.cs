@@ -34,6 +34,7 @@ namespace Ronin7.Player
 
         private int streak;
         private float lastPerfectParryUnscaledTime = float.NegativeInfinity;
+        private int lastPerfectFrame = -1; // P4-05 Reckless Flow: PerfectParry publishes before SwordDeflected
 
         private void Awake()
         {
@@ -44,12 +45,14 @@ namespace Ronin7.Player
         {
             EventBus.Subscribe<PerfectParry>(OnPerfectParry);
             EventBus.Subscribe<PlayerHit>(OnPlayerHit);
+            EventBus.Subscribe<SwordDeflected>(OnDeflected);
         }
 
         private void OnDisable()
         {
             EventBus.Unsubscribe<PerfectParry>(OnPerfectParry);
             EventBus.Unsubscribe<PlayerHit>(OnPlayerHit);
+            EventBus.Unsubscribe<SwordDeflected>(OnDeflected);
             // Failsafe, mirrors WeakpointSight.OnDisable: never leave a stale buff active past teardown.
             streak = 0;
             ApplyMultiplier();
@@ -58,7 +61,7 @@ namespace Ronin7.Player
         private void Update()
         {
             if (streak == 0) return;
-            if (Time.unscaledTime - lastPerfectParryUnscaledTime >= IdleResetSeconds)
+            if (Time.unscaledTime - lastPerfectParryUnscaledTime >= IdleTimeout(Boon(BoonEffectKind.ParryStreakTimeout)))
             {
                 streak = 0;
                 ApplyMultiplier();
@@ -70,6 +73,7 @@ namespace Ronin7.Player
             int previousStreak = streak;
             streak = ParryTiming.NextStreak(streak, e.Quality, MaxStreak);
             lastPerfectParryUnscaledTime = Time.unscaledTime;
+            lastPerfectFrame = Time.frameCount;
             ApplyMultiplier();
             Haptics.Pulse(HandednessRig.OffHand(GameSettings.Active.LeftHanded), 0.3f + 0.1f * streak, HapticDuration);
 
@@ -77,6 +81,19 @@ namespace Ronin7.Player
             // ComboMomentumController's ComboChained hook.
             if (streak > previousStreak) EventBus.Publish(new ParryStreakAdvanced(streak));
         }
+
+        /// <summary>P4-05 Reckless Flow (curse): a deflect that was not perfect breaks the streak.</summary>
+        private void OnDeflected(SwordDeflected e)
+        {
+            if (BreaksStreak(Boon(BoonEffectKind.RecklessFlow), lastPerfectFrame == Time.frameCount)) OnPlayerHit(default);
+        }
+
+        internal static bool BreaksStreak(float recklessBonus, bool perfectThisFrame) => recklessBonus < 0f && !perfectThisFrame;
+
+        /// <summary>P4-05 Flow Initiate: base 6 s idle timeout plus the boon's seconds.</summary>
+        internal static float IdleTimeout(float bonusSeconds) => IdleResetSeconds + Mathf.Max(0f, bonusSeconds);
+
+        private float Boon(BoonEffectKind kind) => combatModifiers != null ? combatModifiers.Boon(kind) : 0f;
 
         private void OnPlayerHit(PlayerHit e)
         {

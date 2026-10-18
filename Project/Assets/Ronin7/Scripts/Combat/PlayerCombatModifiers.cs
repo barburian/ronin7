@@ -98,7 +98,7 @@ namespace Ronin7.Combat
         /// </summary>
         public float DamageMultiplier =>
             Mathf.Min(ParryFlowMultiplier * ComboMultiplier * OverdriveMultiplier, MaxDamageMultiplier)
-            * Mathf.Min(BoonMultiplier, MaxBoonMultiplier);
+            * Mathf.Min(BoonMultiplier * LastStandScale, MaxBoonMultiplier);
 
         /// <summary>P4-04: a one-hit skill bonus for a blade hit on <paramref name="victim"/>. Returns the damage
         /// scale (1 = none) and writes the posture scale. Implementations consume themselves on a bonus.</summary>
@@ -123,9 +123,31 @@ namespace Ronin7.Combat
             float riposte = 1f, draw = 1f;
             if (RiposteBonus != null) { riposte = RiposteBonus(victim, out float p); postureScale *= p; }
             if (QuickDrawBonus != null) { draw = QuickDrawBonus(victim, out float p); postureScale *= p; }
+            if (riposte > 1f) { LastRiposteVictim = victim; LastRiposteFrame = Time.frameCount; } // P4-05 Thunder Riposte
             return Mathf.Min(ParryFlowMultiplier * ComboMultiplier * OverdriveMultiplier, MaxDamageMultiplier)
-                   * Mathf.Min(BoonMultiplier * riposte, MaxBoonMultiplier) * draw;
+                   * Mathf.Min(BoonMultiplier * riposte * LastStandScale, MaxBoonMultiplier) * draw;
         }
+
+        /// <summary>P4-05: the victim and frame of the last riposte-boosted hit (Thunder Riposte reads them).</summary>
+        public GameObject LastRiposteVictim { get; private set; }
+        public int LastRiposteFrame { get; private set; } = -1;
+
+        /// <summary>P4-05 Last Stand: set by RunBoonProcs while the boon is held and HP is under 30%.</summary>
+        public bool LastStandActive { get; set; }
+
+        /// <summary>P4-05 Last Stand threshold: active strictly below 30% of max HP.</summary>
+        public const float LastStandThreshold = 0.3f;
+
+        /// <summary>P4-05 Last Stand incoming-damage cut while active.</summary>
+        public const float LastStandIncoming = 0.15f;
+
+        public static bool LastStandActiveAt(float current, float max) => max > 0f && current > 0f && current < LastStandThreshold * max;
+
+        /// <summary>Boon-group damage scale from Last Stand (1 when inactive). Inside the 2x boon cap.</summary>
+        public float LastStandScale => LastStandActive ? 1f + Boon(BoonEffectKind.LastStand) : 1f;
+
+        /// <summary>P4-05 Crimson Tide: the live Follow-Through combo count (written by ComboMomentumController).</summary>
+        public int ComboCount { get; set; }
 
         /// <summary>P4-04 S8: elements the player owns via boons (P4-05 sets it from Bleed/Storm tags).</summary>
         public ImbueElement OwnedElements { get; set; }

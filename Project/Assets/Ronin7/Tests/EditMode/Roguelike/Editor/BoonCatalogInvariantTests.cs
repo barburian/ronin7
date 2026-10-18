@@ -80,6 +80,8 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
             foreach (var boon in catalog.boons)
             {
                 if (boon == null) continue;
+                // P4-05: Riposte's extra stacks ride its secondary (RiposteDamage), so it may stack past 1.
+                if (boon.id == BoonId.Riposte && boon.hasSecondary) continue;
                 if (boon.effect == BoonEffectKind.GrantAbility || boon.effect == BoonEffectKind.ReviveOnce)
                 {
                     Assert.AreEqual(1, boon.maxStacks,
@@ -127,6 +129,66 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
             // A6.3/A7.6: MetaUpgradeId.StartingDamage promises "+5% blade damage per level" to level 5.
             Assert.AreEqual(0.05f, keenEdge.magnitude, 0.0001f, "KeenEdge.magnitude must be 0.05.");
             Assert.AreEqual(8, keenEdge.maxStacks, "KeenEdge.maxStacks must be 8.");
+        }
+
+        // ---- P4-05 ----
+
+        [Test]
+        public void Duo_RequiresTwoValidTags_ItAlsoCarries()
+        {
+            var catalog = LoadCatalogOrSkip();
+            int duos = 0;
+            foreach (var boon in catalog.boons)
+            {
+                if (boon == null || boon.rarity != BoonRarity.Duo) continue;
+                duos++;
+                Assert.IsTrue(boon.TryGetRequiredTags(out var mask), $"'{boon.id}' has an invalid requiresTags name.");
+                Assert.AreEqual(2, boon.requiresTags.Length, $"'{boon.id}' must require exactly two tags.");
+                Assert.AreEqual(mask, boon.tags & mask, $"'{boon.id}' must carry the tags it requires.");
+            }
+            Assert.AreEqual(3, duos, "P4-05 ships three Duos.");
+        }
+
+        [Test]
+        public void Curse_HasNegativeSecondary()
+        {
+            var catalog = LoadCatalogOrSkip();
+            int curses = 0;
+            foreach (var boon in catalog.boons)
+            {
+                if (boon == null || (boon.tags & BoonTag.Curse) == 0) continue;
+                curses++;
+                Assert.IsTrue(boon.hasSecondary && boon.secondaryMagnitude < 0f, $"Curse '{boon.id}' needs a negative secondary.");
+            }
+            Assert.AreEqual(4, curses);
+        }
+
+        [Test]
+        public void PackTaggedBoons_AreLockedByDefault()
+        {
+            var catalog = LoadCatalogOrSkip();
+            MetaProgression.ResetForTests();
+            try
+            {
+                int packed = 0;
+                foreach (var boon in catalog.boons)
+                {
+                    if (boon == null || (boon.tags & (BoonTag.Bleed | BoonTag.Storm | BoonTag.Executioner)) == 0) continue;
+                    packed++;
+                    Assert.IsFalse(BoonOfferPicker.IsPackUnlocked(boon), $"'{boon.id}' must start pack-locked.");
+                }
+                Assert.GreaterOrEqual(packed, 10);
+                var quickDraw = System.Array.Find(catalog.boons, b => b != null && b.id == BoonId.QuickDraw);
+                Assert.IsNotNull(quickDraw);
+                Assert.AreNotEqual(BoonTag.None, quickDraw.tags & BoonTag.Executioner, "Quick Draw belongs to the Executioner pack.");
+            }
+            finally { MetaProgression.ResetForTests(); }
+        }
+
+        [Test]
+        public void Catalog_Has45Boons()
+        {
+            Assert.AreEqual(45, LoadCatalogOrSkip().boons.Length);
         }
     }
 }

@@ -20,3 +20,9 @@ MonoBehaviour:
   magnitude: 0.08
   abilityId: 
   maxStacks: 3
+  tags: 0
+  requiresTags: []
+  hasSecondary: 0
+  secondaryEffect: 0
+  secondaryMagnitude: 0
+  icon: {fileID: 0}

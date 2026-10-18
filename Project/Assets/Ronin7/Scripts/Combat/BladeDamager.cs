@@ -311,7 +311,7 @@ namespace Ronin7.Combat
             if (wielderMods != null) wielderMods.HitPostureScale = postureScale;
             health.ApplyDamage(new DamageInfo(dmg, point, dir, OwnerRoot.gameObject, DamageType.Melee, speed));
             if (wielderMods != null) wielderMods.HitPostureScale = 1f;
-            EventBus.Publish(new SwordImpact(point, speed, health.gameObject));
+            EventBus.Publish(new SwordImpact(point, speed, health.gameObject, bladeVel));
         }
     }
 }

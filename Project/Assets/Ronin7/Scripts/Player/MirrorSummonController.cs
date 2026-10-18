@@ -92,7 +92,8 @@ namespace Ronin7.Player
             var action = activateAction != null ? activateAction.action : null;
             if (!logic.IsActive && action != null && action.WasPerformedThisFrame())
             {
-                if (logic.TrySummon(Ronin7.Combat.PlayerCombatModifiers.CooldownScale(HasteBonus()))) // also resolves mods
+                if (logic.TrySummon(Ronin7.Combat.PlayerCombatModifiers.CooldownScale(HasteBonus()), // also resolves mods
+                        mods != null ? mods.Boon(Ronin7.Combat.BoonEffectKind.MirrorDuration) : 0f)) // P4-05 Echo Twin
                 {
                     phantomInstance = SpawnPhantom();
                     EventBus.Publish(new AbilityActivated(AbilityId.Mirror));

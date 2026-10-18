@@ -206,11 +206,12 @@ namespace Ronin7.Flow
             def == null ? string.Empty : TierWord(def.rarity) + " · " + def.displayName;
 
         /// <summary>Tier word shown with the colour so rarity never rides on colour alone.</summary>
-        internal static string TierWord(BoonRarity r) => r == BoonRarity.Epic ? "EPIC" : r == BoonRarity.Rare ? "RARE" : "COMMON";
+        internal static string TierWord(BoonRarity r) => r == BoonRarity.Duo ? "DUO" : r == BoonRarity.Epic ? "EPIC" : r == BoonRarity.Rare ? "RARE" : "COMMON";
 
-        /// <summary>Common grey #B8C0CC, Rare blue #3FA9FF, Epic violet #B66BFF.</summary>
+        /// <summary>Common grey #B8C0CC, Rare blue #3FA9FF, Epic violet #B66BFF, Duo gold #FFC24A.</summary>
         internal static Color RarityColor(BoonRarity r) =>
-            r == BoonRarity.Epic ? new Color32(0xB6, 0x6B, 0xFF, 255)
+            r == BoonRarity.Duo ? new Color32(0xFF, 0xC2, 0x4A, 255)
+            : r == BoonRarity.Epic ? new Color32(0xB6, 0x6B, 0xFF, 255)
             : r == BoonRarity.Rare ? new Color32(0x3F, 0xA9, 0xFF, 255)
             : new Color32(0xB8, 0xC0, 0xCC, 255);
 

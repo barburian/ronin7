@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68a501edab6265345b5bd8d66ddfb0af, type: 3}
+  m_Name: LastStand
+  m_EditorClassIdentifier: Ronin7.Combat::Ronin7.Combat.BoonDefinition
+  id: boon_last_stand
+  displayName: Last Stand
+  description: 'Below 30% HP: +35% damage and -15% damage taken.'
+  rarity: 1
+  effect: 30
+  magnitude: 0.35
+  abilityId: 
+  maxStacks: 1
+  tags: 64
+  requiresTags: []
+  hasSecondary: 0
+  secondaryEffect: 0
+  secondaryMagnitude: 0
+  icon: {fileID: 0}

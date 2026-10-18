@@ -13,10 +13,17 @@ MonoBehaviour:
   m_Name: ComboInitiate
   m_EditorClassIdentifier: Ronin7.Combat::Ronin7.Combat.BoonDefinition
   id: boon_combo_initiate
-  displayName: Combo Initiate
-  description: +3% combo bonus per stack.
+  displayName: Reversal
+  description: +3% combo bonus per stack; a reversed swing on the same target keeps
+    the combo.
   rarity: 0
   effect: 4
   magnitude: 0.03
   abilityId: 
   maxStacks: 3
+  tags: 2
+  requiresTags: []
+  hasSecondary: 1
+  secondaryEffect: 38
+  secondaryMagnitude: 1
+  icon: {fileID: 0}

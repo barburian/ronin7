@@ -2331,6 +2331,7 @@ namespace Ronin7.EditorTools
             {
                 EnsureArtDispatcher(vrRig.gameObject, refs);
                 EnsureSkills(vrRig.gameObject); // P4-04, additive
+                EnsureBoonProcs(vrRig.gameObject); // P4-05, additive
                 components++;
                 objects.Add(vrRig.gameObject);
             }

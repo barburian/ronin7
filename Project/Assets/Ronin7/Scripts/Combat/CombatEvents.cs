@@ -56,7 +56,10 @@ namespace Ronin7.Combat
         public readonly Vector3 Point;
         public readonly float Speed;
         public readonly GameObject Victim;
-        public SwordImpact(Vector3 point, float speed, GameObject victim) { Point = point; Speed = speed; Victim = victim; }
+        /// <summary>P4-05 (appended): the blade's world velocity at the hit; zero when unknown. Reversal reads it.</summary>
+        public readonly Vector3 Velocity;
+        public SwordImpact(Vector3 point, float speed, GameObject victim) : this(point, speed, victim, Vector3.zero) { }
+        public SwordImpact(Vector3 point, float speed, GameObject victim, Vector3 velocity) { Point = point; Speed = speed; Victim = victim; Velocity = velocity; }
     }
 
     /// <summary>An entity's posture meter (see <c>Ronin7.Enemies.PostureMeter</c>) broke: bonus damage

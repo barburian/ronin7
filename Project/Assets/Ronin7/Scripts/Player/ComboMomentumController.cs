@@ -43,6 +43,10 @@ namespace Ronin7.Player
         [SerializeField] private int maxCombo = 4;
 
         private ComboState state;
+        private Vector3 lastVelocity; // P4-05 Reversal
+
+        // P4-05: Momentum Keeper widens the window (read at use time; boons land after Awake).
+        private float Window => comboWindowSeconds + (combatModifiers != null ? Mathf.Max(0f, combatModifiers.Boon(BoonEffectKind.ComboWindow)) : 0f);
 
         private void Awake()
         {
@@ -61,7 +65,7 @@ namespace Ronin7.Player
         private void Update()
         {
             if (state.Count == 0) return;
-            if (Time.time - state.LastHitTime >= comboWindowSeconds)
+            if (Time.time - state.LastHitTime >= Window)
             {
                 state = default;
                 ApplyMultiplier();
@@ -72,7 +76,10 @@ namespace Ronin7.Player
         {
             int targetId = e.Victim != null ? e.Victim.GetEntityId().GetHashCode() : 0;
             int previousCount = state.Count;
-            state = RegisterHit(state, targetId, Time.time, comboWindowSeconds, maxCombo);
+            bool reversal = combatModifiers != null && combatModifiers.Boon(BoonEffectKind.ComboReversal) > 0f
+                            && IsReversal(lastVelocity, e.Velocity);
+            lastVelocity = e.Velocity;
+            state = RegisterHit(state, targetId, Time.time, Window, maxCombo, reversal);
             ApplyMultiplier();
 
             // H1 campaign-stats hook: publish only on forward progress (never on the same-target
@@ -82,17 +89,28 @@ namespace Ronin7.Player
 
         private void ApplyMultiplier()
         {
-            if (combatModifiers != null) combatModifiers.ComboMultiplier = MultiplierForCombo(state.Count, PerStack + combatModifiers.BoonComboBonus);
+            if (combatModifiers == null) return;
+            combatModifiers.ComboMultiplier = MultiplierForCombo(state.Count, PerStack + combatModifiers.BoonComboBonus);
+            combatModifiers.ComboCount = state.Count; // P4-05 Crimson Tide
         }
 
         /// <summary>Pure combo-chain transition. See the class doc for the locked-in scheme.</summary>
         internal static ComboState RegisterHit(ComboState prev, int targetId, float now, float window, int maxCombo)
+            => RegisterHit(prev, targetId, now, window, maxCombo, false);
+
+        /// <summary>P4-05 Reversal (BUG-20): with <paramref name="reversal"/>, a same-target hit whose swing
+        /// reversed direction advances the chain instead of resetting it, so combos work on a lone boss.</summary>
+        internal static ComboState RegisterHit(ComboState prev, int targetId, float now, float window, int maxCombo, bool reversal)
         {
             bool freshOrExpired = prev.Count == 0 || now - prev.LastHitTime >= window;
             if (freshOrExpired) return new ComboState(1, targetId, now);
-            if (targetId == prev.LastTargetId) return new ComboState(0, targetId, now);
+            if (targetId == prev.LastTargetId && !reversal) return new ComboState(0, targetId, now);
             return new ComboState(Mathf.Min(prev.Count + 1, maxCombo), targetId, now);
         }
+
+        /// <summary>P4-05: the swing turned back on itself (velocities more than 90 degrees apart). Zero = unknown = no.</summary>
+        internal static bool IsReversal(Vector3 previous, Vector3 current) =>
+            previous.sqrMagnitude > 1e-4f && current.sqrMagnitude > 1e-4f && Vector3.Dot(previous, current) < 0f;
 
         /// <summary>1 + Count * perStack.</summary>
         internal static float MultiplierForCombo(int count, float perStack) => 1f + count * perStack;

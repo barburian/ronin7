@@ -54,6 +54,22 @@ namespace Ronin7.Core
         /// <summary>P2-08: first-run onboarding finished (or skipped because the player has completed runs).</summary>
         public static bool TutorialDone => tutorialDone;
 
+        // P4-05: archetype packs (BoonPackId) the player has unlocked. Boons from a locked pack are never offered.
+        private static readonly List<string> unlockedPacks = new();
+
+        /// <summary>P4-05 dev path (RONIN7_DEV / editor smoke): every pack reads unlocked. In memory only, never
+        /// saved, and not cleared by <see cref="Reset"/> (a Load must not re-lock a dev session).</summary>
+        public static bool DevUnlockAllPacks { get; set; }
+
+        public static bool IsPackUnlocked(string packId) =>
+            DevUnlockAllPacks || (!string.IsNullOrEmpty(packId) && unlockedPacks.Contains(packId));
+
+        /// <summary>Marks a pack unlocked in memory; the caller (P4-10 Shrine purchase) saves.</summary>
+        public static void UnlockPack(string packId)
+        {
+            if (!string.IsNullOrEmpty(packId) && !unlockedPacks.Contains(packId)) unlockedPacks.Add(packId);
+        }
+
         /// <summary>P2-08: pure load rule. A player who already finished runs before this field existed
         /// has no use for the tutorial, so runsCompleted &gt; 0 counts as done.</summary>
         internal static bool ResolveTutorialDone(MetaSaveData data) =>
@@ -175,6 +191,9 @@ namespace Ronin7.Core
             seenWeaknesses.Clear();
             if (data.seenWeaknesses != null)
                 foreach (int k in data.seenWeaknesses) MarkSeen(k);
+            unlockedPacks.Clear();
+            if (data.unlockedPacks != null)
+                foreach (string id in data.unlockedPacks) UnlockPack(id);
 
             upgradeLevels.Clear();
             if (data.metaUpgrades != null)
@@ -205,6 +224,8 @@ namespace Ronin7.Core
             data.tutorialDone = tutorialDone;
             data.seenWeaknesses = new List<int>(seenWeaknesses);
             data.seenWeaknesses.Sort();
+            data.unlockedPacks = new List<string>(unlockedPacks);
+            data.unlockedPacks.Sort(System.StringComparer.Ordinal);
 
             List<string> ids = new List<string>();
             foreach (KeyValuePair<string, int> kvp in upgradeLevels)
@@ -286,6 +307,7 @@ namespace Ronin7.Core
             Reset();
             loaded = false;
             saveBlocked = false;
+            DevUnlockAllPacks = false;
         }
 
         public static void Reset()
@@ -296,6 +318,7 @@ namespace Ronin7.Core
             runsWon = 0;
             tutorialDone = false;
             seenWeaknesses.Clear();
+            unlockedPacks.Clear();
             upgradeLevels.Clear();
         }
 

@@ -40,10 +40,13 @@ namespace Ronin7.Player
 
         /// <summary>P4-02 AbilityHaste: <paramref name="cooldownScale"/> scales this summon's cooldown
         /// (see <c>PlayerCombatModifiers.CooldownScale</c>); the active window is unchanged.</summary>
-        public bool TrySummon(float cooldownScale)
+        public bool TrySummon(float cooldownScale) => TrySummon(cooldownScale, 0f);
+
+        /// <summary>P4-05 Echo Twin: also extends this summon's active window by <paramref name="extraSeconds"/>.</summary>
+        public bool TrySummon(float cooldownScale, float extraSeconds)
         {
             if (!CanSummon) return false;
-            activeRemaining = activeDuration;
+            activeRemaining = activeDuration + System.Math.Max(0f, extraSeconds);
             cooldownRemaining = cooldownSeconds * cooldownScale;
             return true;
         }

@@ -42,5 +42,8 @@ namespace Ronin7.Core
         /// <summary>BUG-39: <c>(int)WeaknessKind</c> values whose first-encounter teach has run. Appended field
         /// (version stays 1): an old meta.json without it loads an empty list.</summary>
         public List<int> seenWeaknesses = new List<int>();
+        /// <summary>P4-05: <see cref="BoonPackId"/>s bought (P4-10 Shrine). Appended field (version stays 1): an old
+        /// meta.json without it loads an empty list, i.e. every archetype pack locked.</summary>
+        public List<string> unlockedPacks = new List<string>();
     }
 }

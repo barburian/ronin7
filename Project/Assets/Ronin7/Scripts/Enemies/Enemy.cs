@@ -438,6 +438,7 @@ namespace Ronin7.Enemies
         private float FilterDamage(DamageInfo info)
         {
             if (posture != null && posture.ApplyingBonus) return info.Amount; // posture-break bonus: not a new hit
+            if (info.Type == DamageType.Status) return info.Amount; // P4-05 procs ignore facing (no resist/exploit events)
 
             Transform t = transform;
             GameObject src = info.Source;

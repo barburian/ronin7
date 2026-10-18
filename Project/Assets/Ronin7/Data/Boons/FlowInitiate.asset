@@ -14,9 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Ronin7.Combat::Ronin7.Combat.BoonDefinition
   id: boon_flow_initiate
   displayName: Flow Initiate
-  description: +3% parry-flow bonus per stack.
+  description: +3% parry-flow bonus per stack; the parry streak lasts 3 s longer.
   rarity: 0
   effect: 3
   magnitude: 0.03
   abilityId: 
   maxStacks: 3
+  tags: 1
+  requiresTags: []
+  hasSecondary: 1
+  secondaryEffect: 39
+  secondaryMagnitude: 3
+  icon: {fileID: 0}

@@ -30,7 +30,10 @@ namespace Ronin7.Core
     {
         Melee,
         Projectile,
-        Collision
+        Collision,
+        /// <summary>P4-05 boon procs (bleed ticks, storm chains): never flinches, never builds posture,
+        /// never re-procs. APPEND-ONLY.</summary>
+        Status
     }
 
     /// <summary>Anything that can receive damage — players, enemies, ships, props.</summary>

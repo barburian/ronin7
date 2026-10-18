@@ -14,9 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Ronin7.Combat::Ronin7.Combat.BoonDefinition
   id: boon_ironskin
   displayName: Ironskin
-  description: +10 max HP per stack.
+  description: +10 max HP per stack; heals 10 when picked.
   rarity: 0
   effect: 1
   magnitude: 10
   abilityId: 
   maxStacks: 8
+  tags: 0
+  requiresTags: []
+  hasSecondary: 1
+  secondaryEffect: 40
+  secondaryMagnitude: 10
+  icon: {fileID: 0}

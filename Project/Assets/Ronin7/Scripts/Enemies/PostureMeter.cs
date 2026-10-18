@@ -95,6 +95,7 @@ namespace Ronin7.Enemies
         private void OnDamaged(DamageInfo info)
         {
             if (applyingBonus) return; // ignore the bonus hit's own re-entrant Damaged callback
+            if (info.Type == DamageType.Status) return; // P4-05: procs never build posture
 
             lastDamageTime = Time.time;
             float previous = current;
@@ -132,7 +133,8 @@ namespace Ronin7.Enemies
             current = 0f;
             nearBreakArmed = true; // meter reset on break -> re-arm for the next approach
             applyingBonus = true;
-            health.ApplyDamage(new DamageInfo(breakBonusDamage, transform.position, direction, source));
+            float bonus = breakBonusDamage * (1f + Mathf.Max(0f, SourceBoon(source, BoonEffectKind.PostureBreakBonus))); // P4-05 Guillotine
+            health.ApplyDamage(new DamageInfo(bonus, transform.position, direction, source));
             applyingBonus = false;
 
             // The bonus damage can be lethal, and Health fires Died synchronously inside ApplyDamage —

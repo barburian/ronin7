@@ -112,7 +112,8 @@ namespace Ronin7.Combat
             if (wearerMods == null) wearerMods = GetComponent<PlayerCombatModifiers>();
             float reduction = wearerMods != null ? wearerMods.Boon(BoonEffectKind.DamageReduction) : 0f;
             float amount = (DamageFilter != null ? DamageFilter(info) : info.Amount) * IncomingDamageMultiplier
-                           * DamageReductionScale(reduction);
+                           * DamageReductionScale(reduction)
+                           * (wearerMods != null && wearerMods.LastStandActive ? 1f - PlayerCombatModifiers.LastStandIncoming : 1f);
             if (!(amount > 0f)) return; // also rejects NaN; fully resisted = no events
             var applied = amount == info.Amount ? info : info.WithAmount(amount);
 

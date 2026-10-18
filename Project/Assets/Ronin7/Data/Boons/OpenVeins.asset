@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68a501edab6265345b5bd8d66ddfb0af, type: 3}
+  m_Name: OpenVeins
+  m_EditorClassIdentifier: Ronin7.Combat::Ronin7.Combat.BoonDefinition
+  id: boon_open_veins
+  displayName: Open Veins
+  description: Hits on bleeding enemies deal +20%.
+  rarity: 1
+  effect: 21
+  magnitude: 0.2
+  abilityId: 
+  maxStacks: 1
+  tags: 4
+  requiresTags: []
+  hasSecondary: 0
+  secondaryEffect: 0
+  secondaryMagnitude: 0
+  icon: {fileID: 0}

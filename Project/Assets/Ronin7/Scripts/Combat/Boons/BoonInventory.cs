@@ -90,13 +90,14 @@ namespace Ronin7.Combat
         public float Bonus(BoonEffectKind kind) =>
             kind == BoonEffectKind.BladeDamageMultiplier ? MultiplierProduct(kind) - 1f : AdditiveSum(kind);
 
+        /// <summary>P4-05: secondary effects aggregate exactly like primaries (per stack).</summary>
         public float MultiplierProduct(BoonEffectKind kind)
         {
             float product = 1f;
             foreach (var pair in _definitions)
             {
-                if (pair.Value.effect != kind) continue;
-                product *= Mathf.Pow(1f + pair.Value.magnitude, Stacks(pair.Key));
+                float m = Magnitude(pair.Value, kind);
+                if (m != 0f) product *= Mathf.Pow(1f + m, Stacks(pair.Key));
             }
             return product;
         }
@@ -104,12 +105,29 @@ namespace Ronin7.Combat
         public float AdditiveSum(BoonEffectKind kind)
         {
             float sum = 0f;
-            foreach (var pair in _definitions)
-            {
-                if (pair.Value.effect != kind) continue;
-                sum += pair.Value.magnitude * Stacks(pair.Key);
-            }
+            foreach (var pair in _definitions) sum += Magnitude(pair.Value, kind) * Stacks(pair.Key);
             return sum;
+        }
+
+        /// <summary>One stack's magnitude of <paramref name="kind"/> on <paramref name="boon"/> (primary plus
+        /// secondary); 0 when it carries neither.</summary>
+        public static float Magnitude(BoonDefinition boon, BoonEffectKind kind)
+        {
+            if (boon == null) return 0f;
+            float m = boon.effect == kind ? boon.magnitude : 0f;
+            if (boon.hasSecondary && boon.secondaryEffect == kind) m += boon.secondaryMagnitude;
+            return m;
+        }
+
+        /// <summary>P4-05: union of the tags of every held boon (picker affinity, Duo gates, S8 elements).</summary>
+        public BoonTag OwnedTags
+        {
+            get
+            {
+                BoonTag tags = BoonTag.None;
+                foreach (var def in _definitions.Values) tags |= def.tags;
+                return tags;
+            }
         }
     }
 }

@@ -91,6 +91,7 @@ namespace Ronin7.EditorTools
             AttachPlayerAbilities(rig, refs);
             if (rig.GetComponent<ParryFlowController>() == null) rig.AddComponent<ParryFlowController>();
             if (rig.GetComponent<ComboMomentumController>() == null) rig.AddComponent<ComboMomentumController>();
+            EnsureBoonProcs(rig); // P4-05
             BuildSword(new Vector3(0.3f, 1f, 1.6f), weapon);
             RogueUpscaleSword();
 
@@ -267,6 +268,31 @@ namespace Ronin7.EditorTools
                 Debug.LogWarning($"[RoguelikeArenaBuilder] No {label} found at '{path}' — leaving the " +
                                   "reference null. Bake it via its Module 5 builder menu item, then re-run this menu.");
             return asset;
+        }
+
+        /// <summary>P4-05: the boon proc component (bleed / storm / parry procs) plus its pooled chain line
+        /// on the rig root. Idempotent and additive, like <see cref="EnsureSkills"/>.</summary>
+        internal static void EnsureBoonProcs(GameObject rig)
+        {
+            var procs = EnsureComponent<RunBoonProcs>(rig);
+            var lineT = rig.transform.Find("BoonProcLine");
+            if (lineT == null) { lineT = new GameObject("BoonProcLine").transform; lineT.SetParent(rig.transform, false); }
+            var lr = lineT.GetComponent<LineRenderer>();
+            if (lr == null) lr = lineT.gameObject.AddComponent<LineRenderer>();
+            lr.positionCount = 2;
+            lr.useWorldSpace = true;
+            lr.widthMultiplier = 0.02f;
+            lr.sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>(ChainLineMaterialPath);
+            lr.startColor = lr.endColor = new Color(0.55f, 0.75f, 1f, 1f);
+            lr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            lr.receiveShadows = false;
+            lr.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.Off;
+            lr.reflectionProbeUsage = UnityEngine.Rendering.ReflectionProbeUsage.Off;
+            lr.enabled = false;
+            var so = new SerializedObject(procs);
+            SetObjectRef(so, "procLine", lr);
+            so.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(procs);
         }
     }
 }

@@ -27,5 +27,46 @@ namespace Ronin7.Combat
         public string abilityId;
         [Tooltip("How many times this boon can be held at once. GrantAbility/ReviveOnce should use 1.")]
         public int maxStacks = 3;
+
+        [Header("P4-05 archetype")]
+        public BoonTag tags;
+        [Tooltip("Duo only: BoonTag names that must ALL be owned before this boon is offered.")]
+        public string[] requiresTags;
+        public bool hasSecondary;
+        public BoonEffectKind secondaryEffect;
+        [Tooltip("Same per-stack meaning as magnitude, for secondaryEffect. Curses carry a negative one.")]
+        public float secondaryMagnitude;
+        [Tooltip("Filled in P5.")]
+        public Sprite icon;
+
+        /// <summary><see cref="requiresTags"/> as a mask. False when any name is not a single <see cref="BoonTag"/>
+        /// (a mis-authored Duo is then never offerable rather than always offerable).</summary>
+        public bool TryGetRequiredTags(out BoonTag mask)
+        {
+            mask = BoonTag.None;
+            if (requiresTags == null) return true;
+            foreach (var name in requiresTags)
+            {
+                if (!System.Enum.TryParse(name, false, out BoonTag tag) || tag == BoonTag.None
+                    || ((int)tag & ((int)tag - 1)) != 0) return false;
+                mask |= tag;
+            }
+            return true;
+        }
+    }
+
+    /// <summary>P4-05 archetype tags. APPEND-ONLY flags (assets serialize the mask).</summary>
+    [System.Flags]
+    public enum BoonTag
+    {
+        None = 0,
+        Parry = 1,
+        Flow = 2,
+        Bleed = 4,
+        Storm = 8,
+        Executioner = 16,
+        Ability = 32,
+        Bulwark = 64,
+        Curse = 128,
     }
 }

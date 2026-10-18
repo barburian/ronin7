@@ -506,6 +506,16 @@ namespace Ronin7.Enemies
             Enter(State.Stagger);
         }
 
+        /// <summary>P4-05 Ghost Step: seconds until this enemy's strike goes Active (0 while Active and the
+        /// strike has not landed yet); +infinity in any other state.</summary>
+        public float TimeToActive =>
+            state == State.Windup ? Mathf.Max(0f, telegraph - timer)
+            : state == State.Active && !strikeResolved && !deflectedThisSwing ? 0f
+            : float.PositiveInfinity;
+
+        /// <summary>P4-05: who this enemy is attacking (null before it finds the player).</summary>
+        public Health Target => target;
+
         // P4-02: the player's boon stats, resolved from the current target (cached per target).
         private Health modsTarget;
         private PlayerCombatModifiers targetMods;
@@ -546,6 +556,7 @@ namespace Ronin7.Enemies
         /// </summary>
         private void OnDamagedFlinch(DamageInfo info)
         {
+            if (info.Type == DamageType.Status) return; // P4-05: a DoT tick must never stun-lock
             flashTimer = FlashTime; // P1-11 hit flash, every damaging hit (also on non-flinching enemies)
             if (!FlinchEnabled) return;
             if (!FlinchTiming.ShouldFlinch(health.IsAlive, state == State.Stagger, state == State.Active,

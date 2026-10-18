@@ -55,6 +55,58 @@ namespace Ronin7.Combat
         /// <summary>magnitude 0.1 => +10% echoes (cap x1.5).</summary>
         EchoGain,
         /// <summary>magnitude 1 => +1 luck point: +4 Rare / +2 Epic offer weight per point (cap 3).</summary>
-        Luck
+        Luck,
+
+        // ---- P4-05 archetype boons. Read through PlayerCombatModifiers.Boon(kind) (stacks summed). ----
+        /// <summary>magnitude 4 => a perfect parry heals 4 (Counterweight).</summary>
+        HealOnPerfectParry,
+        /// <summary>magnitude 0.4 => combo window +0.4 s (Momentum Keeper).</summary>
+        ComboWindow,
+        /// <summary>magnitude 0.3 => a swing hitting 2+ enemies does +30% to each (Whirlwind).</summary>
+        MultiHitBonus,
+        /// <summary>magnitude 0.1 per stack => bleed 0.05 + bonus of the hit over 3 s (Serrated Edge: 15/25/35%).</summary>
+        Bleed,
+        /// <summary>magnitude 0.2 => bleeding targets take +20% blade damage (Open Veins).</summary>
+        BleedVulnerability,
+        /// <summary>magnitude 6 => killing a bleeding enemy heals 6 (Exsanguinate).</summary>
+        HealOnBleedKill,
+        /// <summary>magnitude 12 => every 4th hit chains for 12 x BoonMultiplier (Static Edge).</summary>
+        StaticChain,
+        /// <summary>magnitude 1 => +1 chain jump and +1.5 m chain range (Conductor).</summary>
+        ChainJumps,
+        /// <summary>magnitude 20 => a blade clash shocks within 2.5 m: 20 damage + 25 posture (Thunderclap).</summary>
+        ClashShock,
+        /// <summary>magnitude 2 => posture-break bonus damage x3 (Guillotine).</summary>
+        PostureBreakBonus,
+        /// <summary>magnitude 0.5 => Overdrive charge per hit +50% (Overclock).</summary>
+        OverdriveCharge,
+        /// <summary>magnitude 1 => heal 1 per blade hit while Overdrive is active (Overclock secondary).</summary>
+        OverdriveLifesteal,
+        /// <summary>magnitude 10 => Mirror lasts +10 s (Echo Twin).</summary>
+        MirrorDuration,
+        /// <summary>magnitude 0.35 => below 30% HP: +35% damage and -15% incoming (Last Stand).</summary>
+        LastStand,
+        /// <summary>Negative => the Forge's MEND card is disabled (Blood Price curse).</summary>
+        ForgeMend,
+        /// <summary>Negative => a non-perfect deflect breaks the parry streak (Reckless Flow curse).</summary>
+        RecklessFlow,
+        /// <summary>magnitude 1 => Epic offer-tier weight x2 (Hollow Oath).</summary>
+        EpicWeight,
+        /// <summary>magnitude -0.2 => max HP x0.8 (Hollow Oath curse).</summary>
+        MaxHealthPercent,
+        /// <summary>magnitude 4 => riposte hits chain to every enemy within 4 m (Thunder Riposte).</summary>
+        RiposteChain,
+        /// <summary>magnitude 1 => at combo 3+, bleed x2 (Crimson Tide).</summary>
+        ComboBleed,
+        /// <summary>magnitude 0.25 => a Phase Step up to 0.25 s before an enemy's strike counts as a perfect parry (Ghost Step).</summary>
+        GhostStep,
+        /// <summary>magnitude 1 => a swing-direction reversal on the same target advances the combo (Reversal).</summary>
+        ComboReversal,
+        /// <summary>magnitude 3 => parry-streak idle timeout +3 s (Flow Initiate secondary).</summary>
+        ParryStreakTimeout,
+        /// <summary>magnitude 10 => heal 10 when picked (Ironskin secondary).</summary>
+        HealOnPick,
+        /// <summary>magnitude 0.25 per stack => Riposte damage 1.5 + max(0.25, bonus) (Riposte secondary).</summary>
+        RiposteDamage
     }
 }

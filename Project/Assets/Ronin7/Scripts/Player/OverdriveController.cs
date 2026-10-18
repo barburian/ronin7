@@ -118,7 +118,8 @@ namespace Ronin7.Player
         private void OnSwordImpact(SwordImpact evt)
         {
             var m = Mods();
-            logic?.AddCharge(PlayerCombatModifiers.ChargeScale(m != null ? m.Boon(BoonEffectKind.AbilityHaste) : 0f));
+            logic?.AddCharge(PlayerCombatModifiers.ChargeScale(m != null ? m.Boon(BoonEffectKind.AbilityHaste) : 0f)
+                             * (1f + (m != null ? Mathf.Max(0f, m.Boon(BoonEffectKind.OverdriveCharge)) : 0f))); // P4-05 Overclock
         }
 
         private void Update()

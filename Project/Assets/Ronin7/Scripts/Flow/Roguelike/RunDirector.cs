@@ -381,7 +381,7 @@ namespace Ronin7.Flow
 
             var pool = new List<BoonDefinition>();
             foreach (var boon in boonCatalog.boons)
-                if (boon != null && boon.rarity == BoonRarity.Common) pool.Add(boon);
+                if (boon != null && boon.rarity == BoonRarity.Common && BoonOfferPicker.IsPackUnlocked(boon)) pool.Add(boon); // P4-05 pack locks
 
             int granted = 0;
             while (granted < count && pool.Count > 0)
@@ -455,7 +455,7 @@ namespace Ronin7.Flow
             if (choicePanel == null)
             {
                 Debug.LogWarning("[RunDirector] Forge panel could not be built (no camera/EventSystem); applying MEND and moving on.");
-                ApplyForgeMend();
+                if (!MendCursed) ApplyForgeMend();
                 AdvanceNode();
                 return;
             }
@@ -463,14 +463,19 @@ namespace Ronin7.Flow
             choicePanel.ChoiceSelected += OnChoicePanelSelected;
             // BUG-30: show what each card does now — MEND heals 0 at full HP, so it says so and is disabled.
             var health = VRRig.Instance != null ? VRRig.Instance.GetComponent<Health>() : null;
-            string mend = health != null ? ForgeMendLabel(health.Current, health.Max) : ForgeHpFull;
-            choicePanel.SetOption(0, "MEND", RoomKindText.Color(RoomKind.Forge), "Heal 60% of your missing health.", mend, mend != ForgeHpFull);
+            string mend = MendCursed ? ForgeMendCursed : health != null ? ForgeMendLabel(health.Current, health.Max) : ForgeHpFull;
+            choicePanel.SetOption(0, "MEND", RoomKindText.Color(RoomKind.Forge), "Heal 60% of your missing health.", mend, mend != ForgeHpFull && mend != ForgeMendCursed);
             // ponytail: TEMPER is +1 reroll until P4-07 lands weapon tempering.
             choicePanel.SetOption(1, "TEMPER", RoomKindText.Color(RoomKind.Forge), "+1 reroll. (Weapon tempering arrives later.)",
                 ForgeTemperLabel(RunState.RerollTokens), true);
         }
 
         internal const string ForgeHpFull = "HP FULL";
+
+        /// <summary>P4-05 Blood Price: MEND is disabled for the rest of the run.</summary>
+        internal const string ForgeMendCursed = "BLOOD PRICE";
+
+        private bool MendCursed => boonInventory.Bonus(BoonEffectKind.ForgeMend) < 0f;
 
         /// <summary>BUG-30: MEND card sub-label — the whole HP the HUD will gain ("+36 HP"), or
         /// "HP FULL" when MEND would heal nothing. Uses the HUD's ceil rounding. Pure.</summary>
@@ -485,7 +490,7 @@ namespace Ronin7.Flow
 
         private void ChooseForge(int index)
         {
-            if (index == 0) ApplyForgeMend();
+            if (index == 0) { if (MendCursed) return; ApplyForgeMend(); }
             else if (index == 1) RunState.AddRerollToken(1);
             else return;
             LeaveRoom();
@@ -570,6 +575,17 @@ namespace Ronin7.Flow
             boonInventory.Add(boon);
             var modifiers = VRRig.Instance != null ? VRRig.Instance.GetComponent<PlayerCombatModifiers>() : null;
             if (modifiers != null) PushBoonStats(modifiers, boonInventory);
+            // P4-05: a pick's own max-HP change and heal land now (Ironskin: +10 max AND heal 10), so a full-HP
+            // player is not left 10 short; the next load rebuilds max from the inventory as usual.
+            var health = VRRig.Instance != null ? VRRig.Instance.GetComponent<Health>() : null;
+            float addMax = BoonInventory.Magnitude(boon, BoonEffectKind.MaxHealthAdd);
+            float heal = BoonInventory.Magnitude(boon, BoonEffectKind.HealOnPick);
+            if (health != null && health.IsAlive && (addMax != 0f || heal > 0f))
+            {
+                float current = health.Current;
+                if (addMax != 0f) health.Configure(Mathf.Max(1f, health.Max + addMax));
+                health.SetCurrent(Mathf.Max(1f, current + Mathf.Max(0f, heal)));
+            }
             EventBus.Publish(new BoonChosen(boon.id));
             if (boon.effect == BoonEffectKind.GrantAbility) RunState.GrantAbility(boon.abilityId);
         }
@@ -969,7 +985,7 @@ namespace Ronin7.Flow
         // ---- P2-04 Shop: spend THIS run's unbanked Echoes ----
 
         /// <summary>Shop boon price by rarity: Common 30, Rare 60, Epic 120.</summary>
-        internal static int ShopPrice(BoonRarity rarity) => rarity == BoonRarity.Epic ? 120 : rarity == BoonRarity.Rare ? 60 : 30;
+        internal static int ShopPrice(BoonRarity rarity) => rarity >= BoonRarity.Epic ? 120 : rarity == BoonRarity.Rare ? 60 : 30;
 
         /// <summary>HP after MEND 25%: a quarter of max HP, clamped to max.</summary>
         internal static float MendResult(float current, float max) => Mathf.Min(max, current + 0.25f * max);
@@ -1428,7 +1444,17 @@ namespace Ronin7.Flow
             modifiers.BoonComboBonus = inventory.ComboBonus;
             for (int k = 0; k < PlayerCombatModifiers.BoonKindCount; k++)
                 modifiers.SetBoon((BoonEffectKind)k, inventory.Bonus((BoonEffectKind)k));
+            modifiers.OwnedElements = ElementsFor(inventory.OwnedTags);
         }
+
+        /// <summary>P4-05: owning a Bleed / Storm boon owns that S8 Imbue element.</summary>
+        internal static ImbueElement ElementsFor(BoonTag tags) =>
+            ((tags & BoonTag.Bleed) != 0 ? ImbueElement.Bleed : ImbueElement.None)
+            | ((tags & BoonTag.Storm) != 0 ? ImbueElement.Storm : ImbueElement.None);
+
+        /// <summary>P4-05 Hollow Oath: max HP after flat adds and the percentage curse, floor 1.</summary>
+        internal static float BoonMaxHealth(float baseMax, float add, float percent) =>
+            Mathf.Max(1f, (baseMax + add) * (1f + Mathf.Max(-0.9f, percent)));
 
         /// <summary>BUG-02: onLoaded hook for arena loads — restore the rig first, then replay a
         /// zero-enemy node's parked clear so its Forge/Treasure reward sees the carried HP.</summary>
@@ -1498,7 +1524,8 @@ namespace Ronin7.Flow
                 // base + 15x add instead of a flat add.
                 // P2-04: event max-HP changes (Blood Pact) ride on top of boons for the rest of the run.
                 float maxAdd = boonInventory.MaxHealthAdd + RunState.MaxHealthBonus;
-                if (maxAdd != 0f) health.Configure(Mathf.Max(1f, health.Max + maxAdd));
+                float maxPct = boonInventory.Bonus(BoonEffectKind.MaxHealthPercent);
+                if (maxAdd != 0f || maxPct != 0f) health.Configure(BoonMaxHealth(health.Max, maxAdd, maxPct));
                 if (RunState.PlayerHealth >= 0f)
                     health.SetCurrent(RunState.CarryOverHealth(RunState.PlayerHealth, health.Max));
 

@@ -14,9 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Ronin7.Combat::Ronin7.Combat.BoonDefinition
   id: boon_keen_edge
   displayName: Keen Edge
-  description: +5% blade damage per stack.
+  description: +5% blade damage and +5% posture damage per stack.
   rarity: 0
   effect: 0
   magnitude: 0.05
   abilityId: 
   maxStacks: 8
+  tags: 0
+  requiresTags: []
+  hasSecondary: 1
+  secondaryEffect: 8
+  secondaryMagnitude: 0.05
+  icon: {fileID: 0}

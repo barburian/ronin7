@@ -14,6 +14,12 @@ namespace Ronin7.Player
         private GameObject target;
         private float until = -1f;
 
+        /// <summary>P4-05: damage scale this riposte applies (extra Riposte stacks raise it).</summary>
+        public float Scale = DamageScale;
+
+        /// <summary>P4-05: x1.75 at one Riposte stack, +0.25 per extra stack (secondary RiposteDamage 0.25 per stack).</summary>
+        public static float ScaleFor(float riposteBonus) => 1.5f + Mathf.Max(0.25f, riposteBonus);
+
         public void Arm(GameObject attacker, float now)
         {
             target = attacker;
@@ -28,7 +34,7 @@ namespace Ronin7.Player
             if (target == null || victim != target || now > until) return 1f;
             target = null;
             postureScale = PostureScale;
-            return DamageScale;
+            return Scale;
         }
     }
 
@@ -66,6 +72,7 @@ namespace Ronin7.Player
                 if (mods == null) return;
             }
             mods.RiposteBonus = bonus; // lazily: RunDirector may add the modifiers after Awake
+            logic.Scale = RiposteLogic.ScaleFor(mods.Boon(BoonEffectKind.RiposteDamage));
             logic.Arm(e.Attacker, Time.time);
         }
 

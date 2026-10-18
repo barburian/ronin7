@@ -40,6 +40,8 @@ namespace Ronin7.Flow
             DontDestroyOnLoad(go);
             go.AddComponent<DevRunTools>();
             Debug.Log("[DevRunTools] RONIN7_DEV: hold right stick 2 s = clear room, hold left stick 2 s = random boon, hold both 2 s = G6 worst case.");
+            MetaProgression.DevUnlockAllPacks = true; // P4-05: until the P4-10 Shrine sells packs
+            Debug.Log("[DevRunTools] RONIN7_DEV: all archetype packs (Bleed/Storm/Executioner) unlocked for this session.");
         }
 
         private void OnEnable()

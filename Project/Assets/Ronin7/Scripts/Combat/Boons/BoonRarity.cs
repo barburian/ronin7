@@ -9,6 +9,9 @@ namespace Ronin7.Combat
     {
         Common,
         Rare,
-        Epic
+        Epic,
+        /// <summary>P4-05: two-archetype boon, offered only once every <c>requiresTags</c> tag is owned.
+        /// APPEND-ONLY (assets serialize the number).</summary>
+        Duo = 3
     }
 }
