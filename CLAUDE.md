@@ -11,8 +11,8 @@ C# source lives under `Project/Assets/Ronin7/Scripts/<Area>/`, split into modula
 
 | Assembly | Folder | Owns |
 |---|---|---|
-| `Ronin7.Core` | `Scripts/Core` | `SaveSystem` (atomic write + migration), `RendererTint` (MaterialPropertyBlock batching), `Health` |
-| `Ronin7.Combat` | `Scripts/Combat` | `BladeDamager` (EMA swing-speed damage) |
+| `Ronin7.Core` | `Scripts/Core` | `SaveSystem` (atomic write + migration), `RendererTint` (MaterialPropertyBlock batching) |
+| `Ronin7.Combat` | `Scripts/Combat` | `BladeDamager` (EMA swing-speed damage), `Health` (`Scripts/Combat/Health.cs`) |
 | `Ronin7.Player` | `Scripts/Player` | `ContinuousLocomotion`, `Haptics`, `CombatFeedbackController` |
 | `Ronin7.Ship` | `Scripts/Ship` | `ShipController`, `ProjectilePool`, `SpaceEncounterManager`, `SunNavigation/` |
 | `Ronin7.Enemies` | `Scripts/Enemies` | enemy ships / behavior |
@@ -28,7 +28,7 @@ Scenes: `Assets/Ronin7/Scenes/ChNN_*.unity` (chapters + their `ChNN_Prologue` sh
 
 ## Build / Run / Test
 
-EditMode gate (baseline: **1627 tests green, 0 skips** at `roguelike` Phase 3; PlayMode: **16/16 green**):
+EditMode gate (baseline: **1785 tests green, 0 skips** at `roguelike` Phase 4; PlayMode: **16/16 green**):
 
 ```
 Unity.exe -runTests -batchmode -projectPath "Project" -testPlatform EditMode -testResults res.xml

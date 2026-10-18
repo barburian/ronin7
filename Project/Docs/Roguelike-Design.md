@@ -1488,3 +1488,96 @@ Binding as of Phase 3. The Phase 3 brief called this "Amendment 9"; 9 (Phase 1) 
   `WeaknessExploited`) and the bars.
 - **A11.9 Save format.** Phase 3 added no serialized save fields: `RunSnapshot.CurrentVersion` stays 2 and
   `MetaSaveData.CurrentVersion` stays 1. Fixture `TestData/saves_phase3`.
+
+## Amendment 12 — Phase 4 stats, skills, boons, meta and save v3 (Roguelike-Roadmap.md P4-00 … P4-11)
+
+(roadmap called this Amendment 10) Binding as of Phase 4 (`0.5.0`). 10 (Phase 2) and 11 (Phase 3) were already taken.
+
+- **A12.1 BUG-39 weakness tells (P4-00).** Colour rule: **gold = open now, blue-grey = guarded**, applied as HDR
+  MPB tints via `RendererTint` (no new material, no light). `WeaknessRules.IsOpen(kind, staggered, attacking,
+  recovering, recentlyBlinked)` is the pure state test (Recovery: staggered or recovering; Backstab and ParryGate:
+  staggered; CounterHit: attacking or staggered; Blink: recently blinked; the rest are false because they carry their
+  own marker). `RestsGuarded` kinds (ParryGate, CounterHit, PostureOnly) rest blue-grey whenever not open. Per-kind
+  markers: Alternating shoulders (gold on the side opposite the last hit), Backstab back plate, HeavyBreak slab
+  (flickers blue-grey on a too-slow hit, hidden while shattered), Construct chest crack (grows with posture, gold at
+  the break).
+  - **First-encounter teach is per `WeaknessKind`, not per archetype** (`WeaknessTeach`): on first aggro of a kind the
+    marker pulses 1.5 s and the wrist HUD shows one short hint (<= 5 words, 4 s); the first `WeaknessExploited` of
+    that kind plays a **0.5x slow-mo for 0.4 s real time** on the appended `TimeScaleChannel.WeaknessTeach`, restored
+    on expiry, disable, app pause and mode change. Seen kinds persist in the appended `MetaSaveData.seenWeaknesses`.
+  - **Hit-confirm separation:** a resisted or exploited hit suppresses the generic `SwordImpact` haptics and audio on
+    the same frame (`HitConfirmLatch`). Exploit = double haptic beat (0.8/0.08 s, then 1.0/0.1 s at +60 ms) and a
+    +3 dB clip; resisted = one tiny tick on the sword hand. No camera shake, no damage numbers.
+- **A12.2 BUG-40 archetype marks and art height (P4-00).** One unlit accent primitive per trash archetype
+  (`MarkSpecs`, e.g. shield trooper cyan shield slab, scan drone green halo disc, Ganger magenta waist ring), HDR, no
+  collider, no shadows, +1 draw per enemy; the Scavenger stays unmarked and bosses are left as-is. The **art-height
+  fix**: skinned-mesh renderer bounds carry ~0.2 units of rig padding per side, which left humanoids 1.28 m tall with
+  feet 0.26 m off the floor; art is now sized from the mesh (humanoids 1.8 m grounded, drones 0.8 m hovering) and the
+  root stays at y = 0 (`RunArenaController` overwrites its position at spawn). `RunLog` (BUG-41) gained run
+  start/abandon, sector, per-archetype spawn/kill, elites and affixes, resisted vs exploited hits and boon offers.
+- **A12.3 Stat slots and sheet (P4-01/02).** `BoonEffectKind` is append-only and pinned by
+  `BoonEffectKind_ExistingValues_ArePinned`. `PlayerCombatModifiers.Boon(kind)` holds a bonus fraction (0 = neutral)
+  per kind, written on every load and pick; consumers read at use time, never cached in `Awake`. Caps, enforced by
+  each consumer: EdgeSensitivity thresholds x0.70; PostureDamage x2.0; Precision x2.0; ParryWindow +0.04 s;
+  StaggerDuration x1.5; DamageReduction 40%; AbilityHaste 40%; PhaseCharges 3 (base 1); EchoGain x1.5; Luck 3
+  (+4 Rare / +2 Epic weight per point). Excluded on purpose: move speed, attack speed, reach, random crit, flat armor.
+- **A12.4 Art input slots and the modal gate (P4-03).** Weapon Art = right trigger with the sword held; Off-hand Art
+  = left trigger with an empty left hand; one Art per slot, a new one replaces the old; A, B, X get nothing new.
+  `ArtSlots.ModalOpen` (set by `RunDirector`) blocks firing while a boon/choice panel, the pause menu or the summary
+  is up. Twin Wakizashi sets `OffhandBlocked`. `RunState.WeaponArtId` / `OffhandArtId` are snapshotted (v3).
+- **A12.5 Skills S1-S8 (P4-04).** S1 Riposte, S2 Quick Draw, S3 Zanshin: boon-granted passives. S4 Charged Slash and
+  S5 Blade Throw: Weapon Arts. S6 Kiai Palm, S7 Chain Hook, S8 Element Imbue: Off-hand Arts. Numbers as in the
+  roadmap table except these calls made during implementation:
+  - **Quick Draw's x2.5 sits outside the 2x boon damage cap** (it multiplies on top, like a gesture bonus).
+  - **Chain Hook has a 5 s cooldown and a 0.2 m radius sphere cast** (8 m range); it pulls the enemy, never the player.
+  - **AbilityHaste applies to every skill cooldown** (`SkillRig.CooldownScale`), not only Phase Step / Mirror / Overdrive.
+  - Hand speed under slow-mo is converted to real m/s (`SkillRig.RealVelocity`).
+  - Phase Step has 0.2 s of invulnerability during the fade; `Health.IsInvulnerable` is the shared signal and
+    `MeleeAttacker.LandHit` / `Projectile` publish no `PlayerHit` while it is set (1f792a6).
+- **A12.6 Boon catalog, 45 boons (P4-05/06).** 15 existing + 30 new. Tags: Parry, Flow, Bleed, Storm, Executioner,
+  Ability, Bulwark, Curse. `BoonRarity.Duo = 3` (append-only). The picker gives x1.5 weight within a tier to boons
+  sharing a tag with owned boons; a Duo is eligible only when every `requiresTags` tag is owned (Thunder Riposte =
+  Parry + Storm, Crimson Tide = Bleed + Flow, Ghost Step = Ability + Parry). Three Curses (Glass Edge, Blood Price,
+  Hollow Oath) have a negative secondary; Reckless Flow is Parry + Curse. `DamageType.Status` (DoT) never flinches,
+  never adds posture, and never re-procs `RunBoonProcs`. Combo Initiate is now **Reversal** (BUG-20 fix). Offer rates
+  were tuned from the runlog (P4-06).
+  - **Packs are derived from tags, not stored per boon:** the Bleed, Storm and Executioner tags map to `BoonPackId`
+    (`pack_bleed`, `pack_storm`, `pack_executioner`). **Pack locks:** `BoonOfferPicker.IsPackUnlocked` hides a locked
+    pack's boons from offers and starting boons; Quick Draw (Executioner) therefore appears only after that pack is
+    bought. Kensei, Dancer, Shadow and Bulwark boons are never locked.
+- **A12.7 Forge Tempering (P4-07).** One temper per boon (`MaxTemper = 1`); magnitude x1.5 (`1 + 0.5 x level`) on
+  **both primary and secondary**; **curses can be tempered** (they are Rare); Epic boons (ability grants) cannot.
+  Stored as `RunState.TemperLevels`, one boon id per level.
+- **A12.8 Loadouts (P4-08).** Katana (default), Nodachi (2.0 / 7 m/s, 14-60, 0.35 s) and Tanto (1.0 / 4.5 m/s,
+  6-28, 0.18 s) follow the roadmap. **Twin Wakizashi deliberately does not use the roadmap's 6-26 each:** the user's
+  rule is **0.6x damage per blade and 1.25x swing speed** (implemented as 4.8-24); the Off-hand Art slot is disabled
+  while it is equipped. Switching to 6-26 means editing the asset and `LoadoutAssets_MatchRoadmapAndTwinDecision`.
+  `WeaponDefinition.id` is the persisted `WeaponId`.
+- **A12.9 Heat and Daily Fracture (P4-09).** Unlocked after the first win. Ranks (max): Sharpened Program 3 (enemy
+  damage +15%), Hardened Shells 3 (HP +15%), Quick Telegraph 2 (x0.9, hard floor 0.6 s), Swarm Protocol 2 (+1 total
+  enemies, never max concurrent), Rusted Forge 1 (MEND 30%), No Second Chances 1, Unforgiving Guard 1 (30% chip on
+  non-perfect deflects), Escorted Bosses 1. `HeatRank` is append-only. Echo multiplier = 1 + 0.1 x ranks. **Daily
+  Fracture** = murmur3 UTC date seed with the top bit set (random seeds never set it, so a resumed run knows it is a
+  daily) plus the **fixed set Sharpened Program, Hardened Shells, Quick Telegraph, Swarm Protocol at rank 1 each
+  (4 ranks, x1.4 Echoes)**. **Heat selection is locked while a run is saved** (`RunEntryOptions.HasSavedRun`); the
+  live run's ranks are snapshotted.
+- **A12.10 Shrine (P4-10).** Four tabs: UPGRADES, ARMORY, PACKS & KEEPSAKES, HEAT. Prices in Echoes: Nodachi 150,
+  Tanto 150, Twin Wakizashi 300, Weapon Art slot 250, Off-hand Art slot 250, each archetype pack 120, each Keepsake
+  200 (`KeepsakeCost`). A **Keepsake** starts the run holding an Epic the player picked in a past run
+  (`pastEpics`, bought subset `keepsakes`, `selectedKeepsake`). The **Art selector** per slot works only once that
+  slot is bought; `weaponArt` / `offhandArt` persist the pick.
+- **A12.11 Currency split (P4-11, BUG-33, D-11).** **Shards** are the run currency: per-room reward = the old
+  `EchoReward` (now `ShardReward`), Shop and event prices keep the same numbers, shown live on the HUD, lost at run
+  end, never banked. **Echoes** are paid once at the result: `EchoResult` = **win 320, loss 60 + 6 x depth** (60 at
+  depth 0 to 150 at depth 15); `EchoGain` (cap x1.5) and the heat multiplier apply at the result, not per room.
+- **A12.12 D-12: two Shops per sector are allowed** (one mid-row Shop in rows 1-2, plus the row 3 Forge + Shop).
+- **A12.13 Save format.** `RunSnapshot.CurrentVersion` = **3**. New v3 fields: `shards`, `weaponArtId`,
+  `offhandArtId`, `temperLevels`, `loadoutId`, `heatRanks`; `echoesEarned` is written as 0. **Per-version migration**
+  (`RunSnapshot.DiscardEchoes`): v1 and v2 snapshots bank their stored `echoesEarned`; any other version mismatch
+  (v3+) banks the **loss result for the depth reached, never Shards**. `MetaSaveData` **stays v1** with appended
+  fields only: `seenWeaknesses`, `unlockedPacks`, `unlockedWeapons`, `selectedLoadout`, `heatRanks`, `pastEpics`,
+  `keepsakes`, `selectedKeepsake`, `weaponArt`, `offhandArt`; an old `meta.json` loads defaults. Fixture
+  `TestData/saves_phase4`.
+- **A12.14 `RunRng.ForNode` seed mix (BUG-35).** The node seed now goes through a murmur3 fmix32 avalanche, because
+  low seeds (1..64) differed only in low bits and every Gamble rolled the same. It moves the golden vectors, which is
+  why it ships in the same v3 bump (a v2 run would resume with different node contents).

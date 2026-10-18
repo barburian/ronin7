@@ -77,7 +77,7 @@ Effort in engineer-days (rough, one person with agents): P0 ≈ 4–5, P1 ≈ 6�
 | BUG-16 | HIGH | **The boon panel follows head position but never rotation.** Turn >90° and it ends up behind you, mirrored and unclickable. Looking down pushes it into the floor. | `Flow/Roguelike/BoonOfferPanel.cs:94` | P1-13 |
 | BUG-17 | MED | **The enemy telegraph tint is a no-op on art enemies.** `RendererTint` writes `_BaseColor`/`_Color`; the glTFast shader reads `baseColorFactor`. **Status:** the colour/rim, haptic and audio telegraph landed in this fix; the attack animation part is tracked by P1-15. | `Core/RendererTint.cs` | P1-11 || BUG-18 | MED | **Posture does not scale.** `postureMaxFraction = 0` everywhere, so posture breaks at a flat 100: trivial on bosses, irrelevant on trash. | all `EnemyDefinition` assets; `Enemy.cs:61-65` | P1-05 |
 | BUG-19 | MED | The heal-it-back "weakness" pattern (story `DreamPhantom` etc.) cannot block a lethal hit, because `Current = 0` is set before `Damaged` fires. | `Combat/Health.cs:86-108` | P1-01 (pre-filter) |
-| BUG-20 | MED | Combo boons do nothing against single targets, because a same-target hit resets the chain. That makes them dead on every boss. | `Player/ComboMomentumController.cs:93` | P4-05 (Reversal) |
+| BUG-20 | MED | Combo boons do nothing against single targets, because a same-target hit resets the chain. That makes them dead on every boss. | `Player/ComboMomentumController.cs:93` | P4-05 (Reversal). **Fixed in code `eeeacdc` (Reversal); device check pending.** |
 | BUG-21 | MED | **Overdrive inflates blade speed** by 2.86×, because `SmoothSpeed` divides by the slowed `fixedDeltaTime`. Any flick reaches max damage, and the perfect-parry window grows to 0.34 s. | `Combat/BladeDamager.cs:78`, `Core/TimeScaleArbiter.cs:61` | P1-06 |
 | BUG-22 | MED | **Rarity weights apply per boon, not per tier**, so adding boons silently changes the tier odds. Epics would vanish once the planned boons are added. | `Combat/Boons/BoonOfferPicker.cs:53-58` | P1-08 |
 | BUG-23 | MED | Tripo enemy textures are probably **uncompressed RGBA32**: 3 × 2048² per enemy, roughly 64 MB per type. glTFast sub-assets bypass the TextureImporter. | `Art/Generated/Characters3D/**` | P1-12 |
@@ -90,15 +90,15 @@ Effort in engineer-days (rough, one person with agents): P0 ≈ 4–5, P1 ≈ 6�
 | BUG-30 | HIGH | **Forge "no effect"** (Phase 2 headset playtest, 2026-10-14): the MEND/TEMPER panel appeared and was clicked, but no effect was visible. Cause unconfirmed. Suspects: MEND heals 60% of *missing* HP (0 at full HP) and shows no amount; TEMPER's +1 reroll is displayed nowhere; or the effect is not applied. | `Flow/Roguelike/` Forge panel; `RunDirector.cs` | P3-00 (TEMPER card: P4-07) (device-confirmed fixed, Phase 3 playtest 2026-10-18: Forge effect visible) |
 | BUG-31 | MED | `SceneDebugOverlay` shows a green scene-name label ~0.6 m in front of the player in **release builds** (no `RONIN7_DEV` gate). Still visible to the user. | `Flow/SceneDebugOverlay.cs` | P3-00 |
 | BUG-32 | LOW | **Onboarding cannot be re-verified**: the tutorial is skipped when `runsCompleted > 0` (by design, P2-08), so the Phase 2 prompts were never seen in the headset. | `Flow/Roguelike/` onboarding; `MetaProgression` | P3-00 (dev reset), P6-06 (Settings toggle) |
-| BUG-33 | MED | **One currency name for two things**: the user could not use the Shop because they had spent their Echoes at the Shrine. Design decision D-11: fully separate currencies. | `MetaProgression.cs`, `RunState`, Shop/Shrine/HUD | P4-11 |
+| BUG-33 | MED | **One currency name for two things**: the user could not use the Shop because they had spent their Echoes at the Shrine. Design decision D-11: fully separate currencies. | `MetaProgression.cs`, `RunState`, Shop/Shrine/HUD | P4-11. **Fixed in code `549da4c`, `979be03` (Shards / Echoes split, v3 snapshot); device check pending (G5).** |
 | BUG-34 | LOW | Hard-coded `LeftHand` haptics ignore `GameSettings.LeftHanded` (P2-09 fixed only `ParryFlowController`). | `Player/CombatFeedbackController.cs`, `AdrenalineFlow`, `BladeClashFeedback`, `HeartbeatHaptics` | P3-00 | Resolved P3-00: not reproducible — all four pulse both hands (side-weighted for hits), handedness-neutral; no code change. Guard test `HapticHand_FollowsLeftHanded` covers the shared `HandednessRig.OffHand` lookup.
-| BUG-35 | LOW | `RunRng.ForNode` first draw barely varies across low seeds (seeds 1..64 gave the same Gamble outcome). Needs a seed mix; this changes goldens. | `Core/Roguelike/RunRng.cs` | P4-11 (same snapshot version bump) |
+| BUG-35 | LOW | `RunRng.ForNode` first draw barely varies across low seeds (seeds 1..64 gave the same Gamble outcome). Needs a seed mix; this changes goldens. | `Core/Roguelike/RunRng.cs` | P4-11 (same snapshot version bump). **Fixed in code `979be03` (fmix32 seed mix, `ForNode_LowSeeds_VaryFirstDraw`); goldens moved with the v3 bump.** |
 | BUG-36 | LOW | `BuildMenu`: release and dev Windows builds share `Builds/Windows`; a dev build overwrites `UnityPlayer.dll`. | `Editor/BuildMenu.cs` | P3-00 |
 | BUG-37 | LOW | Quest logcat on every RunArena load: "Main Camera does not use a Tracked Pose Driver (Input System)". | `Editor/XRRigBuilder.BuildRig`; RunArena camera | P3-00 (resolved: harmless, camera driven by `PoseFollower`; see P3-00 item 6) |
 | BUG-38 | LOW | Drones and bosses still move unsmoothly after P2-11 (humanoids are fine). User report, Phase 2 headset playtest. | `Enemies/MovementSmoothing.cs`, drone/boss behaviours | P3-09 (device-confirmed fixed, Phase 3 playtest 2026-10-18: drone/boss smoothness good) |
-| BUG-39 | HIGH | **Weaknesses not discoverable** (Phase 3 headset playtest, 2026-10-18): the user "just swung the sword", noticed occasional higher damage but could not tell why. The diegetic-only tells (glow, cracks, audio, gold sparks vs blue-grey) do not communicate. | `Enemies/WeaknessRules.cs`, P3-03 weakness feedback | P4-00 item 1 |
-| BUG-40 | MED | **Archetypes not visually distinct**: the user never saw a Shield Trooper or Scan Drone, yet Trooper is weight 12 / minDepth 0 (`RoguelikeDataBuilder.cs:60`) and Scan Drone weight 6 / minDepth 4 (`:63`) over a depth-10 run, so they almost certainly appeared unrecognised. Small chance of a spawn bug; unverifiable with the current log. Dream Ghost (minDepth 8, eliteOnly, `:68`) plausibly never rolled; not a finding. Scan Drone design (support enemy buffing others) confirmed unchanged by the user. | `Editor/RoguelikeDataBuilder.cs:60-68`, archetype prefabs/tints | P4-00 item 2 |
-| BUG-41 | MED | `RunLog` is too thin for playtest analysis: only finished runs, total kills only. | `Core/Roguelike/RunLog.cs` | P4-00 item 3 |
+| BUG-39 | HIGH | **Weaknesses not discoverable** (Phase 3 headset playtest, 2026-10-18): the user "just swung the sword", noticed occasional higher damage but could not tell why. The diegetic-only tells (glow, cracks, audio, gold sparks vs blue-grey) do not communicate. | `Enemies/WeaknessRules.cs`, P3-03 weakness feedback | P4-00 item 1. **Fixed in code `1c07695`; on-device accept (a fresh player can say why a hit did more damage) pending.** |
+| BUG-40 | MED | **Archetypes not visually distinct**: the user never saw a Shield Trooper or Scan Drone, yet Trooper is weight 12 / minDepth 0 (`RoguelikeDataBuilder.cs:60`) and Scan Drone weight 6 / minDepth 4 (`:63`) over a depth-10 run, so they almost certainly appeared unrecognised. Small chance of a spawn bug; unverifiable with the current log. Dream Ghost (minDepth 8, eliteOnly, `:68`) plausibly never rolled; not a finding. Scan Drone design (support enemy buffing others) confirmed unchanged by the user. | `Editor/RoguelikeDataBuilder.cs:60-68`, archetype prefabs/tints | P4-00 item 2. **Fixed in code `1c07695` (marks + art-height fix); on-device accept (user names each archetype) pending.** |
+| BUG-41 | MED | `RunLog` is too thin for playtest analysis: only finished runs, total kills only. | `Core/Roguelike/RunLog.cs` | P4-00 item 3. **Done `1c07695`** (`RunLog_RecordsAbandonedRun_AndArchetypeCounts`). |
 
 ## A3. Domain findings in brief
 
@@ -169,6 +169,8 @@ A phase is **done** only when all of the following pass. Add these to a checklis
 **G5 carry-over checks (Phase 2 playtest, 2026-10-14; not observed in the headset, verify at the next gate):** Treasure TAKE card; sector card and CHECKPOINT; Forge MEND/TEMPER visible effect (BUG-30); onboarding prompts via the dev reset (BUG-32); no green scene-name label in a release build (BUG-31); drone and boss smoothness (BUG-38).
 
 **G5/G6 carry-over (Phase 3 playtest, 2026-10-18; open, not done):** the G6 worst-case profile (boss P2 + 2 adds + Volatile ring + 8 bolts) and the Mobile-tier (`Mobile_RPAsset`) in-editor render check were **not run**; comfort and performance were judged "fine" by the user, which is subjective and not profiled. Run both at the Phase 4 gate.
+
+**G6 carry-over (Phase 4, in-editor proxy; device numbers still owed).** Mobile tier (`Mobile_RPAsset`), boss P2 worst case in-editor: **~82 draw calls, 32 SetPass, 20.7k triangles, 0 B/frame gameplay GC**. This is a proxy only; it is not an OVR Metrics frame-time measurement. **Device procedure:** build a Development APK (`RONIN7_DEV` set), hold **both stick clicks for 2 s** to jump to the boss, hold again to spawn the worst case (boss P2 + 2 adds + Volatile ring + 8 bolts), then record **2 min under OVR Metrics**. **The device numbers (stale frames <= 1%, GPU <= 10 ms) are still owed.**
 
 The **dev skip** used in G5 and all debug tooling sit behind the `RONIN7_DEV` scripting define, which is set only in Development builds, so release builds never contain them.
 
@@ -1151,6 +1153,32 @@ Decision D-11 (user, 2026-10-14): **fully separate**. Source: Phase 2 headset pl
 - `MetaSaveData` stays v1, with appended fields only. Add the test `MetaSave_V1WithoutNewFields_LoadsDefaults`.
 - Amendment 10 (stat sheet, input slots, Status damage).
 - Tag `roguelike-phase4`, version `0.5.0`.
+
+**Phase 4 code-complete (2026-10-19), version `0.5.0` / versionCode 5; not yet tagged.** EditMode 1785/0/0.
+- [x] P4-00 a-e Phase 3 carry-overs: BUG-39 weakness tells/teach, BUG-40 marks + art height, BUG-41 RunLog, RONIN7_DEV G6 worst-case hook, wifi playtest script (`1c07695`)
+- [x] P4-01 generic stat slots (`1e133e0`)
+- [x] P4-02 stat sheet, 10 stats + consumers (`e09a8b9`)
+- [x] P4-03 Weapon Art / Off-hand Art input slots (`393743a`)
+- [x] P4-04 eight skills S1-S8 (`76bf835`), plus no PlayerHit during Phase Step i-frames (`1f792a6`)
+- [x] P4-05 boon expansion, 30 boons / 7 archetypes (`eeeacdc`)
+- [x] P4-06 offer-rate tuning + runlog analysis (`1df6695`)
+- [x] P4-07 Forge Tempering (`5e3cd64`)
+- [x] P4-08 loadouts: Nodachi, Tanto, Twin Wakizashi (`226cc97`)
+- [x] P4-09 heat ranks + Daily Fracture (`520e1eb`)
+- [x] P4-10 Shrine unlocks: weapons, Art slots, packs, Keepsakes (`2a1a5b7`)
+- [x] P4-11 Shards / Echoes split (`549da4c`); RunSnapshot v3 migration, seed mix, `saves_phase4` fixture (`979be03`)
+- Amendment 12 recorded in `Roguelike-Design.md`.
+
+**Phase 4 Export Gate**
+- [x] G1 EditMode green: 1785/0/0
+- [ ] G2 PlayMode green
+- [ ] G3 PCVR build
+- [ ] G4 Quest build + install (user pre-approved installing on the Quest after Phase 4; do the Mobile_RPAsset render check first)
+- [ ] G5 device smoke run
+- [ ] G6 frame budget on device (worst case, see the G6 carry-over note in Part B)
+- [x] G7 save compatibility: `TestData/saves_phase4` fixture + tests green
+- [ ] G8 VRC sanity
+- [ ] G9 ship: tag `roguelike-phase4`
 
 ---
 
