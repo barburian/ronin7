@@ -107,8 +107,9 @@ namespace Ronin7.Combat
             Vector3 wa = transform.TransformPoint(a), wb = transform.TransformPoint(b);
             for (int i = 0; i < n; i++) curSamples[i] = SamplePoint(wa, wb, i, n);
 
-            // Below swing speed nothing can deal damage, so don't pay for casts.
-            if (havePrevSamples && speed >= definition.minSwingSpeed)
+            // Below swing speed nothing can deal damage, so don't pay for casts. P4-02: same effective
+            // (EdgeSensitivity-scaled) minimum as DamageForSpeed.
+            if (havePrevSamples && speed >= definition.minSwingSpeed * ThresholdScale())
             {
                 for (int i = 0; i < n; i++) Sweep(prevSamples[i], curSamples[i]);
             }
@@ -203,7 +204,25 @@ namespace Ronin7.Combat
 
         /// <summary>Precision hits get 1.25x (2x with Weakpoint Sight); body hits are untouched.</summary>
         internal static float PrecisionMultiplier(bool precision, bool sightActive)
-            => !precision ? 1f : sightActive ? PrecisionSightMultiplier : PrecisionBaseMultiplier;
+            => PrecisionMultiplier(precision, sightActive, 0f);
+
+        /// <summary>P4-02 Precision: the base 1.25x rises by the boon bonus, capped at Sight's 2x.</summary>
+        internal static float PrecisionMultiplier(bool precision, bool sightActive, float precisionBonus)
+            => !precision ? 1f : sightActive ? PrecisionSightMultiplier
+                : Mathf.Min(PrecisionBaseMultiplier + Mathf.Max(0f, precisionBonus), PrecisionSightMultiplier);
+
+        // Resolved lazily: at Awake the sword is unparented, the rig only sits above it once grabbed.
+        private PlayerCombatModifiers Mods()
+        {
+            if (wielderMods == null) wielderMods = transform.root.GetComponentInParent<PlayerCombatModifiers>();
+            return wielderMods;
+        }
+
+        private float ThresholdScale()
+        {
+            var mods = Mods();
+            return mods != null ? WeaponDefinition.EdgeThresholdScale(mods.Boon(BoonEffectKind.EdgeSensitivity)) : 1f;
+        }
 
         internal static float ApplyWielderMultiplier(float baseDamage, float multiplier) => baseDamage * multiplier;
 
@@ -235,17 +254,18 @@ namespace Ronin7.Combat
 
             if (!TryRegisterHit(lastHitTimes, health, Time.time, definition.hitCooldown)) return;
 
-            float dmg = definition.DamageForSpeed(speed);
             // Resolve the wielder's modifiers at hit time: while held, transform.root is the rig, so its
             // PlayerCombatModifiers (e.g. Ch7 weakpoint-sight) is reachable. Null (unheld / no rig) => 1x.
-            if (wielderMods == null) wielderMods = transform.root.GetComponentInParent<PlayerCombatModifiers>();
+            Mods();
+            float dmg = definition.DamageForSpeed(speed, ThresholdScale());
             dmg = ApplyWielderMultiplier(dmg, wielderMods != null ? wielderMods.DamageMultiplier : 1f);
             if (box != null)
             {
                 BladeEndpoints(box.center, box.size, out Vector3 la, out Vector3 lb);
                 Vector3 axis = (transform.TransformPoint(lb) - transform.TransformPoint(la)).normalized;
                 bool precision = IsPrecisionHit(point.y, other.bounds, bladeVel, axis);
-                dmg *= PrecisionMultiplier(precision, wielderMods != null && wielderMods.WeakpointSightActive);
+                dmg *= PrecisionMultiplier(precision, wielderMods != null && wielderMods.WeakpointSightActive,
+                    wielderMods != null ? wielderMods.Boon(BoonEffectKind.Precision) : 0f);
             }
             if (dmg <= 0f) return;
 

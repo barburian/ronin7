@@ -31,7 +31,8 @@ namespace Ronin7.Combat
             Func<string, int> stacksHeld,
             RoomKind kind,
             ref RunRng rng,
-            int count = 3)
+            int count = 3,
+            float luck = 0f)
         {
             var result = new List<BoonDefinition>();
             if (pool == null || pool.Count == 0) return result;
@@ -49,7 +50,7 @@ namespace Ronin7.Combat
             // P1-08 (BUG-22): tier first (node weights, independent of how many boons each tier holds),
             // then uniform within the tier. Two RNG draws per offered boon.
             var tierWeights = new int[3];
-            for (int t = 0; t < 3; t++) tierWeights[t] = RarityWeight((BoonRarity)t, kind);
+            for (int t = 0; t < 3; t++) tierWeights[t] = RarityWeight((BoonRarity)t, kind, luck);
 
             var inTier = new List<BoonDefinition>();
             for (int i = 0; i < count && eligible.Count > 0; i++)
@@ -114,6 +115,15 @@ namespace Ronin7.Combat
         /// shifts hardest toward Epic, and Treasure excludes Common entirely (guarantees at least Rare).
         /// Forge doesn't offer boons but falls back to Combat's weights rather than throwing.
         /// </summary>
+        /// <summary>P4-02 Luck: <see cref="RarityWeight(BoonRarity, RoomKind)"/> plus +4 Rare / +2 Epic per
+        /// whole luck point (cap 3). Common is never changed, so Treasure still excludes it.</summary>
+        public static int RarityWeight(BoonRarity rarity, RoomKind kind, float luck)
+        {
+            int points = Mathf.Clamp(Mathf.FloorToInt(luck + 1e-4f), 0, 3);
+            int bonus = rarity == BoonRarity.Rare ? 4 : rarity == BoonRarity.Epic ? 2 : 0;
+            return RarityWeight(rarity, kind) + bonus * points;
+        }
+
         public static int RarityWeight(BoonRarity rarity, RoomKind kind)
         {
             switch (kind)

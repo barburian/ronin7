@@ -22,6 +22,13 @@ namespace Ronin7.Combat
         public static float ParryQuality(float timeInActiveState, float perfectWindow)
             => perfectWindow <= 0f ? 0f : Mathf.Clamp01(1f - timeInActiveState / perfectWindow);
 
+        /// <summary>P4-02 ParryWindow: base window widened by <paramref name="windowBonus"/> x base, at most +0.04 s.</summary>
+        public static float PerfectWindow(float baseWindow, float windowBonus)
+            => baseWindow + Mathf.Clamp(baseWindow * windowBonus, 0f, 0.04f);
+
+        /// <summary>P4-02 StaggerDuration: deflect-stagger scale, capped at x1.5.</summary>
+        public static float StaggerScale(float staggerBonus) => 1f + Mathf.Clamp(staggerBonus, 0f, 0.5f);
+
         /// <summary>
         /// Advances the Sunder Beat streak: a quality-positive (on-time) parry extends the streak by
         /// one, capped at <paramref name="maxStreak"/>. A quality-zero (late/outside-window) parry

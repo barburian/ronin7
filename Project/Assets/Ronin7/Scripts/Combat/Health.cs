@@ -72,6 +72,16 @@ namespace Ronin7.Combat
         /// <summary>Flat incoming-damage scale (e.g. damage reduction), applied after <see cref="DamageFilter"/>.</summary>
         public float IncomingDamageMultiplier { get; set; } = 1f;
 
+        /// <summary>P4-02: DamageReduction boon cap.</summary>
+        internal const float MaxDamageReduction = 0.4f;
+
+        // P4-02: the player rig's modifiers, resolved lazily (RunDirector adds them after Awake).
+        private PlayerCombatModifiers wearerMods;
+
+        /// <summary>P4-02 DamageReduction bonus -> incoming-damage scale, never below 0.6 (40% cap).</summary>
+        internal static float DamageReductionScale(float reduction) =>
+            1f - Mathf.Clamp(reduction, 0f, MaxDamageReduction);
+
         private void Awake() => Current = maxHealth;
 
         private void OnEnable() { if (!Active.Contains(this)) Active.Add(this); }
@@ -95,7 +105,10 @@ namespace Ronin7.Combat
             if (!IsAlive) return;
             // Reject non-positive or NaN "damage": healing only happens via Heal(), and a bad amount
             // must never heal past max or emit spurious hit feedback. !(amount > 0) also rejects NaN.
-            float amount = (DamageFilter != null ? DamageFilter(info) : info.Amount) * IncomingDamageMultiplier;
+            if (wearerMods == null) wearerMods = GetComponent<PlayerCombatModifiers>();
+            float reduction = wearerMods != null ? wearerMods.Boon(BoonEffectKind.DamageReduction) : 0f;
+            float amount = (DamageFilter != null ? DamageFilter(info) : info.Amount) * IncomingDamageMultiplier
+                           * DamageReductionScale(reduction);
             if (!(amount > 0f)) return; // also rejects NaN; fully resisted = no events
             var applied = amount == info.Amount ? info : info.WithAmount(amount);
 

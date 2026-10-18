@@ -73,6 +73,15 @@ namespace Ronin7.Combat
             if ((uint)kind < (uint)boonStats.Length) boonStats[(int)kind] = value;
         }
 
+        /// <summary>P4-02: AbilityHaste cap (40%).</summary>
+        public const float MaxAbilityHaste = 0.4f;
+
+        /// <summary>P4-02 AbilityHaste -> cooldown scale (1 = unchanged, floor 0.6).</summary>
+        public static float CooldownScale(float haste) => 1f - Mathf.Clamp(haste, 0f, MaxAbilityHaste);
+
+        /// <summary>P4-02 AbilityHaste -> charge-gain scale for build-up abilities (Overdrive), cap 1.4.</summary>
+        public static float ChargeScale(float haste) => 1f + Mathf.Clamp(haste, 0f, MaxAbilityHaste);
+
         /// <summary>
         /// The multiplier <see cref="BladeDamager"/> actually applies:
         /// <c>min(ParryFlow * Combo * Overdrive, 3x) * min(BoonMultiplier, 2x)</c>.

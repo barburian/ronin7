@@ -135,7 +135,7 @@ namespace Ronin7.Tests.EditMode
             var dead = new GameObject("enemy");
             var player = new GameObject("player");
 
-            Assert.IsTrue(RunDirector.ShouldHealOnKill(dead, player, 3f));
+            Assert.IsTrue(RunDirector.ShouldHealOnKill(dead, player, 3f, true));
 
             UnityEngine.Object.DestroyImmediate(dead);
             UnityEngine.Object.DestroyImmediate(player);
@@ -146,7 +146,7 @@ namespace Ronin7.Tests.EditMode
         {
             var player = new GameObject("player");
 
-            Assert.IsFalse(RunDirector.ShouldHealOnKill(player, player, 3f));
+            Assert.IsFalse(RunDirector.ShouldHealOnKill(player, player, 3f, true));
 
             UnityEngine.Object.DestroyImmediate(player);
         }
@@ -157,7 +157,7 @@ namespace Ronin7.Tests.EditMode
             var dead = new GameObject("enemy");
             var player = new GameObject("player");
 
-            Assert.IsFalse(RunDirector.ShouldHealOnKill(dead, player, 0f));
+            Assert.IsFalse(RunDirector.ShouldHealOnKill(dead, player, 0f, true));
 
             UnityEngine.Object.DestroyImmediate(dead);
             UnityEngine.Object.DestroyImmediate(player);
@@ -168,8 +168,8 @@ namespace Ronin7.Tests.EditMode
         {
             var dead = new GameObject("enemy");
 
-            Assert.IsFalse(RunDirector.ShouldHealOnKill(dead, null, 3f));
-            Assert.IsFalse(RunDirector.ShouldHealOnKill(null, dead, 3f));
+            Assert.IsFalse(RunDirector.ShouldHealOnKill(dead, null, 3f, true));
+            Assert.IsFalse(RunDirector.ShouldHealOnKill(null, dead, 3f, true));
 
             UnityEngine.Object.DestroyImmediate(dead);
         }

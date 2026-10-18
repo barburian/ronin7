@@ -407,7 +407,10 @@ namespace Ronin7.Flow
             lastClearedNode = evt.NodeIndex;
 
             var node = RunState.CurrentNode;
-            RunState.AddEchoes(RunScaling.EchoReward(node.Depth, node.Kind));
+            // P4-02 EchoGain at the per-room add for now; P4-11 moves Echo payout to run end (keep the
+            // math in ApplyEchoGain so it moves with it).
+            RunState.AddEchoes(ApplyEchoGain(RunScaling.EchoReward(node.Depth, node.Kind),
+                boonInventory.Bonus(BoonEffectKind.EchoGain)));
 
             bool isFinalNode = RunState.NextChoices.Count == 0;
             switch (ResolvePostClear(node.Kind, isFinalNode))
@@ -510,7 +513,7 @@ namespace Ronin7.Flow
                 return;
             }
             var rng = RunRng.ForNode(RunState.Seed, node.Index);
-            var picks = BoonOfferPicker.Pick(boonCatalog.boons, RunState.BoonCount, RoomKind.Treasure, ref rng, count: 1);
+            var picks = BoonOfferPicker.Pick(boonCatalog.boons, RunState.BoonCount, RoomKind.Treasure, ref rng, count: 1, luck: Luck);
             if (picks.Count == 0)
             {
                 AdvanceNode(); // pool exhausted; nothing left to grant this run
@@ -622,7 +625,7 @@ namespace Ronin7.Flow
                 Debug.LogError("[RunDirector] No BoonCatalog assigned; cannot offer boons.");
                 return new List<BoonDefinition>();
             }
-            return BoonOfferPicker.Pick(boonCatalog.boons, RunState.BoonCount, kind, ref offerRng, 3);
+            return BoonOfferPicker.Pick(boonCatalog.boons, RunState.BoonCount, kind, ref offerRng, 3, Luck);
         }
 
         /// <summary>Pure decision: can this index actually be honoured against the live offer? A7.10
@@ -967,7 +970,7 @@ namespace Ronin7.Flow
         {
             var rng = RunRng.ForNode(RunState.Seed, node.Index);
             shopStock = boonCatalog != null && boonCatalog.boons != null
-                ? BoonOfferPicker.Pick(boonCatalog.boons, RunState.BoonCount, RoomKind.Shop, ref rng, 3)
+                ? BoonOfferPicker.Pick(boonCatalog.boons, RunState.BoonCount, RoomKind.Shop, ref rng, 3, Luck)
                 : new List<BoonDefinition>();
             shopSold = new bool[shopStock.Count];
             mendSold = false;
@@ -1105,7 +1108,7 @@ namespace Ronin7.Flow
             if (boonCatalog == null || boonCatalog.boons == null) return null;
             var boon = BoonOfferPicker.PickOfRarity(boonCatalog.boons, RunState.BoonCount, rarity, ref eventRng);
             if (boon != null) return boon;
-            var picks = BoonOfferPicker.Pick(boonCatalog.boons, RunState.BoonCount, RoomKind.Treasure, ref eventRng, 1);
+            var picks = BoonOfferPicker.Pick(boonCatalog.boons, RunState.BoonCount, RoomKind.Treasure, ref eventRng, 1, Luck);
             return picks.Count > 0 ? picks[0] : null;
         }
 
@@ -1128,7 +1131,8 @@ namespace Ronin7.Flow
             // non-player death before, silently dropping the boon's whole effect. Any other entity's
             // death heals the player, checked before the player-death branch below.
             float healOnKill = boonInventory.HealOnKill;
-            if (ShouldHealOnKill(evt.Entity, playerObj, healOnKill))
+            bool victimIsEnemy = evt.Entity != null && evt.Entity.GetComponent<Ronin7.Enemies.Enemy>() != null;
+            if (ShouldHealOnKill(evt.Entity, playerObj, healOnKill, victimIsEnemy))
             {
                 var health = playerObj.GetComponent<Health>();
                 if (health != null) health.Heal(healOnKill);
@@ -1216,9 +1220,18 @@ namespace Ronin7.Flow
             killer == null ? "unknown" : killer.name.Replace("(Clone)", "").Trim();
 
         /// <summary>Pure decision: heal on kill iff the dead entity isn't the player, both references
-        /// are real, and the boon is actually held. A7.10 test seam.</summary>
-        internal static bool ShouldHealOnKill(GameObject dead, GameObject playerRig, float healOnKill) =>
-            dead != null && playerRig != null && dead != playerRig && healOnKill > 0f;
+        /// are real, the boon is actually held, and (P4-02) the victim is an Enemy — no healing from
+        /// Mirror allies or props. A7.10 test seam.</summary>
+        internal static bool ShouldHealOnKill(GameObject dead, GameObject playerRig, float healOnKill, bool victimIsEnemy) =>
+            dead != null && playerRig != null && dead != playerRig && healOnKill > 0f && victimIsEnemy;
+
+        /// <summary>P4-02 Luck held this run (whole points, capped by the picker).</summary>
+        private float Luck => boonInventory.Bonus(BoonEffectKind.Luck);
+
+        /// <summary>P4-02 EchoGain: scales an echo payout by 1 + bonus (cap x1.5), rounded to whole echoes.
+        /// Pure so P4-11 can move it to the end-of-run payout unchanged.</summary>
+        internal static int ApplyEchoGain(int echoes, float echoGainBonus) =>
+            Mathf.RoundToInt(echoes * (1f + Mathf.Clamp(echoGainBonus, 0f, 0.5f)));
 
         /// <summary>
         /// A7.1: ends the run's bookkeeping and starts the hub load, but does NOT call

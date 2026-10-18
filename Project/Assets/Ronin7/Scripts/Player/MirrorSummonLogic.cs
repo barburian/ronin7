@@ -36,11 +36,15 @@ namespace Ronin7.Player
         /// Attempts to summon. Fails (returns false, no state change) if the phantom is already active
         /// or the cooldown from the last summon hasn't elapsed yet.
         /// </summary>
-        public bool TrySummon()
+        public bool TrySummon() => TrySummon(1f);
+
+        /// <summary>P4-02 AbilityHaste: <paramref name="cooldownScale"/> scales this summon's cooldown
+        /// (see <c>PlayerCombatModifiers.CooldownScale</c>); the active window is unchanged.</summary>
+        public bool TrySummon(float cooldownScale)
         {
             if (!CanSummon) return false;
             activeRemaining = activeDuration;
-            cooldownRemaining = cooldownSeconds;
+            cooldownRemaining = cooldownSeconds * cooldownScale;
             return true;
         }
 

@@ -66,6 +66,15 @@ namespace Ronin7.Player
             logic = new MirrorSummonLogic(activeDuration, cooldownSeconds);
         }
 
+        // P4-02: read AbilityHaste at use time; mods are resolved lazily (added after Awake).
+        private Ronin7.Combat.PlayerCombatModifiers mods;
+
+        private float HasteBonus()
+        {
+            if (mods == null) mods = GetComponentInParent<Ronin7.Combat.PlayerCombatModifiers>();
+            return mods != null ? mods.Boon(Ronin7.Combat.BoonEffectKind.AbilityHaste) : 0f;
+        }
+
         private void OnEnable() => activateAction?.action?.Enable();
 
         private void OnDisable()
@@ -83,7 +92,7 @@ namespace Ronin7.Player
             var action = activateAction != null ? activateAction.action : null;
             if (!logic.IsActive && action != null && action.WasPerformedThisFrame())
             {
-                if (logic.TrySummon())
+                if (logic.TrySummon(Ronin7.Combat.PlayerCombatModifiers.CooldownScale(HasteBonus())))
                 {
                     phantomInstance = SpawnPhantom();
                     EventBus.Publish(new AbilityActivated(AbilityId.Mirror));

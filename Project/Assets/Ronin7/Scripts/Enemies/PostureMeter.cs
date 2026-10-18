@@ -98,7 +98,8 @@ namespace Ronin7.Enemies
 
             lastDamageTime = Time.time;
             float previous = current;
-            current = Accumulate(current, info.Amount * NextHitGainScale, gainPerDamage * gainMultiplier_, postureMax);
+            float postureScale = PostureDamageScale(SourceBoon(info.Source, BoonEffectKind.PostureDamage));
+            current = Accumulate(current, info.Amount * NextHitGainScale * postureScale, gainPerDamage * gainMultiplier_, postureMax);
             NextHitGainScale = 1f;
             bool broken = IsBroken(current, postureMax);
 
@@ -123,6 +124,24 @@ namespace Ronin7.Enemies
             if (health.IsAlive) GetComponent<MeleeAttacker>()?.ForceStagger();
             EventBus.Publish(new PostureBroken(gameObject));
         }
+
+        // P4-02: the attacker's boon stats, resolved from DamageInfo.Source (cached per source).
+        private GameObject modsSource;
+        private PlayerCombatModifiers sourceMods;
+
+        private float SourceBoon(GameObject source, BoonEffectKind kind)
+        {
+            if (source == null) return 0f;
+            if (source != modsSource || sourceMods == null)
+            {
+                modsSource = source;
+                sourceMods = source.GetComponentInParent<PlayerCombatModifiers>();
+            }
+            return sourceMods != null ? sourceMods.Boon(kind) : 0f;
+        }
+
+        /// <summary>P4-02 PostureDamage bonus -> posture-gain scale, capped at x2.</summary>
+        internal static float PostureDamageScale(float postureBonus) => 1f + Mathf.Clamp(postureBonus, 0f, 1f);
 
         /// <summary>Adds damage-scaled posture, clamped to [0, max].</summary>
         internal static float Accumulate(float current, float damage, float gainPerDamage, float max)

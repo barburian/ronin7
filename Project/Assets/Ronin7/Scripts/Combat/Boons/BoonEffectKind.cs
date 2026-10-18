@@ -33,6 +33,28 @@ namespace Ronin7.Combat
         ReviveOnce,
         /// <summary>Grants an already-built ability (see AbilityId) via the abilityId field. maxStacks is
         /// normally 1.</summary>
-        GrantAbility
+        GrantAbility,
+
+        // ---- P4-02 stat sheet. Additive bonus over base; each consumer clamps to its cap. ----
+        /// <summary>magnitude 0.1 => swing thresholds x0.9 (cap x0.70). Same max damage.</summary>
+        EdgeSensitivity,
+        /// <summary>magnitude 0.2 => posture gain x1.2 (cap x2.0).</summary>
+        PostureDamage,
+        /// <summary>magnitude 0.25 => precision hit x1.50 instead of x1.25 (cap x2.0).</summary>
+        Precision,
+        /// <summary>magnitude 0.1 => perfect-parry window +10% of 0.12 s (cap +0.04 s).</summary>
+        ParryWindow,
+        /// <summary>magnitude 0.25 => deflect stagger x1.25 (cap x1.5).</summary>
+        StaggerDuration,
+        /// <summary>magnitude 0.1 => 10% less incoming damage (cap 40%).</summary>
+        DamageReduction,
+        /// <summary>magnitude 0.1 => ability cooldowns x0.9 / Overdrive charge x1.1 (cap 40%).</summary>
+        AbilityHaste,
+        /// <summary>magnitude 1 => +1 Phase Step charge (base 1, cap 3).</summary>
+        PhaseCharges,
+        /// <summary>magnitude 0.1 => +10% echoes (cap x1.5).</summary>
+        EchoGain,
+        /// <summary>magnitude 1 => +1 luck point: +4 Rare / +2 Epic offer weight per point (cap 3).</summary>
+        Luck
     }
 }

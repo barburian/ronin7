@@ -60,7 +60,11 @@ namespace Ronin7.Player
         [SerializeField] private float groundProbeDown = 6f;
 
         private CharacterController controller;
-        private float cooldownRemaining;
+        // P4-02 PhaseCharges: charges held (-1 = fill to max on first Update) and the one-at-a-time
+        // recharge timer. With no boons this is exactly the old single cooldown.
+        private int charges = -1;
+        private float rechargeRemaining;
+        private PlayerCombatModifiers mods;
         private bool blinking;
         private static readonly RaycastHit[] _probeHits = new RaycastHit[16];
 
@@ -82,19 +86,58 @@ namespace Ronin7.Player
 
         private void Update()
         {
-            if (cooldownRemaining > 0f) cooldownRemaining -= Time.unscaledDeltaTime;
-            if (blinking || cooldownRemaining > 0f) return;
+            // Read at use time (onLoaded pushes boons after Awake).
+            float cooldown = cooldownSeconds * PlayerCombatModifiers.CooldownScale(Boon(BoonEffectKind.AbilityHaste));
+            int max = MaxCharges(Boon(BoonEffectKind.PhaseCharges));
+            if (charges < 0) charges = max;
+            TickCharges(ref charges, ref rechargeRemaining, Time.unscaledDeltaTime, max, cooldown);
+            if (blinking || charges <= 0) return;
 
             var action = activateAction != null ? activateAction.action : null;
             if (action == null || !action.WasPerformedThisFrame()) return;
 
-            StartCoroutine(BlinkRoutine());
+            StartCoroutine(BlinkRoutine(cooldown, max));
         }
 
-        private IEnumerator BlinkRoutine()
+        private float Boon(BoonEffectKind kind)
+        {
+            if (mods == null) mods = GetComponentInParent<PlayerCombatModifiers>();
+            return mods != null ? mods.Boon(kind) : 0f;
+        }
+
+        /// <summary>P4-02: 1 base charge + the PhaseCharges bonus, capped at 3.</summary>
+        internal static int MaxCharges(float chargeBonus) => 1 + Mathf.Clamp(Mathf.FloorToInt(chargeBonus + 1e-4f), 0, 2);
+
+        /// <summary>Refills one charge per <paramref name="cooldown"/> until <paramref name="max"/>.</summary>
+        internal static void TickCharges(ref int charges, ref float recharge, float dt, int max, float cooldown)
+        {
+            if (charges >= max) { charges = max; recharge = 0f; return; }
+            recharge -= dt;
+            if (recharge > 0f) return;
+            charges++;
+            recharge = charges < max ? cooldown : 0f;
+        }
+
+        /// <summary>Spends a charge, starting the recharge timer if it isn't already running.</summary>
+        internal static bool TryConsumeCharge(ref int charges, ref float recharge, float cooldown)
+        {
+            if (charges <= 0) return false;
+            charges--;
+            if (recharge <= 0f) recharge = cooldown;
+            return true;
+        }
+
+        /// <summary>A refused blink gives its charge back (the old full cooldown refund).</summary>
+        internal static void RefundCharge(ref int charges, ref float recharge, int max)
+        {
+            charges = Mathf.Min(charges + 1, max);
+            if (charges >= max) recharge = 0f;
+        }
+
+        private IEnumerator BlinkRoutine(float cooldown, int max)
         {
             blinking = true;
-            cooldownRemaining = cooldownSeconds;
+            TryConsumeCharge(ref charges, ref rechargeRemaining, cooldown);
 
             Vector3 forward = headTransform != null ? headTransform.forward : transform.forward;
             forward.y = 0f;
@@ -103,7 +146,7 @@ namespace Ronin7.Player
             // Ground validation (VR comfort): the blink is horizontal, so a destination past a tier edge
             // would strand the rig over the shaft and drop it — a fall is a sickness trigger. Probe
             // straight down at the destination; snap to the floor if found, REFUSE the blink (refund the
-            // cooldown so the player can re-aim) if there is no landable ground beneath it.
+            // charge so the player can re-aim) if there is no landable ground beneath it.
             // The project defines no gameplay layers (Tags & Layers holds only Unity defaults, so every
             // Layers.*Mask falls back to ~0) — the probe discriminates by component instead: skip hits
             // that are not landable ground (enemies, loose physics props — see IsLandableGround) and
@@ -124,7 +167,7 @@ namespace Ronin7.Player
             }
             else
             {
-                cooldownRemaining = 0f;
+                RefundCharge(ref charges, ref rechargeRemaining, max);
                 blinking = false;
                 yield break;
             }
@@ -133,7 +176,7 @@ namespace Ronin7.Player
             var fader = ScreenFader.Ensure();
             if (fader == null)
             {
-                cooldownRemaining = 0f;
+                RefundCharge(ref charges, ref rechargeRemaining, max);
                 blinking = false;
                 yield break;
             }

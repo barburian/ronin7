@@ -114,7 +114,12 @@ namespace Ronin7.Player
             if (paused) RestoreTimeScale();
         }
 
-        private void OnSwordImpact(SwordImpact evt) => logic?.AddCharge();
+        // P4-02 AbilityHaste: each hit deposits (1 + haste) hits' worth of charge, read at use time.
+        private void OnSwordImpact(SwordImpact evt)
+        {
+            var m = Mods();
+            logic?.AddCharge(PlayerCombatModifiers.ChargeScale(m != null ? m.Boon(BoonEffectKind.AbilityHaste) : 0f));
+        }
 
         private void Update()
         {
@@ -158,8 +163,14 @@ namespace Ronin7.Player
 
         private void SetDamageBonus(float value)
         {
+            var m = Mods();
+            if (m != null) m.OverdriveMultiplier = value;
+        }
+
+        private PlayerCombatModifiers Mods()
+        {
             if (mods == null) mods = GetComponentInParent<PlayerCombatModifiers>() ?? transform.root.GetComponentInChildren<PlayerCombatModifiers>();
-            if (mods != null) mods.OverdriveMultiplier = value;
+            return mods;
         }
 
         private void RestoreTimeScale()

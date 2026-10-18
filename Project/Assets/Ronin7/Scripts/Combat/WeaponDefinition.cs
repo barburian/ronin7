@@ -21,11 +21,19 @@ namespace Ronin7.Combat
         [Tooltip("Seconds before the same blade can deal damage again (prevents multi-hits per swing).")]
         public float hitCooldown = 0.25f;
 
-        public float DamageForSpeed(float speed)
+        public float DamageForSpeed(float speed) => DamageForSpeed(speed, 1f);
+
+        /// <summary>P4-02 EdgeSensitivity: both speed thresholds scaled by <paramref name="thresholdScale"/>
+        /// (&lt; 1 = max damage reached at a slower swing). The damage range itself is unchanged.</summary>
+        public float DamageForSpeed(float speed, float thresholdScale)
         {
-            if (speed < minSwingSpeed) return 0f;
-            float t = Mathf.InverseLerp(minSwingSpeed, referenceSwingSpeed, speed);
+            float min = minSwingSpeed * thresholdScale;
+            if (speed < min) return 0f;
+            float t = Mathf.InverseLerp(min, referenceSwingSpeed * thresholdScale, speed);
             return Mathf.Lerp(minDamage, maxDamage, t);
         }
+
+        /// <summary>P4-02 EdgeSensitivity bonus -> threshold scale, floored at x0.70.</summary>
+        public static float EdgeThresholdScale(float edgeBonus) => 1f - Mathf.Clamp(edgeBonus, 0f, 0.3f);
     }
 }

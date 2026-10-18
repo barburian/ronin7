@@ -487,7 +487,8 @@ namespace Ronin7.Enemies
             // telegraph isn't a timing feat and shouldn't feed the streak.
             if (asParry && state == State.Active)
             {
-                float quality = ParryTiming.ParryQuality(realTimer, PerfectParryWindow);
+                float quality = ParryTiming.ParryQuality(realTimer,
+                    ParryTiming.PerfectWindow(PerfectParryWindow, TargetBoon(BoonEffectKind.ParryWindow)));
                 if (quality > 0f) EventBus.Publish(new PerfectParry(point, gameObject, quality));
             }
 
@@ -496,13 +497,27 @@ namespace Ronin7.Enemies
 
             deflectedThisSwing = true;
             EndFlinchPose();
-            staggerLen = StaggerTime;
+            staggerLen = asParry ? StaggerTime * ParryTiming.StaggerScale(TargetBoon(BoonEffectKind.StaggerDuration)) : StaggerTime;
             staggerFromEuler = currentEuler;
             staggerFromDraw = bodyDraw;
             Tint(StaggerColor, StaggerRim);
             Log("DEFLECTED");
             if (asParry) EventBus.Publish(new SwordDeflected(point, gameObject));
             Enter(State.Stagger);
+        }
+
+        // P4-02: the player's boon stats, resolved from the current target (cached per target).
+        private Health modsTarget;
+        private PlayerCombatModifiers targetMods;
+
+        private float TargetBoon(BoonEffectKind kind)
+        {
+            if (target != modsTarget || targetMods == null)
+            {
+                modsTarget = target;
+                targetMods = target != null ? target.GetComponentInParent<PlayerCombatModifiers>() : null;
+            }
+            return targetMods != null ? targetMods.Boon(kind) : 0f;
         }
 
         /// <summary>Test/system hook: force this enemy into Stagger as if its swing had just been
