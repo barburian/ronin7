@@ -18,6 +18,7 @@ namespace Ronin7.Combat
         private readonly List<string> _grantedAbilities = new List<string>();
         private int _grantedRevives;
         private int _spentRevives;
+        private readonly Dictionary<string, int> _temper = new Dictionary<string, int>();
 
         /// <summary>Adds one stack of the given boon. A null definition or a definition with no id is
         /// ignored. A1.2: <c>maxStacks</c> is enforced here too (not just by BoonOfferPicker) — starting
@@ -72,6 +73,35 @@ namespace Ronin7.Combat
             return true;
         }
 
+        /// <summary>P4-07 Forge Tempering: temper level of a boon (0 = untempered). Its primary AND secondary
+        /// magnitudes scale by <c>1 + 0.5 x level</c>. Set from the durable <see cref="RunState.TemperLevel"/>
+        /// after each rebuild, like <see cref="SetRevivesSpent"/>.</summary>
+        public int TemperLevel(string boonId) =>
+            !string.IsNullOrEmpty(boonId) && _temper.TryGetValue(boonId, out int t) ? t : 0;
+
+        public void SetTemper(string boonId, int level)
+        {
+            if (!string.IsNullOrEmpty(boonId)) _temper[boonId] = Mathf.Max(0, level);
+        }
+
+        /// <summary>P4-07 cap: one temper per boon, and Epic boons (ability grants) are never tempered.</summary>
+        public const int MaxTemper = 1;
+
+        public bool CanTemper(string boonId) =>
+            _definitions.TryGetValue(boonId ?? "", out var def) && def.rarity != BoonRarity.Epic
+            && TemperLevel(boonId) < MaxTemper;
+
+        /// <summary>Owned boons the Forge may temper, in a stable (id) order.</summary>
+        public List<BoonDefinition> TemperCandidates()
+        {
+            var list = new List<BoonDefinition>();
+            foreach (var pair in _definitions) if (CanTemper(pair.Key)) list.Add(pair.Value);
+            list.Sort((a, b) => string.CompareOrdinal(a.id, b.id));
+            return list;
+        }
+
+        private float TemperScale(string boonId) => 1f + 0.5f * TemperLevel(boonId);
+
         public IReadOnlyList<string> GrantedAbilities => _grantedAbilities;
 
         /// <summary>Resets the inventory to empty, as at the start of a new run.</summary>
@@ -82,6 +112,7 @@ namespace Ronin7.Combat
             _grantedAbilities.Clear();
             _grantedRevives = 0;
             _spentRevives = 0;
+            _temper.Clear();
         }
 
         /// <summary>P4-01: the generic stat-slot value for <paramref name="kind"/> as a bonus over the
@@ -96,7 +127,7 @@ namespace Ronin7.Combat
             float product = 1f;
             foreach (var pair in _definitions)
             {
-                float m = Magnitude(pair.Value, kind);
+                float m = Magnitude(pair.Value, kind) * TemperScale(pair.Key);
                 if (m != 0f) product *= Mathf.Pow(1f + m, Stacks(pair.Key));
             }
             return product;
@@ -105,7 +136,7 @@ namespace Ronin7.Combat
         public float AdditiveSum(BoonEffectKind kind)
         {
             float sum = 0f;
-            foreach (var pair in _definitions) sum += Magnitude(pair.Value, kind) * Stacks(pair.Key);
+            foreach (var pair in _definitions) sum += Magnitude(pair.Value, kind) * TemperScale(pair.Key) * Stacks(pair.Key);
             return sum;
         }
 

@@ -322,13 +322,6 @@ namespace Ronin7.Tests.EditMode
             Assert.AreEqual(expected, RunDirector.ForgeMendLabel(current, max));
         }
 
-        [TestCase(0, "REROLLS 0 > 1")]
-        [TestCase(2, "REROLLS 2 > 3")]
-        public void ForgeTemperLabel_ShowsRerollCountBeforeAndAfter(int tokens, string expected)
-        {
-            Assert.AreEqual(expected, RunDirector.ForgeTemperLabel(tokens));
-        }
-
         [Test]
         public void ForgeMend_AppliedToRig_ChangesHealthAndStoredHp()
         {

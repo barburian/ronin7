@@ -118,7 +118,7 @@ namespace Ronin7.Flow
         internal const float PathPanelStillSeconds = 6f;
         private const float PathStillRadius = 0.5f;
         internal const int MendPrice = 40;
-        private enum PanelMode { None, Path, Shop, Event, Forge, Treasure, Sector }
+        private enum PanelMode { None, Path, Shop, Event, Forge, Treasure, Sector, Temper }
         private PanelMode panelMode;
         private BoonOfferPanel choicePanel;
         private int[] pathChoices;
@@ -465,9 +465,60 @@ namespace Ronin7.Flow
             var health = VRRig.Instance != null ? VRRig.Instance.GetComponent<Health>() : null;
             string mend = MendCursed ? ForgeMendCursed : health != null ? ForgeMendLabel(health.Current, health.Max) : ForgeHpFull;
             choicePanel.SetOption(0, "MEND", RoomKindText.Color(RoomKind.Forge), "Heal 60% of your missing health.", mend, mend != ForgeHpFull && mend != ForgeMendCursed);
-            // ponytail: TEMPER is +1 reroll until P4-07 lands weapon tempering.
-            choicePanel.SetOption(1, "TEMPER", RoomKindText.Color(RoomKind.Forge), "+1 reroll. (Weapon tempering arrives later.)",
-                ForgeTemperLabel(RunState.RerollTokens), true);
+            // P4-07: TEMPER opens a boon picker; disabled when nothing owned is eligible.
+            bool canTemper = boonInventory.TemperCandidates().Count > 0;
+            choicePanel.SetOption(1, "TEMPER", RoomKindText.Color(RoomKind.Forge), "Strengthen one owned boon by 50%.",
+                canTemper ? "PICK A BOON" : ForgeTemperNone, canTemper);
+        }
+
+        internal const string ForgeTemperNone = "NO BOON";
+        private List<BoonDefinition> temperOptions;
+
+        /// <summary>P4-07: up to <paramref name="count"/> distinct random candidates. Pure.</summary>
+        internal static List<BoonDefinition> PickTemperOptions(List<BoonDefinition> candidates, ref RunRng rng, int count)
+        {
+            var pool = new List<BoonDefinition>(candidates);
+            var picks = new List<BoonDefinition>();
+            while (picks.Count < count && pool.Count > 0)
+            {
+                int i = rng.NextInt(pool.Count);
+                picks.Add(pool[i]);
+                pool.RemoveAt(i);
+            }
+            return picks;
+        }
+
+        private void OpenTemperPicker()
+        {
+            var candidates = boonInventory.TemperCandidates();
+            var rng = RunRng.ForNode(RunState.Seed, RunState.NodeIndex);
+            var options = PickTemperOptions(candidates, ref rng, 3);
+            if (options.Count == 0) return;
+            DismissChoicePanel();
+            temperOptions = options;
+            choicePanel = BoonOfferPanelFactory.BuildCustom(Camera.main, "TEMPER", "Choose a boon to strengthen (+50%).", options.Count, "BACK");
+            if (choicePanel == null) { temperOptions = null; OpenForge(); return; }
+            panelMode = PanelMode.Temper;
+            choicePanel.ChoiceSelected += OnChoicePanelSelected;
+            choicePanel.FooterSelected += OnChoicePanelFooter;
+            for (int i = 0; i < options.Count; i++)
+            {
+                var b = options[i];
+                choicePanel.SetOption(i, BoonOfferPanel.FormatChoiceTitle(b), BoonOfferPanel.RarityColor(b.rarity), b.description, "+50% POWER", true);
+            }
+        }
+
+        private void ApplyTemper(int index)
+        {
+            if (temperOptions == null || index < 0 || index >= temperOptions.Count) return;
+            string id = temperOptions[index].id;
+            if (!boonInventory.CanTemper(id)) return;
+            temperOptions = null;
+            RunState.AddTemper(id);
+            boonInventory.SetTemper(id, RunState.TemperLevel(id));
+            var modifiers = VRRig.Instance != null ? VRRig.Instance.GetComponent<PlayerCombatModifiers>() : null;
+            if (modifiers != null) PushBoonStats(modifiers, boonInventory); // max-HP changes land on the next node load
+            LeaveRoom();
         }
 
         internal const string ForgeHpFull = "HP FULL";
@@ -485,13 +536,10 @@ namespace Ronin7.Flow
             return gain > 0 ? "+" + gain + " HP" : ForgeHpFull;
         }
 
-        /// <summary>BUG-30: TEMPER card sub-label — rerolls now and after ("REROLLS 0 > 1"). Pure.</summary>
-        internal static string ForgeTemperLabel(int tokens) => "REROLLS " + tokens + " > " + (tokens + 1);
-
         private void ChooseForge(int index)
         {
             if (index == 0) { if (MendCursed) return; ApplyForgeMend(); }
-            else if (index == 1) RunState.AddRerollToken(1);
+            else if (index == 1) { OpenTemperPicker(); return; }
             else return;
             LeaveRoom();
         }
@@ -944,6 +992,9 @@ namespace Ronin7.Flow
                 case PanelMode.Treasure:
                     TakeTreasure();
                     break;
+                case PanelMode.Temper:
+                    ApplyTemper(index);
+                    break;
             }
         }
 
@@ -955,6 +1006,7 @@ namespace Ronin7.Flow
                 else LeaveRoom();
             }
             else if (panelMode == PanelMode.Event) LeaveRoom();
+            else if (panelMode == PanelMode.Temper) { temperOptions = null; DismissChoicePanel(); OpenForge(); }
             else if (panelMode == PanelMode.Sector)
             {
                 if (index == 0) LeaveRoom();
@@ -1498,6 +1550,7 @@ namespace Ronin7.Flow
                 }
                 int stacks = RunState.BoonCount(boonId);
                 for (int i = 0; i < stacks; i++) boonInventory.Add(def);
+                boonInventory.SetTemper(boonId, RunState.TemperLevel(boonId));
             }
             boonInventory.SetRevivesSpent(RunState.RevivesSpent);
 

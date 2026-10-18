@@ -385,5 +385,57 @@ namespace Ronin7.Tests.EditMode.Roguelike.Boons
             Assert.AreEqual(20f, _inventory.AdditiveSum(BoonEffectKind.MaxHealthAdd), 1e-5f);
             Assert.AreEqual(1.21f, _inventory.MultiplierProduct(BoonEffectKind.BladeDamageMultiplier), 1e-5f);
         }
+
+        // ---- P4-07 Forge Tempering ----
+
+        [Test]
+        public void BoonInventory_Temper_ScalesMagnitude()
+        {
+            var boon = MakeBoon("t", BoonEffectKind.HealOnKill, 8f);
+            boon.hasSecondary = true;
+            boon.secondaryEffect = BoonEffectKind.ComboBonus;
+            boon.secondaryMagnitude = 2f;
+            _inventory.Add(boon);
+            _inventory.SetTemper("t", 1);
+            Assert.AreEqual(12f, _inventory.HealOnKill, 1e-5f);
+            Assert.AreEqual(3f, _inventory.ComboBonus, 1e-5f); // secondary tempered too
+        }
+
+        [Test]
+        public void Temper_ScalesMultiplierBoonMagnitudeBeforeStacking()
+        {
+            _inventory.Add(MakeBoon("m", BoonEffectKind.BladeDamageMultiplier, 0.2f));
+            _inventory.SetTemper("m", 1);
+            Assert.AreEqual(1.3f, _inventory.MultiplierProduct(BoonEffectKind.BladeDamageMultiplier), 1e-5f);
+        }
+
+        [Test]
+        public void Temper_EligibleOnlyIfOwnedNonEpicAndNotAlreadyTempered()
+        {
+            var common = MakeBoon("c", BoonEffectKind.HealOnKill, 1f);
+            var epic = MakeBoon("e", BoonEffectKind.HealOnKill, 1f);
+            epic.rarity = BoonRarity.Epic;
+            _inventory.Add(common);
+            _inventory.Add(epic);
+            Assert.IsTrue(_inventory.CanTemper("c"));
+            Assert.IsFalse(_inventory.CanTemper("e"));
+            Assert.IsFalse(_inventory.CanTemper("unowned"));
+            CollectionAssert.AreEqual(new[] { common }, _inventory.TemperCandidates());
+            _inventory.SetTemper("c", BoonInventory.MaxTemper);
+            Assert.IsFalse(_inventory.CanTemper("c")); // capped: one temper per boon
+            Assert.AreEqual(0, _inventory.TemperCandidates().Count);
+        }
+
+        [Test]
+        public void RunState_TemperLevels_CountPerBoonAndClearWithRun()
+        {
+            RunState.AddTemper("a");
+            RunState.AddTemper("a");
+            RunState.AddTemper("b");
+            Assert.AreEqual(2, RunState.TemperLevel("a"));
+            Assert.AreEqual(3, RunState.TemperLevels.Count);
+            RunState.Reset();
+            Assert.AreEqual(0, RunState.TemperLevels.Count);
+        }
     }
 }

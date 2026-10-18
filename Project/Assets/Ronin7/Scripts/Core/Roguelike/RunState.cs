@@ -24,6 +24,7 @@ namespace Ronin7.Core
         private static float playerHealth = -1f;
         private static readonly Dictionary<string, int> boonCounts = new();
         private static readonly HashSet<string> grantedAbilities = new();
+        private static readonly List<string> temperLevels = new();
         private static string weaponArtId = "";
         private static string offhandArtId = "";
 
@@ -74,6 +75,18 @@ namespace Ronin7.Core
 
         public static IReadOnlyCollection<string> Boons => boonCounts.Keys;
 
+        /// <summary>P4-07 Forge Tempering: one entry (a boon id) per temper level applied this run. NOT yet in
+        /// RunSnapshot: P4-11 (the single v3 bump) persists it, because the Phase 2/3 fixtures assert
+        /// byte-for-byte round-trip. Cleared with the run.</summary>
+        public static IReadOnlyList<string> TemperLevels => temperLevels;
+        public static void AddTemper(string boonId) { if (!string.IsNullOrEmpty(boonId)) temperLevels.Add(boonId); }
+        public static int TemperLevel(string boonId)
+        {
+            int n = 0;
+            foreach (string id in temperLevels) if (id == boonId) n++;
+            return n;
+        }
+
         /// <summary>P4-03: equipped Weapon Art / Off-hand Art skill id ("" = none). One per slot; set
         /// via <c>ArtSlots.Equip</c>. Cleared with the run. NOT yet in RunSnapshot: persisting is deferred to
         /// P4-11 (the single v3 bump), because the Phase 2/3 fixtures assert byte-for-byte round-trip.</summary>
@@ -113,6 +126,7 @@ namespace Ronin7.Core
             playerHealth = -1f;
             boonCounts.Clear();
             grantedAbilities.Clear();
+            temperLevels.Clear();
             weaponArtId = "";
             offhandArtId = "";
         }
@@ -262,6 +276,7 @@ namespace Ronin7.Core
             playerHealth = -1f;
             boonCounts.Clear();
             grantedAbilities.Clear();
+            temperLevels.Clear();
             weaponArtId = "";
             offhandArtId = "";
         }
