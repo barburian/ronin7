@@ -19,7 +19,13 @@ MonoBehaviour:
     ceilColor: {r: 0.14, g: 0.08, b: 0.05, a: 1}
     accentColor: {r: 0.95, g: 0.45, b: 0.15, a: 1}
     propPrefabs: []
-    roomScenes: []
+    roomScenes:
+    - Room_Rust_01_8m
+    - Room_Rust_01_11m
+    - Room_Rust_02_8m
+    - Room_Rust_02_11m
+    - Room_Rust_03_8m
+    - Room_Rust_03_11m
     skybox: {fileID: 0}
   - id: program
     floorColor: {r: 0.1, g: 0.13, b: 0.2, a: 1}

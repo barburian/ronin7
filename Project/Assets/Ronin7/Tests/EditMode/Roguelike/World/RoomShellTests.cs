@@ -56,19 +56,20 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
             Assert.IsTrue(sawBoth, "pick never varies across seeds");
         }
 
-        [Test]
-        public void ProgramShells_NamesEncodeShellFootprints()
+        [TestCase("program", "Program")]
+        [TestCase("rust", "Rust")]
+        public void BiomeShells_NamesEncodeShellFootprints(string id, string folder)
         {
             var library = AssetDatabase.LoadAssetAtPath<ArenaRoomLibrary>("Assets/Ronin7/Data/Roguelike/ArenaRoomLibrary.asset");
-            var program = System.Array.Find(library.biomes, b => b.id == "program");
-            Assert.AreEqual(6, program.roomScenes.Length);
-            foreach (string name in program.roomScenes)
+            var biome = System.Array.Find(library.biomes, b => b.id == id);
+            Assert.AreEqual(6, biome.roomScenes.Length);
+            foreach (string name in biome.roomScenes)
             {
                 var m = System.Text.RegularExpressions.Regex.Match(name, @"_(\d+)m$");
                 Assert.IsTrue(m.Success, name);
                 int half = int.Parse(m.Groups[1].Value);
                 Assert.IsTrue(half == 8 || half == 11, $"{name}: only 8 m / 11 m footprints get shells");
-                Assert.IsNotNull(AssetDatabase.LoadAssetAtPath<SceneAsset>($"Assets/Ronin7/Scenes/Rooms/Program/{name}.unity"), name);
+                Assert.IsNotNull(AssetDatabase.LoadAssetAtPath<SceneAsset>($"Assets/Ronin7/Scenes/Rooms/{folder}/{name}.unity"), name);
             }
         }
 

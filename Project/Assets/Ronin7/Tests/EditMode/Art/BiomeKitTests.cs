@@ -7,14 +7,18 @@ using UnityEngine;
 namespace Ronin7.Tests.EditMode.Art
 {
     /// <summary>
-    /// P5-05 Program biome kit (A13.6): the built prefabs stay inside the kit-table triangle budgets,
+    /// P5-05 biome kits (Program, Rust; A13.6): the built prefabs stay inside the kit-table triangle budgets,
     /// use BoxColliders only, match their spec footprint, and the whole kit draws with at most 4 materials.
     /// The hero prop (AI eye core) is the one exception: its own material, its own tri target (MaxTris 12k for the
     /// raw image->3D mesh; the pending retopo lowers it), and probe-lit instead of lightmapped.
-    /// Rebuild with Tools/Space Samurai/Art/Build Biome Kit/Program if these fail after a builder change.
+    /// The hero's bounds are checked by max dimension (= HeroDiameter), so swapping placeholder -> AI mesh keeps passing.
+    /// Rebuild with Tools/Space Samurai/Art/Build Biome Kit/&lt;biome&gt; if these fail after a builder change.
     /// </summary>
     public class BiomeKitTests
     {
+        private static readonly string[] Kits = { "Program", "Rust" };
+        private static BiomeKit Kit(string name) => name == "Rust" ? BiomeKitBuilder.Rust : BiomeKitBuilder.Program;
+
         private static IEnumerable<(KitPiece piece, GameObject prefab)> Prefabs(BiomeKit kit)
         {
             foreach (var p in kit.Pieces)
@@ -25,10 +29,10 @@ namespace Ronin7.Tests.EditMode.Art
             }
         }
 
-        [Test]
-        public void BiomeKit_Program_PrefabsWithinTriBudget()
+        [TestCaseSource(nameof(Kits))]
+        public void BiomeKit_PrefabsWithinTriBudget(string kit)
         {
-            foreach (var (piece, go) in Prefabs(BiomeKitBuilder.Program))
+            foreach (var (piece, go) in Prefabs(Kit(kit)))
             {
                 int tris = 0;
                 foreach (var mf in go.GetComponentsInChildren<MeshFilter>()) tris += mf.sharedMesh.triangles.Length / 3;
@@ -37,10 +41,10 @@ namespace Ronin7.Tests.EditMode.Art
             }
         }
 
-        [Test]
-        public void BiomeKit_Program_BoxCollidersOnly_AndStatic()
+        [TestCaseSource(nameof(Kits))]
+        public void BiomeKit_BoxCollidersOnly_AndStatic(string kit)
         {
-            foreach (var (piece, go) in Prefabs(BiomeKitBuilder.Program))
+            foreach (var (piece, go) in Prefabs(Kit(kit)))
             {
                 Assert.IsEmpty(go.GetComponentsInChildren<MeshCollider>(true), piece.Name);
                 Assert.IsNotEmpty(go.GetComponents<BoxCollider>(), piece.Name);
@@ -52,21 +56,26 @@ namespace Ronin7.Tests.EditMode.Art
             }
         }
 
-        [Test]
-        public void BiomeKit_Program_BoundsMatchSpec()
+        [TestCaseSource(nameof(Kits))]
+        public void BiomeKit_BoundsMatchSpec(string kit)
         {
-            foreach (var (piece, go) in Prefabs(BiomeKitBuilder.Program))
+            foreach (var (piece, go) in Prefabs(Kit(kit)))
             {
                 var size = go.GetComponent<MeshFilter>().sharedMesh.bounds.size;
+                if (piece.SourceModel != null)
+                {
+                    Assert.AreEqual(piece.HeroDiameter, Mathf.Max(size.x, size.y, size.z), 0.05f, piece.Name);
+                    continue;
+                }
                 Assert.Less((size - piece.Size).magnitude, 0.05f, $"{piece.Name}: {size} vs spec {piece.Size}");
             }
         }
 
-        [Test]
-        public void BiomeKit_Program_AtMostFourMaterials()
+        [TestCaseSource(nameof(Kits))]
+        public void BiomeKit_AtMostFourMaterials(string kit)
         {
             var mats = new HashSet<Material>();
-            foreach (var (piece, go) in Prefabs(BiomeKitBuilder.Program))
+            foreach (var (piece, go) in Prefabs(Kit(kit)))
             {
                 if (piece.SourceModel != null)
                 {

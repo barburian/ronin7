@@ -113,6 +113,24 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Ronin7/Scenes/Rooms/Program/Room_Program_03_11m.unity
     guid: e7aaa71baee3f9440b952d6fac5e7841
+  - enabled: 1
+    path: Assets/Ronin7/Scenes/Rooms/Rust/Room_Rust_01_8m.unity
+    guid: 9f61601ffa8f5d146a51ce9dcae59783
+  - enabled: 1
+    path: Assets/Ronin7/Scenes/Rooms/Rust/Room_Rust_01_11m.unity
+    guid: 7943e90c8edc7f641a62340ae0a27b4c
+  - enabled: 1
+    path: Assets/Ronin7/Scenes/Rooms/Rust/Room_Rust_02_8m.unity
+    guid: 0730ff66446fc1c49aaf0383dca24dae
+  - enabled: 1
+    path: Assets/Ronin7/Scenes/Rooms/Rust/Room_Rust_02_11m.unity
+    guid: 5a44479c974e36c49a552dc3b9b9b2f3
+  - enabled: 1
+    path: Assets/Ronin7/Scenes/Rooms/Rust/Room_Rust_03_8m.unity
+    guid: c6d159d6b0050ae4183ee532526ccd79
+  - enabled: 1
+    path: Assets/Ronin7/Scenes/Rooms/Rust/Room_Rust_03_11m.unity
+    guid: f3e2600909bdacf45ae2a410c42c6ed8
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 9b706728c01987b43bdf3acac015b69a, type: 2}
     com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}

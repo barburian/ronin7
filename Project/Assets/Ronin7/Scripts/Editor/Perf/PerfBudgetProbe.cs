@@ -143,6 +143,10 @@ namespace Ronin7.Editor
             private static void ApplyTier(int t)
             {
                 QualitySettings.SetQualityLevel(t, true);
+                // Standalone play mode excludes the "Mobile" level, so force the tier's URP asset explicitly
+                // (runtime override only; QualitySettings.asset is never touched). Cleared in Finish.
+                QualitySettings.renderPipeline = AssetDatabase.LoadAssetAtPath<UnityEngine.Rendering.RenderPipelineAsset>(
+                    t == 0 ? "Assets/Settings/Mobile_RPAsset.asset" : "Assets/Settings/PC_RPAsset.asset");
                 // Mobile tier = the Quest 3 path: Low knobs, post on (GraphicsDirector.PostEnabledFor(Quest3)).
                 if (GraphicsDirector.Instance != null)
                     GraphicsDirector.Instance.SetQuality(t == 0 ? GraphicsQuality.Low : GraphicsQuality.High);
@@ -241,6 +245,7 @@ namespace Ronin7.Editor
             private void Finish(string line)
             {
                 EditorApplication.update -= Tick;
+                QualitySettings.renderPipeline = null; // drop the tier override; the quality level's asset applies again
                 foreach (var r in drawParts) r.Dispose();
                 setPass.Dispose(); tris.Dispose(); gc.Dispose(); texMem.Dispose();
                 File.AppendAllText(ReportPath, line + "\n\n");

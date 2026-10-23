@@ -10,47 +10,54 @@ using Debug = UnityEngine.Debug;
 namespace Ronin7.Editor.Art
 {
     /// <summary>
-    /// P5-05 step b: generates the Program biome's baked room-shell scenes from the kit prefabs
-    /// (<see cref="BiomeKitBuilder.Program"/>), 3 layouts x the 8 m / 11 m footprints, and wires them into
+    /// P5-05 step b: generates a biome's baked room-shell scenes from its kit prefabs (<see cref="BiomeKitBuilder.Program"/>,
+    /// <see cref="BiomeKitBuilder.Rust"/>), 3 layouts x the 8 m / 11 m footprints, and wires them into
     /// <see cref="ArenaRoomLibrary"/> + Build Settings. Shell contract: <c>RunArenaController.LoadShell</c>.
-    /// Re-running regenerates the scenes it owns (Rooms/Program only); never touches shipped scenes.
+    /// Re-running regenerates the scenes it owns (Rooms/&lt;Biome&gt; only); never touches shipped scenes.
     /// </summary>
     public static class RoomShellBuilder
     {
-        public const string Dir = "Assets/Ronin7/Scenes/Rooms/Program";
         private const string LibraryPath = "Assets/Ronin7/Data/Roguelike/ArenaRoomLibrary.asset";
-        private const string LightingPath = Dir + "/Program_Lighting.lighting";
         public static readonly int[] Footprints = { 8, 11 };
         public const int LayoutCount = 3;
         private const float WallH = 4.5f, WallT = 0.5f, KitWallW = 4f, BarY = 3.6f;
         private const float LightmapScale = 0.6f;
         private static readonly Color Cyan = new Color(0.25f, 0.85f, 1f);
+        private static readonly Color Sodium = new Color(1f, 0.6f, 0.22f);
 
-        public static string SceneName(int layout, int half) => $"Room_Program_{layout:00}_{half}m";
-        public static string ScenePath(int layout, int half) => $"{Dir}/{SceneName(layout, half)}.unity";
+        public static string Dir(BiomeKit kit) => $"Assets/Ronin7/Scenes/Rooms/{kit.Name}";
+        public static string SceneName(BiomeKit kit, int layout, int half) => $"Room_{kit.Name}_{layout:00}_{half}m";
+        public static string ScenePath(BiomeKit kit, int layout, int half) => $"{Dir(kit)}/{SceneName(kit, layout, half)}.unity";
 
         [MenuItem("Tools/Space Samurai/Art/Build Room Shells/Program", priority = 21)]
-        public static void BuildAllMenu()
+        public static void BuildProgramMenu() => BuildAll(BiomeKitBuilder.Program, "program");
+
+        [MenuItem("Tools/Space Samurai/Art/Build Room Shells/Rust", priority = 21)]
+        public static void BuildRustMenu() => BuildAll(BiomeKitBuilder.Rust, "rust");
+
+        public static void BuildAll(BiomeKit kit, string biomeId)
         {
             for (int l = 1; l <= LayoutCount; l++)
                 foreach (int h in Footprints)
-                    Debug.Log("[RoomShellBuilder] " + BuildOne(l, h, bake: true));
-            Wire();
+                    Debug.Log("[RoomShellBuilder] " + BuildOne(kit, l, h, bake: true));
+            Wire(kit, biomeId);
         }
 
         /// <summary>Builds (and optionally bakes) one shell scene alone, then restores the open scenes.
         /// Refuses while any open scene is dirty (the bake must run with only the shell loaded).</summary>
-        public static string BuildOne(int layout, int half, bool bake)
+        public static string BuildOne(BiomeKit kit, int layout, int half, bool bake)
         {
             for (int i = 0; i < EditorSceneManager.sceneCount; i++)
                 if (EditorSceneManager.GetSceneAt(i).isDirty) return "ABORT: an open scene has unsaved changes";
             var setup = EditorSceneManager.GetSceneManagerSetup();
-            try { return Build(layout, half, bake); }
+            try { return Build(kit, layout, half, bake); }
             finally { if (setup.Length > 0) EditorSceneManager.RestoreSceneManagerSetup(setup); }
         }
 
-        private static string Build(int layout, int half, bool bake)
+        private static string Build(BiomeKit kit, int layout, int half, bool bake)
         {
+            kitPrefabs = kit;
+            bool rust = kit == BiomeKitBuilder.Rust;
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             float h = half;
             var rng = new System.Random(layout * 1000 + half);
@@ -95,30 +102,33 @@ namespace Ronin7.Editor.Art
             // Pillars: always the 4 corners (hides the wall seams); layout extras on the E/W rim only
             // (the north wall carries the runtime exit gates).
             var pillars = new List<Vector3> { new(-h, 0, -h), new(h, 0, -h), new(-h, 0, h), new(h, 0, h) };
-            if (layout == 1) { pillars.Add(new(-h, 0, 0)); pillars.Add(new(h, 0, 0)); }
+            if (rust && layout == 1) // foundry hall: I-beam colonnade on the E/W + S rim
+                foreach (float a in new[] { -h / 3, h / 3 }) { pillars.Add(new(-h, 0, a)); pillars.Add(new(h, 0, a)); pillars.Add(new(a, 0, -h)); }
+            else if (layout == 1) { pillars.Add(new(-h, 0, 0)); pillars.Add(new(h, 0, 0)); }
             if (layout == 2) foreach (float sx in new[] { -1f, 1f }) foreach (float sz in new[] { -0.5f, 0.5f }) pillars.Add(new(sx * h, 0, sz * h));
             foreach (var p in pillars) Place("Pillar", shell, p, 0);
 
-            // Light bars (S + E/W, never N) and one baked cyan point light at each LightMount.
+            // Fixtures (S + E/W, never N): Program light bars / Rust sodium cages, one baked point light at each LightMount.
             var bars = new List<(int side, float t)> { (0, -0.3f * h), (0, 0.3f * h), (2, -0.3f * h), (2, 0.3f * h), (3, -0.3f * h), (3, 0.3f * h) };
             if (half >= 11) bars.Add((0, 0));
             var lights = new GameObject("BakedLights").transform;
             foreach (var (side, t) in bars)
             {
-                var bar = Place("LightBar", shell, SidePoint(side, h, t, BarY), SideYaw(side));
+                var bar = Place(rust ? "SodiumCage" : "LightBar", shell, SidePoint(side, h, t, BarY), SideYaw(side));
                 var mount = bar.transform.Find("LightMount");
                 var go = new GameObject("BarLight");
                 go.transform.SetParent(lights, false);
                 go.transform.position = mount.position;
                 var l = go.AddComponent<Light>();
-                l.type = LightType.Point; l.color = Cyan; l.range = 7f; l.intensity = 3f;
+                l.type = LightType.Point; l.color = rust ? Sodium : Cyan; l.range = 7f; l.intensity = 3f;
                 l.lightmapBakeType = LightmapBakeType.Baked; l.shadows = LightShadows.Soft;
             }
             var sun = new GameObject("Sun");
             sun.transform.SetParent(lights, false);
             sun.transform.rotation = Quaternion.Euler(55, -35, 0);
             var sl = sun.AddComponent<Light>();
-            sl.type = LightType.Directional; sl.color = new Color(0.7f, 0.8f, 1f); sl.intensity = 0.6f;
+            sl.type = LightType.Directional; sl.color = rust ? new Color(1f, 0.62f, 0.38f) : new Color(0.7f, 0.8f, 1f);
+            sl.intensity = rust ? 0.5f : 0.6f;
             sl.lightmapBakeType = LightmapBakeType.Baked; sl.shadows = LightShadows.Soft;
 
             // HoloGlyphs (animated later, P5 "layer 4"), 0.1 m proud of the wall face at eye height.
@@ -126,12 +136,32 @@ namespace Ronin7.Editor.Art
                 ? new[] { (0, -0.6f * h), (0, 0.6f * h) }
                 : layout == 2 ? new[] { (2, -0.65f * h), (2, 0.65f * h), (3, -0.65f * h), (3, 0.65f * h) }
                 : new[] { (2, -0.65f * h), (3, -0.65f * h) };
-            foreach (var (side, t) in glyphs) Place("HoloGlyph", shell, SidePoint(side, h - 0.1f, t, 1.8f), SideYaw(side));
+            if (rust)
+            {
+                // Vent fans (Rust's animated piece) take the glyph slots, flush on the wall face.
+                foreach (var (side, t) in glyphs) Place("VentFan", shell, SidePoint(side, h, t, 1.8f), SideYaw(side));
+                // Hero: the broken mech kneels on the floor at the rim (pivot bottom-centre, ~2.3 m deep), never mid-arena.
+                if (layout == 1) Place("Hero_BrokenMech", shell, SidePoint(0, h - 1.4f, 0, 0), SideYaw(0));
+                else if (layout == 2) Place("Hero_BrokenMech", shell, new Vector3(-h + 1.7f, 0, -h + 1.7f), 45);
+                else Place("Hero_BrokenMech", shell, new Vector3(h - 1.7f, 0, -h + 1.7f), -45);
+                // 02 crane bay: a gantry girder across the room resting on the E/W skylight frames, hoist near the east rim.
+                if (layout == 2)
+                {
+                    float z = 0.3f * h;
+                    for (int i = 0; i < n; i++)
+                        Place("Gantry_Beam", shell, new Vector3(-h + w * (i + 0.5f), 5.3f, z), 0, w / KitWallW);
+                    Place("CraneHoist", shell, new Vector3(h - 1.2f, 4.7f, z), 0);
+                }
+            }
+            else
+            {
+                foreach (var (side, t) in glyphs) Place("HoloGlyph", shell, SidePoint(side, h - 0.1f, t, 1.8f), SideYaw(side));
 
-            // Hero: the floating eye core (pivot = bottom of its 1.5 m body, centre ~6 m up), always above the combat floor.
-            if (layout == 2) Place("Hero_EyeCore", shell, new Vector3(0, 5.75f, 0), 0);
-            else if (layout == 1) Place("Hero_EyeCore", shell, SidePoint(0, h - 0.5f, 0, 5.25f), SideYaw(0));
-            else Place("Hero_EyeCore", shell, SidePoint(2, h - 0.5f, 0, 5.25f), SideYaw(2));
+                // Hero: the floating eye core (pivot = bottom of its 1.5 m body, centre ~6 m up), always above the combat floor.
+                if (layout == 2) Place("Hero_EyeCore", shell, new Vector3(0, 5.75f, 0), 0);
+                else if (layout == 1) Place("Hero_EyeCore", shell, SidePoint(0, h - 0.5f, 0, 5.25f), SideYaw(0));
+                else Place("Hero_EyeCore", shell, SidePoint(2, h - 0.5f, 0, 5.25f), SideYaw(2));
+            }
 
             BuildDecals(shell, h, 8 + 2 * layout - 2, rng);
 
@@ -147,9 +177,9 @@ namespace Ronin7.Editor.Art
             rp.mode = ReflectionProbeMode.Baked; rp.boxProjection = true; rp.resolution = 128;
             rp.center = new Vector3(0, WallH / 2, 0); rp.size = new Vector3(2 * h, WallH, 2 * h);
 
-            Lightmapping.lightingSettings = LightingAsset();
-            string path = ScenePath(layout, half);
-            EnsureFolder(Dir);
+            Lightmapping.lightingSettings = LightingAsset(kit);
+            string path = ScenePath(kit, layout, half);
+            EnsureFolder(Dir(kit));
             EditorSceneManager.SaveScene(scene, path);
 
             string bakeInfo = "not baked";
@@ -176,19 +206,19 @@ namespace Ronin7.Editor.Art
                 renderers++;
                 for (int sm = 0; sm < mf.sharedMesh.subMeshCount; sm++) tris += (int)mf.sharedMesh.GetIndexCount(sm) / 3;
             }
-            return $"{SceneName(layout, half)}: {renderers} renderers, {tris} tris, {probes.Count} probes, {bakeInfo}";
+            return $"{SceneName(kit, layout, half)}: {renderers} renderers, {tris} tris, {probes.Count} probes, {bakeInfo}";
         }
 
-        /// <summary>Puts the 6 shells into the Program biome's roomScenes and enables them in Build Settings.</summary>
-        public static void Wire()
+        /// <summary>Puts the kit's 6 shells into biome <paramref name="biomeId"/>'s roomScenes and enables them in Build Settings.</summary>
+        public static void Wire(BiomeKit kit, string biomeId)
         {
             var names = new List<string>();
             var scenes = new List<EditorBuildSettingsScene>(EditorBuildSettings.scenes);
             for (int l = 1; l <= LayoutCount; l++)
                 foreach (int h in Footprints)
                 {
-                    names.Add(SceneName(l, h));
-                    string p = ScenePath(l, h);
+                    names.Add(SceneName(kit, l, h));
+                    string p = ScenePath(kit, l, h);
                     int idx = scenes.FindIndex(s => s.path == p);
                     if (idx < 0) scenes.Add(new EditorBuildSettingsScene(p, true));
                     else scenes[idx].enabled = true;
@@ -197,7 +227,7 @@ namespace Ronin7.Editor.Art
 
             var lib = AssetDatabase.LoadAssetAtPath<ArenaRoomLibrary>(LibraryPath);
             foreach (var b in lib.biomes)
-                if (b.id == "program") b.roomScenes = names.ToArray();
+                if (b.id == biomeId) b.roomScenes = names.ToArray();
             EditorUtility.SetDirty(lib);
             AssetDatabase.SaveAssets();
         }
@@ -212,9 +242,11 @@ namespace Ronin7.Editor.Art
         private static Vector3 SidePoint(int s, float outward, float t, float y) =>
             SideRot(s) * new Vector3(t, 0, -outward) + Vector3.up * y;
 
+        private static BiomeKit kitPrefabs; // the kit Place() instantiates from (set per Build)
+
         private static GameObject Place(string piece, Transform parent, Vector3 pos, float yaw, float scaleX = 1f)
         {
-            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{BiomeKitBuilder.Program.PrefabDir}/Program_{piece}.prefab");
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{kitPrefabs.PrefabDir}/{kitPrefabs.Name}_{piece}.prefab");
             var go = (GameObject)PrefabUtility.InstantiatePrefab(prefab, parent.gameObject.scene);
             go.transform.SetParent(parent, false);
             go.transform.SetLocalPositionAndRotation(pos, Quaternion.Euler(0, yaw, 0));
@@ -248,27 +280,28 @@ namespace Ronin7.Editor.Art
                 }
                 idx.AddRange(new[] { b, b + 2, b + 1, b, b + 3, b + 2 });
             }
-            var mesh = new Mesh { name = "Program_Decals_Room" };
+            var mesh = new Mesh { name = kitPrefabs.Name + "_Decals_Room" };
             mesh.SetVertices(v); mesh.SetUVs(0, uv); mesh.SetTriangles(idx, 0);
             mesh.RecalculateNormals(); mesh.RecalculateBounds();
             var go = new GameObject("Decals");
             go.transform.SetParent(parent, false);
             go.AddComponent<MeshFilter>().sharedMesh = mesh;
             var mr = go.AddComponent<MeshRenderer>();
-            mr.sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>(BiomeKitBuilder.Program.SlotMaterials[(int)KitSlot.Decal]);
+            mr.sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>(kitPrefabs.SlotMaterials[(int)KitSlot.Decal]);
             mr.receiveGI = ReceiveGI.LightProbes;
             mr.shadowCastingMode = ShadowCastingMode.Off;
             GameObjectUtility.SetStaticEditorFlags(go, StaticEditorFlags.BatchingStatic);
         }
 
-        private static LightingSettings LightingAsset()
+        private static LightingSettings LightingAsset(BiomeKit kit)
         {
-            var ls = AssetDatabase.LoadAssetAtPath<LightingSettings>(LightingPath);
-            if (ls != null) return ls;
-            EnsureFolder(Dir);
+            string path = $"{Dir(kit)}/{kit.Name}_Lighting.lighting";
+            var ls = AssetDatabase.LoadAssetAtPath<LightingSettings>(path);
+            if (ls != null) return FixedAtlasSize(ls);
+            EnsureFolder(Dir(kit));
             ls = new LightingSettings
             {
-                name = "Program_Lighting",
+                name = kit.Name + "_Lighting",
                 bakedGI = true,
                 realtimeGI = false,
                 mixedBakeMode = MixedLightingMode.IndirectOnly,
@@ -282,7 +315,17 @@ namespace Ronin7.Editor.Art
                 indirectSampleCount = 256,
                 environmentSampleCount = 128,
             };
-            AssetDatabase.CreateAsset(ls, LightingPath);
+            AssetDatabase.CreateAsset(ls, path);
+            return FixedAtlasSize(ls);
+        }
+
+        /// <summary>Forces full 1024 atlases: otherwise the packer splits an underfilled map into 3 x 512 (seen on the
+        /// Rust 8 m shells), and every extra lightmap is another static-batch split.</summary>
+        private static LightingSettings FixedAtlasSize(LightingSettings ls)
+        {
+            var so = new SerializedObject(ls);
+            so.FindProperty("m_LightmapSizeFixed").boolValue = true;
+            so.ApplyModifiedPropertiesWithoutUndo();
             return ls;
         }
 
