@@ -1154,7 +1154,7 @@ Decision D-11 (user, 2026-10-14): **fully separate**. Source: Phase 2 headset pl
 - Amendment 10 (stat sheet, input slots, Status damage).
 - Tag `roguelike-phase4`, version `0.5.0`.
 
-**Phase 4 code-complete (2026-10-19), version `0.5.0` / versionCode 5; not yet tagged.** EditMode 1785/0/0.
+**Phase 4 signed off 2026-10-23** (user: v0.5.0 "played fine" on Quest 3S; tag `roguelike-phase4`). Version `0.5.0` / versionCode 5, EditMode 1785/0/0. Gates G2/G6/G8 were not run separately; the user waived them and moved on to Phase 5. Remaining open bugs carry forward to Phase 5.
 - [x] P4-00 a-e Phase 3 carry-overs: BUG-39 weakness tells/teach, BUG-40 marks + art height, BUG-41 RunLog, RONIN7_DEV G6 worst-case hook, wifi playtest script (`1c07695`)
 - [x] P4-01 generic stat slots (`1e133e0`)
 - [x] P4-02 stat sheet, 10 stats + consumers (`e09a8b9`)
@@ -1171,14 +1171,14 @@ Decision D-11 (user, 2026-10-14): **fully separate**. Source: Phase 2 headset pl
 
 **Phase 4 Export Gate**
 - [x] G1 EditMode green: 1785/0/0
-- [ ] G2 PlayMode green
-- [ ] G3 PCVR build
-- [ ] G4 Quest build + install (user pre-approved installing on the Quest after Phase 4; do the Mobile_RPAsset render check first)
-- [ ] G5 device smoke run
-- [ ] G6 frame budget on device (worst case, see the G6 carry-over note in Part B)
+- [~] G2 PlayMode green: not run, waived by user 2026-10-23
+- [x] G3 PCVR build (`Builds/Windows`, 2026-10-19)
+- [x] G4 Quest build + install: `Ronin7_0.5.0.apk`, 0 errors; versionCode 5 installed on Quest 3S 2026-10-19
+- [x] G5 device smoke run: user playtest, "played fine" (2026-10-23)
+- [~] G6 frame budget on device: not profiled, waived by user; carried to P5-00
 - [x] G7 save compatibility: `TestData/saves_phase4` fixture + tests green
-- [ ] G8 VRC sanity
-- [ ] G9 ship: tag `roguelike-phase4`
+- [~] G8 VRC sanity: not run, waived by user
+- [x] G9 ship: tag `roguelike-phase4`
 
 ---
 
