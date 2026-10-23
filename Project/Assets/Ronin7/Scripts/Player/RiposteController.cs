@@ -79,7 +79,11 @@ namespace Ronin7.Player
         private float Bonus(GameObject victim, out float postureScale)
         {
             float scale = logic.Consume(victim, Time.time, out postureScale);
-            if (scale > 1f) Haptics.Pulse(XRNode.RightHand, 0.9f, 0.08f);
+            if (scale > 1f)
+            {
+                Haptics.Pulse(XRNode.RightHand, 0.9f, 0.08f);
+                if (victim != null) EventBus.Publish(new SkillVfx(SkillVfx.Riposte, victim.transform.position + Vector3.up, Vector3.zero));
+            }
             return scale;
         }
     }

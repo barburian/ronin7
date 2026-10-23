@@ -102,7 +102,9 @@ namespace Ronin7.Player
         private float Bonus(GameObject victim, out float postureScale)
         {
             postureScale = 1f;
-            return logic.Consume(Time.unscaledTime);
+            float scale = logic.Consume(Time.unscaledTime);
+            if (scale > 1f && victim != null) EventBus.Publish(new SkillVfx(SkillVfx.Iaido, victim.transform.position + Vector3.up, Vector3.zero));
+            return scale;
         }
     }
 }

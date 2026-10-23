@@ -210,6 +210,7 @@ namespace Ronin7.Player
             }
             invulnStart = Time.unscaledTime;
 
+            EventBus.Publish(new PhaseStepStarted(transform.position));
             yield return fader.FadeOut(fadeDuration);
 
             // CharacterController overrides direct transform writes while enabled (same idiom as

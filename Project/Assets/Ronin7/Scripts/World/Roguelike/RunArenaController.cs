@@ -637,6 +637,7 @@ namespace Ronin7.World
             health.Died += () => OnEnemyDied(health, definition, isVolatile, phases);
             alive.Add(health);
             aliveCount++;
+            EventBus.Publish(new EnemyActivated(health.gameObject)); // P5-03 reverse dissolve
             if (EnemyHealthBar.Wants(health, boss)) EnemyHealthBar.Attach(health, transform); // P3-08 (bosses use the north-wall bar)
         }
 

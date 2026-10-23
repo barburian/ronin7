@@ -30,6 +30,9 @@ namespace Ronin7.Editor
         private const int WarmFrames = 5, GcFrames = 30, StatFrames = 10;
         private const float EyeHeight = 1.6f;
 
+        /// <summary>Optional: invoked a few frames before each tier's capture (e.g. to fire VFX events). Clear it after use.</summary>
+        public static System.Action StatHook;
+
         public static string ReportDir => Path.GetFullPath(Path.Combine(Application.dataPath, "..", "Logs", "PerfProbe"));
         public static string ReportPath => Path.Combine(ReportDir, "report.md");
 
@@ -111,6 +114,7 @@ namespace Ronin7.Editor
                     case 2:
                         if (frames++ < WarmFrames) { ResetMax(); return; }
                         AccumulateMax();
+                        if (frames == WarmFrames + StatFrames - 3) StatHook?.Invoke(); // P5-03: lets a caller trigger effects so they are live for the last frames + capture
                         if (frames < WarmFrames + StatFrames) return;
                         samples[tier].Particles = LiveParticles();
                         samples[tier].GcBytesPerFrame = gcTotal / GcFrames;

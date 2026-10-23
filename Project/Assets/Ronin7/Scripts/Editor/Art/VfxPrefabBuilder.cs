@@ -71,6 +71,8 @@ namespace Ronin7.Editor.Art
             // Spawn embers / pickup glints: rise slowly.
             new Spec { name = "SpawnEmbers",   color = NeonPalette.Violet, life = 0.4f,  speed = 0.6f, size = 0.05f, max = 20, gravity = -0.5f, radius = 0.35f, sizeCurve = Grow },
             // Ability glyph puff (Phase Step etc.).
+            // Charged Slash: one flat Ring squashed along its travel (velocity is injected per emit) = a travelling crescent edge.
+            new Spec { name = "SlashCrescent", color = Color.white * 2.5f, life = 0.3f, speed = 0f, size = 0.9f, max = 4, gravity = 0f, radius = 0.001f, texture = "Ring", stretched = true, lengthScale = 0.45f },
             new Spec { name = "GlyphPuff",     color = NeonPalette.Cyan,   life = 0.3f,  speed = 0.5f, size = 0.12f, max = 20, gravity = 0f,   radius = 0.2f,  texture = "Glyph", sizeCurve = Grow },
         };
 
@@ -189,9 +191,69 @@ namespace Ronin7.Editor.Art
             EnsureTextures();
             EnsureEffectMaterials();
             foreach (var spec in Specs) BuildOne(spec, MaterialFor(spec.texture, mat));
+            BuildShell();
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
             Debug.Log($"[VfxPrefabBuilder] Built {Specs.Length} combat VFX prefab(s) into {VfxResourceFolder}.");
+        }
+
+        private const string ShellFolder = "Assets/Ronin7/Resources/VfxShell";
+        private const string ShellMeshPath = "Assets/Ronin7/Art/Meshes/UnbrokenShell.asset";
+
+        /// <summary>P5-03 Unbroken: open-front hemisphere mesh (back half of a unit sphere, opening toward +Z),
+        /// a fresnel material and the shell prefab. Kept out of Resources/Vfx so the particle-prefab caps test skips it.</summary>
+        private static void BuildShell()
+        {
+            EnsureFolder(ShellFolder);
+            EnsureFolder("Assets/Ronin7/Art/Meshes");
+            var mesh = AssetDatabase.LoadAssetAtPath<Mesh>(ShellMeshPath);
+            if (mesh == null) { mesh = MakeHemisphere(8, 24); AssetDatabase.CreateAsset(mesh, ShellMeshPath); }
+
+            string matPath = MatFolder + "/Vfx_FresnelShell.mat";
+            var mat = AssetDatabase.LoadAssetAtPath<Material>(matPath);
+            if (mat == null)
+            {
+                mat = new Material(Shader.Find("Ronin7/VfxFresnelShell"));
+                mat.SetColor("_Color", new Color(0.3f, 0.9f, 2.5f, 1f));
+                mat.renderQueue = (int)RenderQueue.Transparent;
+                AssetDatabase.CreateAsset(mat, matPath);
+            }
+
+            var go = new GameObject("UnbrokenShell");
+            go.AddComponent<MeshFilter>().sharedMesh = mesh;
+            var r = go.AddComponent<MeshRenderer>();
+            r.sharedMaterial = mat;
+            r.shadowCastingMode = ShadowCastingMode.Off;
+            r.receiveShadows = false;
+            PrefabUtility.SaveAsPrefabAsset(go, ShellFolder + "/UnbrokenShell.prefab");
+            Object.DestroyImmediate(go);
+        }
+
+        private static Mesh MakeHemisphere(int rings, int segs)
+        {
+            var v = new System.Collections.Generic.List<Vector3>();
+            for (int i = 0; i <= rings; i++)
+            {
+                float phi = i / (float)rings * Mathf.PI * 0.5f; // 0 = back pole (-Z), 90 deg = the open rim
+                for (int j = 0; j < segs; j++)
+                {
+                    float th = j / (float)segs * Mathf.PI * 2f;
+                    v.Add(new Vector3(Mathf.Sin(phi) * Mathf.Cos(th), Mathf.Sin(phi) * Mathf.Sin(th), -Mathf.Cos(phi)));
+                }
+            }
+            var t = new System.Collections.Generic.List<int>();
+            for (int i = 0; i < rings; i++)
+                for (int j = 0; j < segs; j++)
+                {
+                    int a = i * segs + j, b = i * segs + (j + 1) % segs, c = a + segs, d = b + segs;
+                    t.AddRange(new[] { a, c, b, b, c, d });
+                }
+            var m = new Mesh { name = "UnbrokenShell" };
+            m.SetVertices(v);
+            m.SetNormals(v); // unit sphere: normal = position
+            m.SetTriangles(t, 0);
+            m.RecalculateBounds();
+            return m;
         }
 
         private static void BuildOne(Spec spec, Material mat)

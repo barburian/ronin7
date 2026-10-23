@@ -21,15 +21,23 @@ namespace Ronin7.Audio.Vfx
         private static MaterialPropertyBlock mpb;
 
         private readonly List<Renderer> renderers = new();
+        private readonly List<Material[]> originals = new(); // reverse mode only: put the enemy's own materials back
+        private readonly List<UnityEngine.Rendering.ShadowCastingMode> shadowModes = new();
+        private bool reverse;
         private float t;
 
         /// <summary>0..1 dissolve amount after <paramref name="elapsed"/> seconds since death.</summary>
         public static float Progress(float elapsed) => Mathf.Clamp01((elapsed - Delay) / Duration);
 
-        public static void Begin(GameObject enemy, Material dissolve)
+        /// <summary>P5-03 spawn: the same shader run backwards (<c>_Dissolve</c> 1 -> 0 over <see cref="Duration"/>),
+        /// then the enemy's own materials are restored.</summary>
+        public static void BeginReverse(GameObject enemy, Material dissolve) => Begin(enemy, dissolve, true);
+
+        public static void Begin(GameObject enemy, Material dissolve, bool reverse = false)
         {
             if (enemy == null || dissolve == null || enemy.GetComponent<DeathDissolve>() != null) return;
             var d = enemy.AddComponent<DeathDissolve>();
+            d.reverse = reverse;
             mpb ??= new MaterialPropertyBlock();
             foreach (var r in enemy.GetComponentsInChildren<Renderer>(true))
             {
@@ -41,9 +49,10 @@ namespace Ronin7.Audio.Vfx
                     if (src.HasProperty(BaseMapId)) mpb.SetTexture(BaseMapId, src.GetTexture(BaseMapId));
                     if (src.HasProperty(BaseColorId) && !mpb.HasColor(BaseColorId)) mpb.SetColor(BaseColorId, src.GetColor(BaseColorId));
                 }
-                mpb.SetFloat(DissolveId, 0f);
+                mpb.SetFloat(DissolveId, reverse ? 1f : 0f);
                 r.SetPropertyBlock(mpb);
                 var slots = r.sharedMaterials;
+                if (reverse) { d.originals.Add((Material[])slots.Clone()); d.shadowModes.Add(r.shadowCastingMode); }
                 for (int i = 0; i < slots.Length; i++) slots[i] = dissolve;
                 r.sharedMaterials = slots;
                 r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
@@ -54,8 +63,8 @@ namespace Ronin7.Audio.Vfx
 
         private void Update()
         {
-            t += Time.deltaTime;
-            float p = Progress(t);
+            t += reverse ? Time.unscaledDeltaTime : Time.deltaTime; // spawn fade ignores slow-mo so enemies are never left half-clipped
+            float p = reverse ? 1f - Mathf.Clamp01(t / Duration) : Progress(t);
             foreach (var r in renderers)
             {
                 if (r == null) continue;
@@ -63,7 +72,17 @@ namespace Ronin7.Audio.Vfx
                 mpb.SetFloat(DissolveId, p);
                 r.SetPropertyBlock(mpb);
             }
-            if (p >= 1f)
+            if (reverse && p <= 0f)
+            {
+                for (int i = 0; i < renderers.Count; i++)
+                {
+                    if (renderers[i] == null) continue;
+                    renderers[i].sharedMaterials = originals[i];
+                    renderers[i].shadowCastingMode = shadowModes[i];
+                }
+                Destroy(this);
+            }
+            else if (!reverse && p >= 1f)
             {
                 foreach (var r in renderers) if (r != null) r.enabled = false;
                 Destroy(this);

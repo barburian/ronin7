@@ -46,14 +46,14 @@ namespace Ronin7.Editor.Art
 
         private static void AddBladeTrail(Transform tip, Color energy)
         {
-            if (tip.GetComponent<TrailRenderer>() != null) return; // idempotent
+            if (tip.GetComponent<TrailRenderer>() != null) { EnsureTrailDriver(tip); return; } // idempotent
 
             var trail = tip.gameObject.AddComponent<TrailRenderer>();
             trail.time = 0.15f;                 // short neon streak; reads great under the deflect slow-mo
             trail.startWidth = 0.05f;
             trail.endWidth = 0f;                // tapered to nothing
             trail.numCapVertices = 2;
-            trail.minVertexDistance = 0.01f;
+            trail.minVertexDistance = Ronin7.Player.BladeTrailDriver.MinVertexDistance; // P5-03
             trail.shadowCastingMode = ShadowCastingMode.Off;
             trail.receiveShadows = false;
             trail.sharedMaterial = EnsurePlasmaTrailMaterial();
@@ -64,6 +64,13 @@ namespace Ronin7.Editor.Art
                 colorKeys = new[] { new GradientColorKey(hdr, 0f), new GradientColorKey(hdr, 1f) },
                 alphaKeys = new[] { new GradientAlphaKey(1f, 0f), new GradientAlphaKey(0f, 1f) },
             };
+            EnsureTrailDriver(tip);
+        }
+
+        // P5-03: emit only above 2 m/s, vertex cap, Overdrive magenta (no-op on trails with no BladeDamager above).
+        internal static void EnsureTrailDriver(Transform tip)
+        {
+            if (tip.GetComponent<Ronin7.Player.BladeTrailDriver>() == null) tip.gameObject.AddComponent<Ronin7.Player.BladeTrailDriver>();
         }
 
         private static void AddBladeLight(Transform tip, Color energy)

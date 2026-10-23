@@ -101,6 +101,7 @@ namespace Ronin7.Player
             Vector3 dir = ChargeLogic.SlashDirection(head.forward, tip - bladeBase, blade.Velocity);
             float dmg = ChargeLogic.DamageFraction * blade.SwingDamageNow();
             Haptics.Pulse(XRNode.RightHand, 1f, 0.15f);
+            EventBus.Publish(new SkillVfx(SkillVfx.ChargedSlash, tip, dir));
             if (dmg <= 0f) return;
 
             int n = Physics.SphereCastNonAlloc(tip, ChargeLogic.Radius, dir, hits, ChargeLogic.Range, ~0, QueryTriggerInteraction.Collide);

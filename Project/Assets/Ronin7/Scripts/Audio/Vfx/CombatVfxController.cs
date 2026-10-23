@@ -1,6 +1,8 @@
 using Ronin7.Combat;
 using Ronin7.Core;
 using Ronin7.Enemies;
+using Ronin7.Flow;
+using Ronin7.Player;
 using Ronin7.Ship;
 using UnityEngine;
 
@@ -55,7 +57,15 @@ namespace Ronin7.Audio.Vfx
         private VfxPool pool;
         private Material dissolveMat;
         private ParticleSystem spark, blood, deflect, hitFlash, death, muzzle, bolt, explosion;
-        private ParticleSystem streak, wisp, ring, shard, embers, glyph; // P5-03
+        private ParticleSystem streak, wisp, ring, shard, embers, glyph, crescent; // P5-03
+        private Afterimage afterimage;
+        private UnbrokenShell shell;
+        private ImpactDecals decals;
+        private static readonly Color32 BoonCommon = new Color32(184, 192, 204, 255);
+        private static readonly Color32 BoonRare = new Color32(63, 169, 255, 255);
+        private static readonly Color32 BoonEpic = new Color32(255, 50, 180, 255);   // magenta, per the roadmap
+        private static readonly Color32 BoonDuo = new Color32(255, 194, 74, 255);
+        private const int BoonBurst = 24;
 
         /// <summary>Test hook: combat events handled since the last <see cref="Subscribe"/> — proves
         /// the controller is subscribed (and stays unsubscribed after <see cref="Unsubscribe"/>).</summary>
@@ -89,6 +99,11 @@ namespace Ronin7.Audio.Vfx
             shard = Load("PostureShard");
             embers = Load("SpawnEmbers");
             glyph = Load("GlyphPuff");
+            crescent = Load("SlashCrescent");
+            afterimage = new Afterimage(transform, Resources.Load<Material>("Vfx/MirrorGhost"));
+            var shellPrefab = Resources.Load<GameObject>("VfxShell/UnbrokenShell");
+            if (shellPrefab != null) shell = new UnbrokenShell(transform, shellPrefab);
+            if (streak != null) decals = new ImpactDecals(transform, streak.GetComponent<ParticleSystemRenderer>().sharedMaterial);
         }
 
         private static ParticleSystem Load(string name)
@@ -118,6 +133,11 @@ namespace Ronin7.Audio.Vfx
             EventBus.Subscribe<PostureBroken>(OnPostureBroken);
             EventBus.Subscribe<EnemySpawning>(OnSpawning);
             EventBus.Subscribe<AbilityActivated>(OnAbility);
+            EventBus.Subscribe<PhaseStepStarted>(OnPhaseStart);
+            EventBus.Subscribe<SkillVfx>(OnSkill);
+            EventBus.Subscribe<EnemyActivated>(OnEnemyActivated);
+            EventBus.Subscribe<SwordWorldHit>(OnWorldHit);
+            EventBus.Subscribe<BoonChosen>(OnBoonChosen);
         }
 
         internal void Unsubscribe()
@@ -136,6 +156,19 @@ namespace Ronin7.Audio.Vfx
             EventBus.Unsubscribe<PostureBroken>(OnPostureBroken);
             EventBus.Unsubscribe<EnemySpawning>(OnSpawning);
             EventBus.Unsubscribe<AbilityActivated>(OnAbility);
+            EventBus.Unsubscribe<PhaseStepStarted>(OnPhaseStart);
+            EventBus.Unsubscribe<SkillVfx>(OnSkill);
+            EventBus.Unsubscribe<EnemyActivated>(OnEnemyActivated);
+            EventBus.Unsubscribe<SwordWorldHit>(OnWorldHit);
+            EventBus.Unsubscribe<BoonChosen>(OnBoonChosen);
+        }
+
+        private void Update()
+        {
+            float now = Time.unscaledTime;
+            if (afterimage != null && afterimage.Visible) afterimage.Tick(now);
+            if (shell != null && shell.Visible) shell.Tick(now);
+            if (decals != null && decals.Live > 0) decals.Tick(now);
         }
 
         // BUG-39: resisted/exploited hits own their VFX; the generic sparks + damage flash skip that victim this frame.
@@ -216,11 +249,73 @@ namespace Ronin7.Audio.Vfx
             Vector3 feet = new Vector3(head.x, head.y - 1.5f, head.z);
             switch (e.Id)
             {
-                case AbilityId.PhaseStep: HandledCount++; Emit(glyph, feet + Vector3.up * 0.9f, 16); break;
+                case AbilityId.PhaseStep: // end of the blink: puff at the landing, ghost left at the origin
+                    HandledCount++; Emit(glyph, feet + Vector3.up * 0.9f, 12); afterimage?.Show(Time.unscaledTime); break;
+                case AbilityId.Unbroken: HandledCount++; shell?.Play(cam.transform, Time.unscaledTime); break;
                 case AbilityId.Overdrive: HandledCount++; Emit(ring, feet + Vector3.up * 0.05f, 1, OverdriveMagenta, 1.2f); break;
                 case Ronin7.Player.ArtId.KiaiPalm: HandledCount++; Emit(ring, feet + Vector3.up * 0.05f, 1, null, KiaiRingSize); break;
             }
         }
+
+        // P5-03: start of a Phase Step. Freeze the hands + sword pose, puff at the origin (8 + 12 at the end <= 20).
+        private void OnPhaseStart(PhaseStepStarted e)
+        {
+            HandledCount++;
+            Emit(glyph, e.Origin + Vector3.up * 0.9f, 8);
+            var rig = VRRig.Instance;
+            if (afterimage == null || rig == null) return;
+            phaseRoots.Clear();
+            if (rig.LeftHand != null) phaseRoots.Add(rig.LeftHand);
+            if (rig.RightHand != null) phaseRoots.Add(rig.RightHand);
+            var holster = rig.GetComponentInChildren<KatanaHolster>(true); // once per blink, not per frame
+            var sword = holster != null && holster.Sword != null ? holster.Sword.transform : null;
+            if (sword != null && !sword.IsChildOf(rig.LeftHand) && !sword.IsChildOf(rig.RightHand)) phaseRoots.Add(sword);
+            afterimage.Capture(phaseRoots);
+        }
+        private readonly System.Collections.Generic.List<Transform> phaseRoots = new();
+
+        private void OnSkill(SkillVfx e)
+        {
+            HandledCount++;
+            switch (e.Id)
+            {
+                case SkillVfx.Riposte: Emit(streak, e.Point, 8, RedTint, 0.045f); break;            // red edge glint
+                case SkillVfx.Iaido: Emit(streak, e.Point, 6, WhiteTint, 0.07f); break;             // white flash line
+                case SkillVfx.ChargedSlash:                                                         // crescent travelling the slash range
+                    if (pool != null && e.Direction.sqrMagnitude > 1e-4f)
+                        pool.Play(crescent, e.Point, 1, null, null, e.Direction.normalized * (ChargeLogic.Range / 0.3f));
+                    break;
+            }
+        }
+
+        // P5-03 spawn portal: the floor disc is RunArenaController's telegraph; here the beam + reverse dissolve.
+        private void OnEnemyActivated(EnemyActivated e)
+        {
+            HandledCount++;
+            if (e.Enemy == null) return;
+            Emit(streak, e.Enemy.transform.position, 3, SpawnViolet, 0.05f, Vector3.up * 9f);
+            if (pool != null) DeathDissolve.BeginReverse(e.Enemy, dissolveMat);
+        }
+
+        private void OnWorldHit(SwordWorldHit e)
+        {
+            HandledCount++;
+            Emit(streak, e.Point, 4, null, null, e.Normal * 3f);
+            decals?.Place(e.Point, e.Normal, Time.unscaledTime);
+        }
+
+        // Rarity comes from the catalog (BoonChosen carries only the id).
+        private void OnBoonChosen(BoonChosen e)
+        {
+            HandledCount++;
+            var cam = Camera.main;
+            if (cam == null) return;
+            var def = RunDirector.Instance != null && RunDirector.Instance.Catalog != null ? RunDirector.Instance.Catalog.Find(e.BoonId) : null;
+            Emit(death, cam.transform.position + cam.transform.forward * 0.9f - Vector3.up * 0.25f, BoonBurst, BoonTint(def != null ? def.rarity : BoonRarity.Common));
+        }
+
+        internal static Color32 BoonTint(BoonRarity r)
+            => r == BoonRarity.Epic ? BoonEpic : r == BoonRarity.Duo ? BoonDuo : r == BoonRarity.Rare ? BoonRare : BoonCommon;
 
         private void OnShipFired(ShipWeaponFired e) { HandledCount++; Emit(muzzle, e.WorldPoint, MuzzleBurst); }
         private void OnBoltImpact(ProjectileImpact e) { HandledCount++; Emit(bolt, e.WorldPoint, BoltBurst); }
@@ -231,10 +326,10 @@ namespace Ronin7.Audio.Vfx
         private void OnPlayerShipDestroyed(PlayerShipDestroyed e)
         { HandledCount++; Emit(explosion, e.WorldPoint, ExplosionBurst); }
 
-        private void Emit(ParticleSystem prefab, Vector3 point, int baseCount, Color32? tint = null, float? size = null)
+        private void Emit(ParticleSystem prefab, Vector3 point, int baseCount, Color32? tint = null, float? size = null, Vector3? velocity = null)
         {
             if (pool == null) return; // edit-mode/tests: handler still counts, just nothing to spawn
-            pool.Play(prefab, point, ScaledCount(baseCount), tint, size);
+            pool.Play(prefab, point, ScaledCount(baseCount), tint, size, velocity);
         }
 
         /// <summary>Burst size after the tier's <see cref="GraphicsRuntime.ParticleScale"/>; never below 1.</summary>

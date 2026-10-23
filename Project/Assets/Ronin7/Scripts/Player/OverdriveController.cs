@@ -65,6 +65,9 @@ namespace Ronin7.Player
         private TextMesh percentText;
         private int lastDisplayedPercent = -1;
 
+        /// <summary>P5-03: static mirror of the burst for visuals (blade trail colour, PC bloom) that must not hold a reference.</summary>
+        public static bool Burning { get; private set; }
+
         /// <summary>True while the time-dilation burst is running.</summary>
         public bool IsActive => logic != null && logic.IsActive;
 
@@ -156,6 +159,7 @@ namespace Ronin7.Player
             SetDamageBonus(OverdriveDamageMultiplier);
             TimeScaleArbiter.SetRequest(TimeScaleChannel.Overdrive, overdriveTimeScale);
             timeScaleApplied = true;
+            Burning = true;
         }
 
         // Explicit bonus replaces the old accidental one (blade speed inflated by the slowed fixed step, BUG-21).
@@ -180,6 +184,7 @@ namespace Ronin7.Player
             SetDamageBonus(1f);
             TimeScaleArbiter.ClearRequest(TimeScaleChannel.Overdrive);
             timeScaleApplied = false;
+            Burning = false;
         }
 
         private void BuildWristUi()

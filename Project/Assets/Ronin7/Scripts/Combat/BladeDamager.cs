@@ -165,6 +165,19 @@ namespace Ronin7.Combat
             havePrevSamples = true;
         }
 
+        private float nextWorldHitAt;
+
+        // P5-03: the sweep already casts against everything; a static, Health-less hit becomes a decal cue (no extra queries).
+        private void TryWorldHit(in RaycastHit hit)
+        {
+            if (Time.unscaledTime < nextWorldHitAt) return;
+            var col = hit.collider;
+            if (col.isTrigger || col.attachedRigidbody != null || col.transform.root == OwnerRoot
+                || col.GetComponentInParent<Health>() != null) return;
+            nextWorldHitAt = Time.unscaledTime + 0.15f;
+            EventBus.Publish(new SwordWorldHit(hit.point, hit.normal));
+        }
+
         private void Sweep(Vector3 from, Vector3 to)
         {
             Vector3 delta = to - from;
@@ -178,6 +191,7 @@ namespace Ronin7.Combat
                 // distance 0 = already overlapping at the sweep start: OnTriggerEnter owns entry
                 // contacts, and skipping these stops a blade resting inside a body from re-hitting.
                 if (sweepHits[i].distance <= 0f) continue;
+                TryWorldHit(sweepHits[i]);
                 TryHit(sweepHits[i].collider, sweepHits[i].point);
             }
         }

@@ -43,7 +43,7 @@ namespace Ronin7.Flow
         [Tooltip("Source pool for starting boons, room-clear offers, and guaranteed Treasure rewards.")]
         [SerializeField] private BoonCatalog boonCatalog;
         /// <summary>P4-10: the Shrine reads Keepsake names from it.</summary>
-        internal BoonCatalog Catalog => boonCatalog;
+        public BoonCatalog Catalog => boonCatalog;
 
         [Header("Events (P2-04)")]
         [Tooltip("Pool an Event node draws from (seeded per node). Data/Roguelike/Events/*.asset.")]

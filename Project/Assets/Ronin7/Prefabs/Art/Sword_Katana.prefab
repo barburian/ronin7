@@ -192,6 +192,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4833748954779059158}
   - component: {fileID: 1408394288628081973}
+  - component: {fileID: 3092014836254943038}
   m_Layer: 0
   m_Name: BladeTip
   m_TagString: Untagged
@@ -264,7 +265,7 @@ TrailRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Time: 0.15
+  m_Time: 0.12
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -330,10 +331,22 @@ TrailRenderer:
     textureScale: {x: 1, y: 1}
     shadowBias: 0.5
     generateLightingData: 0
-  m_MinVertexDistance: 0.01
+  m_MinVertexDistance: 0.03
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!114 &3092014836254943038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4119010769876373680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08d5d78687021ed44b15212959a10f2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ronin7.Player::Ronin7.Player.BladeTrailDriver
 --- !u!1 &6468756635452276798
 GameObject:
   m_ObjectHideFlags: 0
@@ -608,6 +621,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Ronin7.Combat::Ronin7.Combat.BladeDamager
   definitionOverride: {fileID: 0}
   speedSmoothing: 0.5
+  sweepSamples: 4
+  sweepRadius: 0.02
+  maxSweepPerFrame: 1
 --- !u!1 &8129019447648671601
 GameObject:
   m_ObjectHideFlags: 0

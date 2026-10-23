@@ -147,5 +147,91 @@ namespace Ronin7.Tests.EditMode
             Assert.IsFalse(main.playOnAwake, "VFX prefab must not play on awake (the pool drives it).");
             Assert.LessOrEqual(main.startLifetime.constantMax, 0.4f, "Lifetime must be short (≤0.4s).");
         }
+
+        [Test]
+        public void BladeTrail_EmitsOnlyAbove2ms_AndStaysUnder60Vertices()
+        {
+            Assert.IsFalse(Ronin7.Player.BladeTrailDriver.ShouldEmit(2f));
+            Assert.IsTrue(Ronin7.Player.BladeTrailDriver.ShouldEmit(2.1f));
+            // vertices = speed * time / minVertexDistance, at the fastest swing
+            float verts = Ronin7.Player.BladeTrailDriver.TopSpeed * Ronin7.Player.BladeTrailDriver.TrailTime / Ronin7.Player.BladeTrailDriver.MinVertexDistance;
+            Assert.LessOrEqual(verts, 60.01f);
+        }
+
+        [Test]
+        public void ImpactDecals_NeverExceedSixteenLive_AndExpire()
+        {
+            var parent = new GameObject("Decals").transform;
+            var mat = new Material(Shader.Find("Hidden/InternalErrorShader"));
+            try
+            {
+                var d = new ImpactDecals(parent, mat);
+                for (int i = 0; i < 40; i++) d.Place(new Vector3(i, 0, 0), Vector3.up, 0f);
+                Assert.AreEqual(16, d.Live);
+                Assert.AreEqual(16, parent.childCount, "Pooled: 16 quads, never one per hit.");
+                Assert.IsFalse(d.Tick(ImpactDecals.Life + 0.1f));
+                Assert.AreEqual(0, d.Live);
+            }
+            finally { Object.DestroyImmediate(parent.gameObject); Object.DestroyImmediate(mat); }
+        }
+
+        [Test]
+        public void Afterimage_CapturesMeshes_FadesOutAfterPointThreeSeconds()
+        {
+            var parent = new GameObject("Ghosts").transform;
+            var src = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            var mat = new Material(Shader.Find("Hidden/InternalErrorShader"));
+            try
+            {
+                var a = new Afterimage(parent, mat);
+                a.Capture(new[] { src.transform });
+                Assert.AreEqual(1, a.PartCount);
+                Assert.IsFalse(a.Visible, "Hidden until the rig lands.");
+                a.Show(0f);
+                Assert.IsTrue(a.Tick(0.1f));
+                Assert.IsFalse(a.Tick(Afterimage.FadeTime + 0.01f));
+                Assert.IsFalse(a.Visible);
+            }
+            finally { Object.DestroyImmediate(parent.gameObject); Object.DestroyImmediate(src); Object.DestroyImmediate(mat); }
+        }
+
+        [Test]
+        public void BoonTint_EpicIsMagenta_AndShellSpecMatchesRoadmap()
+        {
+            var epic = CombatVfxController.BoonTint(BoonRarity.Epic);
+            Assert.Greater(epic.r, 200); Assert.Less(epic.g, 100); Assert.Greater(epic.b, 140);
+            Assert.AreEqual(1.2f, UnbrokenShell.Radius);
+            Assert.AreEqual(0.4f, UnbrokenShell.Duration);
+        }
+
+        [Test]
+        public void Controller_HandlesPhaseStepSkillWorldHitSpawnAndBoon()
+        {
+            var go = new GameObject("CombatVfx");
+            var c = go.AddComponent<CombatVfxController>();
+            try
+            {
+                c.Subscribe();
+                EventBus.Publish(new PhaseStepStarted(Vector3.zero));
+                EventBus.Publish(new SkillVfx(SkillVfx.ChargedSlash, Vector3.zero, Vector3.forward));
+                EventBus.Publish(new SwordWorldHit(Vector3.zero, Vector3.up));
+                EventBus.Publish(new EnemyActivated(null));
+                EventBus.Publish(new BoonChosen("none"));
+                Assert.AreEqual(5, c.HandledCount);
+                c.Unsubscribe();
+                EventBus.Publish(new SwordWorldHit(Vector3.zero, Vector3.up));
+                Assert.AreEqual(5, c.HandledCount);
+            }
+            finally { Object.DestroyImmediate(go); }
+        }
+
+        [Test]
+        public void ShellPrefabAndCrescent_AreBuilt()
+        {
+            var shell = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Ronin7/Resources/VfxShell/UnbrokenShell.prefab");
+            if (shell == null) Assert.Inconclusive("Run Build Combat VFX Prefabs.");
+            Assert.IsNotNull(shell.GetComponent<MeshFilter>().sharedMesh);
+            Assert.IsNotNull(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Ronin7/Resources/Vfx/SlashCrescent.prefab"));
+        }
     }
 }

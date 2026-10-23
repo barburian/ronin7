@@ -3,6 +3,14 @@ using UnityEngine;
 namespace Ronin7.Combat
 {
     /// <summary>Player's blade intercepted an incoming enemy attack within the parry window.</summary>
+    /// <summary>P5-03: the swinging blade's swept cast touched static world geometry (impact decals).</summary>
+    public readonly struct SwordWorldHit
+    {
+        public readonly Vector3 Point;
+        public readonly Vector3 Normal;
+        public SwordWorldHit(Vector3 point, Vector3 normal) { Point = point; Normal = normal; }
+    }
+
     public readonly struct SwordDeflected
     {
         public readonly Vector3 Point;

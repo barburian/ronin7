@@ -43,7 +43,7 @@ namespace Ronin7.Audio.Vfx
         /// at <paramref name="point"/>. No-op if the prefab is null or count ≤ 0. The instance becomes
         /// claimable again once its longest particle lifetime elapses.
         /// </summary>
-        public void Play(ParticleSystem prefab, Vector3 point, int count, Color32? tint = null, float? size = null)
+        public void Play(ParticleSystem prefab, Vector3 point, int count, Color32? tint = null, float? size = null, Vector3? velocity = null)
         {
             if (prefab == null || count <= 0) return;
 
@@ -51,11 +51,12 @@ namespace Ronin7.Audio.Vfx
             int slot = ClaimSlot(ring);
             var ps = ring.systems[slot];
             ps.transform.position = point;
-            if (tint.HasValue || size.HasValue) // P2-02 rarity tint, P5-03 per-burst size (rings)
+            if (tint.HasValue || size.HasValue || velocity.HasValue) // P2-02 rarity tint, P5-03 per-burst size / fixed velocity
             {
                 var ep = new ParticleSystem.EmitParams();
                 if (tint.HasValue) ep.startColor = tint.Value;
                 if (size.HasValue) ep.startSize = size.Value;
+                if (velocity.HasValue) ep.velocity = velocity.Value;
                 ps.Emit(ep, count);
             }
             else ps.Emit(count);

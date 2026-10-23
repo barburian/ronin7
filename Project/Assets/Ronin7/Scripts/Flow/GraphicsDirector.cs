@@ -1,4 +1,5 @@
 using Ronin7.Core;
+using Ronin7.Player;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -127,6 +128,21 @@ namespace Ronin7.Flow
             bloom.scatter.Override(BloomScatter);
         }
 
+        private const float OverdriveBloomBoost = 0.2f; // P5-03: PC only; Quest keeps its cheap bloom
+
+        private bool overdriveBoosted;
+
+        private static float BloomFor(bool high, bool overdrive = false)
+            => high ? HighBloomIntensity + (overdrive ? OverdriveBloomBoost : 0f) : LowBloomIntensity;
+
+        private void Update()
+        {
+            bool on = OverdriveController.Burning && GraphicsRuntime.Quality == GraphicsQuality.High;
+            if (on == overdriveBoosted || bloom == null) return;
+            overdriveBoosted = on;
+            bloom.intensity.Override(BloomFor(true, on));
+        }
+
         /// <summary>Apply a tier: bloom strength + the <see cref="GraphicsRuntime"/> snapshot others read.</summary>
         public void SetQuality(GraphicsQuality tier)
         {
@@ -136,7 +152,7 @@ namespace Ronin7.Flow
             GraphicsRuntime.BladeLightsEnabled = high;
             if (bloom != null)
             {
-                bloom.intensity.Override(high ? HighBloomIntensity : LowBloomIntensity);
+                bloom.intensity.Override(BloomFor(high, overdriveBoosted));
                 // High-quality (multi-pass) bloom filtering is bandwidth-heavy on Quest; PCVR keeps it.
                 bloom.highQualityFiltering.Override(high);
                 bloom.maxIterations.Override(high ? HighBloomMaxIterations : LowBloomMaxIterations);
