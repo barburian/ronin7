@@ -74,6 +74,32 @@ namespace Ronin7.Editor.Art
             new Spec { name = "GlyphPuff",     color = NeonPalette.Cyan,   life = 0.3f,  speed = 0.5f, size = 0.12f, max = 20, gravity = 0f,   radius = 0.2f,  texture = "Glyph", sizeCurve = Grow },
         };
 
+        /// <summary>Saved (Resources) materials the runtime loads instead of building with Shader.Find:
+        /// the death-dissolve swap target and the Mirror phantom's ghost material.</summary>
+        private static void EnsureEffectMaterials()
+        {
+            string dissolve = VfxResourceFolder + "/EnemyPBR_Dissolve.mat";
+            if (AssetDatabase.LoadAssetAtPath<Material>(dissolve) == null)
+                AssetDatabase.CreateAsset(new Material(Shader.Find("Ronin7/EnemyDissolve")), dissolve);
+
+            string ghost = VfxResourceFolder + "/MirrorGhost.mat";
+            if (AssetDatabase.LoadAssetAtPath<Material>(ghost) == null)
+            {
+                var mat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+                var c = new Color(0.75f, 0.85f, 1.0f, 0.35f);
+                mat.SetColor("_BaseColor", c);
+                mat.SetFloat("_Surface", 1f);
+                mat.SetFloat("_Blend", 0f);
+                mat.SetInt("_SrcBlend", (int)BlendMode.SrcAlpha);
+                mat.SetInt("_DstBlend", (int)BlendMode.OneMinusSrcAlpha);
+                mat.SetInt("_ZWrite", 0);
+                mat.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
+                mat.SetOverrideTag("RenderType", "Transparent");
+                mat.renderQueue = (int)RenderQueue.Transparent;
+                AssetDatabase.CreateAsset(mat, ghost);
+            }
+        }
+
         private static readonly Gradient FadeOut = MakeFade();
         private static Gradient MakeFade()
         {
@@ -161,6 +187,7 @@ namespace Ronin7.Editor.Art
             EnsureFolder(VfxResourceFolder);
             var mat = EnsureAdditiveMaterial();
             EnsureTextures();
+            EnsureEffectMaterials();
             foreach (var spec in Specs) BuildOne(spec, MaterialFor(spec.texture, mat));
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();

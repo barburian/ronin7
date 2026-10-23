@@ -123,7 +123,9 @@ namespace Ronin7.Player
             body.transform.localScale = new Vector3(0.5f, 0.9f, 0.5f);
             var col = body.GetComponent<Collider>();
             if (col != null) Destroy(col); // a ghost double, not a physical body — never blocks the player
-            body.GetComponent<Renderer>().sharedMaterial = MemoryFlashbackController.MakeGhostMaterial();
+            // P5-03: saved asset (Resources/Vfx/MirrorGhost.mat, built by VfxPrefabBuilder); the runtime build is only a fallback.
+            var ghost = Resources.Load<Material>("Vfx/MirrorGhost");
+            body.GetComponent<Renderer>().sharedMaterial = ghost != null ? ghost : MemoryFlashbackController.MakeGhostMaterial();
 
             go.AddComponent<AllyCombatant>().Configure(AllyDamage(
                 RunState.InRun ? RunScaling.HealthMultiplier(RunState.Depth, RunState.CurrentNode.Kind) : 1f,

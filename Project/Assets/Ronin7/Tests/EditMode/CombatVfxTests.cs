@@ -102,6 +102,22 @@ namespace Ronin7.Tests.EditMode
         }
 
         [Test]
+        public void DeathDissolve_Progress_WaitsForTopple_ThenRamps()
+        {
+            Assert.AreEqual(0f, DeathDissolve.Progress(0.2f));
+            Assert.AreEqual(0.5f, DeathDissolve.Progress(DeathDissolve.Delay + DeathDissolve.Duration * 0.5f), 1e-4f);
+            Assert.AreEqual(1f, DeathDissolve.Progress(5f));
+        }
+
+        [Test]
+        public void SavedEffectMaterials_Exist()
+        {
+            if (AssetDatabase.LoadAssetAtPath<Material>("Assets/Ronin7/Resources/Vfx/MirrorGhost.mat") == null)
+                Assert.Inconclusive("Run Build Combat VFX Prefabs.");
+            Assert.IsNotNull(AssetDatabase.LoadAssetAtPath<Material>("Assets/Ronin7/Resources/Vfx/EnemyPBR_Dissolve.mat"));
+        }
+
+        [Test]
         public void EmitCount_ScalesWithParticleScale()
         {
             float old = GraphicsRuntime.ParticleScale;

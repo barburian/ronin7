@@ -53,6 +53,7 @@ namespace Ronin7.Audio.Vfx
         private const float SparkSpeedHi = 12f;
 
         private VfxPool pool;
+        private Material dissolveMat;
         private ParticleSystem spark, blood, deflect, hitFlash, death, muzzle, bolt, explosion;
         private ParticleSystem streak, wisp, ring, shard, embers, glyph; // P5-03
 
@@ -81,6 +82,7 @@ namespace Ronin7.Audio.Vfx
             muzzle = Load("MuzzleFlash");
             bolt = Load("BoltImpact");
             explosion = Load("ShipExplosion");
+            dissolveMat = Resources.Load<Material>("Vfx/EnemyPBR_Dissolve");
             streak = Load("SparkStreakFx");
             wisp = Load("SpectralWisp");
             ring = Load("ParryRing");
@@ -170,7 +172,14 @@ namespace Ronin7.Audio.Vfx
             HandledCount++;
             Emit(hitFlash, e.Info.Point, DamageBurst);
         }
-        private void OnDied(EntityDied e) { HandledCount++; Emit(death, Center(e.Entity), DeathBurst); }
+        private void OnDied(EntityDied e)
+        {
+            HandledCount++;
+            Emit(death, Center(e.Entity), DeathBurst);
+            // P5-03: only dying enemies swap to the dissolve material.
+            if (pool != null && e.Entity != null && e.Entity.GetComponentInParent<Enemy>() != null)
+                DeathDissolve.Begin(e.Entity, dissolveMat);
+        }
         // P2-02: Treasure TAKE — a rarity-coloured burst from the same pooled death-burst system.
         private void OnTreasureOpened(TreasureOpened e) { HandledCount++; Emit(death, e.Point, TreasureBurst, e.Color); }
 
