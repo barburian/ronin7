@@ -1599,3 +1599,10 @@ User answers on 2026-10-23 for the design calls the roadmap left open:
   Katana (blade ~0.70 m in the user's reference; **0.84 m in game**: 0.62 m prefab x the arena's 1.35 upscale, kept as built so its reach is unchanged), the others scaled by the same 0.837/0.70 ratio: **Nodachi 1.14 m, Twin Wakizashi 0.54 m each, Tanto 0.34 m**. Hit reach follows the blade
   length (the swept damage tracks the blade), so the Nodachi reaches further and the Tanto/Wakizashi shorter; the
   P4-08 damage/speed stats are unchanged.
+- **A13.6 Biome kit source, revised (P5-05, 2026-10-23).** Supersedes A13.1. On this account every Unity AI 3D model
+  (Tripo P1/P2) requires an image reference, and an image reference cannot be passed through MCP (the 64-bit EntityId,
+  e.g. 568105584918882030, exceeds JSON's 2^53 safe range and arrives rounded). User choice, **hybrid**: structural
+  pieces (floors, walls, pillars, roof, fixtures, glyph panels) are built in editor code to the kit-table triangle
+  targets and skinned with **Unity AI materials** (GenerateMaterial + AddPbrToMaterial); **hero props** come from Unity
+  AI image→3D, run by the user in the generator UI from reference images generated with GenerateImage, then
+  `RetopologyMesh` (takes an asset path, unaffected by the EntityId bug) and the kit builder.
