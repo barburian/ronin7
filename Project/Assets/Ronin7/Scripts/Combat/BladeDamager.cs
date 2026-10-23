@@ -68,6 +68,40 @@ namespace Ronin7.Combat
             if (def != null) definition = def;
         }
 
+        /// <summary>A13.5: world length of the blade box (the swept hit reach).</summary>
+        public float WorldLength
+        {
+            get
+            {
+                var b = box != null ? box : GetComponent<BoxCollider>();
+                return b == null ? 0f : b.size.z * Mathf.Abs(transform.lossyScale.z);
+            }
+        }
+
+        /// <summary>A13.5: rescales this blade (visual cube + trigger + sweep, they share the transform) to
+        /// <paramref name="worldLength"/> metres, keeping the base end fixed. Z-along-blade, unrotated cube only.</summary>
+        public void SetBladeLength(float worldLength)
+        {
+            var b = box != null ? box : GetComponent<BoxCollider>();
+            float parentScale = transform.parent != null ? Mathf.Abs(transform.parent.lossyScale.z) : 1f;
+            if (b == null || worldLength <= 0f || parentScale <= 0f) return;
+            ScaleBlade(transform.localPosition.z, transform.localScale.z, b.center.z, b.size.z, parentScale, worldLength,
+                out float pz, out float sz);
+            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, sz);
+            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, pz);
+            havePrevSamples = false; // the sweep must not span the resize
+        }
+
+        /// <summary>Pure: new local z position / scale that give the blade <paramref name="worldLength"/> with its base fixed.</summary>
+        internal static void ScaleBlade(float posZ, float scaleZ, float centerZ, float sizeZ, float parentScaleZ,
+            float worldLength, out float newPosZ, out float newScaleZ)
+        {
+            float f = worldLength / (sizeZ * scaleZ * parentScaleZ);
+            newScaleZ = scaleZ * f;
+            float baseOffset = centerZ - sizeZ * 0.5f; // base face in blade-local space
+            newPosZ = posZ + (scaleZ - newScaleZ) * baseOffset;
+        }
+
         /// <summary>Current blade speed in m/s (world), exponentially smoothed.</summary>
         public float Speed => speed;
 

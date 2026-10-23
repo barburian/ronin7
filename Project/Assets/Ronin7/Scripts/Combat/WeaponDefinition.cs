@@ -24,6 +24,10 @@ namespace Ronin7.Combat
         [Tooltip("Seconds before the same blade can deal damage again (prevents multi-hits per swing).")]
         public float hitCooldown = 0.25f;
 
+        [Header("Blade (A13.5)")]
+        [Tooltip("World length (m) of the blade, which is also the swept hit reach. 0 = leave the scene's blade as built (Katana).")]
+        public float bladeLength = 0f;
+
         public float DamageForSpeed(float speed) => DamageForSpeed(speed, 1f);
 
         /// <summary>P4-02 EdgeSensitivity: both speed thresholds scaled by <paramref name="thresholdScale"/>

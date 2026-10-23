@@ -78,6 +78,7 @@ namespace Ronin7.Editor.Art
             built += BuildHandPrefab(isLeft: true) ? 1 : 0;
             built += BuildHandPrefab(isLeft: false) ? 1 : 0;
             built += BuildSwordPrefab() ? 1 : 0;
+            BuildSwordVariants(); // P5-04 loadout blades (not in the /11 count)
             built += BuildAsteroidPrefab() ? 1 : 0;
             built += BuildWormholePrefab() ? 1 : 0;
             built += BuildProjectilePrefab() ? 1 : 0;
@@ -600,7 +601,24 @@ namespace Ronin7.Editor.Art
 
         // ---------------- Sword ----------------
 
-        internal static bool BuildSwordPrefab()
+        // A13.5 world blade lengths (m). Katana stays as built (0.62 prefab; the arena scales its visual 1.35x).
+        internal const float NodachiBladeLength = 0.95f;
+        internal const float TantoBladeLength = 0.28f;
+        internal const float WakizashiBladeLength = 0.45f;
+
+        internal static bool BuildSwordPrefab() => BuildSword(SwordPrefabPath, 0.12f, 0.62f, 0.04f, 0.07f);
+
+        /// <summary>P5-04 loadout blades: Katana variants with their own hilt / blade proportions, same CyberSword + trail.</summary>
+        internal static bool BuildSwordVariants()
+        {
+            bool ok = BuildSword(PrefabFolder + "/Sword_Nodachi.prefab", 0.20f, NodachiBladeLength, 0.045f, 0.08f);
+            ok &= BuildSword(PrefabFolder + "/Sword_Tanto.prefab", 0.09f, TantoBladeLength, 0.035f, 0.04f);
+            ok &= BuildSword(PrefabFolder + "/Sword_Wakizashi.prefab", 0.10f, WakizashiBladeLength, 0.038f, 0.06f);
+            return ok;
+        }
+
+        // handle = tsuka length; the guard sits 0.01 past it and the blade starts 0.02 past it (Katana: 0.12 -> 0.13 / 0.14).
+        private static bool BuildSword(string prefabPath, float handle, float bladeLen, float bladeWidth, float guard)
         {
             var mat = LoadMaterial(SwordMatPath);
             if (mat == null) return false;
@@ -618,12 +636,12 @@ namespace Ronin7.Editor.Art
             {
                 // Tsuka (handle, wrapped indigo) — same local pos/scale as greybox Handle, rounded.
                 MakeRoundedTinted(root.transform, "Handle", mat, itoColor,
-                    new Vector3(0f, 0f, 0.06f), new Vector3(0.035f, 0.035f, 0.12f));
+                    new Vector3(0f, 0f, handle * 0.5f), new Vector3(0.035f, 0.035f, handle));
 
                 // Tsuba (guard, brass) — same local pos as greybox Guard; cylinder on its side
                 // reads as a disc rather than the original flat slab.
                 var tsuba = MakeChildTinted(root.transform, "Guard", PrimitiveType.Cylinder, mat, tsubaColor,
-                    new Vector3(0f, 0f, 0.13f), new Vector3(0.07f, 0.012f, 0.07f));
+                    new Vector3(0f, 0f, handle + 0.01f), new Vector3(guard, 0.012f, guard));
                 tsuba.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
 
                 // Kashira (pommel cap) — small sphere at the butt of the handle.
@@ -633,7 +651,7 @@ namespace Ronin7.Editor.Art
                 // Blade — gameplay-critical hitbox. Local pos/scale match the greybox factory so
                 // BladeDamager + trigger BoxCollider sweep the same volume.
                 var blade = MakeChildTinted(root.transform, "Blade", PrimitiveType.Cube, mat, bladeColor,
-                    new Vector3(0f, 0f, 0.45f), new Vector3(0.04f, 0.012f, 0.62f));
+                    new Vector3(0f, 0f, handle + 0.02f + bladeLen * 0.5f), new Vector3(bladeWidth, 0.012f, bladeLen));
                 // Add the trigger BoxCollider (auto-fits the unit cube bounds) and BladeDamager
                 // so the prefab is gameplay-ready without code outside this builder.
                 var bladeBox = blade.GetComponent<BoxCollider>();
@@ -647,7 +665,7 @@ namespace Ronin7.Editor.Art
                 blade.GetComponent<Renderer>().sharedMaterial = EnsureCyberSwordMaterial();
 
                 AddOutline(root);
-                PrefabUtility.SaveAsPrefabAsset(root, SwordPrefabPath);
+                PrefabUtility.SaveAsPrefabAsset(root, prefabPath);
                 return true;
             }
             finally { UnityEngine.Object.DestroyImmediate(root); }

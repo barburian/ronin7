@@ -1673,7 +1673,11 @@ namespace Ronin7.Flow
             if (sword == null) return;
             var s = sword.GetComponent<Sword>();
             if (s != null) s.Definition = def;
-            foreach (var d in sword.GetComponentsInChildren<BladeDamager>(true)) d.SetDefinition(def);
+            foreach (var d in sword.GetComponentsInChildren<BladeDamager>(true))
+            {
+                d.SetDefinition(def);
+                if (def.bladeLength > 0f) d.SetBladeLength(def.bladeLength); // A13.5: the sweep follows the blade
+            }
         }
 
         /// <summary>P1-07: Unbroken is tried first so the free save is spent before Second Wind. Each

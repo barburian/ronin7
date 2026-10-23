@@ -211,6 +211,91 @@ namespace Ronin7.Tests.EditMode
             Assert.AreEqual(cooldown, d.hitCooldown, 1e-4f, d.name);
         }
 
+        private static readonly (string file, string prefab, float length)[] BladeSpec =
+        {
+            ("Nodachi", "Sword_Nodachi", 0.95f),
+            ("Tanto", "Sword_Tanto", 0.28f),
+            ("TwinWakizashi", "Sword_Wakizashi", 0.45f),
+        };
+
+        [Test]
+        public void LoadoutDefinitions_BladeLength_MatchesA135_AndVariantPrefab()
+        {
+            foreach (var (file, prefab, length) in BladeSpec)
+            {
+                var def = AssetDatabase.LoadAssetAtPath<WeaponDefinition>($"Assets/Ronin7/Data/{file}.asset");
+                Assert.AreEqual(length, def.bladeLength, 0.05f, file);
+                var go = AssetDatabase.LoadAssetAtPath<GameObject>($"Assets/Ronin7/Prefabs/Art/{prefab}.prefab");
+                Assert.IsNotNull(go, prefab);
+                var blade = go.GetComponentInChildren<BladeDamager>(true);
+                Assert.IsNotNull(blade, prefab);
+                Assert.AreEqual(def.bladeLength, blade.WorldLength, 0.05f, prefab);
+                Assert.IsNotNull(go.GetComponentInChildren<BladeTrailDriver>(true), prefab + " trail driver");
+            }
+        }
+
+        private BladeDamager SizedBlade(GameObject host, out Sword sword)
+        {
+            var d = MakeHolsteredSword(host, out sword);
+            var t = d.transform;
+            t.parent.localScale = new Vector3(1f, 1f, 1.35f); // the arena's katana upscale
+            var box = t.GetComponent<BoxCollider>();
+            box.size = Vector3.one;
+            t.localScale = new Vector3(0.04f, 0.012f, 0.62f);
+            t.localPosition = new Vector3(0f, 0f, 0.45f);
+            return d;
+        }
+
+        // Awake (which caches the box for WorldEndpoints) does not run in edit mode, so read the box directly.
+        private static Vector3 BaseWorld(BladeDamager d)
+        {
+            var box = d.GetComponent<BoxCollider>();
+            return d.transform.TransformPoint(box.center - new Vector3(0f, 0f, box.size.z * 0.5f));
+        }
+
+        [Test]
+        public void Loadout_SweepLengthEqualsBladeLength_BaseFixed()
+        {
+            nodachi.bladeLength = 0.95f;
+            var damager = SizedBlade(rig, out _);
+            damager.SetDefinition(katana);
+            var baseBefore = BaseWorld(damager);
+            Assert.AreEqual(0.62f * 1.35f, damager.WorldLength, 1e-4f);
+
+            RunDirector.ApplyLoadout(rig.transform, All, WeaponId.Nodachi);
+
+            var baseAfter = BaseWorld(damager);
+            Assert.AreEqual(0.95f, damager.WorldLength, 1e-4f);
+            Assert.AreEqual(0f, Vector3.Distance(baseBefore, baseAfter), 1e-4f);
+
+            RunDirector.ApplyLoadout(rig.transform, All, WeaponId.Nodachi); // idempotent
+            Assert.AreEqual(0.95f, damager.WorldLength, 1e-4f);
+        }
+
+        [Test]
+        public void Loadout_KatanaWithoutBladeLength_LeavesBladeAsBuilt()
+        {
+            var damager = SizedBlade(rig, out _);
+            RunDirector.ApplyLoadout(rig.transform, All, WeaponId.Katana);
+            Assert.AreEqual(0.62f * 1.35f, damager.WorldLength, 1e-4f);
+        }
+
+        [Test]
+        public void Twin_BothBladesGetWakizashiLength()
+        {
+            twin.bladeLength = 0.45f;
+            var main = SizedBlade(rig, out _);
+            var anchor = new GameObject(KatanaHolster.OffhandAnchorName);
+            anchor.transform.SetParent(rig.transform, false);
+            var left = SizedBlade(anchor, out var leftSword);
+            leftSword.gameObject.SetActive(false);
+
+            RunDirector.ApplyLoadout(rig.transform, All, WeaponId.TwinWakizashi);
+
+            Assert.AreEqual(0.45f, main.WorldLength, 1e-4f);
+            Assert.AreEqual(0.45f, left.WorldLength, 1e-4f);
+        }
+
         [Test]
         public void LoadoutDamage_ComposesWithEdgeSensitivity()
         {

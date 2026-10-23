@@ -234,19 +234,29 @@ namespace Ronin7.EditorTools
         public static WeaponDefinition[] EnsureLoadoutDefinitions() => new[]
         {
             EnsureWeaponDefinition(),
-            EnsureLoadoutDefinition("Nodachi", WeaponId.Nodachi, 2f, 7f, 14f, 60f, 0.35f),
-            EnsureLoadoutDefinition("Tanto", WeaponId.Tanto, 1f, 4.5f, 6f, 28f, 0.18f),
+            EnsureLoadoutDefinition("Nodachi", WeaponId.Nodachi, 2f, 7f, 14f, 60f, 0.35f, Ronin7.Editor.Art.ArtPrefabBuilder.NodachiBladeLength),
+            EnsureLoadoutDefinition("Tanto", WeaponId.Tanto, 1f, 4.5f, 6f, 28f, 0.18f, Ronin7.Editor.Art.ArtPrefabBuilder.TantoBladeLength),
             // User decision (Amendment 12): 0.6x katana damage per blade, 1.25x swing speed (katana thresholds
             // and cooldown / 1.25). Supersedes the roadmap's 6-26.
-            EnsureLoadoutDefinition("TwinWakizashi", WeaponId.TwinWakizashi, 1.2f, 4.8f, 4.8f, 24f, 0.2f),
+            EnsureLoadoutDefinition("TwinWakizashi", WeaponId.TwinWakizashi, 1.2f, 4.8f, 4.8f, 24f, 0.2f,
+                Ronin7.Editor.Art.ArtPrefabBuilder.WakizashiBladeLength),
         };
 
         private static WeaponDefinition EnsureLoadoutDefinition(string file, string id, float minSpeed, float refSpeed,
-            float minDamage, float maxDamage, float cooldown)
+            float minDamage, float maxDamage, float cooldown, float bladeLength)
         {
             string path = DataFolder + "/" + file + ".asset";
             var existing = AssetDatabase.LoadAssetAtPath<WeaponDefinition>(path);
-            if (existing != null) return existing;
+            if (existing != null)
+            {
+                if (existing.bladeLength <= 0f) // A13.5: backfill the appended field, never touch tuned stats
+                {
+                    existing.bladeLength = bladeLength;
+                    EditorUtility.SetDirty(existing);
+                    AssetDatabase.SaveAssets();
+                }
+                return existing;
+            }
             var def = ScriptableObject.CreateInstance<WeaponDefinition>();
             def.id = id;
             def.minSwingSpeed = minSpeed;
@@ -254,6 +264,7 @@ namespace Ronin7.EditorTools
             def.minDamage = minDamage;
             def.maxDamage = maxDamage;
             def.hitCooldown = cooldown;
+            def.bladeLength = bladeLength;
             AssetDatabase.CreateAsset(def, path);
             AssetDatabase.SaveAssets();
             return def;
