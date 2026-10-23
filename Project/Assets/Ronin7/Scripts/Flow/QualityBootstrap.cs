@@ -56,6 +56,11 @@ namespace Ronin7.Flow
         internal static float FoveationFor(GraphicsDirector.DeviceTier tier) =>
             tier == GraphicsDirector.DeviceTier.Quest3 ? 0.75f : 0.5f;
 
+        /// <summary>P5-01: eye-texture scale per headset. Mobile_RPAsset renders at 1.0 (Quest 3 gets foveation +
+        /// dynamic resolution); Quest 2 drops to 0.85 to stay in budget. Pure. P5-01 test seam.</summary>
+        internal static float EyeResolutionScaleFor(GraphicsDirector.DeviceTier tier) =>
+            tier == GraphicsDirector.DeviceTier.Quest2 ? 0.85f : 1f;
+
         private void Awake()
         {
             // vSync: let the XR runtime pace frames. Safe everywhere, so not gated.
@@ -91,6 +96,7 @@ namespace Ronin7.Flow
             var tier = GraphicsDirector.DetectTier(Application.isMobilePlatform, SystemInfo.deviceModel);
             display.foveatedRenderingFlags = XRDisplaySubsystem.FoveatedRenderingFlags.None;
             display.foveatedRenderingLevel = FoveationFor(tier);
+            XRSettings.eyeTextureResolutionScale = EyeResolutionScaleFor(tier);
 
             // The runtime applies the rate asynchronously; report what actually took effect.
             yield return null;

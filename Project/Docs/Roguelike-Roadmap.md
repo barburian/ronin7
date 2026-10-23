@@ -1351,6 +1351,10 @@ In `ArtPrefabBuilder`:
 - Use a Memory Profiler snapshot for texture memory, and RenderDoc Meta for overdraw (≤ 2 full-screen layers).
 - Tag `roguelike-phase5`, version `0.6.0`.
 
+**Phase 5 progress** (design decisions: Amendment 13 in `Roguelike-Design.md`)
+- [x] P5-00 perf-budget probe + baseline (`847c9c1`)
+- [x] P5-01 Mobile_RPAsset trims: cookies, light layers, lens flare, terrain holes, LOD cross-fade and probe blending off; 2 lights per object; render scale 0.8 → 1.0; Quest 2 eye scale 0.85 (`QualityBootstrap.EyeResolutionScaleFor`). BUG-06/07 were already fixed in P0-06/P0-07. Not changed: `m_StoreActionsOptimization` stays Auto, and GLES3 stays until Vulkan is proven on device (both need device GPU numbers). Probe: node 1 88 draws / 32 SetPass (unchanged; these trims cut variants and GPU cost, not draws).
+
 ---
 
 ## PHASE 6 — Audio, accessibility, narrative, store submission

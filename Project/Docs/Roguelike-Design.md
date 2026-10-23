@@ -1581,3 +1581,17 @@ Binding as of Phase 3. The Phase 3 brief called this "Amendment 9"; 9 (Phase 1) 
 - **A12.14 `RunRng.ForNode` seed mix (BUG-35).** The node seed now goes through a murmur3 fmix32 avalanche, because
   low seeds (1..64) differed only in low bits and every Gamble rolled the same. It moves the golden vectors, which is
   why it ships in the same v3 bump (a v2 run would resume with different node contents).
+
+## Amendment 13 — Phase 5 graphics decisions (Roguelike-Roadmap.md P5-00 … P5-08)
+
+User answers on 2026-10-23 for the design calls the roadmap left open:
+
+- **A13.1 Biome kit source (P5-05).** Kit meshes (floors, walls, pillars, roofs, hero props, fixtures) are made with
+  **Unity AI GenerateMesh**, then decimated or cleaned to the per-piece triangle targets in the P5-05 kit table.
+  Procedural editor-built kits and Tripo image→3D were offered and not chosen.
+- **A13.2 Shell count (P5-05).** The roadmap aim stands: **3–4 room shells per biome** (Rust, Program, Garden), each
+  authored at the 8 m and 11 m `ArenaHalfExtent` footprints. Program is built end to end first.
+- **A13.3 UI font (P5-07).** **Rajdhani** (OFL), SDF 1024, padding 9, with LiberationSans as the fallback. Orbitron
+  was offered and not chosen.
+- **A13.4 Perf probe (P5-00).** The in-editor budget numbers come from `PerfBudgetProbe` (hands posed in view,
+  Mobile_RPAsset = the Quest 3 path). Every later P5 task re-measures and must stay inside the Quest 3 column.

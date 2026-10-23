@@ -18,5 +18,11 @@ namespace Ronin7.Tests.EditMode
         [TestCase(GraphicsDirector.DeviceTier.Quest2, 0.5f)]
         public void FoveationFor_Tier(GraphicsDirector.DeviceTier tier, float expected) =>
             Assert.AreEqual(expected, QualityBootstrap.FoveationFor(tier), 1e-6f);
+
+        [TestCase(GraphicsDirector.DeviceTier.PCVR, 1f)]
+        [TestCase(GraphicsDirector.DeviceTier.Quest3, 1f)]
+        [TestCase(GraphicsDirector.DeviceTier.Quest2, 0.85f)]
+        public void EyeResolutionScaleFor_Tier(GraphicsDirector.DeviceTier tier, float expected) =>
+            Assert.AreEqual(expected, QualityBootstrap.EyeResolutionScaleFor(tier), 1e-6f);
     }
 }
