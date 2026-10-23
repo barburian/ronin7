@@ -32,7 +32,15 @@ namespace Ronin7.Editor.Art
             public int max;        // ≤ 30
             public float gravity;
             public float radius;   // emit shape radius
+            // P5-03: look. All optional; defaults = SoftDot billboard with a linear alpha fade.
+            public string texture;                // SoftDot (default) | SparkStreak | Ring | Glyph
+            public bool stretched;                // Stretched billboard along velocity (sparks)
+            public float lengthScale;             // stretched length multiplier (default 2)
+            public AnimationCurve sizeCurve;      // size over lifetime multiplier; null = constant
+            public Gradient colorCurve;           // colour over lifetime; null = white, alpha 1 -> 0
         }
+
+        private static readonly AnimationCurve Grow = AnimationCurve.EaseInOut(0f, 0.15f, 1f, 1f);
 
         private static readonly Spec[] Specs =
         {
@@ -52,14 +60,108 @@ namespace Ronin7.Editor.Art
             new Spec { name = "BoltImpact",   color = NeonPalette.Amber,   life = 0.2f,  speed = 5f,  size = 0.05f, max = 16, gravity = 0f,   radius = 0.04f },
             // Ship explosion — big amber puff.
             new Spec { name = "ShipExplosion", color = NeonPalette.Amber,  life = 0.4f,  speed = 10f, size = 0.12f, max = 30, gravity = 0f,   radius = 0.1f },
+            // P5-03 hit sparks x MaterialClass. Mech: amber streaks (stretched along velocity).
+            new Spec { name = "SparkStreakFx", color = NeonPalette.Amber,  life = 0.2f,  speed = 9f,  size = 0.03f, max = 16, gravity = 0.4f, radius = 0.02f, texture = "SparkStreak", stretched = true, lengthScale = 3f },
+            // Spectral: cyan/violet wisps drifting up (negative gravity).
+            new Spec { name = "SpectralWisp",  color = NeonPalette.Cyan,   life = 0.4f,  speed = 0.8f, size = 0.07f, max = 16, gravity = -0.35f, radius = 0.05f, sizeCurve = Grow },
+            // Parry ring: one expanding ring quad, 0.12 s, <= 0.5 m. A billboard particle, so no screen flash.
+            new Spec { name = "ParryRing",     color = NeonPalette.Cyan,   life = 0.12f, speed = 0f,  size = 0.5f,  max = 4,  gravity = 0f,   radius = 0.001f, texture = "Ring", sizeCurve = Grow },
+            // Posture break shards: short white stretched shards.
+            new Spec { name = "PostureShard",  color = Color.white * 2f,   life = 0.35f, speed = 5f,  size = 0.03f, max = 24, gravity = 1.0f, radius = 0.05f, texture = "SparkStreak", stretched = true, lengthScale = 2f },
+            // Spawn embers / pickup glints: rise slowly.
+            new Spec { name = "SpawnEmbers",   color = NeonPalette.Violet, life = 0.4f,  speed = 0.6f, size = 0.05f, max = 20, gravity = -0.5f, radius = 0.35f, sizeCurve = Grow },
+            // Ability glyph puff (Phase Step etc.).
+            new Spec { name = "GlyphPuff",     color = NeonPalette.Cyan,   life = 0.3f,  speed = 0.5f, size = 0.12f, max = 20, gravity = 0f,   radius = 0.2f,  texture = "Glyph", sizeCurve = Grow },
         };
+
+        private static readonly Gradient FadeOut = MakeFade();
+        private static Gradient MakeFade()
+        {
+            var g = new Gradient();
+            g.SetKeys(new[] { new GradientColorKey(Color.white, 0f), new GradientColorKey(Color.white, 1f) },
+                      new[] { new GradientAlphaKey(1f, 0f), new GradientAlphaKey(0f, 1f) });
+            return g;
+        }
+
+        private const string TexFolder = "Assets/Ronin7/Art/Textures/Vfx";
+
+        /// <summary>SoftDot uses the shared material; other textures get their own additive copy
+        /// (Vfx_{Texture}_Additive.mat) so sparks, rings and glyphs keep distinct maps.</summary>
+        private static Material MaterialFor(string texture, Material soft)
+        {
+            if (string.IsNullOrEmpty(texture) || texture == "SoftDot") return soft;
+            string path = $"{MatFolder}/Vfx_{texture}_Additive.mat";
+            var m = AssetDatabase.LoadAssetAtPath<Material>(path);
+            if (m == null)
+            {
+                m = new Material(soft);
+                AssetDatabase.CreateAsset(m, path);
+            }
+            SetMap(m, texture);
+            return m;
+        }
+
+        private static void SetMap(Material m, string texture)
+        {
+            var t = AssetDatabase.LoadAssetAtPath<Texture2D>($"{TexFolder}/{texture}.png");
+            if (t != null) { m.SetTexture("_BaseMap", t); EditorUtility.SetDirty(m); }
+        }
+
+        /// <summary>Procedural 32-128 px alpha masks (white RGB, alpha = shape); an existing PNG is left alone.</summary>
+        private static void EnsureTextures()
+        {
+            EnsureFolder(TexFolder);
+            WriteTex("SoftDot", 64, 64, (u, v) => Mathf.Pow(Mathf.Clamp01(1f - Mathf.Sqrt(u * u + v * v)), 2f));
+            // Bright core line fading along x, thin in y.
+            WriteTex("SparkStreak", 128, 32, (u, v) => Mathf.Clamp01(1f - Mathf.Abs(u)) * Mathf.Exp(-v * v * 18f));
+            WriteTex("Ring", 128, 128, (u, v) =>
+            {
+                float r = Mathf.Sqrt(u * u + v * v);
+                return Mathf.Exp(-Mathf.Pow((r - 0.8f) / 0.1f, 2f)) * Mathf.Clamp01((1f - r) * 8f);
+            });
+            // Diamond outline + centre dot.
+            WriteTex("Glyph", 128, 128, (u, v) =>
+            {
+                float d = Mathf.Abs(u) + Mathf.Abs(v);
+                return Mathf.Clamp01(Mathf.Exp(-Mathf.Pow((d - 0.8f) / 0.07f, 2f)) + Mathf.Exp(-(u * u + v * v) * 60f));
+            });
+            var soft = AssetDatabase.LoadAssetAtPath<Material>(AdditiveMatPath);
+            if (soft != null) SetMap(soft, "SoftDot");
+            var trail = AssetDatabase.LoadAssetAtPath<Material>(MatFolder + "/PlasmaTrail_Additive.mat");
+            if (trail != null) SetMap(trail, "SoftDot");
+        }
+
+        /// <param name="f">Alpha for (u, v), each in -1..1 across the texture.</param>
+        private static void WriteTex(string name, int w, int h, System.Func<float, float, float> f)
+        {
+            string path = $"{TexFolder}/{name}.png";
+            if (System.IO.File.Exists(path)) return;
+            var tex = new Texture2D(w, h, TextureFormat.RGBA32, false);
+            var px = new Color32[w * h];
+            for (int y = 0; y < h; y++)
+                for (int x = 0; x < w; x++)
+                {
+                    float a = Mathf.Clamp01(f((x + 0.5f) / w * 2f - 1f, (y + 0.5f) / h * 2f - 1f));
+                    px[y * w + x] = new Color32(255, 255, 255, (byte)Mathf.RoundToInt(a * 255f));
+                }
+            tex.SetPixels32(px);
+            System.IO.File.WriteAllBytes(path, tex.EncodeToPNG());
+            Object.DestroyImmediate(tex);
+            AssetDatabase.ImportAsset(path);
+            var imp = (TextureImporter)AssetImporter.GetAtPath(path);
+            imp.alphaIsTransparency = true;
+            imp.wrapMode = TextureWrapMode.Clamp;
+            imp.mipmapEnabled = false;
+            imp.SaveAndReimport();
+        }
 
         [MenuItem("Tools/Space Samurai/Art/Build Combat VFX Prefabs", priority = 5)]
         public static void BuildAll()
         {
             EnsureFolder(VfxResourceFolder);
             var mat = EnsureAdditiveMaterial();
-            foreach (var spec in Specs) BuildOne(spec, mat);
+            EnsureTextures();
+            foreach (var spec in Specs) BuildOne(spec, MaterialFor(spec.texture, mat));
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
             Debug.Log($"[VfxPrefabBuilder] Built {Specs.Length} combat VFX prefab(s) into {VfxResourceFolder}.");
@@ -93,6 +195,16 @@ namespace Ronin7.Editor.Art
             shape.shapeType = ParticleSystemShapeType.Sphere;
             shape.radius = spec.radius;
 
+            var col = ps.colorOverLifetime;
+            col.enabled = true;
+            col.color = spec.colorCurve ?? FadeOut;
+            if (spec.sizeCurve != null)
+            {
+                var sol = ps.sizeOverLifetime;
+                sol.enabled = true;
+                sol.size = new ParticleSystem.MinMaxCurve(1f, spec.sizeCurve);
+            }
+
             // Everything heavy stays off for the Quest budget.
             var collision = ps.collision; collision.enabled = false;
             var lights = ps.lights; lights.enabled = false;
@@ -100,7 +212,8 @@ namespace Ronin7.Editor.Art
             var sub = ps.subEmitters; sub.enabled = false;
 
             var renderer = go.GetComponent<ParticleSystemRenderer>();
-            renderer.renderMode = ParticleSystemRenderMode.Billboard;
+            renderer.renderMode = spec.stretched ? ParticleSystemRenderMode.Stretch : ParticleSystemRenderMode.Billboard;
+            if (spec.stretched) { renderer.lengthScale = spec.lengthScale > 0f ? spec.lengthScale : 2f; renderer.velocityScale = 0f; }
             renderer.alignment = ParticleSystemRenderSpace.View;
             renderer.sharedMaterial = mat;
             renderer.shadowCastingMode = ShadowCastingMode.Off;
