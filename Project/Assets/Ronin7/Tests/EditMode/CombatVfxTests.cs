@@ -84,6 +84,39 @@ namespace Ronin7.Tests.EditMode
         }
 
         [Test]
+        public void AllVfxPrefabs_AreQuestCapped_AdditiveAndZWriteOff()
+        {
+            var guids = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets/Ronin7/Resources/Vfx" });
+            if (guids.Length == 0) Assert.Inconclusive("VFX prefabs not built yet.");
+            foreach (var g in guids)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(g);
+                var go = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                var ps = go.GetComponent<ParticleSystem>();
+                Assert.LessOrEqual(ps.main.maxParticles, 30, path);
+                Assert.IsFalse(ps.collision.enabled || ps.lights.enabled || ps.subEmitters.enabled || ps.trails.enabled, path);
+                var mat = go.GetComponent<ParticleSystemRenderer>().sharedMaterial;
+                Assert.IsNotNull(mat, path);
+                Assert.AreEqual(0f, mat.GetFloat("_ZWrite"), path + " must be ZWrite Off");
+            }
+        }
+
+        [Test]
+        public void EmitCount_ScalesWithParticleScale()
+        {
+            float old = GraphicsRuntime.ParticleScale;
+            try
+            {
+                GraphicsRuntime.ParticleScale = 1f;
+                Assert.AreEqual(20, CombatVfxController.ScaledCount(20));
+                GraphicsRuntime.ParticleScale = 0.4f;
+                Assert.AreEqual(8, CombatVfxController.ScaledCount(20));
+                Assert.AreEqual(1, CombatVfxController.ScaledCount(1));
+            }
+            finally { GraphicsRuntime.ParticleScale = old; }
+        }
+
+        [Test]
         public void BuiltPrefab_IsQuestCapped_AndNotPlayOnAwake()
         {
             const string path = "Assets/Ronin7/Resources/Vfx/SwordSpark.prefab";

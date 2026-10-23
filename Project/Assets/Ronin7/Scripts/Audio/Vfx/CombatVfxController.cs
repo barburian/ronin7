@@ -35,6 +35,15 @@ namespace Ronin7.Audio.Vfx
         private const int TreasureBurst = 30;
         private const int ResistedBurst = DeflectBurst / 4;
         private static readonly Color32 ResistedTint = new Color32(120, 140, 170, 255); // blue-grey
+        private static readonly Color32 WhiteTint = new Color32(255, 255, 255, 255);
+        private static readonly Color32 VioletTint = new Color32(160, 90, 255, 255);
+        private static readonly Color32 GoldWhiteTint = new Color32(255, 235, 170, 255);
+        private static readonly Color32 RedTint = new Color32(255, 40, 30, 255);
+        private static readonly Color32 PostureBlue = new Color32(80, 140, 255, 255);
+        private static readonly Color32 OverdriveMagenta = new Color32(255, 50, 180, 255);
+        private static readonly Color32 SpawnViolet = new Color32(170, 90, 255, 255);
+        private const float RingSize = 0.5f;      // parry ring <= 0.5 m
+        private const float KiaiRingSize = 2.2f;
         private static readonly Color32 WeaknessTint = new Color32(255, 200, 60, 255);  // gold
 
         // Sword sparks scale with swing speed (m/s) between these.
@@ -45,6 +54,7 @@ namespace Ronin7.Audio.Vfx
 
         private VfxPool pool;
         private ParticleSystem spark, blood, deflect, hitFlash, death, muzzle, bolt, explosion;
+        private ParticleSystem streak, wisp, ring, shard, embers, glyph; // P5-03
 
         /// <summary>Test hook: combat events handled since the last <see cref="Subscribe"/> — proves
         /// the controller is subscribed (and stays unsubscribed after <see cref="Unsubscribe"/>).</summary>
@@ -71,6 +81,12 @@ namespace Ronin7.Audio.Vfx
             muzzle = Load("MuzzleFlash");
             bolt = Load("BoltImpact");
             explosion = Load("ShipExplosion");
+            streak = Load("SparkStreakFx");
+            wisp = Load("SpectralWisp");
+            ring = Load("ParryRing");
+            shard = Load("PostureShard");
+            embers = Load("SpawnEmbers");
+            glyph = Load("GlyphPuff");
         }
 
         private static ParticleSystem Load(string name)
@@ -97,6 +113,9 @@ namespace Ronin7.Audio.Vfx
             EventBus.Subscribe<TreasureOpened>(OnTreasureOpened);
             EventBus.Subscribe<HitResisted>(OnHitResisted);
             EventBus.Subscribe<WeaknessExploited>(OnWeaknessExploited);
+            EventBus.Subscribe<PostureBroken>(OnPostureBroken);
+            EventBus.Subscribe<EnemySpawning>(OnSpawning);
+            EventBus.Subscribe<AbilityActivated>(OnAbility);
         }
 
         internal void Unsubscribe()
@@ -112,6 +131,9 @@ namespace Ronin7.Audio.Vfx
             EventBus.Unsubscribe<TreasureOpened>(OnTreasureOpened);
             EventBus.Unsubscribe<HitResisted>(OnHitResisted);
             EventBus.Unsubscribe<WeaknessExploited>(OnWeaknessExploited);
+            EventBus.Unsubscribe<PostureBroken>(OnPostureBroken);
+            EventBus.Unsubscribe<EnemySpawning>(OnSpawning);
+            EventBus.Unsubscribe<AbilityActivated>(OnAbility);
         }
 
         // BUG-39: resisted/exploited hits own their VFX; the generic sparks + damage flash skip that victim this frame.
@@ -122,14 +144,26 @@ namespace Ronin7.Audio.Vfx
             if (latch.Suppresses(e.Victim)) return;
             HandledCount++;
             float t = Mathf.InverseLerp(SparkSpeedLo, SparkSpeedHi, e.Speed);
-            Emit(spark, e.Point, Mathf.RoundToInt(Mathf.Lerp(SparkMin, SparkMax, t)));
+            int n = Mathf.RoundToInt(Mathf.Lerp(SparkMin, SparkMax, t));
+            var enemy = e.Victim != null ? e.Victim.GetComponentInParent<Enemy>() : null;
+            switch (enemy != null ? enemy.VfxClass : MaterialClass.Organic)
+            {
+                case MaterialClass.Mech:     // amber streaks + a white flash
+                    Emit(streak, e.Point, n); Emit(hitFlash, e.Point, 2, WhiteTint); break;
+                case MaterialClass.Spectral: // cyan/violet wisps drifting up
+                    Emit(wisp, e.Point, n); Emit(wisp, e.Point, n / 2, VioletTint); break;
+                case MaterialClass.Armored:  // short white-gold
+                    Emit(spark, e.Point, Mathf.Max(2, n / 2), GoldWhiteTint); break;
+                default:                     // organic: red + amber
+                    Emit(spark, e.Point, n); Emit(spark, e.Point, n / 2, RedTint); break;
+            }
             // Organic victims (anything with a MeleeAttacker) bleed when the blood toggle is on;
             // otherwise the neon sparks above are the whole effect.
             if (GraphicsRuntime.CombatBlood && IsOrganic(e.Victim))
                 Emit(blood, e.Point, BloodBurst);
         }
 
-        private void OnDeflect(SwordDeflected e) { HandledCount++; Emit(deflect, e.Point, DeflectBurst); }
+        private void OnDeflect(SwordDeflected e) { HandledCount++; Emit(deflect, e.Point, DeflectBurst); Emit(ring, e.Point, 1, null, RingSize); }
         private void OnDamaged(EntityDamaged e)
         {
             if (latch.Suppresses(e.Entity)) return;
@@ -153,6 +187,32 @@ namespace Ronin7.Audio.Vfx
             if (body != null) RendererTint.Flash(body.BodyRenderer, 1f);
         }
 
+        // P5-03: white shards + a blue rim ring. Particle billboards only: no screen flash, no shake.
+        private void OnPostureBroken(PostureBroken e)
+        {
+            HandledCount++;
+            Vector3 p = Center(e.Entity) + Vector3.up;
+            Emit(shard, p, 24);
+            Emit(ring, p, 1, PostureBlue, RingSize);
+        }
+
+        private void OnSpawning(EnemySpawning e) { HandledCount++; Emit(embers, e.Point, 14); }
+
+        // Ability events carry only an id, so the effect is anchored on the player's feet / head.
+        private void OnAbility(AbilityActivated e)
+        {
+            var cam = Camera.main;
+            if (cam == null) return;
+            Vector3 head = cam.transform.position;
+            Vector3 feet = new Vector3(head.x, head.y - 1.5f, head.z);
+            switch (e.Id)
+            {
+                case AbilityId.PhaseStep: HandledCount++; Emit(glyph, feet + Vector3.up * 0.9f, 16); break;
+                case AbilityId.Overdrive: HandledCount++; Emit(ring, feet + Vector3.up * 0.05f, 1, OverdriveMagenta, 1.2f); break;
+                case Ronin7.Player.ArtId.KiaiPalm: HandledCount++; Emit(ring, feet + Vector3.up * 0.05f, 1, null, KiaiRingSize); break;
+            }
+        }
+
         private void OnShipFired(ShipWeaponFired e) { HandledCount++; Emit(muzzle, e.WorldPoint, MuzzleBurst); }
         private void OnBoltImpact(ProjectileImpact e) { HandledCount++; Emit(bolt, e.WorldPoint, BoltBurst); }
 
@@ -162,12 +222,15 @@ namespace Ronin7.Audio.Vfx
         private void OnPlayerShipDestroyed(PlayerShipDestroyed e)
         { HandledCount++; Emit(explosion, e.WorldPoint, ExplosionBurst); }
 
-        private void Emit(ParticleSystem prefab, Vector3 point, int baseCount, Color32? tint = null)
+        private void Emit(ParticleSystem prefab, Vector3 point, int baseCount, Color32? tint = null, float? size = null)
         {
             if (pool == null) return; // edit-mode/tests: handler still counts, just nothing to spawn
-            int count = Mathf.Max(1, Mathf.RoundToInt(baseCount * GraphicsRuntime.ParticleScale));
-            pool.Play(prefab, point, count, tint);
+            pool.Play(prefab, point, ScaledCount(baseCount), tint, size);
         }
+
+        /// <summary>Burst size after the tier's <see cref="GraphicsRuntime.ParticleScale"/>; never below 1.</summary>
+        internal static int ScaledCount(int baseCount)
+            => Mathf.Max(1, Mathf.RoundToInt(baseCount * GraphicsRuntime.ParticleScale));
 
         // All on-foot enemies derive from MeleeAttacker (which RequireComponent(Health)); the sword
         // victim is the Health GameObject, so this is the dependency-light "is this a creature?" test.

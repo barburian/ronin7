@@ -52,6 +52,9 @@ namespace Ronin7.Enemies
 
         protected EnemyDefinition Definition => definition;
 
+        /// <summary>P5-03: drives the hit-spark look (EnemyDefinition.materialClass).</summary>
+        public MaterialClass VfxClass => definition != null ? definition.materialClass : MaterialClass.Organic;
+
         // P3-07 feints: read once per windup (BeginAttack), so each draw advances the seeded stream.
         protected override float TelegraphTime => definition.telegraphMaxTime > definition.telegraphTime
             ? Mathf.Lerp(definition.telegraphTime, definition.telegraphMaxTime, telegraphRng.NextFloat())
