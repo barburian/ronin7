@@ -19,6 +19,10 @@ namespace Ronin7.Editor.Art
         public bool Occluder;         // walls / pillars get OccluderStatic
         public Bounds[] Colliders;    // null = one box over the mesh bounds
         public Vector3? Mount;        // optional "LightMount" child (baked light anchor for the room shells)
+        /// <summary>Hero prop: imported model path (read every build, so a re-imported/retopo'd source is picked up).
+        /// Gets its own material (the one exception to the 4-material cap) and is probe-lit, not lightmapped.</summary>
+        public string SourceModel;
+        public float HeroDiameter;    // hero: target max dimension (m)
         public Action<KitMesh> Build;
     }
 
@@ -78,9 +82,10 @@ namespace Ronin7.Editor.Art
                 new KitPiece { Name = "LightBar", Size = new Vector3(1.5f, 0.06f, 0.11f), MaxTris = 100,
                     Mount = new Vector3(0, 0, 0.2f), Build = LightBar },
                 new KitPiece { Name = "HoloGlyph", Size = new Vector3(1, 1.5f, 0.04f), MaxTris = 100, Build = HoloGlyph },
-                // HERO SLOT: placeholder only. The user's Unity AI image->3D eye core (A13.6, <=2k tris) replaces this
-                // mesh later; keep the prefab path Program_Hero_EyeCore.prefab stable so scenes never need touching.
-                new KitPiece { Name = "Hero_EyeCore", Size = new Vector3(1.8f, 1.8f, 1.3f), MaxTris = 2000, Build = EyeCorePlaceholder },
+                // HERO: the user's Unity AI image->3D eye core (A13.6). Pivot bottom-centre, ~1.5 m. A pending retopo may
+                // replace selected.glb in place; re-run this menu (+ the room shells) to pick it up. MaxTris drops with it.
+                new KitPiece { Name = "Hero_EyeCore", Size = new Vector3(1.42f, 1.5f, 1.31f), MaxTris = 12000, HeroDiameter = 1.5f,
+                    SourceModel = ProgramRoot + "/Raw/Program_Hero_EyeCore_AI_Assets/selected.glb" },
             },
         };
 
@@ -99,6 +104,13 @@ namespace Ronin7.Editor.Art
             int totalTris = 0;
             foreach (var piece in kit.Pieces)
             {
+                if (piece.SourceModel != null)
+                {
+                    var hero = SaveHeroMesh(kit, piece, out var heroMat);
+                    totalTris += hero.triangles.Length / 3;
+                    SavePrefab(kit, piece, hero, new[] { heroMat });
+                    continue;
+                }
                 var km = new KitMesh();
                 piece.Build(km);
                 var mesh = SaveMesh($"{kit.MeshDir}/{kit.Name}_{piece.Name}.asset", km, out var slots);
@@ -237,14 +249,6 @@ namespace Ronin7.Editor.Art
             m.Pane(V(-0.46f, 0.04f, 0), V(0.46f, 1.46f, 0), KitSlot.Decal, new Rect(0, 0, 0.5f, 0.75f));
         }
 
-        private static void EyeCorePlaceholder(KitMesh m)
-        {
-            var c = V(0, 2, 0);
-            m.Sphere(c, 0.6f, 16, 10, KitSlot.Trim);
-            m.Sphere(c + V(0, 0, 0.45f), 0.25f, 12, 8, KitSlot.Neon);  // iris
-            m.Torus(c, 0.85f, 0.05f, 24, 6, KitSlot.Neon);            // orbit ring, XY plane
-        }
-
         // ---------------- assets ----------------
 
         private static Mesh SaveMesh(string path, KitMesh km, out KitSlot[] slots)
@@ -267,7 +271,8 @@ namespace Ronin7.Editor.Art
                 go.AddComponent<MeshFilter>().sharedMesh = mesh;
                 var mr = go.AddComponent<MeshRenderer>();
                 mr.sharedMaterials = mats;
-                mr.receiveGI = ReceiveGI.Lightmaps;
+                bool hero = piece.SourceModel != null;
+                mr.receiveGI = hero ? ReceiveGI.LightProbes : ReceiveGI.Lightmaps;
                 foreach (var b in piece.Colliders ?? new[] { mesh.bounds })
                 {
                     var bc = go.AddComponent<BoxCollider>();
@@ -279,13 +284,109 @@ namespace Ronin7.Editor.Art
                     mount.transform.SetParent(go.transform, false);
                     mount.transform.localPosition = piece.Mount.Value;
                 }
-                var flags = StaticEditorFlags.ContributeGI | StaticEditorFlags.BatchingStatic;
+                // The hero is probe-lit so its mesh can be swapped / retopo'd without a rebake.
+                var flags = hero ? StaticEditorFlags.BatchingStatic : StaticEditorFlags.ContributeGI | StaticEditorFlags.BatchingStatic;
                 if (piece.Occluder) flags |= StaticEditorFlags.OccluderStatic;
                 foreach (var t in go.GetComponentsInChildren<Transform>())
                     GameObjectUtility.SetStaticEditorFlags(t.gameObject, flags);
                 PrefabUtility.SaveAsPrefabAsset(go, kit.PrefabPath(piece));
             }
             finally { UnityEngine.Object.DestroyImmediate(go); }
+        }
+
+        /// <summary>Copies the source model's mesh (node transform baked in) into the kit's mesh asset, scaled to
+        /// <see cref="KitPiece.HeroDiameter"/> with the pivot at bottom-centre; extracts its glTF textures to PNGs and
+        /// builds a URP/Lit material from them.</summary>
+        private static Mesh SaveHeroMesh(BiomeKit kit, KitPiece piece, out Material mat)
+        {
+            var root = AssetDatabase.LoadAssetAtPath<GameObject>(piece.SourceModel);
+            if (root == null) throw new FileNotFoundException("Hero source model missing", piece.SourceModel);
+            var mf = root.GetComponentInChildren<MeshFilter>();
+            var src = mf.sharedMesh;
+            var xf = root.transform.worldToLocalMatrix * mf.transform.localToWorldMatrix;
+            var v = src.vertices; var n = src.normals; var tg = src.tangents;
+            for (int i = 0; i < v.Length; i++) v[i] = xf.MultiplyPoint3x4(v[i]);
+            var b = GeometryUtility.CalculateBounds(v, Matrix4x4.identity);
+            float s = piece.HeroDiameter / Mathf.Max(b.size.x, b.size.y, b.size.z);
+            var off = new Vector3(b.center.x, b.min.y, b.center.z);
+            for (int i = 0; i < v.Length; i++) v[i] = (v[i] - off) * s;
+            for (int i = 0; i < n.Length; i++) n[i] = xf.MultiplyVector(n[i]).normalized;
+            for (int i = 0; i < tg.Length; i++) { var t = xf.MultiplyVector(tg[i]).normalized; tg[i] = new Vector4(t.x, t.y, t.z, tg[i].w); }
+
+            string path = $"{kit.MeshDir}/{kit.Name}_{piece.Name}.asset";
+            var mesh = AssetDatabase.LoadAssetAtPath<Mesh>(path);
+            bool isNew = mesh == null;
+            if (isNew) mesh = new Mesh();
+            mesh.Clear();
+            mesh.indexFormat = src.indexFormat;
+            mesh.vertices = v; mesh.normals = n; mesh.tangents = tg; mesh.uv = src.uv;
+            mesh.triangles = src.triangles;
+            mesh.RecalculateBounds();
+            mesh.name = Path.GetFileNameWithoutExtension(path);
+            if (isNew) AssetDatabase.CreateAsset(mesh, path); else EditorUtility.SetDirty(mesh);
+
+            // glTF material -> URP/Lit. glTF metallicRoughness packs metal in B, roughness in G; URP wants metal R, smoothness A.
+            var g = mf.GetComponent<MeshRenderer>().sharedMaterial;
+            Texture baseTex = null, normalTex = null, mrTex = null;
+            foreach (var name in g.GetTexturePropertyNames())
+            {
+                var t = g.GetTexture(name);
+                string k = name.ToLowerInvariant(); // glTFast: baseColorTexture / metallicRoughnessTexture / normalTexture
+                if (t == null) continue;
+                if (k.Contains("normal")) normalTex = t;
+                else if (k.Contains("metallic")) mrTex = t;
+                else if (k.Contains("basecolor") || k == "_maintex") baseTex = t;
+            }
+            string texBase = $"{kit.Root}/Textures/{kit.Name}_{piece.Name}";
+            var albedo = ExtractTexture(baseTex, texBase + "_BaseColor.png", true, null);
+            var normal = ExtractTexture(normalTex, texBase + "_Normal.png", false, null, TextureImporterType.NormalMap);
+            var mr = ExtractTexture(mrTex, texBase + "_MetallicSmoothness.png", false, c => new Color(c.b, c.b, c.b, 1 - c.g));
+
+            string matPath = $"{kit.Root}/Materials/{kit.Name}_{piece.Name}.mat";
+            mat = AssetDatabase.LoadAssetAtPath<Material>(matPath);
+            if (mat == null)
+            {
+                mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+                AssetDatabase.CreateAsset(mat, matPath);
+            }
+            mat.SetTexture("_BaseMap", albedo);
+            mat.SetColor("_BaseColor", Color.white);
+            mat.SetTexture("_BumpMap", normal);
+            if (normal != null) mat.EnableKeyword("_NORMALMAP");
+            mat.SetTexture("_MetallicGlossMap", mr);
+            if (mr != null) mat.EnableKeyword("_METALLICSPECGLOSSMAP");
+            mat.SetFloat("_Smoothness", 1f);
+            mat.enableInstancing = true;
+            EditorUtility.SetDirty(mat);
+            return mesh;
+        }
+
+        /// <summary>Blits a (possibly non-readable, embedded) texture to a PNG asset; optional per-pixel remap.</summary>
+        private static Texture2D ExtractTexture(Texture src, string path, bool srgb, Func<Color, Color> remap,
+            TextureImporterType type = TextureImporterType.Default)
+        {
+            if (src == null) return null;
+            var rt = RenderTexture.GetTemporary(src.width, src.height, 0, RenderTextureFormat.ARGB32,
+                srgb ? RenderTextureReadWrite.sRGB : RenderTextureReadWrite.Linear);
+            Graphics.Blit(src, rt);
+            var prev = RenderTexture.active; RenderTexture.active = rt;
+            var tex = new Texture2D(src.width, src.height, TextureFormat.RGBA32, false, !srgb);
+            tex.ReadPixels(new Rect(0, 0, src.width, src.height), 0, 0);
+            RenderTexture.active = prev; RenderTexture.ReleaseTemporary(rt);
+            if (remap != null)
+            {
+                var px = tex.GetPixels();
+                for (int i = 0; i < px.Length; i++) px[i] = remap(px[i]);
+                tex.SetPixels(px);
+            }
+            File.WriteAllBytes(path, tex.EncodeToPNG());
+            UnityEngine.Object.DestroyImmediate(tex);
+            AssetDatabase.ImportAsset(path);
+            var imp = (TextureImporter)AssetImporter.GetAtPath(path);
+            imp.textureType = type;
+            imp.sRGBTexture = srgb;
+            imp.SaveAndReimport();
+            return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
         }
 
         /// <summary>AI base maps double as emission maps (bright seams/strips glow, black stays black); builds the decal atlas + material.</summary>
@@ -396,7 +497,7 @@ namespace Ronin7.Editor.Art
         };
     }
 
-    /// <summary>Tiny mesh accumulator: flat-faced boxes/prisms with world-ish planar UVs, smooth spheres/tori,
+    /// <summary>Tiny mesh accumulator: flat-faced boxes/prisms/panes with world-ish planar UVs,
     /// one submesh per <see cref="KitSlot"/>. Winding is fixed up per triangle against the intended normal.</summary>
     public sealed class KitMesh
     {
@@ -470,46 +571,6 @@ namespace Ronin7.Editor.Art
             foreach (var n in new[] { Vector3.forward, Vector3.back })
                 Quad(min, new Vector3(min.x, max.y, min.z), max, new Vector3(max.x, min.y, min.z), n, s,
                     p => new Vector2(uv.x + uv.width * Mathf.InverseLerp(min.x, max.x, p.x), uv.y + uv.height * Mathf.InverseLerp(min.y, max.y, p.y)));
-        }
-
-        public void Sphere(Vector3 c, float r, int seg, int rings, KitSlot s)
-        {
-            int first = _v.Count;
-            for (int j = 0; j <= rings; j++)
-            for (int i = 0; i <= seg; i++)
-            {
-                float th = Mathf.PI * j / rings, ph = 2 * Mathf.PI * i / seg;
-                var n = new Vector3(Mathf.Sin(th) * Mathf.Cos(ph), Mathf.Cos(th), Mathf.Sin(th) * Mathf.Sin(ph));
-                Vert(c + n * r, n, new Vector2((float)i / seg, 1 - (float)j / rings));
-            }
-            Grid(first, seg, rings, s, skipPoles: true);
-        }
-
-        /// <summary>Torus around <paramref name="c"/> in the XY plane (ring axis = Z).</summary>
-        public void Torus(Vector3 c, float R, float r, int seg, int sides, KitSlot s)
-        {
-            int first = _v.Count;
-            for (int j = 0; j <= sides; j++)
-            for (int i = 0; i <= seg; i++)
-            {
-                float a = 2 * Mathf.PI * i / seg, b = 2 * Mathf.PI * j / sides;
-                var dir = new Vector3(Mathf.Cos(a), Mathf.Sin(a), 0);
-                var n = dir * Mathf.Cos(b) + Vector3.forward * Mathf.Sin(b);
-                Vert(c + dir * R + n * r, n, new Vector2((float)i / seg, (float)j / sides));
-            }
-            Grid(first, seg, sides, s, skipPoles: false);
-        }
-
-        private void Grid(int first, int cols, int rows, KitSlot s, bool skipPoles)
-        {
-            int w = cols + 1;
-            for (int j = 0; j < rows; j++)
-            for (int i = 0; i < cols; i++)
-            {
-                int a = first + j * w + i, b = a + 1, c = a + w, d = c + 1;
-                if (!skipPoles || j != 0) Tri(a, b, d, s);
-                if (!skipPoles || j != rows - 1) Tri(a, d, c, s);
-            }
         }
 
         public void Fill(Mesh mesh, out KitSlot[] slots)

@@ -9,6 +9,8 @@ namespace Ronin7.Tests.EditMode.Art
     /// <summary>
     /// P5-05 Program biome kit (A13.6): the built prefabs stay inside the kit-table triangle budgets,
     /// use BoxColliders only, match their spec footprint, and the whole kit draws with at most 4 materials.
+    /// The hero prop (AI eye core) is the one exception: its own material, its own tri target (MaxTris 12k for the
+    /// raw image->3D mesh; the pending retopo lowers it), and probe-lit instead of lightmapped.
     /// Rebuild with Tools/Space Samurai/Art/Build Biome Kit/Program if these fail after a builder change.
     /// </summary>
     public class BiomeKitTests
@@ -43,8 +45,10 @@ namespace Ronin7.Tests.EditMode.Art
                 Assert.IsEmpty(go.GetComponentsInChildren<MeshCollider>(true), piece.Name);
                 Assert.IsNotEmpty(go.GetComponents<BoxCollider>(), piece.Name);
                 var flags = GameObjectUtility.GetStaticEditorFlags(go);
-                Assert.IsTrue((flags & StaticEditorFlags.ContributeGI) != 0, piece.Name);
+                bool hero = piece.SourceModel != null;
+                Assert.AreEqual(!hero, (flags & StaticEditorFlags.ContributeGI) != 0, piece.Name);
                 Assert.IsTrue((flags & StaticEditorFlags.BatchingStatic) != 0, piece.Name);
+                if (hero) Assert.AreEqual(ReceiveGI.LightProbes, go.GetComponent<MeshRenderer>().receiveGI, piece.Name);
             }
         }
 
@@ -63,12 +67,19 @@ namespace Ronin7.Tests.EditMode.Art
         {
             var mats = new HashSet<Material>();
             foreach (var (piece, go) in Prefabs(BiomeKitBuilder.Program))
+            {
+                if (piece.SourceModel != null)
+                {
+                    Assert.AreEqual(1, go.GetComponent<Renderer>().sharedMaterials.Length, piece.Name);
+                    continue; // the hero's own material is the single allowed exception
+                }
                 foreach (var r in go.GetComponentsInChildren<Renderer>())
                     foreach (var m in r.sharedMaterials)
                     {
                         Assert.IsNotNull(m, $"{piece.Name} has an empty material slot");
                         mats.Add(m);
                     }
+            }
             Assert.LessOrEqual(mats.Count, 4);
         }
     }

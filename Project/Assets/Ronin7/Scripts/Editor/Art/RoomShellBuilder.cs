@@ -128,10 +128,10 @@ namespace Ronin7.Editor.Art
                 : new[] { (2, -0.65f * h), (3, -0.65f * h) };
             foreach (var (side, t) in glyphs) Place("HoloGlyph", shell, SidePoint(side, h - 0.1f, t, 1.8f), SideYaw(side));
 
-            // Hero: the floating eye core, always above the combat floor (never blocks the arena).
-            if (layout == 2) Place("Hero_EyeCore", shell, new Vector3(0, 4.5f, 0), 0);
-            else if (layout == 1) Place("Hero_EyeCore", shell, SidePoint(0, h - 0.5f, 0, 4f), SideYaw(0));
-            else Place("Hero_EyeCore", shell, SidePoint(2, h - 0.5f, 0, 4f), SideYaw(2));
+            // Hero: the floating eye core (pivot = bottom of its 1.5 m body, centre ~6 m up), always above the combat floor.
+            if (layout == 2) Place("Hero_EyeCore", shell, new Vector3(0, 5.75f, 0), 0);
+            else if (layout == 1) Place("Hero_EyeCore", shell, SidePoint(0, h - 0.5f, 0, 5.25f), SideYaw(0));
+            else Place("Hero_EyeCore", shell, SidePoint(2, h - 0.5f, 0, 5.25f), SideYaw(2));
 
             BuildDecals(shell, h, 8 + 2 * layout - 2, rng);
 

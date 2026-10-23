@@ -685,6 +685,7 @@ namespace Ronin7.World
             aliveCount++;
             EventBus.Publish(new EnemyActivated(health.gameObject)); // P5-03 reverse dissolve
             if (EnemyHealthBar.Wants(health, boss)) EnemyHealthBar.Attach(health, transform); // P3-08 (bosses use the north-wall bar)
+            BlobShadow.Attach(health, transform); // P5-05 Quest contact shadow
         }
 
         /// <summary>P3-07: diegetic boss bar on the north wall — a dark backing quad, a fill quad scaled from the
