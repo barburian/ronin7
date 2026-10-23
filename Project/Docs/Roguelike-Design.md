@@ -1606,6 +1606,18 @@ User answers on 2026-10-23 for the design calls the roadmap left open:
   targets and skinned with **Unity AI materials** (GenerateMaterial + AddPbrToMaterial); **hero props** come from Unity
   AI image→3D, run by the user in the generator UI from reference images generated with GenerateImage, then
   `RetopologyMesh` (takes an asset path, unaffected by the EntityId bug) and the kit builder.
+- **A13.7 Curved boon offer kept, slimmed (user, P5-07c/d, 2026-10-24).** The ±12° card curve stays; the offer
+  must cost <= 10 UI draws. Findings: a rotated (or vertex-bent) card is not coplanar with the panel canvas, so the
+  canvas batcher gives each of its graphics its own draw (7b: +22). Done: (1) a nested `Canvas` (+ both raycasters)
+  per card, so each card batches internally; card clicks still hit through the nested raycasters (scripted
+  RaycastAll + click in play mode, PlayMode 16/16); (2) `UiKit.Frame` is ONE baked 9-slice sprite (dark glass fill
+  + 3 px white edge, tinted by the accent colour; `BoonIconBuilder.BakeUiFrame`, `Processed/Resources/UiKitFrame.png`)
+  instead of glass + edge Images, and it lives in the BoonIcons atlas folder so frame and icon share a texture in
+  builds; (3) no Bold on card labels (Rajdhani-Bold is a 2nd TMP material); (4) the card canvases are the last
+  siblings so the panel's own frames and labels batch in one run. Result (atlas packed as in a build, PerfBudgetProbe
+  Rust node 1): Mobile 49 draws / 28 SetPass without a panel -> 58 / 37 with the offer (**+9 / +9**), PC 72 / 38 ->
+  83 / 49; magenta 0.0000. In-editor play mode with the default build-only packer the icons are loose textures, so
+  each card costs +1 there (estimated ~+12, not measured). The frame fill is now accent-tinted near-black instead of fixed blue-black.
 - **A13.8 Ganger waist ring removed (user, 2026-10-24).** Amends A12.2. The Coil Syndicate Ganger's magenta waist
   ring is gone; the Ganger is unmarked like the Scavenger. Reason: after the Mobile grade its magenta (~206,9,241)
   read as an error shader in renders and tripped the perf probe's magenta check. It must be identifiable without a

@@ -37,9 +37,51 @@ namespace Ronin7.Editor.Art
             foreach (var path in Directory.GetFiles(ProcessedFolder, "Icon_*.png"))
                 ConfigureSprite(path.Replace('\\', '/'));
 
+            BakeUiFrame();
             EnsureAtlas();
             AssetDatabase.SaveAssets();
             Debug.Log($"[BoonIconBuilder] processed {n} icon(s) into {ProcessedFolder}, atlas {AtlasPath}");
+        }
+
+        /// <summary>P5-07d (A13.7): the UiKit 9-slice frame as ONE sprite — rounded dark-glass fill (texel ~16/255,
+        /// so a cyan tint reads as the old near-black glass) with a 3 px white neon edge — saved under
+        /// <c>Processed/Resources</c> so it packs into the boon atlas (frames + icons share a texture in builds) and
+        /// UiKit can load it by name.</summary>
+        [MenuItem("Tools/Space Samurai/Art/Bake UiKit Frame")]
+        public static void BakeUiFrame()
+        {
+            const int cell = 32, border = 12; const float radius = 10f, edgeWidth = 3f; const byte fill = 16;
+            string folder = ProcessedFolder + "/Resources";
+            if (!AssetDatabase.IsValidFolder(folder)) AssetDatabase.CreateFolder(ProcessedFolder, "Resources");
+            var px = new Color32[cell * cell];
+            for (int y = 0; y < cell; y++)
+            for (int x = 0; x < cell; x++)
+            {
+                float d = Ronin7.Flow.UiKit.RoundBoxDistance(x + 0.5f - cell * 0.5f, y + 0.5f - cell * 0.5f, cell * 0.5f - 0.5f, radius);
+                float a = Mathf.Clamp01(0.5f - d), e = Mathf.Clamp01(d + edgeWidth + 0.5f);
+                byte v = (byte)Mathf.RoundToInt(Mathf.Lerp(fill, 255f, e));
+                px[y * cell + x] = new Color32(v, v, v, (byte)Mathf.RoundToInt(a * 255f));
+            }
+            var tex = new Texture2D(cell, cell, TextureFormat.RGBA32, false);
+            tex.SetPixels32(px);
+            string path = folder + "/" + Ronin7.Flow.UiKit.FrameSprite + ".png";
+            File.WriteAllBytes(path, tex.EncodeToPNG());
+            Object.DestroyImmediate(tex);
+            AssetDatabase.ImportAsset(path);
+            var imp = (TextureImporter)AssetImporter.GetAtPath(path);
+            imp.textureType = TextureImporterType.Sprite;
+            imp.spriteImportMode = SpriteImportMode.Single;
+            imp.spriteBorder = new Vector4(border, border, border, border);
+            imp.mipmapEnabled = false;
+            imp.alphaIsTransparency = true;
+            imp.wrapMode = TextureWrapMode.Clamp;
+            imp.filterMode = FilterMode.Bilinear;
+            imp.textureCompression = TextureImporterCompression.Uncompressed;
+            var ts = new TextureImporterSettings();
+            imp.ReadTextureSettings(ts);
+            ts.spriteMeshType = SpriteMeshType.FullRect;
+            imp.SetTextureSettings(ts);
+            imp.SaveAndReimport();
         }
 
         /// <summary>Box-downsample to 256² and move luminance into alpha (colour white).</summary>

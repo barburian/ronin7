@@ -150,7 +150,7 @@ namespace Ronin7.Tests.EditMode
             foreach (var t in tmps)
                 Assert.GreaterOrEqual(t.enableAutoSizing ? t.fontSizeMin : t.fontSize, UiKit.MinBody, t.name);
             Assert.AreEqual(Image.Type.Sliced, root.GetComponent<Image>().type, "glass frame");
-            Assert.IsNotNull(root.transform.Find("Edge"), "neon edge");
+            Assert.AreEqual(UiKit.FrameSprite, root.GetComponent<Image>().sprite?.name, "baked glass+edge frame sprite (A13.7)");
         }
     }
 }

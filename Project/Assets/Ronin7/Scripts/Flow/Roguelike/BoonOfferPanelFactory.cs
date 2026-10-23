@@ -72,6 +72,7 @@ namespace Ronin7.Flow
             panel.titleLabel = rt.Find("Title").GetComponent<TMP_Text>();
             // Must follow the field assignments above: AddComponent already ran Awake, so the button
             // listeners can only be attached now (see BoonOfferPanel.WireButtons).
+            foreach (var b in choiceButtons) b.transform.SetAsLastSibling(); // A13.7: nested card canvases last, so the panel's own frames/labels batch in one run
             panel.WireButtons();
             panel.SetChoices(choices);
             panel.SetRerollInteractable(rerollAvailable);
@@ -142,6 +143,7 @@ namespace Ronin7.Flow
             panel.footerButtons = footer;
             panel.titleLabel = titleRt.GetComponent<TMP_Text>();
             panel.subtitleLabel = sub;
+            foreach (var b in choiceButtons) b.transform.SetAsLastSibling(); // A13.7: nested card canvases last, so the panel's own frames/labels batch in one run
             panel.WireButtons(); // after the field assignments (see Build)
             panel.SetTitle(title, subtitle);
             panel.ShowOptions(optionCount);
@@ -170,8 +172,13 @@ namespace Ronin7.Flow
             btnRt.sizeDelta = new Vector2(300f, 440f);
             btnRt.anchoredPosition = new Vector2(x, y);
             BoonOfferPanel.PoseCard(btnRt, x);
+            // P5-07c (A13.7): a curved (rotated) card is not coplanar with the panel canvas, which makes every
+            // graphic on it its own draw. Its own nested canvas is coplanar with it, so the card batches internally.
+            btnGo.AddComponent<Canvas>();
+            btnGo.AddComponent<GraphicRaycaster>();
+            btnGo.AddComponent<TrackedDeviceGraphicRaycaster>();
             var btnImg = btnGo.AddComponent<Image>();
-            edge = UiKit.Frame(btnImg, UiKit.Cyan, 0.92f);
+            edge = UiKit.Frame(btnImg, UiKit.Cyan, 0.92f); // the frame itself carries the rarity edge colour
             var button = btnGo.AddComponent<Button>();
             button.targetGraphic = btnImg;
 
@@ -196,7 +203,7 @@ namespace Ronin7.Flow
             titleRt.pivot = new Vector2(0.5f, 1f);
             titleRt.sizeDelta = new Vector2(-28f, 84f);
             titleRt.anchoredPosition = new Vector2(0f, -116f);
-            titleLabel = UiKit.Text(titleGo, "", 34f, Color.white, TextAlignmentOptions.Center, bold: true);
+            titleLabel = UiKit.Text(titleGo, "", 34f, Color.white, TextAlignmentOptions.Center);  // P5-07c: no Bold on cards - Rajdhani-Bold is a 2nd TMP material (+1 draw per card)
             titleLabel.enableAutoSizing = true;
             titleLabel.fontSizeMin = UiKit.MinBody;
             titleLabel.fontSizeMax = 34f;
@@ -222,7 +229,7 @@ namespace Ronin7.Flow
             ownedRt.pivot = new Vector2(0.5f, 0f);
             ownedRt.sizeDelta = new Vector2(-28f, 38f);
             ownedRt.anchoredPosition = new Vector2(0f, 12f);
-            ownedLabel = UiKit.Text(ownedGo, "", UiKit.MinBody, new Color(1f, 0.85f, 0.4f, 1f), TextAlignmentOptions.Center, bold: true);
+            ownedLabel = UiKit.Text(ownedGo, "", UiKit.MinBody, new Color(1f, 0.85f, 0.4f, 1f), TextAlignmentOptions.Center);
 
             return button;
         }

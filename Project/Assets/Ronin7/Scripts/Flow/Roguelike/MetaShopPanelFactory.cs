@@ -73,7 +73,7 @@ namespace Ronin7.Flow
             panel.pages = new GameObject[TabNames.Length];
             for (int i = 0; i < TabNames.Length; i++)
             {
-                panel.tabs[i] = MakeButton(rt, TabNames[i], new Vector2(-360f + i * 240f, 260f), new Vector2(230f, 70f));
+                panel.tabs[i] = MakeButton(rt, TabNames[i], new Vector2(-369f + i * 246f, 260f), new Vector2(242f, 70f)); // P5-07d: 242 px so "PACKS & KEEPSAKES" (238 px at 28 px bold) stays on one line
                 panel.tabs[i].GetComponentInChildren<TMP_Text>().fontSize = UiKit.MinBody; // P5-07b: was 22/28 — clamped to the 28 px body minimum
                 panel.pages[i] = MakePage(rt, TabNames[i]);
             }
