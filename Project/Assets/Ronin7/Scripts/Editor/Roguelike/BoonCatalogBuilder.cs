@@ -303,6 +303,9 @@ namespace Ronin7.EditorTools
             boon.hasSecondary = spec.HasSecondary;
             boon.secondaryEffect = spec.SecondaryEffect;
             boon.secondaryMagnitude = spec.SecondaryMagnitude;
+            // P5-07: icon by asset name from the processed sprites (Build Boon Icons); keep the old one if missing.
+            boon.icon = AssetDatabase.LoadAssetAtPath<Sprite>(
+                Ronin7.Editor.Art.BoonIconBuilder.ProcessedFolder + "/Icon_" + spec.AssetName + ".png") ?? boon.icon;
 
             if (isNew) AssetDatabase.CreateAsset(boon, path);
             else EditorUtility.SetDirty(boon);

@@ -25,4 +25,4 @@ MonoBehaviour:
   hasSecondary: 0
   secondaryEffect: 0
   secondaryMagnitude: 0
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 905cff217c0bed84a8d91d951df2d4cc, type: 3}
