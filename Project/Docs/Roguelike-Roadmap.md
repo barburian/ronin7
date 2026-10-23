@@ -1213,6 +1213,19 @@ Decision D-11 (user, 2026-10-14): **fully separate**. Source: Phase 2 headset pl
 | UI | ≤ 10 | — |
 | **Total** | **≈ 130** | — |
 
+**Measurement (repeatable, in-editor proxy):** `Ronin7.Editor.PerfBudgetProbe` (`Scripts/Editor/Perf/`). Enter play mode on `Phase6_Boot`, `RunDirector.Instance.StartRun(2026)`, then `PerfBudgetProbe.Run(label, minEnemies)`. It waits for the enemies and the load fade, makes the player invulnerable, samples GC for 30 frames with time running, freezes time, raises Camera.main to 1.6 m, poses both hands in a guard stance in view, and then for Mobile_RPAsset (quality 0, Low knobs, post on = Quest 3 path) and PC_RPAsset samples draws (sum of the Unity 6.5 split draw-call counters), SetPass, tris, live particles and texture memory, renders a post-processed PNG and checks luma ≥ 0.03 and magenta ≤ 0.1 %. Output: `Project/Logs/PerfProbe/report.md` + PNGs. **G6 worst case:** `PerfBudgetProbe.SetDevDefine(true)` (recompile), start the run, `DevJumpToBoss()`, then `DevRunTools.SpawnG6WorstCase()` and `Run(..., 3)`; always `SetDevDefine(false)` afterwards. Caveats: GC includes ~9 KB/frame of editor/MCP noise (device profiling owns the gameplay GC number); texture memory is the editor total; the sword lies loose (no controllers in the editor), so it is not in view.
+
+**P5-00 baseline (2026-10-23, v0.5.0 content, greybox arena):**
+
+| Scene | Tier | Draws | SetPass | Tris | Particles | Luma | Magenta | Quest 3 |
+|---|---|---|---|---|---|---|---|---|
+| Node 1, 3 enemies | Mobile | 88 | 32 | 34.5k | 0 | 0.087 | 0 | PASS |
+| Node 1, 3 enemies | PC | 94 | 38 | 34.5k | 0 | 0.087 | 0 | PASS |
+| G6 worst case | Mobile | 107 | 44 | 37.7k | 16 | 0.205 | 0 | PASS |
+| G6 worst case | PC | 113 | 50 | 37.8k | 16 | 0.221 | 0 | PASS |
+
+The hands are about 53 of the 88 node-1 draws (35 draws with them out of view), so P5-02 is the biggest single win. SetPass 44 in the G6 case is close to the Quest 3 limit of 50; watch it in P5-03 (VFX). Device frame time (OVR Metrics, ≤ 1 % stale frames at 90 Hz) is still owed at the P5 exit.
+
 ### P5-01 URP and Quest settings trims
 In `Project/Assets/Settings/Mobile_RPAsset.asset`, set:
 - `m_SupportsLightCookies 0`, `m_SupportsLightLayers 0`, `m_SupportDataDrivenLensFlare 0`, `m_SupportsTerrainHoles 0`
