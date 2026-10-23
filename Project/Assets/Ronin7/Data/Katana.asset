@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 239a4dfd189ab7540937f4ecc6251364, type: 3}
   m_Name: Katana
   m_EditorClassIdentifier: Ronin7.Combat::Ronin7.Combat.WeaponDefinition
+  id: katana
   minSwingSpeed: 1.5
   referenceSwingSpeed: 6
   minDamage: 8
   maxDamage: 40
   hitCooldown: 0.25
+  bladeLength: 0.837

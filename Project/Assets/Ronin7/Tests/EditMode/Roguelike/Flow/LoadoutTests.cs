@@ -213,9 +213,9 @@ namespace Ronin7.Tests.EditMode
 
         private static readonly (string file, string prefab, float length)[] BladeSpec =
         {
-            ("Nodachi", "Sword_Nodachi", 0.95f),
-            ("Tanto", "Sword_Tanto", 0.28f),
-            ("TwinWakizashi", "Sword_Wakizashi", 0.45f),
+            ("Nodachi", "Sword_Nodachi", 1.14f),
+            ("Tanto", "Sword_Tanto", 0.34f),
+            ("TwinWakizashi", "Sword_Wakizashi", 0.54f),
         };
 
         [Test]
@@ -256,7 +256,7 @@ namespace Ronin7.Tests.EditMode
         [Test]
         public void Loadout_SweepLengthEqualsBladeLength_BaseFixed()
         {
-            nodachi.bladeLength = 0.95f;
+            nodachi.bladeLength = 1.14f;
             var damager = SizedBlade(rig, out _);
             damager.SetDefinition(katana);
             var baseBefore = BaseWorld(damager);
@@ -265,11 +265,11 @@ namespace Ronin7.Tests.EditMode
             RunDirector.ApplyLoadout(rig.transform, All, WeaponId.Nodachi);
 
             var baseAfter = BaseWorld(damager);
-            Assert.AreEqual(0.95f, damager.WorldLength, 1e-4f);
+            Assert.AreEqual(1.14f, damager.WorldLength, 1e-4f);
             Assert.AreEqual(0f, Vector3.Distance(baseBefore, baseAfter), 1e-4f);
 
             RunDirector.ApplyLoadout(rig.transform, All, WeaponId.Nodachi); // idempotent
-            Assert.AreEqual(0.95f, damager.WorldLength, 1e-4f);
+            Assert.AreEqual(1.14f, damager.WorldLength, 1e-4f);
         }
 
         [Test]
@@ -281,9 +281,22 @@ namespace Ronin7.Tests.EditMode
         }
 
         [Test]
+        public void Loadout_KatanaDefinition_ResetsLengthToAsBuilt()
+        {
+            var k = AssetDatabase.LoadAssetAtPath<WeaponDefinition>("Assets/Ronin7/Data/Katana.asset");
+            Assert.AreEqual(0.837f, k.bladeLength, 0.005f);
+            nodachi.bladeLength = 1.14f;
+            katana.bladeLength = k.bladeLength;
+            var damager = SizedBlade(rig, out _);
+            RunDirector.ApplyLoadout(rig.transform, All, WeaponId.Nodachi);
+            RunDirector.ApplyLoadout(rig.transform, All, WeaponId.Katana);
+            Assert.AreEqual(0.837f, damager.WorldLength, 0.005f);
+        }
+
+        [Test]
         public void Twin_BothBladesGetWakizashiLength()
         {
-            twin.bladeLength = 0.45f;
+            twin.bladeLength = 0.54f;
             var main = SizedBlade(rig, out _);
             var anchor = new GameObject(KatanaHolster.OffhandAnchorName);
             anchor.transform.SetParent(rig.transform, false);
@@ -292,8 +305,8 @@ namespace Ronin7.Tests.EditMode
 
             RunDirector.ApplyLoadout(rig.transform, All, WeaponId.TwinWakizashi);
 
-            Assert.AreEqual(0.45f, main.WorldLength, 1e-4f);
-            Assert.AreEqual(0.45f, left.WorldLength, 1e-4f);
+            Assert.AreEqual(0.54f, main.WorldLength, 1e-4f);
+            Assert.AreEqual(0.54f, left.WorldLength, 1e-4f);
         }
 
         [Test]

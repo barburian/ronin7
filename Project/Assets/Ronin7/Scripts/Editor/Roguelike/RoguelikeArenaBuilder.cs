@@ -233,7 +233,7 @@ namespace Ronin7.EditorTools
         /// creating any missing asset beside Katana.asset. Existing assets are returned untouched (tuning survives).</summary>
         public static WeaponDefinition[] EnsureLoadoutDefinitions() => new[]
         {
-            EnsureWeaponDefinition(),
+            WithBladeLength(EnsureWeaponDefinition(), Ronin7.Editor.Art.ArtPrefabBuilder.KatanaBladeLength),
             EnsureLoadoutDefinition("Nodachi", WeaponId.Nodachi, 2f, 7f, 14f, 60f, 0.35f, Ronin7.Editor.Art.ArtPrefabBuilder.NodachiBladeLength),
             EnsureLoadoutDefinition("Tanto", WeaponId.Tanto, 1f, 4.5f, 6f, 28f, 0.18f, Ronin7.Editor.Art.ArtPrefabBuilder.TantoBladeLength),
             // User decision (Amendment 12): 0.6x katana damage per blade, 1.25x swing speed (katana thresholds
@@ -242,6 +242,15 @@ namespace Ronin7.EditorTools
                 Ronin7.Editor.Art.ArtPrefabBuilder.WakizashiBladeLength),
         };
 
+        private static WeaponDefinition WithBladeLength(WeaponDefinition def, float length)
+        {
+            if (Mathf.Approximately(def.bladeLength, length)) return def;
+            def.bladeLength = length;
+            EditorUtility.SetDirty(def);
+            AssetDatabase.SaveAssets();
+            return def;
+        }
+
         private static WeaponDefinition EnsureLoadoutDefinition(string file, string id, float minSpeed, float refSpeed,
             float minDamage, float maxDamage, float cooldown, float bladeLength)
         {
@@ -249,13 +258,7 @@ namespace Ronin7.EditorTools
             var existing = AssetDatabase.LoadAssetAtPath<WeaponDefinition>(path);
             if (existing != null)
             {
-                if (existing.bladeLength <= 0f) // A13.5: backfill the appended field, never touch tuned stats
-                {
-                    existing.bladeLength = bladeLength;
-                    EditorUtility.SetDirty(existing);
-                    AssetDatabase.SaveAssets();
-                }
-                return existing;
+                return WithBladeLength(existing, bladeLength); // A13.5: only the length is spec-driven; tuned stats stay
             }
             var def = ScriptableObject.CreateInstance<WeaponDefinition>();
             def.id = id;

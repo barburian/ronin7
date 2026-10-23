@@ -1596,6 +1596,6 @@ User answers on 2026-10-23 for the design calls the roadmap left open:
 - **A13.4 Perf probe (P5-00).** The in-editor budget numbers come from `PerfBudgetProbe` (hands posed in view,
   Mobile_RPAsset = the Quest 3 path). Every later P5 task re-measures and must stay inside the Quest 3 column.
 - **A13.5 Loadout blades (P5-04).** Distinct meshes at real proportions, built as `ArtPrefabBuilder` variants of the
-  Katana (blade ~0.70 m): **Nodachi ~0.95 m, Twin Wakizashi ~0.45 m each, Tanto ~0.28 m**. Hit reach follows the blade
+  Katana (blade ~0.70 m in the user's reference; **0.84 m in game**: 0.62 m prefab x the arena's 1.35 upscale, kept as built so its reach is unchanged), the others scaled by the same 0.837/0.70 ratio: **Nodachi 1.14 m, Twin Wakizashi 0.54 m each, Tanto 0.34 m**. Hit reach follows the blade
   length (the swept damage tracks the blade), so the Nodachi reaches further and the Tanto/Wakizashi shorter; the
   P4-08 damage/speed stats are unchanged.

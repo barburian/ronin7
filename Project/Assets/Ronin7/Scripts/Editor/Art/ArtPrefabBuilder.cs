@@ -601,10 +601,11 @@ namespace Ronin7.Editor.Art
 
         // ---------------- Sword ----------------
 
-        // A13.5 world blade lengths (m). Katana stays as built (0.62 prefab; the arena scales its visual 1.35x).
-        internal const float NodachiBladeLength = 0.95f;
-        internal const float TantoBladeLength = 0.28f;
-        internal const float WakizashiBladeLength = 0.45f;
+        // A13.5 world blade lengths (m), scaled by the in-game Katana (0.62 prefab x the arena's 1.35 = 0.837 m) / 0.70.
+        internal const float KatanaBladeLength = 0.837f;
+        internal const float NodachiBladeLength = 1.14f;
+        internal const float TantoBladeLength = 0.34f;
+        internal const float WakizashiBladeLength = 0.54f;
 
         internal static bool BuildSwordPrefab() => BuildSword(SwordPrefabPath, 0.12f, 0.62f, 0.04f, 0.07f);
 

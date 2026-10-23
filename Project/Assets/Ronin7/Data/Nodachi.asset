@@ -18,4 +18,4 @@ MonoBehaviour:
   minDamage: 14
   maxDamage: 60
   hitCooldown: 0.35
-  bladeLength: 0.95
+  bladeLength: 1.14
