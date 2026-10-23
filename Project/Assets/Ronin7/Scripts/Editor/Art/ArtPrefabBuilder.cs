@@ -48,6 +48,7 @@ namespace Ronin7.Editor.Art
         private const string EnemyFootMatPath     = MatFolder + "/SamuraiToon_EnemyFoot.mat";
         internal const string NpcBodyMatPath      = MatFolder + "/SamuraiToon_Npc.mat";
         private const string CockpitMatPath       = MatFolder + "/SamuraiToon_Cockpit.mat";
+        private const string ArtMeshFolder        = "Assets/Ronin7/Art/Meshes";
         private const string HandMatPath          = MatFolder + "/SamuraiToon_Hand.mat";
         private const string SwordMatPath         = MatFolder + "/SamuraiToon_Sword.mat";
         private const string AsteroidMatPath      = MatFolder + "/SamuraiToon_Asteroid.mat";
@@ -524,8 +525,11 @@ namespace Ronin7.Editor.Art
             if (mat == null) return false;
 
             string path = isLeft ? HandLeftPrefabPath : HandRightPrefabPath;
+            string meshPath = $"{ArtMeshFolder}/{(isLeft ? "Hand_L" : "Hand_R")}_Combined.asset";
             // The greybox factory in XRRigBuilder returns a wrapper GO with a sphere palm and a
-            // forward cube. Prefab root mirrors that — wrapper named "Visual".
+            // forward cube. Prefab root mirrors that. P5-02: every rigid part is baked into ONE
+            // mesh (part colours go in vertex colours, which SamuraiToon multiplies into albedo),
+            // so each hand is 1 renderer = 2 draws (toon + outline) instead of ~26 renderers.
             var root = new GameObject(isLeft ? "Hand_L" : "Hand_R");
             try
             {
@@ -534,37 +538,58 @@ namespace Ronin7.Editor.Art
                 var skin = new Color(0.93f, 0.78f, 0.62f);
                 var cord = new Color(0.55f, 0.18f, 0.18f);
 
+                var parts = new List<CombineInstance>();
+                var chamfer = LowPolyMeshes.ChamferCube();
+                void Part(Mesh m, Color c, Vector3 pos, Vector3 scale, Quaternion? rot = null)
+                {
+                    var tinted = UnityEngine.Object.Instantiate(m);
+                    var cols = new Color[tinted.vertexCount];
+                    for (int k = 0; k < cols.Length; k++) cols[k] = c.linear; // shader reads vertex colour raw (linear)
+                    tinted.colors = cols;
+                    parts.Add(new CombineInstance
+                    {
+                        mesh = tinted,
+                        transform = Matrix4x4.TRS(pos, rot ?? Quaternion.identity, scale),
+                    });
+                }
+
                 // Palm — flattened sphere reads more like a hand than a sphere.
-                MakeChildTinted(root.transform, "Palm", PrimitiveType.Sphere, mat, wrap,
+                Part(LowPolyMeshes.ForType(PrimitiveType.Sphere), wrap,
                     new Vector3(0f, 0f, 0f), new Vector3(0.07f, 0.045f, 0.085f));
 
                 // Knuckle ridge — small rounded ridge on top.
-                MakeRoundedTinted(root.transform, "KnuckleRidge", mat, wrap,
-                    new Vector3(0f, 0.022f, 0.025f), new Vector3(0.065f, 0.012f, 0.045f));
+                Part(chamfer, wrap, new Vector3(0f, 0.022f, 0.025f), new Vector3(0.065f, 0.012f, 0.045f));
 
                 // Four finger stubs (skin tone at tip, wrap on base — single segment each).
                 float baseZ = 0.055f;
                 for (int i = 0; i < 4; i++)
                 {
                     float x = (-1.5f + i) * 0.018f; // spread across knuckles
-                    MakeRoundedTinted(root.transform, $"FingerWrap_{i}", mat, wrap,
-                        new Vector3(x, 0.005f, baseZ), new Vector3(0.015f, 0.018f, 0.025f));
-                    MakeRoundedTinted(root.transform, $"FingerTip_{i}", mat, skin,
-                        new Vector3(x, 0.005f, baseZ + 0.025f), new Vector3(0.014f, 0.016f, 0.025f));
+                    Part(chamfer, wrap, new Vector3(x, 0.005f, baseZ), new Vector3(0.015f, 0.018f, 0.025f));
+                    Part(chamfer, skin, new Vector3(x, 0.005f, baseZ + 0.025f), new Vector3(0.014f, 0.016f, 0.025f));
                 }
                 // Thumb (mirrored by hand) — offset to the outer side of the palm.
                 float thumbX = isLeft ? 0.045f : -0.045f;
-                float thumbRot = isLeft ? -35f : 35f;
-                var thumb = MakeRoundedTinted(root.transform, "Thumb", mat, wrap,
-                    new Vector3(thumbX, 0.005f, 0.02f), new Vector3(0.018f, 0.018f, 0.045f));
-                thumb.transform.localRotation = Quaternion.Euler(0f, thumbRot, 0f);
-                var thumbTip = MakeRoundedTinted(root.transform, "ThumbTip", mat, skin,
-                    new Vector3(thumbX * 1.4f, 0.005f, 0.04f), new Vector3(0.016f, 0.016f, 0.022f));
-                thumbTip.transform.localRotation = Quaternion.Euler(0f, thumbRot, 0f);
+                var thumbRot = Quaternion.Euler(0f, isLeft ? -35f : 35f, 0f);
+                Part(chamfer, wrap, new Vector3(thumbX, 0.005f, 0.02f), new Vector3(0.018f, 0.018f, 0.045f), thumbRot);
+                Part(chamfer, skin, new Vector3(thumbX * 1.4f, 0.005f, 0.04f), new Vector3(0.016f, 0.016f, 0.022f), thumbRot);
 
                 // Cord-lacing accent on the wrist.
-                MakeRoundedTinted(root.transform, "WristCord", mat, cord,
-                    new Vector3(0f, 0f, -0.02f), new Vector3(0.08f, 0.05f, 0.012f));
+                Part(chamfer, cord, new Vector3(0f, 0f, -0.02f), new Vector3(0.08f, 0.05f, 0.012f));
+
+                var combined = new Mesh { name = Path.GetFileNameWithoutExtension(meshPath) };
+                combined.CombineMeshes(parts.ToArray(), mergeSubMeshes: true, useMatrices: true);
+                foreach (var p in parts) UnityEngine.Object.DestroyImmediate(p.mesh);
+
+                // Overwrite in place so prefab references to the mesh asset survive re-runs.
+                EnsureAssetFolder(ArtMeshFolder);
+                var asset = AssetDatabase.LoadAssetAtPath<Mesh>(meshPath);
+                if (asset == null) { AssetDatabase.CreateAsset(combined, meshPath); asset = combined; }
+                else { EditorUtility.CopySerialized(combined, asset); UnityEngine.Object.DestroyImmediate(combined); }
+
+                root.AddComponent<MeshFilter>().sharedMesh = asset;
+                // White base so the vertex colours carry the tint (the stock hand mat is dark navy).
+                root.AddComponent<MeshRenderer>().sharedMaterial = TintInstance(mat, Color.white);
 
                 AddOutline(root);
                 PrefabUtility.SaveAsPrefabAsset(root, path);
