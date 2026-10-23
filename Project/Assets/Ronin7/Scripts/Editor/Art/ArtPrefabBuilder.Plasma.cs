@@ -93,6 +93,22 @@ namespace Ronin7.Editor.Art
         private const string PlasmaBladeMatPrefix = MatFolder + "/SamuraiToon_PlasmaBlade";
         private const string PlasmaTrailMatPath = MatFolder + "/PlasmaTrail_Additive.mat";
 
+        internal const string CyberSwordMatPath = "Assets/Ronin7/Art/Materials/HeroVariants/CyberSword_Blade.mat";
+
+        /// <summary>P5-04: the authored hero-blade material (Ronin7/CyberSword); recreated with the same look if missing.</summary>
+        internal static Material EnsureCyberSwordMaterial()
+        {
+            var existing = AssetDatabase.LoadAssetAtPath<Material>(CyberSwordMatPath);
+            if (existing != null) return existing;
+            var m = new Material(Shader.Find("Ronin7/CyberSword"));
+            m.SetFloat("_EdgeWidth", 0.14f);
+            m.SetFloat("_Smoothness", 0.9f);
+            m.SetColor("_EmissionColor", new Color(0.375f, 2.125f, 2.5f, 2.5f));
+            EnsureAssetFolder("Assets/Ronin7/Art/Materials/HeroVariants");
+            AssetDatabase.CreateAsset(m, CyberSwordMatPath);
+            return AssetDatabase.LoadAssetAtPath<Material>(CyberSwordMatPath);
+        }
+
         private static Material EnsurePlasmaBladeMaterial(Color energy)
         {
             string path = $"{PlasmaBladeMatPrefix}_{ColorTag(energy)}.mat";

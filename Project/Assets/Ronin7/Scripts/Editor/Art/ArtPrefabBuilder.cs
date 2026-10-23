@@ -643,6 +643,8 @@ namespace Ronin7.Editor.Art
 
                 // Plasma look: emissive cyan blade + neon tip trail + tier-gated light (player weapon).
                 ApplyPlasmaBlade(blade, PlasmaPlayer);
+                // P5-04 (BUG-28): the hero blade is lit-metal CyberSword, not the SamuraiToon plasma stand-in.
+                blade.GetComponent<Renderer>().sharedMaterial = EnsureCyberSwordMaterial();
 
                 AddOutline(root);
                 PrefabUtility.SaveAsPrefabAsset(root, SwordPrefabPath);

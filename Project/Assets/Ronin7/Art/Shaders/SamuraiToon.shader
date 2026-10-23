@@ -40,6 +40,7 @@ Shader "Ronin7/SamuraiToon"
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
             #pragma multi_compile _ _SHADOWS_SOFT
+            #pragma multi_compile_fog
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
@@ -62,6 +63,7 @@ Shader "Ronin7/SamuraiToon"
                 float3 positionWS : TEXCOORD2;
                 float4 shadowCoord: TEXCOORD3;
                 float4 color      : COLOR;
+                float  fogCoord   : TEXCOORD4;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
                 UNITY_VERTEX_OUTPUT_STEREO
             };
@@ -95,6 +97,7 @@ Shader "Ronin7/SamuraiToon"
                 OUT.shadowCoord = TransformWorldToShadowCoord(p.positionWS);
                 OUT.uv = TRANSFORM_TEX(IN.uv, _BaseMap);
                 OUT.color = IN.color;
+                OUT.fogCoord = ComputeFogFactor(p.positionCS.z);
                 return OUT;
             }
 
@@ -137,6 +140,7 @@ Shader "Ronin7/SamuraiToon"
                 // _EmissionColor still glows uniformly without an authored map.
                 half3 emission = SAMPLE_TEXTURE2D(_EmissionMap, sampler_EmissionMap, IN.uv).rgb * _EmissionColor.rgb;
                 color += emission;
+                color = MixFog(color, IN.fogCoord);
 
                 return half4(color, albedo.a);
             }
