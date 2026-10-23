@@ -131,6 +131,24 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Ronin7/Scenes/Rooms/Rust/Room_Rust_03_11m.unity
     guid: f3e2600909bdacf45ae2a410c42c6ed8
+  - enabled: 1
+    path: Assets/Ronin7/Scenes/Rooms/Garden/Room_Garden_01_8m.unity
+    guid: d7f0d17274d82eb4e93f1d134a960605
+  - enabled: 1
+    path: Assets/Ronin7/Scenes/Rooms/Garden/Room_Garden_01_11m.unity
+    guid: f93c140986a8acc43b02549d5c93bc55
+  - enabled: 1
+    path: Assets/Ronin7/Scenes/Rooms/Garden/Room_Garden_02_8m.unity
+    guid: 0266c50739eefec49b87d1e308a5c013
+  - enabled: 1
+    path: Assets/Ronin7/Scenes/Rooms/Garden/Room_Garden_02_11m.unity
+    guid: 6431d50b56e74494392cb5baa359b342
+  - enabled: 1
+    path: Assets/Ronin7/Scenes/Rooms/Garden/Room_Garden_03_8m.unity
+    guid: be4df39a96127cc46a311c93f2ee2624
+  - enabled: 1
+    path: Assets/Ronin7/Scenes/Rooms/Garden/Room_Garden_03_11m.unity
+    guid: 25a97c333569e374c83fc26247205913
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 9b706728c01987b43bdf3acac015b69a, type: 2}
     com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}

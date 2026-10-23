@@ -16,8 +16,9 @@ namespace Ronin7.Tests.EditMode.Art
     /// </summary>
     public class BiomeKitTests
     {
-        private static readonly string[] Kits = { "Program", "Rust" };
-        private static BiomeKit Kit(string name) => name == "Rust" ? BiomeKitBuilder.Rust : BiomeKitBuilder.Program;
+        private static readonly string[] Kits = { "Program", "Rust", "Garden" };
+        private static BiomeKit Kit(string name) =>
+            name == "Rust" ? BiomeKitBuilder.Rust : name == "Garden" ? BiomeKitBuilder.Garden : BiomeKitBuilder.Program;
 
         private static IEnumerable<(KitPiece piece, GameObject prefab)> Prefabs(BiomeKit kit)
         {
@@ -90,6 +91,36 @@ namespace Ronin7.Tests.EditMode.Art
                     }
             }
             Assert.LessOrEqual(mats.Count, 4);
+        }
+
+        /// <summary>P5-05 spawn fix: WaveComposer spawns anywhere inside (halfExtent - WallMargin), so no hero collider in
+        /// any shell layout may reach into that square below the wall top (floating heroes above 4.5 m are fine).</summary>
+        [TestCaseSource(nameof(Kits))]
+        public void BiomeShells_HeroCollidersOutsideSpawnArea(string kit)
+        {
+            var k = Kit(kit);
+            var hero = System.Array.Find(k.Pieces, p => p.SourceModel != null);
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(k.PrefabPath(hero));
+            for (int layout = 1; layout <= RoomShellBuilder.LayoutCount; layout++)
+                foreach (int half in RoomShellBuilder.Footprints)
+                {
+                    var (pos, yaw) = RoomShellBuilder.HeroPose(k, layout, half);
+                    var xf = Matrix4x4.TRS(pos, Quaternion.Euler(0, yaw, 0), Vector3.one);
+                    float spawn = half - Ronin7.World.WaveComposer.WallMargin;
+                    foreach (var bc in prefab.GetComponents<BoxCollider>())
+                    {
+                        var min = Vector3.positiveInfinity; var max = Vector3.negativeInfinity;
+                        for (int c = 0; c < 8; c++)
+                        {
+                            var corner = bc.center + Vector3.Scale(bc.size / 2, new Vector3((c & 1) * 2 - 1, (c & 2) - 1, (c & 4) / 2f - 1));
+                            var w = xf.MultiplyPoint3x4(corner);
+                            min = Vector3.Min(min, w); max = Vector3.Max(max, w);
+                        }
+                        bool above = min.y >= 4.5f;
+                        bool outside = min.x >= spawn || max.x <= -spawn || min.z >= spawn || max.z <= -spawn;
+                        Assert.IsTrue(above || outside, $"{kit} layout {layout} {half} m: hero collider {min}..{max} inside spawn square +/-{spawn}");
+                    }
+                }
         }
     }
 }

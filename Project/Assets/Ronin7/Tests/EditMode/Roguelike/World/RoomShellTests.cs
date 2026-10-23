@@ -58,6 +58,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
 
         [TestCase("program", "Program")]
         [TestCase("rust", "Rust")]
+        [TestCase("garden", "Garden")]
         public void BiomeShells_NamesEncodeShellFootprints(string id, string folder)
         {
             var library = AssetDatabase.LoadAssetAtPath<ArenaRoomLibrary>("Assets/Ronin7/Data/Roguelike/ArenaRoomLibrary.asset");

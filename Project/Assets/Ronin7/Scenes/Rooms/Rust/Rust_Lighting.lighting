@@ -27,7 +27,7 @@ LightingSettings:
   m_XAtlasPackingAttempts: 16384
   m_XAtlasBruteForce: 0
   m_XAtlasBlockAlign: 0
-  m_XAtlasRepackUnderutilizedLightmaps: 1
+  m_XAtlasRepackUnderutilizedLightmaps: 0
   m_AO: 0
   m_AOMaxDistance: 1
   m_CompAOExponent: 1

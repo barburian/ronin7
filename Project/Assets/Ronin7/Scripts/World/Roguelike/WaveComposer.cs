@@ -14,7 +14,7 @@ namespace Ronin7.World
     {
         private const float MinSeparation = 1.5f;
         private const float MinPlayerDistance = 4f;
-        private const float WallMargin = 1f;
+        public const float WallMargin = 1f; // public: room shells keep hero props outside this (BiomeKitTests)
         private const int MaxAttemptsPerPoint = 30;
 
         /// <summary>P2-07: splits <paramref name="n"/> enemies into balanced waves of at most

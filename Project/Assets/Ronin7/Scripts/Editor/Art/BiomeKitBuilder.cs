@@ -40,6 +40,9 @@ namespace Ronin7.Editor.Art
         /// <summary>false: the AI base maps double as emission maps (Program, black-backed). true: the floor is not
         /// emissive and the trim's emission map is a derived mask of its bright amber pixels (Rust lamp slits).</summary>
         public bool MaskedEmission;
+        /// <summary>MaskedEmission only: base-map pixel -> emission mask. Trim defaults to the Rust lamp mask; a null
+        /// floor mask leaves the floor non-emissive.</summary>
+        public Func<Color, Color> TrimMask, FloorMask;
         public float Smoothness = 0.6f, Metallic = 0.5f;
         public KitPiece[] Pieces;
         public string MeshDir => Root + "/Meshes";
@@ -145,6 +148,72 @@ namespace Ronin7.Editor.Art
                     SourceModel = RustRoot + "/Raw/Rust_Hero_BrokenMech_AI_Assets/selected.glb", Build = BrokenMechPlaceholder },
             },
         };
+
+        private const string GardenRoot = "Assets/Ronin7/Art/Biomes/Garden";
+        private const string GreenNeonMat = "Assets/Ronin7/Art/Materials/Mat_CyberNeon_Green.mat";
+        /// <summary>Garden atlas column 0 (u 0-0.25, full height) = the AI vine card; columns 1-3 = floor decals.</summary>
+        private static readonly Rect VineUV = new Rect(0, 0, 0.25f, 1);
+
+        /// <summary>Garden: Silent Garden bio-dome (kit table, Garden column). Slot 4 is the alpha-clip foliage material;
+        /// its atlas also carries the floor decals (petals / puddles / lichen), so the kit stays at 4 materials.</summary>
+        public static readonly BiomeKit Garden = new BiomeKit
+        {
+            Name = "Garden",
+            Root = GardenRoot,
+            SlotMaterials = new[]
+            {
+                GardenRoot + "/Materials/Garden_MossStone.mat",
+                GardenRoot + "/Materials/Garden_LatticeTrim.mat",
+                GreenNeonMat,
+                GardenRoot + "/Materials/Garden_Foliage.mat",
+            },
+            MaskedEmission = true,
+            FloorMask = LichenMask,
+            TrimMask = PodMask,
+            EmissionTint = new Color(0.6f, 1.2f, 0.7f) * 0.8f,
+            DecalColor = Color.black,
+            DecalBase = Color.white,
+            DecalAtlas = GardenAtlasPng,
+            Smoothness = 0.3f, Metallic = 0f,
+            Pieces = new[]
+            {
+                new KitPiece { Name = "Floor_A", Size = new Vector3(2, 0.1f, 2), MaxTris = 300, Build = m => Slabs(m, 0) },
+                new KitPiece { Name = "Floor_B", Size = new Vector3(2, 0.1f, 2), MaxTris = 300, Build = m => Slabs(m, 1) },
+                new KitPiece { Name = "Floor_C", Size = new Vector3(2, 0.1f, 2), MaxTris = 300, Build = m => Slabs(m, 2) },
+                new KitPiece { Name = "Wall_Straight", Size = new Vector3(4, 4.5f, 0.5f), MaxTris = 1200, Occluder = true,
+                    Build = m => LatticeWall(m, false) },
+                new KitPiece { Name = "Wall_Corner", Size = new Vector3(4, 4.5f, 4), MaxTris = 1200, Occluder = true,
+                    Colliders = new[] { B(-2, 0, -2, 2, 4.5f, -1.5f), B(-2, 0, -2, -1.5f, 4.5f, 2) },
+                    Build = m => Corner(m, k => LatticeWall(k, false)) },
+                new KitPiece { Name = "Wall_Door", Size = new Vector3(4, 4.5f, 0.5f), MaxTris = 1200, Occluder = true,
+                    Colliders = new[] { B(-2, 0, -0.25f, -1, 4.5f, 0.25f), B(1, 0, -0.25f, 2, 4.5f, 0.25f), B(-1, 3, -0.25f, 1, 4.5f, 0.25f) },
+                    Build = m => LatticeWall(m, true) },
+                new KitPiece { Name = "Pillar", Size = new Vector3(2, 4.2f, 0.4f), MaxTris = 1500, Build = TrellisArch },
+                new KitPiece { Name = "RoofRing_Segment", Size = new Vector3(4, 1.26f, 1.7f), MaxTris = 400, Build = DomeRibs },
+                new KitPiece { Name = "PodCluster", Size = new Vector3(0.37f, 0.75f, 0.21f), MaxTris = 300,
+                    Mount = new Vector3(0, 0, 0.4f), Build = PodCluster },
+                // Animated piece: vine cards, vertex colour R = sway weight (top 0 -> tip 1) for the later vertex sway
+                // (gate it with LightBudget.ShouldAnimate). Pivot = top centre.
+                new KitPiece { Name = "VineCards", Size = new Vector3(1.15f, 2.6f, 0.1f), MaxTris = 100, Build = VineCards },
+                // HERO: the user's image->3D bioluminescent tree once Raw/.../selected.glb exists; until then a low-poly
+                // placeholder (Build). Probe-lit, max dimension 3.5 m, pivot bottom-centre, same prefab path.
+                new KitPiece { Name = "Hero_BioTree", Size = new Vector3(2.8f, 3.5f, 2.8f), MaxTris = 12000, HeroDiameter = 3.5f,
+                    SourceModel = GardenRoot + "/Raw/Garden_Hero_BioTree_AI_Assets/selected.glb", Build = BioTreePlaceholder },
+            },
+        };
+
+        [MenuItem("Tools/Space Samurai/Art/Build Biome Kit/Garden", priority = 20)]
+        public static void BuildGarden()
+        {
+            // Green glow pods: a CyberNeon variant (same shader as the cyan strips).
+            if (AssetDatabase.LoadAssetAtPath<Material>(GreenNeonMat) == null) AssetDatabase.CopyAsset(NeonMat, GreenNeonMat);
+            var green = AssetDatabase.LoadAssetAtPath<Material>(GreenNeonMat);
+            green.SetColor("_BaseColor", new Color(0.02f, 0.07f, 0.03f));
+            green.SetColor("_EmissionColor", new Color(0.25f, 1.6f, 0.45f));
+            green.SetColor("_FresnelColor", new Color(0.15f, 0.9f, 0.3f));
+            EditorUtility.SetDirty(green);
+            Build(Garden);
+        }
 
         [MenuItem("Tools/Space Samurai/Art/Build Biome Kit/Program", priority = 20)]
         public static void BuildProgram() => Build(Program);
@@ -478,6 +547,209 @@ namespace Ronin7.Editor.Art
             m.Box(V(0.7f, 0.9f, 0), V(1f, 1.15f, 0.9f), t, BulkTile);                         // right forearm on the knee
         }
 
+        // ---------------- Garden pieces ----------------
+
+        private static readonly Vector2 LatticeTile = new Vector2(2, 2);
+
+        /// <summary>2 x 2 m tile of slightly uneven stone slabs (tops 0 / -1.5 / -3 cm) on a base, three seeded patterns.</summary>
+        private static void Slabs(KitMesh m, int pattern)
+        {
+            var rng = new System.Random(17 + pattern);
+            m.Box(V(-1, -0.1f, -1), V(1, -0.04f, 1), KitSlot.Floor, FloorTile);
+            float[] cuts = pattern == 0 ? new[] { -1f, 0f, 1f } : pattern == 1 ? new[] { -1f, -0.3f, 0.45f, 1f } : new[] { -1f, 0.2f, 1f };
+            for (int i = 0; i + 1 < cuts.Length; i++)
+            {
+                // each row splits into two slabs at a seeded x; 1 cm joints; the first slab stays at full height (bounds)
+                float x = -0.4f + 0.8f * (float)rng.NextDouble();
+                foreach (var (x0, x1) in new[] { (-1f, x), (x, 1f) })
+                {
+                    float top = i == 0 && x0 < -0.99f ? 0 : -0.015f * rng.Next(3);
+                    m.Box(V(x0 + 0.01f, -0.04f, cuts[i] + 0.01f), V(x1 - 0.01f, top, cuts[i + 1] - 0.01f), KitSlot.Floor, FloorTile,
+                        new Vector2(pattern * 0.33f, i * 0.5f));
+                }
+            }
+        }
+
+        /// <summary>Hanging vine card (foliage slot): double-sided pane from <paramref name="top"/> down
+        /// <paramref name="len"/> m, vertex colour R = sway weight 0 at the top -> 1 at the tip.</summary>
+        private static void Vine(KitMesh m, Vector3 top, float width, float len)
+        {
+            m.SwayWeight = p => Mathf.InverseLerp(top.y, top.y - len, p.y);
+            m.Pane(V(top.x - width / 2, top.y - len, top.z), V(top.x + width / 2, top.y, top.z), KitSlot.Decal, VineUV);
+            m.SwayWeight = null;
+        }
+
+        /// <summary>4 x 4.5 m overgrown lattice wall, z in [-0.25, 0.25], face +Z: lattice panel (trim), stone plinth /
+        /// cornice / posts (floor stone), vine cards hanging from the cornice.</summary>
+        private static void LatticeWall(KitMesh m, bool door)
+        {
+            const float W = 2, H = 4.5f, Z0 = -0.25f, ZB = -0.05f;
+            var t = KitSlot.Trim; var st = KitSlot.Floor;
+            if (door)
+            {
+                m.Box(V(-W, 0, Z0), V(-1, H, ZB), t, LatticeTile);
+                m.Box(V(1, 0, Z0), V(W, H, ZB), t, LatticeTile);
+                m.Box(V(-1, 3, Z0), V(1, H, ZB), t, LatticeTile);
+                m.Box(V(-1.2f, 0, ZB), V(-1, 3.2f, 0.15f), st, FloorTile);                  // stone jambs + lintel
+                m.Box(V(1, 0, ZB), V(1.2f, 3.2f, 0.15f), st, FloorTile);
+                m.Box(V(-1.2f, 3, ZB), V(1.2f, 3.25f, 0.15f), st, FloorTile);
+            }
+            else
+            {
+                m.Box(V(-W, 0, Z0), V(W, H, ZB), t, LatticeTile);
+                m.Box(V(-W, 0, ZB), V(W, 0.3f, 0.1f), st, FloorTile);                       // plinth
+                m.Box(V(-0.075f, 0.3f, ZB), V(0.075f, 4.1f, 0.12f), st, FloorTile);        // centre post
+            }
+            m.Box(V(-W, 4.1f, Z0), V(W, H, 0.25f), st, FloorTile);                          // cornice
+            foreach (float a in new[] { -2f, 1.85f })                                         // edge posts
+                m.Box(V(a, 0, ZB), V(a + 0.15f, 4.1f, 0.12f), st, FloorTile);
+            if (door) { Vine(m, V(-1.55f, 4.1f, 0.2f), 0.5f, 2.2f); Vine(m, V(1.5f, 4.1f, 0.2f), 0.45f, 1.6f); }
+            else { Vine(m, V(-1.2f, 4.1f, 0.2f), 0.5f, 2.3f); Vine(m, V(0.5f, 4.1f, 0.2f), 0.45f, 1.5f); Vine(m, V(1.3f, 4.1f, 0.2f), 0.5f, 2.6f); }
+        }
+
+        /// <summary>Trellis arch, 2 m wide x 4.2 m, depth 0.3 (stone feet 0.4): two posts + an 8-segment semicircle,
+        /// two vine cards. Arena face local +Z; pivot floor-centre.</summary>
+        private static void TrellisArch(KitMesh m)
+        {
+            var t = KitSlot.Trim;
+            foreach (float s in new[] { -1f, 1f })
+            {
+                m.Box(V(s > 0 ? 0.84f : -1, 0, -0.2f), V(s > 0 ? 1 : -0.84f, 0.3f, 0.2f), KitSlot.Floor, FloorTile); // foot
+                m.Box(V(s > 0 ? 0.86f : -0.98f, 0.3f, -0.15f), V(s > 0 ? 0.98f : -0.86f, 3.2f, 0.15f), t, LatticeTile);
+                for (int k = 0; k < 5; k++)                                                   // lattice rungs on the post face
+                    m.Box(V(s * 0.92f - 0.08f, 0.7f + k * 0.55f, 0.15f), V(s * 0.92f + 0.08f, 0.74f + k * 0.55f, 0.18f), t, LatticeTile);
+            }
+            const int Seg = 8; const float R = 0.92f;
+            for (int i = 0; i < Seg; i++)
+            {
+                float a = Mathf.PI * (i + 0.5f) / Seg, len = 2 * R * Mathf.Sin(Mathf.PI / Seg / 2) + 0.02f;
+                m.Xf = Matrix4x4.TRS(V(R * Mathf.Cos(a), 3.2f + R * Mathf.Sin(a), 0), Quaternion.Euler(0, 0, a * Mathf.Rad2Deg), Vector3.one);
+                m.Box(V(-0.06f, -len / 2, -0.15f), V(0.06f, len / 2, 0.15f), t, LatticeTile);
+            }
+            m.Xf = Matrix4x4.identity;
+            Vine(m, V(-0.45f, 3.95f, 0.17f), 0.4f, 1.6f);
+            Vine(m, V(0.35f, 4.05f, -0.17f), 0.4f, 2f);
+        }
+
+        /// <summary>Glass-dome ribs on a wall top (y 4.5): stone ring beam + 3 ribs curving up 1.2 m over 1.5 m inward and
+        /// a purlin at their tips. Ribs only (no glass, so no transparent pass); open sky between.</summary>
+        private static void DomeRibs(KitMesh m)
+        {
+            m.Box(V(-2, 4.5f, -0.25f), V(2, 4.65f, 0.25f), KitSlot.Floor, FloorTile);
+            const int Seg = 4;
+            foreach (float x in new[] { -1.95f, 0f, 1.95f })
+                for (int i = 0; i < Seg; i++)
+                {
+                    // quarter arc: z = 1.45 sin(a), y = 4.5 + 1.2 (1 - cos a), a in [0, 90] deg
+                    float a0 = Mathf.PI / 2 * i / Seg, a1 = Mathf.PI / 2 * (i + 1) / Seg;
+                    var p0 = V(x, 4.5f + 1.2f * (1 - Mathf.Cos(a0)), 1.45f * Mathf.Sin(a0) - 0.05f);
+                    var p1 = V(x, 4.5f + 1.2f * (1 - Mathf.Cos(a1)), 1.45f * Mathf.Sin(a1) - 0.05f);
+                    var d = p1 - p0;
+                    m.Xf = Matrix4x4.TRS((p0 + p1) / 2, Quaternion.LookRotation(d), Vector3.one);
+                    m.Box(V(-0.05f, -0.05f, -d.magnitude / 2 - 0.02f), V(0.05f, 0.05f, d.magnitude / 2), KitSlot.Trim, LatticeTile);
+                }
+            m.Xf = Matrix4x4.identity;
+            m.Box(V(-2, 5.62f, 1.3f), V(2, 5.7f, 1.4f), KitSlot.Trim, LatticeTile);              // purlin
+        }
+
+        /// <summary>Green glow pod cluster on a stone bracket; pivot = wall-mount back centre, LightMount at 0.4 m.</summary>
+        private static void PodCluster(KitMesh m)
+        {
+            m.Box(V(-0.12f, -0.15f, 0), V(0.12f, 0.15f, 0.05f), KitSlot.Floor, FloorTile);
+            foreach (var (x, y, z, r, len) in new[] { (0f, -0.05f, 0.14f, 0.07f, 0.2f), (-0.1f, 0.05f, 0.12f, 0.05f, 0.16f),
+                         (0.11f, 0f, 0.15f, 0.06f, 0.18f), (0.04f, 0.12f, 0.1f, 0.045f, 0.12f) })
+            {
+                m.Xf = Matrix4x4.Translate(V(x, y, z));
+                m.Prism(Chamfered(r, r * 0.4f), -len / 2, len / 2, KitSlot.Neon, 1);
+            }
+            m.Xf = Matrix4x4.identity;
+            Vine(m, V(-0.08f, 0.25f, 0.21f), 0.24f, 0.75f);
+        }
+
+        /// <summary>Three hanging vine cards (2.6 m max), pivot top centre.</summary>
+        private static void VineCards(KitMesh m)
+        {
+            Vine(m, V(-0.3f, 0, -0.05f), 0.55f, 2.2f);
+            Vine(m, V(0.05f, 0, 0.05f), 0.6f, 2.6f);
+            Vine(m, V(0.3f, 0, 0f), 0.55f, 1.8f);
+        }
+
+        /// <summary>Hero placeholder until the AI mesh lands: low-poly tree, 3.5 m, one material (Trim: ivy lattice).
+        /// Tapered octagonal trunk, 4 boughs, 5 octagonal canopy blobs.</summary>
+        private static void BioTreePlaceholder(KitMesh m)
+        {
+            var t = KitSlot.Trim;
+            float[] rs = { 0.3f, 0.22f, 0.17f, 0.13f };
+            for (int i = 0; i < rs.Length; i++) m.Prism(Chamfered(rs[i], rs[i] * 0.4f), i * 0.55f, (i + 1) * 0.55f + 0.02f, t, 1);
+            for (int i = 0; i < 4; i++)
+            {
+                m.Xf = Matrix4x4.TRS(V(0, 1.7f, 0), Quaternion.Euler(0, 90 * i + 20, 0) * Quaternion.Euler(50, 0, 0), Vector3.one);
+                m.Box(V(-0.07f, 0, -0.07f), V(0.07f, 1.1f, 0.07f), t, LatticeTile);
+            }
+            foreach (var (x, y, z, r) in new[] { (0f, 2.6f, 0f, 0.9f), (0.75f, 2.35f, 0.3f, 0.65f), (-0.7f, 2.4f, -0.25f, 0.7f),
+                         (0.2f, 2.3f, -0.75f, 0.6f), (-0.25f, 2.3f, 0.75f, 0.6f) })
+            {
+                m.Xf = Matrix4x4.Translate(V(x, 0, z));
+                m.Prism(Chamfered(r, r * 0.4f), y - r * 0.5f, Mathf.Min(3.5f, y + r), t, 1.5f);
+            }
+            m.Xf = Matrix4x4.identity;
+        }
+
+        /// <summary>Lichen emission mask (floor): bright pale-green dots only, black elsewhere.</summary>
+        private static Color LichenMask(Color c) =>
+            c.g > 0.75f && c.g - c.b > 0.2f && c.g - c.r > 0.12f ? new Color(c.r, c.g, c.b, 1) : Color.black;
+
+        /// <summary>Pod emission mask (trim): the saturated near-white green pods; leaves and lattice highlights stay black.</summary>
+        private static Color PodMask(Color c) =>
+            c.g > 0.92f && c.g - c.r > 0.1f && c.g - c.b > 0.1f ? new Color(c.r, c.g, c.b, 1) : Color.black;
+
+        /// <summary>1024² Garden atlas: column 0 = the AI vine card (Textures/Garden_VineCard.png, its centre 256 px
+        /// strip); columns 1-3 cycle petals, puddles and lichen patches. Colour in the atlas; alpha-clipped.</summary>
+        private static byte[] GardenAtlasPng(int seed)
+        {
+            const int S = 1024, C = 256;
+            var px = new Color32[S * S];
+            var vine = new Texture2D(2, 2);
+            vine.LoadImage(File.ReadAllBytes(GardenRoot + "/Textures/Garden_VineCard.png"));
+            var vp = vine.GetPixels32();
+            int vw = vine.width, vh = vine.height, vx0 = vw / 2 - C / 2;
+            for (int y = 0; y < S; y++)
+                for (int x = 0; x < C; x++)
+                    px[y * S + x] = vp[(y * vh / S) * vw + vx0 + x];
+            UnityEngine.Object.DestroyImmediate(vine);
+
+            var rng = new System.Random(seed);
+            for (int cell = 0; cell < 16; cell++)
+            {
+                if (cell % 4 == 0) continue; // vine column
+                int ox = (cell % 4) * C, oy = (cell / 4) * C, kind = cell % 3;
+                int count = kind == 1 ? 2 : 14; // puddles: two big pools; petals / lichen: scattered blobs
+                var blobs = new Vector3[count];
+                for (int i = 0; i < count; i++)
+                    blobs[i] = new Vector3(60 + rng.Next(136), 60 + rng.Next(136), kind == 0 ? 7 + rng.Next(6) : kind == 1 ? 30 + rng.Next(30) : 5 + rng.Next(14));
+                for (int y = 16; y < C - 16; y++)
+                for (int x = 16; x < C - 16; x++)
+                {
+                    Color32? c = null;
+                    float n = Mathf.Sin(x * 0.11f + y * 0.07f) * 3;
+                    foreach (var b in blobs)
+                    {
+                        float d = Vector2.Distance(new Vector2(x, y), b) + n;
+                        if (d < b.z)
+                            c = kind == 0 ? (d < b.z * 0.35f ? new Color32(250, 230, 140, 255) : new Color32(235, 180, 205, 255)) // petals
+                              : kind == 1 ? new Color32(38, 52, 50, 255)                                                          // puddle
+                              : new Color32(120, 190, 110, 255);                                                                  // lichen
+                    }
+                    if (c.HasValue) px[(oy + y) * S + ox + x] = c.Value;
+                }
+            }
+            var tex = new Texture2D(S, S, TextureFormat.RGBA32, false);
+            tex.SetPixels32(px);
+            var png = tex.EncodeToPNG();
+            UnityEngine.Object.DestroyImmediate(tex);
+            return png;
+        }
+
         // ---------------- assets ----------------
 
         private static Mesh SaveMesh(string path, KitMesh km, out KitSlot[] slots)
@@ -626,8 +898,9 @@ namespace Ronin7.Editor.Art
                 var mat = AssetDatabase.LoadAssetAtPath<Material>(kit.SlotMaterials[(int)slot]);
                 if (mat == null) throw new FileNotFoundException("Biome material missing", kit.SlotMaterials[(int)slot]);
                 if (!kit.MaskedEmission) MakeEmissive(mat, mat.GetTexture("_BaseMap"), kit.EmissionTint);
-                else if (slot == KitSlot.Trim)
-                    MakeEmissive(mat, ExtractTexture(mat.GetTexture("_BaseMap"), $"{kit.Root}/Textures/{kit.Name}_TrimEmissionMask.png", true, LampMask), kit.EmissionTint);
+                else if (slot == KitSlot.Trim || kit.FloorMask != null)
+                    MakeEmissive(mat, ExtractTexture(mat.GetTexture("_BaseMap"), $"{kit.Root}/Textures/{kit.Name}_{slot}EmissionMask.png", true,
+                        slot == KitSlot.Trim ? kit.TrimMask ?? LampMask : kit.FloorMask), kit.EmissionTint);
                 else
                 {
                     mat.DisableKeyword("_EMISSION");
@@ -791,11 +1064,17 @@ namespace Ronin7.Editor.Art
         private readonly List<Vector3> _v = new List<Vector3>();
         private readonly List<Vector3> _n = new List<Vector3>();
         private readonly List<Vector2> _uv = new List<Vector2>();
+        private readonly List<Color> _col = new List<Color>();
+        private bool _swayed;
+        /// <summary>When set, new vertices get colour R = SwayWeight(local point) (vine cards); the mesh then carries colours.</summary>
+        public Func<Vector3, float> SwayWeight;
         private readonly SortedDictionary<KitSlot, List<int>> _tris = new SortedDictionary<KitSlot, List<int>>();
 
         private int Vert(Vector3 p, Vector3 n, Vector2 uv)
         {
             _v.Add(Xf.MultiplyPoint3x4(p)); _n.Add(Xf.MultiplyVector(n).normalized); _uv.Add(uv);
+            _col.Add(new Color(SwayWeight?.Invoke(p) ?? 0, 0, 0, 1));
+            _swayed |= SwayWeight != null;
             return _v.Count - 1;
         }
 
@@ -864,6 +1143,7 @@ namespace Ronin7.Editor.Art
             mesh.Clear();
             mesh.indexFormat = _v.Count > 65000 ? IndexFormat.UInt32 : IndexFormat.UInt16;
             mesh.SetVertices(_v); mesh.SetNormals(_n); mesh.SetUVs(0, _uv);
+            if (_swayed) mesh.SetColors(_col);
             slots = new KitSlot[_tris.Count];
             _tris.Keys.CopyTo(slots, 0);
             mesh.subMeshCount = slots.Length;
