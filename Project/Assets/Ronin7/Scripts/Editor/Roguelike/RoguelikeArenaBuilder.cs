@@ -88,7 +88,7 @@ namespace Ronin7.EditorTools
             // MirrorSummonController, each self-gating on AbilityAccess.Has), but ParryFlowController and
             // ComboMomentumController are added by no builder anywhere — they were hand-wired into
             // chapter scenes post-build — so FlowInitiate/ComboInitiate stay dead without them here. ----
-            var rig = BuildRig(refs, addLocomotion: true);
+            var rig = BuildRig(refs, addLocomotion: true, farClip: 300f);
             AttachPlayerAbilities(rig, refs);
             if (rig.GetComponent<ParryFlowController>() == null) rig.AddComponent<ParryFlowController>();
             if (rig.GetComponent<ComboMomentumController>() == null) rig.AddComponent<ComboMomentumController>();

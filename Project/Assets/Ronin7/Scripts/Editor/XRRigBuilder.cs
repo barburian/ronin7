@@ -806,7 +806,7 @@ namespace Ronin7.EditorTools
             lightGo.transform.rotation = Quaternion.Euler(50f, -30f, 0f);
 
             // 3. Seated rig — no locomotion (the menu is a single fixed pose).
-            BuildRig(refs, addLocomotion: false);
+            BuildRig(refs, addLocomotion: false, farClip: 300f);
 
             // 4. XR UI plumbing — interaction manager + event system with XRUIInputModule.
             if (Object.FindAnyObjectByType<XRInteractionManager>() == null)
@@ -965,7 +965,9 @@ namespace Ronin7.EditorTools
         private static void BuildBootDressing()
         {
             // The menu floats in open space: nebula skybox + dark cool ambient.
-            var skybox = AssetDatabase.LoadAssetAtPath<Material>(NeonSkyboxPath)
+            // P5-06: the AI nebula cubemap (Tools/Space Samurai/Art/Build Skies) when it exists.
+            var skybox = AssetDatabase.LoadAssetAtPath<Material>("Assets/Ronin7/Art/Sky/Sky_BootNebula.mat")
+                         ?? AssetDatabase.LoadAssetAtPath<Material>(NeonSkyboxPath)
                          ?? AssetDatabase.LoadAssetAtPath<Material>(SpaceSkyboxPath);
             if (skybox != null) RenderSettings.skybox = skybox;
             RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
@@ -1828,7 +1830,7 @@ namespace Ronin7.EditorTools
         }
 
         /// <summary>Builds the XR Origin hierarchy in the active scene and returns the root.</summary>
-        private static GameObject BuildRig(Object[] inputRefs, bool addLocomotion = true)
+        private static GameObject BuildRig(Object[] inputRefs, bool addLocomotion = true, float farClip = 6000f)
         {
             // Root / XR Origin
             var rootGo = new GameObject("XR Origin (Space Samurai)");
@@ -1876,7 +1878,8 @@ namespace Ronin7.EditorTools
             // The default 1000 far clip clipped all of them away (only near enemies/asteroids and the
             // cockpit rendered → "empty black space"). 6000 covers the sun with margin; reversed-Z
             // depth on Quest keeps 0.01–6000 precise enough to avoid z-fighting.
-            cam.farClipPlane = 6000f;
+            // P5-06: the roguelike boot + arena pass 300 m (sky is a skybox, vista sits at <= 250 m).
+            cam.farClipPlane = farClip;
             // BUG-06: without this component (renderPostProcessing on) URP never draws the post stack.
             // GraphicsDirector still switches it per headset tier at runtime.
             var camData = camGo.AddComponent<UnityEngine.Rendering.Universal.UniversalAdditionalCameraData>();

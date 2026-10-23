@@ -26,7 +26,8 @@ MonoBehaviour:
     - Room_Rust_02_11m
     - Room_Rust_03_8m
     - Room_Rust_03_11m
-    skybox: {fileID: 0}
+    skybox: {fileID: 2100000, guid: ac88c6283f803b0498dc401e47836a6f, type: 2}
+    vista: {fileID: 1927254662523630462, guid: bd06fd437473c5c4385b4d01ed60cb53, type: 3}
   - id: program
     floorColor: {r: 0.1, g: 0.13, b: 0.2, a: 1}
     ceilColor: {r: 0.04, g: 0.05, b: 0.09, a: 1}
@@ -39,7 +40,8 @@ MonoBehaviour:
     - Room_Program_02_11m
     - Room_Program_03_8m
     - Room_Program_03_11m
-    skybox: {fileID: 0}
+    skybox: {fileID: 2100000, guid: e9262abf5f0c77d408ef79096de3dcc8, type: 2}
+    vista: {fileID: 1927254662523630462, guid: bd06fd437473c5c4385b4d01ed60cb53, type: 3}
   - id: garden
     floorColor: {r: 0.12, g: 0.22, b: 0.14, a: 1}
     ceilColor: {r: 0.05, g: 0.1, b: 0.07, a: 1}
@@ -52,4 +54,5 @@ MonoBehaviour:
     - Room_Garden_02_11m
     - Room_Garden_03_8m
     - Room_Garden_03_11m
-    skybox: {fileID: 0}
+    skybox: {fileID: 2100000, guid: a73df8228e3b15b45810c331e12bea26, type: 2}
+    vista: {fileID: 1927254662523630462, guid: bd06fd437473c5c4385b4d01ed60cb53, type: 3}

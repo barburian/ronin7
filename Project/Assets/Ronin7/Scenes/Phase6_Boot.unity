@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 1542e4cf3a806fc43bf9be93eb302e5f, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 063574cb4556308429a39a2b7b63c87c, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -9693,7 +9693,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 6000
+  far clip plane: 300
   field of view: 60
   orthographic: 0
   orthographic size: 5

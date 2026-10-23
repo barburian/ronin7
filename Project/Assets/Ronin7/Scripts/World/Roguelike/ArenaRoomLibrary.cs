@@ -30,6 +30,10 @@ namespace Ronin7.World
 
             /// <summary>P5-05 optional skybox for this biome; applied only when non-null.</summary>
             public Material skybox;
+
+            /// <summary>P5-06 optional far vista (one unlit mesh: gas giant, ring, fleet), spawned with a baked
+            /// shell and tinted <see cref="accentColor"/> via <see cref="RendererTint"/>. Inside the 300 m far clip.</summary>
+            public GameObject vista;
         }
 
         /// <summary>P5-05 pure pick: among scenes whose name ends in <c>_{round(halfExtent)}m</c> (the

@@ -78,6 +78,12 @@ namespace Ronin7.World
             root.transform.SetParent(parent, false);
             ScatterProps(root.transform, Mathf.Max(1f, halfExtent), biome, ref rng);
 
+            if (biome != null && biome.vista != null) // P5-06: one draw, no lights/shadows, tinted per biome
+            {
+                var vista = Object.Instantiate(biome.vista, root.transform, false);
+                RendererTint.Apply(vista.GetComponent<Renderer>(), biome.accentColor);
+            }
+
             var go = new GameObject("SignalLight");
             go.transform.SetParent(root.transform, false);
             go.transform.localPosition = new Vector3(0f, AccentLightHeight, 0f);
