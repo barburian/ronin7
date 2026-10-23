@@ -1,4 +1,4 @@
-﻿# Ronin7 Roguelike — Review & Phased Implementation Roadmap
+# Ronin7 Roguelike — Review & Phased Implementation Roadmap
 
 **Date:** 2026-10-11 · **Branch:** `roguelike` (never `main`) · **Targets:** Meta Quest 2/3/3S/Pro (Android, IL2CPP, Vulkan) + PCVR (Win64, OpenXR)
 **Source:** five parallel read-only reviews of the working tree (enemies & weaknesses; skills, boons & stats; run flow & UX; graphics & performance; export, audio, comfort & everything else).
