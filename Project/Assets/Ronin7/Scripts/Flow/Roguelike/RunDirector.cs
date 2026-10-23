@@ -326,6 +326,7 @@ namespace Ronin7.Flow
                 depth = RunSnapshot.DepthOf(snapshot), kills = snapshot.runKills, boons = snapshot.boons.Count,
                 echoes = echoes, boonIds = snapshot.boons.ToArray(), deathBy = RunLog.AbandonedMarker,
                 build = BuildTag(), evt = "end", outcome = RunLog.AbandonedMarker, sector = -1,
+                path = snapshot.path.ToArray(),
             });
             RunSnapshot.Delete();
         }
@@ -1292,6 +1293,7 @@ namespace Ronin7.Flow
                 killCounts = RunTally.Kills(),
                 affixCounts = RunTally.Affixes(),
                 boonOffers = RunTally.Offers(),
+                path = new List<int>(RunState.Path).ToArray(),
             };
         }
 

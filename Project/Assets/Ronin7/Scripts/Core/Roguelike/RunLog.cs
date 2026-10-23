@@ -31,6 +31,7 @@ namespace Ronin7.Core
         public string[] killCounts;  // "Archetype:n"
         public string[] affixCounts; // "Volatile:n"
         public string[] boonOffers;  // one per boon pick screen: "offeredA,offeredB,offeredC>picked" (picked empty = none)
+        public int[] path;           // P5-08 (append-only): node ids walked, start..end (end lines; the boot map table reads it)
     }
 
     /// <summary>P4-00a: per-run counters behind the extra <see cref="RunLogEntry"/> fields. Reset at run start.</summary>

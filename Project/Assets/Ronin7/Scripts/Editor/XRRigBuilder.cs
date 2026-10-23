@@ -1097,6 +1097,10 @@ namespace Ronin7.EditorTools
                 mote.GetComponent<Renderer>().sharedMaterial = moteMat;
                 Object.DestroyImmediate(mote.GetComponent<Collider>());
             }
+
+            // P5-08: Program-kit dressing over these primitives (disabled, not deleted), holo map table, loadout rack,
+            // embedded materials -> Art/Materials/Boot, Boot_Lighting. Bake: Tools/Space Samurai/Art/Dress And Bake Boot Menu.
+            BootDressingBuilder.Apply(EditorSceneManager.GetActiveScene());
         }
 
         /// <summary>URP Lit material (scene-embedded, not an asset). Pass a non-black emission for glow.</summary>
