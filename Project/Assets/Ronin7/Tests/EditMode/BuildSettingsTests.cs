@@ -18,8 +18,9 @@ namespace Ronin7.Tests.EditMode
             var enabled = EditorBuildSettings.scenes.Where(s => s.enabled).Select(s => s.path).ToArray();
             Assert.That(enabled.Length, Is.GreaterThan(0), "No scenes enabled in the build.");
             Assert.AreEqual(Boot, enabled[0], "The boot menu must be build index 0.");
-            CollectionAssert.AreEquivalent(new[] { Boot, Arena }, enabled,
-                "Only the boot menu and RunArena ship in the roguelike build (D-02).");
+            // P5-05: baked room shells (Scenes/Rooms/) load additively into RunArena, so they ship too.
+            CollectionAssert.AreEquivalent(new[] { Boot, Arena }, enabled.Where(p => !p.StartsWith("Assets/Ronin7/Scenes/Rooms/")),
+                "Only the boot menu, RunArena and the room shells ship in the roguelike build (D-02).");
         }
 
         [TestCase(nameof(MainMenuController.OnStartNewGameClicked), true)]

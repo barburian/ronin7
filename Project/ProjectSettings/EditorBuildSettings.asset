@@ -95,6 +95,24 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Ronin7/Scenes/RunArena.unity
     guid: f86823dd757842744bc5a513b9a257b7
+  - enabled: 1
+    path: Assets/Ronin7/Scenes/Rooms/Program/Room_Program_01_8m.unity
+    guid: ed1a1222469dcb841b01e2cc8af9d5dc
+  - enabled: 1
+    path: Assets/Ronin7/Scenes/Rooms/Program/Room_Program_01_11m.unity
+    guid: 6076e400a45632e459f6870cca061300
+  - enabled: 1
+    path: Assets/Ronin7/Scenes/Rooms/Program/Room_Program_02_8m.unity
+    guid: 7d1a003cc70b0f54b81acc7053a0f28f
+  - enabled: 1
+    path: Assets/Ronin7/Scenes/Rooms/Program/Room_Program_02_11m.unity
+    guid: 572c53f2daf9e1247906d1f3e35fdce2
+  - enabled: 1
+    path: Assets/Ronin7/Scenes/Rooms/Program/Room_Program_03_8m.unity
+    guid: ed976d64d74fcd147b72496b321de9f8
+  - enabled: 1
+    path: Assets/Ronin7/Scenes/Rooms/Program/Room_Program_03_11m.unity
+    guid: e7aaa71baee3f9440b952d6fac5e7841
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 9b706728c01987b43bdf3acac015b69a, type: 2}
     com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
