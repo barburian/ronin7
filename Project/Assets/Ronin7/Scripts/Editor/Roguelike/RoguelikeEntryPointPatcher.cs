@@ -73,9 +73,25 @@ namespace Ronin7.EditorTools
                 Debug.LogError("[RogueEntry] No 'Left Hand Controller' in RunArena — cannot mount the wrist HUD.");
                 return;
             }
-            if (leftHand.transform.Find(RogueWristHudName) != null)
+            var existing = leftHand.transform.Find(RogueWristHudName);
+            if (existing != null)
             {
-                Debug.Log("[RogueEntry] RunArena wrist HUD already present — left as-is.");
+                // P5-07b: migrate a legacy TextMesh HUD to TextMeshPro (Rajdhani) in place; pose/scale untouched.
+                var legacy = existing.GetComponent<TextMesh>();
+                if (legacy == null)
+                {
+                    Debug.Log("[RogueEntry] RunArena wrist HUD already present — left as-is.");
+                    return;
+                }
+                Object.DestroyImmediate(legacy);
+                var mr = existing.GetComponent<MeshRenderer>();
+                if (mr != null) Object.DestroyImmediate(mr);
+                var hud = existing.GetComponent<RunHudPanel>();
+                if (hud == null) hud = existing.gameObject.AddComponent<RunHudPanel>();
+                BindHud(hud, AddHudText(existing.gameObject));
+                Debug.Log("[RogueEntry] Migrated the RunArena wrist HUD from TextMesh to TextMeshPro.");
+                EditorSceneManager.MarkSceneDirty(scene);
+                EditorSceneManager.SaveScene(scene);
                 return;
             }
 
@@ -84,24 +100,32 @@ namespace Ronin7.EditorTools
             // ponytail: placement/size are first-guess calibration knobs — tune in-headset.
             go.transform.localPosition = new Vector3(0f, 0.05f, -0.12f); // 5 cm up, 12 cm back toward the forearm
             go.transform.localRotation = Quaternion.Euler(45f, 0f, 0f);
-            go.transform.localScale = Vector3.one * 0.004f; // ~1.5 cm glyphs at fontSize 64
+            go.transform.localScale = Vector3.one * 0.004f; // ~1.5 cm glyphs at TMP fontSize 40
 
-            var tm = go.AddComponent<TextMesh>();
-            tm.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-            go.GetComponent<MeshRenderer>().sharedMaterial = tm.font.material;
-            tm.fontSize = 64;
-            tm.anchor = TextAnchor.MiddleCenter;
-            tm.alignment = TextAlignment.Center;
-            tm.color = new Color(0.95f, 0.85f, 0.55f);
-
-            var hud = go.AddComponent<RunHudPanel>();
-            var so = new SerializedObject(hud);
-            so.FindProperty("target").objectReferenceValue = tm;
-            so.ApplyModifiedPropertiesWithoutUndo();
+            BindHud(go.AddComponent<RunHudPanel>(), AddHudText(go));
 
             Debug.Log("[RogueEntry] Mounted RunHudPanel wrist HUD on the left controller in RunArena.");
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
+        }
+
+        /// <summary>P5-07b: world-space TextMeshPro (TMP default font = Rajdhani-SemiBold) for the wrist HUD.</summary>
+        private static TMPro.TextMeshPro AddHudText(GameObject go)
+        {
+            var tm = go.AddComponent<TMPro.TextMeshPro>();
+            tm.rectTransform.sizeDelta = new Vector2(60f, 30f); // 24 x 12 cm at 0.004 scale; text may overflow vertically
+            tm.fontSize = 40f;
+            tm.alignment = TMPro.TextAlignmentOptions.Center;
+            tm.textWrappingMode = TMPro.TextWrappingModes.NoWrap;
+            tm.color = new Color(0.95f, 0.85f, 0.55f);
+            return tm;
+        }
+
+        private static void BindHud(RunHudPanel hud, TMPro.TMP_Text text)
+        {
+            var so = new SerializedObject(hud);
+            so.FindProperty("target").objectReferenceValue = text;
+            so.ApplyModifiedPropertiesWithoutUndo();
         }
 
         /// <summary>Boot menu: add an ENTER THE FRACTURE button wired to OnStartRunClicked, and

@@ -47,8 +47,8 @@ namespace Ronin7.Tests.EditMode
             var panel = go.AddComponent<BoonOfferPanel>();
 
             var buttons = new Button[buttonCount];
-            var labels = new Text[buttonCount];
-            var descriptions = new Text[buttonCount];
+            var labels = new TMPro.TMP_Text[buttonCount];
+            var descriptions = new TMPro.TMP_Text[buttonCount];
             for (int i = 0; i < buttonCount; i++)
             {
                 var btnGo = new GameObject($"choice{i}");
@@ -57,11 +57,11 @@ namespace Ronin7.Tests.EditMode
 
                 var labelGo = new GameObject($"label{i}");
                 spawned.Add(labelGo);
-                labels[i] = labelGo.AddComponent<Text>();
+                labels[i] = labelGo.AddComponent<TMPro.TextMeshProUGUI>();
 
                 var descGo = new GameObject($"desc{i}");
                 spawned.Add(descGo);
-                descriptions[i] = descGo.AddComponent<Text>();
+                descriptions[i] = descGo.AddComponent<TMPro.TextMeshProUGUI>();
             }
             panel.choiceButtons = buttons;
             panel.choiceLabels = labels;

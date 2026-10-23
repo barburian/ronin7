@@ -1,6 +1,7 @@
 using Ronin7.Combat;
 using Ronin7.Core;
 using Ronin7.Player;
+using TMPro;
 using UnityEngine;
 
 namespace Ronin7.Flow
@@ -15,7 +16,7 @@ namespace Ronin7.Flow
     /// </summary>
     public class RunHudPanel : MonoBehaviour
     {
-        [SerializeField] private TextMesh target;
+        [SerializeField] private TMP_Text target; // P5-07b: TextMeshPro (was TextMesh)
 
         private void OnEnable()
         {
@@ -113,8 +114,8 @@ namespace Ronin7.Flow
         }
 #endif
 
-        /// <summary>P4-11: glyph before the Shard count (HUD, Shop, events; Echoes are spelled out); verified present in the LegacyRuntime font atlas.</summary>
-        public const string ShardGlyph = "◈";
+        /// <summary>P4-11: glyph before the Shard count (HUD, Shop, events; Echoes are spelled out); P5-07b: ♦ (was ◈, absent from Rajdhani and LiberationSans) renders via the LiberationSans fallback.</summary>
+        public const string ShardGlyph = "♦";
 
         /// <summary>Pure formatter — five lines, each at most 18 chars (1-indexed for display;
         /// <paramref name="depth"/>/<paramref name="sector"/> are the 0-indexed RunState values).

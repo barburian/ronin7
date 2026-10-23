@@ -1,5 +1,6 @@
 using Ronin7.Core;
 using Ronin7.Player;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR;
@@ -14,7 +15,7 @@ namespace Ronin7.Flow
         internal struct Row
         {
             public string id;
-            public Text nameText, pipsText, costText;
+            public TMP_Text nameText, pipsText, costText;
             public Button buy;
         }
 
@@ -23,7 +24,7 @@ namespace Ronin7.Flow
         {
             public string id, name;
             public int cost; // P4-10 Shrine unlock price, shown while locked (also used for packs and Keepsakes)
-            public Text label;
+            public TMP_Text label;
             public Button button;
         }
 
@@ -32,18 +33,18 @@ namespace Ronin7.Flow
         {
             public HeatRank rank;
             public string name;
-            public Text label;
+            public TMP_Text label;
             public Button button;
         }
 
         internal Row[] rows;
         internal HeatSlot[] heat = System.Array.Empty<HeatSlot>(); // empty until heat unlocks (first win)
-        internal Text heatTitle;
+        internal TMP_Text heatTitle;
         internal Button dailyButton;
         internal Loadout[] loadouts = System.Array.Empty<Loadout>();
         internal Loadout[] packs = System.Array.Empty<Loadout>();     // P4-10
         internal Loadout[] keepsakes = System.Array.Empty<Loadout>(); // P4-10: one per past Epic
-        internal Text weaponArtLabel, offhandArtLabel;                 // P4-10 Art selector
+        internal TMP_Text weaponArtLabel, offhandArtLabel;                 // P4-10 Art selector
         internal Button weaponArtButton, offhandArtButton;
         internal GameObject[] pages = System.Array.Empty<GameObject>(); // P4-10 tabs
         internal Button[] tabs = System.Array.Empty<Button>();
@@ -53,7 +54,7 @@ namespace Ronin7.Flow
         // P4-10 Art selector cycles, in order ("" = none).
         internal static readonly string[] WeaponArts = { "", ArtId.ChargedSlash, ArtId.BladeThrow };
         internal static readonly string[] OffhandArts = { "", ArtId.KiaiPalm, ArtId.ChainHook, ArtId.ElementImbue };
-        internal Text echoesLabel;
+        internal TMP_Text echoesLabel;
         internal Button closeButton;
         internal System.Action onClosed;
         private readonly LazyFollow follow = new LazyFollow(1.3f);
@@ -174,10 +175,10 @@ namespace Ronin7.Flow
         }
 
         internal static string ArtText(bool weapon, bool owned, string artId, int cost) =>
-            (weapon ? "WEAPON ART" : "OFF-HAND ART") + "\n" + (owned ? ArtName(artId) : "LOCKED ◈ " + cost);
+            (weapon ? "WEAPON ART" : "OFF-HAND ART") + "\n" + (owned ? ArtName(artId) : "LOCKED ♦ " + cost);
 
         internal static string OwnedText(string name, bool owned, bool selected, int cost) =>
-            name + "\n" + (!owned ? "◈ " + cost : selected ? "● EQUIPPED" : "OWNED");
+            name + "\n" + (!owned ? "♦ " + cost : selected ? "● EQUIPPED" : "OWNED");
 
         /// <summary>P4-09: next rank on a click, wrapping max -> 0.</summary>
         internal static int NextHeatRank(int current, int max) => current >= max ? 0 : current + 1;
@@ -206,7 +207,7 @@ namespace Ronin7.Flow
             "FRACTURE PRESSURE  ECHOES x" + RunDirector.HeatEchoMultiplier(totalRanks).ToString("0.0", System.Globalization.CultureInfo.InvariantCulture);
 
         internal static string LoadoutText(string name, bool unlocked, bool selected, int cost) =>
-            !unlocked ? name + "\nLOCKED ◈ " + cost : selected ? "● " + name : name; // glyphs the LegacyRuntime font already renders
+            !unlocked ? name + "\nLOCKED ♦ " + cost : selected ? "● " + name : name; // glyphs Rajdhani + its LiberationSans fallback render (P5-07b)
 
         internal void Refresh()
         {
@@ -216,7 +217,7 @@ namespace Ronin7.Flow
                 int level = MetaProgression.UpgradeLevel(r.id), max = MetaProgression.MaxLevel(r.id);
                 int cost = MetaProgression.UpgradeCost(r.id, level + 1);
                 r.pipsText.text = Pips(level, max);
-                r.costText.text = level >= max ? "MAX" : "◈ " + cost;
+                r.costText.text = level >= max ? "MAX" : "♦ " + cost;
                 r.buy.interactable = level < max && MetaProgression.Echoes >= cost;
             }
             string selected = MetaProgression.SelectedLoadout;
@@ -255,7 +256,7 @@ namespace Ronin7.Flow
             if (dailyButton != null) dailyButton.interactable = !saved;
         }
 
-        private static void RefreshArt(Text label, Button button, bool weapon)
+        private static void RefreshArt(TMP_Text label, Button button, bool weapon)
         {
             if (label == null) return;
             bool owned = MetaProgression.HasArtSlot(weapon);
@@ -264,7 +265,7 @@ namespace Ronin7.Flow
             button.interactable = owned || MetaProgression.Echoes >= cost;
         }
 
-        internal static string EchoesText(int n) => "ECHOES " + n; // P4-11: ◈ is the Shard glyph now
+        internal static string EchoesText(int n) => "ECHOES " + n; // P4-11: ♦ is the Shard glyph now
 
         internal static string Pips(int level, int max) =>
             new string('●', Mathf.Clamp(level, 0, max)) + new string('○', Mathf.Max(0, max - level));

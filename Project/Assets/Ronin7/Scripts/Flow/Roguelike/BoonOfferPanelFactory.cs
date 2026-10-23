@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Ronin7.Combat;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -38,26 +39,26 @@ namespace Ronin7.Flow
             canvasGo.AddComponent<TrackedDeviceGraphicRaycaster>();
 
             var rt = canvas.GetComponent<RectTransform>();
-            rt.sizeDelta = new Vector2(1000f, 520f);
+            rt.sizeDelta = new Vector2(1000f, 680f); // P5-07b: taller cards (icon + 28 px body)
             rt.localScale = Vector3.one * 0.001f;
             BoonOfferPanel.Place(rt, targetCamera.transform);
 
-            var bg = canvasGo.AddComponent<Image>();
-            bg.color = new Color(0f, 0f, 0f, 0.75f);
+            UiKit.Frame(canvasGo.AddComponent<Image>(), UiKit.Cyan);
 
-            var font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-            if (font == null) font = Font.CreateDynamicFontFromOSFont("Arial", 16);
-
-            BuildTitle(rt, font);
+            BuildTitle(rt);
+            ((RectTransform)rt.Find("Title")).anchoredPosition = new Vector2(0f, 290f);
 
             var choiceButtons = new Button[ChoiceCount];
-            var choiceLabels = new Text[ChoiceCount];
-            var descriptionLabels = new Text[ChoiceCount];
-            var ownedLabels = new Text[ChoiceCount];
+            var choiceLabels = new TMP_Text[ChoiceCount];
+            var descriptionLabels = new TMP_Text[ChoiceCount];
+            var ownedLabels = new TMP_Text[ChoiceCount];
+            var icons = new Image[ChoiceCount];
+            var edges = new Image[ChoiceCount];
             for (int i = 0; i < ChoiceCount; i++)
-                choiceButtons[i] = BuildChoiceButton(rt, font, (i - 1) * 320f, out choiceLabels[i], out descriptionLabels[i], out ownedLabels[i]);
+                choiceButtons[i] = BuildChoiceButton(rt, (i - 1) * 320f, 10f, out choiceLabels[i], out descriptionLabels[i], out ownedLabels[i], out icons[i], out edges[i]);
 
-            var rerollButton = BuildRerollButton(rt, font);
+            var rerollButton = BuildRerollButton(rt);
+            ((RectTransform)rerollButton.transform).anchoredPosition = new Vector2(0f, -285f);
 
             var panel = canvasGo.AddComponent<BoonOfferPanel>();
             panel.choiceButtons = choiceButtons;
@@ -65,8 +66,10 @@ namespace Ronin7.Flow
             panel.descriptionLabels = descriptionLabels;
             panel.rerollButton = rerollButton;
             panel.ownedLabels = ownedLabels;
-            panel.countdownLabel = BuildCountdownLabel(rt, font);
-            panel.titleLabel = rt.Find("Title").GetComponent<Text>();
+            panel.iconImages = icons;
+            panel.edgeImages = edges;
+            panel.countdownLabel = BuildCountdownLabel(rt);
+            panel.titleLabel = rt.Find("Title").GetComponent<TMP_Text>();
             // Must follow the field assignments above: AddComponent already ran Awake, so the button
             // listeners can only be attached now (see BoonOfferPanel.WireButtons).
             panel.WireButtons();
@@ -94,46 +97,39 @@ namespace Ronin7.Flow
             canvasGo.AddComponent<TrackedDeviceGraphicRaycaster>();
 
             var rt = canvas.GetComponent<RectTransform>();
-            rt.sizeDelta = new Vector2(1000f, 600f);
+            rt.sizeDelta = new Vector2(1000f, 760f); // P5-07b: taller cards (icon + 28 px body)
             rt.localScale = Vector3.one * 0.001f;
             BoonOfferPanel.Place(rt, targetCamera.transform);
 
-            var bg = canvasGo.AddComponent<Image>();
-            bg.color = new Color(0.02f, 0.02f, 0.03f, 1f); // opaque: the glowing exit gates sit right behind it
+            UiKit.Frame(canvasGo.AddComponent<Image>(), UiKit.Cyan, 1f); // opaque: the glowing exit gates sit right behind it
 
-            var font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-            if (font == null) font = Font.CreateDynamicFontFromOSFont("Arial", 16);
-
-            BuildTitle(rt, font);
+            BuildTitle(rt);
             var titleRt = (RectTransform)rt.Find("Title");
-            titleRt.anchoredPosition = new Vector2(0f, 250f);
+            titleRt.anchoredPosition = new Vector2(0f, 335f);
 
             var subGo = new GameObject("Subtitle");
             subGo.transform.SetParent(rt, false);
             var subRt = subGo.AddComponent<RectTransform>();
             subRt.sizeDelta = new Vector2(940f, 70f);
-            subRt.anchoredPosition = new Vector2(0f, 190f);
-            var sub = subGo.AddComponent<Text>();
-            sub.font = font;
-            sub.fontSize = 24;
-            sub.alignment = TextAnchor.MiddleCenter;
-            sub.horizontalOverflow = HorizontalWrapMode.Wrap;
-            sub.verticalOverflow = VerticalWrapMode.Truncate;
-            sub.color = new Color(0.9f, 0.9f, 0.9f, 1f);
+            subRt.anchoredPosition = new Vector2(0f, 265f);
+            var sub = UiKit.Text(subGo, "", UiKit.MinBody, new Color(0.9f, 0.9f, 0.9f, 1f), TextAlignmentOptions.Center);
+            sub.overflowMode = TextOverflowModes.Ellipsis;
 
             var choiceButtons = new Button[ChoiceCount];
-            var choiceLabels = new Text[ChoiceCount];
-            var descriptionLabels = new Text[ChoiceCount];
-            var ownedLabels = new Text[ChoiceCount];
+            var choiceLabels = new TMP_Text[ChoiceCount];
+            var descriptionLabels = new TMP_Text[ChoiceCount];
+            var ownedLabels = new TMP_Text[ChoiceCount];
+            var icons = new Image[ChoiceCount];
+            var edges = new Image[ChoiceCount];
             for (int i = 0; i < ChoiceCount; i++)
-                choiceButtons[i] = BuildChoiceButton(rt, font, (i - 1) * 320f, out choiceLabels[i], out descriptionLabels[i], out ownedLabels[i]);
+                choiceButtons[i] = BuildChoiceButton(rt, (i - 1) * 320f, 0f, out choiceLabels[i], out descriptionLabels[i], out ownedLabels[i], out icons[i], out edges[i]);
 
             var footer = new Button[footerLabels.Length];
             for (int i = 0; i < footer.Length; i++)
             {
-                footer[i] = BuildRerollButton(rt, font);
+                footer[i] = BuildRerollButton(rt);
                 footer[i].gameObject.name = "Footer_" + i;
-                ((RectTransform)footer[i].transform).anchoredPosition = new Vector2(BoonOfferPanel.ColumnX(i, footer.Length) * 1.15f, -240f);
+                ((RectTransform)footer[i].transform).anchoredPosition = new Vector2(BoonOfferPanel.ColumnX(i, footer.Length) * 1.15f, -300f);
             }
 
             var panel = canvasGo.AddComponent<BoonOfferPanel>();
@@ -141,8 +137,10 @@ namespace Ronin7.Flow
             panel.choiceLabels = choiceLabels;
             panel.descriptionLabels = descriptionLabels;
             panel.ownedLabels = ownedLabels;
+            panel.iconImages = icons;
+            panel.edgeImages = edges;
             panel.footerButtons = footer;
-            panel.titleLabel = titleRt.GetComponent<Text>();
+            panel.titleLabel = titleRt.GetComponent<TMP_Text>();
             panel.subtitleLabel = sub;
             panel.WireButtons(); // after the field assignments (see Build)
             panel.SetTitle(title, subtitle);
@@ -151,107 +149,95 @@ namespace Ronin7.Flow
             return panel;
         }
 
-        private static void BuildTitle(RectTransform parent, Font font)
+        private static void BuildTitle(RectTransform parent)
         {
             var titleGo = new GameObject("Title");
             titleGo.transform.SetParent(parent, false);
             var titleRt = titleGo.AddComponent<RectTransform>();
             titleRt.sizeDelta = new Vector2(960f, 80f);
             titleRt.anchoredPosition = new Vector2(0f, 210f);
-            var titleText = titleGo.AddComponent<Text>();
-            titleText.text = "CHOOSE A BOON";
-            titleText.font = font;
-            titleText.fontSize = 48;
-            titleText.fontStyle = FontStyle.Bold;
-            titleText.alignment = TextAnchor.MiddleCenter;
-            titleText.color = Color.white;
+            UiKit.Text(titleGo, "CHOOSE A BOON", 56f, Color.white, TextAlignmentOptions.Center, bold: true, title: true);
         }
 
-        private static Button BuildChoiceButton(RectTransform parent, Font font, float x, out Text titleLabel, out Text descriptionLabel, out Text ownedLabel)
+        /// <summary>One 300 x 440 card: glass + rarity edge, icon on top, then title, description, OWNED line.
+        /// Posed on the curved row (<see cref="BoonOfferPanel.PoseCard"/>).</summary>
+        private static Button BuildChoiceButton(RectTransform parent, float x, float y, out TMP_Text titleLabel,
+            out TMP_Text descriptionLabel, out TMP_Text ownedLabel, out Image icon, out Image edge)
         {
             var btnGo = new GameObject("Choice");
             btnGo.transform.SetParent(parent, false);
             var btnRt = btnGo.AddComponent<RectTransform>();
-            btnRt.sizeDelta = new Vector2(280f, 320f);
-            btnRt.anchoredPosition = new Vector2(x, 20f);
+            btnRt.sizeDelta = new Vector2(300f, 440f);
+            btnRt.anchoredPosition = new Vector2(x, y);
+            BoonOfferPanel.PoseCard(btnRt, x);
             var btnImg = btnGo.AddComponent<Image>();
-            btnImg.color = new Color(0.15f, 0.15f, 0.2f, 0.9f);
+            edge = UiKit.Frame(btnImg, UiKit.Cyan, 0.92f);
             var button = btnGo.AddComponent<Button>();
             button.targetGraphic = btnImg;
 
-            // Title (name + rarity): pinned to the top, one/two short lines — safe to let this overflow
-            // since it's never more than the boon's name plus a "<Rarity>" tag.
+            var iconGo = new GameObject("Icon");
+            iconGo.transform.SetParent(btnRt, false);
+            var iconRt = iconGo.AddComponent<RectTransform>();
+            iconRt.anchorMin = iconRt.anchorMax = new Vector2(0.5f, 1f);
+            iconRt.pivot = new Vector2(0.5f, 1f);
+            iconRt.sizeDelta = new Vector2(96f, 96f);
+            iconRt.anchoredPosition = new Vector2(0f, -16f);
+            icon = iconGo.AddComponent<Image>();
+            icon.preserveAspect = true;
+            icon.raycastTarget = false;
+            iconGo.SetActive(false); // shown by SetChoices once a boon with an icon lands here
+
+            // Title (rarity + name): up to two lines under the icon.
             var titleGo = new GameObject("Title");
             titleGo.transform.SetParent(btnRt, false);
             var titleRt = titleGo.AddComponent<RectTransform>();
             titleRt.anchorMin = new Vector2(0f, 1f);
             titleRt.anchorMax = new Vector2(1f, 1f);
             titleRt.pivot = new Vector2(0.5f, 1f);
-            titleRt.sizeDelta = new Vector2(-32f, 90f);
-            titleRt.anchoredPosition = new Vector2(0f, -16f);
-            titleLabel = titleGo.AddComponent<Text>();
-            titleLabel.font = font;
-            titleLabel.fontSize = 24;
-            titleLabel.fontStyle = FontStyle.Bold;
-            titleLabel.alignment = TextAnchor.UpperCenter;
-            titleLabel.horizontalOverflow = HorizontalWrapMode.Wrap;
-            titleLabel.verticalOverflow = VerticalWrapMode.Overflow;
-            titleLabel.color = Color.white;
+            titleRt.sizeDelta = new Vector2(-28f, 84f);
+            titleRt.anchoredPosition = new Vector2(0f, -116f);
+            titleLabel = UiKit.Text(titleGo, "", 34f, Color.white, TextAlignmentOptions.Center, bold: true);
+            titleLabel.enableAutoSizing = true;
+            titleLabel.fontSizeMin = UiKit.MinBody;
+            titleLabel.fontSizeMax = 34f;
 
-            // Description: its own smaller sub-label below the title, clipped to its own rect
-            // (A7.9 — previously one Text with VerticalWrapMode.Overflow let a long [TextArea]
-            // description spill onto the adjacent choice's button, off that button's raycast target).
+            // Description: its own sub-label clipped to its own rect (A7.9: a long [TextArea] description
+            // must never spill onto the adjacent card, off that card's raycast target).
             var descGo = new GameObject("Description");
             descGo.transform.SetParent(btnRt, false);
             var descRt = descGo.AddComponent<RectTransform>();
             descRt.anchorMin = Vector2.zero;
             descRt.anchorMax = Vector2.one;
-            descRt.offsetMin = new Vector2(16f, 52f);
-            descRt.offsetMax = new Vector2(-16f, -110f);
-            descriptionLabel = descGo.AddComponent<Text>();
-            descriptionLabel.font = font;
-            descriptionLabel.fontSize = 22; // P1-13: >= 22 px readable at arm reach (1 canvas px = 1 mm)
-            descriptionLabel.alignment = TextAnchor.UpperCenter;
-            descriptionLabel.horizontalOverflow = HorizontalWrapMode.Wrap;
-            descriptionLabel.verticalOverflow = VerticalWrapMode.Truncate;
-            descriptionLabel.color = new Color(0.85f, 0.85f, 0.85f, 1f);
+            descRt.offsetMin = new Vector2(18f, 54f);
+            descRt.offsetMax = new Vector2(-18f, -206f);
+            descriptionLabel = UiKit.Text(descGo, "", UiKit.MinBody, new Color(0.85f, 0.87f, 0.9f, 1f), TextAlignmentOptions.Top);
+            descriptionLabel.overflowMode = TextOverflowModes.Ellipsis;
 
-            // OWNED n/max: pinned to the bottom of the button, its own rect so it never fights the description.
+            // OWNED n/max: pinned to the bottom of the card, its own rect so it never fights the description.
             var ownedGo = new GameObject("Owned");
             ownedGo.transform.SetParent(btnRt, false);
             var ownedRt = ownedGo.AddComponent<RectTransform>();
             ownedRt.anchorMin = Vector2.zero;
             ownedRt.anchorMax = new Vector2(1f, 0f);
             ownedRt.pivot = new Vector2(0.5f, 0f);
-            ownedRt.sizeDelta = new Vector2(-32f, 34f);
+            ownedRt.sizeDelta = new Vector2(-28f, 38f);
             ownedRt.anchoredPosition = new Vector2(0f, 12f);
-            ownedLabel = ownedGo.AddComponent<Text>();
-            ownedLabel.font = font;
-            ownedLabel.fontSize = 22;
-            ownedLabel.fontStyle = FontStyle.Bold;
-            ownedLabel.alignment = TextAnchor.MiddleCenter;
-            ownedLabel.color = new Color(1f, 0.85f, 0.4f, 1f);
+            ownedLabel = UiKit.Text(ownedGo, "", UiKit.MinBody, new Color(1f, 0.85f, 0.4f, 1f), TextAlignmentOptions.Center, bold: true);
 
             return button;
         }
 
-        private static Text BuildCountdownLabel(RectTransform parent, Font font)
+        private static TMP_Text BuildCountdownLabel(RectTransform parent)
         {
             var go = new GameObject("Countdown");
             go.transform.SetParent(parent, false);
             var rt = go.AddComponent<RectTransform>();
             rt.sizeDelta = new Vector2(300f, 50f);
-            rt.anchoredPosition = new Vector2(350f, -220f); // right of the reroll button, inside the 1000 px panel
-            var t = go.AddComponent<Text>();
-            t.font = font;
-            t.fontSize = 26;
-            t.fontStyle = FontStyle.Bold;
-            t.alignment = TextAnchor.MiddleCenter;
-            t.color = new Color(1f, 0.6f, 0.3f, 1f);
-            return t;
+            rt.anchoredPosition = new Vector2(350f, -285f); // right of the reroll button, inside the 1000 px panel
+            return UiKit.Text(go, "", 30f, new Color(1f, 0.6f, 0.3f, 1f), TextAlignmentOptions.Center, bold: true);
         }
 
-        private static Button BuildRerollButton(RectTransform parent, Font font)
+        private static Button BuildRerollButton(RectTransform parent)
         {
             var btnGo = new GameObject("RerollButton");
             btnGo.transform.SetParent(parent, false);
@@ -259,7 +245,7 @@ namespace Ronin7.Flow
             btnRt.sizeDelta = new Vector2(320f, 70f);
             btnRt.anchoredPosition = new Vector2(0f, -220f);
             var btnImg = btnGo.AddComponent<Image>();
-            btnImg.color = new Color(0.2f, 0.2f, 0.28f, 0.9f);
+            UiKit.Frame(btnImg, UiKit.Cyan, 0.92f);
             var button = btnGo.AddComponent<Button>();
             button.targetGraphic = btnImg;
 
@@ -270,13 +256,7 @@ namespace Ronin7.Flow
             labelRt.anchorMax = Vector2.one;
             labelRt.offsetMin = Vector2.zero;
             labelRt.offsetMax = Vector2.zero;
-            var labelText = labelGo.AddComponent<Text>();
-            labelText.text = "REROLL";
-            labelText.font = font;
-            labelText.fontSize = 26;
-            labelText.fontStyle = FontStyle.Bold;
-            labelText.alignment = TextAnchor.MiddleCenter;
-            labelText.color = Color.white;
+            UiKit.Text(labelGo, "REROLL", 32f, Color.white, TextAlignmentOptions.Center, bold: true);
 
             return button;
         }

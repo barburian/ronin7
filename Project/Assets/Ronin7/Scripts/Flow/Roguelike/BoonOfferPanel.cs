@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Ronin7.Combat;
 using Ronin7.Core;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,21 +21,24 @@ namespace Ronin7.Flow
         // lands AFTER Awake has already run (see WireButtons), which is why the listener wiring is an
         // explicit call the factory makes and not an Awake.
         public Button[] choiceButtons;
-        public Text[] choiceLabels;
+        public TMP_Text[] choiceLabels;
         /// <summary>A7.9: a separate, smaller sub-label for each choice's description. Previously the
         /// name/rarity/description were one Text with VerticalWrapMode.Overflow, so a long [TextArea]
         /// description spilled onto the neighbouring choice's button — off that button's own raycast
         /// target, so it read as a label for the wrong boon. Optional: null entries are skipped.</summary>
-        public Text[] descriptionLabels;
+        public TMP_Text[] descriptionLabels;
         public Button rerollButton;
         /// <summary>P1-13: per-choice "OWNED n/max" line. Optional.</summary>
-        public Text[] ownedLabels;
+        public TMP_Text[] ownedLabels;
         /// <summary>P1-13: "AUTO-PICK IN n" for the last 10 s of the fallback timer. Optional.</summary>
-        public Text countdownLabel;
+        public TMP_Text countdownLabel;
         /// <summary>P2-04 generic panels (path / shop / event): optional bottom buttons and a body line.</summary>
         public Button[] footerButtons;
-        public Text titleLabel;
-        public Text subtitleLabel;
+        public TMP_Text titleLabel;
+        public TMP_Text subtitleLabel;
+        /// <summary>P5-07b: per-card boon icon (white sprite tinted with the rarity colour) and neon edge. Optional.</summary>
+        public Image[] iconImages;
+        public Image[] edgeImages;
 
         /// <summary>Fired with the chosen choice's index (0..choiceButtons.Length-1).</summary>
         public event Action<int> ChoiceSelected;
@@ -102,8 +106,27 @@ namespace Ronin7.Flow
                 choiceButtons[i].gameObject.SetActive(on);
                 if (!on) continue;
                 var rt = (RectTransform)choiceButtons[i].transform;
-                rt.anchoredPosition = new Vector2(ColumnX(i, count), rt.anchoredPosition.y);
+                PoseCard(rt, ColumnX(i, count));
             }
+        }
+
+        /// <summary>P5-07b: ±<see cref="CardMaxYaw"/>° at the outer (±320 px) column.</summary>
+        public const float CardMaxYaw = 12f;
+
+        /// <summary>Curved card row: yaw grows linearly with the column offset (outer cards turn toward the
+        /// player) and each card sits on the matching arc — pulled toward the viewer (−z, the canvas faces
+        /// away from the head) by |x|·tan(yaw/2), i.e. the chord-to-arc offset R(1−cos θ) with R = x / sin θ.</summary>
+        internal static void CardPose(float x, out float z, out float yawDeg)
+        {
+            yawDeg = CardMaxYaw * x / 320f;
+            z = -Mathf.Abs(x) * Mathf.Tan(Mathf.Abs(yawDeg) * 0.5f * Mathf.Deg2Rad);
+        }
+
+        internal static void PoseCard(RectTransform rt, float x)
+        {
+            CardPose(x, out float z, out float yaw);
+            rt.anchoredPosition3D = new Vector3(x, rt.anchoredPosition.y, z);
+            rt.localRotation = Quaternion.Euler(0f, yaw, 0f);
         }
 
         /// <summary>Column centre for option <paramref name="i"/> of <paramref name="count"/> (320 px pitch).</summary>
@@ -117,6 +140,7 @@ namespace Ronin7.Flow
                 choiceLabels[i].text = title;
                 choiceLabels[i].color = titleColor;
             }
+            SetCardArt(i, null, titleColor);
             if (descriptionLabels != null && i < descriptionLabels.Length && descriptionLabels[i] != null)
                 descriptionLabels[i].text = description;
             if (ownedLabels != null && i < ownedLabels.Length && ownedLabels[i] != null)
@@ -129,7 +153,7 @@ namespace Ronin7.Flow
             if (footerButtons == null || i < 0 || i >= footerButtons.Length || footerButtons[i] == null) return;
             footerButtons[i].gameObject.SetActive(visible);
             footerButtons[i].interactable = interactable;
-            var t = footerButtons[i].GetComponentInChildren<Text>(true);
+            var t = footerButtons[i].GetComponentInChildren<TMP_Text>(true);
             if (t != null) t.text = label;
         }
 
@@ -150,11 +174,25 @@ namespace Ronin7.Flow
                     choiceLabels[i].text = FormatChoiceTitle(choices[i]);
                     choiceLabels[i].color = RarityColor(choices[i].rarity);
                 }
+                SetCardArt(i, choices[i].icon, RarityColor(choices[i].rarity));
                 if (ownedLabels != null && i < ownedLabels.Length && ownedLabels[i] != null)
                     ownedLabels[i].text = FormatOwned(RunState.BoonCount(choices[i].id), choices[i].maxStacks);
                 if (descriptionLabels != null && i < descriptionLabels.Length && descriptionLabels[i] != null)
                     descriptionLabels[i].text = FormatChoiceDescription(choices[i]);
             }
+        }
+
+        /// <summary>Icon (hidden when null) and neon edge, both in <paramref name="accent"/>.</summary>
+        private void SetCardArt(int i, Sprite icon, Color accent)
+        {
+            if (iconImages != null && i < iconImages.Length && iconImages[i] != null)
+            {
+                iconImages[i].sprite = icon;
+                iconImages[i].color = accent;
+                iconImages[i].gameObject.SetActive(icon != null);
+            }
+            if (edgeImages != null && i < edgeImages.Length && edgeImages[i] != null)
+                edgeImages[i].color = accent;
         }
 
         public void SetRerollInteractable(bool interactable)
@@ -166,7 +204,7 @@ namespace Ronin7.Flow
         public void SetRerollTokens(int tokens)
         {
             SetRerollInteractable(tokens > 0);
-            var label = rerollButton != null ? rerollButton.GetComponentInChildren<Text>(true) : null;
+            var label = rerollButton != null ? rerollButton.GetComponentInChildren<TMP_Text>(true) : null;
             if (label != null) label.text = "REROLL (" + tokens + ")";
         }
 
@@ -219,7 +257,7 @@ namespace Ronin7.Flow
 
         /// <summary>Pure description formatter, the descriptionLabels line. Internal so it is
         /// unit-testable without building the panel; the overflow fix itself (A7.9) is the description
-        /// label's own smaller font + VerticalWrapMode.Truncate, not this method's job.</summary>
+        /// label's own rect + ellipsis overflow, not this method's job.</summary>
         internal static string FormatChoiceDescription(BoonDefinition def) =>
             def == null ? string.Empty : def.description;
     }

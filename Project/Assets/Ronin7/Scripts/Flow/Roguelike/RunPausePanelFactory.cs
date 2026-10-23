@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -38,45 +39,35 @@ namespace Ronin7.Flow
             fwd.Normalize();
             rt.SetPositionAndRotation(camT.position + fwd * Distance, Quaternion.LookRotation(fwd, Vector3.up));
 
-            var bg = canvasGo.AddComponent<Image>();
-            bg.color = new Color(0f, 0f, 0f, 0.88f);
+            UiKit.Frame(canvasGo.AddComponent<Image>(), UiKit.Cyan, 0.88f);
 
-            var font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-            if (font == null) font = Font.CreateDynamicFontFromOSFont("Arial", 16);
-
-            AddLabel(rt, font, "PAUSED", 60, new Vector2(0f, 350f), new Vector2(560f, 90f));
+            AddLabel(rt, "PAUSED", 60, new Vector2(0f, 350f), new Vector2(560f, 90f));
 
             var panel = canvasGo.AddComponent<RunPausePanel>();
-            panel.resumeButton = AddButton(rt, font, "RESUME", 230f);
-            panel.settingsButton = AddButton(rt, font, "SETTINGS", 120f);
-            panel.recalibrateButton = AddButton(rt, font, "RECALIBRATE HEIGHT", 10f);
-            panel.saveAndQuitButton = AddButton(rt, font, "SAVE & QUIT", -100f);
+            panel.resumeButton = AddButton(rt, "RESUME", 230f);
+            panel.settingsButton = AddButton(rt, "SETTINGS", 120f);
+            panel.recalibrateButton = AddButton(rt, "RECALIBRATE HEIGHT", 10f);
+            panel.saveAndQuitButton = AddButton(rt, "SAVE & QUIT", -100f);
             // Destructive, so it sits apart (>= 15 cm below the rest) and needs a 1 s hold.
-            panel.abandonButton = AddHoldButton(rt, font, "HOLD TO ABANDON RUN", -320f);
+            panel.abandonButton = AddHoldButton(rt, "HOLD TO ABANDON RUN", -320f);
             // Must follow the assignments above: AddComponent already ran Awake.
             panel.WireButtons();
             return panel;
         }
 
-        private static void AddLabel(RectTransform parent, Font font, string text, int size, Vector2 pos, Vector2 box)
+        private static void AddLabel(RectTransform parent, string text, int size, Vector2 pos, Vector2 box)
         {
             var go = new GameObject("Title");
             go.transform.SetParent(parent, false);
             var rt = go.AddComponent<RectTransform>();
             rt.sizeDelta = box;
             rt.anchoredPosition = pos;
-            var t = go.AddComponent<Text>();
-            t.text = text;
-            t.font = font;
-            t.fontSize = size;
-            t.fontStyle = FontStyle.Bold;
-            t.alignment = TextAnchor.MiddleCenter;
-            t.color = Color.white;
+            UiKit.Text(go, text, size, Color.white, TextAlignmentOptions.Center, bold: true, title: true);
         }
 
-        private static HoldToConfirmButton AddHoldButton(RectTransform parent, Font font, string label, float y)
+        private static HoldToConfirmButton AddHoldButton(RectTransform parent, string label, float y)
         {
-            var button = AddButton(parent, font, label, y);
+            var button = AddButton(parent, label, y);
             var img = (Image)button.targetGraphic;
             img.color = new Color(0.35f, 0.1f, 0.1f, 1f);
 
@@ -103,7 +94,7 @@ namespace Ronin7.Flow
         }
 
         /// <summary>A large button (480 x 90 mm) — pressed at arm's length with a controller ray.</summary>
-        internal static Button AddButton(RectTransform parent, Font font, string label, float y)
+        internal static Button AddButton(RectTransform parent, string label, float y)
         {
             var btnGo = new GameObject("Btn_" + label.Replace(' ', '_'));
             btnGo.transform.SetParent(parent, false);
@@ -111,7 +102,7 @@ namespace Ronin7.Flow
             btnRt.sizeDelta = new Vector2(480f, 90f);
             btnRt.anchoredPosition = new Vector2(0f, y);
             var img = btnGo.AddComponent<Image>();
-            img.color = new Color(0.15f, 0.18f, 0.25f, 1f);
+            UiKit.Frame(img, UiKit.Cyan, 0.92f);
             var button = btnGo.AddComponent<Button>();
             button.targetGraphic = img;
 
@@ -122,13 +113,7 @@ namespace Ronin7.Flow
             lrt.anchorMax = Vector2.one;
             lrt.offsetMin = Vector2.zero;
             lrt.offsetMax = Vector2.zero;
-            var t = labelGo.AddComponent<Text>();
-            t.text = label;
-            t.font = font;
-            t.fontSize = 32;
-            t.fontStyle = FontStyle.Bold;
-            t.alignment = TextAnchor.MiddleCenter;
-            t.color = Color.white;
+            UiKit.Text(labelGo, label, 34, Color.white, TextAlignmentOptions.Center, bold: true);
             return button;
         }
     }

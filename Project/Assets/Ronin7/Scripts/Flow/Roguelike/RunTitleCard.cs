@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,7 +22,7 @@ namespace Ronin7.Flow
             rt.localScale = Vector3.one * 0.001f;
             BoonOfferPanel.Place(rt, cam.transform);
 
-            go.AddComponent<Image>().color = new Color(0f, 0f, 0f, 0.92f);
+            UiKit.Frame(go.AddComponent<Image>(), color, 0.92f);
 
             var labelGo = new GameObject("Label");
             labelGo.transform.SetParent(rt, false);
@@ -30,18 +31,10 @@ namespace Ronin7.Flow
             labelRt.anchorMax = Vector2.one;
             labelRt.offsetMin = new Vector2(20f, 10f);
             labelRt.offsetMax = new Vector2(-20f, -10f);
-            var label = labelGo.AddComponent<Text>();
-            label.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-            label.text = text;
-            label.fontSize = 110;
-            label.fontStyle = FontStyle.Bold;
-            label.alignment = TextAnchor.MiddleCenter;
-            label.horizontalOverflow = HorizontalWrapMode.Wrap;
-            label.verticalOverflow = VerticalWrapMode.Overflow;
-            label.resizeTextForBestFit = true;
-            label.resizeTextMinSize = 48;
-            label.resizeTextMaxSize = 110;
-            label.color = color;
+            var label = UiKit.Text(labelGo, text, 110f, color, TextAlignmentOptions.Center, bold: true, title: true);
+            label.enableAutoSizing = true;
+            label.fontSizeMin = UiKit.MinTitle;
+            label.fontSizeMax = 110f;
 
             Object.Destroy(go, seconds);
             return go;

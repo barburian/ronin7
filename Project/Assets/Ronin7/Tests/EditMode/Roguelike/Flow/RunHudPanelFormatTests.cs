@@ -18,7 +18,7 @@ namespace Ronin7.Tests.EditMode
         [Test]
         public void FiveLines_MaxWidth18()
         {
-            // Worst case per field: HP 999/999, NODE 15/15 · S3, FOES 99 LEFT, BOONS 99 · ◈ 9999, three paths.
+            // Worst case per field: HP 999/999, NODE 15/15 · S3, FOES 99 LEFT, BOONS 99 · ♦ 9999, three paths.
             string next = RunHudPanel.FormatNext(new[] { RoomKind.Treasure, RoomKind.Event, RoomKind.Shop });
             string s = RunHudPanel.Format(999, 999, 14, 2, 99, 99, 9999, next);
             var lines = s.Split('\n');
