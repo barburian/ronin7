@@ -30,6 +30,7 @@ namespace Ronin7.Audio.Vfx
         {
             public ParticleSystem[] systems;
             public float[] freeAtUnscaled;
+            public int last = -1;
         }
 
         public VfxPool(Transform parent, int capacity = 16)
@@ -43,12 +44,16 @@ namespace Ronin7.Audio.Vfx
         /// at <paramref name="point"/>. No-op if the prefab is null or count ≤ 0. The instance becomes
         /// claimable again once its longest particle lifetime elapses.
         /// </summary>
-        public void Play(ParticleSystem prefab, Vector3 point, int count, Color32? tint = null, float? size = null, Vector3? velocity = null)
+        /// <paramref name="shared"/>: emit into the ring's last claimed instance while it is still live instead of
+        /// claiming another, so simultaneous bursts (3 enemies spawning at once) are one draw / SetPass, not one each.
+        /// Only for world-space prefabs (the particles must not follow the instance to the new point).
+        public void Play(ParticleSystem prefab, Vector3 point, int count, Color32? tint = null, float? size = null, Vector3? velocity = null, bool shared = false)
         {
             if (prefab == null || count <= 0) return;
 
             var ring = GetOrCreateRing(prefab);
-            int slot = ClaimSlot(ring);
+            int slot = shared && ring.last >= 0 && ring.freeAtUnscaled[ring.last] > Time.unscaledTime ? ring.last : ClaimSlot(ring);
+            ring.last = slot;
             var ps = ring.systems[slot];
             ps.transform.position = point;
             if (tint.HasValue || size.HasValue || velocity.HasValue) // P2-02 rarity tint, P5-03 per-burst size / fixed velocity

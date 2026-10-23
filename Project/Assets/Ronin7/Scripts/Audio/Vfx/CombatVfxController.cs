@@ -293,7 +293,7 @@ namespace Ronin7.Audio.Vfx
         {
             HandledCount++;
             if (e.Enemy == null) return;
-            Emit(streak, e.Enemy.transform.position, 3, SpawnViolet, 0.05f, Vector3.up * 9f);
+            Emit(streak, e.Enemy.transform.position, 3, SpawnViolet, 0.05f, Vector3.up * 9f, shared: true); // G6: adds spawn together -> 1 draw
             if (pool != null) DeathDissolve.BeginReverse(e.Enemy, dissolveMat);
         }
 
@@ -326,10 +326,10 @@ namespace Ronin7.Audio.Vfx
         private void OnPlayerShipDestroyed(PlayerShipDestroyed e)
         { HandledCount++; Emit(explosion, e.WorldPoint, ExplosionBurst); }
 
-        private void Emit(ParticleSystem prefab, Vector3 point, int baseCount, Color32? tint = null, float? size = null, Vector3? velocity = null)
+        private void Emit(ParticleSystem prefab, Vector3 point, int baseCount, Color32? tint = null, float? size = null, Vector3? velocity = null, bool shared = false)
         {
             if (pool == null) return; // edit-mode/tests: handler still counts, just nothing to spawn
-            pool.Play(prefab, point, ScaledCount(baseCount), tint, size, velocity);
+            pool.Play(prefab, point, ScaledCount(baseCount), tint, size, velocity, shared);
         }
 
         /// <summary>Burst size after the tier's <see cref="GraphicsRuntime.ParticleScale"/>; never below 1.</summary>

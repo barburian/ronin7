@@ -23,6 +23,7 @@ namespace Ronin7.Audio.Vfx
         private readonly List<Renderer> renderers = new();
         private readonly List<Material[]> originals = new(); // reverse mode only: put the enemy's own materials back
         private readonly List<UnityEngine.Rendering.ShadowCastingMode> shadowModes = new();
+        private readonly List<bool> hadBlock = new(); // reverse mode: drop our MPB afterwards so the enemy rejoins the SRP batcher
         private bool reverse;
         private float t;
 
@@ -43,10 +44,12 @@ namespace Ronin7.Audio.Vfx
             {
                 if (r is ParticleSystemRenderer || r is TrailRenderer || r is LineRenderer || !r.enabled) continue;
                 var src = r.sharedMaterial;
+                if (reverse) d.hadBlock.Add(r.HasPropertyBlock());
                 r.GetPropertyBlock(mpb); // keeps the death tint if one was applied
                 if (src != null)
                 {
-                    if (src.HasProperty(BaseMapId)) mpb.SetTexture(BaseMapId, src.GetTexture(BaseMapId));
+                    var tex = src.HasProperty(BaseMapId) ? src.GetTexture(BaseMapId) : null;
+                    if (tex != null) mpb.SetTexture(BaseMapId, tex); // SetTexture(null) throws (untextured enemies, e.g. drones)
                     if (src.HasProperty(BaseColorId) && !mpb.HasColor(BaseColorId)) mpb.SetColor(BaseColorId, src.GetColor(BaseColorId));
                 }
                 mpb.SetFloat(DissolveId, reverse ? 1f : 0f);
@@ -79,6 +82,7 @@ namespace Ronin7.Audio.Vfx
                     if (renderers[i] == null) continue;
                     renderers[i].sharedMaterials = originals[i];
                     renderers[i].shadowCastingMode = shadowModes[i];
+                    if (!hadBlock[i]) renderers[i].SetPropertyBlock(null);
                 }
                 Destroy(this);
             }

@@ -159,6 +159,39 @@ namespace Ronin7.Tests.EditMode
         }
 
         [Test]
+        public void VfxPool_SharedBursts_ReuseTheLiveInstance()
+        {
+            var parent = new GameObject("PoolParent").transform;
+            var prefab = new GameObject("Fx").AddComponent<ParticleSystem>();
+            try
+            {
+                var pool = new VfxPool(parent, 4);
+                for (int i = 0; i < 3; i++) pool.Play(prefab, new Vector3(i, 0, 0), 3, shared: true);
+                int busy = 0;
+                foreach (Transform c in parent) if (c.GetComponent<ParticleSystem>().particleCount > 0) busy++;
+                Assert.AreEqual(1, busy, "Simultaneous shared bursts (G6 spawn beams) must be one draw, not one per enemy.");
+            }
+            finally { Object.DestroyImmediate(prefab.gameObject); Object.DestroyImmediate(parent.gameObject); }
+        }
+
+        [Test]
+        public void DeathDissolve_BeginReverse_UntexturedEnemy_DoesNotThrow()
+        {
+            var enemy = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            var bodyMat = new Material(Shader.Find("Universal Render Pipeline/Unlit")); // _BaseMap with no texture (drones)
+            var dissolve = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+            try
+            {
+                var r = enemy.GetComponent<Renderer>();
+                r.sharedMaterial = bodyMat;
+                Assert.DoesNotThrow(() => DeathDissolve.BeginReverse(enemy, dissolve),
+                    "A throw here escapes EventBus.Publish and aborts RunArenaController.Activate.");
+                Assert.AreSame(dissolve, r.sharedMaterial);
+            }
+            finally { Object.DestroyImmediate(enemy); Object.DestroyImmediate(bodyMat); Object.DestroyImmediate(dissolve); }
+        }
+
+        [Test]
         public void ImpactDecals_NeverExceedSixteenLive_AndExpire()
         {
             var parent = new GameObject("Decals").transform;

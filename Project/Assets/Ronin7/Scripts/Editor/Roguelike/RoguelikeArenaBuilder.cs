@@ -96,6 +96,7 @@ namespace Ronin7.EditorTools
             BuildSword(new Vector3(0.3f, 1f, 1.6f), weapon);
             RogueUpscaleSword();
             EnsureOffhandSword(); // P4-08 Twin Wakizashi left blade (inactive until equipped)
+            EnsureSwordTrailDrivers(); // P5-03 (after the offhand copy: an existing copy is not re-made)
 
             // ---- Combat feedback (P0-05/BUG-05): hit haptics, the deflect slow-mo and the hit-flash
             // vignette (the only off-screen hit cue), the low-HP heartbeat and the blade-clash pulse.
@@ -194,6 +195,18 @@ namespace Ronin7.EditorTools
         /// Scales the visual only, so <c>BladeTip</c>'s world position (the parry/damage sample point)
         /// moves with the blade rather than being left behind at the old tip.
         /// </summary>
+        /// <summary>P5-03: every holstered blade's trail gets <see cref="BladeTrailDriver"/> like Sword_Katana.prefab
+        /// (the unpacked offhand copy does not inherit it). Idempotent; also the additive patch for a built RunArena.</summary>
+        public static void EnsureSwordTrailDrivers()
+        {
+            foreach (var holster in Object.FindObjectsByType<KatanaHolster>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            {
+                if (holster.Sword == null) continue;
+                foreach (var trail in holster.Sword.GetComponentsInChildren<TrailRenderer>(true))
+                    Ronin7.Editor.Art.ArtPrefabBuilder.EnsureTrailDriver(trail.transform);
+            }
+        }
+
         private static void RogueUpscaleSword()
         {
             const float SwordScale = 1.35f; // 0.74 m -> ~1.0 m overall
