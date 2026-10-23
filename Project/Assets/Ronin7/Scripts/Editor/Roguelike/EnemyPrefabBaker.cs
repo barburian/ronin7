@@ -450,7 +450,7 @@ namespace Ronin7.EditorTools
         internal const string MarkName = "ArchetypeMark";
         internal static readonly (string prefab, string mesh, string bone, Vector3 pos, Vector3 size, Vector3 euler, Color color)[] MarkSpecs =
         {
-            ("Coil_Syndicate_Ganger",     "Cylinder", "Rig_Body", new Vector3(0f, 0.45f, 0f),       new Vector3(1.3f, 0.03f, 1.3f),    Vector3.zero,             new Color(1f, 0.1f, 0.75f) * 2f),  // charger: magenta waist ring
+            // A13.8 (user, 2026-10-24): Ganger waist ring removed - unmarked like the Scavenger (its magenta read as an error shader).
             ("Dominion_Trooper",          "Cube",     "Rig_ArmL", new Vector3(-0.4f, 0.5f, 0.25f),  new Vector3(0.5f, 0.8f, 0.05f),    Vector3.zero,             new Color(0.1f, 0.75f, 1f) * 2f),  // shield trooper: cyan shield slab
             ("Program_Operative_Grunt",   "Cube",     "Rig_Body", new Vector3(0f, 0.9f, 0.16f),     new Vector3(0.3f, 0.07f, 0.06f),   Vector3.zero,             new Color(0.4f, 0.2f, 1f) * 2f),   // duelist: indigo visor bar (BUG-39: was lime, too close to gold "open")
             ("Hunter_Drone",              "Cylinder", "Rig_Body", new Vector3(0f, 0.35f, 0.5f),     new Vector3(0.08f, 0.6f, 0.08f),   new Vector3(90f, 0f, 0f), new Color(1f, 0.15f, 0.4f) * 2f),  // gunner: rose forward barrel (BUG-39: was yellow, gold now means "open")

@@ -331,7 +331,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
             {
                 var so = new SerializedObject(e.prefab.GetComponent<Enemy>());
                 var mark = so.FindProperty("archetypeMark").objectReferenceValue as Renderer;
-                if (e.prefab.name == "Ash-World_Scavenger") { Assert.IsNull(mark, "the baseline swarmer stays unmarked"); continue; }
+                if (e.prefab.name == "Ash-World_Scavenger" || e.prefab.name == "Coil_Syndicate_Ganger") { Assert.IsNull(mark, $"'{e.prefab.name}' stays unmarked (Ganger: A13.8)"); continue; }
                 Assert.IsNotNull(mark, $"'{e.prefab.name}' has no archetype mark - run Patch Archetype Prefabs.");
                 Assert.AreEqual(Ronin7.EditorTools.EnemyPrefabBaker.MarkName, mark.name);
                 Assert.IsNull(mark.GetComponent<Collider>(), $"'{e.prefab.name}' mark must not collide.");
@@ -349,9 +349,19 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
             foreach (var e in table.trash)
             {
                 var so = new SerializedObject(e.prefab.GetComponent<Enemy>());
+                if (e.prefab.name == "Coil_Syndicate_Ganger")
+                {
+                    // A13.8: the Ganger waist ring is removed - no mark reference and no ArchetypeMark child left behind.
+                    Assert.IsNull(so.FindProperty("archetypeMark").objectReferenceValue, "Ganger must be unmarked (A13.8).");
+                    foreach (var t in e.prefab.GetComponentsInChildren<Transform>(true))
+                        Assert.AreNotEqual(Ronin7.EditorTools.EnemyPrefabBaker.MarkName, t.name, "Ganger still has an ArchetypeMark child (A13.8).");
+                }
                 Color.RGBToHSV(so.FindProperty("archetypeColor").colorValue, out float h, out float sat, out _);
                 float deg = h * 360f;
                 if (sat > 0.3f) Assert.IsFalse(deg > 25f && deg < 95f, $"'{e.prefab.name}' mark hue {deg:0} deg reads as gold 'open'.");
+                // P5-07c: green-less red+blue renders as the missing-shader magenta (and trips the perf probe).
+                var c = so.FindProperty("archetypeColor").colorValue; float mx = Mathf.Max(c.r, Mathf.Max(c.g, c.b));
+                Assert.IsFalse(mx > 0f && c.g / mx < 0.2f && c.r / mx > 0.5f && c.b / mx > 0.5f, $"'{e.prefab.name}' mark {c} reads as error-shader magenta.");
 
                 int want = e.prefab.name == "Program_Operative_Grunt" ? 2
                     : e.prefab.name == "Humanoid_Automaton" || e.prefab.name == "Redaction_Construct" ? 1 : 0;

@@ -1509,7 +1509,7 @@ Binding as of Phase 3. The Phase 3 brief called this "Amendment 9"; 9 (Phase 1) 
     the same frame (`HitConfirmLatch`). Exploit = double haptic beat (0.8/0.08 s, then 1.0/0.1 s at +60 ms) and a
     +3 dB clip; resisted = one tiny tick on the sword hand. No camera shake, no damage numbers.
 - **A12.2 BUG-40 archetype marks and art height (P4-00).** One unlit accent primitive per trash archetype
-  (`MarkSpecs`, e.g. shield trooper cyan shield slab, scan drone green halo disc, Ganger magenta waist ring), HDR, no
+  (`MarkSpecs`, e.g. shield trooper cyan shield slab, scan drone green halo disc, Ganger magenta waist ring — removed by A13.8), HDR, no
   collider, no shadows, +1 draw per enemy; the Scavenger stays unmarked and bosses are left as-is. The **art-height
   fix**: skinned-mesh renderer bounds carry ~0.2 units of rig padding per side, which left humanoids 1.28 m tall with
   feet 0.26 m off the floor; art is now sized from the mesh (humanoids 1.8 m grounded, drones 0.8 m hovering) and the
@@ -1606,3 +1606,8 @@ User answers on 2026-10-23 for the design calls the roadmap left open:
   targets and skinned with **Unity AI materials** (GenerateMaterial + AddPbrToMaterial); **hero props** come from Unity
   AI image→3D, run by the user in the generator UI from reference images generated with GenerateImage, then
   `RetopologyMesh` (takes an asset path, unaffected by the EntityId bug) and the kit builder.
+- **A13.8 Ganger waist ring removed (user, 2026-10-24).** Amends A12.2. The Coil Syndicate Ganger's magenta waist
+  ring is gone; the Ganger is unmarked like the Scavenger. Reason: after the Mobile grade its magenta (~206,9,241)
+  read as an error shader in renders and tripped the perf probe's magenta check. It must be identifiable without a
+  mark (charger silhouette, telegraph, behaviour); `EnemyPrefabBaker.MarkSpecs` no longer lists it, and
+  `SpawnTableInvariantTests` asserts it has no `ArchetypeMark`.

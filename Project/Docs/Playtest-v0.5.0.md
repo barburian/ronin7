@@ -53,6 +53,7 @@ Goal: after any hit, you can say why it did more (or less) damage.
 
 ### BUG-40 archetype marks and size
 - [ ] Name each archetype at a glance (no cheating by sound).
+- [ ] The Coil Syndicate Ganger has **no mark** any more (A13.8, ring removed 2026-10-24). Can you still pick it out (charger silhouette, telegraph, behaviour)?
 - [ ] Enemies are now 1.8 m, drones 0.8 m (~40% bigger). Do fights feel right? too big / fine / too small.
 - [ ] Enemies spawn **facing you**.
 
