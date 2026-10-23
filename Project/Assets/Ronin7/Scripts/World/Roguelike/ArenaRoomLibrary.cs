@@ -1,3 +1,4 @@
+using Ronin7.Core;
 using UnityEngine;
 
 namespace Ronin7.World
@@ -20,6 +21,33 @@ namespace Ronin7.World
 
             /// <summary>Optional. Empty/null falls back to a greybox room with no scatter props.</summary>
             public GameObject[] propPrefabs;
+
+            /// <summary>P5-05 baked room-shell scene names (must be in Build Settings). Empty falls back to
+            /// the <see cref="ArenaGeometryBuilder"/> greybox. Footprint is encoded in the name: a shell
+            /// authored for a room half-extent of N metres ends in <c>_Nm</c> (e.g. <c>Room_Program_01_8m</c>);
+            /// see <see cref="PickRoomScene"/>. Contract for a shell scene: see <c>RunArenaController.LoadShell</c>.</summary>
+            public string[] roomScenes = new string[0];
+
+            /// <summary>P5-05 optional skybox for this biome; applied only when non-null.</summary>
+            public Material skybox;
+        }
+
+        /// <summary>P5-05 pure pick: among scenes whose name ends in <c>_{round(halfExtent)}m</c> (the
+        /// room's <c>ArenaHalfExtent</c>), choose one with <paramref name="rng"/>. Null when none match
+        /// (the caller then uses the greybox, which fits any half-extent). Draws from the rng only
+        /// when at least one scene matches.</summary>
+        public static string PickRoomScene(string[] roomScenes, float halfExtent, ref RunRng rng)
+        {
+            if (roomScenes == null || roomScenes.Length == 0) return null;
+            string suffix = "_" + Mathf.RoundToInt(halfExtent) + "m";
+            int count = 0;
+            foreach (string s in roomScenes)
+                if (!string.IsNullOrEmpty(s) && s.EndsWith(suffix, System.StringComparison.Ordinal)) count++;
+            if (count == 0) return null;
+            int pick = rng.NextInt(count);
+            foreach (string s in roomScenes)
+                if (!string.IsNullOrEmpty(s) && s.EndsWith(suffix, System.StringComparison.Ordinal) && pick-- == 0) return s;
+            return null;
         }
 
         [Tooltip("Shipped URP material (Simple Lit) for the runtime-built room surfaces. Unity's default " +

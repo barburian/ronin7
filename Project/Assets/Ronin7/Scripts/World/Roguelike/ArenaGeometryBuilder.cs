@@ -69,6 +69,28 @@ namespace Ronin7.World
             return root;
         }
 
+        /// <summary>P5-05: what a baked room shell still needs from the runtime: the seeded prop scatter and
+        /// ONE realtime point light for gameplay signals (Overdrive, boss telegraph), gated by
+        /// <see cref="LightBudget"/>. No greybox geometry and no accent lights.</summary>
+        public static GameObject BuildShellSupport(Transform parent, float halfExtent, ArenaRoomLibrary.Biome biome, ref RunRng rng)
+        {
+            var root = new GameObject("ArenaGeometry");
+            root.transform.SetParent(parent, false);
+            ScatterProps(root.transform, Mathf.Max(1f, halfExtent), biome, ref rng);
+
+            var go = new GameObject("SignalLight");
+            go.transform.SetParent(root.transform, false);
+            go.transform.localPosition = new Vector3(0f, AccentLightHeight, 0f);
+            var light = go.AddComponent<Light>();
+            light.type = LightType.Point;
+            light.color = biome != null ? biome.accentColor : DefaultAccentColor;
+            light.range = AccentLightRange;
+            light.intensity = AccentLightIntensity;
+            light.shadows = LightShadows.None;
+            light.enabled = LightBudget.ShouldAnimate(GraphicsRuntime.Quality, isGameplaySignal: true);
+            return root;
+        }
+
         private static void BuildFloorAndCeiling(Transform parent, float halfExtent, Color floorColor, Color ceilColor, Material material)
         {
             float size = halfExtent * 2f;

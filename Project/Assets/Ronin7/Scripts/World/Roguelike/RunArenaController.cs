@@ -4,6 +4,8 @@ using Ronin7.Combat;
 using Ronin7.Core;
 using Ronin7.Enemies;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation;
 
 namespace Ronin7.World
 {
@@ -177,7 +179,19 @@ namespace Ronin7.World
             EventBus.Publish(new RunNodeEntered(node.Sector, node.Kind));
 
             halfExtent = arenaHalfExtent > 0f ? arenaHalfExtent : RunScaling.ArenaHalfExtent(node.Kind);
-            ArenaGeometryBuilder.Build(transform, halfExtent, roomLibrary.ForSector(node.Sector), roomLibrary.surfaceMaterial, ref rng);
+            ArenaRoomLibrary.Biome biome = roomLibrary.ForSector(node.Sector);
+            RunRng shellRng = RunRng.ForNode(RunState.Seed ^ 0x5EE11u, node.Index); // own stream: never moves spawn/prop goldens
+            string shell = biome != null ? ArenaRoomLibrary.PickRoomScene(biome.roomScenes, halfExtent, ref shellRng) : null;
+            if (shell != null && Application.CanStreamedLevelBeLoaded(shell))
+            {
+                LoadShell(shell, biome);
+                ArenaGeometryBuilder.BuildShellSupport(transform, halfExtent, biome, ref rng);
+            }
+            else
+            {
+                if (shell != null) Debug.LogError($"[RunArenaController] Room scene '{shell}' is not in Build Settings - using the greybox.", this);
+                ArenaGeometryBuilder.Build(transform, halfExtent, biome, roomLibrary.surfaceMaterial, ref rng);
+            }
 
             // A5.3: geometry above is built in the controller's own local space; playerSpawn (and the
             // exclusion centre below) are world positions, so convert once here — this only works
@@ -217,6 +231,38 @@ namespace Ronin7.World
             EventBus.Publish(new RoomProgress(Remaining));
             // Scaled time: a paused run (timeScale 0) suspends the sweep along with everything else.
             InvokeRepeating(nameof(CheckBounds), 1f, 1f);
+        }
+
+        /// <summary>
+        /// P5-05 room-shell scene contract (everything <see cref="ArenaGeometryBuilder.Build"/> otherwise provides):
+        /// root objects at world identity (A5.3); walkable floor top at y = 0 with a BoxCollider on a GameObject
+        /// named "Floor" (the controller adds the TeleportationArea at runtime if missing); four wall BoxColliders
+        /// at +/- halfExtent, ceiling 4.5 m (the north wall inner face carries the exit gates, which the controller
+        /// still builds); primitive colliders only (no MeshCollider); no camera, no lights besides baked ones, no
+        /// EventSystem; name ends in _Nm matching the half-extent. Loaded additively during Start, i.e. under the
+        /// black fade (the loading Single-mode scene swap unloads it again when the node ends).
+        /// </summary>
+        private void LoadShell(string sceneName, ArenaRoomLibrary.Biome biome)
+        {
+            Scene scene = SceneManager.LoadScene(sceneName, new LoadSceneParameters(LoadSceneMode.Additive));
+            StartCoroutine(FinishShell(scene, biome));
+        }
+
+        private System.Collections.IEnumerator FinishShell(Scene scene, ArenaRoomLibrary.Biome biome)
+        {
+            while (scene.IsValid() && !scene.isLoaded) yield return null;
+            if (!scene.IsValid()) yield break;
+            foreach (GameObject root in scene.GetRootGameObjects())
+            {
+                Transform t = root.transform;
+                if (t.position != Vector3.zero || t.rotation != Quaternion.identity)
+                    Debug.LogError($"[RunArenaController] Room shell root '{root.name}' is not at world identity (A5.3).", root);
+                Transform floor = t.name == "Floor" ? t : t.Find("Floor");
+                if (floor != null && floor.GetComponent<TeleportationArea>() == null)
+                    floor.gameObject.AddComponent<TeleportationArea>().interactionLayers = ArenaGeometryBuilder.TeleportLayerMask;
+            }
+            LightProbes.TetrahedralizeAsync();
+            if (biome != null && biome.skybox != null) RenderSettings.skybox = biome.skybox;
         }
 
         /// <summary>
