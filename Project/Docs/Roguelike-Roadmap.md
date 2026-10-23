@@ -1,4 +1,4 @@
-# Ronin7 Roguelike — Review & Phased Implementation Roadmap
+﻿# Ronin7 Roguelike — Review & Phased Implementation Roadmap
 
 **Date:** 2026-10-11 · **Branch:** `roguelike` (never `main`) · **Targets:** Meta Quest 2/3/3S/Pro (Android, IL2CPP, Vulkan) + PCVR (Win64, OpenXR)
 **Source:** five parallel read-only reviews of the working tree (enemies & weaknesses; skills, boons & stats; run flow & UX; graphics & performance; export, audio, comfort & everything else).
@@ -1354,6 +1354,7 @@ In `ArtPrefabBuilder`:
 **Phase 5 progress** (design decisions: Amendment 13 in `Roguelike-Design.md`)
 - [x] P5-00 perf-budget probe + baseline (`847c9c1`)
 - [x] P5-01 Mobile_RPAsset trims: cookies, light layers, lens flare, terrain holes, LOD cross-fade and probe blending off; 2 lights per object; render scale 0.8 → 1.0; Quest 2 eye scale 0.85 (`QualityBootstrap.EyeResolutionScaleFor`). BUG-06/07 were already fixed in P0-06/P0-07. Not changed: `m_StoreActionsOptimization` stays Auto, and GLES3 stays until Vulkan is proven on device (both need device GPU numbers). Probe: node 1 88 draws / 32 SetPass (unchanged; these trims cut variants and GPU cost, not draws).
+- [x] P5-02 Hands merged: `ArtPrefabBuilder.BuildHandPrefab` bakes all rigid parts into one mesh per hand (`Art/Meshes/Hand_{L,R}_Combined.asset`, colours in vertex colours, white `SamuraiToon_Hand` variant + outline), idempotent (mesh overwritten in place, sword untouched), `HandMergeTests` added. Nothing animates the parts. Probe node 1: Mobile 88 -> 40 draws, PC 94 -> 46 draws; SetPass unchanged (32 / 38, same shader); luma 0.084, magenta 0. (`cc71666`)
 
 ---
 
