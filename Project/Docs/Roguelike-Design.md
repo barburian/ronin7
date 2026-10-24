@@ -1683,3 +1683,4 @@ User answers on 2026-10-23 for the design calls the roadmap left open:
   9. Garden boss (Maelgorn): 90 BPM, vast and mournful, taiko and low strings with a dissonant choir, a 3-phase arc to match his two phase lines.
   Also worth commissioning: a menu theme, and a victory and a defeat sting (currently synthesized cues).
 
+- A14.24. **First-launch comfort default (P6-05).** `GameSettings.Default.SnapTurn` is now true so the shipped default matches D-10 (smooth locomotion + snap turn + vignette = Moderate). Saved settings are untouched. The store comfort rating is declared Moderate.

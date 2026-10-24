@@ -66,7 +66,7 @@ namespace Ronin7.Core
         /// <summary>Comfortable first-time-player defaults (mirror the existing serialized defaults).</summary>
         public static GameSettings Default => new GameSettings
         {
-            SnapTurn = false,
+            SnapTurn = true, // D-10: smooth locomotion + snap turn (Moderate comfort rating)
             SnapTurnDegrees = 45f,
             ComfortVignette = true,
             SfxVolume = 1f,

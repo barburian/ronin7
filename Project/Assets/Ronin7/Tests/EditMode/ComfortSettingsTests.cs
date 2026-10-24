@@ -54,6 +54,14 @@ namespace Ronin7.Tests.EditMode
         }
 
         [Test]
+        public void GameSettings_Default_IsSmoothLocomotionWithSnapTurn()
+        {
+            // D-10 / P6-05: the Moderate comfort rating assumes snap turn is on out of the box.
+            Assert.IsTrue(GameSettings.Default.SnapTurn);
+            Assert.AreEqual(LocomotionMode.Smooth, GameSettings.Default.Locomotion);
+        }
+
+        [Test]
         public void GameSettings_Roundtrip_NewFields()
         {
             var s = GameSettings.Default;
