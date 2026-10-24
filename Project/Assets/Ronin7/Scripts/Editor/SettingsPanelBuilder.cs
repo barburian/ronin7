@@ -213,6 +213,7 @@ namespace Ronin7.EditorTools
             AddComfortRows(panel);
             AddComfortOptionRows(panel);
             AddAccessibilityColumn(panel);
+            AddReplayTutorialRow(panel);
             return panel;
         }
 
@@ -307,6 +308,33 @@ namespace Ronin7.EditorTools
             so.ApplyModifiedPropertiesWithoutUndo();
 
             if (panel.GetComponent<UiScaleFollower>() == null) panel.gameObject.AddComponent<UiScaleFollower>();
+            return true;
+        }
+
+        /// <summary>P6-06: "Replay Tutorial" toggle appended under Subtitles in the second column. If the row would fall
+        /// below the panel's bottom margin the canvas grows by one row and everything shifts up half a row so the top
+        /// margin holds. Idempotent.</summary>
+        internal static bool AddReplayTutorialRow(SettingsPanel panel)
+        {
+            var so = new SerializedObject(panel);
+            if (so.FindProperty("replayTutorialToggle").objectReferenceValue != null) return false;
+            var subs = so.FindProperty("subtitlesToggle").objectReferenceValue as Component;
+            if (subs == null) return false; // P6-03 column not built yet
+
+            var rt = panel.GetComponent<RectTransform>();
+            var subsRow = (RectTransform)subs.transform.parent;
+            float y = subsRow.anchoredPosition.y - 70f;
+            if (y - 35f < -rt.sizeDelta.y * 0.5f + 20f)
+            {
+                rt.sizeDelta += new Vector2(0f, 70f);
+                foreach (RectTransform child in rt) child.anchoredPosition += new Vector2(0f, 35f);
+                y += 35f;
+            }
+            float rowY = y;
+            var toggle = MakeToggle(rt, "Replay Tutorial", ref y);
+            ((RectTransform)toggle.transform.parent).anchoredPosition = new Vector2(300f, rowY);
+            SetRef(so, "replayTutorialToggle", toggle);
+            so.ApplyModifiedPropertiesWithoutUndo();
             return true;
         }
 

@@ -34,7 +34,7 @@ namespace Ronin7.Tests.EditMode
                 Quality = GraphicsQuality.Low, CombatBlood = false,
                 Seated = true, LeftHanded = true, Locomotion = LocomotionMode.Teleport,
                 HapticIntensity = 0.4f, ReduceFlashes = true, SlowMoFloor = 0.4f, VignetteStrength = 0.6f,
-                UiScale = 1.3f, DamageTaken = 0.7f, EnemyCooldownScale = 1.25f, Subtitles = false,
+                UiScale = 1.3f, DamageTaken = 0.7f, EnemyCooldownScale = 1.25f, Subtitles = false, ReplayTutorial = true,
             };
             SettingsService.Persist(s);
             var l = SettingsService.Load();
@@ -58,7 +58,31 @@ namespace Ronin7.Tests.EditMode
             Assert.AreEqual(s.DamageTaken, l.DamageTaken, 1e-4f);
             Assert.AreEqual(s.EnemyCooldownScale, l.EnemyCooldownScale, 1e-4f);
             Assert.AreEqual(s.Subtitles, l.Subtitles);
+            Assert.AreEqual(s.ReplayTutorial, l.ReplayTutorial);
         }
+
+        [Test]
+        public void Settings_ReplayTutorial_Roundtrip()
+        {
+            Assert.IsFalse(GameSettings.Default.ReplayTutorial);
+            PlayerPrefs.DeleteKey(SettingsService.KeyReplayTutorial);
+            Assert.IsFalse(SettingsService.Load().ReplayTutorial); // absent on older installs
+            var s = GameSettings.Default;
+            s.ReplayTutorial = true;
+            SettingsService.Persist(s);
+            Assert.IsTrue(SettingsService.Load().ReplayTutorial);
+            s.ReplayTutorial = false;
+            SettingsService.Persist(s);
+            Assert.IsFalse(SettingsService.Load().ReplayTutorial);
+        }
+
+        // loaded, tutorialDone, replay -> show. runsCompleted>0 already folds into tutorialDone (ResolveTutorialDone).
+        [TestCase(true, false, false, true)]   // first run
+        [TestCase(true, true, false, false)]   // veteran, toggle off
+        [TestCase(true, true, true, true)]     // veteran, replay on
+        [TestCase(false, false, true, false)]  // no save loaded: never
+        public void ShouldShowTutorial_Decision(bool loaded, bool done, bool replay, bool expected) =>
+            Assert.AreEqual(expected, MetaProgression.ShouldShowTutorial(loaded, done, replay));
 
         [TestCase(1.0f, 1.0f)]
         [TestCase(1.2f, 1.2f)]

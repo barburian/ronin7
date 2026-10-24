@@ -50,6 +50,7 @@ namespace Ronin7.Audio
         [SerializeField] private Slider cooldownSlider;     // 1..1.5 enemy attack cooldown (assist)
         [SerializeField] private Text cooldownLabel;
         [SerializeField] private Toggle subtitlesToggle;
+        [SerializeField] private Toggle replayTutorialToggle; // P6-06: one-shot, next run shows the prompts
 
         [Header("Volume (0..1)")]
         [SerializeField] private Slider sfxSlider;
@@ -83,6 +84,7 @@ namespace Ronin7.Audio
             if (damageTakenSlider != null) damageTakenSlider.onValueChanged.AddListener(v => OnA11yChanged(() => SettingsService.Instance.SetDamageTaken(v)));
             if (cooldownSlider != null) cooldownSlider.onValueChanged.AddListener(v => OnA11yChanged(() => SettingsService.Instance.SetEnemyCooldownScale(v)));
             if (subtitlesToggle != null) subtitlesToggle.onValueChanged.AddListener(v => OnA11yChanged(() => SettingsService.Instance.SetSubtitles(v)));
+            if (replayTutorialToggle != null) replayTutorialToggle.onValueChanged.AddListener(v => OnA11yChanged(() => SettingsService.Instance.SetReplayTutorial(v)));
             if (sfxSlider != null) sfxSlider.onValueChanged.AddListener(OnSfxChanged);
             if (musicSlider != null) musicSlider.onValueChanged.AddListener(OnMusicChanged);
             if (ambienceSlider != null) ambienceSlider.onValueChanged.AddListener(OnAmbienceChanged);
@@ -125,6 +127,7 @@ namespace Ronin7.Audio
             if (damageTakenSlider != null) damageTakenSlider.value = AccessibilityOptions.ClampDamageTaken(s.DamageTaken);
             if (cooldownSlider != null) cooldownSlider.value = AccessibilityOptions.ClampCooldownScale(s.EnemyCooldownScale);
             if (subtitlesToggle != null) subtitlesToggle.isOn = s.Subtitles;
+            if (replayTutorialToggle != null) replayTutorialToggle.isOn = s.ReplayTutorial;
             if (sfxSlider != null) sfxSlider.value = s.SfxVolume;
             if (musicSlider != null) musicSlider.value = s.MusicVolume;
             if (ambienceSlider != null) ambienceSlider.value = s.AmbienceVolume;

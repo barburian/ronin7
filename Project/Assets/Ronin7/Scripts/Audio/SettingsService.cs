@@ -42,6 +42,7 @@ namespace Ronin7.Audio
         internal const string KeyDamageTaken = "ss.damageTaken";
         internal const string KeyEnemyCooldown = "ss.enemyCooldownScale";
         internal const string KeySubtitles = "ss.subtitles";
+        internal const string KeyReplayTutorial = "ss.replayTutorial";
 
         private GameSettings settings;
 
@@ -65,13 +66,18 @@ namespace Ronin7.Audio
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
             EventBus.Subscribe<EyeHeightCalibrated>(OnEyeHeightCalibrated);
+            EventBus.Subscribe<TutorialReplayShown>(OnTutorialReplayShown);
         }
 
         private void OnDisable()
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
             EventBus.Unsubscribe<EyeHeightCalibrated>(OnEyeHeightCalibrated);
+            EventBus.Unsubscribe<TutorialReplayShown>(OnTutorialReplayShown);
         }
+
+        // P6-06: the replay is one-shot, the arena reports that the prompts were shown so the toggle clears.
+        private void OnTutorialReplayShown(TutorialReplayShown e) => SetReplayTutorial(false);
 
         // The rig-side calibrator computes the offset and publishes it; we own persistence.
         // The calibrator measures the TOTAL offset (it strips the current one, seated lift included),
@@ -205,6 +211,12 @@ namespace Ronin7.Audio
             Persist(); Apply();
         }
 
+        public void SetReplayTutorial(bool on)
+        {
+            settings.ReplayTutorial = on;
+            Persist(); Apply();
+        }
+
         /// <summary>Push the current settings onto whatever live systems exist in the loaded scene(s).</summary>
         public void Apply()
         {
@@ -275,6 +287,7 @@ namespace Ronin7.Audio
                 DamageTaken = AccessibilityOptions.ClampDamageTaken(PlayerPrefs.GetFloat(KeyDamageTaken, d.DamageTaken)),
                 EnemyCooldownScale = AccessibilityOptions.ClampCooldownScale(PlayerPrefs.GetFloat(KeyEnemyCooldown, d.EnemyCooldownScale)),
                 Subtitles = PlayerPrefs.GetInt(KeySubtitles, d.Subtitles ? 1 : 0) != 0,
+                ReplayTutorial = PlayerPrefs.GetInt(KeyReplayTutorial, 0) != 0, // P6-06
             };
         }
 
@@ -302,6 +315,7 @@ namespace Ronin7.Audio
             PlayerPrefs.SetFloat(KeyDamageTaken, settings.DamageTaken);
             PlayerPrefs.SetFloat(KeyEnemyCooldown, settings.EnemyCooldownScale);
             PlayerPrefs.SetInt(KeySubtitles, settings.Subtitles ? 1 : 0);
+            PlayerPrefs.SetInt(KeyReplayTutorial, settings.ReplayTutorial ? 1 : 0);
             PlayerPrefs.Save();
         }
     }

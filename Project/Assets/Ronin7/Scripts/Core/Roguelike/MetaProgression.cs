@@ -174,6 +174,10 @@ namespace Ronin7.Core
         internal static bool ResolveTutorialDone(MetaSaveData data) =>
             data != null && (data.tutorialDone || data.metaRunsCompleted > 0);
 
+        /// <summary>P6-06: show the prompts on a first run, or on any run while the Replay Tutorial toggle is on.
+        /// Never when no save was loaded. Does not touch runsCompleted.</summary>
+        public static bool ShouldShowTutorial(bool loaded, bool tutorialDone, bool replay) => loaded && (!tutorialDone || replay);
+
         /// <summary>P2-08: marks the tutorial done and persists (no-op once done).</summary>
         public static void CompleteTutorial()
         {

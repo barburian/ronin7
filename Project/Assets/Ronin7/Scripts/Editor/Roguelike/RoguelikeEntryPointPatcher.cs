@@ -104,6 +104,23 @@ namespace Ronin7.EditorTools
             }
         }
 
+        /// <summary>P6-06: "Replay Tutorial" toggle row in the settings panel of Phase6_Boot and RunArena. Additive and idempotent.</summary>
+        [MenuItem("Tools/Space Samurai/Roguelike/Patch Replay Tutorial (P6-06)", priority = 513)]
+        public static void RoguePatchReplayTutorial()
+        {
+            foreach (var path in new[] { RogueBootScenePath, RogueRunArenaScenePath })
+            {
+                var scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
+                bool changed = false;
+                foreach (var panel in Object.FindObjectsByType<Ronin7.Audio.SettingsPanel>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+                    changed |= SettingsPanelBuilder.AddReplayTutorialRow(panel);
+                if (!changed) { Debug.Log("[RogueEntry] Replay Tutorial row already present in " + path); continue; }
+                Debug.Log("[RogueEntry] Added P6-06 Replay Tutorial row to " + path);
+                EditorSceneManager.MarkSceneDirty(scene);
+                EditorSceneManager.SaveScene(scene);
+            }
+        }
+
         private const string RogueRunArenaScenePath = SceneFolder + "/RunArena.unity";
         private const string RogueWristHudName = Ronin7.Player.HandednessRig.WristHudName;
 

@@ -50,6 +50,7 @@ namespace Ronin7.Core
         public float DamageTaken;        // 0.5..1 multiplier on damage the player takes (assist)
         public float EnemyCooldownScale; // 1..1.5 multiplier on enemy attack cooldowns (assist)
         public bool Subtitles;           // VO subtitles band (default on)
+        public bool ReplayTutorial;      // P6-06: one-shot, force the next run's onboarding prompts (cleared when they show)
 
         /// <summary>Seated-play eye lift (metres) added on top of the calibrated <see cref="EyeHeightOffset"/>.</summary>
         public const float SeatedEyeOffset = 0.45f;

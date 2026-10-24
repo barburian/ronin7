@@ -203,8 +203,13 @@ namespace Ronin7.World
             Vector3 exclusionCentreLocal = transform.InverseTransformPoint(ResolveExclusionCentre());
 
             // P2-08: first run only (IsLoaded guard: never touches a save that was not loaded this session).
-            bool tutorial = MetaProgression.IsLoaded && !MetaProgression.TutorialDone && node.Depth == 0 && node.Kind == RoomKind.Combat;
-            if (tutorial) TutorialPrompt.Create(transform, halfExtent);
+            bool replay = GameSettings.Active.ReplayTutorial; // P6-06
+            bool tutorial = MetaProgression.ShouldShowTutorial(MetaProgression.IsLoaded, MetaProgression.TutorialDone, replay) && node.Depth == 0 && node.Kind == RoomKind.Combat;
+            if (tutorial)
+            {
+                TutorialPrompt.Create(transform, halfExtent);
+                if (replay) EventBus.Publish(new TutorialReplayShown());
+            }
             List<SpawnRequest> requests = WaveComposer.Compose(spawnTable, node, halfExtent, exclusionCentreLocal, ref rng, tutorial,
                 RunState.HeatRankOf(HeatRank.SwarmProtocol)); // P4-09 Swarm Protocol: more total, same concurrent cap
 

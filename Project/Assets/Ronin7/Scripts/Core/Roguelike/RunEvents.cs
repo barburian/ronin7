@@ -25,6 +25,9 @@ namespace Ronin7.Core
         public RunEnded(int depthReached, bool won) { DepthReached = depthReached; Won = won; }
     }
 
+    /// <summary>P6-06: the onboarding prompts were shown because Replay Tutorial was on; the settings service clears the toggle (one-shot).</summary>
+    public readonly struct TutorialReplayShown { }
+
     /// <summary>P2-08: a <see cref="Grabbable"/> was picked up (the sword draw, for the tutorial prompt).</summary>
     public readonly struct ObjectGrabbed
     {
