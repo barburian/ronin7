@@ -52,6 +52,8 @@ namespace Ronin7.Combat
         /// <summary>Local listeners (VFX, animation). Global listeners use the EventBus events.</summary>
         public event Action<DamageInfo> Damaged;
         public event Action Died;
+        /// <summary>Raised when Current or Max changes by any path (damage, heal, Configure, SetCurrent), for UI.</summary>
+        public event Action Changed;
 
         /// <summary>Optional death-interceptor hook (e.g. Ch11's Unbroken ward). When set and a lethal
         /// blow lands, this is invoked BEFORE the death fires; returning true survives the blow at
@@ -102,6 +104,7 @@ namespace Ronin7.Combat
         {
             maxHealth = max;
             Current = max;
+            Changed?.Invoke();
         }
 
         public void ApplyDamage(in DamageInfo info)
@@ -119,6 +122,7 @@ namespace Ronin7.Combat
 
             Current = Mathf.Max(0f, Current - applied.Amount);
             Damaged?.Invoke(applied);
+            Changed?.Invoke();
             EventBus.Publish(new EntityDamaged(gameObject, applied, Current, maxHealth));
 
             if (Current <= 0f)
@@ -126,6 +130,7 @@ namespace Ronin7.Combat
                 if (DeathInterceptor != null && DeathInterceptor.Invoke())
                 {
                     Current = Mathf.Max(1f, maxHealth * ReviveFraction);
+                    Changed?.Invoke();
                     return;
                 }
 
@@ -134,14 +139,18 @@ namespace Ronin7.Combat
             }
         }
 
-        public void ResetHealth() => Current = maxHealth;
+        public void ResetHealth() { Current = maxHealth; Changed?.Invoke(); }
 
         /// <summary>Sets current health directly, clamped to [0, Max], without firing a damage/death
         /// event. Used to restore durable HP carried across a scene reload (e.g. the roguelike mode's
         /// node-to-node attrition, see RunState.PlayerHealth) — a plain damage/heal call would either
         /// fire spurious feedback or be rejected outright (Heal no-ops once dead; ApplyDamage requires
         /// a positive amount).</summary>
-        public void SetCurrent(float value) => Current = Mathf.Clamp(value, 0f, maxHealth);
+        public void SetCurrent(float value)
+        {
+            Current = Mathf.Clamp(value, 0f, maxHealth);
+            Changed?.Invoke();
+        }
 
         /// <summary>Increase current health up to max (used by defensive mechanics). No-op once dead
         /// so a late refund/heal event can never resurrect an entity whose death already fired.</summary>
@@ -151,6 +160,7 @@ namespace Ronin7.Combat
             // Reject non-positive or NaN amounts: mirrors ApplyDamage's guard. !(amount > 0) also rejects NaN.
             if (!(amount > 0f)) return;
             Current = Mathf.Min(Current + amount, maxHealth);
+            Changed?.Invoke();
         }
     }
 }

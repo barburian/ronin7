@@ -1623,3 +1623,9 @@ User answers on 2026-10-23 for the design calls the roadmap left open:
   read as an error shader in renders and tripped the perf probe's magenta check. It must be identifiable without a
   mark (charger silhouette, telegraph, behaviour); `EnemyPrefabBaker.MarkSpecs` no longer lists it, and
   `SpawnTableInvariantTests` asserts it has no `ArchetypeMark`.
+- **A13.9 Archetype marks removed (user, 2026-10-24 v0.6.0 playtest).** Amends A12.2 / A13.8. The BUG-40 marks
+  (grunt visor bar, hunter barrel, scan-drone halo, automaton core, warden banner, guardian pool, construct yoke,
+  ghost orb) read as glitches in the headset. Archetypes are identified by silhouette, telegraph and behaviour;
+  those `EnemyPrefabBaker.MarkSpecs` rows have no mesh and `SpawnTableInvariantTests` asserts only the Shield Trooper
+  keeps an `ArchetypeMark`. Exception: the trooper's cyan shield slab stays, because it is the HeavyBreak guard tell
+  (flickers on resisted hits, hidden on break). The BUG-39 weak-point marks (`WeakMarkSpecs`) stay.

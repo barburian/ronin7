@@ -553,7 +553,8 @@ namespace Ronin7.Flow
             RunState.AddTemper(id);
             boonInventory.SetTemper(id, RunState.TemperLevel(id));
             var modifiers = VRRig.Instance != null ? VRRig.Instance.GetComponent<PlayerCombatModifiers>() : null;
-            if (modifiers != null) PushBoonStats(modifiers, boonInventory); // max-HP changes land on the next node load
+            if (modifiers != null) PushBoonStats(modifiers, boonInventory);
+            RefreshRigMaxHealth(0f); // BUG-43: a tempered Ironskin etc. shows on the HUD now, not next room
             LeaveRoom();
         }
 
@@ -661,15 +662,7 @@ namespace Ronin7.Flow
             if (modifiers != null) PushBoonStats(modifiers, boonInventory);
             // P4-05: a pick's own max-HP change and heal land now (Ironskin: +10 max AND heal 10), so a full-HP
             // player is not left 10 short; the next load rebuilds max from the inventory as usual.
-            var health = VRRig.Instance != null ? VRRig.Instance.GetComponent<Health>() : null;
-            float addMax = BoonInventory.Magnitude(boon, BoonEffectKind.MaxHealthAdd);
-            float heal = BoonInventory.Magnitude(boon, BoonEffectKind.HealOnPick);
-            if (health != null && health.IsAlive && (addMax != 0f || heal > 0f))
-            {
-                float current = health.Current;
-                if (addMax != 0f) health.Configure(Mathf.Max(1f, health.Max + addMax));
-                health.SetCurrent(Mathf.Max(1f, current + Mathf.Max(0f, heal)));
-            }
+            RefreshRigMaxHealth(BoonInventory.Magnitude(boon, BoonEffectKind.HealOnPick));
             EventBus.Publish(new BoonChosen(boon.id));
             if (boon.effect == BoonEffectKind.GrantAbility) RunState.GrantAbility(boon.abilityId);
             if (boon.rarity == BoonRarity.Epic) MetaProgression.NoteEpicPicked(boon.id); // P4-10 Keepsake candidates
@@ -1120,7 +1113,7 @@ namespace Ronin7.Flow
             if (shopStock == null || index < 0 || index >= shopStock.Count || shopSold[index]) return;
             if (!RunState.TrySpendShards(ShopPrice(shopStock[index].rarity))) return;
             shopSold[index] = true;
-            GrantBoon(shopStock[index]); // stat slots apply now; max HP from the next node load, like every pick
+            GrantBoon(shopStock[index]);
             RefreshShop();
         }
 
@@ -1537,6 +1530,35 @@ namespace Ronin7.Flow
             if (next != null) StartSceneLoad(next);
         }
 
+        // Prefab max HP of the current rig, captured before boons are applied on load (BUG-43), so
+        // mid-room grants/tempers can recompute max from the inventory instead of compounding.
+        private float rigBaseMaxHealth;
+
+        /// <summary>BUG-43: recomputes the rig's max HP from the inventory + event bonus and applies it
+        /// now (plus an optional heal), instead of waiting for the next node load.</summary>
+        private void RefreshRigMaxHealth(float heal)
+        {
+            var health = VRRig.Instance != null ? VRRig.Instance.GetComponent<Health>() : null;
+            if (health == null || !health.IsAlive || rigBaseMaxHealth <= 0f) return;
+            float newMax = BoonMaxHealth(rigBaseMaxHealth, boonInventory.MaxHealthAdd + RunState.MaxHealthBonus,
+                boonInventory.Bonus(BoonEffectKind.MaxHealthPercent));
+            if (!ApplyMaxHealth(health, newMax, heal)) return;
+            RunState.NotePlayerHealth(health.Current);
+        }
+
+        /// <summary>Sets max to <paramref name="newMax"/>, adds the max delta (and heal) to current, floor 1.
+        /// Configure refills, so current is captured first. False when nothing changed. Pure seam.</summary>
+        internal static bool ApplyMaxHealth(Health health, float newMax, float heal)
+        {
+            float delta = newMax - health.Max;
+            heal = Mathf.Max(0f, heal);
+            if (delta == 0f && heal == 0f) return false;
+            float current = health.Current;
+            health.Configure(newMax);
+            health.SetCurrent(Mathf.Max(1f, current + delta + heal));
+            return true;
+        }
+
         /// <summary>P4-01: writes the inventory's numbers onto the rig's modifier slots — the named slots
         /// plus one generic stat slot per <see cref="BoonEffectKind"/>. Runs on every load and every pick.</summary>
         internal static void PushBoonStats(PlayerCombatModifiers modifiers, BoonInventory inventory)
@@ -1633,6 +1655,7 @@ namespace Ronin7.Flow
                 // P2-04: event max-HP changes (Blood Pact) ride on top of boons for the rest of the run.
                 float maxAdd = boonInventory.MaxHealthAdd + RunState.MaxHealthBonus;
                 float maxPct = boonInventory.Bonus(BoonEffectKind.MaxHealthPercent);
+                rigBaseMaxHealth = health.Max;
                 if (maxAdd != 0f || maxPct != 0f) health.Configure(BoonMaxHealth(health.Max, maxAdd, maxPct));
                 if (RunState.PlayerHealth >= 0f)
                     health.SetCurrent(RunState.CarryOverHealth(RunState.PlayerHealth, health.Max));

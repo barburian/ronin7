@@ -55,6 +55,9 @@ namespace Ronin7.World
             public int Get(int i) => i == 0 ? a : i == 1 ? b : i == 2 ? c : d;
         }
 
+        /// <summary>BUG-46: HDR rim multiplier. Was 2, which bloomed elites (white especially) into a strobing blob on Quest.</summary>
+        public const float RimIntensity = 1.2f;
+
         /// <summary>Mutates the runtime CLONE only (never pass a shared asset).</summary>
         public static void Apply(EnemyDefinition clone, EliteAffix a)
         {
@@ -63,24 +66,24 @@ namespace Ronin7.World
                 case EliteAffix.Armored:
                     if (clone.weakness == WeaknessKind.None) clone.weakness = WeaknessKind.Backstab;
                     else clone.resistMultiplier *= 0.5f;
-                    clone.eliteRim = new Color(0.35f, 0.55f, 1f) * 2f; // steel blue
+                    clone.eliteRim = new Color(0.35f, 0.55f, 1f) * RimIntensity; // steel blue
                     break;
                 case EliteAffix.Swift:
                     clone.moveSpeed *= 1.35f;
                     clone.attackCooldown *= 0.7f; // telegraphTime deliberately untouched (fairness)
-                    clone.eliteRim = new Color(1f, 0.9f, 0.1f) * 2f; // yellow
+                    clone.eliteRim = new Color(1f, 0.9f, 0.1f) * RimIntensity; // yellow
                     break;
                 case EliteAffix.Unflinching:
                     clone.superArmor = true;
                     clone.postureMaxFraction *= 1.5f;
-                    clone.eliteRim = Color.white * 2f;
+                    clone.eliteRim = new Color(0.8f, 0.9f, 1f) * RimIntensity; // pale ice, not pure white (BUG-46)
                     break;
                 case EliteAffix.Vampiric:
                     clone.vampiric = true;
-                    clone.eliteRim = new Color(1f, 0.1f, 0.1f) * 2f; // red
+                    clone.eliteRim = new Color(1f, 0.1f, 0.1f) * RimIntensity; // red
                     break;
                 case EliteAffix.Volatile:
-                    clone.eliteRim = new Color(1f, 0.45f, 0.05f) * 2f; // orange
+                    clone.eliteRim = new Color(1f, 0.45f, 0.05f) * RimIntensity; // orange
                     break;
             }
         }

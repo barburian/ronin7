@@ -234,6 +234,25 @@ namespace Ronin7.Tests.EditMode
             Assert.That(RunDirector.ForgeResultHealth(stored, max), Is.EqualTo(expected).Within(0.001f));
         }
 
+        [Test]
+        public void ApplyMaxHealth_RaisesMaxAndCurrentByDeltaPlusHeal_Bug43()
+        {
+            var go = new GameObject("HealthBug43");
+            try
+            {
+                var h = go.AddComponent<Health>();
+                h.Configure(100f);
+                h.SetCurrent(60f);
+                Assert.IsTrue(RunDirector.ApplyMaxHealth(h, 125f, 0f)); // tempered Ironskin: +25 max
+                Assert.AreEqual(125f, h.Max);
+                Assert.AreEqual(85f, h.Current, 0.001f);
+                Assert.IsTrue(RunDirector.ApplyMaxHealth(h, 135f, 10f)); // fresh pick: +10 max, heal 10
+                Assert.AreEqual(105f, h.Current, 0.001f);
+                Assert.IsFalse(RunDirector.ApplyMaxHealth(h, 135f, 0f)); // nothing changed
+            }
+            finally { UnityEngine.Object.DestroyImmediate(go); }
+        }
+
         [TestCase(true, true, true)]
         [TestCase(true, false, false)]
         [TestCase(false, true, false)]

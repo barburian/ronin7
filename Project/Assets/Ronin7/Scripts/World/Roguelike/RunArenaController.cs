@@ -189,6 +189,8 @@ namespace Ronin7.World
             }
             else
             {
+                if (shell == null && biome != null && biome.roomScenes != null && biome.roomScenes.Length > 0)
+                    Debug.LogWarning($"[RunArenaController] No room shell for biome '{biome.id}' at halfExtent {halfExtent} m - using the greybox.", this);
                 if (shell != null) Debug.LogError($"[RunArenaController] Room scene '{shell}' is not in Build Settings - using the greybox.", this);
                 ArenaGeometryBuilder.Build(transform, halfExtent, biome, roomLibrary.surfaceMaterial, ref rng);
             }

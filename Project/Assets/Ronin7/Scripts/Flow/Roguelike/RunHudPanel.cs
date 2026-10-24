@@ -8,9 +8,9 @@ namespace Ronin7.Flow
 {
     /// <summary>
     /// Wrist- or hub-mounted HUD for the active run: depth ("node x/15"), sector, boon count, and
-    /// the run's live Shards (P4-11). Deliberately event-driven (<see cref="RunStarted"/>,
-    /// <see cref="RoomCleared"/>, <see cref="BoonChosen"/>, <see cref="RunEnded"/>) rather than
-    /// polled — unlike e.g. <c>CampaignStatsDisplay</c>'s throttled-Update idiom, this refreshes only
+    /// the run's live Shards (P4-11). Mostly event-driven (<see cref="RunStarted"/>,
+    /// <see cref="RoomCleared"/>, <see cref="BoonChosen"/>, <see cref="RunEnded"/>, the rig's
+    /// <see cref="Health.Changed"/>) with a 0.25 s poll as fallback — unlike e.g. <c>CampaignStatsDisplay</c>'s throttled-Update idiom, this refreshes only
     /// on the handful of events that can actually change these numbers, so it costs nothing out of
     /// the 11.11 ms VR frame budget on the vastly more common frame where nothing changed.
     /// </summary>
@@ -39,6 +39,17 @@ namespace Ronin7.Flow
             EventBus.Unsubscribe<RoomProgress>(OnRoomProgress);
             EventBus.Unsubscribe<RunNodeEntered>(OnRunNodeEntered);
             CancelInvoke(nameof(Refresh));
+            Hook(null);
+        }
+
+        // BUG-43: the rig (and its Health) is rebuilt per scene, so (re)subscribe lazily from Refresh.
+        private Health hooked;
+        private void Hook(Health h)
+        {
+            if (hooked == h) return;
+            if (hooked != null) hooked.Changed -= Refresh;
+            hooked = h;
+            if (hooked != null) hooked.Changed += Refresh;
         }
 
         private void OnRunStarted(RunStarted _) { ended = false; Refresh(); }
@@ -81,6 +92,7 @@ namespace Ronin7.Flow
             if (target == null || ended) return;
             if (!RunState.InRun) { if (target.text.Length != 0) target.text = string.Empty; shown = false; return; }
             var health = VRRig.Instance != null ? VRRig.Instance.GetComponent<Health>() : null;
+            Hook(health);
             var key = (health != null ? Mathf.CeilToInt(health.Current) : 0, health != null ? Mathf.CeilToInt(health.Max) : 0,
                 RunState.NodeIndex, RunState.CurrentNode.Sector, foes, RunState.Boons.Count, RunState.Shards);
             string h = Time.unscaledTime < hintUntil ? hint : null;

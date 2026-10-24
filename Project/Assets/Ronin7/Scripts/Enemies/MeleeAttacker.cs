@@ -48,6 +48,9 @@ namespace Ronin7.Enemies
         [SerializeField] protected Vector3 strikeEuler = new Vector3(55f, 0f, 0f);
         [SerializeField] protected Vector3 recoilEuler = new Vector3(-120f, 0f, 0f);
 
+        [Tooltip("BUG-44: when the weapon is the auto-rigged Rig_ArmR bone, the strike pose ends this many degrees forward-down of the hanging arm.")]
+        [SerializeField] private float rigStrikeDegrees = 60f;
+
         [Header("Flinch (light stagger on any hit)")]
         [Tooltip("Seconds of recoil interrupt after taking damage (0.15-0.3 feels right).")]
         [SerializeField] private float flinchTime = 0.2f;
@@ -106,6 +109,7 @@ namespace Ronin7.Enemies
         private const float FullDrawFraction = 0.7f;
         private const float StrikeFraction = 0.35f;
         private const float StrikeLunge = 0.6f; // torso follow-through past rest, as a fraction of the draw-back
+        private const string RigArmRName = "Rig_ArmR"; // NpcWalkAnimator.ArmRBoneName
         private const string TorsoBoneName = "Rig_Body"; // NpcWalkAnimator.BodyBoneName (World is not referenced here)
 
         /// <summary>Pure (P1-15): eased windup draw-back 0..1, scaled from this attack's telegraph and
@@ -232,6 +236,13 @@ namespace Ronin7.Enemies
         public bool IsPosingWeapon =>
             state == State.Windup || state == State.Active || state == State.Recover || state == State.Stagger;
 
+        /// <summary>BUG-44: weapon is the procedural Rig_ArmR bone, posed relative to <see cref="RigArmBase"/> instead of absolute euler.</summary>
+        protected bool UsesRigArm => weapon != null && weapon.name == RigArmRName;
+        /// <summary>BUG-44: arms-down rest of Rig_ArmR (set by NpcWalkAnimator, which owns the idle/walk pose).</summary>
+        public Quaternion RigArmBase { get; set; } = Quaternion.identity;
+        /// <summary>BUG-44: current weapon-arm swing (deg about the parent's X; negative = raised forward). 0 at rest.</summary>
+        public float ArmPoseAngle { get; private set; }
+
         /// <summary>State to land in once Recover completes.</summary>
         protected virtual State StateAfterRecover => State.Idle;
 
@@ -285,8 +296,7 @@ namespace Ronin7.Enemies
             if (target != null) playerMods = target.GetComponentInParent<PlayerCombatModifiers>();
             var bodyMat = bodyRenderer != null ? bodyRenderer.sharedMaterial : null;
             bodyHasRim = bodyMat != null && bodyMat.HasProperty("_RimColor") && bodyMat.HasProperty("_FlashAmount");
-            currentEuler = restEuler;
-            if (weapon != null) weapon.localRotation = Quaternion.Euler(restEuler);
+            ResetWeaponRest();
             if (weapon != null && weapon.parent != null && weapon.parent.name == TorsoBoneName)
             {
                 torso = PoseWholeBody && weapon.parent.parent != null ? weapon.parent.parent : weapon.parent;
@@ -658,12 +668,43 @@ namespace Ronin7.Enemies
 
         private void EnterCore(State next) { state = next; timer = 0f; realTimer = 0f; SetAggroCounted(next != State.Idle && next != State.Dead); }
 
+        /// <summary>Back to the rest pose. Rig arms are left to NpcWalkAnimator (it owns the lowered rest).</summary>
+        protected void ResetWeaponRest()
+        {
+            currentEuler = restEuler;
+            ArmPoseAngle = 0f;
+            if (weapon != null && !UsesRigArm) weapon.localRotation = Quaternion.Euler(restEuler);
+        }
+
+        /// <summary>Pure (BUG-44): euler.x -> swing degrees from the hanging arm. Rest = 0, toward strike = forward-down
+        /// (-<paramref name="strikeDeg"/> at strike), windup/recoil (below rest) keep their raw offset (negative = overhead).</summary>
+        public static float RigArmAngle(float x, float restX, float strikeX, float strikeDeg)
+        {
+            float d = x - restX;
+            if (d <= 0f) return d;
+            float span = strikeX - restX;
+            return span <= 0f ? 0f : -d / span * strikeDeg;
+        }
+
         protected void PoseWeapon(Vector3 fromEuler, Vector3 toEuler, float t)
         {
             // Interpolate the angle directly so the blade always travels the intended arc
             // (overhead → forward → down) instead of Slerp's shortest path over the back.
+            if (UsesRigArm)
+            {
+                // Lerp swing ANGLES (rest = 0, overhead < 0, strike = forward-down) so windup -> strike never
+                // passes back through the hanging pose; currentEuler stays a (restX + angle) stand-in for stagger.
+                float a = Mathf.Lerp(RigArmAngle(fromEuler.x, restEuler.x, strikeEuler.x, rigStrikeDegrees),
+                                     RigArmAngle(toEuler.x, restEuler.x, strikeEuler.x, rigStrikeDegrees), Mathf.Clamp01(t));
+                currentEuler = new Vector3(restEuler.x + a, 0f, 0f);
+                ArmPoseAngle = a * PoseArmScale;
+                // Swing about the parent's X on top of the lowered rest; local-X would only spin the arm.
+                if (weapon != null) weapon.localRotation = Quaternion.AngleAxis(ArmPoseAngle, Vector3.right) * RigArmBase;
+                return;
+            }
             currentEuler = Vector3.Lerp(fromEuler, toEuler, Mathf.Clamp01(t));
-            if (weapon != null) weapon.localRotation = Quaternion.Euler(restEuler + (currentEuler - restEuler) * PoseArmScale);
+            if (weapon == null) return;
+            weapon.localRotation = Quaternion.Euler(restEuler + (currentEuler - restEuler) * PoseArmScale);
         }
 
         /// <summary>P1-15 torso (or whole-rig) layer: twist (right shoulder back) + backward lean, scaled by bodyDraw.</summary>

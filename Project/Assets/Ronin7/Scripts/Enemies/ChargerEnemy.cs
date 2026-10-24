@@ -12,6 +12,7 @@ namespace Ronin7.Enemies
     public class ChargerEnemy : Enemy
     {
         public const float MinRange = 3f, MaxRange = 5f, LungeLength = 4f, Overshoot = 1f;
+        public const float OpeningDashDelay = 2f; // seconds after activation before the guaranteed opening dash
         const float LungeFraction = 0.35f; // = MeleeAttacker's strike share of Active: the slide ends as the hit resolves
 
         [Tooltip("Optional ground streak telegraph (world-space, 2 points).")]
@@ -20,9 +21,17 @@ namespace Ronin7.Enemies
         private bool charging, lunged;
         private Vector3 lungeDir;
         private float lungeDist;
+        private float activeSince;
+        private bool openingDone, openingNow;
 
         /// <summary>Pure: 4 m, but never further than the player's distance + 1 m.</summary>
         public static float LungeDistance(float playerDist) => Mathf.Min(LungeLength, playerDist + Overshoot);
+
+        /// <summary>Pure: the opening dash is never capped at <see cref="LungeLength"/> — it closes the whole gap + overshoot.</summary>
+        public static float OpeningDashDistance(float playerDist) => playerDist + Overshoot;
+
+        /// <summary>Pure: true once, <see cref="OpeningDashDelay"/> s after activation, until the dash has been taken.</summary>
+        public static bool OpeningDashDue(float secondsActive, bool done) => !done && secondsActive >= OpeningDashDelay;
 
         public static bool InChargeBand(float playerDist) => playerDist >= MinRange && playerDist <= MaxRange;
 
@@ -32,8 +41,18 @@ namespace Ronin7.Enemies
             if (streak != null) { streak.useWorldSpace = true; streak.positionCount = 2; streak.enabled = false; }
         }
 
+        private void OnEnable() { activeSince = Time.time; openingDone = false; }
+
+        public override void Respawn(Vector3 position)
+        {
+            base.Respawn(position);
+            activeSince = Time.time;
+            openingDone = false;
+        }
+
         protected override void OnChaseTick()
         {
+            if (OpeningDashDue(Time.time - activeSince, openingDone)) { openingNow = true; BeginAttack(); return; }
             Vector3 to = target.transform.position - transform.position;
             to.y = 0f;
             if (InChargeBand(to.magnitude) && Time.time >= nextAttackTime) { BeginAttack(); return; }
@@ -66,11 +85,14 @@ namespace Ronin7.Enemies
             Vector3 to = target.transform.position - transform.position;
             to.y = 0f;
             float dist = to.magnitude;
-            charging = InChargeBand(dist);
+            bool opening = openingNow;
+            openingNow = false;
+            if (opening) openingDone = true;
+            charging = opening ? dist > 0.01f : InChargeBand(dist);
             lunged = false;
             if (!charging) return;
             lungeDir = to / dist;
-            lungeDist = LungeDistance(dist);
+            lungeDist = opening ? OpeningDashDistance(dist) : LungeDistance(dist);
             if (streak == null) return;
             Vector3 p = transform.position + Vector3.up * 0.02f;
             streak.SetPosition(0, p);

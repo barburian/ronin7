@@ -323,7 +323,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
         }
 
         [Test]
-        public void EveryTrashArchetypeButScavenger_HasDistinctWiredMark()
+        public void OnlyShieldTrooper_KeepsWiredMark_A13_9()
         {
             var table = LoadTableOrSkip();
             var colours = new HashSet<Color>();
@@ -331,7 +331,14 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
             {
                 var so = new SerializedObject(e.prefab.GetComponent<Enemy>());
                 var mark = so.FindProperty("archetypeMark").objectReferenceValue as Renderer;
-                if (e.prefab.name == "Ash-World_Scavenger" || e.prefab.name == "Coil_Syndicate_Ganger") { Assert.IsNull(mark, $"'{e.prefab.name}' stays unmarked (Ganger: A13.8)"); continue; }
+                if (e.prefab.name != "Dominion_Trooper")
+                {
+                    // A13.8 / A13.9: unmarked - no reference and no ArchetypeMark child left behind.
+                    Assert.IsNull(mark, $"'{e.prefab.name}' must be unmarked (A13.9) - run Patch Archetype Prefabs.");
+                    foreach (var t in e.prefab.GetComponentsInChildren<Transform>(true))
+                        Assert.AreNotEqual(Ronin7.EditorTools.EnemyPrefabBaker.MarkName, t.name, $"'{e.prefab.name}' still has an ArchetypeMark child (A13.9).");
+                    continue;
+                }
                 Assert.IsNotNull(mark, $"'{e.prefab.name}' has no archetype mark - run Patch Archetype Prefabs.");
                 Assert.AreEqual(Ronin7.EditorTools.EnemyPrefabBaker.MarkName, mark.name);
                 Assert.IsNull(mark.GetComponent<Collider>(), $"'{e.prefab.name}' mark must not collide.");

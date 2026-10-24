@@ -451,15 +451,17 @@ namespace Ronin7.EditorTools
         internal static readonly (string prefab, string mesh, string bone, Vector3 pos, Vector3 size, Vector3 euler, Color color)[] MarkSpecs =
         {
             // A13.8 (user, 2026-10-24): Ganger waist ring removed - unmarked like the Scavenger (its magenta read as an error shader).
+            // A13.9 (user, 2026-10-24 playtest): every other mark read as a glitch and is removed (mesh null = no mark; the row
+            // stays so the patch still strips the old child and rebuilds weak marks). The trooper slab stays: it IS the HeavyBreak guard tell.
             ("Dominion_Trooper",          "Cube",     "Rig_ArmL", new Vector3(-0.4f, 0.5f, 0.25f),  new Vector3(0.5f, 0.8f, 0.05f),    Vector3.zero,             new Color(0.1f, 0.75f, 1f) * 2f),  // shield trooper: cyan shield slab
-            ("Program_Operative_Grunt",   "Cube",     "Rig_Body", new Vector3(0f, 0.9f, 0.16f),     new Vector3(0.3f, 0.07f, 0.06f),   Vector3.zero,             new Color(0.4f, 0.2f, 1f) * 2f),   // duelist: indigo visor bar (BUG-39: was lime, too close to gold "open")
-            ("Hunter_Drone",              "Cylinder", "Rig_Body", new Vector3(0f, 0.35f, 0.5f),     new Vector3(0.08f, 0.6f, 0.08f),   new Vector3(90f, 0f, 0f), new Color(1f, 0.15f, 0.4f) * 2f),  // gunner: rose forward barrel (BUG-39: was yellow, gold now means "open")
-            ("Dominion_Scan-Drone",       "Cylinder", "Rig_Body", new Vector3(0f, 1.2f, 0f),        new Vector3(0.8f, 0.03f, 0.8f),    Vector3.zero,             new Color(0.2f, 1f, 0.35f) * 2f),  // support: green halo disc
-            ("Humanoid_Automaton",        "Sphere",   "Rig_Body", new Vector3(0f, 0.62f, 0.4f),     new Vector3(0.4f, 0.4f, 0.4f),     Vector3.zero,             new Color(0.25f, 0.4f, 1f) * 2f),  // heavy: blue chest core
-            ("Iron_Dojo_Warden-Cadre",    "Cube",     "Rig_Body", new Vector3(0f, 1f, -0.2f),       new Vector3(0.3f, 0.7f, 0.04f),    Vector3.zero,             new Color(1f, 0.12f, 0.12f) * 2f), // parry master: red banner behind the head
-            ("Spectral_Grave-Guardian",   "Cylinder", null,       new Vector3(0f, 0.02f, 0f),       new Vector3(1.8f, 0.01f, 1.8f),    Vector3.zero,             new Color(0.4f, 1f, 0.9f) * 1.5f), // phaser: ice floor pool
-            ("Redaction_Construct",       "Cube",     "Rig_Body", new Vector3(0f, 0.82f, 0f),       new Vector3(1.1f, 0.08f, 0.25f),   Vector3.zero,             Color.white * 2f),                 // construct: white shoulder yoke
-            ("Dream_Ghost_Manifestation", "Sphere",   "Rig_Body", new Vector3(0f, 1.12f, 0f),       new Vector3(0.28f, 0.28f, 0.28f),  Vector3.zero,             new Color(0.75f, 0.35f, 1f) * 2f), // teleporter: violet orb overhead
+            ("Program_Operative_Grunt",    null,       null,       Vector3.zero, Vector3.zero, Vector3.zero, Color.black),  // duelist: mark removed (A13.9)
+            ("Hunter_Drone",               null,       null,       Vector3.zero, Vector3.zero, Vector3.zero, Color.black),  // gunner: mark removed (A13.9)
+            ("Dominion_Scan-Drone",        null,       null,       Vector3.zero, Vector3.zero, Vector3.zero, Color.black),  // support: mark removed (A13.9)
+            ("Humanoid_Automaton",         null,       null,       Vector3.zero, Vector3.zero, Vector3.zero, Color.black),  // heavy: mark removed (A13.9)
+            ("Iron_Dojo_Warden-Cadre",     null,       null,       Vector3.zero, Vector3.zero, Vector3.zero, Color.black),  // parry master: mark removed (A13.9)
+            ("Spectral_Grave-Guardian",    null,       null,       Vector3.zero, Vector3.zero, Vector3.zero, Color.black),  // phaser: mark removed (A13.9)
+            ("Redaction_Construct",        null,       null,       Vector3.zero, Vector3.zero, Vector3.zero, Color.black),  // construct: mark removed (A13.9)
+            ("Dream_Ghost_Manifestation",  null,       null,       Vector3.zero, Vector3.zero, Vector3.zero, Color.black),  // teleporter: mark removed (A13.9)
         };
 
         // BUG-39: weak-point markers (wired into Enemy.weakMarks in order; same placement rules as MarkSpecs).
@@ -514,7 +516,7 @@ namespace Ronin7.EditorTools
                     var so = new SerializedObject(enemy);
                     Bounds b = ArtBounds(root);
 
-                    SetObjectRef(so, "archetypeMark", BuildMark(root, b, MarkName, m.mesh, m.bone, m.pos, m.size, m.euler));
+                    SetObjectRef(so, "archetypeMark", m.mesh == null ? null : BuildMark(root, b, MarkName, m.mesh, m.bone, m.pos, m.size, m.euler));
                     so.FindProperty("archetypeColor").colorValue = m.color;
 
                     // BUG-39 weak-point markers for this prefab (empty array for the rest).

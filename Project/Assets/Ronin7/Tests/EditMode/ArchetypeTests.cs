@@ -94,6 +94,23 @@ namespace Ronin7.Tests.EditMode
             Assert.IsFalse(ChargerEnemy.InChargeBand(5.01f));
         }
 
+        [Test] public void Charger_OpeningDash_UncappedAndOnceAfterDelay()
+        {
+            Assert.AreEqual(11f, ChargerEnemy.OpeningDashDistance(10f), 1e-5f); // not capped at LungeLength 4
+            Assert.AreEqual(1f, ChargerEnemy.OpeningDashDistance(0f), 1e-5f);
+            Assert.IsFalse(ChargerEnemy.OpeningDashDue(1.99f, false));
+            Assert.IsTrue(ChargerEnemy.OpeningDashDue(2f, false));
+            Assert.IsFalse(ChargerEnemy.OpeningDashDue(5f, true), "fires once");
+        }
+
+        [Test] public void RigArmAngle_RestZero_OverheadNegative_StrikeForwardDown()
+        {
+            Assert.AreEqual(0f, MeleeAttacker.RigArmAngle(15f, 15f, 55f, 60f), 1e-5f);
+            Assert.AreEqual(-155f, MeleeAttacker.RigArmAngle(-140f, 15f, 55f, 60f), 1e-5f);
+            Assert.AreEqual(-60f, MeleeAttacker.RigArmAngle(55f, 15f, 55f, 60f), 1e-5f);
+            Assert.AreEqual(0f, MeleeAttacker.RigArmAngle(30f, 15f, 15f, 60f), 1e-5f, "degenerate span");
+        }
+
         // ---- Blink ----
 
         [Test] public void BlinkTarget_StaysInsideArena()

@@ -507,13 +507,13 @@ namespace Ronin7.Enemies
         public void Configure(EnemyDefinition def, float halfExtent) { definition = def; arenaHalfExtent = halfExtent; }
 
         /// <summary>Revive and reposition for a fresh duel.</summary>
-        public void Respawn(Vector3 position)
+        public virtual void Respawn(Vector3 position)
         {
             if (definition != null) health.Configure(definition.ScaledMaxHealth(CampaignState.GalaxiesCompleted));
             transform.SetPositionAndRotation(position, Quaternion.identity);
             groundY = position.y;
             currentEuler = restEuler;
-            if (weapon != null) weapon.localRotation = Quaternion.Euler(restEuler);
+            ResetWeaponRest();
             PoseBody(0f, 0f, 0f);
             Tint(IdleColor);
             deflectedThisSwing = false;

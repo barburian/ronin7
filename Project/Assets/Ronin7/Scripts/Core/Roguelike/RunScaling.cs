@@ -88,14 +88,14 @@ namespace Ronin7.Core
         /// loss" anchors (P4-11 item 2, no formula given). Discarded/abandoned saves bank the loss value.</summary>
         public static int EchoResult(int depth, bool won) => won ? 320 : 60 + 6 * Mathf.Clamp(depth, 0, RunMapGenerator.TotalNodes);
 
-        /// <summary>P2-05: comfort-sized room half-extent (m) by node kind. The default (5 m) also
-        /// covers Forge/Treasure and the Shop/Event kinds P2-04 adds later, so they inherit it.</summary>
+        /// <summary>P2-05: comfort-sized room half-extent (m) by node kind. Shells exist only as _8m/_11m
+        /// scenes (BUG-42), so Elite and the default (Forge/Treasure/Shop/Event) use 8 m.</summary>
         public static float ArenaHalfExtent(RoomKind kind) => kind switch
         {
             RoomKind.Combat => 8f,
-            RoomKind.Elite => 9f,
+            RoomKind.Elite => 8f,
             RoomKind.Boss => 11f,
-            _ => 5f,
+            _ => 8f,
         };
 
         private static int NodesPerSectorBoundary(int sector) => sector * RunMapGenerator.NodesPerSector;

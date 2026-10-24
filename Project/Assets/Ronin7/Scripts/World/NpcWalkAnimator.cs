@@ -33,11 +33,16 @@ namespace Ronin7.World
         [SerializeField] private float legSwingDegrees = 32f;
         [SerializeField] private float armSwingDegrees = 18f;
 
+        [Tooltip("BUG-44: enemies' rigged arms start in a T-pose; lower them this many degrees (about the body's forward axis, mirrored L/R). Combatants only.")]
+        [SerializeField] private float armsDownDegrees = 75f;
+        [Tooltip("Share of the right-arm attack swing the left arm follows so it is not frozen.")]
+        [SerializeField] private float leftArmAttackScale = 0.4f;
+
         [Tooltip("Torso bob height in meters at full walk speed.")]
         [SerializeField] private float bobHeight = 0.02f;
 
         private Transform body, legL, legR, armL, armR;
-        private Quaternion legLRest, legRRest, armLRest, armRRest;
+        private Quaternion legLRest, legRRest, armLRest, armRRest; // arm rests include the arms-down offset
         private Vector3 bodyRestPos;
         private Vector3 lastPos;
         private float phase;
@@ -75,8 +80,15 @@ namespace Ronin7.World
 
             legLRest = legL.localRotation;
             legRRest = legR.localRotation;
-            if (armL != null) armLRest = armL.localRotation;
-            if (armR != null) armRRest = armR.localRotation;
+            // BUG-44: character space is +Z forward, +X right, arms along +-X in the T-pose, so a roll about Z lowers
+            // them (right arm -Z, left +Z). Swings then run about the parent's X (forward arc), applied BEFORE this rest.
+            float down = melee != null && !melee.RigidHull ? armsDownDegrees : 0f;
+            if (armL != null) armLRest = Quaternion.AngleAxis(down, Vector3.forward) * armL.localRotation;
+            if (armR != null)
+            {
+                armRRest = Quaternion.AngleAxis(-down, Vector3.forward) * armR.localRotation;
+                if (melee != null) melee.RigArmBase = armRRest;
+            }
             if (body != null) bodyRestPos = body.localPosition;
             lastPos = transform.position;
         }
@@ -125,12 +137,15 @@ namespace Ronin7.World
             legL.localRotation = legLRest * Quaternion.AngleAxis(swing * legSwingDegrees, Vector3.right);
             legR.localRotation = legRRest * Quaternion.AngleAxis(-swing * legSwingDegrees, Vector3.right);
             if (armL != null)
-                armL.localRotation = armLRest * Quaternion.AngleAxis(-swing * armSwingDegrees, Vector3.right);
+            {
+                float atk = melee != null ? melee.ArmPoseAngle * leftArmAttackScale : 0f;
+                armL.localRotation = Quaternion.AngleAxis(-swing * armSwingDegrees + atk, Vector3.right) * armLRest;
+            }
             bool attacking = melee != null && melee.IsPosingWeapon;
             armRBlend = attacking ? 0f : Mathf.MoveTowards(armRBlend, 1f, dt / ArmRBlendTime);
             if (armR != null && !attacking)
             {
-                Quaternion walk = armRRest * Quaternion.AngleAxis(swing * armSwingDegrees, Vector3.right);
+                Quaternion walk = Quaternion.AngleAxis(swing * armSwingDegrees, Vector3.right) * armRRest;
                 armR.localRotation = armRBlend >= 1f ? walk : Quaternion.Slerp(armR.localRotation, walk, armRBlend);
             }
             if (body != null)

@@ -33,6 +33,18 @@ namespace Ronin7.Tests.EditMode
         }
 
         [Test]
+        public void Changed_FiresOnConfigureSetCurrentHealAndDamage()
+        {
+            int n = 0;
+            _health.Changed += () => n++;
+            _health.Configure(150f);
+            _health.SetCurrent(50f);
+            _health.Heal(10f);
+            _health.ApplyDamage(MakeDamage(5f));
+            Assert.AreEqual(4, n);
+        }
+
+        [Test]
         public void Configure_SeedsCurrentToMax_AndAlive()
         {
             Assert.AreEqual(100f, _health.Current);

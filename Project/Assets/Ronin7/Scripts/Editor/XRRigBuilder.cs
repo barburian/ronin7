@@ -1187,6 +1187,34 @@ namespace Ronin7.EditorTools
                 visual.lineLength = 5f;
                 visual.lineWidth = 0.005f;
             }
+            var vis = handGo.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.Visuals.XRInteractorLineVisual>();
+            // Default invalid (no UI hit) gradient is red; use the same soft cyan as the valid ray.
+            var cyan = new Gradient();
+            cyan.SetKeys(new[] { new GradientColorKey(new Color(0.4f, 0.8f, 1f), 0f) },
+                         new[] { new GradientAlphaKey(0.9f, 0f), new GradientAlphaKey(0.2f, 1f) });
+            vis.invalidColorGradient = cyan;
+            // BUG-45: laser only while the sword is not held.
+            if (handGo.GetComponent<UiRayVisibility>() == null) handGo.AddComponent<UiRayVisibility>();
+        }
+
+        /// <summary>BUG-45: add <see cref="UiRayVisibility"/> (+ cyan invalid gradient) to the existing
+        /// UI rays in RunArena and Phase6_Boot without rebuilding either scene. Idempotent.</summary>
+        [MenuItem("Tools/Space Samurai/Roguelike/Patch UI Ray Visibility (additive)", priority = 511)]
+        public static void PatchUiRayVisibility()
+        {
+            foreach (var path in new[] { SceneFolder + "/RunArena.unity", SceneFolder + "/Phase6_Boot.unity" })
+            {
+                var scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
+                int n = 0;
+                foreach (var ray in Object.FindObjectsByType<XRRayInteractor>(FindObjectsInactive.Include))
+                {
+                    if (ray.GetComponent<LineRenderer>() == null) continue;
+                    EnsureRayLineVisual(ray.gameObject);
+                    n++;
+                }
+                Debug.Log($"[UiRay] {scene.name}: patched {n} ray(s).");
+                if (n > 0) { EditorSceneManager.MarkSceneDirty(scene); EditorSceneManager.SaveScene(scene); }
+            }
         }
 
         private static Transform MenuFindChildByName(Transform root, string name)

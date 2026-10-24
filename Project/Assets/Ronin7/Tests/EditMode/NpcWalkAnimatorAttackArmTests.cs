@@ -21,7 +21,7 @@ namespace Ronin7.Tests.EditMode
             public void SetWeapon(Transform w) { weapon = w; }
             public void Windup() { BeginAttack(); PoseWeapon(restEuler, windupEuler, 1f); }
             public void GoIdle() { Enter(State.Idle); }
-            public Quaternion WindupPose => Quaternion.Euler(windupEuler);
+            public Quaternion WindupPose => Quaternion.AngleAxis(RigArmAngle(windupEuler.x, restEuler.x, strikeEuler.x, 60f), Vector3.right) * RigArmBase;
         }
 
         private GameObject root;
@@ -47,7 +47,7 @@ namespace Ronin7.Tests.EditMode
                 mb.GetType().GetMethod("Awake", System.Reflection.BindingFlags.Instance
                     | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public
                     | System.Reflection.BindingFlags.FlattenHierarchy)?.Invoke(mb, null);
-            rest = armR.localRotation; // what the walk animator captured as armRRest
+            rest = attacker.RigArmBase; // arms-down rest the walk animator captured as armRRest
         }
 
         [TearDown]
@@ -73,6 +73,15 @@ namespace Ronin7.Tests.EditMode
             Assert.Less(Quaternion.Angle(pose, armR.localRotation), 30f);
             for (int i = 0; i < 20; i++) walk.Tick(0.02f);
             Assert.AreEqual(0f, Quaternion.Angle(rest, armR.localRotation), 0.01f);
+        }
+
+        [Test]
+        public void RigArm_RestsLoweredFromTPose_AndMirrors()
+        {
+            walk.Tick(0.02f);
+            // right arm (+X in the T-pose) rolls down about -Z by 75 degrees
+            Assert.AreEqual(75f, Quaternion.Angle(Quaternion.identity, armR.localRotation), 0.01f);
+            Assert.Less((armR.localRotation * Vector3.right).y, -0.9f);
         }
     }
 }
