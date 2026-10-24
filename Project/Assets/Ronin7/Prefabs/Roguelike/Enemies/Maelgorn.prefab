@@ -319,6 +319,7 @@ MonoBehaviour:
   windupEuler: {x: -140, y: 0, z: 0}
   strikeEuler: {x: 55, y: 0, z: 0}
   recoilEuler: {x: -120, y: 0, z: 0}
+  rigStrikeDegrees: 60
   flinchTime: 0.2
   reflinchImmunity: 0.4
   flinchPush: 0.12
@@ -329,6 +330,7 @@ MonoBehaviour:
   bladeTip: {fileID: 2800649331494345282}
   parryRadius: 0.12
   debugLogs: 0
+  weakMarks: []
 --- !u!114 &5332519163276464282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -345,6 +347,8 @@ MonoBehaviour:
   strideLength: 0.65
   legSwingDegrees: 32
   armSwingDegrees: 18
+  armsDownDegrees: 0
+  leftArmAttackScale: 0.4
   bobHeight: 0.02
 --- !u!136 &1912847155688009949
 CapsuleCollider:

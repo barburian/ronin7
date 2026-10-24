@@ -217,6 +217,7 @@ namespace Ronin7.EditorTools
             EnsureBladeEdge(instance);
 
             NpcWalkAnimator.EnsureOn(instance);
+            FitArmRest(instance);
 
             // Normalise to adult human height. The Tripo source meshes measure ~1.40 m, which reads as
             // child-sized next to a 1.6 m player in VR — confirmed in-headset. EnemyArtWirer.FitAndGround
@@ -453,7 +454,8 @@ namespace Ronin7.EditorTools
             // A13.8 (user, 2026-10-24): Ganger waist ring removed - unmarked like the Scavenger (its magenta read as an error shader).
             // A13.9 (user, 2026-10-24 playtest): every other mark read as a glitch and is removed (mesh null = no mark; the row
             // stays so the patch still strips the old child and rebuilds weak marks). The trooper slab stays: it IS the HeavyBreak guard tell.
-            ("Dominion_Trooper",          "Cube",     "Rig_ArmL", new Vector3(-0.4f, 0.5f, 0.25f),  new Vector3(0.5f, 0.8f, 0.05f),    Vector3.zero,             new Color(0.1f, 0.75f, 1f) * 2f),  // shield trooper: cyan shield slab
+            // P6-00 (user, 2026-10-24): the slab is re-seated on the left forearm (SeatOnForearm), so pos/euler are unused.
+            ("Dominion_Trooper",          "Cube",     "Rig_ArmL", Vector3.zero,                     new Vector3(0.32f, 0.45f, 0.03f),   Vector3.zero,             new Color(0.1f, 0.75f, 1f) * 2f),  // shield trooper: cyan forearm shield
             ("Program_Operative_Grunt",    null,       null,       Vector3.zero, Vector3.zero, Vector3.zero, Color.black),  // duelist: mark removed (A13.9)
             ("Hunter_Drone",               null,       null,       Vector3.zero, Vector3.zero, Vector3.zero, Color.black),  // gunner: mark removed (A13.9)
             ("Dominion_Scan-Drone",        null,       null,       Vector3.zero, Vector3.zero, Vector3.zero, Color.black),  // support: mark removed (A13.9)
@@ -516,7 +518,9 @@ namespace Ronin7.EditorTools
                     var so = new SerializedObject(enemy);
                     Bounds b = ArtBounds(root);
 
-                    SetObjectRef(so, "archetypeMark", m.mesh == null ? null : BuildMark(root, b, MarkName, m.mesh, m.bone, m.pos, m.size, m.euler));
+                    var mark = m.mesh == null ? null : BuildMark(root, b, MarkName, m.mesh, m.bone, m.pos, m.size, m.euler);
+                    if (mark != null && m.bone == NpcWalkAnimator.ArmLBoneName) SeatOnForearm(root, mark.transform);
+                    SetObjectRef(so, "archetypeMark", mark);
                     so.FindProperty("archetypeColor").colorValue = m.color;
 
                     // BUG-39 weak-point markers for this prefab (empty array for the rest).
@@ -534,6 +538,85 @@ namespace Ronin7.EditorTools
                 finally { PrefabUtility.UnloadPrefabContents(root); }
             }
             AssetDatabase.SaveAssets();
+        }
+
+        /// <summary>BUG-47 (additive, idempotent): re-fits every baked enemy's arms-down roll to its measured rig.</summary>
+        [MenuItem("Tools/Space Samurai/Roguelike/Fit Enemy Arm Rest (additive)")]
+        public static void FitAllArmRests()
+        {
+            foreach (var name in System.Linq.Enumerable.Concat(TrashMobNames, BossNames))
+            {
+                string path = OutputFolder + "/" + name + ".prefab";
+                if (AssetDatabase.LoadAssetAtPath<GameObject>(path) == null) { Debug.LogWarning("[EnemyPrefabBaker] missing " + path); continue; }
+                var root = PrefabUtility.LoadPrefabContents(path);
+                try { FitArmRest(root); PrefabUtility.SaveAsPrefabAsset(root, path); }
+                finally { PrefabUtility.UnloadPrefabContents(root); }
+            }
+        }
+
+        /// <summary>BUG-47: the boss meshes were generated with their arms already at their sides, the trash ones in a
+        /// T/A-pose. Measure the rig's arms and bake the roll (full T-pose roll, or 0 when they already hang).</summary>
+        internal static void FitArmRest(GameObject root)
+        {
+            var walk = root.GetComponent<NpcWalkAnimator>();
+            var smr = root.GetComponentInChildren<SkinnedMeshRenderer>(true);
+            if (walk == null || smr == null) return;
+            float elev = 0f; int n = 0;
+            if (MeasureArm(smr, NpcWalkAnimator.ArmLBoneName, out Vector3 l, out _)) { elev += NpcWalkAnimator.ArmElevation(l, false); n++; }
+            if (MeasureArm(smr, NpcWalkAnimator.ArmRBoneName, out Vector3 r, out _)) { elev += NpcWalkAnimator.ArmElevation(r, true); n++; }
+            if (n == 0) return;
+            var so = new SerializedObject(walk);
+            so.FindProperty("armsDownDegrees").floatValue = NpcWalkAnimator.ArmsDownFor(elev / n, NpcWalkAnimator.DefaultArmsDownDegrees);
+            so.ApplyModifiedPropertiesWithoutUndo();
+            Debug.Log($"[EnemyPrefabBaker] {root.name}: arm elevation {elev / n:F0} deg -> arms-down {so.FindProperty("armsDownDegrees").floatValue}");
+        }
+
+        /// <summary>Direction (unit) of an arm and the vertices it mostly drives, in its bone's space.
+        /// Rig bones are unrotated, so bone space has the same axes as the body.</summary>
+        private static bool MeasureArm(SkinnedMeshRenderer smr, string boneName, out Vector3 dir, out System.Collections.Generic.List<Vector3> pts)
+        {
+            dir = Vector3.zero; pts = null;
+            int bi = System.Array.FindIndex(smr.bones, t => t != null && t.name == boneName);
+            Mesh mesh = smr.sharedMesh;
+            if (bi < 0 || mesh == null) return false;
+            Vector3[] verts = mesh.vertices;
+            BoneWeight[] w = mesh.boneWeights;
+            Matrix4x4 bind = mesh.bindposes[bi];
+            pts = new System.Collections.Generic.List<Vector3>();
+            for (int i = 0; i < verts.Length; i++)
+            {
+                float wt = w[i].boneIndex0 == bi ? w[i].weight0 : w[i].boneIndex1 == bi ? w[i].weight1 : 0f;
+                if (wt > 0.6f) pts.Add(bind.MultiplyPoint3x4(verts[i]));
+            }
+            if (pts.Count == 0) return false;
+            Vector3 c = Vector3.zero;
+            foreach (var p in pts) c += p;
+            dir = (c / pts.Count).normalized;
+            return true;
+        }
+
+        /// <summary>P6-00 (user decision): seat the Shield Trooper slab on the outside of the left forearm, upright and
+        /// facing out-and-forward in the lowered rest, parented to Rig_ArmL so it follows the rest and the swing.
+        /// Placed from the arm's own vertices in that rest (the lower half of the arm = forearm/hand).</summary>
+        private static void SeatOnForearm(GameObject root, Transform mark)
+        {
+            var smr = root.GetComponentInChildren<SkinnedMeshRenderer>(true);
+            var walk = root.GetComponent<NpcWalkAnimator>();
+            if (smr == null || walk == null || !MeasureArm(smr, mark.parent.name, out _, out var pts)) return;
+            // Rig_ArmL's lowered rest (NpcWalkAnimator.Awake): a roll of +armsDownDegrees about the body's forward axis.
+            Quaternion rest = Quaternion.AngleAxis(new SerializedObject(walk).FindProperty("armsDownDegrees").floatValue, Vector3.forward);
+            float minY = float.MaxValue, maxY = float.MinValue;
+            foreach (var p in pts) { float y = (rest * p).y; minY = Mathf.Min(minY, y); maxY = Mathf.Max(maxY, y); }
+            float cut = (minY + maxY) * 0.5f;
+            Vector3 c = Vector3.zero; int n = 0;
+            foreach (var p in pts) { Vector3 q = rest * p; if (q.y < cut) { c += q; n++; } }
+            c /= Mathf.Max(n, 1);
+            Vector3 face = new Vector3(-1f, 0f, 1f).normalized; // left arm: outward (-X) and forward (+Z)
+            float proud = 0f;
+            foreach (var p in pts) { Vector3 q = rest * p; if (q.y < cut) proud = Mathf.Max(proud, Vector3.Dot(q - c, face)); }
+            Quaternion toBone = Quaternion.Inverse(rest);
+            mark.localPosition = toBone * (c + face * (proud + mark.localScale.z * 0.5f + 0.005f));
+            mark.localRotation = toBone * Quaternion.LookRotation(face, Vector3.up);
         }
 
         /// <summary>P1-12 (BUG-23): additive entry point. Re-extracts the textures from each existing baked

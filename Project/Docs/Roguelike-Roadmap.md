@@ -104,7 +104,7 @@ Effort in engineer-days (rough, one person with agents): P0 ≈ 4–5, P1 ≈ 6�
 | BUG-44 | MED | Enemies T-posed; attack arm twisted instead of swinging (absolute Euler on the T-pose bone). | `Enemies/MeleeAttacker.cs`, `World/NpcWalkAnimator.cs` | P5-09. **Fixed** for trash enemies (arms-down idle, rest-relative eased swing, left-arm follow). Bosses: see BUG-47. |
 | BUG-45 | LOW | XRI UI ray (red invalid gradient) visible while the sword is held. | `Player/UiRayVisibility.cs`, `Editor/XRRigBuilder.cs` | P5-09. **Fixed**: line hidden while any Grabber holds; invalid gradient cyan. |
 | BUG-46 | MED | Elite blown out to white (white archetype yoke + HDR x2 rim), read as strobing. | `World/Roguelike/EliteAffixes.cs` | P5-09. **Fixed**: marks removed (A13.9), rim x1.2, Unflinching pale ice. |
-| BUG-47 | MED | **Boss arms reversed**: in every boss fight (v0.6.1 playtest 2026-10-24) the boss's hands/arms swing the wrong way and feel wrong. Likely the BUG-44 arms-down / swing sign or axis does not match the boss rigs (different bone orientation or mirrored mesh). | `World/NpcWalkAnimator.cs`, `Enemies/MeleeAttacker.cs` (`RigArmAngle`), boss prefabs | **Open, Phase 6 (P6-00).** Repro: any boss node; watch the windup. |
+| BUG-47 | MED | **Boss arms reversed**: in every boss fight (v0.6.1 playtest 2026-10-24) the boss's hands/arms swing the wrong way and feel wrong. Likely the BUG-44 arms-down / swing sign or axis does not match the boss rigs (different bone orientation or mirrored mesh). | `World/NpcWalkAnimator.cs`, `Enemies/MeleeAttacker.cs` (`RigArmAngle`), boss prefabs | **Fixed (P6-00)**, pending device retest. Root cause: the boss meshes were generated with arms already at their sides (measured arm elevation -61/-67/-73 deg vs trash -44..+18), so the T-pose arms-down roll swung them across the body. Roll now baked per rig. |
 
 ## A3. Domain findings in brief
 
@@ -1391,9 +1391,13 @@ In `ArtPrefabBuilder`:
 
 **Goal:** release candidate.
 
+**Phase 6 progress**
+- [x] **P6-00 BUG-47 boss arms** (2026-10-24): measured every baked enemy rig's arm (centroid of the Rig_ArmL/R-weighted vertices in bone space). Bone axes are identical on all 14 rigs (unrotated, +X out, +Z forward), and so are the pose eulers and `poseArmScale`. The difference is the mesh: the 3 boss meshes have their arms already hanging (mean elevation The-Warden -61, Vane_Wraith-6 -67, Maelgorn -73 deg); every trash mesh is T/A-posed (-44..+18). The fixed 75 deg arms-down roll therefore pushed boss arms across the body, so the windup lifted the wrong arm across and behind. Fix: `NpcWalkAnimator.ArmElevation`/`ArmsDownFor` (pure; hanging below -52 deg -> no roll) and `EnemyPrefabBaker.FitArmRest` (called by the bake, plus menu *Fit Enemy Arm Rest (additive)*) bake `armsDownDegrees` per prefab: bosses 0, all 11 trash 75 (unchanged). EditMode 1875/0/0 (baseline 1867 + 8 new `NpcWalkAnimatorAttackArmTests` cases). Mobile-tier renders (RunArena via Phase6_Boot, Main Camera through URP post) in the session scratchpad `p6-00/`: each boss idle / mid-windup front + side / full windup, plus `The-Warden_OLD75_*` (the old roll, arm crosses the body) and `Dominion_Trooper_*` (trash regression). Pending: device retest.
+- [x] **P6-00 Shield Trooper slab** (2026-10-24, user decision: re-seat on the left forearm): `EnemyPrefabBaker.SeatOnForearm` places the slab (now 0.32 x 0.45 x 0.03 m) under Rig_ArmL, upright and facing out-and-forward on the outside of the forearm in the lowered rest, so it follows the idle and the swing. Rendered in `p6-00/Dominion_Trooper_idle_front.png` and `_midwindup_front/_side.png`. Pending: device retest.
+
 ### P6-00 Carry-over from Phase 5
 - **BUG-47** boss arms reversed (see the bug table). Check the boss rigs' arm bone axes against `NpcWalkAnimator`'s arms-down roll and `RigArmAngle` swing sign; fix per rig (or per definition flag), render a boss mid-windup, retest on device.
-- Shield Trooper slab (A13.9 exception) floats as a flat cyan plane once the arm is lowered: re-seat it on the forearm or drop it (user decision).
+- Shield Trooper slab (A13.9 exception) floats as a flat cyan plane once the arm is lowered: re-seat it on the forearm or drop it. **User decision: re-seat on the left forearm. Done** (see Phase 6 progress).
 
 
 ### P6-01 Audio

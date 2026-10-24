@@ -83,5 +83,31 @@ namespace Ronin7.Tests.EditMode
             Assert.AreEqual(75f, Quaternion.Angle(Quaternion.identity, armR.localRotation), 0.01f);
             Assert.Less((armR.localRotation * Vector3.right).y, -0.9f);
         }
+
+        // BUG-47: arm elevations measured on the baked rigs (degrees above the shoulder's horizontal, mean of L/R).
+        [TestCase(-32.5f)] // Dominion_Trooper
+        [TestCase(-43.5f)] // Ash-World_Scavenger (lowest trash rig)
+        [TestCase(17.5f)]  // Program_Operative_Grunt
+        [TestCase(1.5f)]   // Spectral_Grave-Guardian
+        public void ArmsDownFor_TPosedTrashRig_KeepsFullRoll(float elevation)
+        {
+            Assert.AreEqual(75f, NpcWalkAnimator.ArmsDownFor(elevation, 75f));
+        }
+
+        [TestCase(-61.5f)] // The-Warden
+        [TestCase(-66.5f)] // Vane_Wraith-6
+        [TestCase(-73f)]   // Maelgorn
+        public void ArmsDownFor_HangingBossRig_NoRoll(float elevation)
+        {
+            Assert.AreEqual(0f, NpcWalkAnimator.ArmsDownFor(elevation, 75f));
+        }
+
+        [Test]
+        public void ArmElevation_MirrorsLeftAndRight()
+        {
+            Assert.AreEqual(-32.2f, NpcWalkAnimator.ArmElevation(new Vector3(0.146f, -0.092f, 0.06f), true), 0.5f);
+            Assert.AreEqual(-32.2f, NpcWalkAnimator.ArmElevation(new Vector3(-0.146f, -0.092f, 0.06f), false), 0.5f);
+            Assert.AreEqual(-90f, NpcWalkAnimator.ArmElevation(Vector3.down, true), 0.01f);
+        }
     }
 }

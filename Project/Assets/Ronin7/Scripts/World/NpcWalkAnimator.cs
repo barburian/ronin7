@@ -33,8 +33,10 @@ namespace Ronin7.World
         [SerializeField] private float legSwingDegrees = 32f;
         [SerializeField] private float armSwingDegrees = 18f;
 
-        [Tooltip("BUG-44: enemies' rigged arms start in a T-pose; lower them this many degrees (about the body's forward axis, mirrored L/R). Combatants only.")]
-        [SerializeField] private float armsDownDegrees = 75f;
+        [Tooltip("BUG-44: enemies' rigged arms start in a T-pose; lower them this many degrees (about the body's forward axis, mirrored L/R). Combatants only. " +
+                 "BUG-47: baked per rig from the measured arm (EnemyPrefabBaker.FitArmRest) - 0 on rigs whose arms already hang.")]
+        [SerializeField] private float armsDownDegrees = DefaultArmsDownDegrees;
+        public const float DefaultArmsDownDegrees = 75f;
         [Tooltip("Share of the right-arm attack swing the left arm follows so it is not frozen.")]
         [SerializeField] private float leftArmAttackScale = 0.4f;
 
@@ -55,6 +57,20 @@ namespace Ronin7.World
         private const float ArmRBlendTime = 0.15f;
         private MeleeAttacker melee;
         private float armRBlend = 1f;
+
+        /// <summary>BUG-47: mean arm elevation (degrees above the shoulder's horizontal) below which the rig's arms
+        /// already hang. Measured: trash rigs -43.5..+18 (T/A-pose), boss rigs -61.5..-73 (arms at the sides).</summary>
+        public const float HangingArmElevation = -52f;
+
+        /// <summary>BUG-47 (pure): elevation of a shoulder-to-arm vector in the body's X/Y plane, mirrored so
+        /// outward is 0 for both arms (T-pose 0, straight down -90).</summary>
+        public static float ArmElevation(Vector3 shoulderToArm, bool right) =>
+            Mathf.Atan2(shoulderToArm.y, right ? shoulderToArm.x : -shoulderToArm.x) * Mathf.Rad2Deg;
+
+        /// <summary>BUG-47 (pure): the arms-down roll for a rig. Rolling arms that already hang by the T-pose
+        /// amount swings them across the body (hands on the wrong side, the windup lifts the wrong way).</summary>
+        public static float ArmsDownFor(float meanArmElevation, float fullDown) =>
+            meanArmElevation <= HangingArmElevation ? 0f : fullDown;
 
         /// <summary>Adds (or finds) a walk animator on the given NPC root.</summary>
         public static NpcWalkAnimator EnsureOn(GameObject npc)
