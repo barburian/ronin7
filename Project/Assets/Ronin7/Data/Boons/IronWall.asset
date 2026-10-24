@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: IronWall
   m_EditorClassIdentifier: Ronin7.Combat::Ronin7.Combat.BoonDefinition
   id: boon_iron_wall
-  displayName: Iron Wall
+  displayName: Iron Dojo Wall
   description: Perfect-parry window +0.02 s per stack.
   rarity: 0
   effect: 10

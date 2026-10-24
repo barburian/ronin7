@@ -1,0 +1,159 @@
+{
+    "lines": [
+        {
+            "file": "runvoice_kessler_first_00",
+            "speaker": "Kessler",
+            "text": "First dive's always the ugliest, Cipher. You're back on the table, and that's the part that counts."
+        },
+        {
+            "file": "runvoice_kessler_first_01",
+            "speaker": "Kessler",
+            "text": "Easy. I pulled you out of the Fracture once, I'll do it again. The rig's still warm, and so am I."
+        },
+        {
+            "file": "runvoice_kessler_first_02",
+            "speaker": "Kessler",
+            "text": "Six years ago you spared me when the book said don't. Least I can do is stitch you up twice."
+        },
+        {
+            "file": "runvoice_kessler_first_03",
+            "speaker": "Kessler",
+            "text": "Breathe. Everybody dies the first time down there. Most just don't wake up on a salvager's table after."
+        },
+        {
+            "file": "runvoice_kessler_rust_00",
+            "speaker": "Kessler",
+            "text": "The Rustfang chews up better fighters than you. Gryph's old hold is carved into those caves. Learn the pits."
+        },
+        {
+            "file": "runvoice_kessler_rust_01",
+            "speaker": "Kessler",
+            "text": "Coil blades in the dark, Cipher. Watch your flanks first, the front will take care of itself."
+        },
+        {
+            "file": "runvoice_kessler_rust_02",
+            "speaker": "Kessler",
+            "text": "Rust took you. Fine. It takes everybody on the first pass. Sit down, drink something, go again."
+        },
+        {
+            "file": "runvoice_kessler_rust_03",
+            "speaker": "Kessler",
+            "text": "You were still counting exits when they closed. Don't count. Listen for the edge."
+        },
+        {
+            "file": "runvoice_kessler_program_00",
+            "speaker": "Kessler",
+            "text": "The Program built that place to erase you, Cipher. Don't walk its halls like you belong there."
+        },
+        {
+            "file": "runvoice_kessler_program_01",
+            "speaker": "Kessler",
+            "text": "Cold rooms, clean lines, no mercy. That's the Program talking. Answer it with your own pace."
+        },
+        {
+            "file": "runvoice_kessler_program_02",
+            "speaker": "Kessler",
+            "text": "Their guards swing like they were taught. Because they were. Find the rhythm, then break it."
+        },
+        {
+            "file": "runvoice_kessler_program_03",
+            "speaker": "Kessler",
+            "text": "I've seen what the Program does to operatives. Don't hand it a second sample of you. Go again."
+        },
+        {
+            "file": "runvoice_kessler_garden_00",
+            "speaker": "Kessler",
+            "text": "The Silent Garden gets in your head. Khall's grief took root in there too. Don't let it take yours."
+        },
+        {
+            "file": "runvoice_kessler_garden_01",
+            "speaker": "Kessler",
+            "text": "You made it to the Garden. That's further than most. The last stretch is the one that bites."
+        },
+        {
+            "file": "runvoice_kessler_garden_02",
+            "speaker": "Kessler",
+            "text": "Quiet down there, isn't it. Too quiet. Hear the bloom before it hears you."
+        },
+        {
+            "file": "runvoice_kessler_garden_03",
+            "speaker": "Kessler",
+            "text": "One more breath, Cipher. The Garden doesn't hate you. It just doesn't care. Make it care."
+        },
+        {
+            "file": "runvoice_kessler_won_00",
+            "speaker": "Kessler",
+            "text": "You closed it, Cipher. The Fracture's quiet. I'm not ashamed to say I held my breath the whole way."
+        },
+        {
+            "file": "runvoice_kessler_won_01",
+            "speaker": "Kessler",
+            "text": "Maelgorn's machine stalled for a day. The war is the product, and you just broke the line. Good work."
+        },
+        {
+            "file": "runvoice_kessler_won_02",
+            "speaker": "Kessler",
+            "text": "Iris would have loved to see that. Hell, so would I. Come aboard, the rig is lit up like a festival."
+        },
+        {
+            "file": "runvoice_kessler_won_03",
+            "speaker": "Kessler",
+            "text": "Mercy as rebellion. That's what you do, Cipher. Rest now. The Cairn has your back."
+        },
+        {
+            "file": "runvoice_kessler_wonheat_00",
+            "speaker": "Kessler",
+            "text": "With the heat turned all the way up? The Synod will feel that one in its ledgers, Cipher."
+        },
+        {
+            "file": "runvoice_kessler_wonheat_01",
+            "speaker": "Kessler",
+            "text": "Hardest run I've watched, and you walked off it. The Ten Syndicates can keep their wars. We keep you."
+        },
+        {
+            "file": "runvoice_kessler_wonheat_02",
+            "speaker": "Kessler",
+            "text": "You paid the full price and came out standing. Save some luck for the next dive."
+        },
+        {
+            "file": "runvoice_kessler_wonheat_03",
+            "speaker": "Kessler",
+            "text": "That's not a run, that's a statement. The Cairn is still ringing. Somebody tell Velorum."
+        },
+        {
+            "file": "runvoice_boss0_intro",
+            "speaker": "Warden",
+            "text": "I keep the gate, operative. Nobody crosses the Rustfang without my leave."
+        },
+        {
+            "file": "runvoice_boss0_phase1",
+            "speaker": "Warden",
+            "text": "The gate does not break, and neither do I. Come, feel the weight of it."
+        },
+        {
+            "file": "runvoice_boss1_intro",
+            "speaker": "Vane",
+            "text": "Operative detected. Designation Ronin. Return to the Program, or be erased."
+        },
+        {
+            "file": "runvoice_boss1_phase1",
+            "speaker": "Vane",
+            "text": "Erasure incomplete. Switching to pursuit."
+        },
+        {
+            "file": "runvoice_boss2_intro",
+            "speaker": "Maelgorn",
+            "text": "You are a weapon I allowed to wander, Ronin-7. War is a harvest, and you are late to it."
+        },
+        {
+            "file": "runvoice_boss2_phase1",
+            "speaker": "Maelgorn",
+            "text": "Mercy is a tax I have never paid. Let me collect it from you."
+        },
+        {
+            "file": "runvoice_boss2_phase2",
+            "speaker": "Maelgorn",
+            "text": "Ten syndicates, a thousand wars, and you think one blade ends it? Then end it, Soren."
+        }
+    ]
+}

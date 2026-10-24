@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Headhunter
   m_EditorClassIdentifier: Ronin7.Combat::Ronin7.Combat.BoonDefinition
   id: boon_headhunter
-  displayName: Headhunter
+  displayName: Drovis Bounty
   description: +25% precision-hit damage per stack.
   rarity: 0
   effect: 9

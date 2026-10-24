@@ -108,6 +108,7 @@ namespace Ronin7.Flow
         private List<BoonDefinition> offerChoices;
         private BoonOfferPanel offerPanel;
         private RunSummaryPanel summaryPanel;
+        private RunVoice voice; // P6-04
         private float offerFallbackDeadline = -1f;
         /// <summary>P0-03: seconds left on the offer fallback while paused, or -1 when not frozen.</summary>
         private float frozenOfferSeconds = -1f;
@@ -153,6 +154,7 @@ namespace Ronin7.Flow
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            voice = gameObject.AddComponent<RunVoice>(); // P6-04
         }
 
         private void OnEnable()
@@ -866,6 +868,7 @@ namespace Ronin7.Flow
                 return;
             }
             summaryPanel.Dismissed += OnRunSummaryDismissed;
+            voice.PlayOutcome(KesslerRunLines.Outcome(RunSummary.Won, RunSummary.Depth, RunSummary.FirstRun, RunSummary.Heat)); // P6-04
             // Consume the result now: a later Return-to-Menu must not resurrect this same summary.
             RunSummary.Clear();
         }
@@ -1372,6 +1375,7 @@ namespace Ronin7.Flow
             int depth = RunState.Depth; // P2-04: rows cleared, never the node id
             // P4-11 (D-11): Echoes are paid once, here, from the result; Shards are dropped with the run.
             int echoes = RunEchoResult(won, depth, boonInventory.Bonus(BoonEffectKind.EchoGain), RunState.HeatTotal);
+            bool firstRun = MetaProgression.RunsCompleted == 0; // P6-04: read before NoteRunEnded counts this run
             MetaProgression.AddEchoes(echoes);
             MetaProgression.NoteRunEnded(won ? RunMapGenerator.TotalNodes : depth, won);
 
@@ -1383,7 +1387,7 @@ namespace Ronin7.Flow
                 depth, won,
                 CampaignStats.EnemiesDefeated - enemiesDefeatedAtRunStart,
                 RunState.Boons.Count,
-                echoes, RunTally.Assisted);
+                echoes, RunTally.Assisted, RunState.HeatTotal, firstRun);
             MetaProgression.Save();
             RunLog.Append(BuildLogEntry(depth, won, echoes));
             // After the bank is saved (a crash in between must not lose the Echoes): the run is over,

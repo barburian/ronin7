@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Whetstone
   m_EditorClassIdentifier: Ronin7.Combat::Ronin7.Combat.BoonDefinition
   id: boon_whetstone
-  displayName: Whetstone
+  displayName: Salvager's Whetstone
   description: +8% blade damage per stack.
   rarity: 0
   effect: 0

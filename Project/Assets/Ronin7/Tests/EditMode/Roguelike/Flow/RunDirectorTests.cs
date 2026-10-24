@@ -316,9 +316,9 @@ namespace Ronin7.Tests.EditMode
             Assert.AreEqual(expected, RunDirector.ShouldShowSectorCard(kind, sector));
         }
 
-        [TestCase(0, "SECTOR 1 — THE RUST")]
+        [TestCase(0, "SECTOR 1 — THE RUSTFANG")]
         [TestCase(1, "SECTOR 2 — THE PROGRAM")]
-        [TestCase(2, "SECTOR 3 — THE GARDEN")]
+        [TestCase(2, "SECTOR 3 — THE SILENT GARDEN")]
         public void SectorTitle_UsesBiomeNames(int sector, string expected)
         {
             Assert.AreEqual(expected, SectorText.Title(sector));

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BloodPrice
   m_EditorClassIdentifier: Ronin7.Combat::Ronin7.Combat.BoonDefinition
   id: boon_blood_price
-  displayName: Blood Price
+  displayName: Coil Tithe
   description: Heal 8 HP on every kill, but the Forge can no longer mend.
   rarity: 1
   effect: 2

@@ -9,9 +9,9 @@ namespace Ronin7.Core
     {
         public static string Name(int sector) => (((sector % 3) + 3) % 3) switch
         {
-            0 => "THE RUST",
+            0 => "THE RUSTFANG",
             1 => "THE PROGRAM",
-            _ => "THE GARDEN",
+            _ => "THE SILENT GARDEN",
         };
 
         /// <summary>"SECTOR 2 — THE PROGRAM" for the 0-based sector 1.</summary>

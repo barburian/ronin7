@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EchoTwin
   m_EditorClassIdentifier: Ronin7.Combat::Ronin7.Combat.BoonDefinition
   id: boon_echo_twin
-  displayName: Echo Twin
+  displayName: Shadow Twin
   description: Mirror twin lasts 10 s longer.
   rarity: 1
   effect: 29

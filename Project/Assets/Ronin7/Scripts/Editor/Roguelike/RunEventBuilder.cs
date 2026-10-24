@@ -30,18 +30,18 @@ namespace Ronin7.EditorTools
 
             var result = new[]
             {
-                Ensure("BloodPact", "Blood Pact", "A red sigil hums on the floor. It offers power — for a piece of you.",
+                Ensure("BloodPact", "Synod Contract", "A red sigil hums on the floor. It offers power — for a piece of you.",
                     Opt("ACCEPT THE PACT", "-15 max HP, gain a Rare boon", 1f,
                         new[] { Fx(RunEventEffectKind.MaxHealthAdd, -15f), Boon(BoonRarity.Rare) }),
                     Opt("REFUSE", "Walk on unchanged", 1f)),
-                Ensure("Gamble", "Gamble", "A cracked die spins in the air. Fortune or pain — even odds.",
+                Ensure("Gamble", "Velorum Wager", "A cracked die spins in the air. Fortune or pain — even odds.",
                     Opt("ROLL THE DIE", "50%: Epic boon · 50%: take 25 damage", 0.5f,
                         new[] { Boon(BoonRarity.Epic) }, new[] { Fx(RunEventEffectKind.Damage, 25f) }),
                     Opt("WALK AWAY", "Keep what you have", 1f)),
-                Ensure("Meditate", "Meditate", "A quiet alcove, out of the Fracture's noise.",
+                Ensure("Meditate", "Cairn Respite", "A quiet alcove, out of the Fracture's noise.",
                     Opt("MEDITATE", "Heal 30% of max HP", 1f, new[] { Fx(RunEventEffectKind.HealFraction, 0.3f) }),
                     Opt("MOVE ON", "No time to rest", 1f)),
-                Ensure("ForgottenShrine", "Forgotten Shrine", "An old shrine still answers to Shards.",
+                Ensure("ForgottenShrine", "Kethel-7 Shrine", "An old shrine still answers to Shards.",
                     Opt("MAKE AN OFFERING", "Spend 40 Shards: +1 reroll, heal 15%", 1f,
                         new[] { Fx(RunEventEffectKind.SpendShards, 40f), Fx(RunEventEffectKind.AddReroll, 1f), Fx(RunEventEffectKind.HealFraction, 0.15f) }),
                     Opt("LEAVE", "Keep your Shards", 1f)),

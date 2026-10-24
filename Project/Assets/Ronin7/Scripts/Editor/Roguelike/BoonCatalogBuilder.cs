@@ -72,7 +72,7 @@ namespace Ronin7.EditorTools
             new BoonSpec
             {
                 AssetName = "Whetstone", Id = BoonId.Whetstone,
-                DisplayName = "Whetstone", Description = "+8% blade damage per stack.",
+                DisplayName = "Salvager's Whetstone", Description = "+8% blade damage per stack.",
                 Rarity = BoonRarity.Common, Effect = BoonEffectKind.BladeDamageMultiplier,
                 // A plain in-run damage Common, not tied to any meta upgrade — normal 3-stack headroom
                 // is enough, and a slightly higher per-stack rate than KeenEdge keeps it worth taking
@@ -200,7 +200,7 @@ namespace Ronin7.EditorTools
             // (BoonPackId) until bought; elemental tags also own the S8 Imbue element (RunDirector.ElementsFor). ----
 
             // Kensei (parry)
-            B("IronWall", BoonId.IronWall, "Iron Wall", "Perfect-parry window +0.02 s per stack.", BoonRarity.Common, BoonTag.Parry, BoonEffectKind.ParryWindow, 0.1667f, 2),
+            B("IronWall", BoonId.IronWall, "Iron Dojo Wall", "Perfect-parry window +0.02 s per stack.", BoonRarity.Common, BoonTag.Parry, BoonEffectKind.ParryWindow, 0.1667f, 2),
             B("LongStagger", BoonId.LongStagger, "Long Stagger", "+20% enemy stagger duration per stack.", BoonRarity.Common, BoonTag.Parry, BoonEffectKind.StaggerDuration, 0.2f, 2),
             B("Riposte", BoonId.Riposte, "Riposte", "Unlocks Riposte: the hit after a perfect parry deals bonus damage. Extra stacks +25%.", BoonRarity.Rare, BoonTag.Parry,
                 BoonEffectKind.GrantAbility, 0f, 2, AbilityId.Riposte, BoonEffectKind.RiposteDamage, 0.25f),
@@ -211,7 +211,7 @@ namespace Ronin7.EditorTools
             B("QuickDraw", BoonId.QuickDraw, "Quick Draw", "Unlocks Quick Draw for this run.", BoonRarity.Rare, BoonTag.Executioner, BoonEffectKind.GrantAbility, 0f, 1, AbilityId.QuickDraw),
             B("HeavyHand", BoonId.HeavyHand, "Heavy Hand", "+25% posture damage per stack.", BoonRarity.Common, BoonTag.Executioner, BoonEffectKind.PostureDamage, 0.25f, 3),
             B("Guillotine", BoonId.Guillotine, "Guillotine", "Posture breaks deal triple bonus damage.", BoonRarity.Rare, BoonTag.Executioner, BoonEffectKind.PostureBreakBonus, 2f, 1),
-            B("Headhunter", BoonId.Headhunter, "Headhunter", "+25% precision-hit damage per stack.", BoonRarity.Common, BoonTag.Executioner, BoonEffectKind.Precision, 0.25f, 3),
+            B("Headhunter", BoonId.Headhunter, "Drovis Bounty", "+25% precision-hit damage per stack.", BoonRarity.Common, BoonTag.Executioner, BoonEffectKind.Precision, 0.25f, 3),
 
             // Dancer (flow)
             B("MomentumKeeper", BoonId.MomentumKeeper, "Momentum Keeper", "Combo window +0.4 s per stack.", BoonRarity.Common, BoonTag.Flow, BoonEffectKind.ComboWindow, 0.4f, 2),
@@ -232,7 +232,7 @@ namespace Ronin7.EditorTools
             B("Afterimage", BoonId.Afterimage, "Afterimage", "+1 Phase Step charge per stack.", BoonRarity.Rare, BoonTag.Ability, BoonEffectKind.PhaseCharges, 1f, 2, AbilityId.PhaseStep),
             B("Overclock", BoonId.Overclock, "Overclock", "Overdrive charges 50% faster; hits during Overdrive heal 1 HP.", BoonRarity.Rare, BoonTag.Ability,
                 BoonEffectKind.OverdriveCharge, 0.5f, 1, AbilityId.Overdrive, BoonEffectKind.OverdriveLifesteal, 1f),
-            B("EchoTwin", BoonId.EchoTwin, "Echo Twin", "Mirror twin lasts 10 s longer.", BoonRarity.Rare, BoonTag.Ability, BoonEffectKind.MirrorDuration, 10f, 1, AbilityId.Mirror),
+            B("EchoTwin", BoonId.EchoTwin, "Shadow Twin", "Mirror twin lasts 10 s longer.", BoonRarity.Rare, BoonTag.Ability, BoonEffectKind.MirrorDuration, 10f, 1, AbilityId.Mirror),
 
             // Bulwark
             B("LacqueredArmor", BoonId.LacqueredArmor, "Lacquered Armor", "-8% damage taken per stack.", BoonRarity.Common, BoonTag.Bulwark, BoonEffectKind.DamageReduction, 0.08f, 3),
@@ -241,7 +241,7 @@ namespace Ronin7.EditorTools
             // Curses (a strong upside paid for by a negative secondary)
             B("GlassEdge", BoonId.GlassEdge, "Glass Edge", "+35% blade damage, but -25 max HP.", BoonRarity.Rare, BoonTag.Curse,
                 BoonEffectKind.BladeDamageMultiplier, 0.35f, 1, null, BoonEffectKind.MaxHealthAdd, -25f),
-            B("BloodPrice", BoonId.BloodPrice, "Blood Price", "Heal 8 HP on every kill, but the Forge can no longer mend.", BoonRarity.Rare, BoonTag.Curse,
+            B("BloodPrice", BoonId.BloodPrice, "Coil Tithe", "Heal 8 HP on every kill, but the Forge can no longer mend.", BoonRarity.Rare, BoonTag.Curse,
                 BoonEffectKind.HealOnKill, 8f, 1, null, BoonEffectKind.ForgeMend, -1f),
             B("RecklessFlow", BoonId.RecklessFlow, "Reckless Flow", "+12% parry-flow bonus, but any imperfect parry breaks the streak.", BoonRarity.Rare, BoonTag.Curse | BoonTag.Parry,
                 BoonEffectKind.ParryFlowBonus, 0.12f, 1, null, BoonEffectKind.RecklessFlow, -1f),

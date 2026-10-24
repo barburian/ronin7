@@ -37,6 +37,9 @@ except ImportError:
 # Speaker to voice mapping: (voice_name, rate, pitch)
 SPEAKER_VOICES = {
     "Kessler": ("en-US-GuyNeural", "-5%", "+0Hz"),
+    # P6-04 run bosses (Maelgorn reuses his EP33 casting below)
+    "Warden": ("en-US-RogerNeural", "-12%", "-14Hz"),
+    "Vane": ("en-US-AndrewNeural", "-6%", "-4Hz"),
     "Ronin-7": ("en-US-SteffanNeural", "-10%", "-10Hz"),
     "Khall": ("en-GB-RyanNeural", "-15%", "-15Hz"),
     "Empire Trooper 1": ("en-US-ChristopherNeural", "+5%", "-5Hz"),

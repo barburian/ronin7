@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11f686103b7e396438a2039b3f865b04, type: 3}
   m_Name: Gamble
   m_EditorClassIdentifier: Ronin7.Flow::Ronin7.Flow.RunEventDefinition
-  title: Gamble
+  title: Velorum Wager
   body: "A cracked die spins in the air. Fortune or pain \u2014 even odds."
   optionA:
     label: ROLL THE DIE
