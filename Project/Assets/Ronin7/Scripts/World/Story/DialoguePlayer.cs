@@ -172,6 +172,8 @@ namespace Ronin7.World.Story
                     displayDuration = Mathf.Max(line.seconds, line.clip.length + 0.4f);
                 }
 
+                EventBus.Publish(new SubtitleLine(line.speaker, line.text, displayDuration + autoAdvanceBeat)); // P6-03: SubtitleDisplay listens
+
                 yield return WaitForAdvance(displayDuration);
             }
 

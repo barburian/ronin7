@@ -233,6 +233,7 @@ namespace Ronin7.Flow
             enemiesDefeatedAtRunStart = CampaignStats.EnemiesDefeated;
             ApplyStartingBonuses();
             RunTally.Reset();
+            RunTally.SampleAssist(); // P6-03
             RunLog.Append(new RunLogEntry { utc = DateTime.UtcNow.ToString("o"), seed = seed, evt = "start", build = BuildTag() });
             EventBus.Publish(new RunStarted(seed));
             WriteRunSnapshot();
@@ -1287,6 +1288,7 @@ namespace Ronin7.Flow
                 affixCounts = RunTally.Affixes(),
                 boonOffers = RunTally.Offers(),
                 path = new List<int>(RunState.Path).ToArray(),
+                assisted = RunTally.Assisted,
             };
         }
 
@@ -1376,11 +1378,12 @@ namespace Ronin7.Flow
             // Snapshot the result BEFORE RunState.End() wipes it (deferred to SceneLoadRoutine, but
             // capture here so nothing else can clear it first), then persist the lifetime totals this
             // run just changed — Save() had no callers at all, so none of it survived the session.
+            RunTally.SampleAssist(); // P6-03
             RunSummary.Capture(
                 depth, won,
                 CampaignStats.EnemiesDefeated - enemiesDefeatedAtRunStart,
                 RunState.Boons.Count,
-                echoes);
+                echoes, RunTally.Assisted);
             MetaProgression.Save();
             RunLog.Append(BuildLogEntry(depth, won, echoes));
             // After the bank is saved (a crash in between must not lose the Echoes): the run is over,

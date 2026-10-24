@@ -29,9 +29,18 @@ namespace Ronin7.Core
         public static int BoonsHeld { get; private set; }
         public static int EchoesEarned { get; private set; }
 
+        /// <summary>P6-03: an assist was on during the run. Echoes bank normally (D-06); this only labels the result.</summary>
+        public static bool Assisted { get; private set; }
+
+        public const string AssistedLabel = "ASSISTED RUN";
+
+        /// <summary>P6-03: win/lose accent without a red/green pair: blue vs amber (distinct for all common colour-blindness).</summary>
+        public static Color OutcomeAccent(bool won) => won ? new Color(0.4f, 0.75f, 1f) : new Color(1f, 0.7f, 0.25f);
+
         /// <summary>Records a finished run. Called by RunDirector.EndRun BEFORE RunState.End() runs.</summary>
-        public static void Capture(int depth, bool won, int enemiesKilled, int boonsHeld, int echoesEarned)
+        public static void Capture(int depth, bool won, int enemiesKilled, int boonsHeld, int echoesEarned, bool assisted = false)
         {
+            Assisted = assisted;
             Depth = Mathf.Max(0, depth);
             Won = won;
             EnemiesKilled = Mathf.Max(0, enemiesKilled);
@@ -50,6 +59,7 @@ namespace Ronin7.Core
             EnemiesKilled = 0;
             BoonsHeld = 0;
             EchoesEarned = 0;
+            Assisted = false;
         }
 
         // ---- Pure formatters. Public, not internal: the summary panel that consumes them lives in

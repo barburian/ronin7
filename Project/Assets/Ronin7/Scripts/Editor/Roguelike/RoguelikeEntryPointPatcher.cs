@@ -37,6 +37,7 @@ namespace Ronin7.EditorTools
             RoguePatchRunArenaWristHud();
             RoguePatchRunArenaComfortRows();
             RoguePatchComfortOptionRows();
+            RoguePatchAccessibility();
             AssetDatabase.SaveAssets();
         }
 
@@ -71,6 +72,33 @@ namespace Ronin7.EditorTools
                     changed |= SettingsPanelBuilder.AddComfortOptionRows(panel);
                 if (!changed) { Debug.Log("[RogueEntry] Comfort option rows already present in " + path); continue; }
                 Debug.Log("[RogueEntry] Added P6-02 comfort option rows to " + path);
+                EditorSceneManager.MarkSceneDirty(scene);
+                EditorSceneManager.SaveScene(scene);
+            }
+        }
+
+        /// <summary>P6-03: second settings column (UI scale, assists, subtitles), UiScaleFollower on the wrist HUD and
+        /// main menu, and a SubtitleDisplay, in Phase6_Boot and RunArena. Additive and idempotent.</summary>
+        [MenuItem("Tools/Space Samurai/Roguelike/Patch Accessibility (P6-03)", priority = 512)]
+        public static void RoguePatchAccessibility()
+        {
+            foreach (var path in new[] { RogueBootScenePath, RogueRunArenaScenePath })
+            {
+                var scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
+                bool changed = false;
+                foreach (var panel in Object.FindObjectsByType<Ronin7.Audio.SettingsPanel>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+                    changed |= SettingsPanelBuilder.AddAccessibilityColumn(panel);
+                foreach (var hud in Object.FindObjectsByType<Ronin7.Flow.RunHudPanel>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+                    if (hud.GetComponent<Ronin7.Core.UiScaleFollower>() == null) { hud.gameObject.AddComponent<Ronin7.Core.UiScaleFollower>(); changed = true; }
+                foreach (var menu in Object.FindObjectsByType<Ronin7.Flow.MainMenuController>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+                    if (menu.GetComponent<Ronin7.Core.UiScaleFollower>() == null) { menu.gameObject.AddComponent<Ronin7.Core.UiScaleFollower>(); changed = true; }
+                if (Object.FindAnyObjectByType<Ronin7.Flow.SubtitleDisplay>(FindObjectsInactive.Include) == null)
+                {
+                    new GameObject("Subtitles").AddComponent<Ronin7.Flow.SubtitleDisplay>();
+                    changed = true;
+                }
+                if (!changed) { Debug.Log("[RogueEntry] Accessibility already present in " + path); continue; }
+                Debug.Log("[RogueEntry] Added P6-03 accessibility to " + path);
                 EditorSceneManager.MarkSceneDirty(scene);
                 EditorSceneManager.SaveScene(scene);
             }

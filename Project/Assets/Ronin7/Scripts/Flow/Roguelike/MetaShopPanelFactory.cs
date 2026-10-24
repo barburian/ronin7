@@ -61,6 +61,7 @@ namespace Ronin7.Flow
             // P4-10: back to the P2-01 1000x800 footprint (arm reach); the sections now live on tabbed pages.
             rt.sizeDelta = new Vector2(1000f, 800f);
             rt.localScale = Vector3.one * 0.001f;
+            rt.gameObject.AddComponent<UiScaleFollower>(); // P6-03
             BoonOfferPanel.Place(rt, targetCamera.transform);
             UiKit.Frame(canvasGo.AddComponent<Image>(), UiKit.Cyan);
             var accent = new Color(0.5f, 0.9f, 1f);

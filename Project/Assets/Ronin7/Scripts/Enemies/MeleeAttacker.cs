@@ -120,6 +120,15 @@ namespace Ronin7.Enemies
             return t * t * (3f - 2f * t);
         }
 
+        /// <summary>P6-03: the windup rim pulses (2 Hz rising to 6 Hz) so the telegraph is not colour-only. With Reduce
+        /// Flashes the rim is capped first and the pulse is a slow shallow sine inside that cap (A14.5).</summary>
+        private Color PulsedTelegraphRim(Color rim, float progress)
+        {
+            bool reduce = GameSettings.Active.ReduceFlashes;
+            pulsePhase = AccessibilityOptions.AdvancePhase(pulsePhase, progress, Time.deltaTime, reduce);
+            return ComfortOptions.Rim(rim, reduce) * AccessibilityOptions.TelegraphPulse(pulsePhase, reduce);
+        }
+
         /// <summary>Pure (P1-15): ease-out strike 0..1, done after <see cref="StrikeFraction"/> of Active.</summary>
         public static float StrikePoseProgress(float elapsed, float activeTime)
         {
@@ -137,6 +146,7 @@ namespace Ronin7.Enemies
         private PlayerCombatModifiers playerMods; // resolved with target; read for the Sight gold rim
         private Color lastRim; // last rim actually applied (Idle/Chase only re-tint when it would change)
         private float flashTimer;
+        private float pulsePhase; // P6-03: windup rim pulse phase, in cycles
         private float telegraph; // this attack's telegraph (base + off-cone grace), set in BeginAttack
         private Color edgeColor = Color.white;
 
@@ -364,7 +374,7 @@ namespace Ronin7.Enemies
                     PoseWeapon(restEuler, windupEuler, draw);
                     PoseBody(0f, 1f, draw);
                     Tint(Color.Lerp(IdleColor, TelegraphColor, timer / telegraph),
-                         Color.Lerp(RestRim, TelegraphRim, timer / telegraph));
+                         PulsedTelegraphRim(Color.Lerp(RestRim, TelegraphRim, timer / telegraph), timer / telegraph));
                     if (timer >= telegraph)
                     {
                         Log("STRIKE");

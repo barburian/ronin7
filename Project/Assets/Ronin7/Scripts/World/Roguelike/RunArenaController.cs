@@ -176,6 +176,7 @@ namespace Ronin7.World
 
             // Audio (and anything else) reacts to the node's sector/kind via the EventBus rather than a
             // hard reference into this assembly — see RunNodeEntered's doc comment.
+            RunTally.SampleAssist(); // P6-03
             EventBus.Publish(new RunNodeEntered(node.Sector, node.Kind));
 
             halfExtent = arenaHalfExtent > 0f ? arenaHalfExtent : RunScaling.ArenaHalfExtent(node.Kind);

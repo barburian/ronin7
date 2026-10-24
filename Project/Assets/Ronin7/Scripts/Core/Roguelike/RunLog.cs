@@ -32,6 +32,7 @@ namespace Ronin7.Core
         public string[] affixCounts; // "Volatile:n"
         public string[] boonOffers;  // one per boon pick screen: "offeredA,offeredB,offeredC>picked" (picked empty = none)
         public int[] path;           // P5-08 (append-only): node ids walked, start..end (end lines; the boot map table reads it)
+        public bool assisted;        // P6-03 (append-only): an assist (damage taken < 100% or enemy cooldown > x1) was on at any point
     }
 
     /// <summary>P4-00a: per-run counters behind the extra <see cref="RunLogEntry"/> fields. Reset at run start.</summary>
@@ -42,12 +43,18 @@ namespace Ronin7.Core
         private static readonly List<string> offers = new List<string>();
         private static readonly Dictionary<string, int> affixes = new Dictionary<string, int>();
         public static int Elites, Resisted, Exploited;
+        /// <summary>P6-03: sticks once any assist was on during the run, even if the player turns it off again.</summary>
+        public static bool Assisted;
 
         public static void Reset()
         {
             spawns.Clear(); kills.Clear(); affixes.Clear(); offers.Clear();
             Elites = Resisted = Exploited = 0;
+            Assisted = false;
         }
+
+        /// <summary>Called at run start, on each node entry and at run end.</summary>
+        public static void SampleAssist() => Assisted |= AccessibilityOptions.IsAssisted(GameSettings.Active);
 
         public static void NoteSpawn(string archetype, bool elite = false)
         {

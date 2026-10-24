@@ -1,3 +1,4 @@
+using Ronin7.Core;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit.UI;
@@ -30,6 +31,7 @@ namespace Ronin7.Flow
             var rt = canvas.GetComponent<RectTransform>();
             rt.sizeDelta = new Vector2(600f, 400f);
             rt.localScale = Vector3.one * 0.001f;
+            rt.gameObject.AddComponent<UiScaleFollower>(); // P6-03
             // Pin 1m in front of the eyes at eye height, facing the camera.
             var camT = targetCamera.transform;
             rt.position = camT.position + camT.forward * 1.0f;

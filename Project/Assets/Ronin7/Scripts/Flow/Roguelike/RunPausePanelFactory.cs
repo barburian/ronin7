@@ -1,3 +1,4 @@
+using Ronin7.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -31,6 +32,7 @@ namespace Ronin7.Flow
             var rt = canvas.GetComponent<RectTransform>();
             rt.sizeDelta = new Vector2(620f, 860f);
             rt.localScale = Vector3.one * 0.001f; // 1 px = 1 mm
+            rt.gameObject.AddComponent<UiScaleFollower>(); // P6-03
 
             var camT = targetCamera.transform;
             Vector3 fwd = camT.forward;

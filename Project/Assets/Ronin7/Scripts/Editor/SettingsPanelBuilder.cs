@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Ronin7.Audio;
+using Ronin7.Core;
 using Ronin7.Player;
 using Unity.XR.CoreUtils;
 using UnityEditor;
@@ -211,6 +212,7 @@ namespace Ronin7.EditorTools
 
             AddComfortRows(panel);
             AddComfortOptionRows(panel);
+            AddAccessibilityColumn(panel);
             return panel;
         }
 
@@ -258,6 +260,61 @@ namespace Ronin7.EditorTools
             SetRef(so, "vignetteStrengthLabel", vigLabel);
             so.ApplyModifiedPropertiesWithoutUndo();
             return true;
+        }
+
+        /// <summary>P6-03: the panel was ~1.47 m tall in one column, so this makes it two. The seven comfort rows
+        /// that P2-09/P6-02 appended at the bottom move to a second column (they were the last thing laid out, so
+        /// the canvas shrinks by their height and the rest drops back by half of it), then UI Scale / Damage Taken /
+        /// Enemy Cooldown / Subtitles are added under them. Widens the canvas by one 600 px column. Idempotent.</summary>
+        internal static bool AddAccessibilityColumn(SettingsPanel panel)
+        {
+            var so = new SerializedObject(panel);
+            if (so.FindProperty("uiScaleSlider").objectReferenceValue != null) return false;
+
+            var rt = panel.GetComponent<RectTransform>();
+            var moved = new List<RectTransform>();
+            foreach (var name in new[] { "seatedToggle", "leftHandedToggle", "teleportToggle", "hapticSlider", "reduceFlashesToggle", "slowMoSlider", "vignetteStrengthSlider" })
+            {
+                var c = so.FindProperty(name).objectReferenceValue as Component;
+                if (c != null) moved.Add((RectTransform)c.transform.parent); // each control sits in a 70 px "Row"
+            }
+
+            float removed = moved.Count * 70f;
+            foreach (RectTransform child in rt)
+            {
+                if (moved.Contains(child)) continue;
+                child.anchoredPosition += new Vector2(-300f, -removed * 0.5f);
+            }
+            rt.sizeDelta = new Vector2(rt.sizeDelta.x + 600f, rt.sizeDelta.y - removed);
+
+            float top = rt.sizeDelta.y * 0.5f - 75f; // same top margin as the SETTINGS title
+            float y = top;
+            MakeTitle(rt, "COMFORT & ACCESS", ref y);
+            RectTransform titleRt = (RectTransform)rt.GetChild(rt.childCount - 1);
+            titleRt.anchoredPosition = new Vector2(300f, top);
+            foreach (var row in moved)
+            {
+                row.anchoredPosition = new Vector2(300f, y);
+                y -= 70f;
+            }
+
+            AddColumnRow(so, "uiScaleSlider", MakeSlider(rt, "UI Scale: 1.0x", AccessibilityOptions.UiScaleMin, AccessibilityOptions.UiScaleMax, 1f, ref y, out var uiLabel), y + 70f, uiLabel, "uiScaleLabel");
+            AddColumnRow(so, "damageTakenSlider", MakeSlider(rt, "Damage Taken: 100%", AccessibilityOptions.DamageTakenMin, 1f, 1f, ref y, out var dmgLabel), y + 70f, dmgLabel, "damageTakenLabel");
+            AddColumnRow(so, "cooldownSlider", MakeSlider(rt, "Enemy Cooldown: x1.0", 1f, AccessibilityOptions.CooldownScaleMax, 1f, ref y, out var cdLabel), y + 70f, cdLabel, "cooldownLabel");
+            var subs = MakeToggle(rt, "Subtitles", ref y);
+            ((RectTransform)subs.transform.parent).anchoredPosition = new Vector2(300f, y + 70f);
+            SetRef(so, "subtitlesToggle", subs);
+            so.ApplyModifiedPropertiesWithoutUndo();
+
+            if (panel.GetComponent<UiScaleFollower>() == null) panel.gameObject.AddComponent<UiScaleFollower>();
+            return true;
+        }
+
+        private static void AddColumnRow(SerializedObject so, string sliderProp, Slider slider, float y, Text label, string labelProp)
+        {
+            ((RectTransform)slider.transform.parent).anchoredPosition = new Vector2(300f, y);
+            SetRef(so, sliderProp, slider);
+            SetRef(so, labelProp, label);
         }
 
         private static Button MakeButton(RectTransform parent, string label, Color tint, ref float y)

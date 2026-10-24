@@ -38,6 +38,10 @@ namespace Ronin7.Audio
         internal const string KeyReduceFlashes = "ss.reduceFlashes";
         internal const string KeySlowMo = "ss.slowMoFloor";
         internal const string KeyVignetteStrength = "ss.vignetteStrength";
+        internal const string KeyUiScale = "ss.uiScale";
+        internal const string KeyDamageTaken = "ss.damageTaken";
+        internal const string KeyEnemyCooldown = "ss.enemyCooldownScale";
+        internal const string KeySubtitles = "ss.subtitles";
 
         private GameSettings settings;
 
@@ -177,6 +181,30 @@ namespace Ronin7.Audio
             Persist(); Apply();
         }
 
+        public void SetUiScale(float v)
+        {
+            settings.UiScale = AccessibilityOptions.ClampUiScale(v);
+            Persist(); Apply();
+        }
+
+        public void SetDamageTaken(float v)
+        {
+            settings.DamageTaken = AccessibilityOptions.ClampDamageTaken(v);
+            Persist(); Apply();
+        }
+
+        public void SetEnemyCooldownScale(float v)
+        {
+            settings.EnemyCooldownScale = AccessibilityOptions.ClampCooldownScale(v);
+            Persist(); Apply();
+        }
+
+        public void SetSubtitles(bool on)
+        {
+            settings.Subtitles = on;
+            Persist(); Apply();
+        }
+
         /// <summary>Push the current settings onto whatever live systems exist in the loaded scene(s).</summary>
         public void Apply()
         {
@@ -242,6 +270,11 @@ namespace Ronin7.Audio
                 ReduceFlashes = PlayerPrefs.GetInt(KeyReduceFlashes, d.ReduceFlashes ? 1 : 0) != 0,
                 SlowMoFloor = ComfortOptions.ClampSlowMoFloor(PlayerPrefs.GetFloat(KeySlowMo, d.SlowMoFloor)),
                 VignetteStrength = Mathf.Clamp01(PlayerPrefs.GetFloat(KeyVignetteStrength, d.VignetteStrength)),
+                // P6-03: absent on older installs -> defaults; hand-edited values are clamped.
+                UiScale = AccessibilityOptions.ClampUiScale(PlayerPrefs.GetFloat(KeyUiScale, d.UiScale)),
+                DamageTaken = AccessibilityOptions.ClampDamageTaken(PlayerPrefs.GetFloat(KeyDamageTaken, d.DamageTaken)),
+                EnemyCooldownScale = AccessibilityOptions.ClampCooldownScale(PlayerPrefs.GetFloat(KeyEnemyCooldown, d.EnemyCooldownScale)),
+                Subtitles = PlayerPrefs.GetInt(KeySubtitles, d.Subtitles ? 1 : 0) != 0,
             };
         }
 
@@ -265,6 +298,10 @@ namespace Ronin7.Audio
             PlayerPrefs.SetInt(KeyReduceFlashes, settings.ReduceFlashes ? 1 : 0);
             PlayerPrefs.SetFloat(KeySlowMo, settings.SlowMoFloor);
             PlayerPrefs.SetFloat(KeyVignetteStrength, settings.VignetteStrength);
+            PlayerPrefs.SetFloat(KeyUiScale, settings.UiScale);
+            PlayerPrefs.SetFloat(KeyDamageTaken, settings.DamageTaken);
+            PlayerPrefs.SetFloat(KeyEnemyCooldown, settings.EnemyCooldownScale);
+            PlayerPrefs.SetInt(KeySubtitles, settings.Subtitles ? 1 : 0);
             PlayerPrefs.Save();
         }
     }

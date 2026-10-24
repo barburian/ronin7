@@ -40,14 +40,16 @@ namespace Ronin7.Flow
             UiKit.Frame(canvasGo.AddComponent<Image>(), UiKit.Cyan);
 
             bool won = RunSummary.Won;
-            // Win/loss must be unambiguous at a glance: colour AND wording, never colour alone.
-            var accent = won ? new Color(0.45f, 0.95f, 0.55f) : new Color(1f, 0.45f, 0.4f);
+            // Win/loss must be unambiguous at a glance: colour AND wording, never colour alone (P6-03: blue/amber, no red/green).
+            var accent = RunSummary.OutcomeAccent(won);
 
             float y = 380f;
             AddText(rt, RunSummary.FormatOutcome(won), 56, true, accent, ref y, 90f, title: true);
             AddText(rt, RunSummary.FormatOutcomeDetail(won, RunSummary.Depth), 28, false,
                 new Color(0.85f, 0.85f, 0.85f), ref y, 70f);
 
+            if (RunSummary.Assisted)
+                AddText(rt, RunSummary.AssistedLabel, 30, true, new Color(1f, 0.85f, 0.4f), ref y, 44f); // P6-03
             y -= 20f;
             AddRow(rt, "ROOMS CLEARED", RunSummary.FormatDepth(RunSummary.Depth, won), ref y);
             AddRow(rt, "ENEMIES DEFEATED", RunSummary.EnemiesKilled.ToString(), ref y);
@@ -63,6 +65,7 @@ namespace Ronin7.Flow
 
             var dismiss = BuildDismissButton(rt);
 
+            canvasGo.AddComponent<UiScaleFollower>(); // P6-03
             var panel = canvasGo.AddComponent<RunSummaryPanel>();
             panel.dismissButton = dismiss;
             // Must follow the assignment above: AddComponent already ran Awake.

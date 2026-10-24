@@ -205,7 +205,7 @@ namespace Ronin7.Enemies
             float now = Time.unscaledTime;
             if (now >= fxEnd) return 1f;
             float t = now - fxStart;
-            return fxPulse ? 1f + 0.4f * Mathf.Abs(Mathf.Sin(t * Mathf.PI * 3f)) // 3 beats a second
+            return fxPulse ? 1f + 0.4f * Mathf.Abs(Mathf.Sin(t * Mathf.PI * AccessibilityOptions.WeakPointBeatHz(GameSettings.Active.ReduceFlashes))) // 3 beats a second (1.5 with Reduce Flashes)
                            : 1f + 0.5f * (1f - t / (fxEnd - fxStart));         // pop, then settle
         }
 
@@ -399,7 +399,7 @@ namespace Ronin7.Enemies
         {
             if (++chainDone < definition.chainHits) { chainDeadline = Time.time + RecoverTime + ChainGrace; return; }
             chainDone = 0;
-            nextAttackTime = Time.time + definition.attackCooldown;
+            nextAttackTime = Time.time + AccessibilityOptions.Cooldown(definition.attackCooldown, GameSettings.Active.EnemyCooldownScale); // P6-03 assist
         }
 
         /// <summary>P3-04: slide the body by <paramref name="delta"/> (flattened) over <paramref name="seconds"/>

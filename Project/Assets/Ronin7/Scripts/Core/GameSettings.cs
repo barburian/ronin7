@@ -45,6 +45,12 @@ namespace Ronin7.Core
         public float SlowMoFloor;      // 0.25..0.5: slowest allowed deflect / Zanshin / Overdrive time scale
         public float VignetteStrength; // 0..1 multiplier on the comfort vignette
 
+        // P6-03 accessibility. Zero (unset) reads as the default via AccessibilityOptions.Clamp*.
+        public float UiScale;            // 1..1.5 multiplier on the world-space panels
+        public float DamageTaken;        // 0.5..1 multiplier on damage the player takes (assist)
+        public float EnemyCooldownScale; // 1..1.5 multiplier on enemy attack cooldowns (assist)
+        public bool Subtitles;           // VO subtitles band (default on)
+
         /// <summary>Seated-play eye lift (metres) added on top of the calibrated <see cref="EyeHeightOffset"/>.</summary>
         public const float SeatedEyeOffset = 0.45f;
 
@@ -75,6 +81,10 @@ namespace Ronin7.Core
             ReduceFlashes = false,
             SlowMoFloor = ComfortOptions.SlowMoFloorMin,
             VignetteStrength = 1f,
+            UiScale = 1f,
+            DamageTaken = 1f,
+            EnemyCooldownScale = 1f,
+            Subtitles = true,
         };
     }
 

@@ -42,6 +42,15 @@ namespace Ronin7.Audio
         [SerializeField] private Slider vignetteStrengthSlider; // 0..1
         [SerializeField] private Text vignetteStrengthLabel;
 
+        [Header("Accessibility (P6-03)")]
+        [SerializeField] private Slider uiScaleSlider;      // 1..1.5
+        [SerializeField] private Text uiScaleLabel;
+        [SerializeField] private Slider damageTakenSlider;  // 0.5..1 (assist)
+        [SerializeField] private Text damageTakenLabel;
+        [SerializeField] private Slider cooldownSlider;     // 1..1.5 enemy attack cooldown (assist)
+        [SerializeField] private Text cooldownLabel;
+        [SerializeField] private Toggle subtitlesToggle;
+
         [Header("Volume (0..1)")]
         [SerializeField] private Slider sfxSlider;
         [SerializeField] private Slider musicSlider;
@@ -70,6 +79,10 @@ namespace Ronin7.Audio
             if (reduceFlashesToggle != null) reduceFlashesToggle.onValueChanged.AddListener(OnReduceFlashesChanged);
             if (slowMoSlider != null) slowMoSlider.onValueChanged.AddListener(OnSlowMoChanged);
             if (vignetteStrengthSlider != null) vignetteStrengthSlider.onValueChanged.AddListener(OnVignetteStrengthChanged);
+            if (uiScaleSlider != null) uiScaleSlider.onValueChanged.AddListener(v => OnA11yChanged(() => SettingsService.Instance.SetUiScale(v)));
+            if (damageTakenSlider != null) damageTakenSlider.onValueChanged.AddListener(v => OnA11yChanged(() => SettingsService.Instance.SetDamageTaken(v)));
+            if (cooldownSlider != null) cooldownSlider.onValueChanged.AddListener(v => OnA11yChanged(() => SettingsService.Instance.SetEnemyCooldownScale(v)));
+            if (subtitlesToggle != null) subtitlesToggle.onValueChanged.AddListener(v => OnA11yChanged(() => SettingsService.Instance.SetSubtitles(v)));
             if (sfxSlider != null) sfxSlider.onValueChanged.AddListener(OnSfxChanged);
             if (musicSlider != null) musicSlider.onValueChanged.AddListener(OnMusicChanged);
             if (ambienceSlider != null) ambienceSlider.onValueChanged.AddListener(OnAmbienceChanged);
@@ -108,6 +121,10 @@ namespace Ronin7.Audio
             if (reduceFlashesToggle != null) reduceFlashesToggle.isOn = s.ReduceFlashes;
             if (slowMoSlider != null) slowMoSlider.value = s.SlowMoFloor;
             if (vignetteStrengthSlider != null) vignetteStrengthSlider.value = s.VignetteStrength;
+            if (uiScaleSlider != null) uiScaleSlider.value = AccessibilityOptions.ClampUiScale(s.UiScale);
+            if (damageTakenSlider != null) damageTakenSlider.value = AccessibilityOptions.ClampDamageTaken(s.DamageTaken);
+            if (cooldownSlider != null) cooldownSlider.value = AccessibilityOptions.ClampCooldownScale(s.EnemyCooldownScale);
+            if (subtitlesToggle != null) subtitlesToggle.isOn = s.Subtitles;
             if (sfxSlider != null) sfxSlider.value = s.SfxVolume;
             if (musicSlider != null) musicSlider.value = s.MusicVolume;
             if (ambienceSlider != null) ambienceSlider.value = s.AmbienceVolume;
@@ -122,6 +139,17 @@ namespace Ronin7.Audio
             if (hapticLabel != null) hapticLabel.text = $"Haptics: {Mathf.RoundToInt(s.HapticIntensity * 100f)}%";
             if (slowMoLabel != null) slowMoLabel.text = $"Slow-mo Speed: {Mathf.RoundToInt(s.SlowMoFloor * 100f)}%";
             if (vignetteStrengthLabel != null) vignetteStrengthLabel.text = $"Vignette: {Mathf.RoundToInt(s.VignetteStrength * 100f)}%";
+            if (uiScaleLabel != null) uiScaleLabel.text = $"UI Scale: {AccessibilityOptions.ClampUiScale(s.UiScale):0.0}x";
+            if (damageTakenLabel != null) damageTakenLabel.text = $"Damage Taken: {Mathf.RoundToInt(AccessibilityOptions.ClampDamageTaken(s.DamageTaken) * 100f)}%";
+            if (cooldownLabel != null) cooldownLabel.text = $"Enemy Cooldown: x{AccessibilityOptions.ClampCooldownScale(s.EnemyCooldownScale):0.0}";
+        }
+
+        // The listeners are lambdas added once in Awake; the closure allocates per slider move, not per frame.
+        private void OnA11yChanged(System.Action set)
+        {
+            if (initializing || SettingsService.Instance == null) return;
+            set();
+            UpdateOptionLabels(SettingsService.Instance.Current);
         }
 
         private void OnHapticChanged(float v)

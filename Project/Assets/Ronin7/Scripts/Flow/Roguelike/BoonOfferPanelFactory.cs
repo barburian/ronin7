@@ -1,3 +1,4 @@
+using Ronin7.Core;
 using System.Collections.Generic;
 using Ronin7.Combat;
 using TMPro;
@@ -41,6 +42,7 @@ namespace Ronin7.Flow
             var rt = canvas.GetComponent<RectTransform>();
             rt.sizeDelta = new Vector2(1000f, 680f); // P5-07b: taller cards (icon + 28 px body)
             rt.localScale = Vector3.one * 0.001f;
+            rt.gameObject.AddComponent<UiScaleFollower>(); // P6-03
             BoonOfferPanel.Place(rt, targetCamera.transform);
 
             UiKit.Frame(canvasGo.AddComponent<Image>(), UiKit.Cyan);
@@ -100,6 +102,7 @@ namespace Ronin7.Flow
             var rt = canvas.GetComponent<RectTransform>();
             rt.sizeDelta = new Vector2(1000f, 760f); // P5-07b: taller cards (icon + 28 px body)
             rt.localScale = Vector3.one * 0.001f;
+            rt.gameObject.AddComponent<UiScaleFollower>(); // P6-03
             BoonOfferPanel.Place(rt, targetCamera.transform);
 
             UiKit.Frame(canvasGo.AddComponent<Image>(), UiKit.Cyan, 1f); // opaque: the glowing exit gates sit right behind it
