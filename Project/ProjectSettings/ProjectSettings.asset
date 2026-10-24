@@ -148,11 +148,9 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
-  bundleVersion: 0.6.0
+  bundleVersion: 0.7.0
   preloadedAssets:
   - {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  - {fileID: -1169634617618473745, guid: 76c0542218e1d12469df214e1444debc, type: 2}
-  - {fileID: -1269455305691671338, guid: cb883c508af8aad499b7da6bcb96b240, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   xboxOneDisableKinectGpuReservation: 1
@@ -181,7 +179,7 @@ PlayerSettings:
     iPhone: 0
     tvOS: 0
   overrideDefaultApplicationIdentifier: 1
-  AndroidBundleVersionCode: 6
+  AndroidBundleVersionCode: 8
   AndroidMinSdkVersion: 32
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
@@ -290,7 +288,7 @@ PlayerSettings:
   AndroidEnableTango: 0
   androidEnableBanner: 1
   androidUseLowAccuracyLocation: 0
-  androidUseCustomKeystore: 0
+  androidUseCustomKeystore: 1
   m_AndroidBanners:
   - width: 320
     height: 180
@@ -842,25 +840,25 @@ PlayerSettings:
   webWasm2023: 0
   webEnableSubmoduleStrippingCompatibility: 0
   scriptingDefineSymbols:
-    Android: USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS;SENTIS_ANALYTICS_ENABLED;APP_UI_EDITOR_ONLY;UNITY_MCP_READY;UNITY_MCP_DEPS_7
-    EmbeddedLinux: UNITY_MCP_READY;UNITY_MCP_DEPS_7
-    GameCoreScarlett: UNITY_MCP_READY;UNITY_MCP_DEPS_7
-    GameCoreXboxOne: UNITY_MCP_READY;UNITY_MCP_DEPS_7
-    Kepler: UNITY_MCP_READY;UNITY_MCP_DEPS_7
-    LinuxHeadlessSimulation: UNITY_MCP_READY;UNITY_MCP_DEPS_7
-    Nintendo Switch: UNITY_MCP_READY;UNITY_MCP_DEPS_7
-    Nintendo Switch 2: UNITY_MCP_READY;UNITY_MCP_DEPS_7
-    PS4: UNITY_MCP_READY;UNITY_MCP_DEPS_7
-    PS5: UNITY_MCP_READY;UNITY_MCP_DEPS_7
-    QNX: UNITY_MCP_READY;UNITY_MCP_DEPS_7
-    Server: UNITY_MCP_READY;UNITY_MCP_DEPS_7
-    Standalone: APP_UI_EDITOR_ONLY;USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS;SENTIS_ANALYTICS_ENABLED;UNITY_MCP_READY;UNITY_MCP_DEPS_7
-    VisionOS: UNITY_MCP_READY;UNITY_MCP_DEPS_7
-    WebGL: UNITY_MCP_READY;UNITY_MCP_DEPS_7
-    Windows Store Apps: USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS;UNITY_MCP_READY;UNITY_MCP_DEPS_7
-    XboxOne: UNITY_MCP_READY;UNITY_MCP_DEPS_7
-    iPhone: UNITY_MCP_READY;UNITY_MCP_DEPS_7
-    tvOS: UNITY_MCP_READY;UNITY_MCP_DEPS_7
+    Android: USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS;SENTIS_ANALYTICS_ENABLED;APP_UI_EDITOR_ONLY;UNITY_MCP_READY;UNITY_MCP_DEPS_17
+    EmbeddedLinux: UNITY_MCP_READY;UNITY_MCP_DEPS_17
+    GameCoreScarlett: UNITY_MCP_READY;UNITY_MCP_DEPS_17
+    GameCoreXboxOne: UNITY_MCP_READY;UNITY_MCP_DEPS_17
+    Kepler: UNITY_MCP_READY;UNITY_MCP_DEPS_17
+    LinuxHeadlessSimulation: UNITY_MCP_READY;UNITY_MCP_DEPS_17
+    Nintendo Switch: UNITY_MCP_READY;UNITY_MCP_DEPS_17
+    Nintendo Switch 2: UNITY_MCP_READY;UNITY_MCP_DEPS_17
+    PS4: UNITY_MCP_READY;UNITY_MCP_DEPS_17
+    PS5: UNITY_MCP_READY;UNITY_MCP_DEPS_17
+    QNX: UNITY_MCP_READY;UNITY_MCP_DEPS_17
+    Server: UNITY_MCP_READY;UNITY_MCP_DEPS_17
+    Standalone: APP_UI_EDITOR_ONLY;USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS;SENTIS_ANALYTICS_ENABLED;UNITY_MCP_READY;UNITY_MCP_DEPS_17
+    VisionOS: UNITY_MCP_READY;UNITY_MCP_DEPS_17
+    WebGL: UNITY_MCP_READY;UNITY_MCP_DEPS_17
+    Windows Store Apps: USE_INPUT_SYSTEM_POSE_CONTROL;USE_STICK_CONTROL_THUMBSTICKS;UNITY_MCP_READY;UNITY_MCP_DEPS_17
+    XboxOne: UNITY_MCP_READY;UNITY_MCP_DEPS_17
+    iPhone: UNITY_MCP_READY;UNITY_MCP_DEPS_17
+    tvOS: UNITY_MCP_READY;UNITY_MCP_DEPS_17
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
@@ -882,8 +880,8 @@ PlayerSettings:
   editorAssembliesCompatibilityLevel: 1
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: My project (3)
-  metroPackageVersion: 
+  metroPackageName: Myproject3
+  metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
@@ -891,7 +889,7 @@ PlayerSettings:
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: My project (3)
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: Ronin 7
   metroTileShowName: 0
   metroMediumTileShowName: 0
   metroLargeTileShowName: 0
@@ -937,7 +935,13 @@ PlayerSettings:
   XboxOneXTitleMemory: 8
   XboxOneOverrideIdentityName: 
   XboxOneOverrideIdentityPublisher: 
-  cloudServicesEnabled: {}
+  cloudServicesEnabled:
+    Build: 0
+    Game Performance: 0
+    Legacy Analytics: 0
+    Purchasing: 0
+    UDP: 0
+    Unity Ads: 0
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -960,11 +964,11 @@ PlayerSettings:
   activeInputHandler: 1
   windowsGamepadBackendHint: 0
   enableDirectStorage: 0
-  cloudProjectId: aa205cdb-c9d4-4d6e-bf9c-e6a74c920874
+  cloudProjectId: da6424c6-2f37-4bd2-9409-2419c6564ecf
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: My project (3) 2026-05-20_20-27-38
-  organizationId: barburian
+  projectName: Ronin 7
+  organizationId: cookingwithbobi
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
