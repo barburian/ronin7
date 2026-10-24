@@ -72,7 +72,7 @@ namespace Ronin7.Player
         {
             if (mods == null) mods = GetComponentInParent<PlayerCombatModifiers>();
             if (!logic.TryTrigger(Time.unscaledTime, SkillRig.CooldownScale(mods))) return;
-            TimeScaleArbiter.SetRequest(TimeScaleChannel.Zanshin, ZanshinLogic.Scale);
+            TimeScaleArbiter.SetRequest(TimeScaleChannel.Zanshin, ComfortOptions.SlowMoScale(ZanshinLogic.Scale, GameSettings.Active.SlowMoFloor));
         }
 
         private void Release()

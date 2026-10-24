@@ -157,7 +157,7 @@ namespace Ronin7.Player
         {
             if (timeScaleApplied) return;
             SetDamageBonus(OverdriveDamageMultiplier);
-            TimeScaleArbiter.SetRequest(TimeScaleChannel.Overdrive, overdriveTimeScale);
+            TimeScaleArbiter.SetRequest(TimeScaleChannel.Overdrive, ComfortOptions.SlowMoScale(overdriveTimeScale, GameSettings.Active.SlowMoFloor));
             timeScaleApplied = true;
             Burning = true;
         }

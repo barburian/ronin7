@@ -149,6 +149,8 @@ namespace Ronin7.Ship
         /// circular. Body is an exact mirror of <see cref="Ronin7.Player.Haptics.Pulse"/>.</summary>
         private static void Pulse(XRNode node, float amplitude, float duration)
         {
+            amplitude = Ronin7.Core.ComfortOptions.HapticAmplitude(amplitude, Ronin7.Core.GameSettings.Active.HapticIntensity);
+            if (!Ronin7.Core.ComfortOptions.HapticAudible(amplitude)) return;
             var device = InputDevices.GetDeviceAtXRNode(node);
             if (!device.isValid) return;
             if (device.TryGetHapticCapabilities(out var caps) && caps.supportsImpulse)

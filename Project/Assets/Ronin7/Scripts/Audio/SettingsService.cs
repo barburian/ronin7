@@ -34,6 +34,10 @@ namespace Ronin7.Audio
         internal const string KeySeated = "ss.seated";
         internal const string KeyLeftHanded = "ss.leftHanded";
         internal const string KeyLocomotion = "ss.locomotion";
+        internal const string KeyHaptic = "ss.hapticIntensity";
+        internal const string KeyReduceFlashes = "ss.reduceFlashes";
+        internal const string KeySlowMo = "ss.slowMoFloor";
+        internal const string KeyVignetteStrength = "ss.vignetteStrength";
 
         private GameSettings settings;
 
@@ -149,6 +153,30 @@ namespace Ronin7.Audio
             Persist(); Apply();
         }
 
+        public void SetHapticIntensity(float v)
+        {
+            settings.HapticIntensity = Mathf.Clamp01(v);
+            Persist(); Apply();
+        }
+
+        public void SetReduceFlashes(bool on)
+        {
+            settings.ReduceFlashes = on;
+            Persist(); Apply();
+        }
+
+        public void SetSlowMoFloor(float v)
+        {
+            settings.SlowMoFloor = ComfortOptions.ClampSlowMoFloor(v);
+            Persist(); Apply();
+        }
+
+        public void SetVignetteStrength(float v)
+        {
+            settings.VignetteStrength = Mathf.Clamp01(v);
+            Persist(); Apply();
+        }
+
         /// <summary>Push the current settings onto whatever live systems exist in the loaded scene(s).</summary>
         public void Apply()
         {
@@ -209,6 +237,11 @@ namespace Ronin7.Audio
                 Seated = PlayerPrefs.GetInt(KeySeated, d.Seated ? 1 : 0) != 0,
                 LeftHanded = PlayerPrefs.GetInt(KeyLeftHanded, d.LeftHanded ? 1 : 0) != 0,
                 Locomotion = (LocomotionMode)PlayerPrefs.GetInt(KeyLocomotion, (int)d.Locomotion),
+                // P6-02: absent on older installs -> pre-P6 behaviour; hand-edited values are clamped.
+                HapticIntensity = Mathf.Clamp01(PlayerPrefs.GetFloat(KeyHaptic, d.HapticIntensity)),
+                ReduceFlashes = PlayerPrefs.GetInt(KeyReduceFlashes, d.ReduceFlashes ? 1 : 0) != 0,
+                SlowMoFloor = ComfortOptions.ClampSlowMoFloor(PlayerPrefs.GetFloat(KeySlowMo, d.SlowMoFloor)),
+                VignetteStrength = Mathf.Clamp01(PlayerPrefs.GetFloat(KeyVignetteStrength, d.VignetteStrength)),
             };
         }
 
@@ -228,6 +261,10 @@ namespace Ronin7.Audio
             PlayerPrefs.SetInt(KeySeated, settings.Seated ? 1 : 0);
             PlayerPrefs.SetInt(KeyLeftHanded, settings.LeftHanded ? 1 : 0);
             PlayerPrefs.SetInt(KeyLocomotion, (int)settings.Locomotion);
+            PlayerPrefs.SetFloat(KeyHaptic, settings.HapticIntensity);
+            PlayerPrefs.SetInt(KeyReduceFlashes, settings.ReduceFlashes ? 1 : 0);
+            PlayerPrefs.SetFloat(KeySlowMo, settings.SlowMoFloor);
+            PlayerPrefs.SetFloat(KeyVignetteStrength, settings.VignetteStrength);
             PlayerPrefs.Save();
         }
     }

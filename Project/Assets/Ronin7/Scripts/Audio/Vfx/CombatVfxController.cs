@@ -184,7 +184,7 @@ namespace Ronin7.Audio.Vfx
             switch (enemy != null ? enemy.VfxClass : MaterialClass.Organic)
             {
                 case MaterialClass.Mech:     // amber streaks + a white flash
-                    Emit(streak, e.Point, n); Emit(hitFlash, e.Point, 2, WhiteTint); break;
+                    Emit(streak, e.Point, n); if (!GameSettings.Active.ReduceFlashes) Emit(hitFlash, e.Point, 2, WhiteTint); break;
                 case MaterialClass.Spectral: // cyan/violet wisps drifting up
                     Emit(wisp, e.Point, n); Emit(wisp, e.Point, n / 2, VioletTint); break;
                 case MaterialClass.Armored:  // short white-gold
@@ -203,7 +203,7 @@ namespace Ronin7.Audio.Vfx
         {
             if (latch.Suppresses(e.Entity)) return;
             HandledCount++;
-            Emit(hitFlash, e.Info.Point, DamageBurst);
+            if (!GameSettings.Active.ReduceFlashes) Emit(hitFlash, e.Info.Point, DamageBurst); // P6-02
         }
         private void OnDied(EntityDied e)
         {

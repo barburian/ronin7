@@ -92,7 +92,7 @@ namespace Ronin7.Player
         private void OnDeflect(SwordDeflected e)
         {
             PulseBoth(0.8f, 0.12f);
-            TimeScaleArbiter.SetRequest(TimeScaleChannel.DeflectSlowMo, deflectTimeScale);
+            TimeScaleArbiter.SetRequest(TimeScaleChannel.DeflectSlowMo, ComfortOptions.SlowMoScale(deflectTimeScale, GameSettings.Active.SlowMoFloor));
             slowMoEndUnscaled = Time.unscaledTime + deflectRealSeconds;
         }
 
@@ -106,7 +106,7 @@ namespace Ronin7.Player
             Haptics.Pulse(XRNode.RightHand, 0.6f * w.y, 0.18f);
 
             if (vignette == null) vignette = Ronin7.Ship.VignetteRig.Ensure(head.GetComponent<Camera>());
-            if (vignette != null) vignette.Flash(hitFlashColor, hitFlashStrength, hitFlashSeconds);
+            if (vignette != null && !GameSettings.Active.ReduceFlashes) vignette.Flash(hitFlashColor, hitFlashStrength, hitFlashSeconds);
         }
 
         /// <summary>(left, right) haptic weights for a hit from <paramref name="source"/>. The near hand gets

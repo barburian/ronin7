@@ -153,7 +153,7 @@ namespace Ronin7.Ship
 
         private void PunchVignette()
         {
-            if (hitVignette <= 0f) return;
+            if (hitVignette <= 0f || Ronin7.Core.GameSettings.Active.ReduceFlashes) return; // P6-02
             if (vignette == null) vignette = VignetteRig.Ensure(Camera.main);
             if (vignette != null) vignette.SetIntensity(hitVignette);
         }

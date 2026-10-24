@@ -39,6 +39,12 @@ namespace Ronin7.Core
         public bool LeftHanded;          // off-hand (HUD, haptics) = right; UI ray + katana holster mirrored
         public LocomotionMode Locomotion; // Smooth (default) or Teleport on the move stick
 
+        // P6-02 comfort options. Defaults (see Default) reproduce pre-P6 behaviour.
+        public float HapticIntensity;  // 0..1 multiplier on every Haptics.Pulse
+        public bool ReduceFlashes;     // no vignette flash / hit flash / bloom spike; steady capped enemy rims
+        public float SlowMoFloor;      // 0.25..0.5: slowest allowed deflect / Zanshin / Overdrive time scale
+        public float VignetteStrength; // 0..1 multiplier on the comfort vignette
+
         /// <summary>Seated-play eye lift (metres) added on top of the calibrated <see cref="EyeHeightOffset"/>.</summary>
         public const float SeatedEyeOffset = 0.45f;
 
@@ -65,6 +71,10 @@ namespace Ronin7.Core
             Seated = false,
             LeftHanded = false,
             Locomotion = LocomotionMode.Smooth,
+            HapticIntensity = 1f,
+            ReduceFlashes = false,
+            SlowMoFloor = ComfortOptions.SlowMoFloorMin,
+            VignetteStrength = 1f,
         };
     }
 

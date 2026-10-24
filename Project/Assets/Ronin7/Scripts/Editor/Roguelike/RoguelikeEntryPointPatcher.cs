@@ -36,6 +36,7 @@ namespace Ronin7.EditorTools
             RoguePatchBootMenu();
             RoguePatchRunArenaWristHud();
             RoguePatchRunArenaComfortRows();
+            RoguePatchComfortOptionRows();
             AssetDatabase.SaveAssets();
         }
 
@@ -55,6 +56,24 @@ namespace Ronin7.EditorTools
             Debug.Log("[RogueEntry] Added Seated / Left-Handed / Teleport rows to RunArena's settings panel.");
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
+        }
+
+        /// <summary>P6-02: add the Haptics / Reduce Flashes / Slow-mo / Vignette rows to the boot and RunArena
+        /// settings panels. Additive and idempotent (see <see cref="SettingsPanelBuilder.AddComfortOptionRows"/>).</summary>
+        [MenuItem("Tools/Space Samurai/Roguelike/Patch Comfort Option Rows (P6-02)", priority = 511)]
+        public static void RoguePatchComfortOptionRows()
+        {
+            foreach (var path in new[] { RogueBootScenePath, RogueRunArenaScenePath })
+            {
+                var scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
+                bool changed = false;
+                foreach (var panel in Object.FindObjectsByType<Ronin7.Audio.SettingsPanel>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+                    changed |= SettingsPanelBuilder.AddComfortOptionRows(panel);
+                if (!changed) { Debug.Log("[RogueEntry] Comfort option rows already present in " + path); continue; }
+                Debug.Log("[RogueEntry] Added P6-02 comfort option rows to " + path);
+                EditorSceneManager.MarkSceneDirty(scene);
+                EditorSceneManager.SaveScene(scene);
+            }
         }
 
         private const string RogueRunArenaScenePath = SceneFolder + "/RunArena.unity";

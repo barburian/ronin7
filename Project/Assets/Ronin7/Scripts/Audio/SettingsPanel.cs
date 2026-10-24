@@ -33,6 +33,15 @@ namespace Ronin7.Audio
         [SerializeField] private Toggle leftHandedToggle; // on = HUD on right controller, ray + holster mirrored
         [SerializeField] private Toggle teleportToggle;   // on = Teleport locomotion, off = Smooth (default)
 
+        [Header("Haptics / Comfort options (P6-02)")]
+        [SerializeField] private Slider hapticSlider;          // 0..1
+        [SerializeField] private Text hapticLabel;
+        [SerializeField] private Toggle reduceFlashesToggle;   // on = no flashes / bloom spikes, steady rims
+        [SerializeField] private Slider slowMoSlider;          // 0.25..0.5 slowest allowed slow-mo scale
+        [SerializeField] private Text slowMoLabel;
+        [SerializeField] private Slider vignetteStrengthSlider; // 0..1
+        [SerializeField] private Text vignetteStrengthLabel;
+
         [Header("Volume (0..1)")]
         [SerializeField] private Slider sfxSlider;
         [SerializeField] private Slider musicSlider;
@@ -57,6 +66,10 @@ namespace Ronin7.Audio
             if (seatedToggle != null) seatedToggle.onValueChanged.AddListener(OnSeatedChanged);
             if (leftHandedToggle != null) leftHandedToggle.onValueChanged.AddListener(OnLeftHandedChanged);
             if (teleportToggle != null) teleportToggle.onValueChanged.AddListener(OnTeleportChanged);
+            if (hapticSlider != null) hapticSlider.onValueChanged.AddListener(OnHapticChanged);
+            if (reduceFlashesToggle != null) reduceFlashesToggle.onValueChanged.AddListener(OnReduceFlashesChanged);
+            if (slowMoSlider != null) slowMoSlider.onValueChanged.AddListener(OnSlowMoChanged);
+            if (vignetteStrengthSlider != null) vignetteStrengthSlider.onValueChanged.AddListener(OnVignetteStrengthChanged);
             if (sfxSlider != null) sfxSlider.onValueChanged.AddListener(OnSfxChanged);
             if (musicSlider != null) musicSlider.onValueChanged.AddListener(OnMusicChanged);
             if (ambienceSlider != null) ambienceSlider.onValueChanged.AddListener(OnAmbienceChanged);
@@ -91,12 +104,52 @@ namespace Ronin7.Audio
             if (seatedToggle != null) seatedToggle.isOn = s.Seated;
             if (leftHandedToggle != null) leftHandedToggle.isOn = s.LeftHanded;
             if (teleportToggle != null) teleportToggle.isOn = s.Locomotion == LocomotionMode.Teleport;
+            if (hapticSlider != null) hapticSlider.value = s.HapticIntensity;
+            if (reduceFlashesToggle != null) reduceFlashesToggle.isOn = s.ReduceFlashes;
+            if (slowMoSlider != null) slowMoSlider.value = s.SlowMoFloor;
+            if (vignetteStrengthSlider != null) vignetteStrengthSlider.value = s.VignetteStrength;
             if (sfxSlider != null) sfxSlider.value = s.SfxVolume;
             if (musicSlider != null) musicSlider.value = s.MusicVolume;
             if (ambienceSlider != null) ambienceSlider.value = s.AmbienceVolume;
             initializing = false;
 
             UpdateSnapLabel(s.SnapTurnDegrees);
+            UpdateOptionLabels(s);
+        }
+
+        private void UpdateOptionLabels(GameSettings s)
+        {
+            if (hapticLabel != null) hapticLabel.text = $"Haptics: {Mathf.RoundToInt(s.HapticIntensity * 100f)}%";
+            if (slowMoLabel != null) slowMoLabel.text = $"Slow-mo Speed: {Mathf.RoundToInt(s.SlowMoFloor * 100f)}%";
+            if (vignetteStrengthLabel != null) vignetteStrengthLabel.text = $"Vignette: {Mathf.RoundToInt(s.VignetteStrength * 100f)}%";
+        }
+
+        private void OnHapticChanged(float v)
+        {
+            if (initializing || SettingsService.Instance == null) return;
+            SettingsService.Instance.SetHapticIntensity(v);
+            UpdateOptionLabels(SettingsService.Instance.Current);
+            Ronin7.Player.Haptics.Pulse(UnityEngine.XR.XRNode.RightHand, 0.6f, 0.08f); // let the player feel the new level
+        }
+
+        private void OnReduceFlashesChanged(bool v)
+        {
+            if (initializing || SettingsService.Instance == null) return;
+            SettingsService.Instance.SetReduceFlashes(v);
+        }
+
+        private void OnSlowMoChanged(float v)
+        {
+            if (initializing || SettingsService.Instance == null) return;
+            SettingsService.Instance.SetSlowMoFloor(v);
+            UpdateOptionLabels(SettingsService.Instance.Current);
+        }
+
+        private void OnVignetteStrengthChanged(float v)
+        {
+            if (initializing || SettingsService.Instance == null) return;
+            SettingsService.Instance.SetVignetteStrength(v);
+            UpdateOptionLabels(SettingsService.Instance.Current);
         }
 
         private void OnSnapTurnChanged(bool v)

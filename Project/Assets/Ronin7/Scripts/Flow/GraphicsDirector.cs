@@ -137,7 +137,7 @@ namespace Ronin7.Flow
 
         private void Update()
         {
-            bool on = OverdriveController.Burning && GraphicsRuntime.Quality == GraphicsQuality.High;
+            bool on = OverdriveController.Burning && GraphicsRuntime.Quality == GraphicsQuality.High && !GameSettings.Active.ReduceFlashes; // P6-02: no bloom spike
             if (on == overdriveBoosted || bloom == null) return;
             overdriveBoosted = on;
             bloom.intensity.Override(BloomFor(true, on));

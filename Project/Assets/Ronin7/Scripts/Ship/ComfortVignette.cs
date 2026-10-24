@@ -34,7 +34,7 @@ namespace Ronin7.Ship
         private float flashStrength, flashDuration, flashEndUnscaled = -1f;
 
         /// <summary>Request a vignette strength this frame (0 = open, 1 = tightest). Latest call wins.</summary>
-        public void SetIntensity(float value) => target = Mathf.Clamp01(value);
+        public void SetIntensity(float value) => target = Ronin7.Core.ComfortOptions.VignetteIntensity(value, Ronin7.Core.GameSettings.Active.VignetteStrength);
 
         /// <summary>Brief tinted edge flash (e.g. damage). Overlays the comfort state without touching
         /// it: the ring shows max(comfort, fading flash) and tints toward <paramref name="c"/>.</summary>

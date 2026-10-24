@@ -210,6 +210,7 @@ namespace Ronin7.EditorTools
             }
 
             AddComfortRows(panel);
+            AddComfortOptionRows(panel);
             return panel;
         }
 
@@ -231,6 +232,30 @@ namespace Ronin7.EditorTools
             SetRef(so, "seatedToggle", MakeToggle(rt, "Seated Play", ref y));
             SetRef(so, "leftHandedToggle", MakeToggle(rt, "Left-Handed", ref y));
             SetRef(so, "teleportToggle", MakeToggle(rt, "Teleport Movement", ref y));
+            so.ApplyModifiedPropertiesWithoutUndo();
+            return true;
+        }
+
+        /// <summary>P6-02: appends Haptics / Reduce Flashes / Slow-mo / Vignette rows, same growth scheme
+        /// as <see cref="AddComfortRows"/>. P6-03 appends below these the same way. Idempotent.</summary>
+        internal static bool AddComfortOptionRows(SettingsPanel panel)
+        {
+            var so = new SerializedObject(panel);
+            if (so.FindProperty("hapticSlider").objectReferenceValue != null) return false;
+
+            const float added = 280f; // 4 rows x 70
+            var rt = panel.GetComponent<RectTransform>();
+            foreach (RectTransform child in rt) child.anchoredPosition += new Vector2(0f, added * 0.5f);
+            rt.sizeDelta += new Vector2(0f, added);
+
+            float y = -rt.sizeDelta.y * 0.5f + added - 35f; // centre of the first new row
+            SetRef(so, "hapticSlider", MakeSlider(rt, "Haptics: 100%", 0f, 1f, 1f, ref y, out var hapticLabel));
+            SetRef(so, "hapticLabel", hapticLabel);
+            SetRef(so, "reduceFlashesToggle", MakeToggle(rt, "Reduce Flashes", ref y));
+            SetRef(so, "slowMoSlider", MakeSlider(rt, "Slow-mo Speed: 25%", 0.25f, 0.5f, 0.25f, ref y, out var slowLabel));
+            SetRef(so, "slowMoLabel", slowLabel);
+            SetRef(so, "vignetteStrengthSlider", MakeSlider(rt, "Vignette: 100%", 0f, 1f, 1f, ref y, out var vigLabel));
+            SetRef(so, "vignetteStrengthLabel", vigLabel);
             so.ApplyModifiedPropertiesWithoutUndo();
             return true;
         }

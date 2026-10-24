@@ -45,7 +45,7 @@ namespace Ronin7.Core
             _mpb.SetColor(ColorId, c);
             _mpb.SetColor(BaseColorId, c);
             _mpb.SetColor(BaseColorFactorId, c);
-            _mpb.SetColor(RimColorId, rim);
+            _mpb.SetColor(RimColorId, ComfortOptions.Rim(rim, GameSettings.Active.ReduceFlashes)); // P6-02: steady, capped rim
             r.SetPropertyBlock(_mpb);
         }
 
@@ -55,7 +55,7 @@ namespace Ronin7.Core
             if (r == null) return;
             if (_mpb == null) _mpb = new MaterialPropertyBlock();
             r.GetPropertyBlock(_mpb);
-            _mpb.SetFloat(FlashAmountId, amount);
+            _mpb.SetFloat(FlashAmountId, ComfortOptions.FlashAmount(amount, GameSettings.Active.ReduceFlashes)); // P6-02
             r.SetPropertyBlock(_mpb);
         }
     }
