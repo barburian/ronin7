@@ -708,6 +708,7 @@ namespace Ronin7.Flow
             offerPanel.ChoiceSelected += OnBoonChoiceSelected;
             offerPanel.RerollRequested += OnRerollRequested;
             offerFallbackDeadline = Time.unscaledTime + BoonOfferFallbackSeconds;
+            EventBus.Publish(new BoonOffered());
         }
 
         /// <summary>What the offer should show, given the pure conditions that decide it. A7.2's

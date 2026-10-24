@@ -115,6 +115,9 @@ namespace Ronin7.Audio
             Persist(); Apply();
         }
 
+        /// <summary>P6-01: 0-1 slider to mixer dB, <c>20*log10(max(v, 0.0001))</c> (0 gives -80 dB, 1 gives 0 dB).</summary>
+        public static float VolumeToDb(float v) => 20f * Mathf.Log10(Mathf.Max(v, 0.0001f));
+
         public void SetSfxVolume(float v)
         {
             settings.SfxVolume = Mathf.Clamp01(v);

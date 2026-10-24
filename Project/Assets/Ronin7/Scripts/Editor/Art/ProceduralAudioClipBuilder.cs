@@ -306,14 +306,14 @@ namespace Ronin7.Editor.Art
         /// through Unity's AudioImporter -- AudioClip.Create + AssetDatabase.CreateAsset does NOT persist
         /// PCM data to disk, which previously produced empty (m_Length: 0) clip stubs. Overwriting the same
         /// path on repeat runs keeps the same asset GUID, so existing scene/prefab references survive.</summary>
-        private static void CreateOrUpdateClip(string path, float[] samples)
+        internal static void CreateOrUpdateClip(string path, float[] samples, int sampleRate = SampleRate)
         {
             string fullPath = Path.Combine(Path.GetDirectoryName(Application.dataPath), path);
             using (var stream = new FileStream(fullPath, FileMode.Create))
             using (var writer = new BinaryWriter(stream))
             {
                 const int channels = 1, bitsPerSample = 16;
-                int byteRate = SampleRate * channels * bitsPerSample / 8;
+                int byteRate = sampleRate * channels * bitsPerSample / 8;
                 short blockAlign = (short)(channels * bitsPerSample / 8);
                 int dataSize = samples.Length * channels * bitsPerSample / 8;
 
@@ -324,7 +324,7 @@ namespace Ronin7.Editor.Art
                 writer.Write(16); // fmt chunk size
                 writer.Write((short)1); // PCM
                 writer.Write((short)channels);
-                writer.Write(SampleRate);
+                writer.Write(sampleRate);
                 writer.Write(byteRate);
                 writer.Write(blockAlign);
                 writer.Write((short)bitsPerSample);
@@ -337,7 +337,7 @@ namespace Ronin7.Editor.Art
             AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceSynchronousImport);
         }
 
-        private static void EnsureFolder(string assetPath)
+        internal static void EnsureFolder(string assetPath)
         {
             if (AssetDatabase.IsValidFolder(assetPath)) return;
             string parent = Path.GetDirectoryName(assetPath)?.Replace('\\', '/');

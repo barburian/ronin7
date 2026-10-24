@@ -791,6 +791,7 @@ namespace Ronin7.EditorTools
             var audio = gameGo.AddComponent<AudioDirector>();
             var (audioAssigned, _) = AudioClipWiring.Wire(audio);
             Debug.Log($"[Space Samurai] Auto-wired {audioAssigned} audio clip(s) onto the AudioDirector.");
+            Ronin7.Editor.RunAudioBuilder.Wire(audio); // P6-01: run music, cues, mixer and groups (no-op for any asset not yet generated)
 
             // Persistent settings owner (loads PlayerPrefs, re-applies per scene) and the Quest
             // perf/quality scaffolding. Both no-op gracefully before assets/devices are present.
@@ -879,8 +880,7 @@ namespace Ronin7.EditorTools
                       $"if you haven't ({ZoneScenePath}, {SpaceCombatScenePath}). " +
                       "VERIFY in the Inspector: the Right Hand's XR Ray Interactor → UI Press Input → " +
                       "Input Action Reference Performed is set to 'Right Hand/Select' (rebuilds can re-null it). " +
-                      "TODO: AudioDirector has no menu-music API yet — wire menu ambience/music when " +
-                      "that API is added (out of scope for this builder).");
+                      "Menu ambience: AudioDirector plays its menuAmbience bed until a run node sets a sector bed (P6-01).");
         }
 
         // ---- Main-menu helpers. Duplicated from SettingsPanelBuilder per the karpathy guideline:

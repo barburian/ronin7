@@ -35,6 +35,9 @@ namespace Ronin7.Core
         public ObjectGrabbed(Transform hand) { Hand = hand; }
     }
 
+    /// <summary>P6-01: the boon offer panel was shown (audio chime; no payload).</summary>
+    public readonly struct BoonOffered { }
+
     /// <summary>Published when the player picks a boon from an offer.</summary>
     public readonly struct BoonChosen
     {

@@ -21,6 +21,7 @@ namespace Ronin7.Audio
         [SerializeField, Range(4, 64)] private int capacity = 16;
 
         private AudioSource[] sources;
+        private UnityEngine.Audio.AudioMixerGroup output;
         private float[] freeAtUnscaled;
 
         private void Awake()
@@ -35,8 +36,16 @@ namespace Ronin7.Audio
                 src.playOnAwake = false;
                 src.loop = false;
                 src.spatialBlend = 1f; // 3D, matches PlayClipAtPoint
+                src.outputAudioMixerGroup = output;
                 sources[i] = src;
             }
+        }
+
+        /// <summary>P6-01: routes every pooled source to a mixer group (the director sets this right after AddComponent, before Awake builds them is not guaranteed, so existing sources are updated too).</summary>
+        public void SetOutput(UnityEngine.Audio.AudioMixerGroup group)
+        {
+            output = group;
+            if (sources != null) foreach (var s in sources) s.outputAudioMixerGroup = group;
         }
 
         /// <summary>
