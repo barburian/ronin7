@@ -1349,7 +1349,7 @@ In `ArtPrefabBuilder`:
 - Show the loadout rack (P4-08).
 
 ### P5 exit
-- [~] Export Gate. **G6 is the critical one:** measure every biome on Quest 2 and Quest 3. *(Part A, 2026-10-24: G1 EditMode 1860/0/0, G2 PlayMode 16/16, in-editor G6 proxy (node 1 + worst case, Mobile + PC) and the Mobile whole-arena render check done; G3/G4 builds + device install: part B; G5/G6 device numbers/G8 on device still owed. Every biome was probed at its own P5-05 step; this exit re-probe is Rust.)*
+- [~] Export Gate. **G6 is the critical one:** measure every biome on Quest 2 and Quest 3. *(Part A, 2026-10-24: G1 EditMode 1860/0/0, G2 PlayMode 16/16, in-editor G6 proxy (node 1 + worst case, Mobile + PC) and the Mobile whole-arena render check done; G3/G4 builds + device install done in part B (0 errors, v0.6.0 / 6 installed); G5/G6 device numbers/G8 on device still owed. Every biome was probed at its own P5-05 step; this exit re-probe is Rust.)*
 - [ ] Use a Memory Profiler snapshot for texture memory, and RenderDoc Meta for overdraw (≤ 2 full-screen layers). *(device, owed)*
 - [~] Tag `roguelike-phase5`, version `0.6.0`. *(Version done: `bundleVersion` 0.6.0, `AndroidBundleVersionCode` 6. Not tagged yet: tag after part B + device sign-off.)*
 
@@ -1376,6 +1376,7 @@ In `ArtPrefabBuilder`:
   | G6 worst case | PC | 139 | 60 | 36.1k | 22 | 0.187 | 0 | PASS (PCVR) |
 
   Mobile whole-arena render check (Phase6_Boot -> StartRun -> RunArena, time frozen on the spawn tick, Camera.main at 1.6 m in the SW corner looking across the arena, FOV 90, XR-rig renderers hidden, full URP post): node 1 Rust 01_8m with 2 enemies, Mobile luma **0.143** / PC 0.135, magenta 0; G6 boss room Rust 02_11m with boss + adds + Volatile ring, Mobile **0.158** / PC 0.150, magenta 0. Both read correctly: walls, amber lamp strips, grate floor, sky above the walls, enemies lit, no pink or black. Device-only risks this cannot show: Vulkan vs GLES3, multiview / single-pass instancing, HDR / tonemapping on the Quest compositor. GC ~10 KB/frame in both probes. **Builds + device install: part B.** Pending: AI hero meshes for mech + tree (user's image->3D runs); eye-core retopo (blocked by the Unity AI RetopologyMesh glTFast bug); HoloGlyph / fan / vine animation not done; skies are 1536x768 sources and may look soft in the headset; device frame time (OVR Metrics), Memory Profiler snapshot and RenderDoc overdraw still owed on device. Not tagged `roguelike-phase5`.
+- [~] **P5 exit, part B** (2026-10-24): G3 PCVR build (StandaloneWindows64, `BuildMenu.Build`, 20 scenes) **Succeeded, 0 errors**, 272 MB (285,210,735 B report size), 9 min 54 s -> `Builds/Windows/Ronin7_0.6.0.exe`. G4 Quest build (Android IL2CPP ARM64) **Succeeded, 0 errors**, APK 145 MB (151,988,908 B on disk), 9 min 03 s -> `Builds/Quest/Ronin7_0.6.0.apk`; aapt: `com.cookingwithbobistudios.ronin7` versionName **0.6.0** / versionCode **6**; apksigner: release keystore (DN O=CookingWithBobi Studios), `androidUseCustomKeystore` still 1. Installed on device: **yes** (Quest 3S, `adb install -r` Success, dumpsys versionName 0.6.0 / versionCode 6); headset was asleep, so no launch / logcat smoke test. **STOP for user playtest; tag `roguelike-phase5` NOT applied.**
 
 ---
 
