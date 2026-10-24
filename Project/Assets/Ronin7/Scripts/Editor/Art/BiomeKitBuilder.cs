@@ -144,7 +144,7 @@ namespace Ronin7.Editor.Art
                 new KitPiece { Name = "VentFan", Size = new Vector3(1.2f, 1.2f, 0.25f), MaxTris = 400, Build = VentFan },
                 // HERO: the user's image->3D broken mech once Raw/.../selected.glb exists; until then a kneeling block
                 // placeholder (Build). Either way probe-lit, max dimension 2.5 m, pivot bottom-centre, same prefab path.
-                new KitPiece { Name = "Hero_BrokenMech", Size = new Vector3(2.1f, 2.5f, 2.3f), MaxTris = 12000, HeroDiameter = 2.5f,
+                new KitPiece { Name = "Hero_BrokenMech", Size = new Vector3(2.1f, 2.5f, 2.3f), MaxTris = 11600, HeroDiameter = 2.5f,
                     SourceModel = RustRoot + "/Raw/Rust_Hero_BrokenMech_AI_Assets/selected.glb", Build = BrokenMechPlaceholder },
             },
         };
@@ -197,7 +197,7 @@ namespace Ronin7.Editor.Art
                 new KitPiece { Name = "VineCards", Size = new Vector3(1.15f, 2.6f, 0.1f), MaxTris = 100, Build = VineCards },
                 // HERO: the user's image->3D bioluminescent tree once Raw/.../selected.glb exists; until then a low-poly
                 // placeholder (Build). Probe-lit, max dimension 3.5 m, pivot bottom-centre, same prefab path.
-                new KitPiece { Name = "Hero_BioTree", Size = new Vector3(2.8f, 3.5f, 2.8f), MaxTris = 12000, HeroDiameter = 3.5f,
+                new KitPiece { Name = "Hero_BioTree", Size = new Vector3(2.8f, 3.5f, 2.8f), MaxTris = 8800, HeroDiameter = 3.5f,
                     SourceModel = GardenRoot + "/Raw/Garden_Hero_BioTree_AI_Assets/selected.glb", Build = BioTreePlaceholder },
             },
         };
