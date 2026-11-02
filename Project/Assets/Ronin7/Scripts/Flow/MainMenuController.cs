@@ -1,5 +1,7 @@
+using System.Collections;
 using Ronin7.Core;
 using UnityEngine;
+using UnityEngine.XR;
 using UnityEngine.UI;
 
 namespace Ronin7.Flow
@@ -31,6 +33,34 @@ namespace Ronin7.Flow
         private bool abandonArmed;
         private MetaShopPanel shop;
         private bool settingsHidMenu;
+
+        private void Start()
+        {
+            StartCoroutine(RecenterOnFirstHeadPose());
+        }
+
+        /// <summary>P7-03: once the HMD reports its first valid pose, recenter the rig once so the menu is
+        /// in front of the player. Gives up after 5 s (editor / no headset).</summary>
+        private IEnumerator RecenterOnFirstHeadPose()
+        {
+            var head = InputDevices.GetDeviceAtXRNode(XRNode.Head);
+            for (float t = 0f; t < 5f; t += Time.unscaledDeltaTime)
+            {
+                if (!head.isValid) head = InputDevices.GetDeviceAtXRNode(XRNode.Head);
+                bool tracked = head.isValid && head.TryGetFeatureValue(CommonUsages.isTracked, out bool v) && v;
+                var rig = Ronin7.Player.VRRig.Instance;
+                if (rig != null && rig.Head != null && IsHeadPoseValid(tracked, rig.Head.localPosition))
+                {
+                    Ronin7.Player.XRRecenterUtility.RecenterRig();
+                    yield break;
+                }
+                yield return null;
+            }
+        }
+
+        /// <summary>Head is tracked and the rig camera has moved off its zero pose. Pure. P7-03 test seam.</summary>
+        internal static bool IsHeadPoseValid(bool tracked, Vector3 localPos) =>
+            tracked && localPos.sqrMagnitude > 1e-6f;
 
         private void OnEnable()
         {
