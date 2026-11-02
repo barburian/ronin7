@@ -407,6 +407,51 @@ namespace Ronin7.Tests.EditMode
             }
         }
 
+        /// <summary>P7-05 (BUG-52): when the CHECKPOINT panel opens the exit gates are already raised (next
+        /// sector's entry), as after any other room's reward; CONTINUE is no longer the only way out.</summary>
+        [Test]
+        public void SectorCheckpoint_PanelUp_GatesAlreadyOffered()
+        {
+            var go = new GameObject("RunDirector");
+            var cam = new GameObject("cam") { tag = "MainCamera" };
+            cam.AddComponent<Camera>();
+            var esGo = new GameObject("es");
+            // EventSystem.OnEnable does not run in edit mode: register it like DiegeticUiTests does.
+            var registry = (List<UnityEngine.EventSystems.EventSystem>)typeof(UnityEngine.EventSystems.EventSystem)
+                .GetField("m_EventSystems", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
+            var es = esGo.AddComponent<UnityEngine.EventSystems.EventSystem>();
+            registry.Insert(0, es);
+            int[] offered = null;
+            Action<PathChoiceOffered> onOffer = o => offered = o.Choices;
+            EventBus.Subscribe(onOffer);
+            var director = go.AddComponent<RunDirector>();
+            var panelField = typeof(RunDirector).GetField("choicePanel", BindingFlags.NonPublic | BindingFlags.Instance);
+            try
+            {
+                RunState.Begin(7u);
+                while (RunState.CurrentNode.Kind != RoomKind.Boss) Assert.IsTrue(RunState.Advance(RunState.NextChoices[0]));
+                int entry = RunState.NextChoices[0];
+
+                typeof(RunDirector).GetMethod("ShowSectorPanel", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(director, null);
+
+                Assert.IsNotNull(panelField.GetValue(director), "CHECKPOINT panel is up");
+                Assert.IsNotNull(offered, "gates raised with the CHECKPOINT panel");
+                CollectionAssert.AreEqual(new[] { entry }, offered);
+                Assert.AreEqual(1, RunState.Map[entry].Sector);
+            }
+            finally
+            {
+                EventBus.Unsubscribe(onOffer);
+                var panel = panelField.GetValue(director) as BoonOfferPanel;
+                if (panel != null) UnityEngine.Object.DestroyImmediate(panel.gameObject);
+                RunState.Reset();
+                registry.Remove(es);
+                UnityEngine.Object.DestroyImmediate(esGo);
+                UnityEngine.Object.DestroyImmediate(cam);
+                UnityEngine.Object.DestroyImmediate(go);
+            }
+        }
+
         [Test]
         public void ClearEndingLatch_UnblocksLaterRuns()
         {

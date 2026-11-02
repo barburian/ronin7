@@ -798,11 +798,15 @@ namespace Ronin7.Flow
         private void ShowSectorPanel()
         {
             if (!RunState.InRun || EndingRun) return; // died or suspended during the title
+            // BUG-52: raise the exit gates now, as after any other room's reward, so walking through the arch
+            // works without CONTINUE (AdvanceTo dismisses this panel). CONTINUE re-offers the same path.
+            AdvanceNode();
+            if (pathChoices == null) return; // no out-edge: AdvanceNode ended the run
+            DismissChoicePanel(); // seated: the CHECKPOINT panel comes first; CONTINUE brings the path panel back
             choicePanel = BoonOfferPanelFactory.BuildCustom(Camera.main, "CHECKPOINT", "20% of your missing health restored.", 0, "CONTINUE", "SAVE & QUIT");
             if (choicePanel == null)
             {
-                Debug.LogWarning("[RunDirector] Sector panel could not be built (no camera/EventSystem); continuing.");
-                AdvanceNode();
+                Debug.LogWarning("[RunDirector] Sector panel could not be built (no camera/EventSystem); the gates are up.");
                 return;
             }
             panelMode = PanelMode.Sector;
