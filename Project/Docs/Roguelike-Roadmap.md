@@ -112,12 +112,12 @@ Effort in engineer-days (rough, one person with agents): P0 ≈ 4–5, P1 ≈ 6�
 | BUG-45 | LOW | XRI UI ray (red invalid gradient) visible while the sword is held. | `Player/UiRayVisibility.cs`, `Editor/XRRigBuilder.cs` | P5-09. **Fixed**: line hidden while any Grabber holds; invalid gradient cyan. |
 | BUG-46 | MED | Elite blown out to white (white archetype yoke + HDR x2 rim), read as strobing. | `World/Roguelike/EliteAffixes.cs` | P5-09. **Fixed**: marks removed (A13.9), rim x1.2, Unflinching pale ice. |
 | BUG-47 | MED | **Boss arms reversed**: in every boss fight (v0.6.1 playtest 2026-10-24) the boss's hands/arms swing the wrong way and feel wrong. Likely the BUG-44 arms-down / swing sign or axis does not match the boss rigs (different bone orientation or mirrored mesh). | `World/NpcWalkAnimator.cs`, `Enemies/MeleeAttacker.cs` (`RigArmAngle`), boss prefabs | **Fixed (P6-00)**, pending device retest. Root cause: the boss meshes were generated with arms already at their sides (measured arm elevation -61/-67/-73 deg vs trash -44..+18), so the T-pose arms-down roll swung them across the body. Roll now baked per rig. |
-| BUG-48 | HIGH | **Boon offer while an enemy is still alive** (v0.7.0 video ~2:29): the offer opened, an enemy behind the player kept attacking and killed them. Room clear fires when `Remaining` (`alive + pending + queued`) hits 0, so any enemy spawned outside that ledger (boss adds, drone summons, a late wave) can trigger it. | `World/Roguelike/RunArenaController.cs:501`, `:779` | P7-01 |
-| BUG-49 | HIGH | **Skills and passives never activate.** Wiring is present: `ArtInputDispatcher` + every skill controller are in `RunArena.unity` with both input refs set (checked 2026-11-02). Suspect the unlock gating (Arts = Epic boons only after the shrine slot unlock, passives only from the S1-S3 boons) or a runtime fault. | `Player/ArtInputDispatcher.cs`, `Player/ArtSlots.cs`, skill controllers | P7-02 |
-| BUG-50 | MED | Boot menu not in front of the player on load; Meta-button recenter needed. Likely placed before the first valid HMD pose. | `Flow/MainMenuController.cs`, `Player/XRRecenterUtility.cs` | P7-03 |
-| BUG-51 | HIGH | **Boons from a previous run present at a fresh run start** (user saw a 3/8 selection they had picked in an earlier run). | `Flow/Roguelike/RunDirector.cs`, `Core/Roguelike/RunState.cs` / `RunSnapshot` | P7-04 |
-| BUG-52 | MED | Sector finish shows the pop-up but the doors never open. | `World/ProximityDoor.cs`, room shells, `RunDirector` sector advance | P7-05 |
-| BUG-53 | MED | The enemy attack line (P1-14 blade-edge `LineRenderer`) is visible. User wants it gone, replaced by a clear attack pattern. | `Enemies/MeleeAttacker.cs:37` | P7-06, replaced in P8-04 |
+| BUG-48 | HIGH | **Boon offer while an enemy is still alive** (v0.7.0 video ~2:29): the offer opened, an enemy behind the player kept attacking and killed them. Room clear fires when `Remaining` (`alive + pending + queued`) hits 0, so any enemy spawned outside that ledger (boss adds, drone summons, a late wave) can trigger it. | `World/Roguelike/RunArenaController.cs:501`, `:779` | P7-01 | **Status: Fixed in code (`2e9178e`; guard, root cause not reproduced), device accept pending.**
+| BUG-49 | HIGH | **Skills and passives never activate.** Wiring is present: `ArtInputDispatcher` + every skill controller are in `RunArena.unity` with both input refs set (checked 2026-11-02). Suspect the unlock gating (Arts = Epic boons only after the shrine slot unlock, passives only from the S1-S3 boons) or a runtime fault. | `Player/ArtInputDispatcher.cs`, `Player/ArtSlots.cs`, skill controllers | P7-02 | **Status: Fixed in code (`ecd9b0f`), device accept pending.**
+| BUG-50 | MED | Boot menu not in front of the player on load; Meta-button recenter needed. Likely placed before the first valid HMD pose. | `Flow/MainMenuController.cs`, `Player/XRRecenterUtility.cs` | P7-03 | **Status: Fixed in code (`2e6f900`), device accept pending.**
+| BUG-51 | HIGH | **Boons from a previous run present at a fresh run start** (user saw a 3/8 selection they had picked in an earlier run). | `Flow/Roguelike/RunDirector.cs`, `Core/Roguelike/RunState.cs` / `RunSnapshot` | P7-04 | **Status: Fixed in code (`14e2832`), device accept pending.**
+| BUG-52 | MED | Sector finish shows the pop-up but the doors never open. | `World/ProximityDoor.cs`, room shells, `RunDirector` sector advance | P7-05 | **Status: Fixed in code (`2e4f0e8`), device accept pending.**
+| BUG-53 | MED | The enemy attack line (P1-14 blade-edge `LineRenderer`) is visible. User wants it gone, replaced by a clear attack pattern. | `Enemies/MeleeAttacker.cs:37` | P7-06, replaced in P8-04 | **Status: Fixed in code (`dcb48ae`), device accept pending.**
 | BUG-54 | MED | Some humanoid enemies have no weapon. Beasts and wraiths may stay unarmed (claws). | enemy prefabs, `Editor/Roguelike/EnemyPrefabBaker` | P8-01 |
 
 ## A3. Domain findings in brief
@@ -1505,22 +1505,41 @@ The tutorial is skipped when `runsCompleted > 0` (P2-08). Add a "Replay tutorial
 Every fix starts with a failing test that reproduces it, then fixes the shared code path (not just the reported caller).
 
 ### P7-01 Boon offer with enemies alive (BUG-48)
+- [x] DONE `2e9178e`. No root cause reproduced in play mode (ledger counted boss adds correctly). Shipped a defense-in-depth guard: `ShouldClear(remaining, liveUnderArena)` counts live `Health.Active` under the arena on both `MarkCleared` paths and the Update fallback; logs `BUG-48: ledger empty but N enemy(s)...` if it ever holds a clear. Test `RoomClear_NotWhileAddAlive`.
+
 Find every spawn path that adds a live enemy (waves, deferred/telegraphed spawns, boss adds, drone or summoner spawns, elite affixes) and make sure each goes through the `Remaining` ledger. Guard `MarkCleared` so it never fires while any arena enemy in `Health.Active` is alive. **Test:** `RoomClear_NotWhileAddAlive`. **Accept:** the boon panel only opens with zero living enemies.
 
 ### P7-02 Skills and passives dead (BUG-49)
+- [x] DONE `ecd9b0f`. Confirmed fault: buying a Shrine Art slot left it on NONE, so Arts never fired (dispatch itself works when equipped). Buying the slot now auto-equips the first Art (ChargedSlash / KiaiPalm); later clicks cycle incl. NONE. Second fault: passives granted mid-room stayed disabled until the next room; `RunState.AbilityGranted` + `AbilityAccess.EnableWhenGranted` now enable all 8 immediately. Dev: `DevGrantPassives` on key P (RONIN7_DEV). Caveat: an existing save that already owns a slot showing NONE must click the slot once to equip an Art.
+
 Play mode in RunArena: grant each skill with DevRunTools, press the inputs, log `ArtSlots` state. Find the real fault (gating, slot unlock, controller ownership check, input map not enabled) before P9 builds on it. **Test:** one per fault found. **Accept:** with each skill owned, Weapon Art, Off-hand Art and each passive fires.
 
 ### P7-03 Boot menu in front on load (BUG-50)
+- [x] DONE `2e6f900`. `MainMenuController` waits up to 5 s for the first tracked head pose, then `XRRecenterUtility.RecenterRig()` once; canvas at (0,0,1), 1.2 m up. Untested on device.
+
 Place / recenter the menu on the first valid HMD pose (reuse `XRRecenterUtility`, `LazyFollow`), not on frame 1. **Accept:** headset: menu is in front at any starting yaw, no Meta-button press.
 
 ### P7-04 Fresh run starts with no run boons (BUG-51)
+- [x] DONE `14e2832`. No leak found: the "old" boons were Shrine StartingBoon (lvl 3) plus Ironskin / KeenEdge / Keepsake starting grants. They are now tagged via `RunState.AddShrineBoon`, persisted in `RunSnapshot.shrineBoons` (no version bump); the HUD BOONS line counts only run boons and a SHRINE BOONS n line shows shrine ones. 9 tests (FreshRunBoonTests etc.). P10 still splits Relics from run boons.
+
 Trace where the boon inventory survives `StartRun` (stale `RunSnapshot`, static state, meta-shrine buys shown as boons). **Test:** `StartRun_Fresh_HasNoRunBoons` (and abandon / death / win paths). P10 then splits permanent Relics from run boons properly.
 
 ### P7-05 Sector-end doors (BUG-52)
+- [x] DONE `2e4f0e8`. The flow worked but exit gates only rose after CONTINUE on the CHECKPOINT panel, with no cue. Gates now rise when the CHECKPOINT panel opens (walk through = next sector; CONTINUE / SAVE & QUIT still work). The opaque panel can hide an arch directly behind it; tracked in P12-04.
+
 Doors open on sector clear and lead to the next node. The full transition is P12-04.
 
 ### P7-06 Hide the attack line (BUG-53)
+- [x] DONE `dcb48ae`. `bladeEdge` LineRenderer never enabled; rim pulse stays. Roguelike-Design.md A9.10 updated, A14.27 added.
+
 Disable the `bladeEdge` LineRenderer. Heads-up: P6-03's colourless telegraph listed the edge line; the rim pulse stays, and P8-04 brings the replacement. Update A14 accordingly.
+
+### Phase 7 progress / exit (2026-11-02, v0.8.0 / versionCode 9, `7e33978`)
+Code-complete. Export Gate status, honestly:
+- **Done:** EditMode 2013/0/0 (baseline 1997). Pre-build render check passed (seed 2026, Phase6_Boot -> RunArena): Mobile 49 draws / 28 SetPass / 22.5k tris / luma 0.165 / magenta 0; PC 78 / 44 / 40.3k / 0.159 / 0 (`Project/Logs/PerfProbe/p7gate_Mobile.png`, `p7gate_PC.png`). Version bump 0.8.0 / 9. `Docs/Playtest-v0.8.0.md` written.
+- **Owed:** PlayMode run (blocked). G3/G4 Quest and PCVR builds NOT run: blocked by compile errors in the uncommitted `Packages/manifest.json` upgrade (`com.ivanmurzak.unity.mcp` 1.0.1 -> 1.6.0, `com.unity.ai.assistant` 2.9.0-pre.1 -> 2.21.0-pre.1; the mcp sub-packages fail CS0103/CS0234) and empty keystore passwords. G5 smoke, G6, G8 and the headset sign-off (BUG-48..53 device accept) follow once a build exists.
+- No tag at exit; the user tags after headset sign-off.
+- P7 changed no controls.
 
 ## PHASE 8 — Enemy combat language (v0.9.0)
 
@@ -1623,6 +1642,7 @@ Per biome: kit (`BiomeKitBuilder`), 6 baked shells (`RoomShellBuilder`), Unity A
 | D-14 | Skill panel button | **Y (left secondary)**, free per the user 2026-11-02; left trigger casts | — |
 | D-15 | Sectors per run | **3 for now** (user 2026-11-02) | Longer runs later |
 | D-17 | Enemy weapons | **Composed at spawn:** body prefab + separate weapon prefab(s) via sockets; never a baked variant per weapon (user 2026-11-02) | — |
+| D-18 | Skills, weapons, Shrine | **Shrine sells weapons (Scythe, Dual Katana, Whip) and stats.** In-run skills = passives (e.g. WeakpointSight) + 2 active skills per weapon; details designed with the user at P11. P7 changed no controls; the earlier "Y tap = Weapon Art / hold = cycle" idea is superseded, deferred to that design. BUG-51 call: shrine boons stay, labelled; P10 splits Relics from run boons (user 2026-11-02) | — |
 | D-16 | **Open:** store submission vs Phases 7-13 | Not decided; P6 store work paused until the user calls it | Submit v0.7.x first |
 
 ---
