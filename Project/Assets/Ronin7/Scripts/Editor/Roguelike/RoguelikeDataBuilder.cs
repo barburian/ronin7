@@ -129,7 +129,25 @@ namespace Ronin7.EditorTools
         internal static System.Action<EnemyDefinition> Overrides(string rlName)
         {
             var inner = OverridesCore(rlName);
-            return d => { inner(d); d.postureMaxFraction = PostureFraction(rlName); MovementAndPose(d, rlName); };
+            return d => { inner(d); d.postureMaxFraction = PostureFraction(rlName); MovementAndPose(d, rlName); d.naturalWeapon = IsNatural(rlName); };
+        }
+
+        internal static bool IsNaturalPrefab(string prefabName)
+        {
+            foreach (var t in TrashSpecs) if (t.PrefabName == prefabName) return IsNatural(t.RlName);
+            foreach (var b in BossSpecs) if (b.PrefabName == prefabName) return IsNatural(b.RlName);
+            return true; // not spawnable: leave alone
+        }
+
+        // P8-01 (BUG-54): beasts, wraiths and drones attack with their bodies; every other enemy holds a weapon.
+        private static bool IsNatural(string rlName)
+        {
+            switch (rlName.Split('_')[0])
+            {
+                case "HunterDrone": case "ScanDrone": case "RedactionConstruct":
+                case "GraveGuardian": case "DreamGhost": case "VaneWraith": return true;
+                default: return false;
+            }
         }
 
         /// <summary>Test seam: (story source definition, RL name) for every clone this builder makes.</summary>

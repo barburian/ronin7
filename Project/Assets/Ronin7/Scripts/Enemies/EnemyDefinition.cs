@@ -49,6 +49,8 @@ namespace Ronin7.Enemies
 
         [Header("Damage")]
         public float damage = 12f;
+        [Tooltip("P8-01: natural attacks (claws, drone hull), no held weapon. Beasts, wraiths, drones; every other enemy holds a weapon.")]
+        public bool naturalWeapon;
 
         [Header("Progression scaling (opt-in)")]
         [Tooltip("Extra max health per galaxy the player has finished (CampaignState.GalaxiesCompleted), " +

@@ -189,6 +189,8 @@ namespace Ronin7.EditorTools
                 bladeTip = tip;
             }
 
+            FitWeapon(name, bladeTip);
+
             var visual = FindDeep(instance.transform, "Visual_Skinned");
             var bodyRenderer = visual != null ? visual.GetComponent<Renderer>() : null;
             if (bodyRenderer == null)
@@ -297,6 +299,32 @@ namespace Ronin7.EditorTools
             }
         }
 
+
+        /// <summary>P8-01 (BUG-54): every non-natural enemy holds a visible katana on its Blade chain (the shared
+        /// EnemySwordVisual placeholder, tip at BladeTip). Idempotent. P8-02 replaces this with socketed weapon prefabs.</summary>
+        private static void FitWeapon(string prefabName, Transform bladeTip)
+        {
+            if (!RoguelikeDataBuilder.IsNaturalPrefab(prefabName)) EnemySwordVisual.EnsureVisible(bladeTip.parent, null);
+        }
+
+        /// <summary>P8-01 (additive, idempotent): fits the held weapon to every already-baked enemy prefab.</summary>
+        [MenuItem("Tools/Space Samurai/Roguelike/Fit Enemy Weapons (additive)")]
+        public static void FitAllWeapons()
+        {
+            foreach (var name in System.Linq.Enumerable.Concat(TrashMobNames, BossNames))
+            {
+                string path = OutputFolder + "/" + name + ".prefab";
+                if (AssetDatabase.LoadAssetAtPath<GameObject>(path) == null) { Debug.LogWarning("[EnemyPrefabBaker] missing " + path); continue; }
+                var root = PrefabUtility.LoadPrefabContents(path);
+                try
+                {
+                    var tip = FindDeep(root.transform, "BladeTip");
+                    if (tip != null) { FitWeapon(name, tip); PrefabUtility.SaveAsPrefabAsset(root, path); }
+                }
+                finally { PrefabUtility.UnloadPrefabContents(root); }
+            }
+            AssetDatabase.SaveAssets();
+        }
 
         /// <summary>P1-14: idempotently adds the 2-point blade-edge LineRenderer (shared additive material, 3 cm,
         /// no shadows / probes, world space) and wires <c>MeleeAttacker.bladeEdge</c>. MeleeAttacker enables it

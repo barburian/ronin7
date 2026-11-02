@@ -29,6 +29,7 @@ MonoBehaviour:
   poseLeanDegrees: 12
   poseWholeBody: 0
   damage: 12
+  naturalWeapon: 1
   healthAddedPerGalaxy: 0
   damageAddedPerGalaxy: 0
   superArmor: 0
