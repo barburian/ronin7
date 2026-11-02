@@ -386,7 +386,7 @@ namespace Ronin7.Flow
             string id = MetaProgression.SelectedKeepsake;
             var def = catalog != null && id.Length > 0 ? catalog.Find(id) : null;
             if (def == null) return;
-            RunState.AddBoon(def.id);
+            RunState.AddShrineBoon(def.id);
             if (def.effect == BoonEffectKind.GrantAbility) RunState.GrantAbility(def.abilityId);
         }
 
@@ -400,7 +400,7 @@ namespace Ronin7.Flow
             var def = boonCatalog != null ? boonCatalog.Find(boonId) : null;
             int cap = def != null ? Mathf.Max(1, def.maxStacks) : level;
             int stacks = StartingStacks(level, cap);
-            for (int i = 0; i < stacks; i++) RunState.AddBoon(boonId);
+            for (int i = 0; i < stacks; i++) RunState.AddShrineBoon(boonId);
         }
 
         /// <summary>Pure clamp: never grant more starting stacks than a boon's authored cap allows.
@@ -428,7 +428,7 @@ namespace Ronin7.Flow
             while (granted < count && pool.Count > 0)
             {
                 int index = rng.NextInt(pool.Count);
-                RunState.AddBoon(pool[index].id);
+                RunState.AddShrineBoon(pool[index].id);
                 pool.RemoveAt(index);
                 granted++;
             }

@@ -84,7 +84,7 @@ namespace Ronin7.Flow
             hint = text;
             hintUntil = Time.unscaledTime + seconds;
         }
-        private (int hp, int hpMax, int node, int sector, int foes, int boons, int shards) lastKey;
+        private (int hp, int hpMax, int node, int sector, int foes, int boons, int shards, int shrine) lastKey;
         private static readonly System.Collections.Generic.List<RoomKind> nextKinds = new(3);
 
         private void Refresh()
@@ -94,7 +94,7 @@ namespace Ronin7.Flow
             var health = VRRig.Instance != null ? VRRig.Instance.GetComponent<Health>() : null;
             Hook(health);
             var key = (health != null ? Mathf.CeilToInt(health.Current) : 0, health != null ? Mathf.CeilToInt(health.Max) : 0,
-                RunState.NodeIndex, RunState.CurrentNode.Sector, foes, RunState.Boons.Count, RunState.Shards);
+                RunState.NodeIndex, RunState.CurrentNode.Sector, foes, RunState.RunBoonCount, RunState.Shards, RunState.ShrineStacks);
             string h = Time.unscaledTime < hintUntil ? hint : null;
             if (shown && key == lastKey && ReferenceEquals(h, lastHint)) return; // no per-frame/poll string allocation when nothing changed
             lastKey = key;
@@ -103,7 +103,7 @@ namespace Ronin7.Flow
             // key.node is the node id (changes on every advance); display the depth (P2-04).
             nextKinds.Clear();
             foreach (int id in RunState.NextChoices) nextKinds.Add(RunState.Map[id].Kind);
-            target.text = Format(key.Item1, key.Item2, RunState.Depth, key.Item4, key.Item5, key.Item6, key.Item7, FormatNext(nextKinds));
+            target.text = Format(key.Item1, key.Item2, RunState.Depth, key.Item4, key.Item5, key.Item6, key.Item7, FormatNext(nextKinds), key.Item8);
             if (h != null) target.text += "\n" + h;
 #if RONIN7_DEV
             baseText = target.text;
@@ -132,8 +132,8 @@ namespace Ronin7.Flow
         /// <summary>Pure formatter — five lines, each at most 18 chars (1-indexed for display;
         /// <paramref name="depth"/>/<paramref name="sector"/> are the 0-indexed RunState values).
         /// P2-04 adds the NEXT line (<see cref="FormatNext"/>).</summary>
-        public static string Format(int hp, int hpMax, int depth, int sector, int foes, int boonCount, int shards, string next) =>
-            $"HP {hp}/{hpMax}\nNODE {depth + 1}/{RunMapGenerator.TotalNodes} · S{sector + 1}\nFOES {foes} LEFT\nBOONS {boonCount} · {ShardGlyph} {shards}\n{next}";
+        public static string Format(int hp, int hpMax, int depth, int sector, int foes, int boonCount, int shards, string next, int shrineBoons = 0) =>
+            $"HP {hp}/{hpMax}\nNODE {depth + 1}/{RunMapGenerator.TotalNodes} · S{sector + 1}\nFOES {foes} LEFT\nBOONS {boonCount} · {ShardGlyph} {shards}\n{next}{(shrineBoons > 0 ? $"\nSHRINE BOONS {shrineBoons}" : string.Empty)}";
 
         /// <summary>P2-04 "NEXT:" line: one path shows its name ("NEXT: BOSS"), several show 3-letter
         /// codes ("NEXT: ELT/EVT/SHP", 17 chars max); the final node shows "NEXT: EXIT".</summary>

@@ -16,6 +16,14 @@ namespace Ronin7.Tests.EditMode
         }
 
         [Test]
+        public void Format_ShrineBoons_GetOwnLabelledLine()
+        {
+            string s = RunHudPanel.Format(72, 110, 5, 1, 3, 0, 85, "NEXT: BOSS", 3);
+            StringAssert.EndsWith("\nSHRINE BOONS 3", s);
+            Assert.LessOrEqual("SHRINE BOONS 99".Length, 18);
+        }
+
+        [Test]
         public void FiveLines_MaxWidth18()
         {
             // Worst case per field: HP 999/999, NODE 15/15 · S3, FOES 99 LEFT, BOONS 99 · ♦ 9999, three paths.

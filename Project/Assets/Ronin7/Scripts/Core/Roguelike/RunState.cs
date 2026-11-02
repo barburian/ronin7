@@ -23,6 +23,7 @@ namespace Ronin7.Core
         private static bool unbrokenUsed;
         private static float playerHealth = -1f;
         private static readonly Dictionary<string, int> boonCounts = new();
+        private static readonly Dictionary<string, int> shrineCounts = new(); // P7-04: stacks of boonCounts granted by the Shrine
         private static readonly HashSet<string> grantedAbilities = new();
         private static readonly List<string> temperLevels = new();
         private static string weaponArtId = "";
@@ -145,6 +146,7 @@ namespace Ronin7.Core
             unbrokenUsed = false;
             playerHealth = -1f;
             boonCounts.Clear();
+            shrineCounts.Clear();
             grantedAbilities.Clear();
             temperLevels.Clear();
             weaponArtId = "";
@@ -176,6 +178,25 @@ namespace Ronin7.Core
             boonCounts.TryGetValue(boonId, out int count);
             boonCounts[boonId] = count + 1;
         }
+
+        /// <summary>P7-04 (BUG-51): a Shrine starting boon (meta upgrade / Keepsake). Tagged at grant time so the HUD
+        /// can label it instead of passing as a leftover from a previous run.</summary>
+        public static void AddShrineBoon(string boonId)
+        {
+            if (string.IsNullOrEmpty(boonId)) return;
+            AddBoon(boonId);
+            shrineCounts.TryGetValue(boonId, out int c);
+            shrineCounts[boonId] = c + 1;
+        }
+
+        public static int ShrineBoonCount(string boonId) =>
+            !string.IsNullOrEmpty(boonId) && shrineCounts.TryGetValue(boonId, out int c) ? c : 0;
+
+        /// <summary>Total Shrine-granted stacks this run.</summary>
+        public static int ShrineStacks { get { int n = 0; foreach (var c in shrineCounts.Values) n += c; return n; } }
+
+        /// <summary>Distinct boons held beyond what the Shrine gave (picked, bought or found this run).</summary>
+        public static int RunBoonCount { get { int n = 0; foreach (var b in boonCounts) if (b.Value > ShrineBoonCount(b.Key)) n++; return n; } }
 
         public static int BoonCount(string boonId)
         {
@@ -246,6 +267,8 @@ namespace Ronin7.Core
             };
             foreach (KeyValuePair<string, int> boon in boonCounts)
                 for (int i = 0; i < boon.Value; i++) snapshot.boons.Add(boon.Key);
+            foreach (KeyValuePair<string, int> sh in shrineCounts)
+                for (int i = 0; i < sh.Value; i++) snapshot.shrineBoons.Add(sh.Key);
             snapshot.grantedAbilities.AddRange(grantedAbilities);
             snapshot.path.AddRange(path);
             snapshot.temperLevels.AddRange(temperLevels);
@@ -273,6 +296,12 @@ namespace Ronin7.Core
             unbrokenUsed = snapshot.unbrokenUsed;
             playerHealth = snapshot.playerHealth;
             foreach (string boonId in snapshot.boons) AddBoon(boonId);
+            if (snapshot.shrineBoons != null)
+                foreach (string boonId in snapshot.shrineBoons)
+                {
+                    shrineCounts.TryGetValue(boonId, out int c);
+                    shrineCounts[boonId] = c + 1;
+                }
             foreach (string abilityId in snapshot.grantedAbilities) GrantAbility(abilityId);
             // v3 (P4-11): restore the run's own picks, not today's meta (Begin read loadout/heat from meta as defaults).
             temperLevels.AddRange(snapshot.temperLevels);
@@ -319,6 +348,7 @@ namespace Ronin7.Core
             unbrokenUsed = false;
             playerHealth = -1f;
             boonCounts.Clear();
+            shrineCounts.Clear();
             grantedAbilities.Clear();
             temperLevels.Clear();
             weaponArtId = "";

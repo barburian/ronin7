@@ -30,6 +30,8 @@ namespace Ronin7.Core
         public int revivesSpent;
         public float playerHealth = -1f;
         public List<string> boons = new List<string>(); // one entry per stack
+        /// <summary>P7-04: the subset of <see cref="boons"/> stacks granted by the Shrine. APPENDED (no version bump); legacy saves load empty.</summary>
+        public List<string> shrineBoons = new List<string>();
         public List<string> grantedAbilities = new List<string>();
 
         /// <summary>This run's kills so far, so the run summary's kill delta survives a resume.</summary>
