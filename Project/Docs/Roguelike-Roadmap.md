@@ -26,6 +26,13 @@ Phase order and why:
 | **4** | Player stats, skills and boon expansion | Built on the Phase 1 stat slots and the Phase 3 events |
 | **5** | Graphics: "details everywhere" | Art is spent on a stable game, and the perf budget is measured on what will actually ship |
 | **6** | Audio, comfort, accessibility, narrative, store submission | Release polish |
+| **7** | v0.7.0 playtest bug fixes (BUG-48..53) | Cheap, and later phases build on skills, boons and room clear working |
+| **8** | Enemy combat language: weapons, attack patterns, telegraphs, shields | Sectors need the rosters |
+| **9** | Player skills + left-hand skill panel (Y) | Co-designed with the user; weapons carry skills |
+| **10** | Permanent Relics vs in-run boons | Independent; can run alongside P9 |
+| **11** | Character / weapon select: Katana, Double Katana, Scythe, Whip | Needs P9 skill slots |
+| **12** | 9 sectors (1 unique biome each), branching sector choice | Biggest, art-bound; needs P8 rosters |
+| **13** | Dialogue and robot-with-soul voice | Slots in anywhere |
 
 Effort in engineer-days (rough, one person with agents): P0 ≈ 4–5, P1 ≈ 6–8, P2 ≈ 8–10, P3 ≈ 10–12, P4 ≈ 10–14, P5 ≈ 15–25 (art-bound), P6 ≈ 6–8.
 
@@ -105,6 +112,13 @@ Effort in engineer-days (rough, one person with agents): P0 ≈ 4–5, P1 ≈ 6�
 | BUG-45 | LOW | XRI UI ray (red invalid gradient) visible while the sword is held. | `Player/UiRayVisibility.cs`, `Editor/XRRigBuilder.cs` | P5-09. **Fixed**: line hidden while any Grabber holds; invalid gradient cyan. |
 | BUG-46 | MED | Elite blown out to white (white archetype yoke + HDR x2 rim), read as strobing. | `World/Roguelike/EliteAffixes.cs` | P5-09. **Fixed**: marks removed (A13.9), rim x1.2, Unflinching pale ice. |
 | BUG-47 | MED | **Boss arms reversed**: in every boss fight (v0.6.1 playtest 2026-10-24) the boss's hands/arms swing the wrong way and feel wrong. Likely the BUG-44 arms-down / swing sign or axis does not match the boss rigs (different bone orientation or mirrored mesh). | `World/NpcWalkAnimator.cs`, `Enemies/MeleeAttacker.cs` (`RigArmAngle`), boss prefabs | **Fixed (P6-00)**, pending device retest. Root cause: the boss meshes were generated with arms already at their sides (measured arm elevation -61/-67/-73 deg vs trash -44..+18), so the T-pose arms-down roll swung them across the body. Roll now baked per rig. |
+| BUG-48 | HIGH | **Boon offer while an enemy is still alive** (v0.7.0 video ~2:29): the offer opened, an enemy behind the player kept attacking and killed them. Room clear fires when `Remaining` (`alive + pending + queued`) hits 0, so any enemy spawned outside that ledger (boss adds, drone summons, a late wave) can trigger it. | `World/Roguelike/RunArenaController.cs:501`, `:779` | P7-01 |
+| BUG-49 | HIGH | **Skills and passives never activate.** Wiring is present: `ArtInputDispatcher` + every skill controller are in `RunArena.unity` with both input refs set (checked 2026-11-02). Suspect the unlock gating (Arts = Epic boons only after the shrine slot unlock, passives only from the S1-S3 boons) or a runtime fault. | `Player/ArtInputDispatcher.cs`, `Player/ArtSlots.cs`, skill controllers | P7-02 |
+| BUG-50 | MED | Boot menu not in front of the player on load; Meta-button recenter needed. Likely placed before the first valid HMD pose. | `Flow/MainMenuController.cs`, `Player/XRRecenterUtility.cs` | P7-03 |
+| BUG-51 | HIGH | **Boons from a previous run present at a fresh run start** (user saw a 3/8 selection they had picked in an earlier run). | `Flow/Roguelike/RunDirector.cs`, `Core/Roguelike/RunState.cs` / `RunSnapshot` | P7-04 |
+| BUG-52 | MED | Sector finish shows the pop-up but the doors never open. | `World/ProximityDoor.cs`, room shells, `RunDirector` sector advance | P7-05 |
+| BUG-53 | MED | The enemy attack line (P1-14 blade-edge `LineRenderer`) is visible. User wants it gone, replaced by a clear attack pattern. | `Enemies/MeleeAttacker.cs:37` | P7-06, replaced in P8-04 |
+| BUG-54 | MED | Some humanoid enemies have no weapon. Beasts and wraiths may stay unarmed (claws). | enemy prefabs, `Editor/Roguelike/EnemyPrefabBaker` | P8-01 |
 
 ## A3. Domain findings in brief
 
@@ -1484,6 +1498,111 @@ The tutorial is skipped when `runsCompleted > 0` (P2-08). Add a "Replay tutorial
 
 ---
 
+> **Phases 7-13 added 2026-11-02** from the user's v0.7.0 gameplay-video findings. Each phase ends with the Part B Export Gate and a `Docs/Playtest-v<x>.md` checklist. Decisions D-13..D-17 in Part D. Rough effort: P7 ≈ 3-4, P8 ≈ 10-14, P9 ≈ 6-10, P10 ≈ 3-5, P11 ≈ 12-18, P12 ≈ 5-7 structure + ≈ 3-5 per new biome (x6, art-bound), P13 ≈ 3-5.
+
+## PHASE 7 — v0.7.0 playtest fixes (v0.8.0)
+
+Every fix starts with a failing test that reproduces it, then fixes the shared code path (not just the reported caller).
+
+### P7-01 Boon offer with enemies alive (BUG-48)
+Find every spawn path that adds a live enemy (waves, deferred/telegraphed spawns, boss adds, drone or summoner spawns, elite affixes) and make sure each goes through the `Remaining` ledger. Guard `MarkCleared` so it never fires while any arena enemy in `Health.Active` is alive. **Test:** `RoomClear_NotWhileAddAlive`. **Accept:** the boon panel only opens with zero living enemies.
+
+### P7-02 Skills and passives dead (BUG-49)
+Play mode in RunArena: grant each skill with DevRunTools, press the inputs, log `ArtSlots` state. Find the real fault (gating, slot unlock, controller ownership check, input map not enabled) before P9 builds on it. **Test:** one per fault found. **Accept:** with each skill owned, Weapon Art, Off-hand Art and each passive fires.
+
+### P7-03 Boot menu in front on load (BUG-50)
+Place / recenter the menu on the first valid HMD pose (reuse `XRRecenterUtility`, `LazyFollow`), not on frame 1. **Accept:** headset: menu is in front at any starting yaw, no Meta-button press.
+
+### P7-04 Fresh run starts with no run boons (BUG-51)
+Trace where the boon inventory survives `StartRun` (stale `RunSnapshot`, static state, meta-shrine buys shown as boons). **Test:** `StartRun_Fresh_HasNoRunBoons` (and abandon / death / win paths). P10 then splits permanent Relics from run boons properly.
+
+### P7-05 Sector-end doors (BUG-52)
+Doors open on sector clear and lead to the next node. The full transition is P12-04.
+
+### P7-06 Hide the attack line (BUG-53)
+Disable the `bladeEdge` LineRenderer. Heads-up: P6-03's colourless telegraph listed the edge line; the rim pulse stays, and P8-04 brings the replacement. Update A14 accordingly.
+
+## PHASE 8 — Enemy combat language (v0.9.0)
+
+### P8-01 Weapon audit (BUG-54)
+Every humanoid enemy holds a weapon. Beasts and wraiths keep natural attacks (flag on `EnemyDefinition`).
+
+### P8-02 Enemy weapon types, composed not baked (D-17)
+**Composition rule (user, 2026-11-02):** a weapon is a separate prefab, never baked into an enemy. One body prefab per enemy type; an enemy at spawn = body + main-hand weapon (+ optional off-hand: shield, second dagger). No two prefabs for the same unit holding different weapons.
+- **Body prefab:** rig, `Health`, AI, base stats, and empty `Socket_MainHand` (under `Rig_ArmR`) / `Socket_OffHand` (under `Rig_ArmL`). The baker fits the sockets per rig once (reuse the BUG-47 arm measurement). Remove the baked `Rig_ArmR/Sword` and the baked Trooper slab.
+- **Weapon prefab + `EnemyWeaponDefinition`:** mesh, blade tip/edge points, reach, damage, and **its own attack patterns** (the weapon owns the moveset, P8-03).
+- **Spawn entry:** body + weapon(s) + sector stat mods. Sector rosters (P12-03) are lists of combos.
+- **Natural weapons:** beasts and wraiths use a meshless "claws" definition, same path.
+- `MeleeAttacker` reads the tip and patterns from the attached weapon, not a baked child. Bosses keep their bespoke kit.
+- **Tests:** `Compose_AttachesToSocket`, `Compose_PatternsComeFromWeapon`, `Natural_HasNoMesh`. Render check: draws/SetPass per enemy stay inside the Quest budget.
+
+Weapon data: `EnemyWeaponDefinition`: mesh, reach, damage, and a list of attack patterns. Initial set: sword, spear (thrust, long reach), heavy axe/hammer (slow overhead, dodge not parry), twin daggers (fast 3-hit combo), shield + baton (guard, bash), staff (ranged caster, reuses the P3-05 bolts).
+
+### P8-03 Attack patterns
+A pattern is a sequence of strikes (direction, windup, active, recovery). The picker is weighted with no immediate repeat. Extends `MeleeAttacker` (today: one overhead chop). Pure logic + tests (`Pattern_NoImmediateRepeat`, `Combo_TimingsInOrder`, `Heavy_NotParryable`).
+
+### P8-04 Clear telegraphs (replaces the line)
+Readable anticipation pose per strike direction, weapon-edge glow via `RendererTint` (no point lights), per-weapon windup sound, readable combo count. Must still read without colour (P6-03) and respect Reduce Flashes. **No camera shake.**
+
+### P8-05 Shields redesign
+Shields share the wearer's armor material family so they read as part of the kit, with a contrasting weak spot (exposed flank / glowing seam) that tells the player where to strike. Hooks into the P3-01 weakness system.
+
+### P8-06 First new enemy types
+2-3 new archetypes built on P8-02/03. The per-sector rosters land in P12.
+
+## PHASE 9 — Player skills and the skill panel (v0.10.0)
+
+### P9-00 Design session with the user (blocking)
+Skill list, active vs passive, cooldowns, how each unlocks. Nothing is built before this.
+
+### P9-01 Skill panel on Y (D-14)
+`Gameplay/SkillPanel` on `<XRController>{LeftHand}/secondaryButton`. Opens a left-wrist panel: owned actives with cooldowns, owned passives. Select with the left stick or by pointing; **left trigger casts** (all actives on the left hand). Large readable UI, `UiScaleFollower`.
+
+### P9-02 Visible passives
+Passives listed in the panel, plus a small pulse + sound on each proc so the player knows they work.
+
+### P9-03 Build the agreed skills
+Pure logic class + thin MonoBehaviour each, tests per skill (P4-04 pattern).
+
+## PHASE 10 — Permanent Relics vs in-run boons (v0.11.0)
+- **Relics:** bought with Echoes at the Shrine of Echoes (extend P2-01, don't rebuild), persisted in `meta.json`, shown in their own row.
+- **Run boons:** last the whole run, wiped at run end.
+- `MetaSaveData` appended fields only; G7 fixture of v0.7.0 saves.
+
+## PHASE 11 — Character / weapon select (v0.12.0)
+
+### P11-00 Archetype design session with the user (blocking)
+One per weapon: feel, damage model, parry style, signature skills.
+
+### P11-01 Selection screen
+In the boot room, replacing the LOADOUT rack (P4-08). `RunState.LoadoutId` reused.
+
+### P11-02 Weapons, cheapest first
+Katana (exists) → **Double Katana** (extends Twin Wakizashi) → **Scythe** (long reach, sweeps, maybe a hook-pull) → **Whip** (few-segment verlet chain + damage along segments; perf-probe it before committing, it is the 90 FPS risk).
+
+## PHASE 12 — 9 sectors, one unique biome each (v0.13.0 +, split into sub-phases)
+
+### P12-01 Sector data
+`SectorDefinition`: biome, enemy roster with stat/ability mods, hazards, music trio, boss. The existing 3 biomes become the first 3 sectors.
+
+### P12-02 Run structure (D-15)
+3 sectors per run (5 nodes each), drawn from the 9. Start in a random sector; after each sector choose between 2 random unvisited sectors. `RunSnapshot` v4 with migration + G7 fixture.
+
+### P12-03 Rosters
+Each sector gets its own enemies (2-3 new archetypes + elite variants) and a boss.
+
+### P12-04 Sector transition
+Doors open, a walk-through gate, sector card + VO line. Comfort: no forced camera motion.
+
+### P12-05..06 New biomes, 3 per sub-phase (D-13: 6 new, 9 total)
+Per biome: kit (`BiomeKitBuilder`), 6 baked shells (`RoomShellBuilder`), Unity AI sky, music trio, hazard. Raise the user's image→3D hero-prop runs **at the start** of each sub-phase, not before the build. Each sub-phase has its own Export Gate. Heads-up (guess): APK grows with every biome (141 MB at v0.7.0), so track the size per sub-phase.
+
+## PHASE 13 — Dialogue and voice (any time)
+- Lines written with personality for the existing narrative hooks (P6-04 `KesslerRunLines`, `RunVoice`) and new ones (sector intros, skill unlocks).
+- Voice: edge-tts through the existing VO pipeline, then a light robot chain that keeps the prosody. 3 presets, the user picks.
+
+---
+
 # PART D — Decisions for you (the plan assumes the defaults)
 
 | ID | Decision | Default (assumed) | Alternative |
@@ -1500,6 +1619,11 @@ The tutorial is skipped when `runsCompleted > 0` (P2-08). Add a "Replay tutorial
 | D-10 | Snap vs teleport default | Smooth locomotion + snap turn + vignette; teleport optional | Teleport default (raises the comfort rating) |
 | D-11 | Run currency vs Echoes | **Fully separate** (decided by user 2026-10-14): Shards are in-run (Shop, events, live HUD, lost at run end); Echoes come only from the end-of-run result and are spent at the Shrine. See P4-11. | Convert unspent Shards to Echoes at run end |
 | D-12 | **Open question:** two Shops per sector are possible (row 3 is always Forge+Shop, and rows 1-2 can roll a Shop). Spec is ambiguous; the user has not decided. | Allow it until decided | Cap one Shop per sector |
+| D-13 | Sectors and biomes | **9 sectors, 1 unique biome each** (3 existing + 6 new; user 2026-11-02, revised down from 15) | 15 sectors over 9 biomes (rejected) |
+| D-14 | Skill panel button | **Y (left secondary)**, free per the user 2026-11-02; left trigger casts | — |
+| D-15 | Sectors per run | **3 for now** (user 2026-11-02) | Longer runs later |
+| D-17 | Enemy weapons | **Composed at spawn:** body prefab + separate weapon prefab(s) via sockets; never a baked variant per weapon (user 2026-11-02) | — |
+| D-16 | **Open:** store submission vs Phases 7-13 | Not decided; P6 store work paused until the user calls it | Submit v0.7.x first |
 
 ---
 
