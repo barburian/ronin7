@@ -58,9 +58,9 @@ namespace Ronin7.World
         private const float BossBarWidth = 6f, BossBarHeight = 0.2f, BossBarY = 3.7f;
 
         private readonly List<QueuedEnemy> queued = new();
-        /// <summary>Activated, not-yet-dead enemies, for the 1 Hz out-of-bounds sweep (BUG-04).</summary>
-        private readonly List<Health> alive = new();
         private int aliveCount;
+        /// <summary>BUG-48: set once Start has built the ledger; gates the <see cref="Update"/> stray re-check.</summary>
+        private bool ledgerReady, strayWarned;
         private const int WaveSize = 3;
         private List<int> waves = new();
         private int nextWave;
@@ -228,7 +228,8 @@ namespace Ronin7.World
                 // the safe failure (a soft-lock is worse), but it must not be silent.
                 if (node.Kind == RoomKind.Combat || node.Kind == RoomKind.Elite || node.Kind == RoomKind.Boss)
                     Debug.LogError($"[RunArenaController] Node {node.Index} ({node.Kind}) composed/spawned zero enemies — clearing rather than soft-locking the run.", this);
-                MarkCleared();
+                ledgerReady = true;
+                CheckStrays();
                 return;
             }
 
@@ -236,6 +237,7 @@ namespace Ronin7.World
             if (node.Kind == RoomKind.Elite) BuildBlastPool(); // pre-build the Volatile rings, not in the kill frame
             ActivateNextWave();
             if (boss != null) BuildBossBar();
+            ledgerReady = true;
             EventBus.Publish(new RoomProgress(Remaining));
             // Scaled time: a paused run (timeScale 0) suspends the sweep along with everything else.
             InvokeRepeating(nameof(CheckBounds), 1f, 1f);
@@ -280,12 +282,13 @@ namespace Ronin7.World
         /// </summary>
         private void CheckBounds()
         {
-            // Backwards: a kill removes its entry (OnEnemyDied) and may append newly activated ones.
-            for (int i = alive.Count - 1; i >= 0; i--)
+            // BUG-48: every live Health under the arena (not just the ledger's), so a stray can't soft-lock
+            // the clear guard. Backwards + bounds check: a kill may run handlers that mutate Active.
+            for (int i = Health.Active.Count - 1; i >= 0; i--)
             {
-                if (i >= alive.Count) continue;
-                Health h = alive[i];
-                if (h == null || !h.IsAlive) continue;
+                if (i >= Health.Active.Count) continue;
+                Health h = Health.Active[i];
+                if (h == null || !h.IsAlive || !h.transform.IsChildOf(transform)) continue;
                 Vector3 local = transform.InverseTransformPoint(h.transform.position);
                 if (!OutOfArena(local, halfExtent)) continue;
                 Debug.LogWarning($"[RunArenaController] '{h.name}' left the arena at {local}; killing it so the room can clear.", this);
@@ -660,6 +663,7 @@ namespace Ronin7.World
             if (bossBarFill != null) UpdateBossBar();
             float now = Time.time;
             if (blasts != null) UpdateBlasts(now);
+            if (ledgerReady && !IsCleared && Remaining == 0) CheckStrays(); // BUG-48: only while the ledger is empty
             for (int i = pending.Count - 1; i >= 0; i--)
             {
                 PendingSpawn ps = pending[i];
@@ -689,7 +693,6 @@ namespace Ronin7.World
             bool isVolatile = entry.Volatile;
             EnemyDefinition[] phases = entry.Phases;
             health.Died += () => OnEnemyDied(health, definition, isVolatile, phases);
-            alive.Add(health);
             aliveCount++;
             EventBus.Publish(new EnemyActivated(health.gameObject)); // P5-03 reverse dissolve
             if (EnemyHealthBar.Wants(health, boss)) EnemyHealthBar.Attach(health, transform); // P3-08 (bosses use the north-wall bar)
@@ -760,6 +763,36 @@ namespace Ronin7.World
         internal static bool WaveDue(int alive, int pendingCount, int wavesRemaining) =>
             WaveComposer.NextWaveDue(alive + pendingCount, wavesRemaining);
 
+        /// <summary>Pure seam (BUG-48): the room clears only when the ledger is empty AND no enemy under
+        /// the arena is still alive, so a ledger undercount can never open the boon offer mid-fight.</summary>
+        internal static bool ShouldClear(int remaining, int liveUnderArena) => remaining == 0 && liveUnderArena == 0;
+
+        /// <summary>BUG-48: live enemies parented under this arena (the player is not), counted from
+        /// <see cref="Health.Active"/> without allocating. Dead enemies stay in it with Current 0.</summary>
+        private int LiveUnderArena(out Health stray)
+        {
+            int n = 0;
+            stray = null;
+            foreach (Health h in Health.Active)
+            {
+                if (h == null || !h.IsAlive || !h.transform.IsChildOf(transform)) continue;
+                n++;
+                stray = h;
+            }
+            return n;
+        }
+
+        /// <summary>BUG-48 fallback: a stray's death never reaches <see cref="OnEnemyDied"/>, so while the
+        /// ledger is empty but the room is not cleared, re-check each frame (warns once: a ledger leak).</summary>
+        private void CheckStrays()
+        {
+            int live = LiveUnderArena(out Health stray);
+            if (ShouldClear(0, live)) { MarkCleared(); return; }
+            if (strayWarned) return;
+            strayWarned = true;
+            Debug.LogWarning($"[RunArenaController] BUG-48: ledger empty but {live} enemy(s) under the arena still alive (e.g. '{stray.name}'); holding the clear.", this);
+        }
+
         /// <summary>A5.5/A5.6: the concurrency-cap drip release. <see cref="Health.Died"/> fires
         /// synchronously inside <see cref="Health.ApplyDamage"/>, so deaths are never actually
         /// simultaneous — this handler always completes before the next one starts, which is what
@@ -767,7 +800,6 @@ namespace Ronin7.World
         private void OnEnemyDied(Health health, EnemyDefinition definition, bool isVolatile, EnemyDefinition[] phases)
         {
             aliveCount--;
-            alive.Remove(health);
             if (isVolatile) StartBlast(health.transform.position, definition != null ? definition.damage : 0f);
             if (definition != null) Destroy(definition); // A5.7 — no orphaned runtime clone
             if (phases != null) foreach (EnemyDefinition p in phases) if (p != null) Destroy(p); // P3-07: every phase clone too
@@ -776,7 +808,7 @@ namespace Ronin7.World
             if (WaveDue(aliveCount, pending.Count, waves.Count - nextWave)) ActivateNextWave();
 
             EventBus.Publish(new RoomProgress(Remaining));
-            if (Remaining == 0) MarkCleared();
+            if (Remaining == 0) CheckStrays();
         }
 
         /// <summary>Pure seam (A3.3/A5.5/A5.8): how many queued enemies to activate right now, given

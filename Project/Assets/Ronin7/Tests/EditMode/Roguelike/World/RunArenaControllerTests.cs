@@ -192,6 +192,16 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
             Assert.IsFalse(RunArenaController.WaveDue(0, 0, 0));
         }
 
+        [Test]
+        public void RoomClear_NotWhileAddAlive()
+        {
+            // BUG-48: the ledger says empty but an enemy under the arena still lives -> no clear.
+            Assert.IsFalse(RunArenaController.ShouldClear(0, 1));
+            Assert.IsFalse(RunArenaController.ShouldClear(1, 0));
+            Assert.IsFalse(RunArenaController.ShouldClear(2, 2));
+            Assert.IsTrue(RunArenaController.ShouldClear(0, 0));
+        }
+
         // ---- P3-07: boss phases, adds, bar ----
 
         [Test]
