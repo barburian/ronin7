@@ -57,13 +57,8 @@ namespace Ronin7.Player
 
         private void Awake()
         {
-            if (!AbilityAccess.Has(AbilityId.Mirror))
-            {
-                enabled = false;
-                return;
-            }
-
             logic = new MirrorSummonLogic(activeDuration, cooldownSeconds);
+            AbilityAccess.EnableWhenGranted(this, AbilityId.Mirror);
         }
 
         // P4-02: read AbilityHaste at use time; mods are resolved lazily (added after Awake).

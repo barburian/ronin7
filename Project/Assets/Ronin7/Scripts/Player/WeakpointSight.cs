@@ -52,18 +52,16 @@ namespace Ronin7.Player
 
         private void Awake()
         {
-            if (!AbilityAccess.Has(AbilityId.WeakpointSight))
-            {
-                enabled = false;
-                return;
-            }
-
             if (combatModifiers == null) combatModifiers = GetComponent<PlayerCombatModifiers>();
             state = new WeakpointSightState();
-            BuildMarkerPool();
+            AbilityAccess.EnableWhenGranted(this, AbilityId.WeakpointSight);
         }
 
-        private void OnEnable() => toggleAction?.action?.Enable();
+        private void OnEnable()
+        {
+            if (markerPool.Count == 0) BuildMarkerPool(); // only once owned
+            toggleAction?.action?.Enable();
+        }
 
         private void OnDisable()
         {

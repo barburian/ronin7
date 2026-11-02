@@ -99,9 +99,11 @@ namespace Ronin7.Flow
             Refresh();
         }
 
-        internal void Buy(string id)
+        internal void Buy(string id) => AfterBuy(MetaProgression.TryPurchase(id), id);
+
+        private void AfterBuy(bool bought, string id)
         {
-            if (MetaProgression.TryPurchase(id))
+            if (bought)
             {
                 Haptics.Pulse(XRNode.RightHand, 0.6f, 0.1f);
                 // AudioDirector (which references Flow, so we can't call it) plays its boonChosen cue on this event.
@@ -143,10 +145,20 @@ namespace Ronin7.Flow
             _ => "NONE",
         };
 
+        /// <summary>P7-02 (BUG-49): buying an Art slot equips its first Art, so the next run starts with one
+        /// (it used to stay on NONE until a second click). Later clicks still cycle, NONE included.</summary>
+        internal static bool BuyArtSlot(bool weapon)
+        {
+            if (!MetaProgression.TryPurchase(weapon ? MetaUpgradeId.WeaponArtSlot : MetaUpgradeId.OffhandArtSlot)) return false;
+            MetaProgression.TryEquipArt(weapon, (weapon ? WeaponArts : OffhandArts)[1]);
+            MetaProgression.Save();
+            return true;
+        }
+
         /// <summary>P4-10: an unbought slot buys; a bought one cycles its Art.</summary>
         internal void ClickArt(bool weapon)
         {
-            if (!MetaProgression.HasArtSlot(weapon)) { Buy(weapon ? MetaUpgradeId.WeaponArtSlot : MetaUpgradeId.OffhandArtSlot); return; }
+            if (!MetaProgression.HasArtSlot(weapon)) { AfterBuy(BuyArtSlot(weapon), weapon ? MetaUpgradeId.WeaponArtSlot : MetaUpgradeId.OffhandArtSlot); return; }
             if (MetaProgression.TryEquipArt(weapon, NextArt(weapon ? WeaponArts : OffhandArts, MetaProgression.EquippedArt(weapon))))
             {
                 Haptics.Pulse(XRNode.RightHand, 0.4f, 0.06f);

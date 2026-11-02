@@ -67,7 +67,7 @@ namespace Ronin7.Player
         private void Awake()
         {
             bonus = Bonus;
-            if (!AbilityAccess.Has(AbilityId.QuickDraw)) enabled = false;
+            AbilityAccess.EnableWhenGranted(this, AbilityId.QuickDraw);
         }
 
         private void OnDisable()

@@ -20,6 +20,7 @@ namespace Ronin7.Flow
     /// boss; on the Boss node it forces boss phase 2 (adds release), a Volatile ring and 8 bolts.
     /// P4-04: keyboard 1-5 equips an Art (1 Charged Slash, 2 Blade Throw, 3 Kiai Palm, 4 Chain Hook,
     /// 5 Element Imbue), 0 clears both slots; <see cref="DevEquipArt"/> does the same from the editor/MCP.
+    /// P7-02: keyboard P grants every passive ability for this run (<see cref="DevGrantPassives"/>).
     /// </summary>
     public class DevRunTools : MonoBehaviour
     {
@@ -90,6 +91,17 @@ namespace Ronin7.Flow
             if (kb.digit3Key.wasPressedThisFrame) DevEquipArt(DevArts[2]);
             if (kb.digit4Key.wasPressedThisFrame) DevEquipArt(DevArts[3]);
             if (kb.digit5Key.wasPressedThisFrame) DevEquipArt(DevArts[4]);
+            if (kb.pKey.wasPressedThisFrame) DevGrantPassives();
+        }
+
+        /// <summary>P7-02: grants all eight passive abilities for this run; their controllers turn on at once.</summary>
+        public static void DevGrantPassives()
+        {
+            if (!RunState.InRun) return;
+            foreach (var id in new[] { AbilityId.Riposte, AbilityId.Zanshin, AbilityId.QuickDraw, AbilityId.Overdrive,
+                         AbilityId.PhaseStep, AbilityId.Mirror, AbilityId.Unbroken, AbilityId.WeakpointSight })
+                RunState.GrantAbility(id);
+            Debug.Log("[DevRunTools] Granted every passive ability for this run.");
         }
 
         /// <summary>P4-04: equip an Art into its slot (S4/S5 Weapon, S6-S8 Off-hand). Element Imbue also grants

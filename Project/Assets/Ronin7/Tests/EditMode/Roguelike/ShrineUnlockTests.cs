@@ -109,6 +109,24 @@ namespace Ronin7.Tests.EditMode
             Assert.AreEqual("", RunState.OffhandArtId);
         }
 
+        // P7-02 (BUG-49): buying the slot used to leave it on NONE until a second click, so the run started without an Art.
+        [Test]
+        public void ShrineArtSlot_Buy_EquipsFirstArt()
+        {
+            MetaProgression.AddEchoes(500);
+            Assert.IsTrue(MetaShopPanel.BuyArtSlot(true));
+            Assert.IsTrue(MetaShopPanel.BuyArtSlot(false));
+            Assert.IsFalse(MetaShopPanel.BuyArtSlot(true), "no double-buy");
+
+            MetaProgression.Load(); // the equip was saved
+            Assert.AreEqual(ArtId.ChargedSlash, MetaProgression.EquippedArt(true));
+            Assert.AreEqual(ArtId.KiaiPalm, MetaProgression.EquippedArt(false));
+            RunState.Begin(9u);
+            RunDirector.ApplyMetaArts();
+            Assert.AreEqual(ArtId.ChargedSlash, RunState.WeaponArtId);
+            Assert.AreEqual(ArtId.KiaiPalm, RunState.OffhandArtId);
+        }
+
         [Test]
         public void Shrine_ArtSelector_CyclesThroughNone()
         {

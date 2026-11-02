@@ -40,7 +40,7 @@ namespace Ronin7.Player
 
         private void Awake()
         {
-            if (!AbilityAccess.Has(AbilityId.Zanshin)) enabled = false;
+            AbilityAccess.EnableWhenGranted(this, AbilityId.Zanshin);
         }
 
         private void OnEnable()

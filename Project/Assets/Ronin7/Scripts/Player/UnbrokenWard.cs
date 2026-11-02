@@ -47,14 +47,9 @@ namespace Ronin7.Player
 
         private void Awake()
         {
-            if (!AbilityAccess.Has(AbilityId.Unbroken))
-            {
-                enabled = false;
-                return;
-            }
-
             if (health == null) health = GetComponent<Health>();
             interceptorDelegate = TryIntercept;
+            AbilityAccess.EnableWhenGranted(this, AbilityId.Unbroken);
         }
 
         private void OnEnable()

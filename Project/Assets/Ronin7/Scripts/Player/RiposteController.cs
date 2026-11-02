@@ -53,7 +53,7 @@ namespace Ronin7.Player
         private void Awake()
         {
             bonus = Bonus;
-            if (!AbilityAccess.Has(AbilityId.Riposte)) enabled = false;
+            AbilityAccess.EnableWhenGranted(this, AbilityId.Riposte);
         }
 
         private void OnEnable() => EventBus.Subscribe<PerfectParry>(OnPerfectParry);

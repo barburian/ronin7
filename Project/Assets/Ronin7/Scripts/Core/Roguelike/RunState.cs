@@ -118,8 +118,12 @@ namespace Ronin7.Core
         /// <see cref="Ronin7.Core.AbilityAccess.Has"/>, never CampaignState directly.</summary>
         public static void GrantAbility(string abilityId)
         {
-            if (!string.IsNullOrEmpty(abilityId)) grantedAbilities.Add(abilityId);
+            if (!string.IsNullOrEmpty(abilityId) && grantedAbilities.Add(abilityId)) AbilityGranted?.Invoke(abilityId);
         }
+
+        /// <summary>P7-02 (BUG-49): a new run-scoped grant, so an already-awake gated controller can turn on
+        /// mid-room (see <see cref="Ronin7.Core.AbilityAccess.EnableWhenGranted"/>).</summary>
+        public static event System.Action<string> AbilityGranted;
 
         public static bool HasGrantedAbility(string abilityId) =>
             !string.IsNullOrEmpty(abilityId) && grantedAbilities.Contains(abilityId);

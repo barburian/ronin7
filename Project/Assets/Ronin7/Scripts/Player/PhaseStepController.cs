@@ -81,10 +81,7 @@ namespace Ronin7.Player
         private void Awake()
         {
             controller = GetComponent<CharacterController>();
-            if (!AbilityAccess.Has(AbilityId.PhaseStep))
-            {
-                enabled = false;
-            }
+            AbilityAccess.EnableWhenGranted(this, AbilityId.PhaseStep);
         }
 
         private void OnEnable() => activateAction?.action?.Enable();

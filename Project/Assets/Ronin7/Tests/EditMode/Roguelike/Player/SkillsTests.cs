@@ -374,5 +374,32 @@ namespace Ronin7.Tests.EditMode
                 RunState.Reset();
             }
         }
+
+        // ---- P7-02 (BUG-49): a passive granted mid-room turns on at once, not from the next room's Awake ----
+        [Test]
+        public void GrantAbility_MidScene_EnablesGatedController()
+        {
+            try
+            {
+                RunState.Begin(3u);
+                var riposte = a.AddComponent<RiposteController>(); // Awake doesn't run in EditMode; call the gate directly
+                AbilityAccess.EnableWhenGranted(riposte, AbilityId.Riposte);
+                Assert.IsFalse(riposte.enabled, "not held yet");
+
+                RunState.GrantAbility(AbilityId.Zanshin);
+                Assert.IsFalse(riposte.enabled, "another ability's grant leaves it off");
+
+                RunState.GrantAbility(AbilityId.Riposte);
+                Assert.IsTrue(riposte.enabled, "the mid-room grant enables it");
+
+                var held = b.AddComponent<ZanshinController>();
+                AbilityAccess.EnableWhenGranted(held, AbilityId.Zanshin);
+                Assert.IsTrue(held.enabled, "an already-held ability stays on");
+            }
+            finally
+            {
+                RunState.Reset();
+            }
+        }
     }
 }

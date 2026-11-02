@@ -76,18 +76,13 @@ namespace Ronin7.Player
 
         private void Awake()
         {
-            if (!AbilityAccess.Has(AbilityId.Overdrive))
-            {
-                enabled = false;
-                return;
-            }
-
             logic = new OverdriveLogic(chargePerHit, drainPerSecond, activationThreshold);
-            BuildWristUi();
+            AbilityAccess.EnableWhenGranted(this, AbilityId.Overdrive);
         }
 
         private void OnEnable()
         {
+            if (quadRenderer == null) BuildWristUi(); // only once owned: an unowned rig shows no wrist meter
             activateAction?.action?.Enable();
             EventBus.Subscribe<SwordImpact>(OnSwordImpact);
         }
