@@ -506,6 +506,27 @@ namespace Ronin7.Enemies
         /// bounds <see cref="Displace"/> (Enemies cannot see World).</summary>
         public void Configure(EnemyDefinition def, float halfExtent) { definition = def; arenaHalfExtent = halfExtent; }
 
+        /// <summary>P8-02 (D-17): compose the spawn's weapons onto the body's sockets, before activation (like
+        /// <see cref="Configure(EnemyDefinition)"/>). The main hand's tip becomes <c>bladeTip</c>; an off-hand
+        /// renderer named "Shield" becomes the HeavyBreak guard mark. <c>weapon</c> stays the arm bone the chop
+        /// swings. Null main = keep the prefab's own kit (bosses).</summary>
+        public void Equip(EnemyWeaponDefinition main, EnemyWeaponDefinition off = null)
+        {
+            if (main == null) return;
+            bladeTip = main.Attach(FindChild(EnemyWeaponDefinition.MainSocket) ?? weapon).Find(EnemyWeaponDefinition.TipName);
+            Renderer shield = null;
+            if (off != null)
+                foreach (var r in off.Attach(FindChild(EnemyWeaponDefinition.OffSocket) ?? transform).GetComponentsInChildren<Renderer>(true))
+                    if (r.name == "Shield") shield = r;
+            SetWeaponKit(main, shield);
+        }
+
+        private Transform FindChild(string childName)
+        {
+            foreach (var t in GetComponentsInChildren<Transform>(true)) if (t.name == childName) return t;
+            return null;
+        }
+
         /// <summary>Revive and reposition for a fresh duel.</summary>
         public virtual void Respawn(Vector3 position)
         {

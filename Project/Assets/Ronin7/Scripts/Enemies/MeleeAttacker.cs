@@ -140,6 +140,21 @@ namespace Ronin7.Enemies
         // Null for TrainingDummy/art-prefab rigs with no "Blade"-named child — RendererTint.Apply is
         // null-safe so Tint() stays a no-op for the blade in that case.
         private Renderer bladeRenderer;
+        // P8-02: the composed main-hand weapon (null = prefab-baked kit) and the strike in progress.
+        private EnemyWeaponDefinition weaponKit;
+        private Strike strike = Strike.Chop;
+        public EnemyWeaponDefinition WeaponKit => weaponKit;
+        /// <summary>P8-02: the strike the next attack uses, from the attached weapon's patterns.</summary>
+        internal Strike NextStrike() => weaponKit != null ? weaponKit.NextStrike() : Strike.Chop;
+        private float StrikeActive => ActiveTime * strike.active;
+        private float StrikeRecover => RecoverTime * strike.recovery;
+
+        /// <summary>P8-02: bind the composed kit. A guard renderer (the shield) becomes the archetype mark.</summary>
+        protected void SetWeaponKit(EnemyWeaponDefinition main, Renderer guardMark)
+        {
+            weaponKit = main;
+            if (guardMark != null) archetypeMark = guardMark;
+        }
         // Body material reads _RimColor/_FlashAmount (GrittyCyber). False for e.g. SamuraiToon bodies, whose
         // own material _RimColor must not be overridden by an MPB black.
         private bool bodyHasRim;
@@ -383,17 +398,17 @@ namespace Ronin7.Enemies
                     break;
 
                 case State.Active:
-                    float strike = StrikePoseProgress(timer, ActiveTime);
-                    PoseWeapon(windupEuler, strikeEuler, strike);
-                    PoseBody(1f, -StrikeLunge, strike);
+                    float strikeT = StrikePoseProgress(timer, StrikeActive);
+                    PoseWeapon(windupEuler, strikeEuler, strikeT);
+                    PoseBody(1f, -StrikeLunge, strikeT);
                     // P2-10 (BUG-29): land the hit when the strike pose lands (end of its ease-out arc),
                     // not 0.65 x Active later; the rest of Active is follow-through.
-                    if (!strikeResolved && strike >= 1f)
+                    if (!strikeResolved && strikeT >= 1f)
                     {
                         strikeResolved = true;
                         if (!deflectedThisSwing && IsInLandHitRange()) LandHit();
                     }
-                    if (timer >= ActiveTime)
+                    if (timer >= StrikeActive)
                     {
                         OnActiveEnd();
                         Enter(State.Recover);
@@ -402,12 +417,12 @@ namespace Ronin7.Enemies
 
                 case State.Recover:
                     // P2-11: eased (not linear) settle so the pose doesn't kink into the walk; same duration.
-                    float settle = Mathf.SmoothStep(0f, 1f, timer / RecoverTime);
+                    float settle = Mathf.SmoothStep(0f, 1f, timer / StrikeRecover);
                     PoseWeapon(strikeEuler, restEuler, settle);
                     PoseBody(-StrikeLunge, 0f, settle);
-                    Tint(Color.Lerp(TelegraphColor, IdleColor, timer / RecoverTime),
-                         Color.Lerp(TelegraphRim, RestRim, timer / RecoverTime));
-                    if (timer >= RecoverTime) Enter(StateAfterRecover);
+                    Tint(Color.Lerp(TelegraphColor, IdleColor, timer / StrikeRecover),
+                         Color.Lerp(TelegraphRim, RestRim, timer / StrikeRecover));
+                    if (timer >= StrikeRecover) Enter(StateAfterRecover);
                     break;
 
                 case State.Stagger:
@@ -469,7 +484,8 @@ namespace Ronin7.Enemies
         {
             OnBeginAttack();
             // P4-09 Quick Telegraph shortens the base (floor 0.6 s) before the off-cone grace is added.
-            telegraph = TelegraphFor(Heat.Telegraph(TelegraphTime, RunState.HeatRankOf(HeatRank.QuickTelegraph)), AngleFromPlayerForward());
+            strike = NextStrike();
+            telegraph = TelegraphFor(Heat.Telegraph(TelegraphTime * strike.windup, RunState.HeatRankOf(HeatRank.QuickTelegraph)), AngleFromPlayerForward());
             Log("telegraph");
             deflectedThisSwing = false;
             strikeResolved = false;

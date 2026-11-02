@@ -174,8 +174,11 @@ namespace Ronin7.EditorTools
                 return false;
             }
 
+            // P8-02 (D-17): trash bodies carry no weapon; it is composed onto the sockets at spawn
+            // (Enemy.Equip). Bosses keep their bespoke baked kit.
+            bool boss = sourceFolder == BossSourceFolder;
             var bladeTip = armR.Find("Sword/Blade/BladeTip");
-            if (bladeTip == null)
+            if (bladeTip == null && boss)
             {
                 // Matches XRRigBuilder.BuildEnemy's greybox convention (Sword/Blade/BladeTip, tip offset
                 // 0.5m along local +Z) so the parry-capsule geometry behaves identically to shipped enemies.
@@ -189,7 +192,7 @@ namespace Ronin7.EditorTools
                 bladeTip = tip;
             }
 
-            FitWeapon(name, bladeTip);
+            if (boss) { FitWeapon(name, bladeTip); EnemyWeaponBuilder.PaintKatana(bladeTip.parent); }
 
             var visual = FindDeep(instance.transform, "Visual_Skinned");
             var bodyRenderer = visual != null ? visual.GetComponent<Renderer>() : null;
@@ -227,6 +230,7 @@ namespace Ronin7.EditorTools
             // normalise, because at room scale a 0.4 m height error is glaring.
             FitArt(instance, TargetEnemyHeight, 0f, 0.35f);
             float scale = instance.transform.localScale.y;
+            if (!boss) FitSockets(instance);
 
             string outputPath = OutputFolder + "/" + name + ".prefab";
             // P1-12: drop the variant link to the source art prefab, or its glTFast material (and the
@@ -305,6 +309,66 @@ namespace Ronin7.EditorTools
         private static void FitWeapon(string prefabName, Transform bladeTip)
         {
             if (!RoguelikeDataBuilder.IsNaturalPrefab(prefabName)) EnemySwordVisual.EnsureVisible(bladeTip.parent, null);
+        }
+
+        /// <summary>P8-02 (D-17): empty <see cref="EnemyWeaponDefinition.MainSocket"/> under Rig_ArmR and
+        /// <see cref="EnemyWeaponDefinition.OffSocket"/> under Rig_ArmL at the hand end of each measured arm (the BUG-47
+        /// arm vertices: centroid of the farthest 15% along the arm), rotated so the socket frame matches the body frame
+        /// (+Z forward, +Y up) in the lowered arm rest, and unscaled so weapons are true metres. Idempotent.</summary>
+        internal static void FitSockets(GameObject root)
+        {
+            var smr = root.GetComponentInChildren<SkinnedMeshRenderer>(true);
+            var walk = root.GetComponent<NpcWalkAnimator>();
+            float down = walk != null ? new SerializedObject(walk).FindProperty("armsDownDegrees").floatValue : 0f;
+            foreach (var (bone, socket, sign) in new[] { (NpcWalkAnimator.ArmRBoneName, EnemyWeaponDefinition.MainSocket, -1f),
+                                                          (NpcWalkAnimator.ArmLBoneName, EnemyWeaponDefinition.OffSocket, 1f) })
+            {
+                var arm = FindDeep(root.transform, bone);
+                if (arm == null) continue;
+                var s = arm.Find(socket);
+                if (s == null) { s = new GameObject(socket).transform; s.SetParent(arm, false); }
+                Vector3 hand = Vector3.zero;
+                if (smr != null && MeasureArm(smr, bone, out Vector3 dir, out var pts))
+                {
+                    float max = float.MinValue;
+                    foreach (var p in pts) max = Mathf.Max(max, Vector3.Dot(p, dir));
+                    int n = 0;
+                    foreach (var p in pts) if (Vector3.Dot(p, dir) >= max * 0.85f) { hand += p; n++; }
+                    hand /= Mathf.Max(n, 1);
+                    // ponytail: never behind the shoulder plane (the Ganger's hand verts sit 0.46 m back, burying the
+                    // daggers in the body). Per-rig socket overrides if a rig needs more.
+                    hand.z = Mathf.Max(hand.z, 0f);
+                }
+                s.localPosition = hand;
+                // NpcWalkAnimator rest: ArmL rolls +down, ArmR -down about forward; undo it so the socket is body-aligned at rest.
+                s.localRotation = Quaternion.Inverse(Quaternion.AngleAxis(sign * down, Vector3.forward));
+                s.localScale = Vector3.one / Mathf.Max(arm.lossyScale.x, 1e-4f);
+            }
+        }
+
+        /// <summary>P8-02 (additive, idempotent): fits the sockets on every baked trash body and strips the P8-01
+        /// baked Rig_ArmR/Sword (bladeTip is composed at spawn), then rebuilds the archetype marks (drops the
+        /// Trooper slab). Bosses are untouched.</summary>
+        internal static void ComposeBakedBodies()
+        {
+            foreach (var name in TrashMobNames)
+            {
+                string path = OutputFolder + "/" + name + ".prefab";
+                if (AssetDatabase.LoadAssetAtPath<GameObject>(path) == null) { Debug.LogWarning("[EnemyPrefabBaker] missing " + path); continue; }
+                var root = PrefabUtility.LoadPrefabContents(path);
+                try
+                {
+                    var sword = FindDeep(root.transform, NpcWalkAnimator.ArmRBoneName)?.Find("Sword");
+                    if (sword != null) Object.DestroyImmediate(sword.gameObject);
+                    var so = new SerializedObject(root.GetComponent<Enemy>());
+                    SetObjectRef(so, "bladeTip", null);
+                    so.ApplyModifiedPropertiesWithoutUndo();
+                    FitSockets(root);
+                    PrefabUtility.SaveAsPrefabAsset(root, path);
+                }
+                finally { PrefabUtility.UnloadPrefabContents(root); }
+            }
+            ApplyArchetypeMarks();
         }
 
         /// <summary>P8-01 (additive, idempotent): fits the held weapon to every already-baked enemy prefab.</summary>
@@ -483,7 +547,8 @@ namespace Ronin7.EditorTools
             // A13.9 (user, 2026-10-24 playtest): every other mark read as a glitch and is removed (mesh null = no mark; the row
             // stays so the patch still strips the old child and rebuilds weak marks). The trooper slab stays: it IS the HeavyBreak guard tell.
             // P6-00 (user, 2026-10-24): the slab is re-seated on the left forearm (SeatOnForearm), so pos/euler are unused.
-            ("Dominion_Trooper",          "Cube",     "Rig_ArmL", Vector3.zero,                     new Vector3(0.32f, 0.45f, 0.03f),   Vector3.zero,             new Color(0.1f, 0.75f, 1f) * 2f),  // shield trooper: cyan forearm shield
+            // P8-02 (D-17): the slab is no longer baked - the composed shield (Socket_OffHand) is the guard tell; the row keeps its colour.
+            ("Dominion_Trooper",          null,       "Rig_ArmL", Vector3.zero,                     new Vector3(0.32f, 0.45f, 0.03f),   Vector3.zero,             new Color(0.1f, 0.75f, 1f) * 2f),  // shield trooper: cyan forearm shield
             ("Program_Operative_Grunt",    null,       null,       Vector3.zero, Vector3.zero, Vector3.zero, Color.black),  // duelist: mark removed (A13.9)
             ("Hunter_Drone",               null,       null,       Vector3.zero, Vector3.zero, Vector3.zero, Color.black),  // gunner: mark removed (A13.9)
             ("Dominion_Scan-Drone",        null,       null,       Vector3.zero, Vector3.zero, Vector3.zero, Color.black),  // support: mark removed (A13.9)

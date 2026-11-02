@@ -349,6 +349,13 @@ namespace Ronin7.World
             EnemyDefinition scaled = BuildScaledDefinition(definitionAsset, node, request.IsElite, request.IsBoss, runSeed, out bool isVolatile);
             Enemy enemy = instance.GetComponent<Enemy>();
             if (scaled != null && enemy != null) enemy.Configure(scaled, halfExtent); // A3.1 (P3-04: halfExtent bounds Displace) — no reflection
+            // P8-02 (D-17): body + weapon(s) + sector mods. Bosses keep their prefab kit. ResolveEntry validated the index.
+            EnemySpawnTable.Entry kit = request.IsBoss ? null : spawnTable.trash[request.EntryIndex];
+            if (kit != null && kit.mainHand != null && enemy != null)
+            {
+                if (scaled != null) kit.mainHand.ApplyTo(scaled);
+                enemy.Equip(kit.mainHand, kit.offHand);
+            }
 
             Health health = instance.GetComponent<Health>();
             if (health == null)

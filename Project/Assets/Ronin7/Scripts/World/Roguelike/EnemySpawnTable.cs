@@ -20,6 +20,10 @@ namespace Ronin7.World
             public bool eliteOnly;
             [Tooltip("Max copies of this entry in one room (0 = unlimited). Support drone = 1.")]
             public int maxPerRoom;
+            [Tooltip("P8-02 (D-17): weapon composed onto Socket_MainHand at spawn (claws for natural enemies).")]
+            public Ronin7.Enemies.EnemyWeaponDefinition mainHand;
+            [Tooltip("P8-02: optional off-hand (shield, second dagger) on Socket_OffHand.")]
+            public Ronin7.Enemies.EnemyWeaponDefinition offHand;
         }
 
         [System.Serializable]

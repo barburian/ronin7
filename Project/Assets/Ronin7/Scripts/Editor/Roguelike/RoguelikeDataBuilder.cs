@@ -283,6 +283,7 @@ namespace Ronin7.EditorTools
                     eliteOnly = spec.EliteOnly,
                     maxPerRoom = spec.MaxPerRoom,
                 });
+                EnemyWeaponBuilder.Assign(trash[trash.Count - 1]); // P8-02 (D-17): default kit
                 report.Append(spec.PrefabName).Append(" -> RL_").Append(spec.RlName)
                       .Append(" weight=").Append(spec.Weight).Append(" minDepth=").Append(spec.MinDepth)
                       .Append(spec.EliteOnly ? " eliteOnly" : "").Append('\n');

@@ -59,7 +59,8 @@ Transform:
   m_LocalPosition: {x: -0.2195703, y: 0.21703126, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4820385033454418639}
   m_Father: {fileID: 7467039187132815444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2251666876962462926
@@ -411,7 +412,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7322589816538773891}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &3295981369223010755
+--- !u!1 &3427484486713197418
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -419,28 +420,27 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2346064370955058440}
+  - component: {fileID: 5632575295432952043}
   m_Layer: 0
-  m_Name: Sword
+  m_Name: Socket_MainHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2346064370955058440
+--- !u!4 &5632575295432952043
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3295981369223010755}
+  m_GameObject: {fileID: 3427484486713197418}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.6087614, w: 0.7933533}
+  m_LocalPosition: {x: 0.19038261, y: -0.3309028, z: 0.23090614}
+  m_LocalScale: {x: 1.1303712, y: 1.1303712, z: 1.1303712}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 690274803512304833}
+  m_Children: []
   m_Father: {fileID: 1264321600657219120}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4138262152188428380
@@ -604,71 +604,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2346064370955058440}
+  - {fileID: 5632575295432952043}
   m_Father: {fileID: 7467039187132815444}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &5144750200891198403
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2110053159788704687}
-  m_Layer: 0
-  m_Name: BladeTip
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2110053159788704687
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5144750200891198403}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 690274803512304833}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &5397609050288814474
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 690274803512304833}
-  m_Layer: 0
-  m_Name: Blade
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &690274803512304833
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5397609050288814474}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2110053159788704687}
-  m_Father: {fileID: 2346064370955058440}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5924895111799852623
 GameObject:
@@ -803,7 +740,7 @@ MonoBehaviour:
   flinchCancelsWindup: 1
   swingSmoothing: 0.5
   definition: {fileID: 0}
-  bladeTip: {fileID: 2110053159788704687}
+  bladeTip: {fileID: 0}
   parryRadius: 0.12
   debugLogs: 0
   weakMarks: []
@@ -850,3 +787,34 @@ CapsuleCollider:
   m_Height: 0.904297
   m_Direction: 1
   m_Center: {x: 0, y: 2.0346682, z: 0}
+--- !u!1 &8535662226239235008
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4820385033454418639}
+  m_Layer: 0
+  m_Name: Socket_OffHand
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4820385033454418639
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8535662226239235008}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0.6087614, w: 0.7933533}
+  m_LocalPosition: {x: -0.18282862, y: -0.3263236, z: 0.24945413}
+  m_LocalScale: {x: 1.1303712, y: 1.1303712, z: 1.1303712}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 192346414029561764}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

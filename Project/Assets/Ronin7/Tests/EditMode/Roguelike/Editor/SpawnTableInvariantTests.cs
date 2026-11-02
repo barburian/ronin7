@@ -339,10 +339,14 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
                         Assert.AreNotEqual(Ronin7.EditorTools.EnemyPrefabBaker.MarkName, t.name, $"'{e.prefab.name}' still has an ArchetypeMark child (A13.9).");
                     continue;
                 }
-                Assert.IsNotNull(mark, $"'{e.prefab.name}' has no archetype mark - run Patch Archetype Prefabs.");
-                Assert.AreEqual(Ronin7.EditorTools.EnemyPrefabBaker.MarkName, mark.name);
-                Assert.IsNull(mark.GetComponent<Collider>(), $"'{e.prefab.name}' mark must not collide.");
-                Assert.AreEqual(UnityEngine.Rendering.ShadowCastingMode.Off, mark.shadowCastingMode, e.prefab.name);
+                // P8-02 (D-17): the slab is no longer baked; the composed off-hand shield is the guard mark (Enemy.Equip).
+                Assert.IsNull(mark, $"'{e.prefab.name}' still has a baked slab - run Compose Enemy Weapons (additive).");
+                Assert.IsNotNull(e.offHand, "Trooper has no off-hand shield.");
+                Renderer shield = null;
+                foreach (var r in e.offHand.prefab.GetComponentsInChildren<Renderer>(true)) if (r.name == "Shield") shield = r;
+                Assert.IsNotNull(shield, "off-hand has no renderer named Shield");
+                Assert.IsNull(shield.GetComponent<Collider>(), $"'{e.prefab.name}' shield must not collide.");
+                Assert.AreEqual(UnityEngine.Rendering.ShadowCastingMode.Off, shield.shadowCastingMode, e.prefab.name);
                 Assert.IsTrue(colours.Add(so.FindProperty("archetypeColor").colorValue), $"'{e.prefab.name}' mark colour is not unique.");
             }
         }

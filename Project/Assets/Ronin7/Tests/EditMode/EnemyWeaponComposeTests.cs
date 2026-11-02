@@ -1,0 +1,102 @@
+using NUnit.Framework;
+using Ronin7.Enemies;
+using UnityEditor;
+using UnityEngine;
+
+namespace Ronin7.Tests.EditMode
+{
+    /// <summary>P8-02 (D-17): weapons are composed onto body sockets at spawn, never baked.</summary>
+    public class EnemyWeaponComposeTests
+    {
+        private GameObject body;
+
+        [TearDown] public void TearDown() { if (body != null) Object.DestroyImmediate(body); }
+
+        private Enemy MakeBody(out Transform mainSocket, out Transform offSocket)
+        {
+            body = new GameObject("body");
+            body.SetActive(false); // spawn order: equip before Awake
+            var armR = new GameObject("Rig_ArmR").transform; armR.SetParent(body.transform, false);
+            var armL = new GameObject("Rig_ArmL").transform; armL.SetParent(body.transform, false);
+            mainSocket = new GameObject(EnemyWeaponDefinition.MainSocket).transform; mainSocket.SetParent(armR, false);
+            offSocket = new GameObject(EnemyWeaponDefinition.OffSocket).transform; offSocket.SetParent(armL, false);
+            var enemy = body.AddComponent<Enemy>();
+            var so = new SerializedObject(enemy);
+            so.FindProperty("weapon").objectReferenceValue = armR;
+            so.ApplyModifiedPropertiesWithoutUndo();
+            return enemy;
+        }
+
+        private static EnemyWeaponDefinition Def(GameObject prefab, Vector3 tip)
+        {
+            var d = ScriptableObject.CreateInstance<EnemyWeaponDefinition>();
+            d.prefab = prefab; d.tip = tip;
+            return d;
+        }
+
+        [Test]
+        public void Compose_AttachesToSocket()
+        {
+            var enemy = MakeBody(out var main, out var off);
+            var swordPrefab = new GameObject("TestSword");
+            var shieldPrefab = new GameObject("TestShield");
+            var shield = GameObject.CreatePrimitive(PrimitiveType.Cube); shield.name = "Shield"; shield.transform.SetParent(shieldPrefab.transform, false);
+            try
+            {
+                enemy.Equip(Def(swordPrefab, new Vector3(0f, 0f, 0.7f)), Def(shieldPrefab, Vector3.zero));
+                Assert.AreEqual(1, main.childCount, "main-hand weapon not under Socket_MainHand");
+                Assert.AreEqual(1, off.childCount, "off-hand weapon not under Socket_OffHand");
+                var tip = new SerializedObject(enemy).FindProperty("bladeTip").objectReferenceValue as Transform;
+                Assert.IsNotNull(tip);
+                Assert.AreEqual(main.GetChild(0), tip.parent, "bladeTip must be the attached weapon's tip");
+                Assert.AreEqual(new Vector3(0f, 0f, 0.7f), tip.localPosition);
+                var mark = new SerializedObject(enemy).FindProperty("archetypeMark").objectReferenceValue as Renderer;
+                Assert.IsNotNull(mark, "the shield must become the guard mark");
+                Assert.AreEqual(off, mark.transform.parent.parent);
+            }
+            finally { Object.DestroyImmediate(swordPrefab); Object.DestroyImmediate(shieldPrefab); }
+        }
+
+        [Test]
+        public void Compose_PatternsComeFromWeapon()
+        {
+            var enemy = MakeBody(out _, out _);
+            Assert.AreEqual(1f, enemy.NextStrike().windup, "no weapon: today's chop");
+            var def = Def(null, Vector3.forward);
+            def.patterns[0].strikes[0] = new Strike { direction = StrikeDirection.Overhead, windup = 1.5f, active = 0.5f, recovery = 2f };
+            enemy.Equip(def);
+            Assert.AreSame(def, enemy.WeaponKit);
+            Strike s = enemy.NextStrike();
+            Assert.AreEqual(1.5f, s.windup); Assert.AreEqual(0.5f, s.active); Assert.AreEqual(2f, s.recovery);
+        }
+
+        [Test]
+        public void Natural_HasNoMesh()
+        {
+            var claws = AssetDatabase.LoadAssetAtPath<EnemyWeaponDefinition>("Assets/Ronin7/Data/Roguelike/Weapons/EW_Claws.asset");
+            Assert.IsNotNull(claws, "EW_Claws missing - run Tools/Space Samurai/Roguelike/Build Enemy Weapons (additive).");
+            Assert.IsNull(claws.prefab);
+            var enemy = MakeBody(out var main, out _);
+            enemy.Equip(claws);
+            Assert.AreEqual(0, body.GetComponentsInChildren<Renderer>(true).Length, "claws must add no renderer");
+            Assert.IsNotNull(main.GetChild(0).Find(EnemyWeaponDefinition.TipName));
+        }
+
+        [Test]
+        public void EveryWeapon_SharesPaletteMaterials_NoLights()
+        {
+            var mats = new System.Collections.Generic.HashSet<Material>();
+            foreach (var guid in AssetDatabase.FindAssets("t:EnemyWeaponDefinition", new[] { "Assets/Ronin7/Data/Roguelike/Weapons" }))
+            {
+                var d = AssetDatabase.LoadAssetAtPath<EnemyWeaponDefinition>(AssetDatabase.GUIDToAssetPath(guid));
+                Assert.AreEqual(1, d.patterns.Count, d.name + ": P8-02 ships one pattern (the chop)");
+                if (d.prefab == null) continue;
+                Assert.IsEmpty(d.prefab.GetComponentsInChildren<Light>(true), d.name);
+                Assert.IsEmpty(d.prefab.GetComponentsInChildren<Collider>(true), d.name + ": visual-only");
+                foreach (var r in d.prefab.GetComponentsInChildren<Renderer>(true)) mats.Add(r.sharedMaterial);
+            }
+            Assert.LessOrEqual(mats.Count, 3, "weapons share the 3-material palette");
+            foreach (var m in mats) StringAssert.StartsWith("Assets/Ronin7/Art/Materials/EnemyWeapons/", AssetDatabase.GetAssetPath(m));
+        }
+    }
+}
