@@ -672,7 +672,8 @@ namespace Ronin7.Enemies
 
         protected void Enter(State next)
         {
-            if (bladeEdge != null) bladeEdge.enabled = next == State.Windup || next == State.Active;
+            // P7-06 (BUG-53): attack line hidden; the component stays for P8-04. Windup reads via the rim pulse.
+            if (bladeEdge != null) bladeEdge.enabled = false;
             EnterCore(next);
         }
 
