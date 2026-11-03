@@ -827,6 +827,7 @@ namespace Ronin7.EditorTools
             var mesh = Resources.GetBuiltinResource<Mesh>(meshName + ".fbx");
             go.AddComponent<MeshFilter>().sharedMesh = mesh;
             var mr = go.AddComponent<MeshRenderer>();
+            mr.sharedMaterial = EnemyWeaponBuilder.MarkMaterial; // P8-05: a saved URP material (was none = magenta in edit mode; runtime swaps to SharedUnlit)
             mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             mr.receiveShadows = false;
             mr.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.Off;
