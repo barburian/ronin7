@@ -64,7 +64,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
         {
             var table = AssetDatabase.LoadAssetAtPath<EnemySpawnTable>(SpawnTablePath);
             if (table == null) Assert.Ignore("Spawn table not built.");
-            Assert.AreEqual(7, table.kits?.Length ?? 0, "spawn table kit list - run Compose Enemy Weapons (additive).");
+            Assert.AreEqual(10, table.kits?.Length ?? 0, "spawn table kit list - run Compose Enemy Weapons (additive).");
             return table;
         }
 

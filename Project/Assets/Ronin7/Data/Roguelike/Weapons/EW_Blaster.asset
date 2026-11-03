@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cd4ec7528da05e4f804759a5517367d, type: 3}
+  m_Name: EW_Blaster
+  m_EditorClassIdentifier: Ronin7.Enemies::Ronin7.Enemies.EnemyWeaponDefinition
+  prefab: {fileID: 1529444196639051795, guid: 79ab22c7587f3484dbbab586e8be0e01, type: 3}
+  tip: {x: 0, y: -0.55, z: 0.02}
+  edgeBase: {x: 0, y: -0.55, z: 0.02}
+  reach: 1
+  forearm: 0
+  damage: 1
+  ranged: 1
+  patterns:
+  - name: Burst
+    weight: 2
+    strikes:
+    - direction: 1
+      windup: 0.8
+      active: 1
+      recovery: 1
+      boltSpeed: 6
+      boltGravity: 0
+      boltRadius: 0.1
+    - direction: 1
+      windup: 0.15
+      active: 1
+      recovery: 1
+      boltSpeed: 6
+      boltGravity: 0
+      boltRadius: 0.1
+    - direction: 1
+      windup: 0.15
+      active: 1
+      recovery: 1
+      boltSpeed: 6
+      boltGravity: 0
+      boltRadius: 0.1
+  - name: Charged
+    weight: 1
+    strikes:
+    - direction: 1
+      windup: 1.4
+      active: 1
+      recovery: 1
+      boltSpeed: 3
+      boltGravity: 0
+      boltRadius: 0.25

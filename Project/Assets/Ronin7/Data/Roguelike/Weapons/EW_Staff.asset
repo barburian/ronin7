@@ -20,7 +20,17 @@ MonoBehaviour:
   damage: 1
   ranged: 1
   patterns:
-  - name: Chop
+  - name: Bolt cast
+    weight: 2
+    strikes:
+    - direction: 1
+      windup: 1.2
+      active: 1
+      recovery: 1
+      boltSpeed: 4
+      boltGravity: 0
+      boltRadius: 0.12
+  - name: Jab
     weight: 1
     strikes:
     - direction: 0

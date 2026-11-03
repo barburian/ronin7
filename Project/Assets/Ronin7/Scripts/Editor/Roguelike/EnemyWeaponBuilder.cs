@@ -29,6 +29,16 @@ namespace Ronin7.EditorTools
             public Part(string n, PrimitiveType t, M m, Vector3 p, Vector3 s, Vector3 e = default) { name = n; type = t; mat = m; pos = p; scale = s; euler = e; }
         }
 
+        // P8-02c: the Aim pose swings the arm -75 deg about X, which carries weapon +Z to world up and -Y to world forward.
+        // Ranged kits are authored the natural way (barrel +Z, up +Y) then turned 90 deg about X so the barrel lands on -Y.
+        private static Vector3 Aimed(Vector3 v) => new Vector3(v.x, -v.z, v.y);
+        private static Part[] Aimed(params Part[] ps)
+        {
+            for (int i = 0; i < ps.Length; i++)
+                ps[i] = new Part(ps[i].name, ps[i].type, ps[i].mat, Aimed(ps[i].pos), ps[i].scale, (Quaternion.Euler(90f, 0f, 0f) * Quaternion.Euler(ps[i].euler)).eulerAngles);
+            return ps;
+        }
+
         private static readonly Vector3 Roll = new Vector3(90f, 0f, 0f); // cylinder long axis Y -> +Z
 
         // name, tip, reach multiplier, ranged, parts (null = natural/meshless)
@@ -54,6 +64,22 @@ namespace Ronin7.EditorTools
             ("Staff", new Vector3(0f, 0f, 1.2f), 1f, true, new[] { // stand-in: user image-to-3D mesh later
                 new Part("Shaft", PrimitiveType.Cylinder, M.Grip, new Vector3(0f, 0f, 0.35f), new Vector3(0.03f, 0.75f, 0.03f), Roll),
                 new Part("Blade", PrimitiveType.Sphere, M.Brass, new Vector3(0f, 0f, 1.15f), new Vector3(0.1f, 0.1f, 0.1f)) }),
+            ("Bow", Aimed(new Vector3(0f, 0f, 0.7f)), 1f, true, Aimed(new[] { // limbs vertical, string toward the archer, arrow along the aim line
+                new Part("Grip", PrimitiveType.Cube, M.Grip, Vector3.zero, new Vector3(0.035f, 0.12f, 0.04f)),
+                new Part("LimbU", PrimitiveType.Cylinder, M.Grip, new Vector3(0f, 0.26f, -0.06f), new Vector3(0.025f, 0.267f, 0.025f), new Vector3(-13f, 0f, 0f)),
+                new Part("LimbL", PrimitiveType.Cylinder, M.Grip, new Vector3(0f, -0.26f, -0.06f), new Vector3(0.025f, 0.267f, 0.025f), new Vector3(13f, 0f, 0f)),
+                new Part("String", PrimitiveType.Cylinder, M.Steel, new Vector3(0f, 0f, -0.12f), new Vector3(0.006f, 0.52f, 0.006f)),
+                new Part("Blade", PrimitiveType.Cylinder, M.Brass, new Vector3(0f, 0f, 0.35f), new Vector3(0.012f, 0.35f, 0.012f), Roll) })),
+            ("Crossbow", Aimed(new Vector3(0f, 0.03f, 0.7f)), 1f, true, Aimed(new[] {
+                new Part("Stock", PrimitiveType.Cube, M.Grip, new Vector3(0f, 0f, 0.25f), new Vector3(0.045f, 0.055f, 0.55f)),
+                new Part("Prod", PrimitiveType.Cube, M.Steel, new Vector3(0f, 0.01f, 0.5f), new Vector3(0.5f, 0.025f, 0.04f)),
+                new Part("String", PrimitiveType.Cube, M.Steel, new Vector3(0f, 0.01f, 0.45f), new Vector3(0.48f, 0.008f, 0.008f)),
+                new Part("Blade", PrimitiveType.Cube, M.Brass, new Vector3(0f, 0.04f, 0.45f), new Vector3(0.015f, 0.015f, 0.5f)) })),
+            ("Blaster", Aimed(new Vector3(0f, 0.02f, 0.55f)), 1f, true, Aimed(new[] {
+                new Part("Body", PrimitiveType.Cube, M.Grip, new Vector3(0f, 0f, 0.12f), new Vector3(0.07f, 0.1f, 0.26f)),
+                new Part("Handle", PrimitiveType.Cube, M.Grip, new Vector3(0f, -0.07f, 0.05f), new Vector3(0.045f, 0.11f, 0.055f), new Vector3(-12f, 0f, 0f)),
+                new Part("Blade", PrimitiveType.Cylinder, M.Steel, new Vector3(0f, 0.02f, 0.38f), new Vector3(0.04f, 0.16f, 0.04f), Roll),
+                new Part("Cell", PrimitiveType.Cube, M.Brass, new Vector3(0f, 0.065f, 0.15f), new Vector3(0.05f, 0.03f, 0.14f)) })),
             ("Claws", new Vector3(0f, 0f, 0.25f), 1f, false, null),
         };
 
@@ -73,11 +99,29 @@ namespace Ronin7.EditorTools
         private static readonly (string main, string off)[] RollKits =
         {
             ("Sword", null), ("Spear", null), ("HeavyAxe", null), ("Dagger", "Dagger"), ("Baton", "Shield"), ("Spear", "Shield"), ("Staff", null),
+            ("Bow", null), ("Crossbow", null), ("Blaster", null),
         };
 
-        /// <summary>P8-02c: each weapon's moveset, rewritten on every compose. ponytail: the pattern-0 chop for every
-        /// weapon (behaviour unchanged) until P8-03 fills the approved table here.</summary>
-        internal static AttackPattern[] PatternsFor(string weapon) => new[] { new AttackPattern() };
+        private static AttackPattern Pat(string name, int weight, params Strike[] strikes) =>
+            new AttackPattern { name = name, weight = weight, strikes = new System.Collections.Generic.List<Strike>(strikes) };
+
+        private static Strike Shot(float windup, float recovery, float speed, float gravity, float radius) => new Strike
+        {
+            direction = StrikeDirection.Aim, windup = windup, active = 1f, recovery = recovery,
+            boltSpeed = speed, boltGravity = gravity, boltRadius = radius,
+        };
+
+        /// <summary>P8-02c: each weapon's moveset, rewritten on every compose. Ranged weapons carry their bolt data;
+        /// the rest stay the pattern-0 chop until P8-03 fills the approved table. Pattern 0 is what fires today.</summary>
+        internal static AttackPattern[] PatternsFor(string weapon) => weapon switch
+        {
+            "Bow" => new[] { Pat("Aimed", 2, Shot(1.5f, 1f, 8f, 6f, 0.1f)), Pat("Snap", 1, Shot(0.8f, 1f, 10f, 3f, 0.1f)) },
+            "Crossbow" => new[] { Pat("Bolt", 1, Shot(0.6f, 2.5f, 10f, 0f, 0.06f)) },
+            "Blaster" => new[] { Pat("Burst", 2, Shot(0.8f, 1f, 6f, 0f, 0.1f), Shot(0.15f, 1f, 6f, 0f, 0.1f), Shot(0.15f, 1f, 6f, 0f, 0.1f)),
+                                 Pat("Charged", 1, Shot(1.4f, 1f, 3f, 0f, 0.25f)) },
+            "Staff" => new[] { Pat("Bolt cast", 2, Shot(1.2f, 1f, 4f, 0f, 0.12f)), new AttackPattern { name = "Jab", weight = 1 } },
+            _ => new[] { new AttackPattern() },
+        };
 
         internal static void AssignKits(EnemySpawnTable table)
         {
@@ -141,9 +185,9 @@ namespace Ronin7.EditorTools
                 def.tip = spec.tip;
                 def.edgeBase = new Vector3(spec.tip.x, spec.tip.y, Mathf.Min(spec.tip.z, 0.12f));
                 def.reach = spec.reach;
-                def.ranged = spec.ranged;
-                def.forearm = spec.name == "Shield";
                 def.patterns = new System.Collections.Generic.List<AttackPattern>(PatternsFor(spec.name));
+                def.ranged = def.patterns.Exists(p => p.strikes.Exists(k => k.Ranged));
+                def.forearm = spec.name == "Shield";
                 if (spec.parts != null)
                 {
                     string prefabPath = PrefabFolder + "/EW_" + spec.name + ".prefab";
