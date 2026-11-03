@@ -64,7 +64,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
         {
             var table = AssetDatabase.LoadAssetAtPath<EnemySpawnTable>(SpawnTablePath);
             if (table == null) Assert.Ignore("Spawn table not built.");
-            Assert.AreEqual(6, table.kits?.Length ?? 0, "spawn table kit list - run Compose Enemy Weapons (additive).");
+            Assert.AreEqual(7, table.kits?.Length ?? 0, "spawn table kit list - run Compose Enemy Weapons (additive).");
             return table;
         }
 
@@ -186,17 +186,17 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
         {
             var table = LoadTable();
             var armed = System.Array.Find(table.trash, e => !e.definition.naturalWeapon);
-            var seen = new System.Collections.Generic.HashSet<EnemyWeaponDefinition>();
+            var seen = new System.Collections.Generic.HashSet<(EnemyWeaponDefinition, EnemyWeaponDefinition)>();
             var a = Ronin7.Core.RunRng.ForNode(2026u ^ 0x4B17u, 3);
             var b = Ronin7.Core.RunRng.ForNode(2026u ^ 0x4B17u, 3);
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < 400; i++)
             {
                 var ka = table.RollKit(armed, ref a);
                 var kb = table.RollKit(armed, ref b);
                 Assert.AreSame(ka.main, kb.main); Assert.AreSame(ka.off, kb.off);
-                seen.Add(ka.main);
+                seen.Add((ka.main, ka.off));
             }
-            Assert.AreEqual(6, seen.Count, "all six kits should be rolled over 200 spawns");
+            Assert.AreEqual(table.kits.Length, seen.Count, "every (main, off) kit should be rolled over 400 spawns");
         }
 
         [Test]

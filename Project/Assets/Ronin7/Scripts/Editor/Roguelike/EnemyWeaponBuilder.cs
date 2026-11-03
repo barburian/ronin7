@@ -72,8 +72,12 @@ namespace Ronin7.EditorTools
         /// <summary>P8-02b: the loadouts an armed body can roll: every weapon, in an order tests rely on.</summary>
         private static readonly (string main, string off)[] RollKits =
         {
-            ("Sword", null), ("Spear", null), ("HeavyAxe", null), ("Dagger", "Dagger"), ("Baton", "Shield"), ("Staff", null),
+            ("Sword", null), ("Spear", null), ("HeavyAxe", null), ("Dagger", "Dagger"), ("Baton", "Shield"), ("Spear", "Shield"), ("Staff", null),
         };
+
+        /// <summary>P8-02c: each weapon's moveset, rewritten on every compose. ponytail: the pattern-0 chop for every
+        /// weapon (behaviour unchanged) until P8-03 fills the approved table here.</summary>
+        internal static AttackPattern[] PatternsFor(string weapon) => new[] { new AttackPattern() };
 
         internal static void AssignKits(EnemySpawnTable table)
         {
@@ -139,6 +143,7 @@ namespace Ronin7.EditorTools
                 def.reach = spec.reach;
                 def.ranged = spec.ranged;
                 def.forearm = spec.name == "Shield";
+                def.patterns = new System.Collections.Generic.List<AttackPattern>(PatternsFor(spec.name));
                 if (spec.parts != null)
                 {
                     string prefabPath = PrefabFolder + "/EW_" + spec.name + ".prefab";

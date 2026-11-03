@@ -23,6 +23,8 @@ MonoBehaviour:
     off: {fileID: 11400000, guid: 7ec944e645c58f34f801b99af110fd68, type: 2}
   - main: {fileID: 11400000, guid: 7636235c67ef5c540890f6ea2e1e82ad, type: 2}
     off: {fileID: 11400000, guid: 982a8a783a1f7de4b896c0d342756ff8, type: 2}
+  - main: {fileID: 11400000, guid: 942a051dfc892244f9a899c5afe0f485, type: 2}
+    off: {fileID: 11400000, guid: 982a8a783a1f7de4b896c0d342756ff8, type: 2}
   - main: {fileID: 11400000, guid: a0b9b32be036d6f48b6f30a17d93814e, type: 2}
     off: {fileID: 0}
   trash:

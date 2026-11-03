@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Ronin7.Enemies
 {
     /// <summary>P8-02: strike direction. Serialized: append-only.</summary>
-    public enum StrikeDirection { Overhead }
+    public enum StrikeDirection { Overhead, Aim }
 
     /// <summary>P8-02: one strike of a pattern. Timings are multipliers of the body's own
     /// <see cref="EnemyDefinition"/> telegraph/active/recover times (1 = today's chop), so sector and Heat
@@ -14,6 +14,9 @@ namespace Ronin7.Enemies
     {
         public StrikeDirection direction;
         public float windup, active, recovery;
+        /// <summary>P8-02c: ranged strikes fire a pooled bolt (m/s, m/s^2 down, hit radius m). Old assets read 0 = melee.</summary>
+        public float boltSpeed, boltGravity, boltRadius;
+        public bool Ranged => boltSpeed > 0f;
         public static Strike Chop => new Strike { direction = StrikeDirection.Overhead, windup = 1f, active = 1f, recovery = 1f };
     }
 
@@ -21,6 +24,8 @@ namespace Ronin7.Enemies
     public class AttackPattern
     {
         public string name = "Chop";
+        [Tooltip("P8-03 weighted picker: relative chance of this pattern.")]
+        public int weight = 1;
         public List<Strike> strikes = new List<Strike> { Strike.Chop };
     }
 
