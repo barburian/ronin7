@@ -11,12 +11,12 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
     {
         private const string Folder = "Assets/Ronin7/Data/Roguelike/Enemies/RL_";
 
-        // (rlName, hp, weakness) straight from the P3-04 table; Swarmer is the only None.
+        // (rlName, hp, weakness) from the P3-04 table; Swarmer and (P8-05) the Trooper body are None.
         private static readonly object[][] Roster =
         {
             new object[] { "AshScavenger", 30f, WeaknessKind.None },
             new object[] { "CoilGanger", 70f, WeaknessKind.Recovery },
-            new object[] { "DominionTrooper", 80f, WeaknessKind.HeavyBreak },
+            new object[] { "DominionTrooper", 80f, WeaknessKind.None }, // P8-05: HeavyBreak follows the shield kit
             new object[] { "ProgramGrunt", 70f, WeaknessKind.Alternating },
             new object[] { "HunterDrone", 35f, WeaknessKind.Reflect },
             new object[] { "ScanDrone", 25f, WeaknessKind.Linchpin },
@@ -58,8 +58,6 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
             Assert.AreEqual(0.5f, L("CoilGanger").resistMultiplier);
             Assert.AreEqual(2.5f, L("CoilGanger").exploitMultiplier);
             Assert.AreEqual(5.5f, L("DominionTrooper").heavySwingSpeed);
-            Assert.AreEqual(0.15f, L("DominionTrooper").resistMultiplier);
-            Assert.AreEqual(1.5f, L("DominionTrooper").exploitMultiplier);
             Assert.AreEqual(0.2f, L("ProgramGrunt").resistMultiplier);
             Assert.AreEqual(0f, L("GraveGuardian").resistMultiplier); // CounterHit: Resisted Idle/Chase (x0)
             Assert.AreEqual(0f, L("Maelgorn_P2").resistMultiplier);
@@ -90,7 +88,8 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
             foreach (var guid in guids)
             {
                 var d = AssetDatabase.LoadAssetAtPath<EnemyDefinition>(AssetDatabase.GUIDToAssetPath(guid));
-                if (d.name == "RL_AshScavenger") Assert.AreEqual(WeaknessKind.None, d.weakness);
+                // P8-05: the Trooper body is unweaknessed; its HeavyBreak comes from a rolled shield kit.
+                if (d.name == "RL_AshScavenger" || d.name == "RL_DominionTrooper") Assert.AreEqual(WeaknessKind.None, d.weakness, d.name);
                 else Assert.AreNotEqual(WeaknessKind.None, d.weakness, d.name);
             }
         }

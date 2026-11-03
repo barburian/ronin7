@@ -331,6 +331,8 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
             {
                 var so = new SerializedObject(e.prefab.GetComponent<Enemy>());
                 var mark = so.FindProperty("archetypeMark").objectReferenceValue as Renderer;
+                // P8-05: HeavyBreak follows the shield kit (Enemy.Equip), never a trash body's own definition.
+                Assert.AreNotEqual(WeaknessKind.HeavyBreak, e.definition.weakness, $"'{e.prefab.name}' body carries HeavyBreak (P8-05).");
                 if (e.prefab.name != "Dominion_Trooper")
                 {
                     // A13.8 / A13.9: unmarked - no reference and no ArchetypeMark child left behind.

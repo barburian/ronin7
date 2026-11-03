@@ -19,17 +19,20 @@ namespace Ronin7.Enemies
         /// <summary>+1 / -1 (see <see cref="WeaknessRules.Side"/>); LastHitSide 0 = no previous hit.</summary>
         public readonly int HitSide, LastHitSide;
         public readonly float SinceLastHit;
+        /// <summary>P8-05: the hit landed on/near the shield's weak spot (<see cref="WeaknessRules.OnWeakSpot"/>).</summary>
+        public readonly bool OnWeakSpot;
 
         public WeaknessContext(Vector3 enemyPos, Vector3 enemyForward, Vector3 sourcePos, Vector3 hitPoint,
             float speed, DamageType type, bool sourceIsPlayer, bool sourceIsAlly, bool sightActive,
             bool staggered, bool attacking, bool recovering, bool recentlyBlinked,
-            int hitSide, int lastHitSide, float sinceLastHit)
+            int hitSide, int lastHitSide, float sinceLastHit, bool onWeakSpot = false)
         {
             EnemyPos = enemyPos; EnemyForward = enemyForward; SourcePos = sourcePos; HitPoint = hitPoint;
             Speed = speed; Type = type;
             SourceIsPlayer = sourceIsPlayer; SourceIsAlly = sourceIsAlly; SightActive = sightActive;
             Staggered = staggered; Attacking = attacking; Recovering = recovering; RecentlyBlinked = recentlyBlinked;
             HitSide = hitSide; LastHitSide = lastHitSide; SinceLastHit = sinceLastHit;
+            OnWeakSpot = onWeakSpot;
         }
     }
 
@@ -42,6 +45,13 @@ namespace Ronin7.Enemies
         /// <summary>PostureOnly: HP is always Resisted (x0.2) but posture gain is x5 - its ability-free path.</summary>
         public const float PostureOnlyHpMultiplier = 0.2f;
         public const float PostureOnlyPostureMultiplier = 5f;
+        /// <summary>P8-05: a shield kit grants HeavyBreak with these (the old Shield Trooper numbers).</summary>
+        public const float ShieldResist = 0.15f, ShieldExploit = 1.5f;
+        /// <summary>P8-05: how close (m) to the shield's weak-spot strip a hit counts as on it.</summary>
+        public const float WeakSpotRadius = 0.2f;
+
+        // ponytail: distance to the strip's bounds, not a collider; give the shield a trigger if hits read wrong in headset.
+        public static bool OnWeakSpot(Bounds spot, Vector3 hit) => spot.SqrDistance(hit) <= WeakSpotRadius * WeakSpotRadius;
 
         public static WeaknessResult Evaluate(WeaknessKind k, in WeaknessContext c, float heavySwingSpeed)
         {
@@ -52,6 +62,7 @@ namespace Ronin7.Enemies
                         ? WeaknessResult.Exploited : WeaknessResult.Resisted;
 
                 case WeaknessKind.HeavyBreak:
+                    if (c.OnWeakSpot) return WeaknessResult.Exploited; // P8-05: the shield's exposed flank
                     if (IsBehind(c.EnemyPos, c.EnemyForward, c.SourcePos)) return WeaknessResult.Neutral;
                     return c.Speed >= heavySwingSpeed ? WeaknessResult.Exploited : WeaknessResult.Resisted;
 

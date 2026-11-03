@@ -188,7 +188,7 @@ namespace Ronin7.EditorTools
                 case "CoilGanger": // Charger: resisted mid-charge, exploited in recovery
                     return d => { d.maxHealth = 70f; d.telegraphTime = 1f; Weak(d, WeaknessKind.Recovery, 0.5f, 2.5f); };
                 case "DominionTrooper": // Shield trooper
-                    return d => { d.maxHealth = 80f; Weak(d, WeaknessKind.HeavyBreak, 0.15f, 1.5f); d.heavySwingSpeed = 5.5f; };
+                    return d => { d.maxHealth = 80f; d.weakness = WeaknessKind.None; d.heavySwingSpeed = 5.5f; }; // P8-05: HeavyBreak comes from a shield kit (Enemy.Equip)
                 case "ProgramGrunt": // Pattern duelist
                     return d => { d.maxHealth = 70f; Weak(d, WeaknessKind.Alternating, 0.2f, 1.5f); };
                 case "HunterDrone": // Ranged gunner (RangedEnemy); a deflected bolt kills (Max x exploit)

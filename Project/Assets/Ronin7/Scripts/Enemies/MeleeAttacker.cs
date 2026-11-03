@@ -403,7 +403,7 @@ namespace Ronin7.Enemies
             telegraph = TelegraphTime;
             if (bladeEdge != null) bladeEdge.enabled = false;
             Tint(IdleColor);
-            if (archetypeMark != null)
+            if (archetypeMark != null && !HasShield) // P8-05: a shield keeps the body's armour material (Enemy.Equip)
             {
                 archetypeMark.sharedMaterial = VrUiMaterials.SharedUnlit;
                 RendererTint.Apply(archetypeMark, archetypeColor);

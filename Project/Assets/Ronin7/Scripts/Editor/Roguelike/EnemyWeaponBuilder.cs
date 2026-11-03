@@ -60,7 +60,9 @@ namespace Ronin7.EditorTools
             ("Baton", new Vector3(0f, 0f, 0.52f), 1f, false, new[] {
                 new Part("Blade", PrimitiveType.Cylinder, M.Steel, new Vector3(0f, 0f, 0.22f), new Vector3(0.035f, 0.3f, 0.035f), Roll) }),
             ("Shield", Vector3.zero, 1f, false, new[] { // stand-in: user image-to-3D mesh later. Socket_Shield faces it out-forward, sized to a 0.25 m forearm.
-                new Part("Shield", PrimitiveType.Cube, M.Steel, new Vector3(0f, 0f, 0.015f), new Vector3(0.32f, 0.42f, 0.03f)) }),
+                new Part("Shield", PrimitiveType.Cube, M.Steel, new Vector3(0f, 0f, 0.015f), new Vector3(0.32f, 0.42f, 0.03f)),
+                // P8-05 weak spot: a bright seam on the outer (-X, rear-left) flank of the face. Enemy.Equip lights it.
+                new Part(Enemy.WeakSpotName, PrimitiveType.Cube, M.Brass, new Vector3(-0.145f, 0f, 0.034f), new Vector3(0.03f, 0.38f, 0.012f)) }),
             ("Staff", new Vector3(0f, 0f, 1.2f), 1f, true, new[] { // stand-in: user image-to-3D mesh later
                 new Part("Shaft", PrimitiveType.Cylinder, M.Grip, new Vector3(0f, 0f, 0.35f), new Vector3(0.03f, 0.75f, 0.03f), Roll),
                 new Part("Blade", PrimitiveType.Sphere, M.Brass, new Vector3(0f, 0f, 1.15f), new Vector3(0.1f, 0.1f, 0.1f)) }),
@@ -235,6 +237,9 @@ namespace Ronin7.EditorTools
                 if (m >= 0) r.sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>(MatFolder + "/EnemyWeapon_" + (M)m + ".mat");
             }
         }
+
+        /// <summary>P8-05: saved URP Unlit palette material for baked weak-point marks (Enemy swaps to SharedUnlit at runtime).</summary>
+        internal static Material MarkMaterial => AssetDatabase.LoadAssetAtPath<Material>(MatFolder + "/EnemyWeapon_" + M.Brass + ".mat");
 
         private static void MakePart(Transform parent, Part p, Material mat)
         {

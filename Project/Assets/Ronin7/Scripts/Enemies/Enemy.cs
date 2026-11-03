@@ -124,6 +124,7 @@ namespace Ronin7.Enemies
             }
             base.Awake();
             posture = GetComponent<PostureMeter>();
+            GrantShieldGuard();
             ApplyDefinition();
             if (bladeTip == null)
                 Debug.LogError("[Enemy] bladeTip not wired — parry detection disabled.", this);
@@ -176,10 +177,12 @@ namespace Ronin7.Enemies
             if (kind == WeaknessKind.HeavyBreak && slab != null)
             {
                 if (slab.enabled == broken) slab.enabled = !broken;
+                if (weakSpot != null && weakSpot.enabled == broken) weakSpot.enabled = !broken;
                 if (slabFlickerUntil > 0f && Time.unscaledTime >= slabFlickerUntil)
                 {
                     slabFlickerUntil = -1f;
-                    RendererTint.Apply(slab, ArchetypeColor);
+                    if (weakSpot != null) RendererTint.Apply(weakSpot, OpenMarkColor);
+                    else RendererTint.Apply(slab, ArchetypeColor);
                 }
             }
 
@@ -516,7 +519,8 @@ namespace Ronin7.Enemies
                 attacking: state == State.Windup || state == State.Active,
                 recovering: state == State.Recover,
                 recentlyBlinked: now - lastBlinkTime < WeaknessRules.BlinkWindow,
-                side, lastHitSide, now - lastHitTime);
+                side, lastHitSide, now - lastHitTime,
+                onWeakSpot: weakSpot != null && weakSpot.enabled && WeaknessRules.OnWeakSpot(weakSpot.bounds, info.Point));
             lastHitSide = side;
             lastHitTime = now;
 
@@ -530,9 +534,11 @@ namespace Ronin7.Enemies
             if (result == WeaknessResult.Resisted)
             {
                 EventBus.Publish(new HitResisted(info.Point, gameObject));
-                if (kind == WeaknessKind.HeavyBreak && ArchetypeMark != null)
+                if (kind == WeaknessKind.HeavyBreak && ArchetypeMark != null
+                    && !(weakSpot != null && GameSettings.Active.ReduceFlashes)) // P8-05: weak spot stays steady
                 {
-                    RendererTint.Apply(ArchetypeMark, GuardMarkColor); // slab flicker: "too slow"
+                    // slab flicker: "too slow". A shield keeps its armour material, so its weak spot flickers instead.
+                    RendererTint.Apply(weakSpot != null ? weakSpot : ArchetypeMark, GuardMarkColor);
                     slabFlickerUntil = Time.unscaledTime + SlabFlickerSeconds;
                 }
                 float resist = kind == WeaknessKind.PostureOnly ? WeaknessRules.PostureOnlyHpMultiplier : definition.resistMultiplier;
@@ -566,7 +572,8 @@ namespace Ronin7.Enemies
         /// <see cref="Configure(EnemyDefinition)"/>). The main hand's tip becomes <c>bladeTip</c>; an off-hand
         /// renderer named "Shield" becomes the HeavyBreak guard mark; a <c>forearm</c> off-hand straps to Socket_Shield
         /// (P8-02c). <c>weapon</c> stays the arm bone the chop
-        /// swings. Null main = keep the prefab's own kit (bosses).</summary>
+        /// swings. Null main = keep the prefab's own kit (bosses). P8-05: a shield grants HeavyBreak (on the per-spawn
+        /// definition), wears the body's own armour material, and lights its "WeakSpot" strip.</summary>
         public void Equip(EnemyWeaponDefinition main, EnemyWeaponDefinition off = null)
         {
             if (main == null) return;
@@ -578,7 +585,33 @@ namespace Ronin7.Enemies
                 foreach (var r in off.Attach((off.forearm ? FindChild(EnemyWeaponDefinition.ShieldSocket) : null)
                                              ?? FindChild(EnemyWeaponDefinition.OffSocket) ?? transform).GetComponentsInChildren<Renderer>(true))
                     if (r.name == "Shield") shield = r;
+                    else if (r.name == WeakSpotName) weakSpot = r;
             SetWeaponKit(main, off, shield);
+            if (shield == null) { weakSpot = null; return; }
+            if (bodyRenderer != null) shield.sharedMaterial = bodyRenderer.sharedMaterial; // shared: no new material/SetPass
+            if (weakSpot != null)
+            {
+                weakSpot.sharedMaterial = VrUiMaterials.SharedUnlit;
+                RendererTint.Apply(weakSpot, OpenMarkColor); // steady bright strip: reads in greyscale, never pulses
+            }
+            shieldGuard = true;
+            GrantShieldGuard();
+            if (health != null && definition != null) health.DamageFilter = FilterDamage; // equipped after Awake
+        }
+
+        /// <summary>P8-05: the shield's weak-spot renderer name (EW_Shield prefab).</summary>
+        public const string WeakSpotName = "WeakSpot";
+        private Renderer weakSpot;
+        private bool shieldGuard;
+
+        /// <summary>P8-05: HeavyBreak follows the shield. <c>definition</c> is the spawner's per-spawn copy (A3.1
+        /// Configure), so this never touches the shared asset.</summary>
+        private void GrantShieldGuard()
+        {
+            if (!shieldGuard || definition == null) return;
+            definition.weakness = WeaknessKind.HeavyBreak;
+            definition.resistMultiplier = WeaknessRules.ShieldResist;
+            definition.exploitMultiplier = WeaknessRules.ShieldExploit;
         }
 
         private Transform FindChild(string childName)

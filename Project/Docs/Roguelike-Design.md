@@ -1453,7 +1453,7 @@ Binding as of Phase 3. The Phase 3 brief called this "Amendment 9"; 9 (Phase 1) 
   | Kind | Exploited | Resisted | Else |
   |---|---|---|---|
   | Backstab | staggered, or hit from >= 110 deg off forward | front hit | - |
-  | HeavyBreak | swing speed >= `heavySwingSpeed` | slower swing | Neutral from behind |
+  | HeavyBreak | swing speed >= `heavySwingSpeed`, or (P8-05) a hit within 0.2 m of the shield's weak spot | slower swing | Neutral from behind |
   | Recovery | staggered or recovering | attacking | Neutral |
   | Alternating | opposite side to the last hit | same side as the last hit within 4 s | Neutral (first hit or > 4 s) |
   | Reflect | player-sourced Projectile | - | Neutral |
@@ -1514,9 +1514,15 @@ Binding as of Phase 3. The Phase 3 brief called this "Amendment 9"; 9 (Phase 1) 
   recovering, recentlyBlinked)` is the pure state test (Recovery: staggered or recovering; Backstab and ParryGate:
   staggered; CounterHit: attacking or staggered; Blink: recently blinked; the rest are false because they carry their
   own marker). `RestsGuarded` kinds (ParryGate, CounterHit, PostureOnly) rest blue-grey whenever not open. Per-kind
-  markers: Alternating shoulders (gold on the side opposite the last hit), Backstab back plate, HeavyBreak slab
-  (flickers blue-grey on a too-slow hit, hidden while shattered), Construct chest crack (grows with posture, gold at
-  the break).
+  markers: Alternating shoulders (gold on the side opposite the last hit), Backstab back plate, HeavyBreak shield
+  (hidden while shattered; P8-05: its gold weak-spot seam flickers blue-grey on a too-slow hit, steady with Reduce
+  Flashes), Construct chest crack (grows with posture, gold at the break).
+  - **P8-05: HeavyBreak follows the shield.** No trash body definition carries HeavyBreak (the Trooper body is None).
+    `Enemy.Equip` grants it to any body whose kit has a shield (Baton+Shield, Spear+Shield), on the per-spawn
+    definition copy, with resist x0.15 / exploit x1.5 (`WeaknessRules.ShieldResist/ShieldExploit`). The shield wears
+    the body's own armour material (`bodyRenderer.sharedMaterial`, no MPB, no new material). Its outer-flank seam
+    (`WeakSpot` renderer on EW_Shield, SharedUnlit + steady HDR gold) is the weak spot: a light hit within
+    `WeaknessRules.WeakSpotRadius` of it is Exploited like a heavy swing; a light centre hit is Resisted.
   - **First-encounter teach is per `WeaknessKind`, not per archetype** (`WeaknessTeach`): on first aggro of a kind the
     marker pulses 1.5 s and the wrist HUD shows one short hint (<= 5 words, 4 s); the first `WeaknessExploited` of
     that kind plays a **0.5x slow-mo for 0.4 s real time** on the appended `TimeScaleChannel.WeaknessTeach`, restored
@@ -1642,9 +1648,11 @@ User answers on 2026-10-23 for the design calls the roadmap left open:
 - **A13.9 Archetype marks removed (user, 2026-10-24 v0.6.0 playtest).** Amends A12.2 / A13.8. The BUG-40 marks
   (grunt visor bar, hunter barrel, scan-drone halo, automaton core, warden banner, guardian pool, construct yoke,
   ghost orb) read as glitches in the headset. Archetypes are identified by silhouette, telegraph and behaviour;
-  those `EnemyPrefabBaker.MarkSpecs` rows have no mesh and `SpawnTableInvariantTests` asserts only the Shield Trooper
-  keeps an `ArchetypeMark`. Exception: the trooper's cyan shield slab stays, because it is the HeavyBreak guard tell
-  (flickers on resisted hits, hidden on break). The BUG-39 weak-point marks (`WeakMarkSpecs`) stay.
+  those `EnemyPrefabBaker.MarkSpecs` rows have no mesh and `SpawnTableInvariantTests` asserts no trash prefab keeps a
+  baked `ArchetypeMark`. P8-02/P8-05 update: the old trooper slab is gone; a rolled shield kit becomes the guard mark at
+  `Enemy.Equip`, in the wearer's armour material with a gold weak-spot seam, and brings HeavyBreak with it (any body;
+  a Trooper without a shield has none). The BUG-39 weak-point marks (`WeakMarkSpecs`) stay; P8-05 gives them a saved
+  URP material (EnemyWeapon_Brass) so they are no longer magenta in edit mode.
 
 ## Amendment 14: Phase 6 accessibility and comfort
 

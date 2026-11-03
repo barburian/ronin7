@@ -33,9 +33,9 @@ MonoBehaviour:
   damageAddedPerGalaxy: 0
   superArmor: 0
   postureGainMultiplier: 1
-  weakness: 2
+  weakness: 0
   resistMultiplier: 0.15
-  exploitMultiplier: 1.5
+  exploitMultiplier: 2
   heavySwingSpeed: 5.5
   materialClass: 0
   postureBreakBonusFraction: 0
