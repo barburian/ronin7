@@ -20,13 +20,41 @@ MonoBehaviour:
   damage: 1
   ranged: 0
   patterns:
-  - name: Chop
+  - name: Flurry
+    weight: 2
+    strikes:
+    - direction: 3
+      windup: 0.5
+      active: 1
+      recovery: 1
+      boltSpeed: 0
+      boltGravity: 0
+      boltRadius: 0
+      unparryable: 0
+    - direction: 2
+      windup: 0.5
+      active: 1
+      recovery: 1
+      boltSpeed: 0
+      boltGravity: 0
+      boltRadius: 0
+      unparryable: 0
+    - direction: 4
+      windup: 0.5
+      active: 1
+      recovery: 1
+      boltSpeed: 0
+      boltGravity: 0
+      boltRadius: 0
+      unparryable: 0
+  - name: Cross slash
     weight: 1
     strikes:
-    - direction: 0
+    - direction: 2
       windup: 1
       active: 1
       recovery: 1
       boltSpeed: 0
       boltGravity: 0
       boltRadius: 0
+      unparryable: 0

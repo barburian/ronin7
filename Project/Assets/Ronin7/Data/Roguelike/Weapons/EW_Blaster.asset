@@ -26,10 +26,19 @@ MonoBehaviour:
     - direction: 1
       windup: 0.8
       active: 1
-      recovery: 1
+      recovery: 0.3
       boltSpeed: 6
       boltGravity: 0
       boltRadius: 0.1
+      unparryable: 0
+    - direction: 1
+      windup: 0.15
+      active: 1
+      recovery: 0.3
+      boltSpeed: 6
+      boltGravity: 0
+      boltRadius: 0.1
+      unparryable: 0
     - direction: 1
       windup: 0.15
       active: 1
@@ -37,13 +46,7 @@ MonoBehaviour:
       boltSpeed: 6
       boltGravity: 0
       boltRadius: 0.1
-    - direction: 1
-      windup: 0.15
-      active: 1
-      recovery: 1
-      boltSpeed: 6
-      boltGravity: 0
-      boltRadius: 0.1
+      unparryable: 0
   - name: Charged
     weight: 1
     strikes:
@@ -54,3 +57,4 @@ MonoBehaviour:
       boltSpeed: 3
       boltGravity: 0
       boltRadius: 0.25
+      unparryable: 0

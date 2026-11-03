@@ -111,15 +111,35 @@ namespace Ronin7.EditorTools
             boltSpeed = speed, boltGravity = gravity, boltRadius = radius,
         };
 
-        /// <summary>P8-02c: each weapon's moveset, rewritten on every compose. Ranged weapons carry their bolt data;
-        /// the rest stay the pattern-0 chop until P8-03 fills the approved table. Pattern 0 is what fires today.</summary>
+        // P8-03 melee strike: windup multiplier on the body's telegraph; dodge = unparryable (a blade parry won't stop it).
+        private static Strike Hit(StrikeDirection d, float windup, bool dodge = false) => new Strike
+        {
+            direction = d, windup = windup, active = 1f, recovery = 1f, unparryable = dodge,
+        };
+
+        /// <summary>P8-03: each weapon's moveset (the approved table), rewritten on every compose. Ranged weapons carry
+        /// their bolt data. An off-hand's patterns (Shield bash) are merged into the main hand's at Equip.</summary>
         internal static AttackPattern[] PatternsFor(string weapon) => weapon switch
         {
+            "Sword" => new[] { Pat("Overhead", 2, Hit(StrikeDirection.Overhead, 1f)),
+                               Pat("L-R", 1, Hit(StrikeDirection.Left, 0.8f), Hit(StrikeDirection.Right, 0.8f)) },
+            "Spear" => new[] { Pat("Thrust", 2, Hit(StrikeDirection.Thrust, 1f)),
+                               Pat("Double thrust", 1, Hit(StrikeDirection.Thrust, 0.7f), Hit(StrikeDirection.Thrust, 0.7f)),
+                               Pat("Low sweep", 1, Hit(StrikeDirection.Low, 1.3f, dodge: true)) },
+            "HeavyAxe" => new[] { Pat("Overhead slam", 2, Hit(StrikeDirection.Overhead, 1.6f, dodge: true)),
+                                  Pat("Side sweep", 1, Hit(StrikeDirection.Left, 1.4f, dodge: true)) },
+            "Dagger" => new[] { Pat("Flurry", 2, Hit(StrikeDirection.Right, 0.5f), Hit(StrikeDirection.Left, 0.5f), Hit(StrikeDirection.Thrust, 0.5f)),
+                                Pat("Cross slash", 1, Hit(StrikeDirection.Left, 1f)) },
+            "Baton" => new[] { Pat("Baton strike", 2, Hit(StrikeDirection.Overhead, 1f)) },
+            "Shield" => new[] { Pat("Shield bash", 1, Hit(StrikeDirection.Thrust, 0.7f, dodge: true)) },
+            "Claws" => new[] { Pat("Swipe", 2, Hit(StrikeDirection.Right, 1f)),
+                               Pat("Double swipe", 1, Hit(StrikeDirection.Left, 0.8f), Hit(StrikeDirection.Right, 0.8f)) },
             "Bow" => new[] { Pat("Aimed", 2, Shot(1.5f, 1f, 8f, 6f, 0.1f)), Pat("Snap", 1, Shot(0.8f, 1f, 10f, 3f, 0.1f)) },
             "Crossbow" => new[] { Pat("Bolt", 1, Shot(0.6f, 2.5f, 10f, 0f, 0.06f)) },
-            "Blaster" => new[] { Pat("Burst", 2, Shot(0.8f, 1f, 6f, 0f, 0.1f), Shot(0.15f, 1f, 6f, 0f, 0.1f), Shot(0.15f, 1f, 6f, 0f, 0.1f)),
+            // Burst shots 1-2 recover at 0.3x so the 3 bolts read as one burst, not three separate attacks.
+            "Blaster" => new[] { Pat("Burst", 2, Shot(0.8f, 0.3f, 6f, 0f, 0.1f), Shot(0.15f, 0.3f, 6f, 0f, 0.1f), Shot(0.15f, 1f, 6f, 0f, 0.1f)),
                                  Pat("Charged", 1, Shot(1.4f, 1f, 3f, 0f, 0.25f)) },
-            "Staff" => new[] { Pat("Bolt cast", 2, Shot(1.2f, 1f, 4f, 0f, 0.12f)), new AttackPattern { name = "Jab", weight = 1 } },
+            "Staff" => new[] { Pat("Bolt cast", 2, Shot(1.2f, 1f, 4f, 0f, 0.12f)), Pat("Jab", 1, Hit(StrikeDirection.Thrust, 1f)) },
             _ => new[] { new AttackPattern() },
         };
 

@@ -20,13 +20,25 @@ MonoBehaviour:
   damage: 1
   ranged: 0
   patterns:
-  - name: Chop
-    weight: 1
+  - name: Overhead slam
+    weight: 2
     strikes:
     - direction: 0
-      windup: 1
+      windup: 1.6
       active: 1
       recovery: 1
       boltSpeed: 0
       boltGravity: 0
       boltRadius: 0
+      unparryable: 1
+  - name: Side sweep
+    weight: 1
+    strikes:
+    - direction: 2
+      windup: 1.4
+      active: 1
+      recovery: 1
+      boltSpeed: 0
+      boltGravity: 0
+      boltRadius: 0
+      unparryable: 1

@@ -30,6 +30,7 @@ MonoBehaviour:
       boltSpeed: 8
       boltGravity: 6
       boltRadius: 0.1
+      unparryable: 0
   - name: Snap
     weight: 1
     strikes:
@@ -40,3 +41,4 @@ MonoBehaviour:
       boltSpeed: 10
       boltGravity: 3
       boltRadius: 0.1
+      unparryable: 0

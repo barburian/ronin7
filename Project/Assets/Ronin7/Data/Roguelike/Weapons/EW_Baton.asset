@@ -20,8 +20,8 @@ MonoBehaviour:
   damage: 1
   ranged: 0
   patterns:
-  - name: Chop
-    weight: 1
+  - name: Baton strike
+    weight: 2
     strikes:
     - direction: 0
       windup: 1
@@ -30,3 +30,4 @@ MonoBehaviour:
       boltSpeed: 0
       boltGravity: 0
       boltRadius: 0
+      unparryable: 0

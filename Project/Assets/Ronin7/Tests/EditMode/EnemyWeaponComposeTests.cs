@@ -109,7 +109,7 @@ namespace Ronin7.Tests.EditMode
             foreach (var guid in AssetDatabase.FindAssets("t:EnemyWeaponDefinition", new[] { "Assets/Ronin7/Data/Roguelike/Weapons" }))
             {
                 var d = AssetDatabase.LoadAssetAtPath<EnemyWeaponDefinition>(AssetDatabase.GUIDToAssetPath(guid));
-                if (!d.ranged) Assert.AreEqual(1, d.patterns.Count, d.name + ": melee weapons ship one pattern (the chop) until P8-03");
+                Assert.IsNotEmpty(d.patterns, d.name + ": every weapon ships a moveset (P8-03)");
                 if (d.prefab == null) continue;
                 Assert.IsEmpty(d.prefab.GetComponentsInChildren<Light>(true), d.name);
                 Assert.IsEmpty(d.prefab.GetComponentsInChildren<Collider>(true), d.name + ": visual-only");

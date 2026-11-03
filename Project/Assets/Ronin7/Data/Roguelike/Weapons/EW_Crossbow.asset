@@ -30,3 +30,4 @@ MonoBehaviour:
       boltSpeed: 10
       boltGravity: 0
       boltRadius: 0.06
+      unparryable: 0

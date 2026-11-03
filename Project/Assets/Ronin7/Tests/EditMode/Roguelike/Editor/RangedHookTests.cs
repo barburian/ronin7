@@ -33,7 +33,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
             {
                 var e = go.AddComponent<Enemy>();
                 e.Configure(ScriptableObject.CreateInstance<EnemyDefinition>());
-                e.FireStrike(bow.NextStrike());
+                e.FireStrike(bow.patterns[0].strikes[0]);
                 Assert.AreEqual(1, calls);
                 Assert.Greater(lastSpeed, 0f);
                 Assert.Greater(lastGravity, 0f);

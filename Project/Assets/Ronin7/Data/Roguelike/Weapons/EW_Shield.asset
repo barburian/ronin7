@@ -20,13 +20,14 @@ MonoBehaviour:
   damage: 1
   ranged: 0
   patterns:
-  - name: Chop
+  - name: Shield bash
     weight: 1
     strikes:
-    - direction: 0
-      windup: 1
+    - direction: 4
+      windup: 0.7
       active: 1
       recovery: 1
       boltSpeed: 0
       boltGravity: 0
       boltRadius: 0
+      unparryable: 1

@@ -30,13 +30,15 @@ MonoBehaviour:
       boltSpeed: 4
       boltGravity: 0
       boltRadius: 0.12
+      unparryable: 0
   - name: Jab
     weight: 1
     strikes:
-    - direction: 0
+    - direction: 4
       windup: 1
       active: 1
       recovery: 1
       boltSpeed: 0
       boltGravity: 0
       boltRadius: 0
+      unparryable: 0

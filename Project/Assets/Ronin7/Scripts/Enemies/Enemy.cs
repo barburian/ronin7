@@ -15,6 +15,7 @@ namespace Ronin7.Enemies
         [Header("Refs (Enemy)")]
         [SerializeField] private EnemyDefinition definition;
         [SerializeField] private Transform bladeTip;
+        private Transform bladeBase; // P8-03: composed weapon's edgeBase; the parry capsule runs bladeBase..bladeTip
 
         [Header("Parry probe")]
         [SerializeField] private float parryRadius = 0.12f;
@@ -383,10 +384,10 @@ namespace Ronin7.Enemies
 
         protected override void TryDetectParry()
         {
-            if (CurrentStrike.Ranged) return;
+            if (!CurrentStrike.Parryable) return; // P8-03: ranged and DODGE strikes ignore a blade parry
             if (bladeTip == null || weapon == null) return;
 
-            int n = Physics.OverlapCapsuleNonAlloc(weapon.position, bladeTip.position,
+            int n = Physics.OverlapCapsuleNonAlloc(ParryCapsuleStart, bladeTip.position,
                 parryRadius, _bladeHits, Layers.BladeMask, QueryTriggerInteraction.Collide);
             for (int i = 0; i < n; i++)
             {
@@ -396,6 +397,9 @@ namespace Ronin7.Enemies
                 return;
             }
         }
+
+        /// <summary>P8-03: blade only - the composed weapon's edgeBase (the arm pivot for prefab-baked kits).</summary>
+        internal Vector3 ParryCapsuleStart => bladeBase != null ? bladeBase.position : weapon.position;
 
         // +0.4 slop so a player who's just slipped out of range during Active still eats the hit.
         protected override bool IsInLandHitRange()
@@ -436,7 +440,9 @@ namespace Ronin7.Enemies
 
         protected override void OnActiveEnd()
         {
-            if (CurrentStrike.Ranged) { FireStrike(CurrentStrike); nextAttackTime = Time.time + AccessibilityOptions.Cooldown(definition.attackCooldown, GameSettings.Active.EnemyCooldownScale); return; }
+            if (CurrentStrike.Ranged) FireStrike(CurrentStrike);
+            if (ComboPending) { chainDeadline = Time.time + StrikeRecover + ChainGrace; return; } // P8-03: next strike of the pattern
+            if (CurrentStrike.Ranged) { nextAttackTime = Time.time + AccessibilityOptions.Cooldown(definition.attackCooldown, GameSettings.Active.EnemyCooldownScale); return; }
             if (++chainDone < definition.chainHits) { chainDeadline = Time.time + RecoverTime + ChainGrace; return; }
             chainDone = 0;
             nextAttackTime = Time.time + AccessibilityOptions.Cooldown(definition.attackCooldown, GameSettings.Active.EnemyCooldownScale); // P6-03 assist
@@ -554,13 +560,15 @@ namespace Ronin7.Enemies
         public void Equip(EnemyWeaponDefinition main, EnemyWeaponDefinition off = null)
         {
             if (main == null) return;
-            bladeTip = main.Attach(FindChild(EnemyWeaponDefinition.MainSocket) ?? weapon).Find(EnemyWeaponDefinition.TipName);
+            Transform root = main.Attach(FindChild(EnemyWeaponDefinition.MainSocket) ?? weapon);
+            bladeTip = root.Find(EnemyWeaponDefinition.TipName);
+            bladeBase = root.Find(EnemyWeaponDefinition.EdgeBaseName);
             Renderer shield = null;
             if (off != null)
                 foreach (var r in off.Attach((off.forearm ? FindChild(EnemyWeaponDefinition.ShieldSocket) : null)
                                              ?? FindChild(EnemyWeaponDefinition.OffSocket) ?? transform).GetComponentsInChildren<Renderer>(true))
                     if (r.name == "Shield") shield = r;
-            SetWeaponKit(main, shield);
+            SetWeaponKit(main, off, shield);
         }
 
         private Transform FindChild(string childName)
@@ -592,9 +600,9 @@ namespace Ronin7.Enemies
                 && timer >= definition.telegraphTime * 0.75f;
             if (state != State.Active && !lateWindup) return;
             Gizmos.color = deflectedThisSwing ? Color.green : Color.yellow;
-            Gizmos.DrawWireSphere(weapon.position, parryRadius);
+            Gizmos.DrawWireSphere(ParryCapsuleStart, parryRadius);
             Gizmos.DrawWireSphere(bladeTip.position, parryRadius);
-            Gizmos.DrawLine(weapon.position, bladeTip.position);
+            Gizmos.DrawLine(ParryCapsuleStart, bladeTip.position);
         }
     }
 }

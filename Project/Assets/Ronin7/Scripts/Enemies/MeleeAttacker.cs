@@ -146,22 +146,56 @@ namespace Ronin7.Enemies
         public EnemyWeaponDefinition WeaponKit => weaponKit;
         /// <summary>P8-02c: a shield is held, so the left arm keeps its guard instead of copying the swing.</summary>
         public bool HasShield { get; private set; }
-        /// <summary>P8-02: the strike the next attack uses, from the attached weapon's patterns.</summary>
+        /// <summary>P8-02: the strike in progress (set by <see cref="BeginAttack"/>).</summary>
         protected Strike CurrentStrike => strike;
+        /// <summary>P8-03: this enemy's pattern cursor over the merged main + off-hand patterns (null = no composed kit).</summary>
+        internal StrikeSequencer Strikes { get; private set; }
+        /// <summary>P8-03: true between strikes of a multi-strike pattern; Enemy chains the next one.</summary>
+        protected bool ComboPending => Strikes != null && Strikes.ComboPending;
         /// <summary>P8-02c: an Aim strike holds the arm level toward the player for both windup and strike (rig: -75 = ~level forward).</summary>
         private static readonly Vector3 AimEuler = new Vector3(-75f, 0f, 0f);
-        private Vector3 WindEuler => strike.direction == StrikeDirection.Aim ? AimEuler : windupEuler;
-        private Vector3 StrikeEuler => strike.direction == StrikeDirection.Aim ? AimEuler : strikeEuler;
-        protected internal virtual Strike NextStrike() => weaponKit != null ? weaponKit.NextStrike() : Strike.Chop;
+        // P8-03 direction poses (windup, strike) in the windupEuler/strikeEuler space: x = swing (through RigArmAngle on
+        // rig arms; 15 = the hanging rest), y = yaw about the parent's up (+ = toward the body's right), z = roll about
+        // its forward (+ = right arm out sideways). The blade sits across the fist (forward at rest), so the side slashes
+        // lift the arm out (roll) and sweep it (yaw) with the blade level. Overhead keeps the body's own tuned pair.
+        // ponytail: one shared set for every body; P8-04 refines the look.
+        private static readonly Vector3 LeftWind = new Vector3(15f, 45f, 70f), LeftHit = new Vector3(15f, -100f, 70f);
+        private static readonly Vector3 RightWind = new Vector3(15f, -130f, 70f), RightHit = new Vector3(15f, 50f, 50f);
+        private static readonly Vector3 ThrustWind = new Vector3(15f, 70f, 45f), ThrustHit = new Vector3(-25f, -5f, 0f);
+        private static readonly Vector3 LowWind = new Vector3(5f, 110f, 0f), LowHit = new Vector3(5f, -80f, 0f);
+        private Vector3 WindEuler => strike.direction switch
+        {
+            StrikeDirection.Aim => AimEuler, StrikeDirection.Left => LeftWind, StrikeDirection.Right => RightWind,
+            StrikeDirection.Thrust => ThrustWind, StrikeDirection.Low => LowWind, _ => windupEuler,
+        };
+        private Vector3 StrikeEuler => strike.direction switch
+        {
+            StrikeDirection.Aim => AimEuler, StrikeDirection.Left => LeftHit, StrikeDirection.Right => RightHit,
+            StrikeDirection.Thrust => ThrustHit, StrikeDirection.Low => LowHit, _ => strikeEuler,
+        };
+        /// <summary>P8-03 preview hook (editor captures, P8-04 telegraph tuning): hold a direction's full windup or landed
+        /// strike pose without touching the state machine.</summary>
+        public void HoldPose(StrikeDirection direction, bool landed)
+        {
+            strike.direction = direction;
+            if (landed) PoseWeapon(WindEuler, StrikeEuler, 1f); else PoseWeapon(restEuler, WindEuler, 1f);
+        }
+        /// <summary>The strike the next attack uses: a held peek, consumed by <see cref="BeginAttack"/>.</summary>
+        protected internal virtual Strike NextStrike() => Strikes != null ? Strikes.Peek : Strike.Chop;
         private float StrikeActive => ActiveTime * strike.active;
-        private float StrikeRecover => RecoverTime * strike.recovery;
+        protected float StrikeRecover => RecoverTime * strike.recovery;
 
-        /// <summary>P8-02: bind the composed kit. A guard renderer (the shield) becomes the archetype mark.</summary>
-        protected void SetWeaponKit(EnemyWeaponDefinition main, Renderer guardMark)
+        /// <summary>P8-02: bind the composed kit. A guard renderer (the shield) becomes the archetype mark. P8-03: the
+        /// off-hand's patterns (Shield bash) join the main hand's for picking, in a per-enemy copy (the assets are shared);
+        /// the same asset in both hands (twin daggers) is not doubled.</summary>
+        protected void SetWeaponKit(EnemyWeaponDefinition main, EnemyWeaponDefinition off, Renderer guardMark)
         {
             weaponKit = main;
             HasShield = guardMark != null;
             if (guardMark != null) archetypeMark = guardMark;
+            var all = new System.Collections.Generic.List<AttackPattern>(main.patterns);
+            if (off != null && off != main) all.AddRange(off.patterns);
+            Strikes = new StrikeSequencer(all, new System.Random(Random.Range(0, int.MaxValue)));
         }
         // Body material reads _RimColor/_FlashAmount (GrittyCyber). False for e.g. SamuraiToon bodies, whose
         // own material _RimColor must not be overridden by an MPB black.
@@ -493,6 +527,7 @@ namespace Ronin7.Enemies
             OnBeginAttack();
             // P4-09 Quick Telegraph shortens the base (floor 0.6 s) before the off-cone grace is added.
             strike = NextStrike();
+            Strikes?.Consume(); // P8-03: advance the held peek (combo strike or next pattern)
             telegraph = TelegraphFor(Heat.Telegraph(TelegraphTime * strike.windup, RunState.HeatRankOf(HeatRank.QuickTelegraph)), AngleFromPlayerForward());
             Log("telegraph");
             deflectedThisSwing = false;
@@ -698,6 +733,7 @@ namespace Ronin7.Enemies
         {
             // P7-06 (BUG-53): attack line hidden; the component stays for P8-04. Windup reads via the rim pulse.
             if (bladeEdge != null) bladeEdge.enabled = false;
+            if (next == State.Stagger) Strikes?.BreakCombo(); // P8-03: a parried/flinched combo starts fresh
             EnterCore(next);
         }
 
@@ -731,10 +767,14 @@ namespace Ronin7.Enemies
                 // passes back through the hanging pose; currentEuler stays a (restX + angle) stand-in for stagger.
                 float a = Mathf.Lerp(RigArmAngle(fromEuler.x, restEuler.x, strikeEuler.x, rigStrikeDegrees),
                                      RigArmAngle(toEuler.x, restEuler.x, strikeEuler.x, rigStrikeDegrees), Mathf.Clamp01(t));
-                currentEuler = new Vector3(restEuler.x + a, 0f, 0f);
+                float t01 = Mathf.Clamp01(t);
+                currentEuler = new Vector3(restEuler.x + a, Mathf.Lerp(fromEuler.y, toEuler.y, t01), Mathf.Lerp(fromEuler.z, toEuler.z, t01));
                 ArmPoseAngle = a * PoseArmScale;
-                // Swing about the parent's X on top of the lowered rest; local-X would only spin the arm.
-                if (weapon != null) weapon.localRotation = Quaternion.AngleAxis(ArmPoseAngle, Vector3.right) * RigArmBase;
+                // Swing about the parent's X on top of the lowered rest; local-X would only spin the arm. P8-03: then
+                // yaw/roll in the parent frame for the side/low/thrust directions (0 for Overhead/Aim).
+                if (weapon != null)
+                    weapon.localRotation = Quaternion.Euler(0f, currentEuler.y * PoseArmScale, currentEuler.z * PoseArmScale)
+                                         * Quaternion.AngleAxis(ArmPoseAngle, Vector3.right) * RigArmBase;
                 return;
             }
             currentEuler = Vector3.Lerp(fromEuler, toEuler, Mathf.Clamp01(t));
