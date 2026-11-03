@@ -325,6 +325,7 @@ namespace Ronin7.EditorTools
             bool isNew = table == null;
             if (isNew) table = ScriptableObject.CreateInstance<EnemySpawnTable>();
             table.trash = trash.ToArray();
+            EnemyWeaponBuilder.AssignKits(table); // P8-02b: rollable loadouts
             table.bosses = bosses.ToArray();
             if (isNew) AssetDatabase.CreateAsset(table, SpawnTablePath);
             else EditorUtility.SetDirty(table);

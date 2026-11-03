@@ -349,12 +349,17 @@ namespace Ronin7.World
             EnemyDefinition scaled = BuildScaledDefinition(definitionAsset, node, request.IsElite, request.IsBoss, runSeed, out bool isVolatile);
             Enemy enemy = instance.GetComponent<Enemy>();
             if (scaled != null && enemy != null) enemy.Configure(scaled, halfExtent); // A3.1 (P3-04: halfExtent bounds Displace) — no reflection
-            // P8-02 (D-17): body + weapon(s) + sector mods. Bosses keep their prefab kit. ResolveEntry validated the index.
-            EnemySpawnTable.Entry kit = request.IsBoss ? null : spawnTable.trash[request.EntryIndex];
-            if (kit != null && kit.mainHand != null && enemy != null)
+            // P8-02b (D-17): body + a rolled weapon kit (own seeded stream, so seed 2026 reproduces) + sector mods.
+            // Natural bodies keep claws; bosses keep their prefab kit. ResolveEntry validated the index.
+            if (!request.IsBoss && enemy != null)
             {
-                if (scaled != null) kit.mainHand.ApplyTo(scaled);
-                enemy.Equip(kit.mainHand, kit.offHand);
+                RunRng kitRng = RunRng.ForNode(runSeed ^ 0x4B17u, node.Index * 31 + queued.Count);
+                EnemySpawnTable.Kit kit = spawnTable.RollKit(spawnTable.trash[request.EntryIndex], ref kitRng);
+                if (kit.main != null)
+                {
+                    if (scaled != null) kit.main.ApplyTo(scaled); // scaled is this spawn's clone: rerolls never stack
+                    enemy.Equip(kit.main, kit.off);
+                }
             }
 
             Health health = instance.GetComponent<Health>();

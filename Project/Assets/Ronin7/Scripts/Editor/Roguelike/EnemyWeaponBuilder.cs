@@ -57,8 +57,7 @@ namespace Ronin7.EditorTools
             ("Claws", new Vector3(0f, 0f, 0.25f), 1f, false, null),
         };
 
-        /// <summary>Default kit per trash body (main, off). Natural bodies get claws. Single source for the
-        /// spawn-table builder and the additive assign.</summary>
+        /// <summary>Fallback kit per trash body (main, off), used when the table has no roll list. Natural bodies get claws.</summary>
         internal static (string main, string off) KitFor(string prefabName) => prefabName switch
         {
             "Ash-World_Scavenger" => ("Spear", null),
@@ -69,6 +68,18 @@ namespace Ronin7.EditorTools
             "Iron_Dojo_Warden-Cadre" => ("Staff", null),
             _ => ("Claws", null),
         };
+
+        /// <summary>P8-02b: the loadouts an armed body can roll: every weapon, in an order tests rely on.</summary>
+        private static readonly (string main, string off)[] RollKits =
+        {
+            ("Sword", null), ("Spear", null), ("HeavyAxe", null), ("Dagger", "Dagger"), ("Baton", "Shield"), ("Staff", null),
+        };
+
+        internal static void AssignKits(EnemySpawnTable table)
+        {
+            table.kits = System.Array.ConvertAll(RollKits, k => new EnemySpawnTable.Kit { main = Load(k.main), off = Load(k.off) });
+            EditorUtility.SetDirty(table);
+        }
 
         internal static EnemyWeaponDefinition Load(string weapon) =>
             weapon == null ? null : AssetDatabase.LoadAssetAtPath<EnemyWeaponDefinition>(DefFolder + "/EW_" + weapon + ".asset");
@@ -97,6 +108,7 @@ namespace Ronin7.EditorTools
             if (table != null)
             {
                 foreach (var e in table.trash) Assign(e);
+                AssignKits(table);
                 EditorUtility.SetDirty(table);
             }
             AssetDatabase.SaveAssets();

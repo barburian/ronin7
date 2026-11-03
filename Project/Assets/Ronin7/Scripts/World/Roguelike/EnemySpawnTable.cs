@@ -40,6 +40,20 @@ namespace Ronin7.World
             public int addCount;
         }
 
+        /// <summary>P8-02b: one rollable weapon loadout (main + optional off-hand).</summary>
+        [System.Serializable]
+        public struct Kit { public Ronin7.Enemies.EnemyWeaponDefinition main, off; }
+
+        [Tooltip("P8-02b: every armed (non-natural) trash body rolls one of these per spawn. Built by EnemyWeaponBuilder.")]
+        public Kit[] kits;
+
+        /// <summary>P8-02b: the loadout for one spawn. Armed bodies roll uniformly from <see cref="kits"/>; natural
+        /// bodies (and an empty kit list) keep the entry's own default.</summary>
+        public Kit RollKit(Entry e, ref Ronin7.Core.RunRng rng) =>
+            e.definition != null && !e.definition.naturalWeapon && kits != null && kits.Length > 0
+                ? kits[rng.NextInt(kits.Length)]
+                : new Kit { main = e.mainHand, off = e.offHand };
+
         public Entry[] trash;
         public BossEntry[] bosses;
     }
