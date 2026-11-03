@@ -649,6 +649,8 @@ and what §1 of this doc actually promises.
 
 ### A2.2 Concurrent enemies are capped at 4 — reinforcements drip in
 
+> **P8-02c update:** a Combat room now holds `10 + sector` enemies (10/11/12; `RunScaling.EnemyCount`). The 4-live cap and drip release below are what make that readable: the rest wait inactive and drip in as kills free slots.
+
 Enemy *count* is the wrong difficulty lever for room-scale VR melee, and the current curve reaches 6.
 This project's own shipped, hand-tuned content caps at **3-4 concurrent** (Ch2: 3 enforcers + 1
 bodyguard; Ch10: 3 guards then 2 automatons). There is no attacker-token or turn-taking gate anywhere
@@ -924,6 +926,8 @@ nearly every point.
 ### A5.5 Concurrency cap via pre-instantiation, not mid-combat spawning
 
 `RunScaling` gains `public const int MaxConcurrentEnemies = 4;` (it does not exist anywhere today).
+
+**P8-02c:** Combat totals are `10 + sector` (was 3-4 + sector); only 4 are ever live, the rest are pre-instantiated and drip-released.
 
 The obvious drip implementation — `Instantiate` inside `OnEnemyDied` — is **wrong for VR**:
 `OnEnemyDied` runs synchronously inside `Health.ApplyDamage`, inside a blade-contact frame, and

@@ -443,9 +443,11 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
                     var rngE = new RunRng(seed);
                     var rngC = new RunRng(seed);
                     eliteSum += Threat(table, WaveComposer.Compose(table, new RunNode(depth, sector, 0, RoomKind.Elite), 12f, Vector3.zero, ref rngE), depth, RoomKind.Elite);
-                    combatSum += Threat(table, WaveComposer.Compose(table, new RunNode(depth, sector, 0, RoomKind.Combat), 12f, Vector3.zero, ref rngC), depth, RoomKind.Combat);
+                    // P8-02c: Combat rooms hold 10+, but they arrive in waves of 3 (RunArenaController.WaveSize), so compare the first wave.
+                    var combat = WaveComposer.Compose(table, new RunNode(depth, sector, 0, RoomKind.Combat), 12f, Vector3.zero, ref rngC);
+                    combatSum += Threat(table, combat.GetRange(0, Mathf.Min(3, combat.Count)), depth, RoomKind.Combat);
                 }
-                // Mean over seeds: a single Combat roll can land 4 heavies; the design claim is on average.
+                // Mean over seeds: a single Combat roll can land 4 heavies; the design claim is on average (first wave).
                 Assert.GreaterOrEqual(eliteSum / Seeds, combatSum / Seeds,
                     $"depth {depth} (sector {sector}): mean elite threat {eliteSum / Seeds:F1} < mean combat threat {combatSum / Seeds:F1}");
             }
@@ -718,7 +720,25 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
             var table = MakeTable(new[] { MakeEntry() });
             var rng = new RunRng(9);
             var result = WaveComposer.Compose(table, new RunNode(0, 0, 0, RoomKind.Combat), 12f, Vector3.zero, ref rng);
-            Assert.GreaterOrEqual(result.Count, 3);
+            Assert.GreaterOrEqual(result.Count, 10);
+        }
+
+        [Test]
+        public void CombatRoom_Spawns10PlusSector()
+        {
+            for (int sector = 0; sector < 3; sector++)
+            {
+                int depth = sector * RunMapGenerator.NodesPerSector + 1;
+                for (uint seed = 1; seed <= 20; seed++)
+                {
+                    var rng = new RunRng(seed);
+                    Assert.AreEqual(10 + sector, RunScaling.EnemyCount(depth, RoomKind.Combat, ref rng), "sector " + sector);
+                }
+                var table = MakeTable(new[] { MakeEntry() });
+                var r2 = new RunRng(7);
+                var node = new RunNode(1, sector, 1, RoomKind.Combat, 0, depth);
+                Assert.AreEqual(10 + sector, WaveComposer.Compose(table, node, 12f, Vector3.zero, ref r2).Count, "composed, sector " + sector);
+            }
         }
 
         [Test]

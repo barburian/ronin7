@@ -63,7 +63,8 @@ namespace Ronin7.Core
                     return depth >= NodesPerSectorBoundary(2) ? 2 : 1;
                 default: // Combat
                     int perSectorBonus = depth / RunMapGenerator.NodesPerSector; // +1 trash per sector reached
-                    return 3 + perSectorBonus + rng.NextInt(2); // 3-4 base, plus depth scaling
+                    rng.NextInt(2); // P8-02c: draw discarded so downstream rng streams (positions, picks) stay stable
+                    return 10 + perSectorBonus; // 10/11/12 by sector; MaxConcurrentEnemies still drips them 4 at a time
             }
         }
 
