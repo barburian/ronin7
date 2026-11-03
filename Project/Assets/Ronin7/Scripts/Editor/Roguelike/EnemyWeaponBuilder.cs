@@ -137,6 +137,7 @@ namespace Ronin7.EditorTools
             var (main, off) = KitFor(e.prefab.name);
             e.mainHand = Load(main);
             e.offHand = Load(off);
+            e.fixedKit = e.prefab.name == "Humanoid_Automaton" || e.prefab.name == "Iron_Dojo_Warden-Cadre"; // sculpted weapon must match
         }
 
         /// <summary>P8-02 (additive, idempotent): weapons, socketed bodies (Sword/slab stripped) and the spawn-table kits.</summary>

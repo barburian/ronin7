@@ -58,6 +58,7 @@ namespace Ronin7.World
         private const float BossBarWidth = 6f, BossBarHeight = 0.2f, BossBarY = 3.7f;
 
         private readonly List<QueuedEnemy> queued = new();
+        private int rangedThisRoom; // P8-02c: ranged kits rolled so far this room (cap EnemySpawnTable.MaxRangedPerRoom)
         private int aliveCount;
         /// <summary>BUG-48: set once Start has built the ledger; gates the <see cref="Update"/> stray re-check.</summary>
         private bool ledgerReady, strayWarned;
@@ -213,6 +214,7 @@ namespace Ronin7.World
             List<SpawnRequest> requests = WaveComposer.Compose(spawnTable, node, halfExtent, exclusionCentreLocal, ref rng, tutorial,
                 RunState.HeatRankOf(HeatRank.SwarmProtocol)); // P4-09 Swarm Protocol: more total, same concurrent cap
 
+            rangedThisRoom = 0;
             foreach (SpawnRequest request in requests)
             {
                 SpawnEnemy(request, node);
@@ -354,9 +356,10 @@ namespace Ronin7.World
             if (!request.IsBoss && enemy != null)
             {
                 RunRng kitRng = RunRng.ForNode(runSeed ^ 0x4B17u, node.Index * 31 + queued.Count);
-                EnemySpawnTable.Kit kit = spawnTable.RollKit(spawnTable.trash[request.EntryIndex], ref kitRng);
+                EnemySpawnTable.Kit kit = spawnTable.RollKit(spawnTable.trash[request.EntryIndex], ref kitRng, rangedThisRoom);
                 if (kit.main != null)
                 {
+                    if (kit.main.ranged) rangedThisRoom++;
                     if (scaled != null) kit.main.ApplyTo(scaled); // scaled is this spawn's clone: rerolls never stack
                     enemy.Equip(kit.main, kit.off);
                 }

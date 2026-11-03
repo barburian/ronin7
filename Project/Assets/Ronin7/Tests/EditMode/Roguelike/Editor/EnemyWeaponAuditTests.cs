@@ -216,5 +216,52 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
                 }
             }
         }
+
+        [Test]
+        public void RangedCap_NeverExceedsFivePerRoom()
+        {
+            var table = LoadTable();
+            var armed = System.Array.Find(table.trash, e => !e.definition.naturalWeapon && !e.fixedKit);
+            Assert.AreEqual(5, EnemySpawnTable.MaxRangedPerRoom);
+            for (uint seed = 1; seed <= 100; seed++)
+            {
+                var rng = Ronin7.Core.RunRng.ForNode(seed ^ 0x4B17u, 3);
+                int ranged = 0;
+                for (int i = 0; i < 12; i++)
+                {
+                    var k = table.RollKit(armed, ref rng, ranged);
+                    if (k.main.ranged) ranged++;
+                }
+                Assert.LessOrEqual(ranged, EnemySpawnTable.MaxRangedPerRoom, "seed " + seed);
+            }
+        }
+
+        [Test]
+        public void RangedCap_UnderCap_MatchesUncappedRoll()
+        {
+            var table = LoadTable();
+            var armed = System.Array.Find(table.trash, e => !e.definition.naturalWeapon && !e.fixedKit);
+            var a = Ronin7.Core.RunRng.ForNode(2026u ^ 0x4B17u, 3);
+            var b = Ronin7.Core.RunRng.ForNode(2026u ^ 0x4B17u, 3);
+            for (int i = 0; i < 50; i++)
+                Assert.AreSame(table.RollKit(armed, ref a).main, table.RollKit(armed, ref b, EnemySpawnTable.MaxRangedPerRoom - 1).main);
+        }
+
+        [Test]
+        public void ExemptBodies_KeepSculptedKit()
+        {
+            var table = LoadTable();
+            var rng = Ronin7.Core.RunRng.ForNode(2026u, 1);
+            int found = 0;
+            foreach (var e in table.trash)
+            {
+                string want = e.prefab.name == "Humanoid_Automaton" ? "EW_HeavyAxe" : e.prefab.name == "Iron_Dojo_Warden-Cadre" ? "EW_Staff" : null;
+                Assert.AreEqual(want != null, e.fixedKit, e.prefab.name);
+                if (want == null) continue;
+                found++;
+                for (int i = 0; i < 20; i++) Assert.AreEqual(want, table.RollKit(e, ref rng, 99).main.name, e.prefab.name);
+            }
+            Assert.AreEqual(2, found);
+        }
     }
 }

@@ -24,6 +24,8 @@ namespace Ronin7.World
             public Ronin7.Enemies.EnemyWeaponDefinition mainHand;
             [Tooltip("P8-02: optional off-hand (shield, second dagger) on Socket_OffHand.")]
             public Ronin7.Enemies.EnemyWeaponDefinition offHand;
+            [Tooltip("P8-02c: never rolls; always carries mainHand/offHand (the body's sculpted weapon).")]
+            public bool fixedKit;
         }
 
         [System.Serializable]
@@ -47,12 +49,23 @@ namespace Ronin7.World
         [Tooltip("P8-02b: every armed (non-natural) trash body rolls one of these per spawn. Built by EnemyWeaponBuilder.")]
         public Kit[] kits;
 
+        /// <summary>P8-02c: most ranged kits one room may roll (fixed kits still count, see RunArenaController).</summary>
+        public const int MaxRangedPerRoom = 5;
+
         /// <summary>P8-02b: the loadout for one spawn. Armed bodies roll uniformly from <see cref="kits"/>; natural
-        /// bodies (and an empty kit list) keep the entry's own default.</summary>
-        public Kit RollKit(Entry e, ref Ronin7.Core.RunRng rng) =>
-            e.definition != null && !e.definition.naturalWeapon && kits != null && kits.Length > 0
-                ? kits[rng.NextInt(kits.Length)]
-                : new Kit { main = e.mainHand, off = e.offHand };
+        /// and fixed-kit bodies (and an empty kit list) keep the entry's own default. At or over
+        /// <see cref="MaxRangedPerRoom"/> the roll is uniform over the melee kits only.</summary>
+        public Kit RollKit(Entry e, ref Ronin7.Core.RunRng rng, int rangedSoFar = 0)
+        {
+            if (e.fixedKit || e.definition == null || e.definition.naturalWeapon || kits == null || kits.Length == 0)
+                return new Kit { main = e.mainHand, off = e.offHand };
+            if (rangedSoFar < MaxRangedPerRoom) return kits[rng.NextInt(kits.Length)];
+            int melee = 0;
+            foreach (Kit k in kits) if (k.main == null || !k.main.ranged) melee++;
+            int n = rng.NextInt(melee);
+            foreach (Kit k in kits) if ((k.main == null || !k.main.ranged) && n-- == 0) return k;
+            return kits[0];
+        }
 
         public Entry[] trash;
         public BossEntry[] bosses;
