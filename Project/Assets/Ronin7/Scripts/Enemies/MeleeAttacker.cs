@@ -144,6 +144,8 @@ namespace Ronin7.Enemies
         private EnemyWeaponDefinition weaponKit;
         private Strike strike = Strike.Chop;
         public EnemyWeaponDefinition WeaponKit => weaponKit;
+        /// <summary>P8-02c: a shield is held, so the left arm keeps its guard instead of copying the swing.</summary>
+        public bool HasShield { get; private set; }
         /// <summary>P8-02: the strike the next attack uses, from the attached weapon's patterns.</summary>
         internal Strike NextStrike() => weaponKit != null ? weaponKit.NextStrike() : Strike.Chop;
         private float StrikeActive => ActiveTime * strike.active;
@@ -153,6 +155,7 @@ namespace Ronin7.Enemies
         protected void SetWeaponKit(EnemyWeaponDefinition main, Renderer guardMark)
         {
             weaponKit = main;
+            HasShield = guardMark != null;
             if (guardMark != null) archetypeMark = guardMark;
         }
         // Body material reads _RimColor/_FlashAmount (GrittyCyber). False for e.g. SamuraiToon bodies, whose

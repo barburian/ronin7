@@ -61,6 +61,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4820385033454418639}
+  - {fileID: 6016416651315222005}
   m_Father: {fileID: 7467039187132815444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2251666876962462926
@@ -814,6 +815,37 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0.6087614, w: 0.7933533}
   m_LocalPosition: {x: -0.18282862, y: -0.3263236, z: 0.24945413}
   m_LocalScale: {x: 1.1303712, y: 1.1303712, z: 1.1303712}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 192346414029561764}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8961944305478014280
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6016416651315222005}
+  m_Layer: 0
+  m_Name: Socket_Shield
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6016416651315222005
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8961944305478014280}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.23296292, y: -0.30360323, z: -0.5624222, w: 0.73296297}
+  m_LocalPosition: {x: -0.27210698, y: -0.05358357, z: 0.27953362}
+  m_LocalScale: {x: 0.6448169, y: 0.6448169, z: 0.6448169}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 192346414029561764}

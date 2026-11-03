@@ -32,6 +32,8 @@ namespace Ronin7.Enemies
     public class EnemyWeaponDefinition : ScriptableObject
     {
         public const string MainSocket = "Socket_MainHand", OffSocket = "Socket_OffHand", TipName = "BladeTip";
+        /// <summary>P8-02c: outer-left-forearm strap for <see cref="forearm"/> off-hands, scaled to a 0.25 m forearm.</summary>
+        public const string ShieldSocket = "Socket_Shield";
 
         [Tooltip("Visual prefab, authored in the socket frame (+Z forward, +Y up at the arm's rest). Null = natural (claws): meshless.")]
         public GameObject prefab;
@@ -41,6 +43,8 @@ namespace Ronin7.Enemies
         public Vector3 edgeBase = new Vector3(0f, 0f, 0.1f);
         [Tooltip("Multiplies the body's attackRange.")]
         public float reach = 1f;
+        [Tooltip("Off-hand only: straps to Socket_Shield on the forearm instead of the hand (shields).")]
+        public bool forearm;
         [Tooltip("Multiplies the body's damage.")]
         public float damage = 1f;
         [Tooltip("Staff: casts the P3-05 bolts. Data only until P8-03 wires casting (RangedEnemy lives in Ship).")]

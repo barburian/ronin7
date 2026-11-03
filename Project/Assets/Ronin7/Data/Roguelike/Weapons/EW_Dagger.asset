@@ -16,6 +16,7 @@ MonoBehaviour:
   tip: {x: 0, y: 0, z: 0.34}
   edgeBase: {x: 0, y: 0, z: 0.12}
   reach: 1
+  forearm: 0
   damage: 1
   ranged: 0
   patterns:

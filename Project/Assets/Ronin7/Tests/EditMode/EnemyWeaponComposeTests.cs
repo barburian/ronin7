@@ -57,6 +57,26 @@ namespace Ronin7.Tests.EditMode
             finally { Object.DestroyImmediate(swordPrefab); Object.DestroyImmediate(shieldPrefab); }
         }
 
+        // P8-02c: a forearm off-hand (the shield) straps to Socket_Shield, not the hand, and the left arm holds the guard.
+        [Test]
+        public void Shield_UsesForearmSocket()
+        {
+            var enemy = MakeBody(out _, out var off);
+            var forearm = new GameObject(EnemyWeaponDefinition.ShieldSocket).transform; forearm.SetParent(off.parent, false);
+            var shieldPrefab = new GameObject("TestShield");
+            var plate = GameObject.CreatePrimitive(PrimitiveType.Cube); plate.name = "Shield"; plate.transform.SetParent(shieldPrefab.transform, false);
+            try
+            {
+                var shield = Def(shieldPrefab, Vector3.zero);
+                shield.forearm = true;
+                enemy.Equip(Def(null, Vector3.forward), shield);
+                Assert.AreEqual(1, forearm.childCount, "forearm off-hand not under Socket_Shield");
+                Assert.AreEqual(0, off.childCount, "forearm off-hand must not sit at the hand");
+                Assert.IsTrue(enemy.HasShield, "a shield kit must stop the left arm copying the swing");
+            }
+            finally { Object.DestroyImmediate(shieldPrefab); }
+        }
+
         [Test]
         public void Compose_PatternsComeFromWeapon()
         {

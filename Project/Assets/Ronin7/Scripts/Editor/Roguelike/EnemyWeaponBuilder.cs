@@ -49,8 +49,8 @@ namespace Ronin7.EditorTools
                 new Part("Blade", PrimitiveType.Cube, M.Steel, new Vector3(0f, 0f, 0.2f), new Vector3(0.035f, 0.01f, 0.28f)) }),
             ("Baton", new Vector3(0f, 0f, 0.52f), 1f, false, new[] {
                 new Part("Blade", PrimitiveType.Cylinder, M.Steel, new Vector3(0f, 0f, 0.22f), new Vector3(0.035f, 0.3f, 0.035f), Roll) }),
-            ("Shield", Vector3.zero, 1f, false, new[] { // stand-in: user image-to-3D mesh later. On the outer forearm, facing out-forward.
-                new Part("Shield", PrimitiveType.Cube, M.Steel, new Vector3(-0.07f, 0.2f, 0.02f), new Vector3(0.4f, 0.55f, 0.03f), new Vector3(0f, -45f, 0f)) }),
+            ("Shield", Vector3.zero, 1f, false, new[] { // stand-in: user image-to-3D mesh later. Socket_Shield faces it out-forward, sized to a 0.25 m forearm.
+                new Part("Shield", PrimitiveType.Cube, M.Steel, new Vector3(0f, 0f, 0.015f), new Vector3(0.32f, 0.42f, 0.03f)) }),
             ("Staff", new Vector3(0f, 0f, 1.2f), 1f, true, new[] { // stand-in: user image-to-3D mesh later
                 new Part("Shaft", PrimitiveType.Cylinder, M.Grip, new Vector3(0f, 0f, 0.35f), new Vector3(0.03f, 0.75f, 0.03f), Roll),
                 new Part("Blade", PrimitiveType.Sphere, M.Brass, new Vector3(0f, 0f, 1.15f), new Vector3(0.1f, 0.1f, 0.1f)) }),
@@ -138,6 +138,7 @@ namespace Ronin7.EditorTools
                 def.edgeBase = new Vector3(spec.tip.x, spec.tip.y, Mathf.Min(spec.tip.z, 0.12f));
                 def.reach = spec.reach;
                 def.ranged = spec.ranged;
+                def.forearm = spec.name == "Shield";
                 if (spec.parts != null)
                 {
                     string prefabPath = PrefabFolder + "/EW_" + spec.name + ".prefab";

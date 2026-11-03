@@ -508,7 +508,8 @@ namespace Ronin7.Enemies
 
         /// <summary>P8-02 (D-17): compose the spawn's weapons onto the body's sockets, before activation (like
         /// <see cref="Configure(EnemyDefinition)"/>). The main hand's tip becomes <c>bladeTip</c>; an off-hand
-        /// renderer named "Shield" becomes the HeavyBreak guard mark. <c>weapon</c> stays the arm bone the chop
+        /// renderer named "Shield" becomes the HeavyBreak guard mark; a <c>forearm</c> off-hand straps to Socket_Shield
+        /// (P8-02c). <c>weapon</c> stays the arm bone the chop
         /// swings. Null main = keep the prefab's own kit (bosses).</summary>
         public void Equip(EnemyWeaponDefinition main, EnemyWeaponDefinition off = null)
         {
@@ -516,7 +517,8 @@ namespace Ronin7.Enemies
             bladeTip = main.Attach(FindChild(EnemyWeaponDefinition.MainSocket) ?? weapon).Find(EnemyWeaponDefinition.TipName);
             Renderer shield = null;
             if (off != null)
-                foreach (var r in off.Attach(FindChild(EnemyWeaponDefinition.OffSocket) ?? transform).GetComponentsInChildren<Renderer>(true))
+                foreach (var r in off.Attach((off.forearm ? FindChild(EnemyWeaponDefinition.ShieldSocket) : null)
+                                             ?? FindChild(EnemyWeaponDefinition.OffSocket) ?? transform).GetComponentsInChildren<Renderer>(true))
                     if (r.name == "Shield") shield = r;
             SetWeaponKit(main, shield);
         }

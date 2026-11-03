@@ -344,6 +344,14 @@ namespace Ronin7.EditorTools
                 s.localRotation = Quaternion.Inverse(Quaternion.AngleAxis(sign * down, Vector3.forward));
                 s.localScale = Vector3.one / Mathf.Max(arm.lossyScale.x, 1e-4f);
             }
+            // P8-02c: Socket_Shield on the outer left forearm (not the hand), facing out-forward, scaled so a shield
+            // authored for a 0.25 m forearm fits this one.
+            var armL = FindDeep(root.transform, NpcWalkAnimator.ArmLBoneName);
+            if (armL == null) return;
+            var strap = armL.Find(EnemyWeaponDefinition.ShieldSocket);
+            if (strap == null) { strap = new GameObject(EnemyWeaponDefinition.ShieldSocket).transform; strap.SetParent(armL, false); }
+            float forearm = SeatOnForearm(root, strap, 0f) * armL.lossyScale.x;
+            strap.localScale = Vector3.one * (forearm > 0f ? forearm / 0.25f : 1f) / Mathf.Max(armL.lossyScale.x, 1e-4f);
         }
 
         /// <summary>P8-02 (additive, idempotent): fits the sockets on every baked trash body and strips the P8-01
@@ -612,7 +620,7 @@ namespace Ronin7.EditorTools
                     Bounds b = ArtBounds(root);
 
                     var mark = m.mesh == null ? null : BuildMark(root, b, MarkName, m.mesh, m.bone, m.pos, m.size, m.euler);
-                    if (mark != null && m.bone == NpcWalkAnimator.ArmLBoneName) SeatOnForearm(root, mark.transform);
+                    if (mark != null && m.bone == NpcWalkAnimator.ArmLBoneName) SeatOnForearm(root, mark.transform, mark.transform.localScale.z * 0.5f + 0.005f);
                     SetObjectRef(so, "archetypeMark", mark);
                     so.FindProperty("archetypeColor").colorValue = m.color;
 
@@ -690,12 +698,13 @@ namespace Ronin7.EditorTools
 
         /// <summary>P6-00 (user decision): seat the Shield Trooper slab on the outside of the left forearm, upright and
         /// facing out-and-forward in the lowered rest, parented to Rig_ArmL so it follows the rest and the swing.
-        /// Placed from the arm's own vertices in that rest (the lower half of the arm = forearm/hand).</summary>
-        private static void SeatOnForearm(GameObject root, Transform mark)
+        /// Placed from the arm's own vertices in that rest (the lower half of the arm = forearm/hand), <paramref name="halfDepth"/>
+        /// proud of the arm surface. Returns the forearm length in bone units (0 = no rig, left untouched).</summary>
+        private static float SeatOnForearm(GameObject root, Transform mark, float halfDepth)
         {
             var smr = root.GetComponentInChildren<SkinnedMeshRenderer>(true);
             var walk = root.GetComponent<NpcWalkAnimator>();
-            if (smr == null || walk == null || !MeasureArm(smr, mark.parent.name, out _, out var pts)) return;
+            if (smr == null || walk == null || !MeasureArm(smr, mark.parent.name, out _, out var pts)) return 0f;
             // Rig_ArmL's lowered rest (NpcWalkAnimator.Awake): a roll of +armsDownDegrees about the body's forward axis.
             Quaternion rest = Quaternion.AngleAxis(new SerializedObject(walk).FindProperty("armsDownDegrees").floatValue, Vector3.forward);
             float minY = float.MaxValue, maxY = float.MinValue;
@@ -708,8 +717,9 @@ namespace Ronin7.EditorTools
             float proud = 0f;
             foreach (var p in pts) { Vector3 q = rest * p; if (q.y < cut) proud = Mathf.Max(proud, Vector3.Dot(q - c, face)); }
             Quaternion toBone = Quaternion.Inverse(rest);
-            mark.localPosition = toBone * (c + face * (proud + mark.localScale.z * 0.5f + 0.005f));
+            mark.localPosition = toBone * (c + face * (proud + halfDepth));
             mark.localRotation = toBone * Quaternion.LookRotation(face, Vector3.up);
+            return cut - minY;
         }
 
         /// <summary>P1-12 (BUG-23): additive entry point. Re-extracts the textures from each existing baked

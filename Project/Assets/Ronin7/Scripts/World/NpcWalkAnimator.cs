@@ -154,7 +154,8 @@ namespace Ronin7.World
             legR.localRotation = legRRest * Quaternion.AngleAxis(-swing * legSwingDegrees, Vector3.right);
             if (armL != null)
             {
-                float atk = melee != null ? melee.ArmPoseAngle * leftArmAttackScale : 0f;
+                // P8-02c: a shield arm holds its guard; copying the swing tipped the shield ~60 deg back on windup.
+                float atk = melee != null && !melee.HasShield ? melee.ArmPoseAngle * leftArmAttackScale : 0f;
                 armL.localRotation = Quaternion.AngleAxis(-swing * armSwingDegrees + atk, Vector3.right) * armLRest;
             }
             bool attacking = melee != null && melee.IsPosingWeapon;

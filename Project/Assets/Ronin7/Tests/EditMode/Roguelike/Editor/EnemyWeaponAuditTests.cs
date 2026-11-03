@@ -29,6 +29,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
                 }
                 if (armR == null || armR.Find(EnemyWeaponDefinition.MainSocket) == null) bad.Add(e.prefab.name + ": no Socket_MainHand under Rig_ArmR");
                 if (armL == null || armL.Find(EnemyWeaponDefinition.OffSocket) == null) bad.Add(e.prefab.name + ": no Socket_OffHand under Rig_ArmL");
+                if (armL == null || armL.Find(EnemyWeaponDefinition.ShieldSocket) == null) bad.Add(e.prefab.name + ": no Socket_Shield under Rig_ArmL");
                 if (armR != null && armR.Find("Sword") != null) bad.Add(e.prefab.name + ": baked Rig_ArmR/Sword (D-17)");
                 if (e.mainHand == null) { bad.Add(e.prefab.name + ": no mainHand weapon"); continue; }
                 bool visible = e.mainHand.prefab != null && EnemySwordVisual.FindBladeRenderer(e.mainHand.prefab.transform) != null;
@@ -88,7 +89,10 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
                         var off = FindDeep(go.transform, EnemyWeaponDefinition.OffSocket);
                         string tag = e.prefab.name + "+" + kit.main.name + (kit.off != null ? "+" + kit.off.name : "");
                         if (main.childCount != 1) bad.Add(tag + ": main socket children " + main.childCount);
-                        if (off.childCount != (kit.off != null ? 1 : 0)) bad.Add(tag + ": off socket children " + off.childCount);
+                        bool forearm = kit.off != null && kit.off.forearm;
+                        if (off.childCount != (kit.off != null && !forearm ? 1 : 0)) bad.Add(tag + ": off socket children " + off.childCount);
+                        var strap = FindDeep(go.transform, EnemyWeaponDefinition.ShieldSocket);
+                        if (forearm && (strap == null || strap.childCount != 1)) bad.Add(tag + ": shield not on Socket_Shield");
                         var tip = so.FindProperty("bladeTip").objectReferenceValue as Transform;
                         if (tip == null || tip.parent != main.GetChild(0)) bad.Add(tag + ": bladeTip not on the main-hand weapon");
                         if (!ReferenceEquals(enemy.WeaponKit, kit.main) || enemy.WeaponKit.patterns != kit.main.patterns) bad.Add(tag + ": patterns not the weapon's");
@@ -99,6 +103,76 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
                 }
             }
             Assert.IsEmpty(bad, string.Join(System.Environment.NewLine, bad));
+        }
+
+        // P8-02c: in the lowered rest the shield stands upright on the outer left forearm, sized to that forearm.
+        [Test]
+        public void Shield_StandsUprightOnForearm()
+        {
+            var table = LoadTable();
+            var bad = new System.Collections.Generic.List<string>();
+            int seen = 0;
+            foreach (var e in table.trash)
+            {
+                if (e.definition.naturalWeapon) continue;
+                foreach (var kit in table.kits)
+                {
+                    if (kit.off == null || !kit.off.forearm) continue;
+                    var go = Object.Instantiate(e.prefab);
+                    try
+                    {
+                        go.GetComponent<Enemy>().Equip(kit.main, kit.off);
+                        var armL = FindDeep(go.transform, NpcWalkAnimator.ArmLBoneName);
+                        float down = new SerializedObject(go.GetComponent<NpcWalkAnimator>()).FindProperty("armsDownDegrees").floatValue;
+                        armL.localRotation = Quaternion.AngleAxis(down, Vector3.forward) * armL.localRotation; // NpcWalkAnimator.Awake rest
+                        var forearm = ForearmVerts(go, armL);
+                        Transform s = null;
+                        foreach (var r in go.GetComponentsInChildren<Renderer>(true)) if (r.name == "Shield") s = r.transform;
+                        string tag = e.prefab.name + "+" + kit.main.name + "+" + kit.off.name;
+                        if (s == null) { bad.Add(tag + ": no Shield renderer"); continue; }
+                        if (forearm.Count == 0) { bad.Add(tag + ": no Rig_ArmL skin"); continue; }
+                        seen++;
+                        if (Mathf.Abs(s.forward.y) >= 0.2f || s.up.y <= 0.9f) bad.Add($"{tag}: not upright fwd={s.forward} up={s.up}");
+                        Vector3 near = forearm[0], c = Vector3.zero;
+                        float minY = float.MaxValue, maxY = float.MinValue;
+                        foreach (var v in forearm)
+                        {
+                            if ((v - s.position).sqrMagnitude < (near - s.position).sqrMagnitude) near = v;
+                            c += v; minY = Mathf.Min(minY, v.y); maxY = Mathf.Max(maxY, v.y);
+                        }
+                        c /= forearm.Count;
+                        float dist = Vector3.Distance(s.position, near), len = maxY - minY;
+                        if (dist > 0.15f) bad.Add($"{tag}: {dist:F2} m off the forearm skin");
+                        if (s.position.x >= c.x) bad.Add(tag + ": not on the outer (left) side");
+                        if (s.lossyScale.y > 2f * len) bad.Add($"{tag}: {s.lossyScale.y:F2} m tall vs {len:F2} m forearm");
+                    }
+                    finally { Object.DestroyImmediate(go); }
+                }
+            }
+            Assert.Greater(seen, 0, "no shield kit in the roll list");
+            Assert.IsEmpty(bad, string.Join(System.Environment.NewLine, bad));
+        }
+
+        /// <summary>World positions of the posed skin verts bound to <paramref name="armL"/>, lower half (forearm + hand).</summary>
+        private static System.Collections.Generic.List<Vector3> ForearmVerts(GameObject go, Transform armL)
+        {
+            var pts = new System.Collections.Generic.List<Vector3>();
+            var smr = go.GetComponentInChildren<SkinnedMeshRenderer>(true);
+            int bi = smr != null ? System.Array.IndexOf(smr.bones, armL) : -1;
+            if (bi < 0) return pts;
+            var baked = new Mesh();
+            smr.BakeMesh(baked, false); // already metric for these rigs; useScale=true double-scales
+            var verts = baked.vertices;
+            var w = smr.sharedMesh.boneWeights;
+            Object.DestroyImmediate(baked);
+            for (int i = 0; i < verts.Length; i++)
+                if ((w[i].boneIndex0 == bi && w[i].weight0 > 0.6f) || (w[i].boneIndex1 == bi && w[i].weight1 > 0.6f))
+                    pts.Add(smr.transform.position + smr.transform.rotation * verts[i]);
+            if (pts.Count == 0) return pts;
+            float minY = float.MaxValue, maxY = float.MinValue;
+            foreach (var p in pts) { minY = Mathf.Min(minY, p.y); maxY = Mathf.Max(maxY, p.y); }
+            pts.RemoveAll(p => p.y > (minY + maxY) * 0.5f);
+            return pts;
         }
 
         private static Transform FindDeep(Transform root, string name)
