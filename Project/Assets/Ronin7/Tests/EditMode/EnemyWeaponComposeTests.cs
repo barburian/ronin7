@@ -118,5 +118,27 @@ namespace Ronin7.Tests.EditMode
             Assert.LessOrEqual(mats.Count, 3, "weapons share the 3-material palette");
             foreach (var m in mats) StringAssert.StartsWith("Assets/Ronin7/Art/Materials/EnemyWeapons/", AssetDatabase.GetAssetPath(m));
         }
+
+        // P8-04 fix: the telegraph line must hug the weapon (the heavy axe's edge once floated 20 cm off its head).
+        [Test]
+        public void EveryWeapon_EdgeLiesOnItsMesh()
+        {
+            foreach (var guid in AssetDatabase.FindAssets("t:EnemyWeaponDefinition", new[] { "Assets/Ronin7/Data/Roguelike/Weapons" }))
+            {
+                var d = AssetDatabase.LoadAssetAtPath<EnemyWeaponDefinition>(AssetDatabase.GUIDToAssetPath(guid));
+                if (d.prefab == null) continue;
+                var go = Object.Instantiate(d.prefab);
+                try
+                {
+                    var rs = go.GetComponentsInChildren<Renderer>();
+                    bool On(Vector3 p) { foreach (var r in rs) if (r.bounds.SqrDistance(p) < 0.03f * 0.03f) return true; return false; }
+                    bool flat = (d.edgeBase - d.tip).sqrMagnitude < 1e-4f; // ranged: the edge runs from the weapon root
+                    Assert.IsTrue(On(d.tip), d.name + " tip " + d.tip + " is off its mesh");
+                    Assert.IsTrue(On(flat ? Vector3.zero : d.edgeBase), d.name + " edgeBase " + d.edgeBase + " is off its mesh");
+                    if (!flat) Assert.IsTrue(On((d.tip + d.edgeBase) * 0.5f), d.name + " edge midpoint is off its mesh");
+                }
+                finally { Object.DestroyImmediate(go); }
+            }
+        }
     }
 }

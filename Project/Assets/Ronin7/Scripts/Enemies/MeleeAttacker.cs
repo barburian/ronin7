@@ -192,7 +192,7 @@ namespace Ronin7.Enemies
             float i = EdgeIntensity(timer, telegraph, pulsePhase, GameSettings.Active.ReduceFlashes);
             bladeEdge.enabled = true;
             bladeEdge.startColor = bladeEdge.endColor = new Color(i, 0.55f * i, 0.2f * i, i);
-            bladeEdge.widthMultiplier = Mathf.Lerp(0.04f, 0.1f, i);
+            bladeEdge.widthMultiplier = Mathf.Lerp(0.04f, 0.14f, i); // peak ~3x a sword blade so a halo shows around white steel (additive orange on white saturates)
         }
         private Vector3 StrikeEuler => strike.direction switch
         {

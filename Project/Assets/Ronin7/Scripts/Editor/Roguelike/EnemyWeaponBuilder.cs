@@ -51,7 +51,7 @@ namespace Ronin7.EditorTools
             ("Spear", new Vector3(0f, 0f, 1.47f), 1.25f, false, new[] {
                 new Part("Shaft", PrimitiveType.Cylinder, M.Grip, new Vector3(0f, 0f, 0.45f), new Vector3(0.03f, 0.8f, 0.03f), Roll),
                 new Part("Blade", PrimitiveType.Cube, M.Steel, new Vector3(0f, 0f, 1.36f), new Vector3(0.05f, 0.012f, 0.22f)) }),
-            ("HeavyAxe", new Vector3(0f, 0.2f, 0.7f), 1f, false, new[] { // stand-in: user image-to-3D mesh later
+            ("HeavyAxe", new Vector3(0f, 0.2f, 0.76f), 1f, false, new[] { // stand-in: user image-to-3D mesh later
                 new Part("Haft", PrimitiveType.Cylinder, M.Grip, new Vector3(0f, 0f, 0.3f), new Vector3(0.04f, 0.45f, 0.04f), Roll),
                 new Part("Blade", PrimitiveType.Cube, M.Steel, new Vector3(0f, 0.09f, 0.68f), new Vector3(0.06f, 0.24f, 0.16f)) }),
             ("Dagger", new Vector3(0f, 0f, 0.34f), 1f, false, new[] {
@@ -204,7 +204,8 @@ namespace Ronin7.EditorTools
                 var def = AssetDatabase.LoadAssetAtPath<EnemyWeaponDefinition>(defPath);
                 if (def == null) { def = ScriptableObject.CreateInstance<EnemyWeaponDefinition>(); AssetDatabase.CreateAsset(def, defPath); }
                 def.tip = spec.tip;
-                def.edgeBase = new Vector3(spec.tip.x, spec.tip.y, Mathf.Min(spec.tip.z, 0.12f));
+                def.edgeBase = spec.name == "HeavyAxe" ? new Vector3(0f, 0.2f, 0.58f) // along the head's top (striking) edge, not floating beside the haft
+                    : new Vector3(spec.tip.x, spec.tip.y, Mathf.Min(spec.tip.z, 0.12f));
                 def.reach = spec.reach;
                 def.patterns = new System.Collections.Generic.List<AttackPattern>(PatternsFor(spec.name));
                 def.ranged = def.patterns.Exists(p => p.strikes.Exists(k => k.Ranged));

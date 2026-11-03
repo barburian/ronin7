@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: EW_HeavyAxe
   m_EditorClassIdentifier: Ronin7.Enemies::Ronin7.Enemies.EnemyWeaponDefinition
   prefab: {fileID: 4453851974625282679, guid: ce6bc3f958472ed4f8c1c56a242677d9, type: 3}
-  tip: {x: 0, y: 0.2, z: 0.7}
-  edgeBase: {x: 0, y: 0.2, z: 0.12}
+  tip: {x: 0, y: 0.2, z: 0.76}
+  edgeBase: {x: 0, y: 0.2, z: 0.58}
   reach: 1
   forearm: 0
   damage: 1
