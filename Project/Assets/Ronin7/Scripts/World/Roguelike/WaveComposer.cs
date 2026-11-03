@@ -153,8 +153,8 @@ namespace Ronin7.World
                 return result;
             }
 
-            if (node.Kind == RoomKind.Elite)
-                return ComposeElite(table, node, arenaHalfExtent, playerSpawn, ref rng);
+            if (node.Kind.Base() == RoomKind.Elite) // P8-03b: DoubleElite = the same room with 2 distinct leads
+                return ComposeElite(table, node, arenaHalfExtent, playerSpawn, ref rng, node.Kind == RoomKind.DoubleElite ? 2 : 1);
 
             // P2-08: first run, start node = exactly 2 Scavengers (falls back to any eligible trash if the table has none).
             bool firstRoom = tutorial && node.Kind == RoomKind.Combat && node.Depth == 0;
@@ -191,9 +191,11 @@ namespace Ronin7.World
             e.definition.name.Contains("Scavenger") || e.prefab.name.Contains("Scavenger");
 
         /// <summary>P1-09 (BUG-09): one elite first (an eliteOnly pick when eligible, else the strongest
-        /// eligible trash by maxHealth), then 4 escorts drawn from non-eliteOnly trash. Falls back to all eligible entries if no plain trash is eligible.</summary>
+        /// eligible trash by maxHealth), then 4 escorts drawn from non-eliteOnly trash. Falls back to all eligible entries if no plain trash is eligible.
+        /// P8-03b: <paramref name="leads"/> elites, each a DIFFERENT entry (next eliteOnly pick, else the strongest
+        /// remaining eligible), all ahead of the escorts so they share the first wave. leads = 1 draws RNG as before.</summary>
         private static List<SpawnRequest> ComposeElite(
-            EnemySpawnTable table, RunNode node, float arenaHalfExtent, Vector3 playerSpawn, ref RunRng rng)
+            EnemySpawnTable table, RunNode node, float arenaHalfExtent, Vector3 playerSpawn, ref RunRng rng, int leads)
         {
             var result = new List<SpawnRequest>();
             List<int> eligible = EligibleTrashIndices(table.trash, node);
@@ -203,28 +205,36 @@ namespace Ronin7.World
             var plain = new List<int>();
             foreach (int i in eligible) (table.trash[i].eliteOnly ? eliteOnly : plain).Add(i);
 
-            int leadIndex;
-            if (eliteOnly.Count > 0)
-                leadIndex = eliteOnly[Mathf.Max(0, rng.PickWeighted(Weights(table.trash, eliteOnly)))];
-            else
+            var leadIndices = new List<int>(leads);
+            for (int k = 0; k < leads; k++)
             {
-                leadIndex = eligible[0];
-                foreach (int i in eligible)
-                    if (table.trash[i].definition.maxHealth > table.trash[leadIndex].definition.maxHealth) leadIndex = i;
+                int leadIndex = -1;
+                if (eliteOnly.Count > 0)
+                {
+                    leadIndex = eliteOnly[Mathf.Max(0, rng.PickWeighted(Weights(table.trash, eliteOnly)))];
+                    eliteOnly.Remove(leadIndex);
+                }
+                else
+                    foreach (int i in eligible)
+                        if (!leadIndices.Contains(i) && (leadIndex < 0 || table.trash[i].definition.maxHealth > table.trash[leadIndex].definition.maxHealth)) leadIndex = i;
+                if (leadIndex < 0) break; // fewer distinct eligible entries than leads
+                leadIndices.Add(leadIndex);
             }
 
             List<int> escortPool = plain.Count > 0 ? plain : eligible;
             int[] escortWeights = Weights(table.trash, escortPool);
             const int escorts = 4; // elite rooms: lead elite first, then 4 trash escorts (same pool/caps as Combat)
 
-            List<Vector3> positions = Positions(1 + escorts, arenaHalfExtent, playerSpawn, ref rng);
-            result.Add(new SpawnRequest(leadIndex, positions[0], isBoss: false, isElite: true));
+            int n = leadIndices.Count;
+            List<Vector3> positions = Positions(n + escorts, arenaHalfExtent, playerSpawn, ref rng);
+            for (int k = 0; k < n; k++)
+                result.Add(new SpawnRequest(leadIndices[k], positions[k], isBoss: false, isElite: true));
             var used = new int[table.trash.Length];
             for (int i = 0; i < escorts; i++)
             {
                 int entryIndex = PickCapped(table.trash, escortPool, escortWeights, used, ref rng);
                 if (entryIndex < 0) break;
-                result.Add(new SpawnRequest(entryIndex, positions[1 + i], isBoss: false));
+                result.Add(new SpawnRequest(entryIndex, positions[n + i], isBoss: false));
             }
             return result;
         }
@@ -258,7 +268,7 @@ namespace Ronin7.World
             var eligible = new List<int>();
             if (trash == null) return eligible;
 
-            bool eliteAllowed = node.Kind == RoomKind.Elite || node.Kind == RoomKind.Boss;
+            bool eliteAllowed = node.Kind.Base() == RoomKind.Elite || node.Kind == RoomKind.Boss;
             for (int i = 0; i < trash.Length; i++)
             {
                 EnemySpawnTable.Entry entry = trash[i];

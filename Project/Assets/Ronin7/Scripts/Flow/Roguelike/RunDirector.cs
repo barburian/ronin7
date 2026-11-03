@@ -1741,7 +1741,7 @@ namespace Ronin7.Flow
         {
             if (isFinalNode && kind == RoomKind.Boss) return PostClearAction.WinRun;
 
-            return kind switch
+            return kind.Base() switch // P8-03b: DoubleElite clears as Elite
             {
                 RoomKind.Combat => PostClearAction.OfferBoon,
                 RoomKind.Elite => PostClearAction.OfferBoon,

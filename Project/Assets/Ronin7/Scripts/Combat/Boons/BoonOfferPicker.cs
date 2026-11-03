@@ -208,7 +208,7 @@ namespace Ronin7.Combat
 
         public static int RarityWeight(BoonRarity rarity, RoomKind kind)
         {
-            switch (kind)
+            switch (kind.Base()) // P8-03b: DoubleElite offers as Elite
             {
                 case RoomKind.Treasure:
                     return rarity switch

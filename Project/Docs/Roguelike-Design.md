@@ -34,6 +34,17 @@ lanes l-1..l+1 of the next row.
 | 3 | 2 | `Forge` + `Shop` |
 | 4 | 1 | `Boss` |
 
+**Double-elite side lane (P8-03b).** Every run gets exactly one `RoomKind.DoubleElite` node (appended to the
+enum, never reordered), in the **final sector only**, as an extra lane at the end of row 1 or 2. One node of the
+row before gains it as an extra exit (never its only one, so the branch is optional), and it exits to the same
+next-row nodes as that parent's first child, so it rejoins the grid and every path stays 15 deep. Its RNG is drawn
+after the main grid and the node is appended last in `RunMap.Nodes`, so existing seeds keep every main-grid id,
+kind and edge, and v3 snapshots still replay (no version bump). Contents: 2 DIFFERENT elites (the next
+`eliteOnly` pick, else the strongest remaining eligible trash), both ahead of the 4 escorts so they share the first
+wave (`WaveComposer.ComposeElite(leads: 2)`). Everything else (health/damage factor 1.8/1.15, shards, boon
+rarity, post-clear boon, arena size, music) reads `kind.Base()` = `Elite`. Label `ELITE x2` / code `EL2`, Elite red.
+Visible on the map for now; it becomes a secret room later.
+
 After a node's reward the player picks the next node: diegetic exit gates on the arena's north wall, or a
 "CHOOSE YOUR PATH" panel when seated or after 6 s without moving. `RunSnapshot` is v2 (adds the path).
 

@@ -10,7 +10,15 @@ namespace Ronin7.Core
         Forge,
         Boss,
         Shop,  // P2-04: spend this run's Shards (P4-11)
-        Event  // P2-04: a 2-option RunEventDefinition
+        Event, // P2-04: a 2-option RunEventDefinition
+        DoubleElite // P8-03b: 2 distinct elites + 4 escorts; final-sector side lane, one per run (future secret room)
+    }
+
+    public static class RoomKindRules
+    {
+        /// <summary>P8-03b: the kind reward/scaling/arena/music switches read. DoubleElite fights, pays and scales as
+        /// Elite; only map generation, the wave lead count and the labels tell them apart.</summary>
+        public static RoomKind Base(this RoomKind k) => k == RoomKind.DoubleElite ? RoomKind.Elite : k;
     }
 
     /// <summary>P2-04: player-facing name, one-line hint, colour and 3-letter HUD code per kind —
@@ -26,6 +34,7 @@ namespace Ronin7.Core
             RoomKind.Boss => "BOSS",
             RoomKind.Shop => "SHOP",
             RoomKind.Event => "EVENT",
+            RoomKind.DoubleElite => "ELITE x2",
             _ => k.ToString().ToUpperInvariant(),
         };
 
@@ -38,6 +47,7 @@ namespace Ronin7.Core
             RoomKind.Boss => "the sector guardian",
             RoomKind.Shop => "spend run Shards",
             RoomKind.Event => "an unknown choice",
+            RoomKind.DoubleElite => "two elites, rarer boons",
             _ => string.Empty,
         };
 
@@ -50,6 +60,7 @@ namespace Ronin7.Core
             RoomKind.Boss => "BOS",
             RoomKind.Shop => "SHP",
             RoomKind.Event => "EVT",
+            RoomKind.DoubleElite => "EL2",
             _ => "???",
         };
 
@@ -63,6 +74,7 @@ namespace Ronin7.Core
             RoomKind.Boss => new UnityEngine.Color32(0xFF, 0x20, 0x20, 255),
             RoomKind.Shop => new UnityEngine.Color32(0x3D, 0xDC, 0x97, 255),
             RoomKind.Event => new UnityEngine.Color32(0xB6, 0x6B, 0xFF, 255),
+            RoomKind.DoubleElite => new UnityEngine.Color32(0xFF, 0x3D, 0x5A, 255), // Elite red; the name carries the x2
             _ => UnityEngine.Color.white,
         };
     }

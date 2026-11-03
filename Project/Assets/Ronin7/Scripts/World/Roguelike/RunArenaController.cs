@@ -228,7 +228,7 @@ namespace Ronin7.World
                 // failed) would otherwise clear silently — a Boss node "winning" the run with no
                 // fight, or a Combat/Elite node with a broken table doing the same. Clearing is still
                 // the safe failure (a soft-lock is worse), but it must not be silent.
-                if (node.Kind == RoomKind.Combat || node.Kind == RoomKind.Elite || node.Kind == RoomKind.Boss)
+                if (node.Kind == RoomKind.Combat || node.Kind.Base() == RoomKind.Elite || node.Kind == RoomKind.Boss)
                     Debug.LogError($"[RunArenaController] Node {node.Index} ({node.Kind}) composed/spawned zero enemies — clearing rather than soft-locking the run.", this);
                 ledgerReady = true;
                 CheckStrays();
@@ -236,7 +236,7 @@ namespace Ronin7.World
             }
 
             waves = WaveComposer.SplitWaves(queued.Count, WaveSize);
-            if (node.Kind == RoomKind.Elite) BuildBlastPool(); // pre-build the Volatile rings, not in the kill frame
+            if (node.Kind.Base() == RoomKind.Elite) BuildBlastPool(); // pre-build the Volatile rings, not in the kill frame
             ActivateNextWave();
             if (boss != null) BuildBossBar();
             ledgerReady = true;

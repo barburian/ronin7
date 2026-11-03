@@ -49,7 +49,7 @@ namespace Ronin7.Core
         /// have no fight, so they always return 0 without touching rng.</summary>
         public static int EnemyCount(int depth, RoomKind kind, ref RunRng rng)
         {
-            switch (kind)
+            switch (kind.Base()) // P8-03b: DoubleElite counts as Elite
             {
                 case RoomKind.Forge:
                 case RoomKind.Treasure:
@@ -72,6 +72,7 @@ namespace Ronin7.Core
         /// the depth bonus below is for nodes that were actually fought.</summary>
         public static int ShardReward(int depth, RoomKind kind)
         {
+            kind = kind.Base(); // P8-03b: DoubleElite pays as Elite
             if (kind == RoomKind.Forge || kind == RoomKind.Shop || kind == RoomKind.Event) return 0; // P2-04: no fight
 
             int baseReward = kind switch
@@ -91,7 +92,7 @@ namespace Ronin7.Core
 
         /// <summary>P2-05: comfort-sized room half-extent (m) by node kind. Shells exist only as _8m/_11m
         /// scenes (BUG-42), so Elite and the default (Forge/Treasure/Shop/Event) use 8 m.</summary>
-        public static float ArenaHalfExtent(RoomKind kind) => kind switch
+        public static float ArenaHalfExtent(RoomKind kind) => kind.Base() switch
         {
             RoomKind.Combat => 8f,
             RoomKind.Elite => 8f,
@@ -101,14 +102,14 @@ namespace Ronin7.Core
 
         private static int NodesPerSectorBoundary(int sector) => sector * RunMapGenerator.NodesPerSector;
 
-        private static float KindHealthFactor(RoomKind kind) => kind switch
+        private static float KindHealthFactor(RoomKind kind) => kind.Base() switch
         {
             RoomKind.Elite => 1.8f, // 1 elite + 4 escorts must out-threaten a 10+ Combat room (worst depth needs 1.784)
             RoomKind.Boss => 1.3f,
             _ => 1f,
         };
 
-        private static float KindDamageFactor(RoomKind kind) => kind switch
+        private static float KindDamageFactor(RoomKind kind) => kind.Base() switch
         {
             RoomKind.Elite => 1.15f,
             RoomKind.Boss => 1.25f,

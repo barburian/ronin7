@@ -1560,6 +1560,8 @@ Weapon data: `EnemyWeaponDefinition`: mesh, reach, damage, and a list of attack 
 ### P8-03 Attack patterns
 A pattern is a sequence of strikes (direction, windup, active, recovery). The picker is weighted with no immediate repeat. Extends `MeleeAttacker` (today: one overhead chop). Pure logic + tests (`Pattern_NoImmediateRepeat`, `Combo_TimingsInOrder`, `Heavy_NotParryable`).
 
+- P8-03b Double-elite room (final sector, optional branch; future secret room). `RoomKind.DoubleElite`, 2 distinct elites + 4 escorts, paid/scaled as Elite. See Roguelike-Design.md section 1.
+
 ### P8-04 Clear telegraphs (replaces the line)
 Readable anticipation pose per strike direction, weapon-edge glow via `RendererTint` (no point lights), per-weapon windup sound, readable combo count. Must still read without colour (P6-03) and respect Reduce Flashes. **No camera shake.**
 

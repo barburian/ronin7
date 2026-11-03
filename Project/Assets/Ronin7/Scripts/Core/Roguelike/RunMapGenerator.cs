@@ -12,6 +12,11 @@ namespace Ronin7.Core
     /// Forge + Shop; row 4 = 1 Boss. Edges run lane l -> lanes l-1..l+1 of the next row; a node left
     /// without an incoming edge is joined from the nearest lane of the row before. Depth = sector x 5 +
     /// row, so <see cref="RunScaling"/> is unchanged.
+    ///
+    /// P8-03b: one <see cref="RoomKind.DoubleElite"/> node per run, an extra lane at the end of final-sector row 1 or
+    /// 2. It is drawn from the RNG after the main grid and appended as the LAST node, so existing seeds keep every
+    /// main id, kind and edge. One row r-1 node gains it as an extra exit (never its only one) and it exits to the
+    /// same row r+1 nodes as that parent's first child, so it rejoins the grid and every path stays 15 rows.
     /// </summary>
     public static class RunMapGenerator
     {
@@ -54,6 +59,15 @@ namespace Ronin7.Core
                 }
             }
 
+            // P8-03b: double-elite side lane (RNG drawn last, node appended last; wired after the main edges).
+            const int lastSector = SectorCount - 1;
+            int branchRow = 1 + rng.NextInt(2);
+            int[] parents = rows[lastSector * NodesPerSector + branchRow - 1];
+            int branchParent = parents[rng.NextInt(parents.Length)];
+            int branchId = nodes.Count;
+            nodes.Add(new RunNode(branchId, lastSector, branchRow, RoomKind.DoubleElite,
+                rows[lastSector * NodesPerSector + branchRow].Length, lastSector * NodesPerSector + branchRow));
+
             var next = new List<int>[nodes.Count];
             for (int i = 0; i < next.Length; i++) next[i] = new List<int>(3);
             for (int r = 0; r + 1 < rows.Count; r++)
@@ -71,6 +85,9 @@ namespace Ronin7.Core
                 for (int l = 0; l < from.Length; l++)
                     if (next[from[l]].Count == 0) next[from[l]].Add(to[Math.Min(l, to.Length - 1)]);
             }
+
+            next[branchId].AddRange(next[next[branchParent][0]]);
+            next[branchParent].Add(branchId);
 
             var nextArr = new int[next.Length][];
             for (int i = 0; i < next.Length; i++)

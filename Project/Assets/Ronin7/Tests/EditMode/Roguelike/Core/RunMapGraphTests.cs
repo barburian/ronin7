@@ -13,20 +13,23 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
         public void TearDown() => RunState.Reset();
 
         /// <summary>Rows joined by " | " (nodes as 3-letter codes, lanes left to right), then each node's
-        /// out-edges "id>a,b".</summary>
+        /// out-edges "id>a,b". P8-03b: the main grid only — the appended DoubleElite branch node and edges into
+        /// it are skipped, so the goldens prove the branch left the main path untouched.</summary>
         internal static string Describe(RunMap map)
         {
             var sb = new StringBuilder();
             int lastDepth = 0;
             foreach (var n in map.Nodes)
             {
+                if (n.Kind == RoomKind.DoubleElite) continue;
                 if (n.Index > 0) sb.Append(n.Depth != lastDepth ? " | " : " ");
                 lastDepth = n.Depth;
                 sb.Append(RoomKindText.Code(n.Kind));
             }
             sb.Append(" ::");
             for (int i = 0; i < map.Next.Length; i++)
-                sb.Append(' ').Append(i).Append('>').Append(string.Join(",", map.Next[i]));
+                if (map.Nodes[i].Kind != RoomKind.DoubleElite)
+                    sb.Append(' ').Append(i).Append('>').Append(string.Join(",", System.Array.FindAll(map.Next[i], t => map.Nodes[t].Kind != RoomKind.DoubleElite)));
             return sb.ToString();
         }
 
@@ -69,14 +72,15 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             foreach (uint seed in Seeds())
             {
                 var map = RunMapGenerator.GenerateGraph(seed);
-                int final = map.Nodes.Length - 1;
+                int final = System.Array.FindLastIndex(map.Nodes, n => n.Kind == RoomKind.Boss); // P8-03b: the branch node is appended after it
                 Assert.AreEqual(RoomKind.Boss, map.Nodes[final].Kind);
                 Assert.AreEqual(RunMapGenerator.TotalNodes - 1, map.Depth(final));
                 for (int id = 0; id < map.Nodes.Length; id++)
                 {
                     if (id == final) { Assert.AreEqual(0, map.Next[id].Length, $"seed {seed}: final node has edges"); continue; }
                     Assert.Greater(map.Next[id].Length, 0, $"seed {seed}: node {id} is a dead end");
-                    Assert.LessOrEqual(map.Next[id].Length, 3, $"seed {seed}: node {id} has > 3 exits");
+                    int mainExits = System.Array.FindAll(map.Next[id], t => map.Nodes[t].Kind != RoomKind.DoubleElite).Length;
+                    Assert.LessOrEqual(mainExits, 3, $"seed {seed}: node {id} has > 3 main-grid exits");
                     foreach (int to in map.Next[id])
                         Assert.AreEqual(map.Depth(id) + 1, map.Depth(to), $"seed {seed}: edge {id}>{to} skips a row");
                 }
@@ -93,6 +97,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
                 foreach (var n in map.Nodes)
                 {
                     Assert.AreEqual(n.Sector * RunMapGenerator.NodesPerSector + n.IndexInSector, n.Depth);
+                    if (n.Kind == RoomKind.DoubleElite) { Assert.AreEqual(lanes[n.Depth], n.Lane, "branch = extra lane at the row's end"); continue; }
                     Assert.AreEqual(lanes[n.Depth], n.Lane, $"seed {seed}: lanes out of order");
                     lanes[n.Depth]++;
                 }
