@@ -400,10 +400,10 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
             return e;
         }
 
-        [TestCase(0, 0, 3)]  // sector 0: no eliteOnly eligible -> strongest trash leads, 2 escorts
-        [TestCase(3, 0, 3)]
-        [TestCase(7, 1, 3)]  // sector 1: 1 elite + 2 escorts
-        [TestCase(12, 2, 4)] // sector 2: 1 elite + 3 escorts
+        [TestCase(0, 0, 5)]  // sector 0: no eliteOnly eligible -> strongest trash leads, 4 escorts
+        [TestCase(3, 0, 5)]
+        [TestCase(7, 1, 5)]  // sector 1: 1 elite + 4 escorts
+        [TestCase(12, 2, 5)] // sector 2: 1 elite + 4 escorts
         public void Elite_FirstRequestIsElite(int depth, int sector, int expectedTotal)
         {
             var table = MakeTable(new[]
@@ -426,6 +426,18 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
                 Assert.AreNotEqual(2, result[i].EntryIndex, "escorts are trash, never an elite-only pick");
         }
 
+        [TestCase(0, 0)]
+        [TestCase(7, 1)]
+        [TestCase(12, 2)]
+        public void EliteRoom_HasFourEscorts(int depth, int sector)
+        {
+            var table = MakeTable(new[] { MakeEntryHp(60f), MakeEntryHp(100f), MakeEntryHp(150f, minDepth: 6, eliteOnly: true) });
+            var rng = new RunRng(5);
+            var result = WaveComposer.Compose(table, new RunNode(depth, sector, 0, RoomKind.Elite), 12f, Vector3.zero, ref rng);
+            Assert.AreEqual(5, result.Count, "1 elite + 4 escorts");
+            Assert.AreEqual(1, result.FindAll(r => r.IsElite).Count);
+        }
+
         [Test]
         public void EliteThreat_GreaterOrEqualCombatThreat_SameDepth()
         {
@@ -443,11 +455,9 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
                     var rngE = new RunRng(seed);
                     var rngC = new RunRng(seed);
                     eliteSum += Threat(table, WaveComposer.Compose(table, new RunNode(depth, sector, 0, RoomKind.Elite), 12f, Vector3.zero, ref rngE), depth, RoomKind.Elite);
-                    // P8-02c: Combat rooms hold 10+, but they arrive in waves of 3 (RunArenaController.WaveSize), so compare the first wave.
-                    var combat = WaveComposer.Compose(table, new RunNode(depth, sector, 0, RoomKind.Combat), 12f, Vector3.zero, ref rngC);
-                    combatSum += Threat(table, combat.GetRange(0, Mathf.Min(3, combat.Count)), depth, RoomKind.Combat);
+                    combatSum += Threat(table, WaveComposer.Compose(table, new RunNode(depth, sector, 0, RoomKind.Combat), 12f, Vector3.zero, ref rngC), depth, RoomKind.Combat);
                 }
-                // Mean over seeds: a single Combat roll can land 4 heavies; the design claim is on average (first wave).
+                // Mean over seeds: a single Combat roll can land 4 heavies; the design claim is on average (total room threat).
                 Assert.GreaterOrEqual(eliteSum / Seeds, combatSum / Seeds,
                     $"depth {depth} (sector {sector}): mean elite threat {eliteSum / Seeds:F1} < mean combat threat {combatSum / Seeds:F1}");
             }

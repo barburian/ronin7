@@ -103,7 +103,7 @@ namespace Ronin7.Core
 
         private static float KindHealthFactor(RoomKind kind) => kind switch
         {
-            RoomKind.Elite => 1.15f,
+            RoomKind.Elite => 1.8f, // 1 elite + 4 escorts must out-threaten a 10+ Combat room (worst depth needs 1.784)
             RoomKind.Boss => 1.3f,
             _ => 1f,
         };

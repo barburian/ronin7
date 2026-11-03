@@ -1288,7 +1288,7 @@ item names the task that landed it.
   already granted this run are never offered. `AbilityAccess.Has` reads `RunState` only in a run and
   `CampaignState` only outside one.
 - **A9.6 Elite rooms (P1-09).** One elite lead (eliteOnly pick if eligible, else the highest-`maxHealth`
-  eligible trash) plus escorts from non-eliteOnly trash: 2 in sectors 0-1, 3 in sector 2.
+  eligible trash) plus escorts from non-eliteOnly trash: 4 in every sector (elite health factor 1.8, so Elite total threat >= Combat total threat).
   `RL_HumanoidAutomaton` and `RL_IronWarden` are `eliteOnly`, `minDepth` 2 (were 5, not elite-only).
 - **A9.7 Boss bands (P1-10).** Boss nodes use total HP by sector {450, 650, 900} and damage multiplier
   {0.9, 1.1, 1.3} on base damage (out-of-range sectors clamp); other kinds keep the depth multipliers.
