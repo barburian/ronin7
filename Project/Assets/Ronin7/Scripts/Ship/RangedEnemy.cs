@@ -5,25 +5,19 @@ namespace Ronin7.Ship
 {
     /// <summary>
     /// P3-05 ranged gunner (Hunter_Drone). Reuses Enemy's Windup/Active/Recover machine: the Windup is the
-    /// charge telegraph, the bolt leaves at the end of Active, and there is no melee hit or parry. Kites
-    /// to <see cref="KiteMin"/>..<see cref="KiteMax"/> metres. The bolt is reflectable (see Projectile).
+    /// charge telegraph and the bolt leaves at the end of Active through the shared <see cref="Enemy.FireProjectile"/>
+    /// path (P8-02c). No melee hit or parry. Kites to <see cref="KiteMin"/>..<see cref="KiteMax"/> metres.
+    /// The bolt is reflectable (see Projectile).
     /// </summary>
     public class RangedEnemy : Enemy
     {
-        public const float KiteMin = 5f, KiteMax = 7f;
-        const float BoltSpeed = 4f, BoltLife = 4f, BoltRadius = 0.12f;
-
-        ProjectilePool pool;
-
-        protected override void Awake()
+        public new const float KiteMin = Enemy.KiteMin, KiteMax = Enemy.KiteMax;
+        private static readonly Strike Bolt = new Strike
         {
-            base.Awake();
-            // ponytail: one lookup per spawn; the arena bakes a single shared pool, so no registry needed
-            pool = FindAnyObjectByType<ProjectilePool>();
-        }
+            direction = StrikeDirection.Overhead, windup = 1f, active = 1f, recovery = 1f, boltSpeed = 4f, boltRadius = 0.12f,
+        };
 
-        protected override bool IsInLandHitRange() => false;
-        protected override void TryDetectParry() { }
+        protected override Strike NextStrike() => Bolt;
 
         protected override void OnChaseTick()
         {
@@ -34,17 +28,6 @@ namespace Ronin7.Ship
             bool outOfBand = dist > KiteMax || dist < KiteMin;
             Hover(outOfBand ? to / Mathf.Max(dist, 1e-3f) * (dist > KiteMax ? 1f : -1f) : Vector3.zero);
             if (dist <= KiteMax && Time.time >= nextAttackTime) BeginAttack();
-        }
-
-        protected override void OnActiveEnd()
-        {
-            base.OnActiveEnd();
-            if (pool == null) return;
-            Vector3 muzzle = weapon != null ? weapon.position : transform.position + Vector3.up;
-            var cam = Camera.main;
-            Vector3 head = cam != null ? cam.transform.position : target.transform.position + Vector3.up * 1.6f;
-            pool.Fire(gameObject, muzzle, Quaternion.LookRotation(head - muzzle), BoltSpeed, AttackDamage,
-                BoltLife, BoltRadius, OpenColor, null); // BUG-39: gold = "send it back" (Reflect)
         }
     }
 }

@@ -28,6 +28,20 @@ namespace Ronin7.Ship
         private readonly List<Projectile> liveOrder = new(); // FIFO so we can evict the oldest if starved
         private bool warnedStarvation; // one-shot guard so a starved pool warns once, not every frame
 
+        private System.Action<GameObject, Vector3, Quaternion, float, float, float, float, Color, float> hook;
+
+        // P8-02c: armed enemies (Ronin7.Enemies, which cannot see Ship) fire through this static hook.
+        private void OnEnable()
+        {
+            hook = (o, pos, rot, spd, dmg, life, rad, col, grav) => Fire(o, pos, rot, spd, dmg, life, rad, col, null, grav);
+            Ronin7.Enemies.Enemy.FireProjectile = hook;
+        }
+
+        private void OnDisable()
+        {
+            if (Ronin7.Enemies.Enemy.FireProjectile == hook) Ronin7.Enemies.Enemy.FireProjectile = null;
+        }
+
         private void Awake()
         {
             for (int i = 0; i < capacity; i++)
@@ -46,7 +60,7 @@ namespace Ronin7.Ship
         /// universe transform = moving-world space (enemies).
         /// </summary>
         public Projectile Fire(GameObject owner, Vector3 worldPosition, Quaternion worldRotation,
-            float speed, float damage, float lifetime, float radius, Color color, Transform parent)
+            float speed, float damage, float lifetime, float radius, Color color, Transform parent, float gravity = 0f)
         {
             Projectile bolt = available.Count > 0 ? available.Dequeue() : EvictOldest();
             // Defensive: EvictOldest only returns null when no bolt is live, which can't happen while
@@ -55,7 +69,7 @@ namespace Ronin7.Ship
 
             bolt.IsPooled = false;
             liveOrder.Add(bolt);
-            bolt.Launch(this, owner, worldPosition, worldRotation, speed, damage, lifetime, radius, color, parent);
+            bolt.Launch(this, owner, worldPosition, worldRotation, speed, damage, lifetime, radius, color, parent, gravity);
             return bolt;
         }
 

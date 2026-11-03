@@ -147,7 +147,12 @@ namespace Ronin7.Enemies
         /// <summary>P8-02c: a shield is held, so the left arm keeps its guard instead of copying the swing.</summary>
         public bool HasShield { get; private set; }
         /// <summary>P8-02: the strike the next attack uses, from the attached weapon's patterns.</summary>
-        internal Strike NextStrike() => weaponKit != null ? weaponKit.NextStrike() : Strike.Chop;
+        protected Strike CurrentStrike => strike;
+        /// <summary>P8-02c: an Aim strike holds the arm level toward the player for both windup and strike (rig: -75 = ~level forward).</summary>
+        private static readonly Vector3 AimEuler = new Vector3(-75f, 0f, 0f);
+        private Vector3 WindEuler => strike.direction == StrikeDirection.Aim ? AimEuler : windupEuler;
+        private Vector3 StrikeEuler => strike.direction == StrikeDirection.Aim ? AimEuler : strikeEuler;
+        protected internal virtual Strike NextStrike() => weaponKit != null ? weaponKit.NextStrike() : Strike.Chop;
         private float StrikeActive => ActiveTime * strike.active;
         private float StrikeRecover => RecoverTime * strike.recovery;
 
@@ -389,7 +394,7 @@ namespace Ronin7.Enemies
 
                 case State.Windup:
                     float draw = WindupPoseProgress(timer, telegraph);
-                    PoseWeapon(restEuler, windupEuler, draw);
+                    PoseWeapon(restEuler, WindEuler, draw);
                     PoseBody(0f, 1f, draw);
                     Tint(Color.Lerp(IdleColor, TelegraphColor, timer / telegraph),
                          PulsedTelegraphRim(Color.Lerp(RestRim, TelegraphRim, timer / telegraph), timer / telegraph));
@@ -402,7 +407,7 @@ namespace Ronin7.Enemies
 
                 case State.Active:
                     float strikeT = StrikePoseProgress(timer, StrikeActive);
-                    PoseWeapon(windupEuler, strikeEuler, strikeT);
+                    PoseWeapon(WindEuler, StrikeEuler, strikeT);
                     PoseBody(1f, -StrikeLunge, strikeT);
                     // P2-10 (BUG-29): land the hit when the strike pose lands (end of its ease-out arc),
                     // not 0.65 x Active later; the rest of Active is follow-through.
@@ -421,7 +426,7 @@ namespace Ronin7.Enemies
                 case State.Recover:
                     // P2-11: eased (not linear) settle so the pose doesn't kink into the walk; same duration.
                     float settle = Mathf.SmoothStep(0f, 1f, timer / StrikeRecover);
-                    PoseWeapon(strikeEuler, restEuler, settle);
+                    PoseWeapon(StrikeEuler, restEuler, settle);
                     PoseBody(-StrikeLunge, 0f, settle);
                     Tint(Color.Lerp(TelegraphColor, IdleColor, timer / StrikeRecover),
                          Color.Lerp(TelegraphRim, RestRim, timer / StrikeRecover));

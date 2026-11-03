@@ -348,8 +348,15 @@ namespace Ronin7.Enemies
             Vector3 to = target.transform.position - transform.position;
             to.y = 0f;
             float dist = to.magnitude;
+            bool ranged = NextStrike().Ranged;
+            float range = ranged ? KiteMax : definition.attackRange; // P8-02c: shooters hold off at KiteMax
+            if (ranged && dist < KiteMin && Time.time >= nextBackstep && state == State.Chase)
+            {
+                nextBackstep = Time.time + 1.5f;
+                Displace(-to / Mathf.Max(dist, 1e-3f) * 1.5f, 0.35f);
+            }
 
-            if (dist > definition.attackRange)
+            if (dist > range)
             {
                 // P2-11: walk where the body faces (turn first, no sideways/backwards slide), ramp the
                 // speed up and brake into attackRange instead of jumping between full speed and zero.
@@ -360,7 +367,7 @@ namespace Ronin7.Enemies
                 float decel = IsBoss ? definition.deceleration * MovementSmoothing.BossBrakeScale : definition.deceleration;
                 // Brake for the gap left after this frame's step, or the discrete ramp lags and stops hard.
                 float want = align * MovementSmoothing.ArrivalSpeed(definition.moveSpeed,
-                    dist - definition.attackRange - chaseSpeed * Time.deltaTime, decel);
+                    dist - range - chaseSpeed * Time.deltaTime, decel);
                 chaseSpeed = MovementSmoothing.StepSpeed(chaseSpeed, want,
                     definition.acceleration, decel, Time.deltaTime);
                 Vector3 pos = transform.position + fwd * (chaseSpeed * Time.deltaTime);
@@ -376,6 +383,7 @@ namespace Ronin7.Enemies
 
         protected override void TryDetectParry()
         {
+            if (CurrentStrike.Ranged) return;
             if (bladeTip == null || weapon == null) return;
 
             int n = Physics.OverlapCapsuleNonAlloc(weapon.position, bladeTip.position,
@@ -391,12 +399,44 @@ namespace Ronin7.Enemies
 
         // +0.4 slop so a player who's just slipped out of range during Active still eats the hit.
         protected override bool IsInLandHitRange()
-            => target != null
+            => target != null && !CurrentStrike.Ranged
             && (target.transform.position - transform.position).sqrMagnitude
                <= (definition.attackRange + 0.4f) * (definition.attackRange + 0.4f);
 
+        /// <summary>P8-02c: wired by ProjectilePool (Enemies cannot see Ship): owner, muzzle, rotation, speed, damage, life, radius, colour, gravity.</summary>
+        public static System.Action<GameObject, Vector3, Quaternion, float, float, float, float, Color, float> FireProjectile;
+        public const float KiteMin = 5f, KiteMax = 7f;
+        private float nextBackstep;
+
+        /// <summary>Pure: unit launch direction from <paramref name="from"/> that lands on <paramref name="to"/> at
+        /// <paramref name="speed"/> under <paramref name="gravity"/> (low-angle arc; 45 degrees when out of range).</summary>
+        public static Vector3 BallisticDirection(Vector3 from, Vector3 to, float speed, float gravity)
+        {
+            Vector3 d = to - from;
+            if (gravity <= 0f) return d.normalized;
+            Vector3 flat = new Vector3(d.x, 0f, d.z);
+            float x = flat.magnitude;
+            if (x < 1e-3f) return d.y >= 0f ? Vector3.up : Vector3.down;
+            float v2 = speed * speed, disc = v2 * v2 - gravity * (gravity * x * x + 2f * d.y * v2);
+            float theta = disc < 0f ? Mathf.PI / 4f : Mathf.Atan((v2 - Mathf.Sqrt(disc)) / (gravity * x));
+            return flat / x * Mathf.Cos(theta) + Vector3.up * Mathf.Sin(theta);
+        }
+
+        /// <summary>Fires <paramref name="s"/> as a bolt at the player's head from the weapon tip; no-op for melee or without a pool.</summary>
+        internal void FireStrike(Strike s)
+        {
+            if (!s.Ranged || FireProjectile == null) return;
+            Vector3 muzzle = bladeTip != null ? bladeTip.position : weapon != null ? weapon.position : transform.position + Vector3.up;
+            var cam = Camera.main;
+            Vector3 head = cam != null ? cam.transform.position
+                : target != null ? target.transform.position + Vector3.up * 1.6f : muzzle + transform.forward * 5f;
+            Vector3 dir = BallisticDirection(muzzle, head, s.boltSpeed, s.boltGravity);
+            FireProjectile(gameObject, muzzle, Quaternion.LookRotation(dir), s.boltSpeed, AttackDamage, 4f, s.boltRadius, OpenColor, s.boltGravity); // BUG-39: gold = "send it back" (Reflect)
+        }
+
         protected override void OnActiveEnd()
         {
+            if (CurrentStrike.Ranged) { FireStrike(CurrentStrike); nextAttackTime = Time.time + AccessibilityOptions.Cooldown(definition.attackCooldown, GameSettings.Active.EnemyCooldownScale); return; }
             if (++chainDone < definition.chainHits) { chainDeadline = Time.time + RecoverTime + ChainGrace; return; }
             chainDone = 0;
             nextAttackTime = Time.time + AccessibilityOptions.Cooldown(definition.attackCooldown, GameSettings.Active.EnemyCooldownScale); // P6-03 assist

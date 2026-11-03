@@ -34,6 +34,7 @@ namespace Ronin7.Ship
 
         private GameObject owner;          // the firer, so a bolt can't damage its own shooter
         private float damage;
+        private float gravity;             // P8-02c: m/s^2 downward arc (0 = straight)
         private float speed;               // units/sec along transform.forward
         private float lifeRemaining;
         private bool live;
@@ -73,8 +74,9 @@ namespace Ronin7.Ship
         /// </summary>
         public void Launch(ProjectilePool owningPool, GameObject firer, Vector3 worldPosition,
             Quaternion worldRotation, float boltSpeed, float boltDamage, float lifetime,
-            float radius, Color color, Transform parent)
+            float radius, Color color, Transform parent, float boltGravity = 0f)
         {
+            gravity = boltGravity;
             pool = owningPool;
             owner = firer;
             speed = boltSpeed;
@@ -103,6 +105,13 @@ namespace Ronin7.Ship
             {
                 Recycle();
                 return;
+            }
+
+            if (gravity > 0f)
+            {
+                Vector3 v = transform.forward * speed + Vector3.down * (gravity * dt);
+                speed = v.magnitude;
+                transform.rotation = Quaternion.LookRotation(v);
             }
 
             float worldRadius = sphere.radius * MaxAbsScale();
@@ -199,6 +208,7 @@ namespace Ronin7.Ship
             transform.rotation = Quaternion.LookRotation(ReflectDirection(transform.position, aim, transform.forward));
             owner = playerRoot;
             speed *= 2f;
+            gravity = 0f;
             reflected = true;
         }
 
