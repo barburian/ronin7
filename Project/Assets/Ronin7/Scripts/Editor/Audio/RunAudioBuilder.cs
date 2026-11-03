@@ -41,6 +41,7 @@ namespace Ronin7.Editor
             (ProceduralMusicSynth.Cue.RoomCleared, CueFolder + "/Cue_RoomCleared.wav", "roomCleared"),
             (ProceduralMusicSynth.Cue.BoonOffered, CueFolder + "/Cue_BoonOffered.wav", "boonOffered"),
             (ProceduralMusicSynth.Cue.BossPhase, CueFolder + "/Cue_BossPhase.wav", "bossPhase"),
+            (ProceduralMusicSynth.Cue.HeavyWindup, CueFolder + "/Windup_Heavy.wav", "windupHeavy"),
             (ProceduralMusicSynth.Cue.WindupCharger, CueFolder + "/Windup_Charger.wav", "windupCharger"),
             (ProceduralMusicSynth.Cue.WindupBlink, CueFolder + "/Windup_Blink.wav", "windupBlink"),
             (ProceduralMusicSynth.Cue.WindupDrone, CueFolder + "/Windup_Drone.wav", "windupDrone"),

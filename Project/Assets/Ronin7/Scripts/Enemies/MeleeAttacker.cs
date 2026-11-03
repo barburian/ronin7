@@ -163,11 +163,37 @@ namespace Ronin7.Enemies
         private static readonly Vector3 RightWind = new Vector3(15f, -130f, 70f), RightHit = new Vector3(15f, 50f, 50f);
         private static readonly Vector3 ThrustWind = new Vector3(15f, 70f, 45f), ThrustHit = new Vector3(-25f, -5f, 0f);
         private static readonly Vector3 LowWind = new Vector3(5f, 110f, 0f), LowHit = new Vector3(5f, -80f, 0f);
-        private Vector3 WindEuler => strike.direction switch
+        private Vector3 WindEuler => WindupPose(restEuler, strike.direction switch
         {
             StrikeDirection.Aim => AimEuler, StrikeDirection.Left => LeftWind, StrikeDirection.Right => RightWind,
             StrikeDirection.Thrust => ThrustWind, StrikeDirection.Low => LowWind, _ => windupEuler,
-        };
+        }, strike.unparryable);
+        // P8-04: a dodge-only strike draws back 1.5x as far (arm and torso), so it reads without colour.
+        private const float HeavyPoseScale = 1.5f;
+        private float WindBody => strike.unparryable ? HeavyPoseScale : 1f;
+        /// <summary>Pure (P8-04): the windup pose, exaggerated from rest for a dodge-only (unparryable) strike.</summary>
+        public static Vector3 WindupPose(Vector3 rest, Vector3 wind, bool unparryable)
+            => unparryable ? rest + (wind - rest) * HeavyPoseScale : wind;
+
+        /// <summary>Pure (P8-04): weapon-edge glow 0..1. Steady ramp over the windup; the pulse (dip to 0.7) is skipped
+        /// under Reduce Flashes so the line never flickers (A14.5).</summary>
+        public static float EdgeIntensity(float elapsed, float telegraph, float pulsePhase, bool reduceFlashes)
+        {
+            float ramp = Mathf.Clamp01(elapsed / Mathf.Max(0.01f, telegraph));
+            return reduceFlashes ? ramp : ramp * Mathf.Lerp(0.7f, 1f, 0.5f + 0.5f * Mathf.Sin(pulsePhase * 2f * Mathf.PI));
+        }
+
+        /// <summary>Pure (P8-04): windup-sound pitch by weapon length (m): short blades chirp, polearms growl.</summary>
+        public static float WindupPitch(float tipLength) => Mathf.Clamp(1.4f - 0.45f * tipLength, 0.7f, 1.4f);
+
+        private void UpdateEdge()
+        {
+            if (bladeEdge == null) return;
+            float i = EdgeIntensity(timer, telegraph, pulsePhase, GameSettings.Active.ReduceFlashes);
+            bladeEdge.enabled = true;
+            bladeEdge.startColor = bladeEdge.endColor = new Color(i, 0.55f * i, 0.2f * i, i);
+            bladeEdge.widthMultiplier = Mathf.Lerp(0.04f, 0.1f, i);
+        }
         private Vector3 StrikeEuler => strike.direction switch
         {
             StrikeDirection.Aim => AimEuler, StrikeDirection.Left => LeftHit, StrikeDirection.Right => RightHit,
@@ -175,9 +201,10 @@ namespace Ronin7.Enemies
         };
         /// <summary>P8-03 preview hook (editor captures, P8-04 telegraph tuning): hold a direction's full windup or landed
         /// strike pose without touching the state machine.</summary>
-        public void HoldPose(StrikeDirection direction, bool landed)
+        public void HoldPose(StrikeDirection direction, bool landed, bool unparryable = false)
         {
             strike.direction = direction;
+            strike.unparryable = unparryable;
             if (landed) PoseWeapon(WindEuler, StrikeEuler, 1f); else PoseWeapon(restEuler, WindEuler, 1f);
         }
         /// <summary>The strike the next attack uses: a held peek, consumed by <see cref="BeginAttack"/>.</summary>
@@ -205,7 +232,6 @@ namespace Ronin7.Enemies
         private float flashTimer;
         private float pulsePhase; // P6-03: windup rim pulse phase, in cycles
         private float telegraph; // this attack's telegraph (base + off-cone grace), set in BeginAttack
-        private Color edgeColor = Color.white;
 
         protected Health health;
         protected State state = State.Idle;
@@ -293,6 +319,8 @@ namespace Ronin7.Enemies
         /// should override this to return that point instead.
         /// </summary>
         protected virtual Transform SwingTrackPoint => weapon;
+        /// <summary>P8-04: where the telegraph edge line starts (Enemy: the held weapon's BladeEdgeBase).</summary>
+        protected virtual Transform EdgeBase => weapon;
 
         /// <summary>Smoothed enemy blade-tip speed (m/s); 0 outside Windup/Active. Feeds
         /// <see cref="ParryTiming.IsClash"/> via the <see cref="Deflect(Vector3, BladeDamager)"/> overload.</summary>
@@ -429,9 +457,10 @@ namespace Ronin7.Enemies
                 case State.Windup:
                     float draw = WindupPoseProgress(timer, telegraph);
                     PoseWeapon(restEuler, WindEuler, draw);
-                    PoseBody(0f, 1f, draw);
+                    PoseBody(0f, WindBody, draw);
                     Tint(Color.Lerp(IdleColor, TelegraphColor, timer / telegraph),
                          PulsedTelegraphRim(Color.Lerp(RestRim, TelegraphRim, timer / telegraph), timer / telegraph));
+                    UpdateEdge();
                     if (timer >= telegraph)
                     {
                         Log("STRIKE");
@@ -442,7 +471,7 @@ namespace Ronin7.Enemies
                 case State.Active:
                     float strikeT = StrikePoseProgress(timer, StrikeActive);
                     PoseWeapon(WindEuler, StrikeEuler, strikeT);
-                    PoseBody(1f, -StrikeLunge, strikeT);
+                    PoseBody(WindBody, -StrikeLunge, strikeT);
                     // P2-10 (BUG-29): land the hit when the strike pose lands (end of its ease-out arc),
                     // not 0.65 x Active later; the rest of Active is follow-through.
                     if (!strikeResolved && strikeT >= 1f)
@@ -488,8 +517,9 @@ namespace Ronin7.Enemies
         {
             if (bladeEdge == null || !bladeEdge.enabled) return;
             Transform tip = SwingTrackPoint;
-            if (weapon == null || tip == null) return;
-            bladeEdge.SetPosition(0, weapon.position);
+            Transform from = EdgeBase;
+            if (from == null || tip == null) return;
+            bladeEdge.SetPosition(0, from.position);
             bladeEdge.SetPosition(1, tip.position);
         }
 
@@ -533,7 +563,8 @@ namespace Ronin7.Enemies
             deflectedThisSwing = false;
             strikeResolved = false;
             Enter(State.Windup);
-            EventBus.Publish(new AttackWindupStarted(weapon != null ? weapon.position : transform.position, gameObject));
+            EventBus.Publish(new AttackWindupStarted(weapon != null ? weapon.position : transform.position, gameObject,
+                weaponKit != null ? WindupPitch(weaponKit.tip.magnitude) : 1f, strike.unparryable));
         }
 
         /// <summary>Yaw angle between the player's view direction and this enemy (0 when unknown).</summary>
@@ -731,7 +762,7 @@ namespace Ronin7.Enemies
 
         protected void Enter(State next)
         {
-            // P7-06 (BUG-53): attack line hidden; the component stays for P8-04. Windup reads via the rim pulse.
+            // P8-04: the edge line is hidden outside Windup (the Windup tick turns it on).
             if (bladeEdge != null) bladeEdge.enabled = false;
             if (next == State.Stagger) Strikes?.BreakCombo(); // P8-03: a parried/flinched combo starts fresh
             EnterCore(next);
@@ -832,11 +863,6 @@ namespace Ronin7.Enemies
             if (bodyHasRim) RendererTint.Apply(bodyRenderer, c, rim);
             else RendererTint.Apply(bodyRenderer, c);
             RendererTint.Apply(bladeRenderer, EnemySwordVisual.BladeTint(c));
-            if (bladeEdge != null && bladeEdge.enabled)
-            {
-                edgeColor = c;
-                bladeEdge.startColor = bladeEdge.endColor = edgeColor;
-            }
         }
 
         private bool SightOn => playerMods != null && playerMods.WeakpointSightActive;

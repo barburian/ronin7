@@ -104,6 +104,16 @@ namespace Ronin7.Enemies
         // the same point already used for the parry capsule below, so it doubles as the G4 Blade
         // Clash swing-speed tracker's sample point.
         protected override Transform SwingTrackPoint => bladeTip != null ? bladeTip : weapon;
+        // P8-04: ranged kits author edgeBase == tip, so their edge runs from the weapon root (barrel / bow) to the tip.
+        protected override Transform EdgeBase
+        {
+            get
+            {
+                if (bladeTip == null || bladeBase == null) return weapon;
+                bool flat = (bladeBase.position - bladeTip.position).sqrMagnitude < 1e-4f;
+                return flat && bladeTip.parent != null ? bladeTip.parent : bladeBase;
+            }
+        }
 
         protected override void Awake()
         {

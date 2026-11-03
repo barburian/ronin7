@@ -53,7 +53,7 @@ namespace Ronin7.Audio
         /// No-op if the clip is null or volume is zero. Returns immediately; the source
         /// becomes claimable again once the clip's playback length elapses.
         /// </summary>
-        public void Play(AudioClip clip, Vector3 point, float volume)
+        public void Play(AudioClip clip, Vector3 point, float volume, float pitch = 1f)
         {
             if (clip == null || volume <= 0f || sources == null) return;
 
@@ -62,9 +62,9 @@ namespace Ronin7.Audio
             src.transform.position = point;
             src.clip = clip;
             src.volume = volume;
-            src.pitch = 1f;
+            src.pitch = pitch;
             src.Play();
-            freeAtUnscaled[slot] = Time.unscaledTime + clip.length;
+            freeAtUnscaled[slot] = Time.unscaledTime + clip.length / Mathf.Max(0.1f, pitch);
         }
 
         /// <summary>

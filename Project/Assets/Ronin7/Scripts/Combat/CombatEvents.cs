@@ -43,7 +43,11 @@ namespace Ronin7.Combat
     {
         public readonly Vector3 Point;
         public readonly GameObject Attacker;
-        public AttackWindupStarted(Vector3 point, GameObject attacker) { Point = point; Attacker = attacker; }
+        /// <summary>P8-04: per-weapon pitch for the windup cue, and a dodge-only (unparryable) strike.</summary>
+        public readonly float Pitch;
+        public readonly bool Heavy;
+        public AttackWindupStarted(Vector3 point, GameObject attacker, float pitch = 1f, bool heavy = false)
+        { Point = point; Attacker = attacker; Pitch = pitch; Heavy = heavy; }
     }
 
     /// <summary>An enemy attack landed on the player.</summary>

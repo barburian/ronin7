@@ -70,6 +70,8 @@ namespace Ronin7.Audio
         [Tooltip("Spatialized telegraph cue for an enemy's attack windup (see AttackWindupStarted) — " +
                  "the readable-behind-you parry cue now that art enemies have no visible blade.")]
         [SerializeField] private AudioClip attackWindup;
+        [Tooltip("P8-04: low heavy windup for dodge-only (unparryable) strikes; replaces the weapon cue so it reads without colour.")]
+        [SerializeField] private AudioClip windupHeavy;
         [SerializeField] private AudioClip enemyDefeated;
         [SerializeField] private AudioClip abilityActivate;
 
@@ -473,7 +475,7 @@ namespace Ronin7.Audio
         private void OnLanding(LandingRequested _) => PlayAt(landing, ListenerPoint());
         private void OnExtracted(ZoneCompleted _) => PlayAt(extraction, ListenerPoint());
 
-        private void OnAttackWindup(AttackWindupStarted e) => PlayAt(WindupFor(e.Attacker), e.Point);
+        private void OnAttackWindup(AttackWindupStarted e) => PlayAt(e.Heavy && windupHeavy != null ? windupHeavy : WindupFor(e.Attacker), e.Point, 1f, e.Pitch);
 
         /// <summary>P6-01: per-archetype telegraph voice (distinct pitch and timbre, so it reads without colour).
         /// TryGetComponent does not allocate; an unset variant falls back to the plain melee cue.</summary>
@@ -561,7 +563,7 @@ namespace Ronin7.Audio
                 musicTarget = exploreMusic;
         }
 
-        private void PlayAt(AudioClip clip, Vector3 point, float gain = 1f, [CallerMemberName] string cue = "")
+        private void PlayAt(AudioClip clip, Vector3 point, float gain = 1f, float pitch = 1f, [CallerMemberName] string cue = "")
         {
             if (clip == null)
             {
@@ -569,7 +571,7 @@ namespace Ronin7.Audio
                 return;
             }
             if (sfxVolume <= 0f) return;
-            oneShots.Play(clip, point, Mathf.Min(1f, sfxVolume * gain)); // AudioSource.volume caps at 1
+            oneShots.Play(clip, point, Mathf.Min(1f, sfxVolume * gain), pitch); // AudioSource.volume caps at 1
         }
 
         /// <summary>P6-01 dev aid: true the first time <paramref name="cue"/> played with no clip, so the

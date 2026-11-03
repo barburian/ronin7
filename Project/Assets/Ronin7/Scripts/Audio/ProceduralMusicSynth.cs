@@ -277,7 +277,7 @@ namespace Ronin7.Audio
 
         // ================================================================ cue stings and loops (44.1 kHz)
         public enum Cue { RunStarted, RoomCleared, BoonOffered, BoonChosen, RunLost, RunWon, EnemySpawning, BossPhase,
-                          WindupMelee, WindupCharger, WindupBlink, WindupDrone, WindupRanged, LowHealthLoop, MenuAmbience }
+                          WindupMelee, HeavyWindup, WindupCharger, WindupBlink, WindupDrone, WindupRanged, LowHealthLoop, MenuAmbience }
 
         public static float[] GenerateCue(Cue cue)
         {
@@ -331,6 +331,11 @@ namespace Ronin7.Audio
                     b = new float[(int)(0.3f * sr)];
                     Note(b, sr, 0f, 0.07f, Hz(76), 0.4f, Wave.Square, 0.002f, 0.06f, 0f, 0f, 0f, 0.4f);
                     Note(b, sr, 0.09f, 0.1f, Hz(83), 0.4f, Wave.Square, 0.002f, 0.08f, 0f, 0f, 0f, 0.4f);
+                    break;
+                case Cue.HeavyWindup: // P8-04: low slow groan (saw sweep 55->130 Hz, 5 Hz tremolo) + sub thump; dodge-only strikes
+                    b = new float[(int)(0.8f * sr)];
+                    SweepInto(b, sr, 55f, 130f, 0.75f, 0.7f, 5f, Wave.Saw);
+                    Kick(b, sr, 0f, 0.5f, 45f, 70f);
                     break;
                 case Cue.WindupCharger: // low growling rise, saw with 18 Hz tremolo
                     b = new float[(int)(0.6f * sr)];
