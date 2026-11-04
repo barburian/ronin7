@@ -13,8 +13,8 @@ namespace Ronin7.Tests.PlayMode
 {
     /// <summary>
     /// PlayMode lifecycle harness for <see cref="RunArenaController"/> (A5.8, P2-06/P2-07): telegraphed
-    /// waves (5 queued split [3, 2], each wave activates after the spawn delay, wave 2 releases once
-    /// at most 1 is alive, all dead clears the room and publishes <see cref="RoomCleared"/> exactly
+    /// waves (10+ queued in waves of &lt;= 3, each wave activates after the spawn delay, the next releases once
+    /// at most 1 is alive, never more than the cap live, all dead clears the room and publishes <see cref="RoomCleared"/> exactly
     /// once) and the null-prefab-table soft-lock
     /// guard (A5.1 — the node must still clear rather than trap the player).
     /// </summary>
@@ -114,23 +114,23 @@ namespace Ronin7.Tests.PlayMode
         // ---- Tests ----
 
         [UnityTest]
-        public IEnumerator FiveQueued_TelegraphedWavesOfThreeThenTwo_AllDeadClearsRoom()
+        public IEnumerator TenPlusQueued_TelegraphedWavesNeverExceedConcurrencyCap_AllDeadClearsRoom()
         {
             AddMainCamera();
 
-            // P2-04: pick seed 1's first sector-2 Combat node whose own RunRng substream makes
-            // RunScaling.EnemyCount return exactly 5 (3 base + 2 per-sector bonus + 0). The empty-biome
-            // room library consumes zero rng draws before that, so the arena composes exactly 5.
+            // Combat rooms are 10 + 1 per sector (RunScaling.EnemyCount); pick seed 1's first sector-2 Combat node (12).
             RunState.Begin(1);
-            int target = -1;
+            int target = -1, total = 0;
             for (int id = 0; id < RunState.Map.Count && target < 0; id++)
             {
                 RunNode n = RunState.Map[id];
                 if (n.Sector != 2 || n.Kind != RoomKind.Combat) continue;
                 RunRng probe = RunRng.ForNode(1, id);
-                if (RunScaling.EnemyCount(n.Depth, n.Kind, ref probe) == 5) target = id;
+                total = RunScaling.EnemyCount(n.Depth, n.Kind, ref probe);
+                target = id;
             }
-            Assert.GreaterOrEqual(target, 0, "seed 1 has no 5-enemy sector-2 Combat node");
+            Assert.GreaterOrEqual(target, 0, "seed 1 has no sector-2 Combat node");
+            Assert.GreaterOrEqual(total, 10, "Combat rooms are at least 10 enemies");
             var walk = RunState.Graph.PathTo(target);
             for (int i = 1; i < walk.Count; i++) RunState.Advance(walk[i]);
             Assert.AreEqual(target, RunState.NodeIndex);
@@ -158,39 +158,42 @@ namespace Ronin7.Tests.PlayMode
             yield return null; // Start() runs
 
             Health[] all = controller.GetComponentsInChildren<Health>(true);
-            Assert.AreEqual(5, all.Length, "Expected all 5 enemies instantiated (queued + pending).");
+            Assert.AreEqual(total, all.Length, "Expected every enemy instantiated up front (queued + pending).");
 
-            int ActiveCount() => controller.GetComponentsInChildren<Health>(false).Length;
+            int Live() => System.Array.FindAll(all, h => h.gameObject.activeSelf && h.IsAlive).Length;
             void Kill(Health h) => h.ApplyDamage(new DamageInfo(9999f, Vector3.zero, Vector3.forward, null));
 
             // P2-06: the first wave telegraphs before activating.
-            Assert.AreEqual(0, ActiveCount(), "Wave 1 must still be telegraphing on the first frame.");
+            Assert.AreEqual(0, controller.GetComponentsInChildren<Health>(false).Length, "Wave 1 must still be telegraphing on the first frame.");
             yield return new WaitForSeconds(1.4f); // > RunArenaController.SpawnDelay (1.2 s)
 
-            // P2-07: 5 enemies split into waves of [3, 2].
-            Assert.AreEqual(3, ActiveCount(), "Wave 1 = 3 enemies.");
+            // P2-07: waves of 3.
+            Assert.AreEqual(3, Live(), "Wave 1 = 3 enemies.");
             Assert.IsFalse(controller.IsCleared);
 
             // Two alive after one kill: the next wave is not due yet.
             Kill(System.Array.Find(all, h => h.gameObject.activeSelf && h.IsAlive));
             yield return new WaitForSeconds(1.4f);
-            Assert.AreEqual(2, System.Array.FindAll(all, h => h.gameObject.activeSelf && h.IsAlive).Length,
-                "Wave 2 must not release while 2 enemies are alive.");
+            Assert.AreEqual(2, Live(), "Wave 2 must not release while 2 enemies are alive.");
 
-            // One alive after the second kill: wave 2 (2 enemies) telegraphs, then activates.
+            // One alive after the second kill: wave 2 (3 enemies) telegraphs, then activates.
             Kill(System.Array.Find(all, h => h.gameObject.activeSelf && h.IsAlive));
             Assert.IsFalse(controller.IsCleared, "Wave 2 is pending.");
             yield return new WaitForSeconds(1.4f);
-            Assert.AreEqual(3, System.Array.FindAll(all, h => h.gameObject.activeSelf && h.IsAlive).Length,
-                "1 survivor + wave 2's 2 enemies alive.");
+            Assert.AreEqual(4, Live(), "1 survivor + wave 2's 3 enemies = the concurrency cap.");
 
-            // Kill everything else.
-            foreach (Health h in all)
+            // Drip the rest: kill one live enemy at a time; live count must never exceed the cap.
+            int maxLive = Live();
+            for (int guard = 0; guard < total * 3 && !controller.IsCleared; guard++)
             {
-                if (h.IsAlive) Kill(h);
+                Health victim = System.Array.Find(all, h => h.gameObject.activeSelf && h.IsAlive);
+                if (victim != null) Kill(victim);
+                yield return new WaitForSeconds(1.4f);
+                maxLive = Mathf.Max(maxLive, Live());
             }
 
-            Assert.IsTrue(controller.IsCleared, "All 5 enemies are dead — the room must be cleared.");
+            Assert.LessOrEqual(maxLive, RunScaling.MaxConcurrentEnemies, "Never more than the cap live at once.");
+            Assert.IsTrue(controller.IsCleared, $"All {total} enemies are dead — the room must be cleared.");
             Assert.AreEqual(1, roomClearedCount, "RoomCleared must publish exactly once.");
 
             EventBus.Unsubscribe(onCleared);
