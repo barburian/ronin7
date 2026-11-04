@@ -55,6 +55,10 @@ namespace Ronin7.Core
         /// <summary>Seated-play eye lift (metres) added on top of the calibrated <see cref="EyeHeightOffset"/>.</summary>
         public const float SeatedEyeOffset = 0.45f;
 
+        /// <summary>Sane eye-height offset range (m): floor tracking, head 0.6-2.2 m, target 1.6 m. Heals a stale/garbage stored value.</summary>
+        public const float MinEyeOffset = -0.6f, MaxEyeOffset = 1.0f;
+        public static float ClampEyeOffset(float v) => float.IsNaN(v) ? 0f : System.Math.Min(MaxEyeOffset, System.Math.Max(MinEyeOffset, v));
+
         /// <summary>The Y actually written to the rig's eye-height root: calibration + seated lift.</summary>
         public float EffectiveEyeOffset => EyeHeightOffset + (Seated ? SeatedEyeOffset : 0f);
 

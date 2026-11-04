@@ -40,5 +40,21 @@ namespace Ronin7.Tests.EditMode
 
             Assert.AreEqual(offset1, offset2, 1e-4f);
         }
+
+        [Test]
+        public void ComputeOffset_AbsurdTrackedHeight_IsClamped()
+        {
+            Assert.AreEqual(Ronin7.Core.GameSettings.MaxEyeOffset, XREyeHeightCalibrator.ComputeOffset(-20.5f, 1.6f), 1e-4f);
+            Assert.AreEqual(Ronin7.Core.GameSettings.MinEyeOffset, XREyeHeightCalibrator.ComputeOffset(9f, 1.6f), 1e-4f);
+        }
+
+        [Test]
+        public void ClampEyeOffset_HealsStaleValue_KeepsSaneOnes()
+        {
+            Assert.AreEqual(Ronin7.Core.GameSettings.MaxEyeOffset, Ronin7.Core.GameSettings.ClampEyeOffset(20.5f), 1e-4f);
+            Assert.AreEqual(Ronin7.Core.GameSettings.MinEyeOffset, Ronin7.Core.GameSettings.ClampEyeOffset(-20.5f), 1e-4f);
+            Assert.AreEqual(0.5f, Ronin7.Core.GameSettings.ClampEyeOffset(0.5f), 1e-4f);
+            Assert.AreEqual(0f, Ronin7.Core.GameSettings.ClampEyeOffset(float.NaN), 1e-4f);
+        }
     }
 }

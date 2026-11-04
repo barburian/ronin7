@@ -172,6 +172,10 @@ namespace Ronin7.World
                 return;
             }
 
+            var cam = Camera.main;
+            if (cam != null)
+                Debug.Log($"[RunArena] Rig world y={cam.transform.root.position.y:0.00} m, camera world y={cam.transform.position.y:0.00} m.");
+
             RunNode node = RunState.CurrentNode;
             currentNodeIndex = node.Index;
             runSeed = RunState.Seed;

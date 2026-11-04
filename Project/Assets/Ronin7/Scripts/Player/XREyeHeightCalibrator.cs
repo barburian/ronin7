@@ -20,7 +20,7 @@ namespace Ronin7.Player
         /// <summary>Pure offset math: how far to raise the rig so a head at <paramref name="trackedHeadHeight"/>
         /// reads as <paramref name="targetEyeHeight"/> above the floor.</summary>
         public static float ComputeOffset(float trackedHeadHeight, float targetEyeHeight)
-            => targetEyeHeight - trackedHeadHeight;
+            => GameSettings.ClampEyeOffset(targetEyeHeight - trackedHeadHeight);
 
         /// <summary>Writes the calibrated Y onto the live rig's Camera Offset. Sole transform writer.
         /// Silent no-op when there is no rig yet (this runs on every scene load, before some scenes

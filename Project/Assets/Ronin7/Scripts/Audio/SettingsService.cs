@@ -273,7 +273,7 @@ namespace Ronin7.Audio
                 SfxVolume = PlayerPrefs.GetFloat(KeySfx, d.SfxVolume),
                 MusicVolume = PlayerPrefs.GetFloat(KeyMusic, d.MusicVolume),
                 AmbienceVolume = PlayerPrefs.GetFloat(KeyAmbience, d.AmbienceVolume),
-                EyeHeightOffset = PlayerPrefs.GetFloat(KeyEyeHeight, d.EyeHeightOffset),
+                EyeHeightOffset = GameSettings.ClampEyeOffset(PlayerPrefs.GetFloat(KeyEyeHeight, d.EyeHeightOffset)),
                 Quality = (GraphicsQuality)PlayerPrefs.GetInt(KeyQuality, qualityDefault),
                 CombatBlood = PlayerPrefs.GetInt(KeyBlood, d.CombatBlood ? 1 : 0) != 0,
                 // P2-09: absent on pre-P2-09 installs → defaults (Standing, right-handed, Smooth).
@@ -304,7 +304,7 @@ namespace Ronin7.Audio
             PlayerPrefs.SetFloat(KeySfx, settings.SfxVolume);
             PlayerPrefs.SetFloat(KeyMusic, settings.MusicVolume);
             PlayerPrefs.SetFloat(KeyAmbience, settings.AmbienceVolume);
-            PlayerPrefs.SetFloat(KeyEyeHeight, settings.EyeHeightOffset);
+            PlayerPrefs.SetFloat(KeyEyeHeight, GameSettings.ClampEyeOffset(settings.EyeHeightOffset));
             PlayerPrefs.SetInt(KeyQuality, (int)settings.Quality);
             PlayerPrefs.SetInt(KeyBlood, settings.CombatBlood ? 1 : 0);
             PlayerPrefs.SetInt(KeySeated, settings.Seated ? 1 : 0);

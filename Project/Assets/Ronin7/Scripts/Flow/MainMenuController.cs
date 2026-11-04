@@ -34,36 +34,119 @@ namespace Ronin7.Flow
         private MetaShopPanel shop;
         private bool settingsHidMenu;
 
+        private Canvas canvas;
+        private bool placed;
+
         private void Start()
         {
+            canvas = GetComponent<Canvas>();
             StartCoroutine(RecenterOnFirstHeadPose());
         }
 
-        /// <summary>P7-03: once the HMD reports its first valid pose, recenter the rig once so the menu is
-        /// in front of the player. Gives up after 5 s (editor / no headset).</summary>
+        internal const float MenuDistance = 1.5f; // m in front of the head; tuned with the render check
+        internal const float MenuDrop = 0.1f;     // m below eye level
+        internal const int RequiredStableFrames = 5;
+        private const float StableEpsilon = 0.02f; // m of head motion per frame still counted as steady
+
+        /// <summary>P7-03: the menu stays hidden until the HMD reports a tracked, plausible-height, steady pose,
+        /// then the rig is recentred and the menu is placed in front of the head. Gives up waiting after 5 s
+        /// (editor / no headset) and places it anyway, so the menu can never stay hidden. The canvas is always
+        /// re-shown on exit, whatever the path.</summary>
         private IEnumerator RecenterOnFirstHeadPose()
         {
-            var head = InputDevices.GetDeviceAtXRNode(XRNode.Head);
-            for (float t = 0f; t < 5f; t += Time.unscaledDeltaTime)
+            if (canvas != null) canvas.enabled = false;
+            try
             {
-                if (!head.isValid) head = InputDevices.GetDeviceAtXRNode(XRNode.Head);
-                bool tracked = head.isValid && head.TryGetFeatureValue(CommonUsages.isTracked, out bool v) && v;
-                var rig = Ronin7.Player.VRRig.Instance;
-                if (rig != null && rig.Head != null && IsHeadPoseValid(tracked, rig.Head.localPosition))
+                var head = InputDevices.GetDeviceAtXRNode(XRNode.Head);
+                int stable = 0;
+                Vector3 prev = Vector3.zero;
+                for (float t = 0f; t < 5f; t += Time.unscaledDeltaTime)
                 {
-                    Ronin7.Player.XRRecenterUtility.RecenterRig();
-                    yield break;
+                    if (!head.isValid) head = InputDevices.GetDeviceAtXRNode(XRNode.Head);
+                    bool tracked = head.isValid && head.TryGetFeatureValue(CommonUsages.isTracked, out bool v) && v;
+                    var rig = Ronin7.Player.VRRig.Instance;
+                    if (rig != null && rig.Head != null)
+                    {
+                        Vector3 pos = rig.Head.localPosition;
+                        stable = IsHeadPoseValid(tracked, pos) ? NextStableFrames(stable, prev, pos) : 0;
+                        prev = pos;
+                        if (stable >= RequiredStableFrames) break;
+                    }
+                    yield return null;
                 }
-                yield return null;
+                RecenterAndPlace();
+            }
+            finally
+            {
+                placed = true;
+                // Shrine/settings may have opened meanwhile; they restore the canvas themselves.
+                if (canvas != null) canvas.enabled = settings == null || !settings.IsOpen;
             }
         }
 
-        /// <summary>Head is tracked and the rig camera has moved off its zero pose. Pure. P7-03 test seam.</summary>
+        /// <summary>Recentre the rig (first valid pose or system recenter), then put the canvas in front of the head.</summary>
+        private void RecenterAndPlace()
+        {
+            Ronin7.Player.XRRecenterUtility.RecenterRig();
+            PlaceMenu();
+        }
+
+        private void PlaceMenu()
+        {
+            var rig = Ronin7.Player.VRRig.Instance;
+            if (rig == null || rig.Head == null) return; // keep the baked pose
+            transform.position = PlaceInFront(rig.Head.position, rig.Head.forward, out var rot);
+            transform.rotation = rot;
+            Debug.Log($"[MainMenu] Placed menu: origin={TrackingOriginMode()}, head local y={rig.Head.localPosition.y:0.00} m, " +
+                      $"eye offset={(rig.EyeHeightRoot != null ? rig.EyeHeightRoot.localPosition.y : 0f):0.00} m, " +
+                      $"head world y={rig.Head.position.y:0.00} m.");
+        }
+
+        private static string TrackingOriginMode()
+        {
+            var subs = new System.Collections.Generic.List<XRInputSubsystem>(2);
+            SubsystemManager.GetSubsystems(subs);
+            return subs.Count > 0 ? subs[0].GetTrackingOriginMode().ToString() : "no XR subsystem";
+        }
+
+        // A Quest system recenter shifts the origin under the menu: re-place it, but only while this menu exists.
+        private void HandleTrackingOriginUpdated(XRInputSubsystem _)
+        {
+            if (placed && isActiveAndEnabled) RecenterAndPlace();
+        }
+
+        /// <summary>Head is tracked, the rig camera is off its zero pose, and its height above the tracking
+        /// origin is plausible for a seated or standing player (rejects stale/garbage poses). Pure. P7-03 test seam.</summary>
         internal static bool IsHeadPoseValid(bool tracked, Vector3 localPos) =>
-            tracked && localPos.sqrMagnitude > 1e-6f;
+            tracked && localPos.sqrMagnitude > 1e-6f && localPos.y >= 0.4f && localPos.y <= 2.4f;
+
+        /// <summary>Consecutive-frame counter: grows while the head moved under ~2 cm since last frame, else resets. Pure.</summary>
+        internal static int NextStableFrames(int count, Vector3 prev, Vector3 cur) =>
+            (cur - prev).sqrMagnitude <= StableEpsilon * StableEpsilon ? count + 1 : 0;
+
+        /// <summary>Menu centre ~1.5 m ahead along the head's flat forward, just below eye level, panel facing away
+        /// from the head. Looking steeply up/down falls back to +Z (the scene's authored forward). Pure. Test seam.</summary>
+        internal static Vector3 PlaceInFront(Vector3 headPos, Vector3 headForward, out Quaternion rot)
+        {
+            Vector3 flat = Vector3.ProjectOnPlane(headForward, Vector3.up);
+            flat = flat.sqrMagnitude > 0.01f ? flat.normalized : Vector3.forward;
+            rot = Quaternion.LookRotation(flat, Vector3.up);
+            return new Vector3(headPos.x, headPos.y - MenuDrop, headPos.z) + flat * MenuDistance;
+        }
+
+        private readonly System.Collections.Generic.List<XRInputSubsystem> subscribed = new System.Collections.Generic.List<XRInputSubsystem>(2);
+
+        // trackingOriginUpdated is a per-subsystem event; subscribe on enable, always unsubscribe on disable/destroy.
+        private void OnDisable()
+        {
+            foreach (var sub in subscribed) if (sub != null) sub.trackingOriginUpdated -= HandleTrackingOriginUpdated;
+            subscribed.Clear();
+        }
 
         private void OnEnable()
         {
+            SubsystemManager.GetSubsystems(subscribed);
+            foreach (var sub in subscribed) sub.trackingOriginUpdated += HandleTrackingOriginUpdated;
             HideCampaignEntriesIfUnavailable();
             RefreshRunButtons();
         }
@@ -157,8 +240,21 @@ namespace Ronin7.Flow
 
         public void OnRecalibrateClicked()
         {
+            var rig = Ronin7.Player.VRRig.Instance;
+            if (rig != null && rig.Head != null && !IsHeadPoseValid(HeadTracked(), rig.Head.localPosition))
+            {
+                Debug.LogWarning("[MainMenu] Recalibrate ignored: head pose not tracked / implausible height.");
+                return;
+            }
             Ronin7.Player.XRRecenterUtility.RecenterRig();
             Ronin7.Player.XREyeHeightCalibrator.Calibrate(targetEyeHeight);
+            PlaceMenu();
+        }
+
+        private static bool HeadTracked()
+        {
+            var head = InputDevices.GetDeviceAtXRNode(XRNode.Head);
+            return head.isValid && head.TryGetFeatureValue(CommonUsages.isTracked, out bool v) && v;
         }
 
         /// <summary>Menu "START RUN": begin a new roguelike run (random seed).</summary>
