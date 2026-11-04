@@ -191,7 +191,7 @@ namespace Ronin7.World
             e.definition.name.Contains("Scavenger") || e.prefab.name.Contains("Scavenger");
 
         /// <summary>P1-09 (BUG-09): one elite first (an eliteOnly pick when eligible, else the strongest
-        /// eligible trash by maxHealth), then 4 escorts drawn from non-eliteOnly trash. Falls back to all eligible entries if no plain trash is eligible.
+        /// eligible trash by maxHealth), then 4/5/6 (by sector) escorts drawn from non-eliteOnly trash. Falls back to all eligible entries if no plain trash is eligible.
         /// P8-03b: <paramref name="leads"/> elites, each a DIFFERENT entry (next eliteOnly pick, else the strongest
         /// remaining eligible), all ahead of the escorts so they share the first wave. leads = 1 draws RNG as before.</summary>
         private static List<SpawnRequest> ComposeElite(
@@ -223,7 +223,7 @@ namespace Ronin7.World
 
             List<int> escortPool = plain.Count > 0 ? plain : eligible;
             int[] escortWeights = Weights(table.trash, escortPool);
-            const int escorts = 4; // elite rooms: lead elite first, then 4 trash escorts (same pool/caps as Combat)
+            int escorts = 4 + Mathf.Clamp(node.Sector, 0, 2); // elite rooms: lead elite first, then 4/5/6 trash escorts by sector (mirrors Combat's +1 per sector; same pool/caps)
 
             int n = leadIndices.Count;
             List<Vector3> positions = Positions(n + escorts, arenaHalfExtent, playerSpawn, ref rng);

@@ -402,8 +402,8 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
 
         [TestCase(0, 0, 5)]  // sector 0: no eliteOnly eligible -> strongest trash leads, 4 escorts
         [TestCase(3, 0, 5)]
-        [TestCase(7, 1, 5)]  // sector 1: 1 elite + 4 escorts
-        [TestCase(12, 2, 5)] // sector 2: 1 elite + 4 escorts
+        [TestCase(7, 1, 6)]  // sector 1: 1 elite + 5 escorts
+        [TestCase(12, 2, 7)] // sector 2: 1 elite + 6 escorts
         public void Elite_FirstRequestIsElite(int depth, int sector, int expectedTotal)
         {
             var table = MakeTable(new[]
@@ -426,15 +426,15 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
                 Assert.AreNotEqual(2, result[i].EntryIndex, "escorts are trash, never an elite-only pick");
         }
 
-        [TestCase(0, 0)]
-        [TestCase(7, 1)]
-        [TestCase(12, 2)]
-        public void EliteRoom_HasFourEscorts(int depth, int sector)
+        [TestCase(0, 0, 4)]
+        [TestCase(7, 1, 5)]
+        [TestCase(12, 2, 6)]
+        public void EliteRoom_EscortsScaleBySector(int depth, int sector, int escorts)
         {
             var table = MakeTable(new[] { MakeEntryHp(60f), MakeEntryHp(100f), MakeEntryHp(150f, minDepth: 6, eliteOnly: true) });
             var rng = new RunRng(5);
             var result = WaveComposer.Compose(table, new RunNode(depth, sector, 0, RoomKind.Elite), 12f, Vector3.zero, ref rng);
-            Assert.AreEqual(5, result.Count, "1 elite + 4 escorts");
+            Assert.AreEqual(1 + escorts, result.Count, "1 elite + escorts");
             Assert.AreEqual(1, result.FindAll(r => r.IsElite).Count);
         }
 

@@ -99,7 +99,7 @@ namespace Ronin7.Tests.EditMode.Roguelike
             {
                 var rng = new RunRng(seed);
                 var result = WaveComposer.Compose(table, node, 8f, Vector3.zero, ref rng);
-                Assert.AreEqual(6, result.Count, "2 elites + 4 escorts");
+                Assert.AreEqual(8, result.Count, "2 elites + 6 escorts (sector 2)");
                 Assert.IsTrue(result[0].IsElite && result[1].IsElite, "both elites lead, so both are in the first wave");
                 Assert.AreNotEqual(result[0].EntryIndex, result[1].EntryIndex, "two DIFFERENT elite types");
                 for (int i = 2; i < result.Count; i++) Assert.IsFalse(result[i].IsElite, $"escort {i}");
