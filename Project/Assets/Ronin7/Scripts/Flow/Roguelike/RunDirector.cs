@@ -108,7 +108,6 @@ namespace Ronin7.Flow
         private List<BoonDefinition> offerChoices;
         private BoonOfferPanel offerPanel;
         private RunSummaryPanel summaryPanel;
-        private RunVoice voice; // P6-04
         private float offerFallbackDeadline = -1f;
         /// <summary>P0-03: seconds left on the offer fallback while paused, or -1 when not frozen.</summary>
         private float frozenOfferSeconds = -1f;
@@ -154,7 +153,6 @@ namespace Ronin7.Flow
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            voice = gameObject.AddComponent<RunVoice>(); // P6-04
         }
 
         private void OnEnable()
@@ -873,7 +871,6 @@ namespace Ronin7.Flow
                 return;
             }
             summaryPanel.Dismissed += OnRunSummaryDismissed;
-            voice.PlayOutcome(KesslerRunLines.Outcome(RunSummary.Won, RunSummary.Depth, RunSummary.FirstRun, RunSummary.Heat)); // P6-04
             // Consume the result now: a later Return-to-Menu must not resurrect this same summary.
             RunSummary.Clear();
         }
