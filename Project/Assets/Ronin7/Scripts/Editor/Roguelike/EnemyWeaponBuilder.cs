@@ -20,6 +20,34 @@ namespace Ronin7.EditorTools
         private const string MatFolder = "Assets/Ronin7/Art/Materials/EnemyWeapons";
         private const string SpawnTablePath = "Assets/Ronin7/Data/Roguelike/EnemySpawnTable.asset";
 
+        private const string GenFolder = "Assets/Ronin7/Art/Generated/AI/Weapons";
+
+        /// <summary>How a Tripo mesh (<c>GenFolder/name.prefab</c>, 1 m on its longest axis, arbitrary pose) sits in the weapon frame.
+        /// fwd/up/anchor are in the generated prefab's own (Y-up, root-rotation applied) frame: the anchor (the grip) lands on
+        /// <c>at</c>, fwd on +Z, up on +Y, scaled to <c>scale</c>; <c>aimed</c> kits are then turned like <see cref="Aimed(Vector3)"/>.
+        /// tip/edge are in the pre-scale natural frame relative to the anchor (x right, y up, z fwd). node = renderer name hook.</summary>
+        private struct MeshFit { public Vector3 fwd, up, anchor, at, tip, edge; public float scale; public bool aimed; public string node; }
+
+        // Orientation/anchors measured from the meshes (PCA of the haft; blade side = the flared, tapering side). Verified by the lineup capture.
+        private static readonly System.Collections.Generic.Dictionary<string, MeshFit> Fits = new System.Collections.Generic.Dictionary<string, MeshFit>
+        {
+            ["HeavyAxe"] = new MeshFit { fwd = new Vector3(-0.784f, 0.474f, -0.402f), up = new Vector3(0.491f, 0.077f, -0.868f), anchor = new Vector3(0.287f, -0.197f, 0.172f),
+                scale = 1.08f, tip = new Vector3(0f, 0.18f, 0.82f), edge = new Vector3(0.04f, 0.23f, 0.52f), node = "Blade" }, // 1.2 m; grip 0.27 m above the butt; edge = blade's outer line, toe to top corner
+            ["Shield"] = new MeshFit { fwd = Vector3.forward, up = Vector3.up, anchor = Vector3.zero, at = new Vector3(0f, 0f, 0.05f), scale = 0.55f, node = "Shield" }, // 0.41 x 0.55 m, convex face out (+Z)
+            ["Staff"] = new MeshFit { fwd = Vector3.up, up = Vector3.forward, anchor = new Vector3(0f, -0.222f, 0f), scale = 1.8f,
+                tip = new Vector3(0f, 0f, 0.70f), edge = new Vector3(0f, 0f, 0.067f), node = "Blade" }, // 1.8 m; hand 0.5 m above the butt, lantern forward
+            ["Bow"] = new MeshFit { fwd = Vector3.left, up = Vector3.up, anchor = new Vector3(-0.07f, 0f, 0f), scale = 1.3f, aimed = true,
+                tip = new Vector3(0f, 0f, 0.03f), node = "Blade" }, // 1.3 m, shoots out the belly side (-X in mesh), hand on the riser
+            ["Crossbow"] = new MeshFit { fwd = Vector3.forward, up = Vector3.up, anchor = new Vector3(0f, -0.04f, -0.15f), scale = 0.75f, aimed = true,
+                tip = new Vector3(0f, 0.075f, 0.64f), node = "Blade" }, // 0.75 m, bolt head forward
+            ["Blaster"] = new MeshFit { fwd = Vector3.left, up = Vector3.up, anchor = new Vector3(0.22f, -0.08f, 0f), scale = 0.6f, aimed = true,
+                tip = new Vector3(0f, 0.18f, 0.70f), node = "Blade" }, // 0.6 m, muzzle at -X in mesh, hand on the pistol grip
+        };
+
+        private static Quaternion FitRot(MeshFit f) =>
+            (f.aimed ? Quaternion.Euler(90f, 0f, 0f) : Quaternion.identity) * Quaternion.Inverse(Quaternion.LookRotation(f.fwd, f.up));
+        private static Vector3 FitLocal(MeshFit f, Vector3 natural) => f.scale * (f.aimed ? Aimed(natural) : natural);
+
         private enum M { Steel, Grip, Brass }
         private static readonly Color[] Palette = { new Color(0.92f, 0.95f, 1f), new Color(0.12f, 0.1f, 0.18f), new Color(0.78f, 0.55f, 0.18f) };
 
@@ -218,6 +246,13 @@ namespace Ronin7.EditorTools
                 def.edgeBase = spec.name == "HeavyAxe" ? new Vector3(0f, 0.2f, 0.58f) // along the head's top (striking) edge, not floating beside the haft
                     : spec.name == "Banner" ? new Vector3(0f, 0.3f, 0f) // along the pole, above the fist
                     : new Vector3(spec.tip.x, spec.tip.y, Mathf.Min(spec.tip.z, 0.12f));
+                var gen = Fits.TryGetValue(spec.name, out var fit) ? AssetDatabase.LoadAssetAtPath<GameObject>(GenFolder + "/" + spec.name + ".prefab") : null;
+                if (gen != null)
+                {
+                    def.tip = FitLocal(fit, fit.tip);
+                    def.edgeBase = fit.aimed ? def.tip : FitLocal(fit, fit.edge); // ranged: the edge runs from the weapon root
+                    if (spec.name == "Shield") def.tip = def.edgeBase = Vector3.zero;
+                }
                 def.reach = spec.reach;
                 def.patterns = new System.Collections.Generic.List<AttackPattern>(PatternsFor(spec.name));
                 def.ranged = def.patterns.Exists(p => p.strikes.Exists(k => k.Ranged));
@@ -226,7 +261,8 @@ namespace Ronin7.EditorTools
                 {
                     string prefabPath = PrefabFolder + "/EW_" + spec.name + ".prefab";
                     var root = new GameObject("EW_" + spec.name);
-                    foreach (var p in spec.parts) MakePart(root.transform, p, mats[(int)p.mat]);
+                    if (gen != null) MakeMesh(root.transform, gen, fit, mats[(int)M.Brass]);
+                    else foreach (var p in spec.parts) MakePart(root.transform, p, mats[(int)p.mat]);
                     var built = PrefabUtility.SaveAsPrefabAsset(root, prefabPath);
                     Object.DestroyImmediate(root);
                     // A user mesh swapped into def.prefab survives a re-run.
@@ -250,6 +286,57 @@ namespace Ronin7.EditorTools
 
         /// <summary>P8-05: saved URP Unlit palette material for baked weak-point marks (Enemy swaps to SharedUnlit at runtime).</summary>
         internal static Material MarkMaterial => AssetDatabase.LoadAssetAtPath<Material>(MatFolder + "/EnemyWeapon_" + M.Brass + ".mat");
+
+        /// <summary>The Tripo prefab as a nested instance, posed by <paramref name="f"/>; its renderer takes the hook name
+        /// (Blade/Shield). The shield also gets its P8-05 WeakSpot strip laid over the mesh's brass band.</summary>
+        private static void MakeMesh(Transform parent, GameObject gen, MeshFit f, Material strip)
+        {
+            var inst = (GameObject)PrefabUtility.InstantiatePrefab(gen, parent);
+            inst.name = "Mesh";
+            var t = inst.transform;
+            t.localRotation = FitRot(f) * gen.transform.localRotation; // the node's own pose is the prefab root's rotation
+            t.localScale = Vector3.one * f.scale;
+            t.localPosition = f.at - f.scale * (FitRot(f) * f.anchor);
+            var r = inst.GetComponentInChildren<MeshRenderer>(true);
+            r.gameObject.name = f.node;
+            r.shadowCastingMode = ShadowCastingMode.Off;
+            r.receiveShadows = false;
+            r.lightProbeUsage = LightProbeUsage.Off;
+            r.reflectionProbeUsage = ReflectionProbeUsage.Off;
+            // Band: full width, ~0.1 of the height at mid-face, face top at z 0.144 (mesh units).
+            if (f.node == "Shield") MakePart(parent, new Part(Enemy.WeakSpotName, PrimitiveType.Cube, M.Brass, new Vector3(0f, 0f, 0.144f * f.scale + f.at.z + 0.004f), new Vector3(0.34f, 0.05f, 0.01f)), strip);
+        }
+
+        /// <summary>The Tripo textures are 2048 px (DXT1 + normal): cap them for Quest (512 ASTC) and PC (1024).</summary>
+        internal static void TrimTextures()
+        {
+            foreach (var name in Fits.Keys)
+            {
+                var g = AssetDatabase.LoadAssetAtPath<GameObject>(GenFolder + "/" + name + ".prefab");
+                if (g == null) continue;
+                var mat = g.GetComponentInChildren<MeshRenderer>().sharedMaterial;
+                foreach (var id in new[] { "_BaseMap", "_BumpMap" })
+                {
+                    var tex = mat.GetTexture(id);
+                    if (tex == null || !(AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(tex)) is TextureImporter ti)) continue;
+                    ti.maxTextureSize = id == "_BaseMap" ? 1024 : 512;
+                    var a = ti.GetPlatformTextureSettings("Android");
+                    a.overridden = true; a.maxTextureSize = 512; a.format = TextureImporterFormat.ASTC_6x6;
+                    ti.SetPlatformTextureSettings(a);
+                    ti.SaveAndReimport();
+                }
+            }
+        }
+
+        /// <summary>Wires the six Tripo weapon meshes into their EW_* kits (additive: only these weapons, not the bodies or spawn table).</summary>
+        [MenuItem("Tools/Space Samurai/Roguelike/Apply Tripo Weapon Meshes (additive)")]
+        public static void ApplyTripoMeshes()
+        {
+            TrimTextures();
+            foreach (var n in Fits.Keys) BuildWeapons(n);
+            AssetDatabase.SaveAssets();
+            Debug.Log("[EnemyWeaponBuilder] Tripo weapon meshes applied.");
+        }
 
         private static void MakePart(Transform parent, Part p, Material mat)
         {

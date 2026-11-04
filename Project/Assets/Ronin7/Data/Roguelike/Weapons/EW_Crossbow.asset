@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: EW_Crossbow
   m_EditorClassIdentifier: Ronin7.Enemies::Ronin7.Enemies.EnemyWeaponDefinition
   prefab: {fileID: 7460034470613340879, guid: 3b7ef08cb194528478ea170dae2ca97b, type: 3}
-  tip: {x: 0, y: -0.7, z: 0.03}
-  edgeBase: {x: 0, y: -0.7, z: 0.03}
+  tip: {x: 0, y: -0.48, z: 0.056250002}
+  edgeBase: {x: 0, y: -0.48, z: 0.056250002}
   reach: 1
   forearm: 0
   damage: 1
@@ -31,3 +31,4 @@ MonoBehaviour:
       boltGravity: 0
       boltRadius: 0.06
       unparryable: 0
+      aoeRadius: 0

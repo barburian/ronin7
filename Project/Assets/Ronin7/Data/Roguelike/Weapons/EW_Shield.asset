@@ -31,3 +31,4 @@ MonoBehaviour:
       boltGravity: 0
       boltRadius: 0
       unparryable: 1
+      aoeRadius: 0

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: EW_Blaster
   m_EditorClassIdentifier: Ronin7.Enemies::Ronin7.Enemies.EnemyWeaponDefinition
   prefab: {fileID: 1529444196639051795, guid: 79ab22c7587f3484dbbab586e8be0e01, type: 3}
-  tip: {x: 0, y: -0.55, z: 0.02}
-  edgeBase: {x: 0, y: -0.55, z: 0.02}
+  tip: {x: 0, y: -0.42000002, z: 0.10800001}
+  edgeBase: {x: 0, y: -0.42000002, z: 0.10800001}
   reach: 1
   forearm: 0
   damage: 1
@@ -31,6 +31,7 @@ MonoBehaviour:
       boltGravity: 0
       boltRadius: 0.1
       unparryable: 0
+      aoeRadius: 0
     - direction: 1
       windup: 0.15
       active: 1
@@ -39,6 +40,7 @@ MonoBehaviour:
       boltGravity: 0
       boltRadius: 0.1
       unparryable: 0
+      aoeRadius: 0
     - direction: 1
       windup: 0.15
       active: 1
@@ -47,6 +49,7 @@ MonoBehaviour:
       boltGravity: 0
       boltRadius: 0.1
       unparryable: 0
+      aoeRadius: 0
   - name: Charged
     weight: 1
     strikes:
@@ -58,3 +61,4 @@ MonoBehaviour:
       boltGravity: 0
       boltRadius: 0.25
       unparryable: 0
+      aoeRadius: 0

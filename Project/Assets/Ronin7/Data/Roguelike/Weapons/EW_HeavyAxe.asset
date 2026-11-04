@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: EW_HeavyAxe
   m_EditorClassIdentifier: Ronin7.Enemies::Ronin7.Enemies.EnemyWeaponDefinition
   prefab: {fileID: 4453851974625282679, guid: ce6bc3f958472ed4f8c1c56a242677d9, type: 3}
-  tip: {x: 0, y: 0.2, z: 0.76}
-  edgeBase: {x: 0, y: 0.2, z: 0.58}
+  tip: {x: 0, y: 0.19440001, z: 0.88560003}
+  edgeBase: {x: 0.0432, y: 0.24840002, z: 0.5616}
   reach: 1
   forearm: 0
   damage: 1
@@ -31,6 +31,7 @@ MonoBehaviour:
       boltGravity: 0
       boltRadius: 0
       unparryable: 1
+      aoeRadius: 0
   - name: Side sweep
     weight: 1
     strikes:
@@ -42,3 +43,4 @@ MonoBehaviour:
       boltGravity: 0
       boltRadius: 0
       unparryable: 1
+      aoeRadius: 0

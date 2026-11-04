@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: EW_Staff
   m_EditorClassIdentifier: Ronin7.Enemies::Ronin7.Enemies.EnemyWeaponDefinition
   prefab: {fileID: 4261854337056728464, guid: ad48c49d094c8ea4b9dfa9f7c942afb1, type: 3}
-  tip: {x: 0, y: 0, z: 1.2}
-  edgeBase: {x: 0, y: 0, z: 0.12}
+  tip: {x: 0, y: 0, z: 1.26}
+  edgeBase: {x: 0, y: 0, z: 0.1206}
   reach: 1
   forearm: 0
   damage: 1
@@ -31,6 +31,7 @@ MonoBehaviour:
       boltGravity: 0
       boltRadius: 0.12
       unparryable: 0
+      aoeRadius: 0
   - name: Jab
     weight: 1
     strikes:
@@ -42,3 +43,4 @@ MonoBehaviour:
       boltGravity: 0
       boltRadius: 0
       unparryable: 0
+      aoeRadius: 0

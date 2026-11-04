@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: EW_Bow
   m_EditorClassIdentifier: Ronin7.Enemies::Ronin7.Enemies.EnemyWeaponDefinition
   prefab: {fileID: 1984689907368250623, guid: ef6bd71ccecb4624d9976baaebc7fc2d, type: 3}
-  tip: {x: 0, y: -0.7, z: 0}
-  edgeBase: {x: 0, y: -0.7, z: 0}
+  tip: {x: 0, y: -0.038999997, z: 0}
+  edgeBase: {x: 0, y: -0.038999997, z: 0}
   reach: 1
   forearm: 0
   damage: 1
@@ -31,6 +31,7 @@ MonoBehaviour:
       boltGravity: 6
       boltRadius: 0.1
       unparryable: 0
+      aoeRadius: 0
   - name: Snap
     weight: 1
     strikes:
@@ -42,3 +43,4 @@ MonoBehaviour:
       boltGravity: 3
       boltRadius: 0.1
       unparryable: 0
+      aoeRadius: 0

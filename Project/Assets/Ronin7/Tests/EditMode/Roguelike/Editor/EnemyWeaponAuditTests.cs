@@ -133,7 +133,9 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
                         if (s == null) { bad.Add(tag + ": no Shield renderer"); continue; }
                         if (forearm.Count == 0) { bad.Add(tag + ": no Rig_ArmL skin"); continue; }
                         seen++;
-                        if (Mathf.Abs(s.forward.y) >= 0.2f || s.up.y <= 0.9f) bad.Add($"{tag}: not upright fwd={s.forward} up={s.up}");
+                        // The Tripo node carries the generated prefab's own axis-permuting root rotation, so read upright off the world bounds: taller than wide and thick.
+                        var sz = s.GetComponent<Renderer>().bounds.size;
+                        if (sz.y < sz.x || sz.y < sz.z) bad.Add($"{tag}: not upright bounds={sz}");
                         Vector3 near = forearm[0], c = Vector3.zero;
                         float minY = float.MaxValue, maxY = float.MinValue;
                         foreach (var v in forearm)
@@ -145,7 +147,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
                         float dist = Vector3.Distance(s.position, near), len = maxY - minY;
                         if (dist > 0.15f) bad.Add($"{tag}: {dist:F2} m off the forearm skin");
                         if (s.position.x >= c.x) bad.Add(tag + ": not on the outer (left) side");
-                        if (s.lossyScale.y > 2f * len) bad.Add($"{tag}: {s.lossyScale.y:F2} m tall vs {len:F2} m forearm");
+                        if (sz.y > 2.5f * len) bad.Add($"{tag}: {sz.y:F2} m tall vs {len:F2} m forearm");
                     }
                     finally { Object.DestroyImmediate(go); }
                 }

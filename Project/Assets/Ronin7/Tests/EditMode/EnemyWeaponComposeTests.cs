@@ -115,8 +115,32 @@ namespace Ronin7.Tests.EditMode
                 Assert.IsEmpty(d.prefab.GetComponentsInChildren<Collider>(true), d.name + ": visual-only");
                 foreach (var r in d.prefab.GetComponentsInChildren<Renderer>(true)) mats.Add(r.sharedMaterial);
             }
-            Assert.LessOrEqual(mats.Count, 3, "weapons share the 3-material palette");
-            foreach (var m in mats) StringAssert.StartsWith("Assets/Ronin7/Art/Materials/EnemyWeapons/", AssetDatabase.GetAssetPath(m));
+            // The stand-ins share the 3-material palette; each Tripo mesh (P8 real weapons) brings its own (6 max, the shield's is swapped for the body's at Equip).
+            int palette = 0;
+            foreach (var m in mats)
+            {
+                string path = AssetDatabase.GetAssetPath(m);
+                if (path.StartsWith("Assets/Ronin7/Art/Materials/EnemyWeapons/")) palette++;
+                else StringAssert.StartsWith("Assets/Ronin7/Art/Generated/AI/Weapons/", path);
+            }
+            Assert.LessOrEqual(palette, 3, "stand-ins share the 3-material palette");
+            Assert.LessOrEqual(mats.Count - palette, 6, "at most one material per Tripo weapon");
+        }
+
+        // The six Tripo meshes are the kit visuals (nested generated prefabs), not the primitive stand-ins.
+        [TestCase("HeavyAxe")] [TestCase("Shield")] [TestCase("Staff")] [TestCase("Bow")] [TestCase("Crossbow")] [TestCase("Blaster")]
+        public void Weapon_UsesItsGeneratedMesh(string weapon)
+        {
+            var d = AssetDatabase.LoadAssetAtPath<EnemyWeaponDefinition>("Assets/Ronin7/Data/Roguelike/Weapons/EW_" + weapon + ".asset");
+            Assert.IsNotNull(d.prefab, weapon);
+            string want = "Assets/Ronin7/Art/Generated/AI/Weapons/" + weapon + ".prefab";
+            bool found = false;
+            foreach (var r in d.prefab.GetComponentsInChildren<Renderer>(true))
+            {
+                var src = PrefabUtility.GetCorrespondingObjectFromSource(r.gameObject);
+                if (src != null && AssetDatabase.GetAssetPath(src) == want) found = true;
+            }
+            Assert.IsTrue(found, "EW_" + weapon + " does not use " + want + " (run Tools/Space Samurai/Roguelike/Apply Tripo Weapon Meshes)");
         }
 
         // P8-04 fix: the telegraph line must hug the weapon (the heavy axe's edge once floated 20 cm off its head).
