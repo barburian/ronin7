@@ -46,42 +46,43 @@ namespace Ronin7.Flow
         internal const float MenuDistance = 1.5f; // m in front of the head; tuned with the render check
         internal const float MenuDrop = 0.1f;     // m below eye level
         internal const int RequiredStableFrames = 5;
+        internal const float RevealTimeout = 5f;  // s before the hidden menu shows at its baked pose
         private const float StableEpsilon = 0.02f; // m of head motion per frame still counted as steady
 
         /// <summary>P7-03: the menu stays hidden until the HMD reports a tracked, plausible-height, steady pose,
-        /// then the rig is recentred and the menu is placed in front of the head. Gives up waiting after 5 s
-        /// (editor / no headset) and places it anyway, so the menu can never stay hidden. The canvas is always
-        /// re-shown on exit, whatever the path.</summary>
+        /// then the rig is recentred and the menu is placed in front of the head. After 5 s without one (headset
+        /// off the head, editor) the menu is revealed at its baked pose, never placed from a garbage pose, and
+        /// the wait continues: the first good pose still recentres and places it.</summary>
         private IEnumerator RecenterOnFirstHeadPose()
         {
             if (canvas != null) canvas.enabled = false;
-            try
+            var head = InputDevices.GetDeviceAtXRNode(XRNode.Head);
+            int stable = 0;
+            Vector3 prev = Vector3.zero;
+            float waited = 0f;
+            bool revealed = false;
+            while (stable < RequiredStableFrames)
             {
-                var head = InputDevices.GetDeviceAtXRNode(XRNode.Head);
-                int stable = 0;
-                Vector3 prev = Vector3.zero;
-                for (float t = 0f; t < 5f; t += Time.unscaledDeltaTime)
-                {
-                    if (!head.isValid) head = InputDevices.GetDeviceAtXRNode(XRNode.Head);
-                    bool tracked = head.isValid && head.TryGetFeatureValue(CommonUsages.isTracked, out bool v) && v;
-                    var rig = Ronin7.Player.VRRig.Instance;
-                    if (rig != null && rig.Head != null)
-                    {
-                        Vector3 pos = rig.Head.localPosition;
-                        stable = IsHeadPoseValid(tracked, pos) ? NextStableFrames(stable, prev, pos) : 0;
-                        prev = pos;
-                        if (stable >= RequiredStableFrames) break;
-                    }
-                    yield return null;
-                }
-                RecenterAndPlace();
+                if (!revealed && waited >= RevealTimeout) { revealed = true; RevealCanvas(); }
+                yield return null;
+                waited += Time.unscaledDeltaTime;
+                if (!head.isValid) head = InputDevices.GetDeviceAtXRNode(XRNode.Head);
+                bool tracked = head.isValid && head.TryGetFeatureValue(CommonUsages.isTracked, out bool v) && v;
+                var rig = Ronin7.Player.VRRig.Instance;
+                if (rig == null || rig.Head == null) continue;
+                Vector3 pos = rig.Head.localPosition;
+                stable = IsHeadPoseValid(tracked, pos) ? NextStableFrames(stable, prev, pos) : 0;
+                prev = pos;
             }
-            finally
-            {
-                placed = true;
-                // Shrine/settings may have opened meanwhile; they restore the canvas themselves.
-                if (canvas != null) canvas.enabled = settings == null || !settings.IsOpen;
-            }
+            RecenterAndPlace();
+            placed = true;
+            if (!revealed) RevealCanvas();
+        }
+
+        // Shrine/settings may have opened meanwhile; they restore the canvas themselves.
+        private void RevealCanvas()
+        {
+            if (canvas != null) canvas.enabled = settings == null || !settings.IsOpen;
         }
 
         /// <summary>Recentre the rig (first valid pose or system recenter), then put the canvas in front of the head.</summary>
@@ -112,7 +113,9 @@ namespace Ronin7.Flow
         // A Quest system recenter shifts the origin under the menu: re-place it, but only while this menu exists.
         private void HandleTrackingOriginUpdated(XRInputSubsystem _)
         {
-            if (placed && isActiveAndEnabled) RecenterAndPlace();
+            var rig = Ronin7.Player.VRRig.Instance;
+            if (placed && isActiveAndEnabled && rig != null && rig.Head != null && IsHeadPoseValid(HeadTracked(), rig.Head.localPosition))
+                RecenterAndPlace();
         }
 
         /// <summary>Head is tracked, the rig camera is off its zero pose, and its height above the tracking
