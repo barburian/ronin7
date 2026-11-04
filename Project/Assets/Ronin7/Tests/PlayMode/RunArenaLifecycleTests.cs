@@ -302,5 +302,55 @@ namespace Ronin7.Tests.PlayMode
 
             EventBus.Unsubscribe(onCleared);
         }
+
+        /// <summary>The v0.9.0 soft-lock: a seeded full room, kills alternating between plain blows and lethal
+        /// posture breaks (the bonus lands from inside Damaged), reaches RoomCleared with one EntityDied per enemy.</summary>
+        [UnityTest]
+        public IEnumerator FullRoom_MixedNormalAndPostureBreakKills_ClearsWithOneDeathEach()
+        {
+            AddMainCamera();
+            RunState.Begin(2026); // node 0 is Combat (A2.5 golden vector)
+            Assert.AreEqual(RoomKind.Combat, RunState.CurrentNode.Kind);
+
+            GameObject prefab = BuildEnemyPrefabSource("PostureEnemy");
+            prefab.AddComponent<PostureMeter>();
+            EnemyDefinition def = MakeDefinition();
+            def.postureMaxFraction = 0.01f;
+            def.postureBreakBonusFraction = 5f; // any break is lethal
+            var table = ScriptableObject.CreateInstance<EnemySpawnTable>();
+            _created.Add(table);
+            table.trash = new[] { new EnemySpawnTable.Entry { prefab = prefab, definition = def, weight = 10 } };
+
+            int cleared = 0, deaths = 0;
+            System.Action<RoomCleared> onCleared = _ => cleared++;
+            System.Action<EntityDied> onDied = _ => deaths++;
+            EventBus.Subscribe(onCleared);
+            EventBus.Subscribe(onDied);
+
+            RunArenaController controller = CreateController(MakeEmptyRoomLibrary(), table);
+            yield return null; // Start() runs
+            Health[] all = controller.GetComponentsInChildren<Health>(true);
+            Assert.GreaterOrEqual(all.Length, 10);
+
+            bool postureKill = false;
+            for (int guard = 0; guard < all.Length * 3 && !controller.IsCleared; guard++)
+            {
+                yield return new WaitForSeconds(1.3f); // > SpawnDelay
+                foreach (Health h in all)
+                {
+                    if (!h.gameObject.activeSelf || !h.IsAlive) continue;
+                    h.ApplyDamage(new DamageInfo(postureKill ? 1f : 9999f, Vector3.zero, Vector3.forward, null));
+                    Assert.IsFalse(h.IsAlive, postureKill ? "the posture break must be lethal" : "plain blow");
+                    postureKill = !postureKill;
+                }
+            }
+
+            Assert.IsTrue(controller.IsCleared, $"All {all.Length} enemies are dead: the room must clear.");
+            Assert.AreEqual(1, cleared);
+            Assert.AreEqual(all.Length, deaths, "One EntityDied per enemy.");
+
+            EventBus.Unsubscribe(onCleared);
+            EventBus.Unsubscribe(onDied);
+        }
     }
 }

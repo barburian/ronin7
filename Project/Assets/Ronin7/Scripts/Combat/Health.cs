@@ -84,6 +84,10 @@ namespace Ronin7.Combat
         // P4-02: the player rig's modifiers, resolved lazily (RunDirector adds them after Awake).
         private PlayerCombatModifiers wearerMods;
 
+        // Death fires once per life: a handler of Damaged/EntityDamaged (posture break bonus, boon proc)
+        // can land the lethal hit from inside ApplyDamage, and the outer call then sees Current <= 0 too.
+        private bool deathFired;
+
         /// <summary>P4-02 DamageReduction bonus -> incoming-damage scale, never below 0.6 (40% cap).</summary>
         internal static float DamageReductionScale(float reduction) =>
             1f - Mathf.Clamp(reduction, 0f, MaxDamageReduction);
@@ -104,6 +108,7 @@ namespace Ronin7.Combat
         {
             maxHealth = max;
             Current = max;
+            deathFired = false;
             Changed?.Invoke();
         }
 
@@ -126,7 +131,7 @@ namespace Ronin7.Combat
             Changed?.Invoke();
             EventBus.Publish(new EntityDamaged(gameObject, applied, Current, maxHealth));
 
-            if (Current <= 0f)
+            if (Current <= 0f && !deathFired)
             {
                 if (DeathInterceptor != null && DeathInterceptor.Invoke())
                 {
@@ -135,12 +140,25 @@ namespace Ronin7.Combat
                     return;
                 }
 
+                deathFired = true;
                 Died?.Invoke();
                 EventBus.Publish(new EntityDied(gameObject, applied.Source));
             }
         }
 
-        public void ResetHealth() { Current = maxHealth; Changed?.Invoke(); }
+        /// <summary>Kills outright with no reward: Died fires so the arena ledger and FSM update, EntityDied
+        /// does not (no drips, stats or kill credit). Skips DamageFilter, IncomingDamageMultiplier and
+        /// DeathInterceptor, any of which could make a damage-based failsafe kill a no-op.</summary>
+        public void KillSilently()
+        {
+            if (!IsAlive) return;
+            Current = 0f;
+            deathFired = true;
+            Changed?.Invoke();
+            Died?.Invoke();
+        }
+
+        public void ResetHealth() { Current = maxHealth; deathFired = false; Changed?.Invoke(); }
 
         /// <summary>Sets current health directly, clamped to [0, Max], without firing a damage/death
         /// event. Used to restore durable HP carried across a scene reload (e.g. the roguelike mode's
@@ -150,6 +168,7 @@ namespace Ronin7.Combat
         public void SetCurrent(float value)
         {
             Current = Mathf.Clamp(value, 0f, maxHealth);
+            deathFired = false;
             Changed?.Invoke();
         }
 

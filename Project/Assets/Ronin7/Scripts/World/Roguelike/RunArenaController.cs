@@ -62,12 +62,14 @@ namespace Ronin7.World
         private int aliveCount;
         /// <summary>BUG-48: set once Start has built the ledger; gates the <see cref="Update"/> stray re-check.</summary>
         private bool ledgerReady, strayWarned;
+        private float strayHeldSince;
         private const int WaveSize = 3;
         private List<int> waves = new();
         private int nextWave;
 
         /// <summary>Margin (m) past the arena wall, and the floor depth, beyond which an enemy is lost.</summary>
         private const float OutOfArenaMargin = 0.5f;
+        private const float StrayGraceSeconds = 5f;
         private const float OutOfArenaFloorY = -2f;
         private int currentNodeIndex;
 
@@ -279,8 +281,8 @@ namespace Ronin7.World
 
         /// <summary>
         /// BUG-04: an enemy knocked through a wall or below the floor can never reach the player and
-        /// never dies, so the room never clears — a soft-lock. Kill it through the normal damage path
-        /// so the usual death/drip/clear bookkeeping runs.
+        /// never dies, so the room never clears — a soft-lock. Kill it silently: the ledger and clear
+        /// bookkeeping run, no rewards, and no resist filter or interceptor can make it a no-op.
         /// </summary>
         private void CheckBounds()
         {
@@ -294,7 +296,7 @@ namespace Ronin7.World
                 Vector3 local = transform.InverseTransformPoint(h.transform.position);
                 if (!OutOfArena(local, halfExtent)) continue;
                 Debug.LogWarning($"[RunArenaController] '{h.name}' left the arena at {local}; killing it so the room can clear.", this);
-                h.ApplyDamage(new DamageInfo(h.Max + h.Current + 1f, h.transform.position, Vector3.down, null));
+                h.KillSilently();
             }
         }
 
@@ -543,8 +545,7 @@ namespace Ronin7.World
                 GetHeadLocal(out Vector2 head, out Vector2 fwd);
                 if (WaveComposer.FrontArcPosition(head, fwd, 4f, 7f, 70f, halfExtent, ref rng, out Vector3 p))
                     t.localPosition = p;
-                Vector3 local = t.localPosition;
-                local.y = 0f;
+                Vector3 local = SpawnFloorPoint(t.localPosition, halfExtent); // also covers the fallback pre-rolled point
                 t.localPosition = local;
                 t.localRotation = Quaternion.Euler(0f, WaveComposer.YawToward(new Vector2(local.x, local.z), head, t.localEulerAngles.y), 0f); // spawn facing the player
 
@@ -552,6 +553,14 @@ namespace Ronin7.World
                 EventBus.Publish(new EnemySpawning(transform.TransformPoint(local)));
                 pending.Add(new PendingSpawn { Entry = entry, StartTime = Time.time, Disc = disc });
             }
+        }
+
+        /// <summary>Pure seam: a spawn point on the floor, inside the wall margin.</summary>
+        internal static Vector3 SpawnFloorPoint(Vector3 local, float halfExtent)
+        {
+            local = Enemy.ClampToArena(local, halfExtent);
+            local.y = 0f;
+            return local;
         }
 
         private void GetHeadLocal(out Vector2 head, out Vector2 fwd)
@@ -678,7 +687,7 @@ namespace Ronin7.World
             if (bossBarFill != null) UpdateBossBar();
             float now = Time.time;
             if (blasts != null) UpdateBlasts(now);
-            if (ledgerReady && !IsCleared && Remaining == 0) CheckStrays(); // BUG-48: only while the ledger is empty
+            if (ledgerReady && !IsCleared && Remaining <= 0) CheckStrays(); // BUG-48: only while the ledger is empty (<=: an undercount goes negative and must not skip the only route to clear)
             for (int i = pending.Count - 1; i >= 0; i--)
             {
                 PendingSpawn ps = pending[i];
@@ -798,14 +807,34 @@ namespace Ronin7.World
         }
 
         /// <summary>BUG-48 fallback: a stray's death never reaches <see cref="OnEnemyDied"/>, so while the
-        /// ledger is empty but the room is not cleared, re-check each frame (warns once: a ledger leak).</summary>
+        /// ledger is empty but the room is not cleared, re-check each frame (warns once: a ledger leak).
+        /// After <see cref="StrayGraceSeconds"/> the strays are killed silently so the room can never soft-lock.</summary>
         private void CheckStrays()
         {
             int live = LiveUnderArena(out Health stray);
             if (ShouldClear(0, live)) { MarkCleared(); return; }
-            if (strayWarned) return;
-            strayWarned = true;
-            Debug.LogWarning($"[RunArenaController] BUG-48: ledger empty but {live} enemy(s) under the arena still alive (e.g. '{stray.name}'); holding the clear.", this);
+            if (!strayWarned)
+            {
+                strayWarned = true;
+                strayHeldSince = Time.time;
+                Debug.LogWarning($"[RunArenaController] BUG-48: ledger empty but {live} enemy(s) under the arena still alive (e.g. '{stray.name}'); holding the clear.", this);
+            }
+            if (ReleaseSchedule(Time.time, strayHeldSince, StrayGraceSeconds)) KillStrays();
+        }
+
+        private void KillStrays()
+        {
+            // Backwards + bounds check, like CheckBounds: a kill may run handlers that mutate Active.
+            for (int i = Health.Active.Count - 1; i >= 0; i--)
+            {
+                if (i >= Health.Active.Count) continue;
+                Health h = Health.Active[i];
+                if (h == null || !h.IsAlive || !h.transform.IsChildOf(transform)) continue;
+                MeleeAttacker fsm = h.GetComponent<MeleeAttacker>();
+                Renderer body = h.GetComponentInChildren<Renderer>();
+                Debug.LogWarning($"[RunArenaController] Stray '{h.name}' killed after {StrayGraceSeconds:0} s with an empty ledger: at {transform.InverseTransformPoint(h.transform.position)}, state {(fsm != null ? fsm.StateName : "n/a")}, renderer {(body != null ? (body.enabled ? "on" : "off") : "none")}.", this);
+                h.KillSilently();
+            }
         }
 
         /// <summary>A5.5/A5.6: the concurrency-cap drip release. <see cref="Health.Died"/> fires
@@ -823,7 +852,7 @@ namespace Ronin7.World
             if (WaveDue(aliveCount, pending.Count, waves.Count - nextWave)) ActivateNextWave();
 
             EventBus.Publish(new RoomProgress(Remaining));
-            if (Remaining == 0) CheckStrays();
+            if (Remaining <= 0) CheckStrays();
         }
 
         /// <summary>Pure seam (A3.3/A5.5/A5.8): how many queued enemies to activate right now, given

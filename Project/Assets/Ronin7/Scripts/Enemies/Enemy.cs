@@ -488,6 +488,28 @@ namespace Ronin7.Enemies
             nextAttackTime = Time.time + AccessibilityOptions.Cooldown(definition.attackCooldown, GameSettings.Active.EnemyCooldownScale); // P6-03 assist
         }
 
+        /// <summary>Every movement write (chase, leap, flinch, anything later) lands before this, so the
+        /// room's walls and floor are enforced in one place. Before base: the blade edge tracks the final pose.</summary>
+        protected override void LateUpdate()
+        {
+            if (arenaHalfExtent > 0f && state != State.Dead)
+            {
+                Vector3 p = transform.position;
+                Vector3 kept = KeepInRoom(p, arenaHalfExtent, groundY);
+                if (kept != p) transform.position = kept;
+            }
+            base.LateUpdate();
+        }
+
+        /// <summary>Pure: x/z clamped by <see cref="ClampToArena"/>, y never below the floor. Height above
+        /// the floor is untouched, so a leap keeps its arc.</summary>
+        internal static Vector3 KeepInRoom(Vector3 p, float halfExtent, float groundY)
+        {
+            p = ClampToArena(p, halfExtent);
+            p.y = Mathf.Max(p.y, groundY);
+            return p;
+        }
+
         /// <summary>P3-04: slide the body by <paramref name="delta"/> (flattened) over <paramref name="seconds"/>
         /// (0 = instant), on the spawn-height latch and clamped to the arena (halfExtent - 0.5 m).
         /// A stagger or death cancels a timed slide. Arena is assumed centred on the world origin (A5.3).</summary>

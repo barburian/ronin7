@@ -3,6 +3,7 @@ using NUnit.Framework;
 using Ronin7.Combat;
 using Ronin7.Core;
 using Ronin7.Enemies;
+using Ronin7.World;
 using UnityEngine;
 using UnityEngine.TestTools;
 
@@ -344,6 +345,232 @@ namespace Ronin7.Tests.EditMode
             Assert.AreSame(boss.GetComponent<Health>(), d1.Buffed);
             Assert.AreSame(other.GetComponent<Health>(), d2.Buffed);
             Assert.AreEqual(0.5f, boss.GetComponent<Health>().IncomingDamageMultiplier, 1e-5f);
+        }
+
+        // ---- Room-clear soft-lock: one death per life, however the damage re-enters ----
+
+        [Test] public void LethalPostureBreak_FiresDiedAndEntityDiedExactlyOnce()
+        {
+            // postureMax 20: a 30-damage hit (x0.2 PostureOnly = 6 hp) leaves it alive at 24, then the break bonus (50) kills from inside Damaged.
+            var e = Spawn<Enemy>(Vector3.zero, weakness: WeaknessKind.PostureOnly, postureMaxFraction: 0.1f, bonusFraction: 0.25f, maxHealth: 200f);
+            var h = e.GetComponent<Health>();
+            h.SetCurrent(30f);
+            int died = 0, entityDied = 0;
+            h.Died += () => died++;
+            System.Action<EntityDied> onEntityDied = _ => entityDied++;
+            EventBus.Subscribe(onEntityDied);
+            try { h.ApplyDamage(new DamageInfo(30f, Vector3.zero, Vector3.forward, null, DamageType.Melee, 0f)); }
+            finally { EventBus.Unsubscribe(onEntityDied); }
+            Assert.IsFalse(h.IsAlive);
+            Assert.AreEqual(1, died, "Died");
+            Assert.AreEqual(1, entityDied, "EntityDied");
+        }
+
+        [Test] public void LethalProcInsideEntityDamaged_FiresDiedAndEntityDiedExactlyOnce()
+        {
+            // RunBoonProcs.Status's shape: a proc lands from an EntityDamaged subscriber, before the outer death check.
+            var go = new GameObject("victim"); spawned.Add(go);
+            var h = go.AddComponent<Health>();
+            h.Configure(100f);
+            int died = 0, entityDied = 0;
+            h.Died += () => died++;
+            System.Action<EntityDied> onEntityDied = _ => entityDied++;
+            System.Action<EntityDamaged> proc = d =>
+            {
+                if (d.Info.Type != DamageType.Status) h.ApplyDamage(new DamageInfo(1000f, Vector3.zero, Vector3.zero, null, DamageType.Status));
+            };
+            EventBus.Subscribe(onEntityDied);
+            EventBus.Subscribe(proc);
+            try { h.ApplyDamage(new DamageInfo(1f, Vector3.zero, Vector3.forward, null)); }
+            finally { EventBus.Unsubscribe(proc); EventBus.Unsubscribe(onEntityDied); }
+            Assert.AreEqual(1, died, "Died");
+            Assert.AreEqual(1, entityDied, "EntityDied");
+        }
+
+        [Test] public void BossPhaseRevive_DiedFiresOnlyOnTheFinalPhase()
+        {
+            var go = new GameObject("boss"); spawned.Add(go);
+            var h = go.AddComponent<Health>();
+            h.Configure(100f);
+            int phasesLeft = 1, died = 0;
+            h.Died += () => died++;
+            h.DeathInterceptor = () =>
+            {
+                if (phasesLeft-- <= 0) return false;
+                h.Configure(100f); // Enemy.AdvancePhase's shape
+                return true;
+            };
+            h.ApplyDamage(new DamageInfo(1000f, Vector3.zero, Vector3.forward, null));
+            Assert.AreEqual(0, died, "phase 1 lethal hit revives");
+            Assert.IsTrue(h.IsAlive);
+            h.ApplyDamage(new DamageInfo(1000f, Vector3.zero, Vector3.forward, null));
+            Assert.AreEqual(1, died, "final phase dies");
+        }
+
+        [TestCase("Configure")] [TestCase("ResetHealth")] [TestCase("SetCurrent")]
+        public void Restore_ArmsDeathAgain(string restore)
+        {
+            var go = new GameObject("respawner"); spawned.Add(go);
+            var h = go.AddComponent<Health>();
+            h.Configure(100f);
+            int died = 0;
+            h.Died += () => died++;
+            h.ApplyDamage(new DamageInfo(1000f, Vector3.zero, Vector3.forward, null));
+            if (restore == "Configure") h.Configure(100f);
+            else if (restore == "ResetHealth") h.ResetHealth();
+            else h.SetCurrent(50f);
+            h.ApplyDamage(new DamageInfo(1000f, Vector3.zero, Vector3.forward, null));
+            Assert.AreEqual(2, died);
+        }
+
+        // ---- One clamp for every movement write (halfExtent 8: limit +-7.5) ----
+
+        static void Late(Enemy e) => typeof(Enemy).GetMethod("LateUpdate", Bf).Invoke(e, null);
+
+        [Test] public void Clamp_Chase_HeldInsideWallMargin()
+        {
+            var e = Spawn<Enemy>(Vector3.zero, halfExtent: 8f);
+            e.transform.position = new Vector3(20f, 0f, -20f); // what Enemy's unclamped chase step can write
+            Late(e);
+            Assert.AreEqual(new Vector3(7.5f, 0f, -7.5f), e.transform.position);
+        }
+
+        [Test] public void Clamp_KiteBackstep_TimedSlideEndsInside()
+        {
+            var e = Spawn<Enemy>(new Vector3(7f, 0f, 0f), halfExtent: 8f);
+            e.Displace(new Vector3(1.5f, 0f, 0f), 0.35f); // Enemy's kite backstep
+            var vel = (Vector3)typeof(Enemy).GetField("displaceVel", Bf).GetValue(e);
+            Assert.AreEqual(7.5f, 7f + vel.x * 0.35f, 1e-4f);
+        }
+
+        [Test] public void Clamp_LeapLanding_KeepsArcHeight()
+        {
+            var e = Spawn<LeaperEnemy>(new Vector3(7f, 0f, 0f), halfExtent: 8f);
+            Vector3 mid = LeaperEnemy.LeapArc(new Vector3(7f, 0f, 0f), new Vector3(12f, 0f, 0f), 0.5f, 1.5f);
+            Assert.Greater(mid.y, 0.5f, "mid-air");
+            e.transform.position = mid;
+            Late(e);
+            Assert.AreEqual(7.5f, e.transform.position.x, 1e-4f);
+            Assert.AreEqual(mid.y, e.transform.position.y, 1e-4f, "the arc's height survives");
+        }
+
+        [Test] public void Clamp_LeaperRetreat_HeldInside()
+        {
+            var e = Spawn<LeaperEnemy>(new Vector3(0f, 0f, 7f), halfExtent: 8f);
+            e.Displace(new Vector3(0f, 0f, 7f), 0f); // RetreatTarget past the wall
+            Late(e);
+            Assert.AreEqual(7.5f, e.transform.position.z, 1e-4f);
+        }
+
+        [Test] public void Clamp_DuelistSidestep_HeldInside()
+        {
+            var e = Spawn<DuelistEnemy>(new Vector3(-7f, 0f, 0f), halfExtent: 8f);
+            e.Displace(new Vector3(-3f, 0f, 0f), 0f);
+            Late(e);
+            Assert.AreEqual(-7.5f, e.transform.position.x, 1e-4f);
+        }
+
+        [Test] public void Clamp_Flinch_HeldInside()
+        {
+            var e = Spawn<Enemy>(Vector3.zero, halfExtent: 8f);
+            typeof(MeleeAttacker).GetField("flinchStartPos", Bf).SetValue(e, new Vector3(7.45f, 0f, 0f));
+            typeof(MeleeAttacker).GetField("flinchDir", Bf).SetValue(e, Vector3.right);
+            typeof(MeleeAttacker).GetMethod("PoseFlinch", Bf).Invoke(e, new object[] { 1f }); // pushes to 7.57
+            Assert.Greater(e.transform.position.x, 7.5f, "the pose write itself is unclamped");
+            Late(e);
+            Assert.AreEqual(7.5f, e.transform.position.x, 1e-4f);
+        }
+
+        [Test] public void Clamp_Spawn_FallbackPointInsideOnTheFloor()
+        {
+            Assert.AreEqual(new Vector3(7.5f, 0f, -7.5f), RunArenaController.SpawnFloorPoint(new Vector3(9f, 3f, -9f), 8f));
+            Assert.AreEqual(new Vector3(1f, 0f, 2f), RunArenaController.SpawnFloorPoint(new Vector3(1f, 0f, 2f), 8f));
+        }
+
+        [Test] public void Clamp_Floor_NeverBelowGround()
+        {
+            var e = Spawn<Enemy>(new Vector3(0f, 0.25f, 0f), halfExtent: 8f);
+            e.transform.position = new Vector3(1f, -3f, 1f);
+            Late(e);
+            Assert.AreEqual(0.25f, e.transform.position.y, 1e-4f);
+        }
+
+        [Test] public void Clamp_NoArena_Unbounded()
+        {
+            var e = Spawn<Enemy>(Vector3.zero);
+            e.transform.position = new Vector3(100f, -3f, 100f);
+            Late(e);
+            Assert.AreEqual(new Vector3(100f, -3f, 100f), e.transform.position);
+        }
+
+        [Test] public void Clamp_Dead_LeavesTheBodyAlone()
+        {
+            var e = Spawn<Enemy>(Vector3.zero, halfExtent: 8f);
+            e.GetComponent<Health>().KillSilently();
+            e.transform.position = new Vector3(20f, -1f, 0f);
+            Late(e);
+            Assert.AreEqual(new Vector3(20f, -1f, 0f), e.transform.position);
+        }
+
+        // ---- Arena failsafe ----
+
+        RunArenaController Arena(float halfExtent = 8f)
+        {
+            var go = new GameObject("arena"); spawned.Add(go);
+            var arena = go.AddComponent<RunArenaController>();
+            typeof(RunArenaController).GetField("halfExtent", Bf).SetValue(arena, halfExtent);
+            return arena;
+        }
+
+        static void Call(RunArenaController a, string method) => typeof(RunArenaController).GetMethod(method, Bf).Invoke(a, null);
+
+        [Test] public void Failsafe_OutOfBounds_DiesPastFilterAndInterceptor_NoEntityDied_RoomClears()
+        {
+            var arena = Arena();
+            var e = Spawn<Enemy>(Vector3.zero, halfExtent: 8f);
+            e.transform.SetParent(arena.transform, true);
+            e.transform.position = new Vector3(30f, 0f, 0f);
+            var h = e.GetComponent<Health>();
+            h.DamageFilter = _ => 0f;
+            h.IncomingDamageMultiplier = 0f;
+            h.DeathInterceptor = () => true;
+            int died = 0, entityDied = 0;
+            h.Died += () => died++;
+            System.Action<EntityDied> onEntityDied = _ => entityDied++;
+            EventBus.Subscribe(onEntityDied);
+            try { Call(arena, "CheckBounds"); }
+            finally { EventBus.Unsubscribe(onEntityDied); }
+            Assert.IsFalse(h.IsAlive);
+            Assert.AreEqual(1, died, "the ledger hears about it");
+            Assert.AreEqual(0, entityDied, "no rewards");
+            Call(arena, "CheckStrays");
+            Assert.IsTrue(arena.IsCleared);
+        }
+
+        [Test] public void Failsafe_InBoundsStray_HeldForGrace_ThenKilledAndRoomClears()
+        {
+            var arena = Arena();
+            var e = Spawn<Enemy>(Vector3.zero, halfExtent: 8f);
+            e.transform.SetParent(arena.transform, true);
+            var h = e.GetComponent<Health>();
+            Call(arena, "CheckStrays");
+            Assert.IsTrue(h.IsAlive, "the BUG-48 seam still holds during the grace period");
+            Assert.IsFalse(arena.IsCleared);
+            typeof(RunArenaController).GetField("strayHeldSince", Bf).SetValue(arena, Time.time - 5.1f);
+            Call(arena, "CheckStrays");
+            Assert.IsFalse(h.IsAlive);
+            Call(arena, "CheckStrays");
+            Assert.IsTrue(arena.IsCleared);
+        }
+
+        [Test] public void Failsafe_NegativeLedger_NoEnemyLeft_StillClears()
+        {
+            // The v0.9.0 playtest's end state: double Died took the ledger to -1, then the last enemy died.
+            var arena = Arena();
+            typeof(RunArenaController).GetField("ledgerReady", Bf).SetValue(arena, true);
+            typeof(RunArenaController).GetField("aliveCount", Bf).SetValue(arena, -1);
+            Call(arena, "Update");
+            Assert.IsTrue(arena.IsCleared);
         }
     }
 }

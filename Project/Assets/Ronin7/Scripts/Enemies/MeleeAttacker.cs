@@ -26,6 +26,9 @@ namespace Ronin7.Enemies
     {
         protected enum State { Idle, Chase, Windup, Active, Recover, Stagger, Dead }
 
+        /// <summary>The FSM state's name, for diagnostics.</summary>
+        internal string StateName => state.ToString();
+
         [Header("Refs (MeleeAttacker)")]
         [SerializeField] protected Transform weapon;
         [SerializeField] protected Renderer bodyRenderer;
@@ -513,7 +516,7 @@ namespace Ronin7.Enemies
         }
 
         // After all pose/animator writes, so the edge tracks the real blade tip. Only runs the work while visible.
-        private void LateUpdate()
+        protected virtual void LateUpdate()
         {
             if (bladeEdge == null || !bladeEdge.enabled) return;
             Transform tip = SwingTrackPoint;
