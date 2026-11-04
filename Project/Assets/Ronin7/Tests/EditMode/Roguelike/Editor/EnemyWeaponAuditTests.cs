@@ -57,7 +57,8 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
             foreach (var e in table.trash) if (e.definition.naturalWeapon) natural.Add(e.prefab.name);
             foreach (var b in table.bosses) if (b.definition.naturalWeapon) natural.Add(b.prefab.name);
             CollectionAssert.AreEquivalent(new[] { "Hunter_Drone", "Dominion_Scan-Drone", "Redaction_Construct",
-                "Spectral_Grave-Guardian", "Dream_Ghost_Manifestation", "Vane_Wraith-6" }, natural);
+                "Spectral_Grave-Guardian", "Dream_Ghost_Manifestation", "Vane_Wraith-6",
+                Ronin7.EditorTools.EnemyPrefabBaker.LeaperBody }, natural); // P8-06 Leaper: natural claws
         }
 
         private static EnemySpawnTable LoadTable()
@@ -256,13 +257,14 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
             foreach (var e in table.trash)
             {
                 string want = e.prefab.name == "Humanoid_Automaton" || e.prefab.name == Ronin7.EditorTools.EnemyPrefabBaker.JuggernautBody ? "EW_HeavyAxe" // P8-06 Juggernaut
-                    : e.prefab.name == "Iron_Dojo_Warden-Cadre" ? "EW_Staff" : null;
+                    : e.prefab.name == "Iron_Dojo_Warden-Cadre" ? "EW_Staff"
+                    : e.prefab.name == Ronin7.EditorTools.EnemyPrefabBaker.BannerBody ? "EW_Banner" : null; // P8-06 Banner Commander
                 Assert.AreEqual(want != null, e.fixedKit, e.prefab.name);
                 if (want == null) continue;
                 found++;
                 for (int i = 0; i < 20; i++) Assert.AreEqual(want, table.RollKit(e, ref rng, 99).main.name, e.prefab.name);
             }
-            Assert.AreEqual(3, found); // Automaton, Warden-Cadre, P8-06 Juggernaut
+            Assert.AreEqual(4, found); // Automaton, Warden-Cadre, P8-06 Juggernaut, Banner Commander
         }
     }
 }

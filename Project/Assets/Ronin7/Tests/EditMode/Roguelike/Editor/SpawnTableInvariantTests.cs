@@ -272,7 +272,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
                 Assert.IsTrue(path.StartsWith(Folder + "/RL_"), $"Spawn table points at non-RL asset {path}.");
                 count++;
             }
-            Assert.AreEqual(16, count, "Expected 13 trash + 3 boss definitions."); // P8-06: + Duelist, Juggernaut
+            Assert.AreEqual(18, count, "Expected 15 trash + 3 boss definitions."); // P8-06: + Duelist, Juggernaut, Leaper, BannerCommander
 
             foreach (var guid in AssetDatabase.FindAssets("t:EnemyDefinition", new[] { Folder }))
             {

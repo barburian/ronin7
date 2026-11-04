@@ -12,7 +12,8 @@ using UnityEngine.TestTools;
 namespace Ronin7.Tests.EditMode.Roguelike.Editor
 {
     /// <summary>P8-06 part 1: Duelist (weapon guard + riposte, melee kits only) and Juggernaut (windup hyper-armour,
-    /// unparryable ground-slam AoE).</summary>
+    /// unparryable ground-slam AoE). Part 2: Leaper (telegraphed gap-close leap, strike, retreat) and Banner Commander
+    /// (non-stacking windup buff in radius, weak in melee).</summary>
     public class NewArchetypeTests
     {
         const BindingFlags Bf = BindingFlags.NonPublic | BindingFlags.Instance;
@@ -184,11 +185,200 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
             Assert.IsNull(e.mainHand.patterns.Find(p => p.name == Enemy.GroundSlamName), "the shared axe asset is untouched");
         }
 
+        // ---- P8-06 part 2: Leaper + Banner Commander ----
+
+        static Transform PlayerOf(Enemy e) => ((Health)typeof(MeleeAttacker).GetField("target", Bf).GetValue(e)).transform;
+
+        LeaperEnemy Leaper(float playerDist)
+        {
+            var def = ScriptableObject.CreateInstance<EnemyDefinition>();
+            def.maxHealth = 55f; def.attackRange = 1.6f; def.weakness = WeaknessKind.Recovery;
+            var l = Spawn<LeaperEnemy>(def);
+            PlayerOf(l).position = l.transform.position + l.transform.forward * playerDist;
+            Enter(l, "Chase");
+            return l;
+        }
+
+        [Test]
+        public void Leaper_LeapsOnlyFrom6To8m()
+        {
+            foreach (float d in new[] { 6f, 7f, 8f })
+                Assert.AreEqual(LeaperEnemy.Move.Leap, LeaperEnemy.Decide(d, 1.6f, true, true), d + " m");
+            foreach (float d in new[] { 1f, 3f, 5.9f, 8.1f, 15f })
+                Assert.AreNotEqual(LeaperEnemy.Move.Leap, LeaperEnemy.Decide(d, 1.6f, true, true), d + " m");
+            Assert.AreNotEqual(LeaperEnemy.Move.Leap, LeaperEnemy.Decide(7f, 1.6f, false, true), "cooldown");
+
+            var near = Leaper(4f); Tick(near);
+            Assert.AreEqual(LeaperEnemy.Phase.None, near.LeapPhase, "4 m: too close to leap");
+            var far = Leaper(12f); Tick(far);
+            Assert.AreEqual(LeaperEnemy.Phase.None, far.LeapPhase, "12 m: walks in first");
+            var mid = Leaper(7f); Tick(mid);
+            Assert.AreEqual(LeaperEnemy.Phase.Telegraph, mid.LeapPhase, "7 m: leaps");
+        }
+
+        [Test]
+        public void Leaper_LeapIsTelegraphed()
+        {
+            int cues = 0; bool heavy = false;
+            System.Action<AttackWindupStarted> onCue = e => { cues++; heavy = e.Heavy; };
+            EventBus.Subscribe(onCue);
+            var l = Leaper(7f);
+            Vector3 start = l.transform.position;
+            Tick(l);
+            Assert.AreEqual(LeaperEnemy.Phase.Telegraph, l.LeapPhase);
+            Assert.AreEqual(1, cues, "the crouch plays a sound cue (reads without colour)");
+            Assert.IsTrue(heavy, "the heavy growl, not the plain windup tick");
+            Assert.GreaterOrEqual(LeaperEnemy.LeapTelegraph, 0.6f, "telegraph >= 0.6 s");
+            Assert.AreEqual(LeaperEnemy.LeapTelegraph, l.PhaseEnd - Time.time, 1e-3f);
+            Tick(l);
+            Assert.AreEqual(start, l.transform.position, "holds still while it telegraphs");
+            Assert.That(LeaperEnemy.LeapAirtime, Is.InRange(0.5f, 0.7f), "airtime is dodgeable");
+        }
+
+        [Test]
+        public void Leaper_LandsAtStrikeRangeNotOnPlayer()
+        {
+            var l = Leaper(7f);
+            Transform player = PlayerOf(l);
+            Vector3 start = l.transform.position;
+            Tick(l);                                      // telegraph
+            l.PhaseEnd = float.NegativeInfinity; Tick(l); // take off
+            Assert.AreEqual(LeaperEnemy.Phase.Air, l.LeapPhase);
+            l.PhaseEnd = float.NegativeInfinity; Tick(l); // land
+            Assert.AreEqual(LeaperEnemy.Phase.None, l.LeapPhase);
+            Vector3 gap = player.position - l.transform.position; gap.y = 0f;
+            Assert.AreEqual(1.6f, gap.magnitude, 0.01f, "lands at strike range");
+            Assert.Greater(Vector3.Dot(gap, player.position - start), 0f, "lands on its own side of the player");
+            Assert.AreEqual(start.y, l.transform.position.y, 1e-4f, "back on the ground");
+            Assert.AreEqual("Windup", StateOf(l), "then strikes");
+
+            // The whole arc stays in front of the player: never on or over their head.
+            Vector3 from = new Vector3(0f, 0f, -7f), to = LeaperEnemy.LeapLanding(from, Vector3.zero, 1.6f);
+            Assert.AreEqual(0f, Vector3.Distance(new Vector3(0f, 0f, -1.6f), to), 1e-4f);
+            for (float t = 0f; t <= 1f; t += 0.05f)
+            {
+                Vector3 p = LeaperEnemy.LeapArc(from, to, t, LeaperEnemy.LeapApex);
+                Assert.GreaterOrEqual(new Vector2(p.x, p.z).magnitude, 1.6f - 1e-3f, "t=" + t);
+                Assert.LessOrEqual(p.y, LeaperEnemy.LeapApex + 1e-4f);
+            }
+        }
+
+        [Test]
+        public void Leaper_RetreatsAfterStrike()
+        {
+            var l = Leaper(1.6f);
+            Transform player = PlayerOf(l);
+            Enter(l, "Active");
+            typeof(MeleeAttacker).GetMethod("OnActiveEnd", Bf).Invoke(l, null);
+            Assert.IsTrue(l.RetreatPending);
+            Enter(l, "Chase");
+            Tick(l);
+            Assert.IsTrue(l.Retreating, "skitters back after the strike");
+            Assert.IsFalse(l.RetreatPending);
+            Vector3 to = l.RetreatTarget - player.position; to.y = 0f;
+            Assert.That(to.magnitude, Is.InRange(LeaperEnemy.LeapMin, LeaperEnemy.LeapMax), "back out to leap range");
+            Assert.Less(Vector3.Dot(l.RetreatTarget - l.transform.position, player.position - l.transform.position), 0f, "away from the player");
+        }
+
+        BannerCommander Commander(Vector3 at)
+        {
+            var def = ScriptableObject.CreateInstance<EnemyDefinition>();
+            def.maxHealth = 45f; def.weakness = WeaknessKind.Recovery;
+            var c = Spawn<BannerCommander>(def);
+            c.transform.position = at;
+            return c;
+        }
+
+        Enemy Ally(Vector3 at)
+        {
+            var def = ScriptableObject.CreateInstance<EnemyDefinition>();
+            def.maxHealth = 50f;
+            var e = Spawn<Enemy>(def);
+            e.transform.position = at;
+            return e;
+        }
+
+        static void Kill(Enemy e) => e.GetComponent<Health>().ApplyDamage(
+            new DamageInfo(999f, e.transform.position, Vector3.forward, null, DamageType.Melee, 6f));
+
+        [Test]
+        public void Banner_BuffsAlliesInRadius()
+        {
+            var c = Commander(Vector3.zero);
+            var inside = Ally(new Vector3(BannerCommander.Radius - 0.5f, 0f, 0f));
+            var outside = Ally(new Vector3(0f, 0f, BannerCommander.Radius + 1f));
+            c.RallyTick();
+            Assert.Less(BannerCommander.RallyWindupScale, 1f);
+            Assert.AreEqual(BannerCommander.RallyWindupScale, inside.WindupScale, "ally in radius winds up faster");
+            Assert.AreEqual(1f, outside.WindupScale, "ally outside radius is untouched");
+            Assert.AreEqual(1f, c.WindupScale, "the commander does not buff itself");
+
+            inside.transform.position = new Vector3(BannerCommander.Radius + 2f, 0f, 0f);
+            c.RallyTick();
+            Assert.AreEqual(1f, inside.WindupScale, "leaving the radius ends the buff");
+        }
+
+        [Test]
+        public void Banner_BuffDoesNotStack()
+        {
+            var a = Commander(Vector3.zero);
+            var b = Commander(new Vector3(1f, 0f, 0f));
+            var ally = Ally(new Vector3(0.5f, 0f, 2f));
+            a.RallyTick(); b.RallyTick(); a.RallyTick();
+            Assert.AreEqual(BannerCommander.RallyWindupScale, ally.WindupScale, "two commanders = one buff, never x0.64");
+            Assert.AreSame(a, ally.RalliedBy);
+            Kill(a);
+            b.RallyTick();
+            Assert.AreSame(b, ally.RalliedBy, "the surviving commander takes over");
+            Assert.AreEqual(BannerCommander.RallyWindupScale, ally.WindupScale);
+        }
+
+        [Test]
+        public void Banner_BuffEndsOnDeath()
+        {
+            var c = Commander(Vector3.zero);
+            var ally = Ally(new Vector3(2f, 0f, 0f));
+            c.RallyTick();
+            Assert.AreEqual(BannerCommander.RallyWindupScale, ally.WindupScale);
+            Kill(c);
+            Assert.IsNull(ally.RalliedBy, "released the moment it dies, no tick needed");
+            Assert.AreEqual(1f, ally.WindupScale);
+        }
+
+        [Test]
+        public void Banner_WeakInMelee()
+        {
+            var t = LoadTable();
+            var e = EntryFor(t, "BannerCommander");
+            var d = e.definition;
+            Assert.LessOrEqual(d.maxHealth, 50f, "low HP");
+            Assert.Less(d.maxHealth, EntryFor(t, "Duelist").definition.maxHealth);
+            Assert.LessOrEqual(d.damage, 8f, "weak jab");
+            Assert.GreaterOrEqual(d.telegraphTime, 1f, "slow jab");
+            Assert.IsTrue(e.fixedKit);
+            Assert.AreEqual("EW_Banner", e.mainHand.name);
+            foreach (var p in e.mainHand.patterns) foreach (var s in p.strikes) Assert.GreaterOrEqual(s.windup, 1.2f, p.name);
+            Assert.AreEqual(1, e.maxPerRoom, "one commander per room");
+            Assert.IsInstanceOf<BannerCommander>(e.prefab.GetComponent<Enemy>());
+            Assert.IsNotNull(System.Array.Find(e.mainHand.prefab.GetComponentsInChildren<Renderer>(true), r => r.name == BannerCommander.FlagName), "the banner has a flag");
+
+            var c = Commander(Vector3.zero);
+            Assert.AreEqual(1.7f, c.HoldRange, 1e-4f, "alone it closes to melee");
+            Ally(new Vector3(1f, 0f, 0f));
+            c.RallyTick();
+            Assert.AreEqual(BannerCommander.HangBack, c.HoldRange, "with allies it hangs back");
+            Assert.Greater(BannerCommander.HangBack, d.attackRange);
+
+            var l = EntryFor(t, "Leaper");
+            Assert.IsInstanceOf<LeaperEnemy>(l.prefab.GetComponent<Enemy>());
+            Assert.IsTrue(l.definition.naturalWeapon, "the leaper uses its claws");
+        }
+
         [Test]
         public void NewArchetypes_InSpawnTable_NotInTutorialRoom()
         {
             var t = LoadTable();
-            foreach (var rl in new[] { "Duelist", "Juggernaut" })
+            foreach (var rl in new[] { "Duelist", "Juggernaut", "Leaper", "BannerCommander" })
             {
                 var e = EntryFor(t, rl);
                 Assert.Greater(e.minDepth, 0, rl + " must not appear in the depth-0 tutorial room");
@@ -197,6 +387,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
                 Assert.AreNotEqual(WeaknessKind.None, e.definition.weakness, rl);
             }
             Assert.AreEqual(1, EntryFor(t, "Juggernaut").maxPerRoom, "one juggernaut per room");
+            Assert.AreEqual(1, EntryFor(t, "BannerCommander").maxPerRoom, "one commander per room");
             Assert.IsTrue(EntryFor(t, "Duelist").meleeOnly);
         }
 
@@ -204,7 +395,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
         public void NewArchetypes_DistinctBodies()
         {
             var t = LoadTable();
-            var fresh = new[] { EntryFor(t, "Duelist"), EntryFor(t, "Juggernaut") };
+            var fresh = new[] { EntryFor(t, "Duelist"), EntryFor(t, "Juggernaut"), EntryFor(t, "Leaper"), EntryFor(t, "BannerCommander") };
             foreach (var n in fresh)
             {
                 var smr = n.prefab.GetComponentInChildren<SkinnedMeshRenderer>(true);

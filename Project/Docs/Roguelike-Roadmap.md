@@ -1573,6 +1573,8 @@ Shields share the wearer's armor material family so they read as part of the kit
 
 **Part 1 done (2026-11-04):** Duelist (guard deflects frontal melee, riposte, sidestep, melee kits only) and Juggernaut (1.25x body, hyper-armour windup, unparryable ground slam, fixed HeavyAxe) are in the spawn table (see Design A14.28). 6 named tests + a guard-frontal test in `NewArchetypeTests`. Elite escorts now scale 4/5/6 by sector (user decision), so Elite threat >= Combat threat at every depth in sectors 1-2. Part 2 (Leaper, Banner Commander) remains.
 
+**Part 2 done (2026-11-04), P8-06 DONE:** Leaper (6-8 m telegraphed leap: 0.7 s crouch + growl, 0.6 s scripted arc landing at strike range in front of the player, strike, retreat to 7 m) and Banner Commander (EW_Banner stand-in; allies within 6 m wind up x0.8, non-stacking, ends on death; hangs back at 4 m; 45 HP, slow 6-damage jab) are in the spawn table (see Design A14.28). 8 named tests in `NewArchetypeTests`; EditMode 2078/0/0. Headset: tune leap readability/fairness and whether x0.8 windups under a banner stay parryable on the fastest kits (dagger flurry).
+
 ## PHASE 9 — Player skills and the skill panel (v0.10.0)
 
 ### P9-00 Design session with the user (blocking)

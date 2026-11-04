@@ -309,11 +309,12 @@ namespace Ronin7.EditorTools
         /// <summary>P8-06: the Juggernaut stands 1.25x the 1.8 m roster (2.25 m) so it reads as huge at a glance.</summary>
         internal const float JuggernautScale = 1.25f;
         internal const string DuelistBody = "Samurai-4", JuggernautBody = "Gravelkin_variant_02";
+        internal const string LeaperBody = "Obsidian-Synod_variant_03", BannerBody = "Voll_variant_01"; // P8-06 part 2
         private const string RlEnemyFolder = "Assets/Ronin7/Data/Roguelike/Enemies";
         private const string SpawnTablePath = "Assets/Ronin7/Data/Roguelike/EnemySpawnTable.asset";
 
         /// <summary>P8-06 (additive, idempotent): bakes ONLY the Duelist (lean Samurai-4) and Juggernaut (armoured
-        /// Gravelkin brute, 1.25x) bodies through the per-prefab <see cref="BakeOne"/> path (Health, PostureMeter,
+        /// Gravelkin brute, 1.25x) bodies, plus (part 2) the Leaper (Obsidian-Synod demon) and Banner Commander (Voll, EW_Banner), through the per-prefab <see cref="BakeOne"/> path (Health, PostureMeter,
         /// sockets, own material), writes their RL_ definitions and adds/updates their spawn-table entries. Touches no
         /// other prefab or entry.</summary>
         [MenuItem("Tools/Space Samurai/Roguelike/Bake Archetype Bodies (additive)")]
@@ -334,7 +335,8 @@ namespace Ronin7.EditorTools
             });
             var juggernaut = RlDef("Juggernaut", d =>
             {
-                d.maxHealth = 150f; d.moveSpeed = 0.8f; // under the elite Automaton (160); 180 tipped combat-room threat over elite d.acceleration = 2f; d.deceleration = 4f; d.turnRateDegrees = 90f; // slow turn: get behind it
+                d.maxHealth = 150f; d.moveSpeed = 0.8f; // under the elite Automaton (160); 180 tipped combat-room threat over elite
+                d.acceleration = 2f; d.deceleration = 4f; d.turnRateDegrees = 90f; // slow turn: get behind it
                 d.attackRange = 2f; d.telegraphTime = 1.2f; d.activeTime = 0.8f; d.recoverTime = 0.9f;
                 d.staggerTime = 1.2f; d.attackCooldown = 1.3f; d.damage = 20f;
                 d.weakness = WeaknessKind.Backstab; d.resistMultiplier = 0.3f; d.exploitMultiplier = 2f;
@@ -343,10 +345,36 @@ namespace Ronin7.EditorTools
                 d.poseTwistDegrees = 35f; d.poseLeanDegrees = 18f; // big body, big draw-back
             });
 
+            // P8-06 part 2: Leaper (spiky clawed demon, natural claws) and Banner Commander (big-coat Voll + banner).
+            BakeOne("Assets/Ronin7/Art/Generated/Characters3D/Diversity/Obsidian-Synod", LeaperBody, report);
+            BakeOne("Assets/Ronin7/Art/Generated/Characters3D/Diversity/Voll", BannerBody, report);
+            PatchOne(LeaperBody, typeof(LeaperEnemy), false);
+            PatchOne(BannerBody, typeof(BannerCommander), false);
+            EnemyWeaponBuilder.BuildWeapons("Banner"); // only the banner: the other weapon prefabs stay untouched
+            var leaper = RlDef("Leaper", d =>
+            {
+                d.maxHealth = 55f; d.moveSpeed = 2.2f; d.acceleration = 6f; d.deceleration = 8f; d.turnRateDegrees = 360f;
+                d.attackRange = 1.6f; d.telegraphTime = 0.55f; d.activeTime = 0.6f; d.recoverTime = 0.9f; // the leap is the warning; recovery is the punish
+                d.staggerTime = 1.2f; d.attackCooldown = 1f; d.damage = 12f;
+                d.weakness = WeaknessKind.Recovery; d.resistMultiplier = 0.3f; d.exploitMultiplier = 2f;
+                d.postureMaxFraction = 0.6f; d.materialClass = MaterialClass.Organic; d.naturalWeapon = true;
+                d.poseTwistDegrees = 4f; d.poseLeanDegrees = 15f; // the crouch hunches forward, almost no twist
+            });
+            var banner = RlDef("BannerCommander", d =>
+            {
+                d.maxHealth = 45f; d.moveSpeed = 1.2f; d.acceleration = 3f; d.deceleration = 6f; d.turnRateDegrees = 180f;
+                d.attackRange = 1.8f; d.telegraphTime = 1f; d.activeTime = 0.7f; d.recoverTime = 1f; // weak in melee: slow jab, long recovery
+                d.staggerTime = 1.4f; d.attackCooldown = 1.6f; d.damage = 6f;
+                d.weakness = WeaknessKind.Recovery; d.resistMultiplier = 0.6f; d.exploitMultiplier = 2f;
+                d.postureMaxFraction = 0.5f; d.materialClass = MaterialClass.Organic;
+            });
+
             var table = AssetDatabase.LoadAssetAtPath<EnemySpawnTable>(SpawnTablePath);
             var axe = EnemyWeaponBuilder.Load("HeavyAxe");
             UpsertEntry(table, DuelistBody, duelist, 8, 3, 2, e => { e.meleeOnly = true; e.mainHand = EnemyWeaponBuilder.Load("Sword"); e.offHand = null; e.fixedKit = false; });
             UpsertEntry(table, JuggernautBody, juggernaut, 5, 4, 1, e => { e.fixedKit = true; e.mainHand = axe; e.offHand = null; });
+            UpsertEntry(table, LeaperBody, leaper, 6, 3, 2, e => { e.fixedKit = false; e.mainHand = EnemyWeaponBuilder.Load("Claws"); e.offHand = null; });
+            UpsertEntry(table, BannerBody, banner, 4, 4, 1, e => { e.fixedKit = true; e.mainHand = EnemyWeaponBuilder.Load("Banner"); e.offHand = null; });
             EditorUtility.SetDirty(table);
             AssetDatabase.SaveAssets();
             Debug.Log("[EnemyPrefabBaker] Archetype bodies baked\n" + report);

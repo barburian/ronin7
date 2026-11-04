@@ -84,7 +84,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
         public void EveryRlArchetype_ExceptSwarmer_HasWeakness()
         {
             var guids = AssetDatabase.FindAssets("t:EnemyDefinition", new[] { "Assets/Ronin7/Data/Roguelike/Enemies" });
-            Assert.AreEqual(20, guids.Length); // P8-06: + Duelist, Juggernaut
+            Assert.AreEqual(22, guids.Length); // P8-06: + Duelist, Juggernaut, Leaper, BannerCommander
             foreach (var guid in guids)
             {
                 var d = AssetDatabase.LoadAssetAtPath<EnemyDefinition>(AssetDatabase.GUIDToAssetPath(guid));

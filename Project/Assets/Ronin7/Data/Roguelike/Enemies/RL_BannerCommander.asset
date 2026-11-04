@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 124031ca89272a245b6bae3d880a5cf0, type: 3}
+  m_Name: RL_BannerCommander
+  m_EditorClassIdentifier: Ronin7.Enemies::Ronin7.Enemies.EnemyDefinition
+  maxHealth: 45
+  moveSpeed: 1.2
+  attackRange: 1.8
+  turnRateDegrees: 180
+  acceleration: 3
+  deceleration: 6
+  telegraphTime: 1
+  telegraphMaxTime: 0
+  activeTime: 0.7
+  recoverTime: 1
+  staggerTime: 1.4
+  attackCooldown: 1.6
+  poseArmScale: 1
+  poseTwistDegrees: 30
+  poseLeanDegrees: 12
+  poseWholeBody: 0
+  damage: 6
+  naturalWeapon: 0
+  healthAddedPerGalaxy: 0
+  damageAddedPerGalaxy: 0
+  superArmor: 0
+  postureGainMultiplier: 1
+  weakness: 3
+  resistMultiplier: 0.6
+  exploitMultiplier: 2
+  heavySwingSpeed: 5.5
+  materialClass: 0
+  postureBreakBonusFraction: 0
+  chainHits: 1
+  blinkBehind: 0
+  hyperArmourWindup: 0
+  groundSlamRadius: 0
+  postureMaxFraction: 0.5
+  vampiric: 0
+  eliteRim: {r: 0, g: 0, b: 0, a: 1}

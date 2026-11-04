@@ -16,7 +16,7 @@ namespace Ronin7.Tests.EditMode
         {
             var paths = AssetDatabase.FindAssets("t:Material", new[] { MatFolder })
                 .Select(AssetDatabase.GUIDToAssetPath).Where(p => p.EndsWith("_Enemy.mat")).ToArray();
-            Assert.AreEqual(16, paths.Length, "expected the 16 RL_ enemy materials"); // P8-06: + Duelist, Juggernaut
+            Assert.AreEqual(18, paths.Length, "expected the 18 RL_ enemy materials"); // P8-06: + Duelist, Juggernaut, Leaper, BannerCommander
             foreach (var p in paths)
             {
                 var mat = AssetDatabase.LoadAssetAtPath<Material>(p);

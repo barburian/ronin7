@@ -83,6 +83,12 @@ namespace Ronin7.EditorTools
                 new Part("Blade", PrimitiveType.Cylinder, M.Steel, new Vector3(0f, 0.02f, 0.38f), new Vector3(0.04f, 0.16f, 0.04f), Roll),
                 new Part("Cell", PrimitiveType.Cube, M.Brass, new Vector3(0f, 0.065f, 0.15f), new Vector3(0.05f, 0.03f, 0.14f)) })),
             ("Claws", new Vector3(0f, 0f, 0.25f), 1f, false, null),
+            // P8-06 Banner Commander (fixed kit, never rolled): an upright pole from the hand (~2.8 m tall in the rest pose)
+            // with a white (Steel: reads by value in greyscale) flag flying out to the bearer's right, facing the player full-on. Finial = tip ("Blade": tint hook).
+            ("Banner", new Vector3(0f, 2f, 0f), 1f, false, new[] {
+                new Part("Pole", PrimitiveType.Cylinder, M.Grip, new Vector3(0f, 0.85f, 0f), new Vector3(0.035f, 1.15f, 0.035f)),
+                new Part(BannerCommander.FlagName, PrimitiveType.Cube, M.Steel, new Vector3(0.3f, 1.62f, 0f), new Vector3(0.56f, 0.46f, 0.015f)),
+                new Part("Blade", PrimitiveType.Sphere, M.Steel, new Vector3(0f, 2f, 0f), new Vector3(0.09f, 0.09f, 0.09f)) }),
         };
 
         /// <summary>Fallback kit per trash body (main, off), used when the table has no roll list. Natural bodies get claws.</summary>
@@ -141,6 +147,7 @@ namespace Ronin7.EditorTools
             // Burst shots 1-2 recover at 0.3x so the 3 bolts read as one burst, not three separate attacks.
             "Blaster" => new[] { Pat("Burst", 2, Shot(0.8f, 0.3f, 6f, 0f, 0.1f), Shot(0.15f, 0.3f, 6f, 0f, 0.1f), Shot(0.15f, 1f, 6f, 0f, 0.1f)),
                                  Pat("Charged", 1, Shot(1.4f, 1f, 3f, 0f, 0.25f)) },
+            "Banner" => new[] { Pat("Banner jab", 1, Hit(StrikeDirection.Thrust, 1.3f)) }, // P8-06: weak, slow
             "Staff" => new[] { Pat("Bolt cast", 2, Shot(1.2f, 1f, 4f, 0f, 0.12f)), Pat("Jab", 1, Hit(StrikeDirection.Thrust, 1f)) },
             _ => new[] { new AttackPattern() },
         };
@@ -186,7 +193,8 @@ namespace Ronin7.EditorTools
             Debug.Log("[EnemyWeaponBuilder] Composed enemy weapons.");
         }
 
-        internal static void BuildWeapons()
+        /// <param name="only">P8-06: build just this weapon (the additive archetype bake), leaving the others untouched.</param>
+        internal static void BuildWeapons(string only = null)
         {
             foreach (var f in new[] { DefFolder, PrefabFolder, MatFolder }) EnsureFolder(f);
             var mats = new Material[Palette.Length];
@@ -202,11 +210,13 @@ namespace Ronin7.EditorTools
 
             foreach (var spec in Specs)
             {
+                if (only != null && spec.name != only) continue;
                 string defPath = DefFolder + "/EW_" + spec.name + ".asset";
                 var def = AssetDatabase.LoadAssetAtPath<EnemyWeaponDefinition>(defPath);
                 if (def == null) { def = ScriptableObject.CreateInstance<EnemyWeaponDefinition>(); AssetDatabase.CreateAsset(def, defPath); }
                 def.tip = spec.tip;
                 def.edgeBase = spec.name == "HeavyAxe" ? new Vector3(0f, 0.2f, 0.58f) // along the head's top (striking) edge, not floating beside the haft
+                    : spec.name == "Banner" ? new Vector3(0f, 0.3f, 0f) // along the pole, above the fist
                     : new Vector3(spec.tip.x, spec.tip.y, Mathf.Min(spec.tip.z, 0.12f));
                 def.reach = spec.reach;
                 def.patterns = new System.Collections.Generic.List<AttackPattern>(PatternsFor(spec.name));

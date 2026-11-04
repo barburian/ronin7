@@ -164,6 +164,26 @@ MonoBehaviour:
     offHand: {fileID: 0}
     fixedKit: 1
     meleeOnly: 0
+  - prefab: {fileID: 7750590625331012155, guid: fbcd6787a609acf45aff11d08c483af1, type: 3}
+    definition: {fileID: 11400000, guid: 0ae2fa7f8ea7fe64e87fa166b9d9ea17, type: 2}
+    weight: 6
+    minDepth: 3
+    eliteOnly: 0
+    maxPerRoom: 2
+    mainHand: {fileID: 11400000, guid: 607ea4ca06550d640a487a42fff7da7c, type: 2}
+    offHand: {fileID: 0}
+    fixedKit: 0
+    meleeOnly: 0
+  - prefab: {fileID: 9192126671832806222, guid: bc2ef9e3ac571764b9b488ec41f1f439, type: 3}
+    definition: {fileID: 11400000, guid: d2f6281307aa747498e42d8f767cc848, type: 2}
+    weight: 4
+    minDepth: 4
+    eliteOnly: 0
+    maxPerRoom: 1
+    mainHand: {fileID: 11400000, guid: c79dc4932b991d941ab588a4594717f7, type: 2}
+    offHand: {fileID: 0}
+    fixedKit: 1
+    meleeOnly: 0
   bosses:
   - prefab: {fileID: 5497403558466260732, guid: 3f113a65b5112c84587edcc28a18ae31, type: 3}
     definition: {fileID: 11400000, guid: 827814da30a066f4887a89086b4bf1c1, type: 2}

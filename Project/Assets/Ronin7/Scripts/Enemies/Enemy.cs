@@ -57,9 +57,20 @@ namespace Ronin7.Enemies
         public MaterialClass VfxClass => definition != null ? definition.materialClass : MaterialClass.Organic;
 
         // P3-07 feints: read once per windup (BeginAttack), so each draw advances the seeded stream.
-        protected override float TelegraphTime => definition.telegraphMaxTime > definition.telegraphTime
+        protected override float TelegraphTime => (definition.telegraphMaxTime > definition.telegraphTime
             ? Mathf.Lerp(definition.telegraphTime, definition.telegraphMaxTime, telegraphRng.NextFloat())
-            : definition.telegraphTime;
+            : definition.telegraphTime) * WindupScale;
+
+        /// <summary>P8-06: the Banner Commander rallying this enemy (one at a time, so never stacked); null = none.</summary>
+        internal BannerCommander RalliedBy;
+        /// <summary>P8-06: the small pennant shown above the head while rallied (made once, then toggled).</summary>
+        internal GameObject RallyCue;
+        /// <summary>P8-06: windup multiplier from a living commander's banner (read at each windup start).</summary>
+        public float WindupScale => RalliedBy != null ? BannerCommander.RallyWindupScale : 1f;
+
+        /// <summary>P8-06: where Chase stops walking. Melee still only swings within attackRange (Leaper waits at
+        /// leap range, Banner Commander hangs back behind its allies).</summary>
+        protected internal virtual float HoldRange => definition.attackRange;
         private RunRng telegraphRng = new RunRng(1);
 
         /// <summary>P3-07: seeds the randomized-telegraph stream from the run (deterministic per node).</summary>
@@ -363,7 +374,7 @@ namespace Ronin7.Enemies
             to.y = 0f;
             float dist = to.magnitude;
             bool ranged = NextStrike().Ranged;
-            float range = ranged ? KiteMax : definition.attackRange; // P8-02c: shooters hold off at KiteMax
+            float range = ranged ? KiteMax : HoldRange; // P8-02c: shooters hold off at KiteMax
             if (ranged && dist < KiteMin && Time.time >= nextBackstep && state == State.Chase)
             {
                 nextBackstep = Time.time + 1.5f;
@@ -391,7 +402,7 @@ namespace Ronin7.Enemies
             else
             {
                 chaseSpeed = 0f; // arrival braking already brought it to ~0 here
-                if (Time.time >= nextAttackTime) BeginAttack();
+                if (Time.time >= nextAttackTime && (ranged || dist <= definition.attackRange)) BeginAttack();
             }
         }
 
