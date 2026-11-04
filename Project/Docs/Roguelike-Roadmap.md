@@ -118,7 +118,7 @@ Effort in engineer-days (rough, one person with agents): P0 ≈ 4–5, P1 ≈ 6�
 | BUG-51 | HIGH | **Boons from a previous run present at a fresh run start** (user saw a 3/8 selection they had picked in an earlier run). | `Flow/Roguelike/RunDirector.cs`, `Core/Roguelike/RunState.cs` / `RunSnapshot` | P7-04 | **Status: Fixed in code (`14e2832`), device accept pending.**
 | BUG-52 | MED | Sector finish shows the pop-up but the doors never open. | `World/ProximityDoor.cs`, room shells, `RunDirector` sector advance | P7-05 | **Status: Fixed in code (`2e4f0e8`), device accept pending.**
 | BUG-53 | MED | The enemy attack line (P1-14 blade-edge `LineRenderer`) is visible. User wants it gone, replaced by a clear attack pattern. | `Enemies/MeleeAttacker.cs:37` | P7-06, replaced in P8-04 | **Status: Fixed in code (`dcb48ae`), device accept pending.**
-| BUG-54 | MED | Some humanoid enemies have no weapon. Beasts and wraiths may stay unarmed (claws). | enemy prefabs, `Editor/Roguelike/EnemyPrefabBaker` | P8-01 |
+| BUG-54 | MED | Some humanoid enemies have no weapon. Beasts and wraiths may stay unarmed (claws). | enemy prefabs, `Editor/Roguelike/EnemyPrefabBaker` | P8-01 | **Status: Fixed in code (P8-01/02, composed weapons; real Tripo meshes `9784ffe`), device accept pending.**
 
 ## A3. Domain findings in brief
 
@@ -1574,6 +1574,9 @@ Shields share the wearer's armor material family so they read as part of the kit
 **Part 1 done (2026-11-04):** Duelist (guard deflects frontal melee, riposte, sidestep, melee kits only) and Juggernaut (1.25x body, hyper-armour windup, unparryable ground slam, fixed HeavyAxe) are in the spawn table (see Design A14.28). 6 named tests + a guard-frontal test in `NewArchetypeTests`. Elite escorts now scale 4/5/6 by sector (user decision), so Elite threat >= Combat threat at every depth in sectors 1-2. Part 2 (Leaper, Banner Commander) remains.
 
 **Part 2 done (2026-11-04), P8-06 DONE:** Leaper (6-8 m telegraphed leap: 0.7 s crouch + growl, 0.6 s scripted arc landing at strike range in front of the player, strike, retreat to 7 m) and Banner Commander (EW_Banner stand-in; allies within 6 m wind up x0.8, non-stacking, ends on death; hangs back at 4 m; 45 HP, slow 6-damage jab) are in the spawn table (see Design A14.28). 8 named tests in `NewArchetypeTests`; EditMode 2078/0/0. Headset: tune leap readability/fairness and whether x0.8 windups under a banner stay parryable on the fastest kits (dagger flurry).
+
+### Phase 8 progress / exit (2026-11-04, v0.9.0 / versionCode 10, `b04cdad`)
+**[x] Phase 8 code-complete** (P8-01..P8-06, double-elite room, elite escort scaling 4/5/6, Tripo weapon meshes; BUG-54 fixed in code). EditMode 2084/0/0, PlayMode 16/16 (`e501c95`). Pre-build render check (seed 2026, Phase6_Boot -> RunArena, after spawn dissolve): Mobile 55 draws / 34 SetPass / luma 0.146 / magenta 0; PC 86 / 52 / 0.137 / 0 (`Project/Logs/PerfProbe/exitB3_Mobile.png`, `exitB3_PC.png`). Windows dev and release player builds Succeeded; Quest build waits for keystore passwords. Headset sign-off: `Docs/Playtest-v0.9.0.md`. No tag; the user tags `roguelike-phase8` after sign-off.
 
 ## PHASE 9 — Player skills and the skill panel (v0.10.0)
 
