@@ -15,6 +15,15 @@ namespace Ronin7.Tests.EditMode
     {
         private const int MobileQualityLevel = 0;
 
+        /// <summary>PerfBudgetProbe once set QualitySettings.renderPipeline = null on exit, which in the editor
+        /// wrote null into the Mobile level and would have shipped Quest on the wrong pipeline.</summary>
+        [Test]
+        public void QualityLevels_KeepTheirTierPipelineAssets()
+        {
+            Assert.AreEqual("Mobile_RPAsset", QualitySettings.GetRenderPipelineAssetAt(MobileQualityLevel)?.name);
+            Assert.AreEqual("PC_RPAsset", QualitySettings.GetRenderPipelineAssetAt(1)?.name);
+        }
+
         [Test]
         public void MobileTier_PostGrade_DoesNotCrushDarkTones()
         {

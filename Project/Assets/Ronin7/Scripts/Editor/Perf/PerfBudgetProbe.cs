@@ -75,11 +75,16 @@ namespace Ronin7.Editor
             private int stage, tier, frames, lastFrame = -1;
             private long gcTotal, gcMax;
             private readonly PerfBudget.Sample[] samples = new PerfBudget.Sample[2];
+            // In the editor the renderPipeline setter writes into the ACTIVE quality level of QualitySettings.asset,
+            // so Finish restores each level's own asset (setting null wiped Mobile_RPAsset off the Quest tier).
+            private UnityEngine.Rendering.RenderPipelineAsset[] levelAssets;
 
             public Session(string label, int minEnemies) { this.label = label; this.minEnemies = minEnemies; }
 
             public void Start()
             {
+                levelAssets = new UnityEngine.Rendering.RenderPipelineAsset[QualitySettings.count];
+                for (int i = 0; i < levelAssets.Length; i++) levelAssets[i] = QualitySettings.GetRenderPipelineAssetAt(i);
                 foreach (string n in DrawCounters)
                     drawParts.Add(ProfilerRecorder.StartNew(ProfilerCategory.Render, n));
                 setPass = ProfilerRecorder.StartNew(ProfilerCategory.Render, "SetPass Calls Count");
@@ -144,7 +149,7 @@ namespace Ronin7.Editor
             {
                 QualitySettings.SetQualityLevel(t, true);
                 // Standalone play mode excludes the "Mobile" level, so force the tier's URP asset explicitly
-                // (runtime override only; QualitySettings.asset is never touched). Cleared in Finish.
+                // (in the editor this WRITES the active level's asset; Finish puts the originals back).
                 QualitySettings.renderPipeline = AssetDatabase.LoadAssetAtPath<UnityEngine.Rendering.RenderPipelineAsset>(
                     t == 0 ? "Assets/Settings/Mobile_RPAsset.asset" : "Assets/Settings/PC_RPAsset.asset");
                 // Mobile tier = the Quest 3 path: Low knobs, post on (GraphicsDirector.PostEnabledFor(Quest3)).
@@ -245,7 +250,7 @@ namespace Ronin7.Editor
             private void Finish(string line)
             {
                 EditorApplication.update -= Tick;
-                QualitySettings.renderPipeline = null; // drop the tier override; the quality level's asset applies again
+                QualitySettings.renderPipeline = levelAssets[QualitySettings.GetQualityLevel()]; // never null: see levelAssets
                 foreach (var r in drawParts) r.Dispose();
                 setPass.Dispose(); tris.Dispose(); gc.Dispose(); texMem.Dispose();
                 File.AppendAllText(ReportPath, line + "\n\n");
