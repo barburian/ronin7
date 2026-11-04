@@ -43,6 +43,7 @@ MonoBehaviour:
     mainHand: {fileID: 11400000, guid: 942a051dfc892244f9a899c5afe0f485, type: 2}
     offHand: {fileID: 0}
     fixedKit: 0
+    meleeOnly: 0
   - prefab: {fileID: 4808927160386080507, guid: 720e15579e4df7e44aa9b16b5f180067, type: 3}
     definition: {fileID: 11400000, guid: 1c2202d68a9bf454d867f38b46404b0e, type: 2}
     weight: 12
@@ -52,6 +53,7 @@ MonoBehaviour:
     mainHand: {fileID: 11400000, guid: 7ec944e645c58f34f801b99af110fd68, type: 2}
     offHand: {fileID: 11400000, guid: 7ec944e645c58f34f801b99af110fd68, type: 2}
     fixedKit: 0
+    meleeOnly: 0
   - prefab: {fileID: 9166627839566804211, guid: 9d2239b64a3dda94aa32870b7070bc95, type: 3}
     definition: {fileID: 11400000, guid: 0263b6f185004814087cbe7a88b652b2, type: 2}
     weight: 12
@@ -61,6 +63,7 @@ MonoBehaviour:
     mainHand: {fileID: 11400000, guid: 7636235c67ef5c540890f6ea2e1e82ad, type: 2}
     offHand: {fileID: 11400000, guid: 982a8a783a1f7de4b896c0d342756ff8, type: 2}
     fixedKit: 0
+    meleeOnly: 0
   - prefab: {fileID: 8634392853671692880, guid: dccc5fde401c77542973cd70f7d3986f, type: 3}
     definition: {fileID: 11400000, guid: f85b560031789a64584c814abbbd9b28, type: 2}
     weight: 10
@@ -70,6 +73,7 @@ MonoBehaviour:
     mainHand: {fileID: 11400000, guid: 1e346b7161ab42b48bb528c62e9c0879, type: 2}
     offHand: {fileID: 0}
     fixedKit: 0
+    meleeOnly: 0
   - prefab: {fileID: 7043011938888400025, guid: 1a13095029947784a88d4c46db914505, type: 3}
     definition: {fileID: 11400000, guid: 46c1f15eed43be04ba056adbccd29d97, type: 2}
     weight: 10
@@ -79,6 +83,7 @@ MonoBehaviour:
     mainHand: {fileID: 11400000, guid: 607ea4ca06550d640a487a42fff7da7c, type: 2}
     offHand: {fileID: 0}
     fixedKit: 0
+    meleeOnly: 0
   - prefab: {fileID: 6460438669832031860, guid: 8d669a71cb1359b429b828c2e7dfcc2e, type: 3}
     definition: {fileID: 11400000, guid: 5c1568c98c084b84dadf32a47ec08377, type: 2}
     weight: 6
@@ -88,6 +93,7 @@ MonoBehaviour:
     mainHand: {fileID: 11400000, guid: 607ea4ca06550d640a487a42fff7da7c, type: 2}
     offHand: {fileID: 0}
     fixedKit: 0
+    meleeOnly: 0
   - prefab: {fileID: 3372851308560540462, guid: a6e85720dcf05014dba6ecac5433912a, type: 3}
     definition: {fileID: 11400000, guid: 996265719b7be5b459ded9e1e0337acb, type: 2}
     weight: 8
@@ -97,6 +103,7 @@ MonoBehaviour:
     mainHand: {fileID: 11400000, guid: 52313ecfe346e05448b2906c79870390, type: 2}
     offHand: {fileID: 0}
     fixedKit: 1
+    meleeOnly: 0
   - prefab: {fileID: 3989639387344550226, guid: 20739ada1f155bf44bbdbde322d3e299, type: 3}
     definition: {fileID: 11400000, guid: ebe89c05c76c33244ad11b5382b93cf3, type: 2}
     weight: 8
@@ -106,6 +113,7 @@ MonoBehaviour:
     mainHand: {fileID: 11400000, guid: a0b9b32be036d6f48b6f30a17d93814e, type: 2}
     offHand: {fileID: 0}
     fixedKit: 1
+    meleeOnly: 0
   - prefab: {fileID: 8550414386024033152, guid: b0d642fdf3cc8ad48ba768d41c95ccb8, type: 3}
     definition: {fileID: 11400000, guid: 554be3509f634854b8a3ffdf01ba28fb, type: 2}
     weight: 6
@@ -115,6 +123,7 @@ MonoBehaviour:
     mainHand: {fileID: 11400000, guid: 607ea4ca06550d640a487a42fff7da7c, type: 2}
     offHand: {fileID: 0}
     fixedKit: 0
+    meleeOnly: 0
   - prefab: {fileID: 2618830459434312720, guid: 290ea93500a4e9a4a82289e5b8dd313a, type: 3}
     definition: {fileID: 11400000, guid: b6c2f0dc47976d846905979aa183e4fa, type: 2}
     weight: 6
@@ -124,6 +133,7 @@ MonoBehaviour:
     mainHand: {fileID: 11400000, guid: 607ea4ca06550d640a487a42fff7da7c, type: 2}
     offHand: {fileID: 0}
     fixedKit: 0
+    meleeOnly: 0
   - prefab: {fileID: 1792532119144589718, guid: b4410fd13c954be4da6d51267b67c9ca, type: 3}
     definition: {fileID: 11400000, guid: e31f81c8375cec74baf172479e155a74, type: 2}
     weight: 6
@@ -133,6 +143,27 @@ MonoBehaviour:
     mainHand: {fileID: 11400000, guid: 607ea4ca06550d640a487a42fff7da7c, type: 2}
     offHand: {fileID: 0}
     fixedKit: 0
+    meleeOnly: 0
+  - prefab: {fileID: 7137242627078186713, guid: f6c5add1c1e4d0346ad3d05bf37f3c50, type: 3}
+    definition: {fileID: 11400000, guid: 432e493355a99a743a9403db57479944, type: 2}
+    weight: 8
+    minDepth: 3
+    eliteOnly: 0
+    maxPerRoom: 2
+    mainHand: {fileID: 11400000, guid: 1e346b7161ab42b48bb528c62e9c0879, type: 2}
+    offHand: {fileID: 0}
+    fixedKit: 0
+    meleeOnly: 1
+  - prefab: {fileID: 9021162015082219995, guid: 0adb8c813c717dd479d23ec743440361, type: 3}
+    definition: {fileID: 11400000, guid: 83ae86dfcdd28a840b350a0b6bf990f3, type: 2}
+    weight: 5
+    minDepth: 4
+    eliteOnly: 0
+    maxPerRoom: 1
+    mainHand: {fileID: 11400000, guid: 52313ecfe346e05448b2906c79870390, type: 2}
+    offHand: {fileID: 0}
+    fixedKit: 1
+    meleeOnly: 0
   bosses:
   - prefab: {fileID: 5497403558466260732, guid: 3f113a65b5112c84587edcc28a18ae31, type: 3}
     definition: {fileID: 11400000, guid: 827814da30a066f4887a89086b4bf1c1, type: 2}

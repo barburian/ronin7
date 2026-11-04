@@ -1571,6 +1571,8 @@ Shields share the wearer's armor material family so they read as part of the kit
 ### P8-06 First new enemy types
 2-3 new archetypes built on P8-02/03. The per-sector rosters land in P12.
 
+**Part 1 done (2026-11-04):** Duelist (guard deflects frontal melee, riposte, sidestep, melee kits only) and Juggernaut (1.25x body, hyper-armour windup, unparryable ground slam, fixed HeavyAxe) are in the spawn table (see Design A14.28). 6 named tests + a guard-frontal test in `NewArchetypeTests`. Elite escorts now scale 4/5/6 by sector (user decision), so Elite threat >= Combat threat at every depth in sectors 1-2. Part 2 (Leaper, Banner Commander) remains.
+
 ## PHASE 9 — Player skills and the skill panel (v0.10.0)
 
 ### P9-00 Design session with the user (blocking)

@@ -21,6 +21,8 @@ namespace Ronin7.Enemies
         /// <summary>P8-03: a DODGE strike - a blade parry does not interrupt it. Negative so old assets stay parryable.</summary>
         public bool unparryable;
         public bool Parryable => !Ranged && !unparryable;
+        /// <summary>P8-06: &gt; 0 = a ground AoE: lands on anyone within this radius (m) of the body, facing ignored.</summary>
+        public float aoeRadius;
         public static Strike Chop => new Strike { direction = StrikeDirection.Overhead, windup = 1f, active = 1f, recovery = 1f };
     }
 

@@ -172,7 +172,8 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
                     bool drone = prefab.name == "Hunter_Drone" || prefab.name == "Dominion_Scan-Drone";
                     Assert.AreEqual(drone ? 1.4f : 0f, b.min.y, 0.02f,
                         $"'{prefab.name}' feet must sit on the root's pivot (y=0), but bounds.min.y is {b.min.y:F3}.");
-                    Assert.AreEqual(drone ? 0.8f : 1.8f, b.size.y, 0.05f,
+                    float tall = prefab.name == Ronin7.EditorTools.EnemyPrefabBaker.JuggernautBody ? 1.8f * Ronin7.EditorTools.EnemyPrefabBaker.JuggernautScale : 1.8f; // P8-06: huge on purpose
+                    Assert.AreEqual(drone ? 0.8f : tall, b.size.y, 0.05f,
                         $"'{prefab.name}' must be normalised to adult human height, but is {b.size.y:F3} m tall.");
                 }
                 finally
@@ -271,7 +272,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
                 Assert.IsTrue(path.StartsWith(Folder + "/RL_"), $"Spawn table points at non-RL asset {path}.");
                 count++;
             }
-            Assert.AreEqual(14, count, "Expected 11 trash + 3 boss definitions.");
+            Assert.AreEqual(16, count, "Expected 13 trash + 3 boss definitions."); // P8-06: + Duelist, Juggernaut
 
             foreach (var guid in AssetDatabase.FindAssets("t:EnemyDefinition", new[] { Folder }))
             {

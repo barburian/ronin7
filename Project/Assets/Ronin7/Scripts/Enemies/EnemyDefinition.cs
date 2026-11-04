@@ -75,6 +75,10 @@ namespace Ronin7.Enemies
         public int chainHits = 1;
         [Tooltip("P3-07 (BlinkEnemy): blink behind the player instead of to a flank (Vane phase 2).")]
         public bool blinkBehind;
+        [Tooltip("P8-06 Juggernaut: hits during the windup still deal damage but never flinch or cancel it.")]
+        public bool hyperArmourWindup;
+        [Tooltip("P8-06 Juggernaut: > 0 adds an unparryable Ground slam pattern hitting everything within this radius (m).")]
+        public float groundSlamRadius;
 
         [Header("Posture (opt-in)")]
         [Tooltip("Fraction of maxHealth used as this enemy's posture-break threshold, so tougher tiers " +

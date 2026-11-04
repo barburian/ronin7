@@ -148,7 +148,7 @@ namespace Ronin7.EditorTools
             Debug.Log($"[EnemyPrefabBaker] Baked {baked} prefab(s) to {OutputFolder}, {failed} failed.\n{report}");
         }
 
-        private static bool BakeOne(string sourceFolder, string name, StringBuilder report)
+        private static bool BakeOne(string sourceFolder, string name, StringBuilder report, float height = TargetEnemyHeight)
         {
             string sourcePath = sourceFolder + "/" + name + ".prefab";
             var source = AssetDatabase.LoadAssetAtPath<GameObject>(sourcePath);
@@ -176,7 +176,7 @@ namespace Ronin7.EditorTools
 
             // P8-02 (D-17): trash bodies carry no weapon; it is composed onto the sockets at spawn
             // (Enemy.Equip). Bosses keep their bespoke baked kit.
-            bool boss = sourceFolder == BossSourceFolder;
+            bool boss = System.Array.IndexOf(BossNames, name) >= 0; // P8-06: Named bodies can be trash too
             var bladeTip = armR.Find("Sword/Blade/BladeTip");
             if (bladeTip == null && boss)
             {
@@ -228,7 +228,7 @@ namespace Ronin7.EditorTools
             // child-sized next to a 1.6 m player in VR — confirmed in-headset. EnemyArtWirer.FitAndGround
             // only rescales outside [1.2, 2.4] m, so 1.40 m slips through it untouched; here we always
             // normalise, because at room scale a 0.4 m height error is glaring.
-            FitArt(instance, TargetEnemyHeight, 0f, 0.35f);
+            FitArt(instance, height, 0f, 0.35f);
             float scale = instance.transform.localScale.y;
             if (!boss) FitSockets(instance);
 
@@ -240,7 +240,7 @@ namespace Ronin7.EditorTools
             Object.DestroyImmediate(instance);
 
             report.Append(name).Append(": OK (x").Append(scale.ToString("F2"))
-                  .Append(" -> ").Append(TargetEnemyHeight.ToString("F2")).Append("m) -> ")
+                  .Append(" -> ").Append(height.ToString("F2")).Append("m) -> ")
                   .Append(outputPath).Append('\n');
             return true;
         }
@@ -303,6 +303,79 @@ namespace Ronin7.EditorTools
             }
         }
 
+
+        // ---- P8-06: new archetype bodies (additive; never re-bakes the existing roster) ----
+
+        /// <summary>P8-06: the Juggernaut stands 1.25x the 1.8 m roster (2.25 m) so it reads as huge at a glance.</summary>
+        internal const float JuggernautScale = 1.25f;
+        internal const string DuelistBody = "Samurai-4", JuggernautBody = "Gravelkin_variant_02";
+        private const string RlEnemyFolder = "Assets/Ronin7/Data/Roguelike/Enemies";
+        private const string SpawnTablePath = "Assets/Ronin7/Data/Roguelike/EnemySpawnTable.asset";
+
+        /// <summary>P8-06 (additive, idempotent): bakes ONLY the Duelist (lean Samurai-4) and Juggernaut (armoured
+        /// Gravelkin brute, 1.25x) bodies through the per-prefab <see cref="BakeOne"/> path (Health, PostureMeter,
+        /// sockets, own material), writes their RL_ definitions and adds/updates their spawn-table entries. Touches no
+        /// other prefab or entry.</summary>
+        [MenuItem("Tools/Space Samurai/Roguelike/Bake Archetype Bodies (additive)")]
+        public static void BakeArchetypeBodies()
+        {
+            var report = new StringBuilder();
+            BakeOne(BossSourceFolder, DuelistBody, report);
+            BakeOne("Assets/Ronin7/Art/Generated/Characters3D/Diversity/Gravelkin", JuggernautBody, report, TargetEnemyHeight * JuggernautScale);
+            PatchOne(DuelistBody, typeof(DuelistEnemy), false);
+
+            var duelist = RlDef("Duelist", d =>
+            {
+                d.maxHealth = 70f; d.moveSpeed = 1.9f; d.acceleration = 6f; d.deceleration = 8f; d.turnRateDegrees = 360f;
+                d.attackRange = 1.7f; d.telegraphTime = 0.65f; d.activeTime = 0.6f; d.recoverTime = 0.7f;
+                d.staggerTime = 1.2f; d.attackCooldown = 0.9f; d.damage = 10f;
+                d.weakness = WeaknessKind.Recovery; d.resistMultiplier = 0.3f; d.exploitMultiplier = 2f;
+                d.postureMaxFraction = 0.6f; d.materialClass = MaterialClass.Organic;
+            });
+            var juggernaut = RlDef("Juggernaut", d =>
+            {
+                d.maxHealth = 150f; d.moveSpeed = 0.8f; // under the elite Automaton (160); 180 tipped combat-room threat over elite d.acceleration = 2f; d.deceleration = 4f; d.turnRateDegrees = 90f; // slow turn: get behind it
+                d.attackRange = 2f; d.telegraphTime = 1.2f; d.activeTime = 0.8f; d.recoverTime = 0.9f;
+                d.staggerTime = 1.2f; d.attackCooldown = 1.3f; d.damage = 20f;
+                d.weakness = WeaknessKind.Backstab; d.resistMultiplier = 0.3f; d.exploitMultiplier = 2f;
+                d.postureMaxFraction = 0.5f; d.materialClass = MaterialClass.Armored;
+                d.hyperArmourWindup = true; d.groundSlamRadius = 2.6f;
+                d.poseTwistDegrees = 35f; d.poseLeanDegrees = 18f; // big body, big draw-back
+            });
+
+            var table = AssetDatabase.LoadAssetAtPath<EnemySpawnTable>(SpawnTablePath);
+            var axe = EnemyWeaponBuilder.Load("HeavyAxe");
+            UpsertEntry(table, DuelistBody, duelist, 8, 3, 2, e => { e.meleeOnly = true; e.mainHand = EnemyWeaponBuilder.Load("Sword"); e.offHand = null; e.fixedKit = false; });
+            UpsertEntry(table, JuggernautBody, juggernaut, 5, 4, 1, e => { e.fixedKit = true; e.mainHand = axe; e.offHand = null; });
+            EditorUtility.SetDirty(table);
+            AssetDatabase.SaveAssets();
+            Debug.Log("[EnemyPrefabBaker] Archetype bodies baked\n" + report);
+        }
+
+        private static EnemyDefinition RlDef(string rlName, System.Action<EnemyDefinition> set)
+        {
+            string path = RlEnemyFolder + "/RL_" + rlName + ".asset";
+            var d = AssetDatabase.LoadAssetAtPath<EnemyDefinition>(path);
+            if (d == null) { d = ScriptableObject.CreateInstance<EnemyDefinition>(); AssetDatabase.CreateAsset(d, path); }
+            set(d);
+            EditorUtility.SetDirty(d);
+            return d;
+        }
+
+        private static void UpsertEntry(EnemySpawnTable table, string prefabName, EnemyDefinition def, int weight, int minDepth, int maxPerRoom,
+                                        System.Action<EnemySpawnTable.Entry> extra)
+        {
+            var e = System.Array.Find(table.trash, t => t.definition == def);
+            if (e == null)
+            {
+                e = new EnemySpawnTable.Entry();
+                var list = new System.Collections.Generic.List<EnemySpawnTable.Entry>(table.trash) { e };
+                table.trash = list.ToArray(); // appended: existing trash indices (boss addEntry) stay valid
+            }
+            e.prefab = AssetDatabase.LoadAssetAtPath<GameObject>(OutputFolder + "/" + prefabName + ".prefab");
+            e.definition = def; e.weight = weight; e.minDepth = minDepth; e.maxPerRoom = maxPerRoom; e.eliteOnly = false;
+            extra(e);
+        }
 
         /// <summary>P8-01 (BUG-54): every non-natural enemy holds a visible katana on its Blade chain (the shared
         /// EnemySwordVisual placeholder, tip at BladeTip). Idempotent. P8-02 replaces this with socketed weapon prefabs.</summary>

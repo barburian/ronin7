@@ -75,7 +75,7 @@ namespace Ronin7.Enemies
         // 0.2s settle gate is meant for the very first spawn only.
         // P3-02 / D-07: super-armor types never flinch; a resisted hit never flinches either.
         protected override bool FlinchEnabled => !definition.superArmor && !ConsumeResisted();
-        protected override bool FlinchCancelsWindup => !definition.superArmor && base.FlinchCancelsWindup;
+        protected override bool FlinchCancelsWindup => !definition.superArmor && !definition.hyperArmourWindup && base.FlinchCancelsWindup;
 
         protected override float PoseArmScale => definition.poseArmScale;
         protected override float PoseTwistDegrees => definition.poseTwistDegrees;
@@ -416,9 +416,25 @@ namespace Ronin7.Enemies
 
         // +0.4 slop so a player who's just slipped out of range during Active still eats the hit.
         protected override bool IsInLandHitRange()
-            => target != null && !CurrentStrike.Ranged
-            && (target.transform.position - transform.position).sqrMagnitude
-               <= (definition.attackRange + 0.4f) * (definition.attackRange + 0.4f);
+        {
+            if (target == null || CurrentStrike.Ranged) return false;
+            float r = LandHitRadius(CurrentStrike, definition.attackRange);
+            return (target.transform.position - transform.position).sqrMagnitude <= r * r;
+        }
+
+        /// <summary>Pure (P8-06): how far a strike lands - its AoE radius, else attackRange + 0.4 m slop.</summary>
+        internal static float LandHitRadius(Strike s, float attackRange) => s.aoeRadius > 0f ? s.aoeRadius : attackRange + 0.4f;
+
+        public const string GroundSlamName = "Ground slam";
+
+        /// <summary>P8-06 Juggernaut: a long, exaggerated (unparryable) overhead that lands on everything within
+        /// <paramref name="radius"/>. Reads by the 1.5x heavy pose + Windup_Heavy sound, no colour needed.</summary>
+        internal static AttackPattern GroundSlamPattern(float radius) => new AttackPattern
+        {
+            name = GroundSlamName, weight = 1,
+            strikes = new System.Collections.Generic.List<Strike> { new Strike {
+                direction = StrikeDirection.Overhead, windup = 1.8f, active = 1f, recovery = 1.6f, unparryable = true, aoeRadius = radius } },
+        };
 
         /// <summary>P8-02c: wired by ProjectilePool (Enemies cannot see Ship): owner, muzzle, rotation, speed, damage, life, radius, colour, gravity.</summary>
         public static System.Action<GameObject, Vector3, Quaternion, float, float, float, float, Color, float> FireProjectile;
@@ -497,7 +513,7 @@ namespace Ronin7.Enemies
         protected void MarkBlinked() => lastBlinkTime = Time.time;
 
         /// <summary>P3-02: Health.DamageFilter. Applies the definition's weakness rule to one hit.</summary>
-        private float FilterDamage(DamageInfo info)
+        protected virtual float FilterDamage(DamageInfo info)
         {
             if (posture != null && posture.ApplyingBonus) return info.Amount; // posture-break bonus: not a new hit
             if (info.Type == DamageType.Status) return info.Amount; // P4-05 procs ignore facing (no resist/exploit events)
@@ -587,6 +603,7 @@ namespace Ronin7.Enemies
                     if (r.name == "Shield") shield = r;
                     else if (r.name == WeakSpotName) weakSpot = r;
             SetWeaponKit(main, off, shield);
+            if (definition != null && definition.groundSlamRadius > 0f) Strikes.Patterns.Add(GroundSlamPattern(definition.groundSlamRadius)); // P8-06: per-enemy list
             if (shield == null) { weakSpot = null; return; }
             if (bodyRenderer != null) shield.sharedMaterial = bodyRenderer.sharedMaterial; // shared: no new material/SetPass
             if (weakSpot != null)

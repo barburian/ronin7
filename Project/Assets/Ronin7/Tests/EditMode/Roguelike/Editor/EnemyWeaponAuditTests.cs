@@ -255,13 +255,14 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
             int found = 0;
             foreach (var e in table.trash)
             {
-                string want = e.prefab.name == "Humanoid_Automaton" ? "EW_HeavyAxe" : e.prefab.name == "Iron_Dojo_Warden-Cadre" ? "EW_Staff" : null;
+                string want = e.prefab.name == "Humanoid_Automaton" || e.prefab.name == Ronin7.EditorTools.EnemyPrefabBaker.JuggernautBody ? "EW_HeavyAxe" // P8-06 Juggernaut
+                    : e.prefab.name == "Iron_Dojo_Warden-Cadre" ? "EW_Staff" : null;
                 Assert.AreEqual(want != null, e.fixedKit, e.prefab.name);
                 if (want == null) continue;
                 found++;
                 for (int i = 0; i < 20; i++) Assert.AreEqual(want, table.RollKit(e, ref rng, 99).main.name, e.prefab.name);
             }
-            Assert.AreEqual(2, found);
+            Assert.AreEqual(3, found); // Automaton, Warden-Cadre, P8-06 Juggernaut
         }
     }
 }

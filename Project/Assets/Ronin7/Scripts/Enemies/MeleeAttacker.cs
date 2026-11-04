@@ -328,7 +328,7 @@ namespace Ronin7.Enemies
 
         /// <summary>True while Update is driving <see cref="weapon"/> (Windup..Stagger). NpcWalkAnimator
         /// reads this so it doesn't overwrite the shared Rig_ArmR bone in LateUpdate.</summary>
-        public bool IsPosingWeapon =>
+        public virtual bool IsPosingWeapon =>
             state == State.Windup || state == State.Active || state == State.Recover || state == State.Stagger;
 
         /// <summary>BUG-44: weapon is the procedural Rig_ArmR bone, posed relative to <see cref="RigArmBase"/> instead of absolute euler.</summary>
