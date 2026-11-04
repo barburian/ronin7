@@ -17,7 +17,7 @@ MonoBehaviour:
   edgeBase: {x: 0, y: -0.42000002, z: 0.10800001}
   reach: 1
   forearm: 0
-  damage: 1
+  damage: 1.5
   ranged: 1
   patterns:
   - name: Burst

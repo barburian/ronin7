@@ -17,7 +17,7 @@ MonoBehaviour:
   edgeBase: {x: 0, y: 0, z: 0.1206}
   reach: 1
   forearm: 0
-  damage: 1
+  damage: 2
   ranged: 1
   patterns:
   - name: Bolt cast

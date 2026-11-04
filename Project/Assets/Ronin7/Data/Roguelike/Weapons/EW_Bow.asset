@@ -17,7 +17,7 @@ MonoBehaviour:
   edgeBase: {x: 0, y: -0.038999997, z: 0}
   reach: 1
   forearm: 0
-  damage: 1
+  damage: 2
   ranged: 1
   patterns:
   - name: Aimed

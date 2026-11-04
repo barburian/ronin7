@@ -43,6 +43,18 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
             finally { Object.DestroyImmediate(go); }
         }
 
+        [TestCase("Bow", 2f)]
+        [TestCase("Crossbow", 2f)]
+        [TestCase("Staff", 2f)]
+        [TestCase("Blaster", 1.5f)]
+        public void RangedKit_DamagePinned(string kit, float expected)
+        {
+            var w = EnemyWeaponBuilder.Load(kit);
+            Assert.IsNotNull(w, kit);
+            Assert.IsTrue(w.ranged, kit);
+            Assert.AreEqual(expected, w.damage, 0.0001f, kit);
+        }
+
         [Test]
         public void Ranged_ProjectileNotHitscan()
         {
