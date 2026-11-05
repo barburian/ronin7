@@ -2385,8 +2385,10 @@ namespace Ronin7.EditorTools
             // Retrofit: older built scenes have a sword but no KatanaHolster, so a released sword
             // stayed wherever it was dropped. Wire the holster here so the sword always returns
             // to the player's hip without a full scene rebuild.
+            // Skip when a holster already has its sword: FindAnyObjectByType<Sword> may now return the polearm.
+            var existingHolster = Object.FindAnyObjectByType<KatanaHolster>(FindObjectsInactive.Include);
             var sceneSword = Object.FindAnyObjectByType<Sword>(FindObjectsInactive.Include);
-            if (sceneSword != null)
+            if (sceneSword != null && (existingHolster == null || existingHolster.Sword == null))
             {
                 EnsureKatanaHolster(sceneSword.GetComponent<Grabbable>());
             }

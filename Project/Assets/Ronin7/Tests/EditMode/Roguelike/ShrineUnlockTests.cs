@@ -40,6 +40,7 @@ namespace Ronin7.Tests.EditMode
         }
 
         [TestCase(WeaponId.TwinWakizashi, 300)]
+        [TestCase(WeaponId.PolearmShield, 450)] // P9-02c provisional; the 2-win requirement comes in P9-03
         [TestCase(MetaUpgradeId.WeaponArtSlot, 250)]
         [TestCase(MetaUpgradeId.OffhandArtSlot, 250)]
         [TestCase(BoonPackId.Bleed, 120)]
@@ -67,6 +68,18 @@ namespace Ronin7.Tests.EditMode
             Assert.IsTrue(MetaProgression.TryPurchase(WeaponId.TwinWakizashi));
             MetaProgression.Load();
             Assert.IsTrue(MetaProgression.IsWeaponUnlocked(WeaponId.TwinWakizashi));
+            Assert.AreEqual(0, MetaProgression.Echoes);
+        }
+
+        [Test]
+        public void Shrine_PolearmPurchase_UnlocksPersistsAndIsSelectable()
+        {
+            MetaProgression.AddEchoes(450);
+            Assert.IsTrue(MetaProgression.TryPurchase(WeaponId.PolearmShield));
+            MetaProgression.Load();
+            Assert.IsTrue(MetaProgression.IsWeaponUnlocked(WeaponId.PolearmShield));
+            Assert.IsTrue(MetaProgression.TrySelectLoadout(WeaponId.PolearmShield));
+            Assert.AreEqual(WeaponId.PolearmShield, MetaProgression.SelectedLoadout);
             Assert.AreEqual(0, MetaProgression.Echoes);
         }
 

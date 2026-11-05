@@ -110,8 +110,9 @@ namespace Ronin7.Player
         {
             Vector3 lin = velocity != null ? velocity.LinearVelocity : Vector3.zero;
             Vector3 ang = velocity != null ? velocity.AngularVelocity : Vector3.zero;
-            held.Release(lin, ang);
+            // Before Release: it fires Released, which lets HeldOnlyBlade switch a stowed polearm/shield damager back off.
             if (heldBlade != null) heldBlade.enabled = true; // a thrown/dropped blade is not tracked by this hand
+            held.Release(lin, ang);
             heldBlade = null;
             held = null;
         }

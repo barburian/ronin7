@@ -26,7 +26,7 @@ namespace Ronin7.Enemies
         [Tooltip("Alternating: [0] left, [1] right shoulder. Backstab: [0] back plate. PostureOnly: [0] crack bar.")]
         [SerializeField] private Renderer[] weakMarks;
 
-        private static readonly Collider[] _bladeHits = new Collider[4];
+        private static readonly Collider[] _bladeHits = new Collider[16]; // BladeMask is ~0: gear adds colliders, keep ShieldFace in range
 
         private float groundY;
         protected float nextAttackTime;

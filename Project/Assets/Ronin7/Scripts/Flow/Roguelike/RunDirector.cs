@@ -1693,13 +1693,35 @@ namespace Ronin7.Flow
             bool twin = def != null && loadoutId == WeaponId.TwinWakizashi;
 
             var main = rig.GetComponent<KatanaHolster>();
-            if (def != null && main != null) EquipBlade(main.Sword, def);
-
             var anchor = rig.Find(KatanaHolster.OffhandAnchorName);
             var off = anchor != null ? anchor.GetComponent<KatanaHolster>() : null;
-            if (off == null || off.Sword == null) return;
-            off.Sword.gameObject.SetActive(twin);
-            if (twin) EquipBlade(off.Sword, def);
+            // P9-02c: always start from the scene's own swords, so switching loadout back is clean.
+            if (main != null) main.EquipHome();
+            if (off != null) off.EquipHome();
+
+            var gear = rig.GetComponent<PolearmShieldGear>();
+            bool polearm = def != null && loadoutId == WeaponId.PolearmShield && gear != null && gear.Complete && main != null && off != null;
+            if (gear != null)
+            {
+                if (gear.polearm != null) gear.polearm.gameObject.SetActive(false);
+                if (gear.shield != null) gear.shield.gameObject.SetActive(false);
+            }
+
+            if (main != null && main.Sword != null) main.Sword.gameObject.SetActive(!polearm);
+            if (off != null && off.Sword != null) off.Sword.gameObject.SetActive(twin);
+
+            if (polearm)
+            {
+                gear.polearm.gameObject.SetActive(true);
+                gear.shield.gameObject.SetActive(true);
+                main.Equip(gear.polearm, gear.polearmAnchor);
+                off.Equip(gear.shield, gear.shieldAnchor);
+                EquipBlade(gear.polearm, def); // the shield keeps its own PlayerShield definition
+                return;
+            }
+
+            if (def != null && main != null) EquipBlade(main.Sword, def);
+            if (twin && off != null && off.Sword != null) EquipBlade(off.Sword, def);
         }
 
         private static void EquipBlade(Grabbable sword, WeaponDefinition def)

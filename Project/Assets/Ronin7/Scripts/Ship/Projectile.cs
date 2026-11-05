@@ -156,6 +156,9 @@ namespace Ronin7.Ship
             return targetAlive;
         }
 
+        /// <summary>A15.7: a shield moving slower than <see cref="ReflectMinSpeed"/> absorbs the bolt; faster reflects it.</summary>
+        internal static bool ShieldAbsorbs(bool isShield, float bladeSpeed) => isShield && bladeSpeed < ReflectMinSpeed;
+
         /// <summary>
         /// Resolve a contact: ignore the firer (and its children), apply damage to the first
         /// <see cref="IDamageable"/> found up the hierarchy, then recycle. Returns true if the bolt
@@ -167,8 +170,20 @@ namespace Ronin7.Ship
 
             var blade = other.GetComponentInParent<BladeDamager>();
             if (blade != null && !blade.CanParry) return false; // A15.4: passes through a non-parrying blade, keeps flying
+            if (blade == null)
+            {
+                // P9-02c: the polearm / shield grip is not a face: the bolt flies on instead of hurting the wielder.
+                var gear = other.GetComponentInParent<Grabbable>();
+                if (gear != null && gear.GetComponentInChildren<HeldOnlyBlade>(true) != null) return false;
+            }
             if (!reflected)
             {
+                if (blade != null && ShieldAbsorbs(blade.IsShield, blade.Speed))
+                {
+                    EventBus.Publish(new ProjectileImpact(point)); // A15.7: a slow shield eats the bolt, no damage, no PlayerHit
+                    Recycle();
+                    return true;
+                }
                 if (blade != null && blade.Speed >= ReflectMinSpeed)
                 {
                     var mods = blade.GetComponentInParent<PlayerCombatModifiers>();

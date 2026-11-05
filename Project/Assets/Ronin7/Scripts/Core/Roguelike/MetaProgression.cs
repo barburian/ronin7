@@ -251,9 +251,10 @@ namespace Ronin7.Core
         private static readonly int[] ArtSlotCosts = { 250 };
         private static readonly int[] BladeCosts = { 150 };
         private static readonly int[] TwinCosts = { 300 };
+        private static readonly int[] PolearmCosts = { 450 }; // P9-02c provisional: the 2-win requirement (A15.12) comes in P9-03
         private static readonly int[] PackCosts = { 120 };
 
-        private static bool IsWeaponItem(string id) => id == WeaponId.Nodachi || id == WeaponId.Tanto || id == WeaponId.TwinWakizashi;
+        private static bool IsWeaponItem(string id) => id == WeaponId.Nodachi || id == WeaponId.Tanto || id == WeaponId.TwinWakizashi || id == WeaponId.PolearmShield;
         private static bool IsPackItem(string id) => id == BoonPackId.Bleed || id == BoonPackId.Storm || id == BoonPackId.Executioner;
 
         /// <summary>Echo price of buying <paramref name="nextLevel"/> (1-based) of an upgrade; 0 if out of range.</summary>
@@ -271,6 +272,7 @@ namespace Ronin7.Core
                 case WeaponId.Nodachi:
                 case WeaponId.Tanto: table = BladeCosts; break;
                 case WeaponId.TwinWakizashi: table = TwinCosts; break;
+                case WeaponId.PolearmShield: table = PolearmCosts; break;
                 case BoonPackId.Bleed:
                 case BoonPackId.Storm:
                 case BoonPackId.Executioner: table = PackCosts; break;

@@ -32,7 +32,7 @@ namespace Ronin7.Enemies
         [Header("Debug")]
         [SerializeField] private bool debugLogs = false;
 
-        private static readonly Collider[] _bladeHits = new Collider[4];
+        private static readonly Collider[] _bladeHits = new Collider[16]; // BladeMask is ~0: gear adds colliders, keep ShieldFace in range
 
         protected override float TelegraphTime => telegraphTime;
         protected override float ActiveTime => activeTime;

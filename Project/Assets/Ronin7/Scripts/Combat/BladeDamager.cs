@@ -44,6 +44,7 @@ namespace Ronin7.Combat
 
         private WeaponDefinition definition;
         private Vector3 lastPos;
+        private Vector3 lastSpeedPos; // A15.6: where the swing speed was last sampled (mid damage zone for thrust weapons)
         private float speed;
         private Vector3 bladeVel; // raw world velocity (real time), for the thrust test
         // Per-swing dedup shared by OnTriggerEnter and the sweep. Cleared when the swing ends
@@ -66,6 +67,9 @@ namespace Ronin7.Combat
 
         /// <summary>A15.4: stagger scale for a normal parry with this blade (1 with no definition).</summary>
         public float ParryStagger => definition != null ? definition.parryStagger : 1f;
+
+        /// <summary>A15.7: the player's shield: parries but deals no damage. A slow one absorbs bolts (Projectile.TryHit).</summary>
+        public bool IsShield => definition != null && definition.canParry && definition.maxDamage <= 0f;
 
         /// <summary>P4-08: swaps the loadout in after scene load. Awake resolves <see cref="Sword.Definition"/>
         /// before RunDirector knows the run's loadout, so RunDirector.ApplyBoonInventoryToRig calls this. Null is ignored.</summary>
@@ -165,12 +169,25 @@ namespace Ronin7.Combat
 
         private void FixedUpdate()
         {
-            speed = SmoothSpeed(lastPos, transform.position, RealFixedDt(Time.fixedDeltaTime, Time.timeScale), speed, speedSmoothing);
+            Vector3 speedPos = SpeedPoint();
+            speed = SmoothSpeed(lastSpeedPos, speedPos, RealFixedDt(Time.fixedDeltaTime, Time.timeScale), speed, speedSmoothing);
+            lastSpeedPos = speedPos;
             float realDt = RealFixedDt(Time.fixedDeltaTime, Time.timeScale);
             if (realDt > 0f) bladeVel = (transform.position - lastPos) / realDt;
             lastPos = transform.position;
             if (definition != null) ResetIfSwingEnded(lastHitTimes, speed, definition.minSwingSpeed);
         }
+
+        /// <summary>A15.6: swing speed is read at the middle of the damage zone for a thrust weapon (leverage along the
+        /// pole, like the katana's mid-blade pivot); everything else, and bladeVel, reads the transform (the hand).</summary>
+        private Vector3 SpeedPoint()
+            => box != null && definition != null && definition.thrustDamage > 0f
+                ? transform.TransformPoint(box.center) : transform.position;
+
+        /// <summary>A15.6: what a hit reports as <see cref="DamageInfo.Speed"/>: a thrust reports real hand speed
+        /// (HeavyBreak resists it), a swing the smoothed swing speed.</summary>
+        internal static float HitSpeed(bool thrust, float swingSpeed, Vector3 handVelocity)
+            => thrust ? handVelocity.magnitude : swingSpeed;
 
         // Re-enabling (tracking regained, pause ended) must start a fresh swing: the pose may have
         // jumped while disabled, and a stale lastPos would read that jump as a max-speed flick.
@@ -178,6 +195,7 @@ namespace Ronin7.Combat
         {
             havePrevSamples = false;
             lastPos = transform.position;
+            lastSpeedPos = SpeedPoint();
             speed = 0f;
             lastHitTimes.Clear();
         }
@@ -187,7 +205,7 @@ namespace Ronin7.Combat
         // per-frame pose means hits line up with the blade the player actually sees.
         private void LateUpdate()
         {
-            if (box == null || definition == null) return;
+            if (box == null || definition == null || definition.maxDamage <= 0f) return; // A15.7: a shield casts nothing
 
             int n = Mathf.Clamp(sweepSamples, 2, MaxSamples);
             BladeEndpoints(box.center, box.size, out Vector3 a, out Vector3 b);
@@ -297,11 +315,22 @@ namespace Ronin7.Combat
         internal const float PrecisionSightMultiplier = 2f;
 
         /// <summary>Head = hit point in the top 20% of the victim's bounds; thrust = blade velocity within ~46 deg of its axis.</summary>
-        internal static bool IsPrecisionHit(float hitY, Bounds victimBounds, Vector3 bladeVel, Vector3 bladeAxis)
+        internal static bool IsPrecisionHit(float hitY, Bounds victimBounds, Vector3 bladeVel, Vector3 bladeAxis, bool directionBonus = true)
         {
             if (hitY >= victimBounds.max.y - 0.2f * victimBounds.size.y) return true;
-            return Vector3.Dot(bladeVel.normalized, bladeAxis) > 0.7f; // zero velocity normalizes to zero -> false
+            return directionBonus && Vector3.Dot(bladeVel.normalized, bladeAxis) > 0.7f; // zero velocity normalizes to zero -> false
         }
+
+        /// <summary>A15.6: speed (m/s) along the pole at which a thrust weapon's flat thrust damage applies.</summary>
+        internal const float ThrustMinSpeed = 2f;
+
+        /// <summary>A15.6 / R3: a weapon with thrustDamage &gt; 0 thrusts when pushed forward along its axis at
+        /// least <see cref="ThrustMinSpeed"/>. Only a forward push counts (dot &gt;= 2, never its absolute value).</summary>
+        internal static bool IsThrust(float thrustDamage, float speedAlongAxis) => thrustDamage > 0f && speedAlongAxis >= ThrustMinSpeed;
+
+        /// <summary>Damage before the wielder multiplier and precision: flat thrust damage, else the swing curve.</summary>
+        internal static float BaseDamage(WeaponDefinition def, float speed, float thresholdScale, float speedAlongAxis)
+            => IsThrust(def.thrustDamage, speedAlongAxis) ? def.thrustDamage : def.DamageForSpeed(speed, thresholdScale);
 
         /// <summary>Precision hits get 1.25x (2x with Weakpoint Sight); body hits are untouched.</summary>
         internal static float PrecisionMultiplier(bool precision, bool sightActive)
@@ -340,12 +369,15 @@ namespace Ronin7.Combat
             return true;
         }
 
-        private void OnTriggerEnter(Collider other) => TryHit(other, other.ClosestPoint(transform.position));
+        // A15.6: a thrust weapon's pivot is the grip, 0.85 m behind its damage zone: measure from the zone centre.
+        private void OnTriggerEnter(Collider other)
+            => TryHit(other, other.ClosestPoint(box != null && definition != null && definition.thrustDamage > 0f
+                ? transform.TransformPoint(box.center) : transform.position));
 
         // Shared by the trigger and the sweep so both go through the same per-swing dedup.
         private void TryHit(Collider other, Vector3 point)
         {
-            if (definition == null) return;
+            if (definition == null || definition.maxDamage <= 0f) return; // A15.7: a shield deals nothing (and must not spend a Riposte)
 
             var health = other.GetComponentInParent<Health>();
             if (health == null || !health.IsAlive) return;
@@ -358,14 +390,21 @@ namespace Ronin7.Combat
             // Resolve the wielder's modifiers at hit time: while held, transform.root is the rig, so its
             // PlayerCombatModifiers (e.g. Ch7 weakpoint-sight) is reachable. Null (unheld / no rig) => 1x.
             Mods();
-            float dmg = definition.DamageForSpeed(speed, ThresholdScale());
+            Vector3 axis = Vector3.forward;
+            if (box != null)
+            {
+                BladeEndpoints(box.center, box.size, out Vector3 la, out Vector3 lb);
+                axis = (transform.TransformPoint(lb) - transform.TransformPoint(la)).normalized;
+            }
+            float along = box != null ? Vector3.Dot(bladeVel, axis) : 0f;
+            float dmg = BaseDamage(definition, speed, ThresholdScale(), along);
+            float hitSpeed = HitSpeed(IsThrust(definition.thrustDamage, along), speed, bladeVel);
             float postureScale = 1f;
             dmg = ApplyWielderMultiplier(dmg, wielderMods != null ? wielderMods.DamageMultiplierFor(health.gameObject, out postureScale) : 1f);
             if (box != null)
             {
-                BladeEndpoints(box.center, box.size, out Vector3 la, out Vector3 lb);
-                Vector3 axis = (transform.TransformPoint(lb) - transform.TransformPoint(la)).normalized;
-                bool precision = IsPrecisionHit(point.y, other.bounds, bladeVel, axis);
+                // R3: a thrust weapon (thrustDamage > 0) has no direction bonus, but the head still counts.
+                bool precision = IsPrecisionHit(point.y, other.bounds, bladeVel, axis, definition.thrustDamage <= 0f);
                 dmg *= PrecisionMultiplier(precision, wielderMods != null && wielderMods.WeakpointSightActive,
                     wielderMods != null ? wielderMods.Boon(BoonEffectKind.Precision) : 0f);
             }
@@ -373,7 +412,7 @@ namespace Ronin7.Combat
 
             Vector3 dir = (other.transform.position - transform.position).normalized;
             if (wielderMods != null) wielderMods.HitPostureScale = postureScale;
-            health.ApplyDamage(new DamageInfo(dmg, point, dir, OwnerRoot.gameObject, DamageType.Melee, speed));
+            health.ApplyDamage(new DamageInfo(dmg, point, dir, OwnerRoot.gameObject, DamageType.Melee, hitSpeed));
             if (wielderMods != null) wielderMods.HitPostureScale = 1f;
             EventBus.Publish(new SwordImpact(point, speed, health.gameObject, bladeVel));
         }

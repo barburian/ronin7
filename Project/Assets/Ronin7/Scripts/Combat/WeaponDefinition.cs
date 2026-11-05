@@ -33,7 +33,7 @@ namespace Ronin7.Combat
         public bool canParry = true;
         [Tooltip("Scales the stagger of a normal (non-perfect) parry. A perfect parry always gets full stagger.")]
         public float parryStagger = 1f;
-        [Tooltip("Flat thrust damage. 0 = no thrust (logic arrives with the Polearm).")]
+        [Tooltip("Flat thrust damage when pushed forward along the pole at 2 m/s or more (A15.6). 0 = no thrust.")]
         public float thrustDamage = 0f;
 
         public float DamageForSpeed(float speed) => DamageForSpeed(speed, 1f);

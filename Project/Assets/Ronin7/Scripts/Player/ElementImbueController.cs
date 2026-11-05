@@ -71,6 +71,7 @@ namespace Ronin7.Player
         private PlayerCombatModifiers mods;
         private KatanaHolster holster;
         private BladeDamager blade;
+        private Grabbable boundSword; // the holster sword blade/swordRenderers were read from (RunDirector swaps it after load)
         private Renderer[] swordRenderers;
         private ImbueElement last;
 
@@ -119,10 +120,11 @@ namespace Ronin7.Player
         {
             if (mods == null) mods = GetComponentInParent<PlayerCombatModifiers>();
             if (holster == null) holster = GetComponentInParent<KatanaHolster>();
-            if (blade == null && holster != null && holster.Sword != null)
+            if (holster != null && holster.Sword != null && (blade == null || boundSword != holster.Sword))
             {
-                blade = holster.Sword.GetComponentInChildren<BladeDamager>(true);
-                swordRenderers = holster.Sword.GetComponentsInChildren<Renderer>(true); // once
+                boundSword = holster.Sword;
+                blade = boundSword.GetComponentInChildren<BladeDamager>(true);
+                swordRenderers = boundSword.GetComponentsInChildren<Renderer>(true); // once per sword
             }
             return mods != null && blade != null;
         }

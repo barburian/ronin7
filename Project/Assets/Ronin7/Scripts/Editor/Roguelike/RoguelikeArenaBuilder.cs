@@ -241,7 +241,42 @@ namespace Ronin7.EditorTools
             // length (0.837 m, the Sword_Katana mesh) and a normal parry staggers x0.7.
             EnsureLoadoutDefinition("TwinWakizashi", WeaponId.TwinWakizashi, 1.2f, 4.8f, 4.8f, 24f, 0.2f,
                 Ronin7.Editor.Art.ArtPrefabBuilder.KatanaBladeLength, 0.7f),
+            // A15.6 Polearm: swing 6-20 full at 7 m/s, 0.3 s cooldown; minSwingSpeed 1.5 is the default (A15 gives none).
+            // bladeLength 0: the damager pivot sits at the grip and its box is the front 1.1 m, not a base-fixed blade.
+            RoguePolearmRules(EnsureLoadoutDefinition("Polearm", WeaponId.PolearmShield, 1.5f, 7f, 6f, 20f, 0.3f, 0f)),
         };
+
+        private const string PlayerShieldPath = DataFolder + "/PlayerShield.asset";
+
+        /// <summary>A15.6 / R1: the Polearm cannot parry and thrusts for a flat 30. Spec-driven, so it is re-applied to an existing asset.</summary>
+        private static WeaponDefinition RoguePolearmRules(WeaponDefinition def)
+        {
+            if (!def.canParry && Mathf.Approximately(def.thrustDamage, 30f)) return def;
+            def.canParry = false;
+            def.thrustDamage = 30f;
+            EditorUtility.SetDirty(def);
+            AssetDatabase.SaveAssets();
+            return def;
+        }
+
+        /// <summary>A15.7: the player's shield definition: 0 damage, parries, normal parry stagger x0.25. Its id is not a
+        /// loadout id and it never goes in the roster or RunDirector.weapons.</summary>
+        public static WeaponDefinition EnsurePlayerShieldDefinition()
+        {
+            var existing = AssetDatabase.LoadAssetAtPath<WeaponDefinition>(PlayerShieldPath);
+            if (existing != null) return existing;
+            var def = ScriptableObject.CreateInstance<WeaponDefinition>();
+            def.id = "player_shield";
+            def.minSwingSpeed = 1.5f;
+            def.referenceSwingSpeed = 6f;
+            def.minDamage = 0f;
+            def.maxDamage = 0f;
+            def.canParry = true;
+            def.parryStagger = 0.25f;
+            AssetDatabase.CreateAsset(def, PlayerShieldPath);
+            AssetDatabase.SaveAssets();
+            return def;
+        }
 
         private static WeaponDefinition WithBladeLength(WeaponDefinition def, float length)
         {
@@ -304,6 +339,7 @@ namespace Ronin7.EditorTools
                 Debug.LogWarning("[RogueEntry] No VRRig KatanaHolster with a sword — skipped the Twin Wakizashi left blade.");
                 return;
             }
+            RogueEnsurePolearmShield(vrRig.transform); // P9-02c: a rebuild keeps them too
             if (vrRig.transform.Find(KatanaHolster.OffhandAnchorName) != null) return;
 
             var anchor = new GameObject(KatanaHolster.OffhandAnchorName).transform;
@@ -370,6 +406,142 @@ namespace Ronin7.EditorTools
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
             Debug.Log("[RogueEntry] Offhand blade set to crimson.");
+        }
+
+        private const string RogueDarkMatPath = "Assets/Ronin7/Art/Materials/HeroVariants/Gritty_15_15_18_s.mat";
+        private const string RogueGreyMatPath = "Assets/Ronin7/Art/Materials/HeroVariants/Gritty_107_117_133_m.mat";
+
+        private static void RoguePrimitive(Transform parent, string name, PrimitiveType type, Vector3 pos, Vector3 euler, Vector3 scale, Material mat)
+        {
+            var go = GameObject.CreatePrimitive(type);
+            go.name = name;
+            Object.DestroyImmediate(go.GetComponent<Collider>()); // visual only: colliders live on Blade / GripCollider
+            go.transform.SetParent(parent, false);
+            go.transform.localPosition = pos;
+            go.transform.localEulerAngles = euler;
+            go.transform.localScale = scale;
+            if (mat != null) go.GetComponent<Renderer>().sharedMaterial = mat;
+        }
+
+        /// <summary>Anchor + inactive-to-be Grabbable root with its AttachPoint and GripCollider (the only grabbable volume).</summary>
+        private static Grabbable RogueNewGear(Transform rig, string anchorName, Vector3 anchorPos, Vector3 anchorEuler, string gearName,
+            Vector3 gripSize, out Transform anchor)
+        {
+            anchor = new GameObject(anchorName).transform;
+            anchor.SetParent(rig, false);
+            anchor.localPosition = anchorPos;
+            anchor.localEulerAngles = anchorEuler;
+
+            var root = new GameObject(gearName);
+            root.transform.SetParent(anchor, false);
+            var body = root.AddComponent<Rigidbody>();
+            body.mass = 1f;
+            body.isKinematic = true;
+            var attach = new GameObject("AttachPoint");
+            attach.transform.SetParent(root.transform, false);
+            var grip = new GameObject("GripCollider", typeof(BoxCollider));
+            grip.transform.SetParent(root.transform, false);
+            var gripBox = grip.GetComponent<BoxCollider>();
+            gripBox.isTrigger = true;
+            gripBox.size = gripSize;
+            var grab = root.AddComponent<Grabbable>();
+            var so = new SerializedObject(grab);
+            SetObjectRef(so, "attachPoint", attach.transform);
+            so.ApplyModifiedPropertiesWithoutUndo();
+            return grab;
+        }
+
+        private static void RogueAddDamager(Transform parent, string name, Vector3 boxCenter, Vector3 boxSize, WeaponDefinition def)
+        {
+            var go = new GameObject(name, typeof(BoxCollider));
+            go.transform.SetParent(parent, false);
+            var box = go.GetComponent<BoxCollider>();
+            box.isTrigger = true;
+            box.center = boxCenter;
+            box.size = boxSize;
+            var damager = go.AddComponent<BladeDamager>();
+            var so = new SerializedObject(damager);
+            SetObjectRef(so, "definitionOverride", def);
+            so.ApplyModifiedPropertiesWithoutUndo();
+            go.AddComponent<HeldOnlyBlade>();
+        }
+
+        /// <summary>P9-02c / A15.6, A15.7, A15.14: the Polearm and Shield on the rig, placeholder primitives (1 unit = 1 m), both
+        /// inactive on their own hip anchors until RunDirector.ApplyLoadout equips them. Polearm: grip at the damager pivot (so
+        /// BladeDamager speed is hand speed), box = the front 1.1 m (0.3 to 1.4 m ahead of the hand), the rear is visual.
+        /// Shield: its own object (not EW_Shield) with a zero-damage BladeDamager. Idempotent; true if it built anything.</summary>
+        internal static bool RogueEnsurePolearmShield(Transform rig)
+        {
+            var gear = rig.GetComponent<PolearmShieldGear>();
+            if (gear != null && gear.Complete) return false;
+            if (gear == null) gear = rig.gameObject.AddComponent<PolearmShieldGear>();
+            var dark = AssetDatabase.LoadAssetAtPath<Material>(RogueDarkMatPath);
+            var grey = AssetDatabase.LoadAssetAtPath<Material>(RogueGreyMatPath);
+            var glow = AssetDatabase.LoadAssetAtPath<Material>(RogueBladeSourcePath);
+            var polearmDef = EnsureLoadoutDefinitions()[4];
+            var shieldDef = EnsurePlayerShieldDefinition();
+
+            // Anchors on the right-handed baseline; SetMirrored flips position and rotation for left-handed.
+            // Pole diagonal with +z (the head) up and behind the shoulder; shield flat on the off hip, face outward.
+            var polearm = RogueNewGear(rig, "PolearmAnchor", new Vector3(0.15f, 0.9f, 0.05f), new Vector3(-135f, 10f, 0f),
+                "Polearm", new Vector3(0.1f, 0.1f, 0.2f), out var polearmAnchor);
+            var pv = new GameObject("PolearmVisual").transform;
+            pv.SetParent(polearm.transform, false);
+            RoguePrimitive(pv, "Shaft", PrimitiveType.Cylinder, new Vector3(0f, 0f, 0.425f), new Vector3(90f, 0f, 0f), new Vector3(0.03f, 0.775f, 0.03f), dark);
+            RoguePrimitive(pv, "Butt", PrimitiveType.Sphere, new Vector3(0f, 0f, -0.35f), Vector3.zero, new Vector3(0.05f, 0.05f, 0.05f), grey);
+            RoguePrimitive(pv, "Head", PrimitiveType.Cube, new Vector3(0f, 0f, 1.29f), Vector3.zero, new Vector3(0.07f, 0.012f, 0.22f), glow);
+            RogueAddDamager(polearm.transform, "Blade", new Vector3(0f, 0f, 0.85f), new Vector3(0.06f, 0.06f, 1.1f), polearmDef);
+            polearm.gameObject.AddComponent<Sword>().Definition = polearmDef;
+            polearm.gameObject.SetActive(false);
+
+            var shield = RogueNewGear(rig, "ShieldAnchor", new Vector3(-0.2f, 0.9f, 0f), new Vector3(0f, -90f, 0f),
+                "PlayerShield", new Vector3(0.1f, 0.1f, 0.1f), out var shieldAnchor);
+            var sv = new GameObject("ShieldVisual").transform;
+            sv.SetParent(shield.transform, false);
+            RoguePrimitive(sv, "Disc", PrimitiveType.Cylinder, new Vector3(0f, 0f, 0.12f), new Vector3(90f, 0f, 0f), new Vector3(0.5f, 0.015f, 0.5f), grey);
+            RoguePrimitive(sv, "Boss", PrimitiveType.Sphere, new Vector3(0f, 0f, 0.14f), Vector3.zero, new Vector3(0.12f, 0.12f, 0.06f), glow);
+            RogueAddDamager(shield.transform, "ShieldFace", new Vector3(0f, 0f, 0.12f), new Vector3(0.5f, 0.5f, 0.04f), shieldDef);
+            shield.gameObject.SetActive(false);
+
+            var so = new SerializedObject(gear);
+            SetObjectRef(so, "polearm", polearm);
+            SetObjectRef(so, "polearmAnchor", polearmAnchor);
+            SetObjectRef(so, "shield", shield);
+            SetObjectRef(so, "shieldAnchor", shieldAnchor);
+            so.ApplyModifiedPropertiesWithoutUndo();
+            return true;
+        }
+
+        /// <summary>P9-02c: additive, idempotent patch of the shipped scenes. RunArena gets the Polearm and Shield rig objects;
+        /// Phase6_Boot's RunDirector.weapons gets the Polearm definition. Never rebuilds a scene. Ends with Phase6_Boot open.</summary>
+        [MenuItem("Tools/Space Samurai/Roguelike/Patch Polearm + Shield (P9-02c)", priority = 516)]
+        public static void RoguePatchPolearmShield()
+        {
+            var scene = EditorSceneManager.OpenScene(RogueScenePath, OpenSceneMode.Single);
+            var rig = Object.FindAnyObjectByType<VRRig>(FindObjectsInactive.Include);
+            if (rig == null) { Debug.LogWarning("[RogueEntry] No VRRig in RunArena."); return; }
+            if (RogueEnsurePolearmShield(rig.transform))
+            {
+                EditorSceneManager.MarkSceneDirty(scene);
+                EditorSceneManager.SaveScene(scene);
+                Debug.Log("[RogueEntry] Polearm + Shield added to RunArena.");
+            }
+            else Debug.Log("[RogueEntry] RunArena already has the Polearm + Shield.");
+
+            var boot = EditorSceneManager.OpenScene(BootScenePath, OpenSceneMode.Single);
+            var director = Object.FindAnyObjectByType<RunDirector>(FindObjectsInactive.Include);
+            if (director == null) { Debug.LogWarning("[RogueEntry] No RunDirector in the boot scene."); return; }
+            var so = new SerializedObject(director);
+            var prop = so.FindProperty("weapons");
+            var defs = EnsureLoadoutDefinitions();
+            bool same = prop.arraySize == defs.Length;
+            for (int i = 0; same && i < defs.Length; i++) same = prop.GetArrayElementAtIndex(i).objectReferenceValue == defs[i];
+            if (same) { Debug.Log("[RogueEntry] RunDirector.weapons already has the Polearm."); return; }
+            SetObjectRefArray(so, "weapons", defs);
+            so.ApplyModifiedPropertiesWithoutUndo();
+            EditorSceneManager.MarkSceneDirty(boot);
+            EditorSceneManager.SaveScene(boot);
+            Debug.Log("[RogueEntry] RunDirector.weapons now includes the Polearm.");
         }
 
         private static void RogueEnsureRunDirectorInBootScene()

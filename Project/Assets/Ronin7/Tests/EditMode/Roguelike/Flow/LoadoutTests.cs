@@ -126,6 +126,82 @@ namespace Ronin7.Tests.EditMode
             Assert.AreSame(katana, main.Definition);
         }
 
+        private PolearmShieldGear MakeGear(out BladeDamager polearmBlade, out BladeDamager shieldBlade, WeaponDefinition shieldDef)
+        {
+            var gear = rig.AddComponent<PolearmShieldGear>();
+            gear.polearmAnchor = new GameObject("PolearmAnchor").transform;
+            gear.polearmAnchor.SetParent(rig.transform, false);
+            polearmBlade = MakeHolsteredSword(gear.polearmAnchor.gameObject, out var pole); // reuse: Sword + Blade under the anchor
+            Object.DestroyImmediate(gear.polearmAnchor.GetComponent<KatanaHolster>()); // the anchor is not a holster host
+            gear.polearm = pole.GetComponent<Grabbable>();
+            gear.shieldAnchor = new GameObject("ShieldAnchor").transform;
+            gear.shieldAnchor.SetParent(rig.transform, false);
+            shieldBlade = MakeHolsteredSword(gear.shieldAnchor.gameObject, out var sh);
+            Object.DestroyImmediate(gear.shieldAnchor.GetComponent<KatanaHolster>());
+            gear.shield = sh.GetComponent<Grabbable>();
+            Object.DestroyImmediate(sh); // the shield has no Sword component, only its own definition
+            shieldBlade.SetDefinition(shieldDef);
+            gear.polearm.gameObject.SetActive(false);
+            gear.shield.gameObject.SetActive(false);
+            return gear;
+        }
+
+        [Test]
+        public void PolearmShield_PointsHolstersAtTheGear_AndSwitchingBackRestoresKatana()
+        {
+            var polearmDef = Def(WeaponId.PolearmShield);
+            var shieldDef = Def("player_shield");
+            shieldDef.maxDamage = 0f; shieldDef.minDamage = 0f;
+            var mainBlade = MakeHolsteredSword(rig, out var katanaSword);
+            mainBlade.SetDefinition(katana);
+            var left = MakeOffhand(out var leftSword);
+            var gear = MakeGear(out var polearmBlade, out var shieldBlade, shieldDef);
+            var main = rig.GetComponent<KatanaHolster>();
+            var off = rig.transform.Find(KatanaHolster.OffhandAnchorName).GetComponent<KatanaHolster>();
+            var all = new[] { katana, nodachi, twin, polearmDef };
+            try
+            {
+                RunDirector.ApplyLoadout(rig.transform, all, WeaponId.PolearmShield);
+
+                Assert.AreSame(gear.polearm, main.Sword);
+                Assert.AreSame(gear.shield, off.Sword);
+                Assert.IsTrue(gear.polearm.gameObject.activeSelf); Assert.IsTrue(gear.shield.gameObject.activeSelf);
+                Assert.IsFalse(katanaSword.gameObject.activeSelf); Assert.IsFalse(leftSword.gameObject.activeSelf);
+                Assert.AreSame(polearmDef, polearmBlade.Definition);
+                Assert.AreSame(shieldDef, shieldBlade.Definition, "EquipBlade must not overwrite the shield with the Polearm");
+                Assert.IsTrue(shieldBlade.IsShield);
+                Assert.IsFalse(polearmBlade.IsShield);
+
+                RunDirector.ApplyLoadout(rig.transform, all, WeaponId.Katana);
+
+                Assert.AreSame(katanaSword.GetComponent<Grabbable>(), main.Sword);
+                Assert.AreSame(leftSword.GetComponent<Grabbable>(), off.Sword);
+                Assert.IsTrue(katanaSword.gameObject.activeSelf);
+                Assert.IsFalse(leftSword.gameObject.activeSelf); Assert.IsFalse(gear.polearm.gameObject.activeSelf); Assert.IsFalse(gear.shield.gameObject.activeSelf);
+                Assert.AreSame(katana, mainBlade.Definition);
+            }
+            finally { Object.DestroyImmediate(polearmDef); Object.DestroyImmediate(shieldDef); }
+        }
+
+        [Test]
+        public void PolearmShield_OffRosterSaveStillPlaysAsKatana()
+        {
+            var polearmDef = Def(WeaponId.PolearmShield);
+            var mainBlade = MakeHolsteredSword(rig, out var katanaSword);
+            mainBlade.SetDefinition(twin);
+            var shieldDef = Def("player_shield");
+            var gear = MakeGear(out _, out _, shieldDef);
+            try
+            {
+                RunDirector.ApplyLoadout(rig.transform, new[] { katana, polearmDef }, WeaponId.Tanto);
+
+                Assert.AreSame(katana, mainBlade.Definition);
+                Assert.IsTrue(katanaSword.gameObject.activeSelf);
+                Assert.IsFalse(gear.polearm.gameObject.activeSelf);
+            }
+            finally { Object.DestroyImmediate(polearmDef); Object.DestroyImmediate(shieldDef); }
+        }
+
         [Test]
         public void LockedWeapon_CannotBeSelected()
         {

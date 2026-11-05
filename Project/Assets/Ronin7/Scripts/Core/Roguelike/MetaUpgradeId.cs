@@ -20,7 +20,7 @@ namespace Ronin7.Core
         public const string Nodachi = "nodachi";              // P4-10 Shrine: 150 Echoes
         public const string Tanto = "tanto";                  // P4-10 Shrine: 150 Echoes
         public const string TwinWakizashi = "twin_wakizashi"; // P4-10 Shrine: 300 Echoes; (Double Katana)
-        public const string PolearmShield = "polearm_shield"; // A15.1: no definition until P9-02c
+        public const string PolearmShield = "polearm_shield"; // A15.1: Polearm.asset, P9-02c
         public const string Whip = "whip";                    // A15.1: no definition until P9-02d
 
         /// <summary>A15.1 roster: the only loadouts a run can start with. Nodachi/Tanto left; owned ones stay readable.</summary>
