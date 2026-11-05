@@ -24,6 +24,8 @@ namespace Ronin7.Player
         public const float MaxPointSpeed = 60f;
         /// <summary>The pin moving further than this (m) in one tick is a teleport, not a swing: the chain is carried along with no velocity.</summary>
         public const float MaxPinJump = 1f;
+        /// <summary>A15.8: the most a crack turns the last link toward its target (degrees).</summary>
+        public const float MaxTipBendDegrees = 10f;
 
         private readonly Vector3[] pos;
         private readonly Vector3[] prev;
@@ -91,6 +93,23 @@ namespace Ronin7.Player
             for (int s = 1; s <= steps; s++) Step(Vector3.Lerp(start, pin, (s * SubstepSeconds - carried) / budget), floorY);
             pos[0] = pin;
             prev[0] = pin;
+        }
+
+        /// <summary>
+        /// A15.8: turns the last link up to <see cref="MaxTipBendDegrees"/> toward <paramref name="target"/>. The link keeps its
+        /// length and the tip keeps its velocity (prev moves with it), so it is a nudge, not a kick: the constraints stay satisfied.
+        /// </summary>
+        public void BendTip(Vector3 target)
+        {
+            int tip = pos.Length - 1;
+            Vector3 root = pos[tip - 1];
+            Vector3 link = pos[tip] - root;
+            Vector3 want = target - root;
+            if (link.sqrMagnitude < 1e-8f || want.sqrMagnitude < 1e-8f) return;
+            Vector3 bent = Vector3.RotateTowards(link, want, MaxTipBendDegrees * Mathf.Deg2Rad, 0f);
+            Vector3 delta = root + bent - pos[tip];
+            pos[tip] += delta;
+            prev[tip] += delta;
         }
 
         private void Step(Vector3 pin, float floorY)

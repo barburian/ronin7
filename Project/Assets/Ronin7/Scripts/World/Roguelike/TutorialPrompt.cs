@@ -27,12 +27,12 @@ namespace Ronin7.World
 
         /// <summary>Pure step logic: a trigger completes its own step and every earlier one, never rewinds.
         /// Cleared enters CHOOSE (the parry is optional), BoonChosen finishes.</summary>
-        internal static Step Advance(Step current, Trigger t)
+        internal static Step Advance(Step current, Trigger t, bool parryAvailable = true)
         {
             Step target = t switch
             {
                 Trigger.Grabbed => Step.Swing,
-                Trigger.Impact => Step.Parry,
+                Trigger.Impact => parryAvailable ? Step.Parry : Step.Swing, // A15.8: a Whip run never parries; Cleared still moves on
                 Trigger.Deflected => Step.Choose,
                 Trigger.Cleared => Step.Choose,
                 _ => Step.Done,
@@ -91,7 +91,7 @@ namespace Ronin7.World
 
         private void Apply(Trigger t)
         {
-            Step next = Advance(step, t);
+            Step next = Advance(step, t, WeaponId.ParryAvailable(RunState.LoadoutId));
             if (next == step) return;
             step = next;
             if (label != null) label.text = Texts[(int)step];

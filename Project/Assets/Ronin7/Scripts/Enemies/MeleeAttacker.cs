@@ -693,9 +693,27 @@ namespace Ronin7.Enemies
             if (!FlinchTiming.ShouldFlinch(health.IsAlive, state == State.Stagger, state == State.Active,
                     state == State.Windup, FlinchCancelsWindup, Time.time, flinchImmuneUntil)) return;
 
+            BeginFlinch(info.Direction);
+        }
+
+        /// <summary>
+        /// A15.8 / R2: a Whip crack cancels the attack while it is still in Windup, even when the hit was Resisted (which
+        /// skips the damage flinch). Same cancel as a Windup hit, and the same gate: super-armor and hyperArmourWindup
+        /// hold. Never during Active. Call after the damage lands: if the hit already flinched, the state is Stagger and
+        /// this is a no-op, so it never double-enters. Returns whether it cancelled.
+        /// </summary>
+        public bool CancelWindup(Vector3 hitDirection)
+        {
+            if (state != State.Windup || !health.IsAlive || !FlinchCancelsWindup) return false;
+            BeginFlinch(hitDirection);
+            return true;
+        }
+
+        private void BeginFlinch(Vector3 direction)
+        {
             flinchImmuneUntil = Time.time + reflinchImmunity;
 
-            Vector3 dir = info.Direction; dir.y = 0f;
+            Vector3 dir = direction; dir.y = 0f;
             if (dir.sqrMagnitude < 1e-4f && target != null)
             {
                 dir = transform.position - target.transform.position; dir.y = 0f;

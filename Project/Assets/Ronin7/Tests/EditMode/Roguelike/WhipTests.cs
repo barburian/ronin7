@@ -459,13 +459,19 @@ namespace Ronin7.Tests.EditMode
         public void Step_OverlapsThePoints_WhileMoving_ThenStopsChecking()
         {
             var h = MakeVictim(new Vector3(3f, 1f, 0f), new Vector3(10f, 3f, 8f));
+            float status = 0f;
+            Action<EntityDamaged> onDamaged = e => { if (e.Info.Type == DamageType.Status) status += e.Info.Amount; };
+            EventBus.Subscribe(onDamaged);
             whip.SetHeld(true);
             whip.Step(1f / 90f);
             Assert.AreEqual(0, whip.LastChecks, "at rest: no checks");
 
-            DragRig(100, 0.08f); // 7 m/s through the box
+            try { DragRig(100, 0.08f); } // 7 m/s through the box
+            finally { EventBus.Unsubscribe(onDamaged); }
             Assert.Less(h.Current, 100f, "the swing hits");
-            Assert.AreEqual(0f, (100f - h.Current) % 4f, 1e-3f, "4 per hit");
+            // P9-02e: this drag also snaps the tip past the crack speed (25, Melee); the body hits are the Status ones.
+            Assert.Greater(status, 0f);
+            Assert.AreEqual(0f, status % 4f, 1e-3f, "4 per hit");
             Assert.AreEqual(VerletChain.DefaultPoints - 1, whip.LastChecks, "one check per unpinned point");
             Assert.AreEqual(1, whip.StruckCount);
 

@@ -155,6 +155,8 @@ namespace Ronin7.Combat
             int max = Mathf.Max(1, boon.maxStacks);
             if (held >= max) return false; // already maxed out
             if (!IsPackUnlocked(boon)) return false;
+            // A15.8: no parry on a Whip run, so a Parry-tagged boon (Duos included) would be a dead pick. Every offer path comes through here.
+            if ((boon.tags & BoonTag.Parry) != 0 && !WeaponId.ParryAvailable(RunState.LoadoutId)) return false;
             if (boon.rarity == BoonRarity.Duo)
             {
                 if (!boon.TryGetRequiredTags(out BoonTag required) || required == BoonTag.None) return false;
