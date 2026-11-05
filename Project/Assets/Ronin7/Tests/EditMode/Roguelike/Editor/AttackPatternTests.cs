@@ -122,6 +122,9 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
         }
 
         [Test]
+        public void ParryRadius_Pinned() => Assert.AreEqual(0.2f, Enemy.ParryRadius, 0.0001f);
+
+        [Test]
         public void ShieldBash_MergedFromOffHand()
         {
             var baton = LoadOrFail("Baton");

@@ -28,9 +28,9 @@ Phase order and why:
 | **6** | Audio, comfort, accessibility, narrative, store submission | Release polish |
 | **7** | v0.7.0 playtest bug fixes (BUG-48..53) | Cheap, and later phases build on skills, boons and room clear working |
 | **8** | Enemy combat language: weapons, attack patterns, telegraphs, shields | Sectors need the rosters |
-| **9** | Player skills + left-hand skill panel (Y) | Co-designed with the user; weapons carry skills |
-| **10** | Permanent Relics vs in-run boons | Independent; can run alongside P9 |
-| **11** | Character / weapon select: Katana, Double Katana, Scythe, Whip | Needs P9 skill slots |
+| **9** | Player weapons + select: Katana, Double Katana, Scythe, Whip | Skills are per weapon (D-18), so the weapons come first (user 2026-11-05) |
+| **10** | Player skills + left-hand skill panel (Y) | Co-designed with the user; each weapon carries 2 actives, so it needs P9 |
+| **11** | Permanent Relics vs in-run boons | Independent; can run alongside P10 |
 | **12** | 9 sectors (1 unique biome each), branching sector choice | Biggest, art-bound; needs P8 rosters |
 | **13** | Dialogue and robot-with-soul voice | Slots in anywhere |
 
@@ -1498,7 +1498,7 @@ The tutorial is skipped when `runsCompleted > 0` (P2-08). Add a "Replay tutorial
 
 ---
 
-> **Phases 7-13 added 2026-11-02** from the user's v0.7.0 gameplay-video findings. Each phase ends with the Part B Export Gate and a `Docs/Playtest-v<x>.md` checklist. Decisions D-13..D-17 in Part D. Rough effort: P7 ≈ 3-4, P8 ≈ 10-14, P9 ≈ 6-10, P10 ≈ 3-5, P11 ≈ 12-18, P12 ≈ 5-7 structure + ≈ 3-5 per new biome (x6, art-bound), P13 ≈ 3-5.
+> **Phases 7-13 added 2026-11-02** from the user's v0.7.0 gameplay-video findings. Each phase ends with the Part B Export Gate and a `Docs/Playtest-v<x>.md` checklist. Decisions D-13..D-17 in Part D. **Reordered 2026-11-05 (user): weapons → skills → the rest.** Old P11 (weapons) is now P9, old P9 (skills) is now P10, old P10 (Relics) is now P11; P12 and P13 keep their numbers. Older docs and commits use the old numbers. Rough effort: P7 ≈ 3-4, P8 ≈ 10-14, P9 ≈ 12-18, P10 ≈ 6-10, P11 ≈ 3-5, P12 ≈ 5-7 structure + ≈ 3-5 per new biome (x6, art-bound), P13 ≈ 3-5.
 
 ## PHASE 7 — v0.7.0 playtest fixes (v0.8.0)
 
@@ -1512,7 +1512,7 @@ Find every spawn path that adds a live enemy (waves, deferred/telegraphed spawns
 ### P7-02 Skills and passives dead (BUG-49)
 - [x] DONE `ecd9b0f`. Confirmed fault: buying a Shrine Art slot left it on NONE, so Arts never fired (dispatch itself works when equipped). Buying the slot now auto-equips the first Art (ChargedSlash / KiaiPalm); later clicks cycle incl. NONE. Second fault: passives granted mid-room stayed disabled until the next room; `RunState.AbilityGranted` + `AbilityAccess.EnableWhenGranted` now enable all 8 immediately. Dev: `DevGrantPassives` on key P (RONIN7_DEV). Caveat: an existing save that already owns a slot showing NONE must click the slot once to equip an Art.
 
-Play mode in RunArena: grant each skill with DevRunTools, press the inputs, log `ArtSlots` state. Find the real fault (gating, slot unlock, controller ownership check, input map not enabled) before P9 builds on it. **Test:** one per fault found. **Accept:** with each skill owned, Weapon Art, Off-hand Art and each passive fires.
+Play mode in RunArena: grant each skill with DevRunTools, press the inputs, log `ArtSlots` state. Find the real fault (gating, slot unlock, controller ownership check, input map not enabled) before P10 (skills) builds on it. **Test:** one per fault found. **Accept:** with each skill owned, Weapon Art, Off-hand Art and each passive fires.
 
 ### P7-03 Boot menu in front on load (BUG-50)
 - [x] DONE `2e6f900`. `MainMenuController` waits up to 5 s for the first tracked head pose, then `XRRecenterUtility.RecenterRig()` once; canvas at (0,0,1), 1.2 m up. Untested on device.
@@ -1578,35 +1578,40 @@ Shields share the wearer's armor material family so they read as part of the kit
 ### Phase 8 progress / exit (2026-11-04, v0.9.0 / versionCode 10, `b04cdad`)
 **[x] Phase 8 code-complete** (P8-01..P8-06, double-elite room, elite escort scaling 4/5/6, Tripo weapon meshes; BUG-54 fixed in code). EditMode 2084/0/0, PlayMode 16/16 (`e501c95`). Pre-build render check (seed 2026, Phase6_Boot -> RunArena, after spawn dissolve): Mobile 55 draws / 34 SetPass / luma 0.146 / magenta 0; PC 86 / 52 / 0.137 / 0 (`Project/Logs/PerfProbe/exitB3_Mobile.png`, `exitB3_PC.png`). Windows dev and release player builds Succeeded; Quest build waits for keystore passwords. Headset sign-off: `Docs/Playtest-v0.9.0.md`. No tag; the user tags `roguelike-phase8` after sign-off.
 
-## PHASE 9 — Player skills and the skill panel (v0.10.0)
+**[x] Phase 8 closed 2026-11-05:** the user signed off on the headset on Quest 0.9.1 (includes the 0.2 m parry radius), nothing to fix. Tag `roguelike-phase8` is the user's.
 
-### P9-00 Design session with the user (blocking)
-Skill list, active vs passive, cooldowns, how each unlocks. Nothing is built before this.
+## PHASE 9 — Player weapons and select (v0.10.0)
 
-### P9-01 Skill panel on Y (D-14)
-`Gameplay/SkillPanel` on `<XRController>{LeftHand}/secondaryButton`. Opens a left-wrist panel: owned actives with cooldowns, owned passives. Select with the left stick or by pointing; **left trigger casts** (all actives on the left hand). Large readable UI, `UiScaleFollower`.
+### P9-00 Archetype design session with the user (blocking)
+One per weapon: feel, damage model, parry style. Sketch each weapon's 2 active skills so the weapon doesn't block them; they are finalised at P10-00 and built in P10.
 
-### P9-02 Visible passives
-Passives listed in the panel, plus a small pulse + sound on each proc so the player knows they work.
-
-### P9-03 Build the agreed skills
-Pure logic class + thin MonoBehaviour each, tests per skill (P4-04 pattern).
-
-## PHASE 10 — Permanent Relics vs in-run boons (v0.11.0)
-- **Relics:** bought with Echoes at the Shrine of Echoes (extend P2-01, don't rebuild), persisted in `meta.json`, shown in their own row.
-- **Run boons:** last the whole run, wiped at run end.
-- `MetaSaveData` appended fields only; G7 fixture of v0.7.0 saves.
-
-## PHASE 11 — Character / weapon select (v0.12.0)
-
-### P11-00 Archetype design session with the user (blocking)
-One per weapon: feel, damage model, parry style, signature skills.
-
-### P11-01 Selection screen
+### P9-01 Selection screen
 In the boot room, replacing the LOADOUT rack (P4-08). `RunState.LoadoutId` reused.
 
-### P11-02 Weapons, cheapest first
-Katana (exists) → **Double Katana** (extends Twin Wakizashi) → **Scythe** (long reach, sweeps, maybe a hook-pull) → **Whip** (few-segment verlet chain + damage along segments; perf-probe it before committing, it is the 90 FPS risk).
+### P9-02 Weapons, cheapest first
+Katana (exists) → **Double Katana** (extends Twin Wakizashi) → **Scythe** (long reach, sweeps, maybe a hook-pull) → **Whip** (few-segment verlet chain + damage along segments; perf-probe it before committing, it is the 90 FPS risk). Each weapon must be complete and fun with no skills: P9 ships before they exist.
+
+### P9-03 Shrine unlocks (D-18)
+The Shrine of Echoes sells Scythe, Double Katana and Whip (extend P2-01, don't rebuild); prices set at P9-00. Persisted in `meta.json`, `MetaSaveData` appended fields only, G7 fixture of older saves.
+
+## PHASE 10 — Player skills and the skill panel (v0.11.0)
+
+### P10-00 Design session with the user (blocking)
+Skill list, active vs passive, cooldowns, how each unlocks. Starts from the P9-00 sketches and how the weapons actually feel. Nothing is built before this.
+
+### P10-01 Skill panel on Y (D-14)
+`Gameplay/SkillPanel` on `<XRController>{LeftHand}/secondaryButton`. Opens a left-wrist panel: owned actives with cooldowns, owned passives. Select with the left stick or by pointing; **left trigger casts** (all actives on the left hand). Large readable UI, `UiScaleFollower`.
+
+### P10-02 Visible passives
+Passives listed in the panel, plus a small pulse + sound on each proc so the player knows they work.
+
+### P10-03 Build the agreed skills
+Pure logic class + thin MonoBehaviour each, tests per skill (P4-04 pattern). 2 actives per weapon (D-18).
+
+## PHASE 11 — Permanent Relics vs in-run boons (v0.12.0)
+- **Relics:** bought with Echoes at the Shrine of Echoes (extend P2-01 and the P9-03 unlocks, don't rebuild), persisted in `meta.json`, shown in their own row.
+- **Run boons:** last the whole run, wiped at run end.
+- `MetaSaveData` appended fields only; G7 fixture of v0.7.0 saves.
 
 ## PHASE 12 — 9 sectors, one unique biome each (v0.13.0 +, split into sub-phases)
 
@@ -1651,7 +1656,7 @@ Per biome: kit (`BiomeKitBuilder`), 6 baked shells (`RoomShellBuilder`), Unity A
 | D-14 | Skill panel button | **Y (left secondary)**, free per the user 2026-11-02; left trigger casts | — |
 | D-15 | Sectors per run | **3 for now** (user 2026-11-02) | Longer runs later |
 | D-17 | Enemy weapons | **Composed at spawn:** body prefab + separate weapon prefab(s) via sockets; never a baked variant per weapon (user 2026-11-02) | — |
-| D-18 | Skills, weapons, Shrine | **Shrine sells weapons (Scythe, Dual Katana, Whip) and stats.** In-run skills = passives (e.g. WeakpointSight) + 2 active skills per weapon; details designed with the user at P11. P7 changed no controls; the earlier "Y tap = Weapon Art / hold = cycle" idea is superseded, deferred to that design. BUG-51 call: shrine boons stay, labelled; P10 splits Relics from run boons (user 2026-11-02) | — |
+| D-18 | Skills, weapons, Shrine | **Shrine sells weapons (Scythe, Dual Katana, Whip) and stats.** In-run skills = passives (e.g. WeakpointSight) + 2 active skills per weapon; weapons designed with the user at P9-00, skills at P10-00. P7 changed no controls; the earlier "Y tap = Weapon Art / hold = cycle" idea is superseded, deferred to that design. BUG-51 call: shrine boons stay, labelled; P11 splits Relics from run boons (user 2026-11-02; phases renumbered 2026-11-05) | — |
 | D-16 | **Open:** store submission vs Phases 7-13 | Not decided; P6 store work paused until the user calls it | Submit v0.7.x first |
 
 ---

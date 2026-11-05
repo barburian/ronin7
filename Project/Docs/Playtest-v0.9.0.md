@@ -58,4 +58,4 @@ Afterwards, pull `runlog.jsonl` and `logcat`. Check for 0 errors, no crash and n
 
 ## Sign-off
 
-- [ ] Phase 8 signed off. Then the user tags `roguelike-phase8`. Next: Phase 9 (design session first).
+- [x] Phase 8 signed off by the user 2026-11-05 on Quest build 0.9.1 (includes the 0.2 m parry radius): nothing to fix. The boxes above were not ticked one by one. Then the user tags `roguelike-phase8`. Next: Phase 9 (design session first).

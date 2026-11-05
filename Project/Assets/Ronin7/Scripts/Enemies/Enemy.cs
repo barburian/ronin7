@@ -17,8 +17,8 @@ namespace Ronin7.Enemies
         [SerializeField] private Transform bladeTip;
         private Transform bladeBase; // P8-03: composed weapon's edgeBase; the parry capsule runs bladeBase..bladeTip
 
-        [Header("Parry probe")]
-        [SerializeField] private float parryRadius = 0.12f;
+        // Radius (m) of the capsule around the enemy blade that the player's blade must touch to parry. Was 0.12.
+        internal const float ParryRadius = 0.2f;
 
         [SerializeField] private bool debugLogs = false;
 
@@ -412,7 +412,7 @@ namespace Ronin7.Enemies
             if (bladeTip == null || weapon == null) return;
 
             int n = Physics.OverlapCapsuleNonAlloc(ParryCapsuleStart, bladeTip.position,
-                parryRadius, _bladeHits, Layers.BladeMask, QueryTriggerInteraction.Collide);
+                ParryRadius, _bladeHits, Layers.BladeMask, QueryTriggerInteraction.Collide);
             for (int i = 0; i < n; i++)
             {
                 var blade = _bladeHits[i].GetComponentInParent<BladeDamager>();
@@ -693,8 +693,8 @@ namespace Ronin7.Enemies
                 && timer >= definition.telegraphTime * 0.75f;
             if (state != State.Active && !lateWindup) return;
             Gizmos.color = deflectedThisSwing ? Color.green : Color.yellow;
-            Gizmos.DrawWireSphere(ParryCapsuleStart, parryRadius);
-            Gizmos.DrawWireSphere(bladeTip.position, parryRadius);
+            Gizmos.DrawWireSphere(ParryCapsuleStart, ParryRadius);
+            Gizmos.DrawWireSphere(bladeTip.position, ParryRadius);
             Gizmos.DrawLine(ParryCapsuleStart, bladeTip.position);
         }
     }
