@@ -71,7 +71,10 @@ namespace Ronin7.Combat
         /// <summary>P4-05 (appended): the blade's world velocity at the hit; zero when unknown. Reversal reads it.</summary>
         public readonly Vector3 Velocity;
         public SwordImpact(Vector3 point, float speed, GameObject victim) : this(point, speed, victim, Vector3.zero) { }
-        public SwordImpact(Vector3 point, float speed, GameObject victim, Vector3 velocity) { Point = point; Speed = speed; Victim = victim; Velocity = velocity; }
+        /// <summary>R5 (A15): a feedback-only hit (the Whip body). Audio, sparks and haptics still react; Overdrive charge and combo
+        /// subscribers skip it, so it neither builds nor resets them.</summary>
+        public readonly bool FeedbackOnly;
+        public SwordImpact(Vector3 point, float speed, GameObject victim, Vector3 velocity, bool feedbackOnly = false) { Point = point; Speed = speed; Victim = victim; Velocity = velocity; FeedbackOnly = feedbackOnly; }
     }
 
     /// <summary>An entity's posture meter (see <c>Ronin7.Enemies.PostureMeter</c>) broke: bonus damage

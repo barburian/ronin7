@@ -203,6 +203,56 @@ namespace Ronin7.Tests.EditMode
         }
 
         [Test]
+        public void Whip_PointsMainHolsterAtTheHandle_OffHandStaysFree_AndSwitchingBackRestoresKatana()
+        {
+            var whipDef = Def(WeaponId.Whip);
+            whipDef.maxDamage = 0f; whipDef.minDamage = 0f; whipDef.canParry = false;
+            var mainBlade = MakeHolsteredSword(rig, out var katanaSword);
+            mainBlade.SetDefinition(katana);
+            MakeOffhand(out var leftSword);
+            Ronin7.EditorTools.XRRigBuilder.RogueEnsureWhip(rig.transform);
+            var gear = rig.GetComponent<PolearmShieldGear>();
+            var main = rig.GetComponent<KatanaHolster>();
+            var off = rig.transform.Find(KatanaHolster.OffhandAnchorName).GetComponent<KatanaHolster>();
+            var offSword = off.Sword;
+            var all = new[] { katana, nodachi, twin, whipDef };
+            try
+            {
+                RunDirector.ApplyLoadout(rig.transform, all, WeaponId.Whip);
+
+                Assert.AreSame(gear.whip, main.Sword);
+                Assert.IsTrue(gear.whip.gameObject.activeSelf);
+                Assert.IsFalse(katanaSword.gameObject.activeSelf);
+                Assert.AreEqual(gear.whipAnchor, gear.whip.transform.parent, "sheathed on its hip");
+                Assert.AreSame(offSword, off.Sword, "nothing on the off holster");
+                Assert.IsFalse(offSword.gameObject.activeSelf, "off hand free");
+                var handle = gear.whip.GetComponentInChildren<BladeDamager>(true);
+                Assert.AreSame(whipDef, handle.Definition);
+                Assert.IsFalse(handle.CanParry);
+                Assert.AreSame(whipDef, gear.whip.GetComponent<Sword>().Definition);
+
+                RunDirector.ApplyLoadout(rig.transform, all, WeaponId.Katana);
+
+                Assert.AreSame(katanaSword.GetComponent<Grabbable>(), main.Sword);
+                Assert.IsTrue(katanaSword.gameObject.activeSelf);
+                Assert.IsFalse(gear.whip.gameObject.activeSelf);
+                Assert.AreSame(katana, mainBlade.Definition);
+            }
+            finally { Object.DestroyImmediate(whipDef); }
+        }
+
+        [Test]
+        public void Whip_WithoutItsDefinition_PlaysAsKatana()
+        {
+            var mainBlade = MakeHolsteredSword(rig, out var katanaSword);
+            mainBlade.SetDefinition(katana);
+            Ronin7.EditorTools.XRRigBuilder.RogueEnsureWhip(rig.transform);
+            RunDirector.ApplyLoadout(rig.transform, new[] { katana }, WeaponId.Whip);
+            Assert.IsTrue(katanaSword.gameObject.activeSelf);
+            Assert.IsFalse(rig.GetComponent<PolearmShieldGear>().whip.gameObject.activeSelf);
+        }
+
+        [Test]
         public void LockedWeapon_CannotBeSelected()
         {
             Assert.IsTrue(MetaProgression.IsWeaponUnlocked(WeaponId.Katana));

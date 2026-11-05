@@ -115,6 +115,7 @@ namespace Ronin7.Player
         // P4-02 AbilityHaste: each hit deposits (1 + haste) hits' worth of charge, read at use time.
         private void OnSwordImpact(SwordImpact evt)
         {
+            if (evt.FeedbackOnly) return; // R5
             var m = Mods();
             logic?.AddCharge(PlayerCombatModifiers.ChargeScale(m != null ? m.Boon(BoonEffectKind.AbilityHaste) : 0f)
                              * (1f + (m != null ? Mathf.Max(0f, m.Boon(BoonEffectKind.OverdriveCharge)) : 0f))); // P4-05 Overclock

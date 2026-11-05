@@ -1701,13 +1701,15 @@ namespace Ronin7.Flow
 
             var gear = rig.GetComponent<PolearmShieldGear>();
             bool polearm = def != null && loadoutId == WeaponId.PolearmShield && gear != null && gear.Complete && main != null && off != null;
+            bool whip = def != null && loadoutId == WeaponId.Whip && gear != null && gear.WhipComplete && main != null;
             if (gear != null)
             {
                 if (gear.polearm != null) gear.polearm.gameObject.SetActive(false);
                 if (gear.shield != null) gear.shield.gameObject.SetActive(false);
+                if (gear.whip != null) gear.whip.gameObject.SetActive(false);
             }
 
-            if (main != null && main.Sword != null) main.Sword.gameObject.SetActive(!polearm);
+            if (main != null && main.Sword != null) main.Sword.gameObject.SetActive(!polearm && !whip);
             if (off != null && off.Sword != null) off.Sword.gameObject.SetActive(twin);
 
             if (polearm)
@@ -1717,6 +1719,14 @@ namespace Ronin7.Flow
                 main.Equip(gear.polearm, gear.polearmAnchor);
                 off.Equip(gear.shield, gear.shieldAnchor);
                 EquipBlade(gear.polearm, def); // the shield keeps its own PlayerShield definition
+                return;
+            }
+
+            if (whip) // P9-02d: off hand stays free (its sword is already off above); the handle's definition deals nothing
+            {
+                gear.whip.gameObject.SetActive(true);
+                main.Equip(gear.whip, gear.whipAnchor);
+                EquipBlade(gear.whip, def);
                 return;
             }
 

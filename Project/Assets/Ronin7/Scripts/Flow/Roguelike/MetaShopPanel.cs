@@ -219,7 +219,10 @@ namespace Ronin7.Flow
             "FRACTURE PRESSURE  ECHOES x" + RunDirector.HeatEchoMultiplier(totalRanks).ToString("0.0", System.Globalization.CultureInfo.InvariantCulture);
 
         internal static string LoadoutText(string name, bool unlocked, bool selected, int cost) =>
-            !unlocked ? name + "\nLOCKED ♦ " + cost : selected ? "● " + name : name; // glyphs Rajdhani + its LiberationSans fallback render (P5-07b)
+            !unlocked ? name + (cost > 0 ? "\nLOCKED ♦ " + cost : "\nLOCKED") : selected ? "● " + name : name; // glyphs Rajdhani + its LiberationSans fallback render (P5-07b)
+
+        /// <summary>A loadout button works when it can select, or buy: cost 0 is not for sale (A15.12, the Whip).</summary>
+        internal static bool LoadoutInteractable(bool unlocked, int echoes, int cost) => unlocked || (cost > 0 && echoes >= cost);
 
         internal void Refresh()
         {
@@ -237,7 +240,7 @@ namespace Ronin7.Flow
             {
                 bool unlocked = MetaProgression.IsWeaponUnlocked(l.id);
                 l.label.text = LoadoutText(l.name, unlocked, l.id == selected, l.cost);
-                l.button.interactable = unlocked || MetaProgression.Echoes >= l.cost;
+                l.button.interactable = LoadoutInteractable(unlocked, MetaProgression.Echoes, l.cost);
             }
             foreach (var p in packs)
             {

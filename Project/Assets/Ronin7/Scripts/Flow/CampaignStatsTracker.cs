@@ -114,6 +114,7 @@ namespace Ronin7.Flow
 
         private void OnSwordImpact(SwordImpact evt)
         {
+            if (evt.FeedbackOnly) return; // R5
             // Practice targets don't build the career combo either (mirrors OnEntityDied's dummy
             // exclusion — alternating swings between two dojo dummies would otherwise farm BEST COMBO).
             if (evt.Victim != null && evt.Victim.GetComponent("TrainingDummy") != null) return;

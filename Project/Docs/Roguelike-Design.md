@@ -1731,3 +1731,6 @@ Binding for P9. All numbers are starting values, tuned on the headset. "Off hand
 - R2. A Whip crack cancels a windup even through Resisted hits; `hyperArmourWindup` holds like super-armour (Juggernaut's slam cannot be cancelled). Built in P9-02e.
 - R3. Polearm thrust is a flat 30 but the head still counts: only the direction bonus goes. Head hit = 30 x precision (37.5 base; Precision boon and Sight x2 apply; cap 60); body thrust = 30; then damage boons. Built in P9-02c.
 - R4. A15.10 is per loadout: `ParryGate` goes Neutral only on a Whip run. Polearm + Shield keeps the gate even with the shield holstered.
+- R5. Whip body hits are feedback only: audio, sparks and haptics, but they build no Overdrive or combo and don't reset them. The crack earns those. Built as `SwordImpact.FeedbackOnly`, skipped by the Overdrive, combo and career-combo subscribers (P9-02d).
+- R6. "Once per enemy per swing" is a per-enemy re-hit cooldown of 0.5 s (`WhipController.ReHitCooldown`, real time) instead of the speed reset, so nonstop swinging keeps hitting.
+- R7. Body damage is 4 x the wielder's damage multiplier (A15.17 wins over the word "flat" in A15.8). `mods.DamageMultiplier`, which doesn't consume Riposte/QuickDraw, stays.

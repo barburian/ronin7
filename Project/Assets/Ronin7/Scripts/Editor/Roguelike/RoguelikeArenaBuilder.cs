@@ -244,6 +244,8 @@ namespace Ronin7.EditorTools
             // A15.6 Polearm: swing 6-20 full at 7 m/s, 0.3 s cooldown; minSwingSpeed 1.5 is the default (A15 gives none).
             // bladeLength 0: the damager pivot sits at the grip and its box is the front 1.1 m, not a base-fixed blade.
             RoguePolearmRules(EnsureLoadoutDefinition("Polearm", WeaponId.PolearmShield, 1.5f, 7f, 6f, 20f, 0.3f, 0f)),
+            // P9-02d: the Whip HANDLE's definition: no damage, no parry, no thrust. The chain's damage is WhipController's.
+            RogueWhipHandleRules(EnsureLoadoutDefinition("WhipHandle", WeaponId.Whip, 1.5f, 6f, 0f, 0f, 0.25f, 0f)),
         };
 
         private const string PlayerShieldPath = DataFolder + "/PlayerShield.asset";
@@ -254,6 +256,15 @@ namespace Ronin7.EditorTools
             if (!def.canParry && Mathf.Approximately(def.thrustDamage, 30f)) return def;
             def.canParry = false;
             def.thrustDamage = 30f;
+            EditorUtility.SetDirty(def);
+            AssetDatabase.SaveAssets();
+            return def;
+        }
+
+        private static WeaponDefinition RogueWhipHandleRules(WeaponDefinition def)
+        {
+            if (!def.canParry) return def;
+            def.canParry = false;
             EditorUtility.SetDirty(def);
             AssetDatabase.SaveAssets();
             return def;
@@ -340,6 +351,7 @@ namespace Ronin7.EditorTools
                 return;
             }
             RogueEnsurePolearmShield(vrRig.transform); // P9-02c: a rebuild keeps them too
+            RogueEnsureWhip(vrRig.transform); // P9-02d
             if (vrRig.transform.Find(KatanaHolster.OffhandAnchorName) != null) return;
 
             var anchor = new GameObject(KatanaHolster.OffhandAnchorName).transform;
@@ -512,6 +524,82 @@ namespace Ronin7.EditorTools
             return true;
         }
 
+        /// <summary>P9-02d / A15.8, A15.14: the Whip on the rig, placeholder primitives (1 unit = 1 m), inactive on the main-hand hip
+        /// until RunDirector.ApplyLoadout equips it. The handle's BladeDamager (0 damage, no parry) only gives Element Imbue its sweep
+        /// and bolts a collider to pass through. The chain is one LineRenderer on the shared chain material, with no collider.
+        /// Idempotent; true if it built anything.</summary>
+        internal static bool RogueEnsureWhip(Transform rig)
+        {
+            var gear = rig.GetComponent<PolearmShieldGear>();
+            if (gear != null && gear.WhipComplete) return false;
+            if (gear == null) gear = rig.gameObject.AddComponent<PolearmShieldGear>();
+            var dark = AssetDatabase.LoadAssetAtPath<Material>(RogueDarkMatPath);
+            var grey = AssetDatabase.LoadAssetAtPath<Material>(RogueGreyMatPath);
+            var glow = AssetDatabase.LoadAssetAtPath<Material>(RogueBladeSourcePath);
+            var def = EnsureLoadoutDefinitions()[5];
+
+            // Same hip as the katana, ring end forward and down. Handle runs -0.1 to 0.2 m along +z, ring at its front.
+            var whip = RogueNewGear(rig, "WhipAnchor", new Vector3(0.15f, 0.9f, 0.05f), new Vector3(60f, 0f, 0f),
+                "Whip", new Vector3(0.1f, 0.1f, 0.2f), out var whipAnchor);
+            var hv = new GameObject("WhipVisual").transform;
+            hv.SetParent(whip.transform, false);
+            RoguePrimitive(hv, "Handle", PrimitiveType.Cylinder, new Vector3(0f, 0f, 0.05f), new Vector3(90f, 0f, 0f), new Vector3(0.035f, 0.15f, 0.035f), dark);
+            var ring = new GameObject("ChainRing").transform;
+            ring.SetParent(whip.transform, false);
+            ring.localPosition = new Vector3(0f, 0f, 0.22f);
+            RoguePrimitive(ring, "Ring", PrimitiveType.Sphere, Vector3.zero, Vector3.zero, new Vector3(0.05f, 0.05f, 0.015f), glow);
+            RoguePrimitive(hv, "Coil", PrimitiveType.Cylinder, new Vector3(0f, -0.06f, 0.1f), Vector3.zero, new Vector3(0.18f, 0.03f, 0.18f), grey);
+            RogueAddDamager(whip.transform, "Blade", new Vector3(0f, 0f, 0.05f), new Vector3(0.04f, 0.04f, 0.3f), def);
+            whip.gameObject.AddComponent<Sword>().Definition = def;
+
+            var lineGo = new GameObject("ChainLine", typeof(LineRenderer));
+            lineGo.transform.SetParent(whip.transform, false);
+            var lr = lineGo.GetComponent<LineRenderer>();
+            lr.useWorldSpace = true;
+            lr.positionCount = VerletChain.DefaultPoints;
+            lr.startWidth = 0.025f;
+            lr.endWidth = 0.012f;
+            lr.sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>(ChainLineMaterialPath);
+            lr.startColor = lr.endColor = new Color(0.4f, 0.9f, 1f, 1f);
+            lr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            lr.receiveShadows = false;
+            lr.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.Off;
+            lr.reflectionProbeUsage = UnityEngine.Rendering.ReflectionProbeUsage.Off;
+            lr.enabled = false;
+
+            var controller = whip.gameObject.AddComponent<WhipController>();
+            var cso = new SerializedObject(controller);
+            SetObjectRef(cso, "chainRing", ring);
+            SetObjectRef(cso, "chainLine", lr);
+            SetObjectRef(cso, "coil", hv.Find("Coil").gameObject);
+            cso.ApplyModifiedPropertiesWithoutUndo();
+            whip.gameObject.SetActive(false);
+
+            var so = new SerializedObject(gear);
+            SetObjectRef(so, "whip", whip);
+            SetObjectRef(so, "whipAnchor", whipAnchor);
+            so.ApplyModifiedPropertiesWithoutUndo();
+            return true;
+        }
+
+        /// <summary>P9-02d: additive, idempotent. RunArena gets the Whip rig objects; Phase6_Boot's RunDirector.weapons gets
+        /// WhipHandle. Never rebuilds a scene. Ends with Phase6_Boot open.</summary>
+        [MenuItem("Tools/Space Samurai/Roguelike/Patch Whip (P9-02d)", priority = 517)]
+        public static void RoguePatchWhip()
+        {
+            var scene = EditorSceneManager.OpenScene(RogueScenePath, OpenSceneMode.Single);
+            var rig = Object.FindAnyObjectByType<VRRig>(FindObjectsInactive.Include);
+            if (rig == null) { Debug.LogWarning("[RogueEntry] No VRRig in RunArena."); return; }
+            if (RogueEnsureWhip(rig.transform))
+            {
+                EditorSceneManager.MarkSceneDirty(scene);
+                EditorSceneManager.SaveScene(scene);
+                Debug.Log("[RogueEntry] Whip added to RunArena.");
+            }
+            else Debug.Log("[RogueEntry] RunArena already has the Whip.");
+            RoguePatchBootWeapons();
+        }
+
         /// <summary>P9-02c: additive, idempotent patch of the shipped scenes. RunArena gets the Polearm and Shield rig objects;
         /// Phase6_Boot's RunDirector.weapons gets the Polearm definition. Never rebuilds a scene. Ends with Phase6_Boot open.</summary>
         [MenuItem("Tools/Space Samurai/Roguelike/Patch Polearm + Shield (P9-02c)", priority = 516)]
@@ -527,7 +615,11 @@ namespace Ronin7.EditorTools
                 Debug.Log("[RogueEntry] Polearm + Shield added to RunArena.");
             }
             else Debug.Log("[RogueEntry] RunArena already has the Polearm + Shield.");
+            RoguePatchBootWeapons();
+        }
 
+        private static void RoguePatchBootWeapons()
+        {
             var boot = EditorSceneManager.OpenScene(BootScenePath, OpenSceneMode.Single);
             var director = Object.FindAnyObjectByType<RunDirector>(FindObjectsInactive.Include);
             if (director == null) { Debug.LogWarning("[RogueEntry] No RunDirector in the boot scene."); return; }
@@ -536,12 +628,12 @@ namespace Ronin7.EditorTools
             var defs = EnsureLoadoutDefinitions();
             bool same = prop.arraySize == defs.Length;
             for (int i = 0; same && i < defs.Length; i++) same = prop.GetArrayElementAtIndex(i).objectReferenceValue == defs[i];
-            if (same) { Debug.Log("[RogueEntry] RunDirector.weapons already has the Polearm."); return; }
+            if (same) { Debug.Log("[RogueEntry] RunDirector.weapons is already current."); return; }
             SetObjectRefArray(so, "weapons", defs);
             so.ApplyModifiedPropertiesWithoutUndo();
             EditorSceneManager.MarkSceneDirty(boot);
             EditorSceneManager.SaveScene(boot);
-            Debug.Log("[RogueEntry] RunDirector.weapons now includes the Polearm.");
+            Debug.Log("[RogueEntry] RunDirector.weapons updated.");
         }
 
         private static void RogueEnsureRunDirectorInBootScene()

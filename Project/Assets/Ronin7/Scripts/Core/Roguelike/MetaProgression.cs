@@ -284,6 +284,7 @@ namespace Ronin7.Core
         /// <summary>Buys the next level of an upgrade and persists. False (no change) if maxed or unaffordable.</summary>
         public static bool TryPurchase(string id)
         {
+            if (id == WeaponId.Whip) return false; // A15.12: never for sale, the P9-03 challenge unlocks it
             if (IsWeaponItem(id) || IsPackItem(id)) // P4-10: one-time unlocks
             {
                 if (unlockedWeapons.Contains(id) || unlockedPacks.Contains(id)) return false;

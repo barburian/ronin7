@@ -74,6 +74,7 @@ namespace Ronin7.Player
 
         private void OnSwordImpact(SwordImpact e)
         {
+            if (e.FeedbackOnly) return; // R5: the Whip body neither builds nor resets the combo
             int targetId = e.Victim != null ? e.Victim.GetEntityId().GetHashCode() : 0;
             int previousCount = state.Count;
             bool reversal = combatModifiers != null && combatModifiers.Boon(BoonEffectKind.ComboReversal) > 0f
