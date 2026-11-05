@@ -28,7 +28,7 @@ Phase order and why:
 | **6** | Audio, comfort, accessibility, narrative, store submission | Release polish |
 | **7** | v0.7.0 playtest bug fixes (BUG-48..53) | Cheap, and later phases build on skills, boons and room clear working |
 | **8** | Enemy combat language: weapons, attack patterns, telegraphs, shields | Sectors need the rosters |
-| **9** | Player weapons + select: Katana, Double Katana, Scythe, Whip | Skills are per weapon (D-18), so the weapons come first (user 2026-11-05) |
+| **9** | Player weapons + select: Katana, Double Katana, Polearm + Shield, Whip | Skills are per weapon (D-18), so the weapons come first (user 2026-11-05) |
 | **10** | Player skills + left-hand skill panel (Y) | Co-designed with the user; each weapon carries 2 actives, so it needs P9 |
 | **11** | Permanent Relics vs in-run boons | Independent; can run alongside P10 |
 | **12** | 9 sectors (1 unique biome each), branching sector choice | Biggest, art-bound; needs P8 rosters |
@@ -1582,17 +1582,29 @@ Shields share the wearer's armor material family so they read as part of the kit
 
 ## PHASE 9 — Player weapons and select (v0.10.0)
 
-### P9-00 Archetype design session with the user (blocking)
-One per weapon: feel, damage model, parry style. Sketch each weapon's 2 active skills so the weapon doesn't block them; they are finalised at P10-00 and built in P10.
+Design: **Amendment 15** in `Roguelike-Design.md` (binding, numbers there). Roster: Katana, Double Katana, Polearm + Shield, Whip. **Build order is the list order below; P9-01 is built near the end because it shows unlock state and models.** Each weapon must be complete and fun with no skills: P9 ships before they exist.
 
-### P9-01 Selection screen
-In the boot room, replacing the LOADOUT rack (P4-08). `RunState.LoadoutId` reused.
+### [x] P9-00 Archetype design session with the user (blocking)
+Done 2026-11-05, recorded as Amendment 15. The P9 task list below still needs the user's approval before any build.
 
 ### P9-02 Weapons, cheapest first
-Katana (exists) → **Double Katana** (extends Twin Wakizashi) → **Scythe** (long reach, sweeps, maybe a hook-pull) → **Whip** (few-segment verlet chain + damage along segments; perf-probe it before committing, it is the 90 FPS risk). Each weapon must be complete and fun with no skills: P9 ships before they exist.
+- **a. Foundations:** run the EditMode gate first (not re-run since `ac08629`). `canParry`, parry-stagger and `thrustDamage` on `WeaponDefinition`; roster and save fallback (A15.1); off-hand and left-handed input (A15.3); Weapon Art rule (A15.18); `ParryGate` rule (A15.10); standing only (A15.15).
+- **b. Double Katana** (A15.5), including the crimson material.
+- **c. Polearm + Shield** (A15.6, A15.7), on placeholders, with holsters (A15.14) and the `Projectile.TryHit` check.
+- **d. Whip prototype + 90 FPS proof (A15.11). Stops for the user's headset test** (chain feel and numbers).
+- **e. Whip complete:** crack, boon hiding (A15.8), then **lasso** (A15.9). Headset check after the crack, before the lasso.
 
 ### P9-03 Shrine unlocks (D-18)
-The Shrine of Echoes sells Scythe, Double Katana and Whip (extend P2-01, don't rebuild); prices set at P9-00. Persisted in `meta.json`, `MetaSaveData` appended fields only, G7 fixture of older saves.
+Prices and the Whip challenge (A15.12), extending P2-01, don't rebuild. Hits-taken logging and best score. Persisted in `meta.json`, `MetaSaveData` appended fields only, G7 fixture of older saves.
+
+### P9-01 Selection screen
+A15.13: replaces the LOADOUT rack (P4-08). `RunState.LoadoutId` and `TrySelectLoadout` reused.
+
+### P9-04 Hero meshes (needs the user)
+A15.16: Shield, Polearm, Whip handle, coiled Whip. Agent reminds the user when P9-02c and P9-02d start; hard deadline is before the exit build.
+
+### P9-05 Exit
+Render check, Export Gate, v0.10.0 builds, `Playtest-v0.10.0.md` covering: each weapon with no skills, holsters standing, a left-handed pass (one room per weapon), Whip against Iron Warden and Maelgorn's final phase, Whip challenge counting, old-save fallback. The user tags after sign-off.
 
 ## PHASE 10 — Player skills and the skill panel (v0.11.0)
 
@@ -1600,7 +1612,7 @@ The Shrine of Echoes sells Scythe, Double Katana and Whip (extend P2-01, don't r
 Skill list, active vs passive, cooldowns, how each unlocks. Starts from the P9-00 sketches and how the weapons actually feel. Nothing is built before this.
 
 ### P10-01 Skill panel on Y (D-14)
-`Gameplay/SkillPanel` on `<XRController>{LeftHand}/secondaryButton`. Opens a left-wrist panel: owned actives with cooldowns, owned passives. Select with the left stick or by pointing; **left trigger casts** (all actives on the left hand). Large readable UI, `UiScaleFollower`.
+`Gameplay/SkillPanel` on `<XRController>{LeftHand}/secondaryButton`. Opens a left-wrist panel: owned actives with cooldowns, owned passives. Select with the left stick or by pointing; **off-hand trigger casts** (all actives on the off hand; left unless left-handed mode is on, A15.3). Large readable UI, `UiScaleFollower`.
 
 ### P10-02 Visible passives
 Passives listed in the panel, plus a small pulse + sound on each proc so the player knows they work.
@@ -1653,10 +1665,11 @@ Per biome: kit (`BiomeKitBuilder`), 6 baked shells (`RoomShellBuilder`), Unity A
 | D-11 | Run currency vs Echoes | **Fully separate** (decided by user 2026-10-14): Shards are in-run (Shop, events, live HUD, lost at run end); Echoes come only from the end-of-run result and are spent at the Shrine. See P4-11. | Convert unspent Shards to Echoes at run end |
 | D-12 | **Open question:** two Shops per sector are possible (row 3 is always Forge+Shop, and rows 1-2 can roll a Shop). Spec is ambiguous; the user has not decided. | Allow it until decided | Cap one Shop per sector |
 | D-13 | Sectors and biomes | **9 sectors, 1 unique biome each** (3 existing + 6 new; user 2026-11-02, revised down from 15) | 15 sectors over 9 biomes (rejected) |
-| D-14 | Skill panel button | **Y (left secondary)**, free per the user 2026-11-02; left trigger casts | — |
+| D-14 | Skill panel button | **Y (left secondary)**, free per the user 2026-11-02; off-hand trigger casts (left, or right in left-handed mode; A15.3) | — |
 | D-15 | Sectors per run | **3 for now** (user 2026-11-02) | Longer runs later |
 | D-17 | Enemy weapons | **Composed at spawn:** body prefab + separate weapon prefab(s) via sockets; never a baked variant per weapon (user 2026-11-02) | — |
-| D-18 | Skills, weapons, Shrine | **Shrine sells weapons (Scythe, Dual Katana, Whip) and stats.** In-run skills = passives (e.g. WeakpointSight) + 2 active skills per weapon; weapons designed with the user at P9-00, skills at P10-00. P7 changed no controls; the earlier "Y tap = Weapon Art / hold = cycle" idea is superseded, deferred to that design. BUG-51 call: shrine boons stay, labelled; P11 splits Relics from run boons (user 2026-11-02; phases renumbered 2026-11-05) | — |
+| D-18 | Skills, weapons, Shrine | **Shrine sells Double Katana and Polearm + Shield, plus stats; the Whip is earned by challenge, not bought (revised at P9-00, Amendment 15).** In-run skills = passives (e.g. WeakpointSight) + 2 active skills per weapon; weapons designed with the user at P9-00, skills at P10-00. P7 changed no controls; the earlier "Y tap = Weapon Art / hold = cycle" idea is superseded, deferred to that design. BUG-51 call: shrine boons stay, labelled; P11 splits Relics from run boons (user 2026-11-02; phases renumbered 2026-11-05) | — |
+| D-19 | Play posture | **Standing only** (user 2026-11-05): seated toggle removed, accepted accessibility cost, store listing says standing (A15.15) | Keep seated mode |
 | D-16 | **Open:** store submission vs Phases 7-13 | Not decided; P6 store work paused until the user calls it | Submit v0.7.x first |
 
 ---
