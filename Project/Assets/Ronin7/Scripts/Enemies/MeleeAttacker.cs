@@ -668,6 +668,9 @@ namespace Ronin7.Enemies
         /// <summary>P3-07: <see cref="ForceStagger()"/> held for <paramref name="seconds"/> instead of StaggerTime (boss phase swap).</summary>
         public void ForceStagger(float seconds) { Stagger(transform.position, null, false); staggerLen = seconds; }
 
+        /// <summary>A15.9: a posture break or drone death can shorten a held stagger; the lasso re-applies it when this drops.</summary>
+        public bool IsStaggered => state == State.Stagger;
+
         protected void LandHit()
         {
             // i-frames (Phase Step): no damage lands, so no PlayerHit (haptics, parry-streak reset).

@@ -487,6 +487,8 @@ namespace Ronin7.World
             EnemyDefinition scaled = Instantiate(source);
             scaled.maxHealth = health;
             scaled.damage = damage;
+            scaled.isElite = isElite; // A15.9
+            scaled.isBoss = isBoss;
 
             if (isElite)
             {

@@ -32,6 +32,8 @@ namespace Ronin7.Player
         private readonly float segment;
         private float accumulator;
         private float maxSpeedSq;
+        private bool tipPinned;
+        private Vector3 tipTarget;
 
         public VerletChain(int points = DefaultPoints)
         {
@@ -112,6 +114,22 @@ namespace Ronin7.Player
             prev[tip] += delta;
         }
 
+        /// <summary>A15.9: holds the tip at <paramref name="target"/> until <see cref="UnpinTip"/>, at most <see cref="TotalLength"/> from the pin. The links relax between.</summary>
+        public void PinTip(Vector3 target)
+        {
+            tipPinned = true;
+            tipTarget = target;
+        }
+
+        public void UnpinTip() => tipPinned = false;
+
+        private void HoldTip(Vector3 pin)
+        {
+            if (!tipPinned) return;
+            int tip = pos.Length - 1;
+            pos[tip] = prev[tip] = pin + Vector3.ClampMagnitude(tipTarget - pin, TotalLength); // zero velocity: it leaves the pin with no kick
+        }
+
         private void Step(Vector3 pin, float floorY)
         {
             int n = pos.Length;
@@ -139,6 +157,7 @@ namespace Ronin7.Player
                     else { pos[i] += fix * 0.5f; pos[i + 1] -= fix * 0.5f; }
                 }
                 ClampToFloor(floorY);
+                HoldTip(pin);
             }
 
             // Whatever the relaxation left over, the chain can never read longer than it is.
@@ -149,6 +168,7 @@ namespace Ronin7.Player
                 if (len > segment) pos[i] = pos[i - 1] + d * (segment / len);
             }
             ClampToFloor(floorY);
+            HoldTip(pin);
 
             maxSpeedSq = 0f;
             float toSpeedSq = 1f / (SubstepSeconds * SubstepSeconds);

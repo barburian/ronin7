@@ -91,6 +91,10 @@ namespace Ronin7.Enemies
         public bool vampiric;
         [Tooltip("HDR idle rim colour marking an elite affix. Black = none.")]
         public Color eliteRim = Color.black;
+        [Tooltip("A15.9: set by the run spawner on the clone of an elite lead. The Whip lasso cannot grab it.")]
+        public bool isElite;
+        [Tooltip("A15.9: set by the run spawner on a boss's clone (adds stay false). The Whip lasso cannot grab it.")]
+        public bool isBoss;
 
         /// <summary>Pure scaling helper: base value plus a flat per-galaxy bonus. Negative
         /// galaxiesCompleted is clamped to 0 (can't happen via CampaignState, but keeps this safe

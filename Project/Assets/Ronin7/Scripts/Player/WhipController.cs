@@ -14,9 +14,9 @@ namespace Ronin7.Player
     /// The chain has no collider and no BladeDamager, so it cannot parry or reflect, and it ignores walls.
     /// A15.8 crack (P9-02e): the tip moving faster than <see cref="CrackSpeed"/> into a target within the last
     /// <see cref="CrackZone"/> m deals a flat <see cref="CrackDamage"/> through the shared damage path (credited: Overdrive, combo),
-    /// cancels a windup (R2) and bends the tip toward it. The lasso is the next task.
+    /// cancels a windup (R2) and bends the tip toward it. A15.9 lasso: see WhipController.Lasso.cs; while it runs the chain deals no body hits or cracks.
     /// </summary>
-    public class WhipController : MonoBehaviour
+    public partial class WhipController : MonoBehaviour
     {
         internal const float BodyHitDamage = 4f; // A15.8
         /// <summary>The fastest chain point must beat this (m/s) to deal body hits; falling below it ends the swing.</summary>
@@ -75,6 +75,7 @@ namespace Ronin7.Player
 
         private void OnDisable()
         {
+            AbortLasso(); // scene unload, weapon swap
             if (grabbable == null) return;
             grabbable.Grabbed -= OnGrabbed;
             grabbable.Released -= OnReleased;
@@ -90,10 +91,12 @@ namespace Ronin7.Player
                 chain = new VerletChain(chainPoints);
                 chainLine.positionCount = chain.Count;
             }
+            if (value) lassoGesture.Reset();
+            else OnLassoUnheld(); // A15.9: letting go of the grip is the release; the fling carries on unheld
             held = value;
             chainLine.enabled = value;
             coil.SetActive(!value);
-            lastHit.Clear();
+            if (!LassoBusy) lastHit.Clear(); // a fling keeps its struck list
             lastCrack = clock - CrackCooldown;
             needsReset = value; // next tick, once the grab has put the handle in the hand: no swing spike
             lastChecks = 0;
@@ -101,11 +104,16 @@ namespace Ronin7.Player
 
         private void LateUpdate()
         {
-            if (!held) return;
+            if (!held && !LassoBusy)
+            {
+                TickLassoCooldown(Time.unscaledDeltaTime);
+                return;
+            }
 #if RONIN7_DEV
             long start = System.Diagnostics.Stopwatch.GetTimestamp();
 #endif
-            Step(Time.unscaledDeltaTime); // A15.8: real time, Overdrive changes the time scale
+            if (held) Step(Time.unscaledDeltaTime); // A15.8: real time, Overdrive changes the time scale
+            else StepUnheld(Time.unscaledDeltaTime);
 #if RONIN7_DEV
             WeaponPerfLog.AddWhip(System.Diagnostics.Stopwatch.GetTimestamp() - start, lastChecks, chain.Count);
 #endif
@@ -122,11 +130,17 @@ namespace Ronin7.Player
                 chain.Reset(chainRing.position, chainRing.forward, floorY);
                 needsReset = false;
             }
+            TickLasso(realDt); // first, so the pinned tip is on this frame's captive
             chain.Tick(chainRing.position, realDt, floorY);
             chainLine.SetPositions(chain.Positions);
 
             clock += realDt;
             lastChecks = 0;
+            if (LassoBusy)
+            {
+                lastChecks = 1; // A15.11: the captive's one overlap; the chain itself checks nothing
+                return;
+            }
             if (chain.MaxSpeed < SwingSpeed) return;
             float speed = chain.MaxSpeed;
             if (guard == null) guard = GetComponentInChildren<BladeDamager>(true);

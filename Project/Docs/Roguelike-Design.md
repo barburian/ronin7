@@ -1734,3 +1734,13 @@ Binding for P9. All numbers are starting values, tuned on the headset. "Off hand
 - R5. Whip body hits are feedback only: audio, sparks and haptics, but they build no Overdrive or combo and don't reset them. The crack earns those. Built as `SwordImpact.FeedbackOnly`, skipped by the Overdrive, combo and career-combo subscribers (P9-02d).
 - R6. "Once per enemy per swing" is a per-enemy re-hit cooldown of 0.5 s (`WhipController.ReHitCooldown`, real time) instead of the speed reset, so nonstop swinging keeps hitting.
 - R7. Body damage is 4 x the wielder's damage multiplier (A15.17 wins over the word "flat" in A15.8). `mods.DamageMultiplier`, which doesn't consume Riposte/QuickDraw, stays.
+
+**Readings pending user confirmation (P9-02e, nothing played yet).** These are the implementer's readings of A15.9, not user rulings:
+
+- (a) The spin gesture measures the turning rate of the Whip ring's path in rig space, not the controller's angular velocity.
+- (b) Lasso collisions bypass weakness resist and exploit (`DamageType.Collision`), so they are about 30 on every enemy. Damage boons still apply.
+- (c) "Once per enemy per swing" for the lasso is once per orbit: `WhipController.LassoReHitSeconds` = 1.6 s. R6's 0.5 s stays for the chain body.
+- (d) "Release" is opening the grip on the Whip.
+- (e) Contact staggers bosses and super-armour enemies too, as A15.9 literally says (`ForceStagger`).
+- (f) The crack threshold is 8 m/s tip speed.
+

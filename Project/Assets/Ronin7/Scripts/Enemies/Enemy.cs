@@ -49,7 +49,7 @@ namespace Ronin7.Enemies
         private const float ChainGrace = 0.5f; // s after Recover begins in which the next chain hit may start
         internal const float ArenaWallMargin = 0.5f;
 
-        protected float ArenaHalfExtent => arenaHalfExtent;
+        public float ArenaHalfExtent => arenaHalfExtent;
 
         protected EnemyDefinition Definition => definition;
 
@@ -312,6 +312,11 @@ namespace Ronin7.Enemies
         private bool hovering;
         private bool IsBoss => nextPhases != null;
 
+        /// <summary>A15.9: the Whip lasso cannot grab this. Later boss phases are unflagged clones, so the phase list counts too.</summary>
+        public bool IsEliteOrBoss => IsBoss || (definition != null && (definition.isElite || definition.isBoss));
+        /// <summary>A15.9: the spawn-height latch the lasso lands the body back on.</summary>
+        public float GroundY => groundY;
+
         /// <summary>Drones: ask to move along <paramref name="dir"/> (flat, unit or zero) at moveSpeed. The velocity
         /// eases toward it (no instant reversals) and the rig banks/bobs; the root stays on the ground latch.</summary>
         protected void Hover(Vector3 dir)
@@ -526,7 +531,7 @@ namespace Ronin7.Enemies
         }
 
         /// <summary>Pure: clamp x/z into +-(halfExtent - 0.5). halfExtent &lt;= 0 means unbounded.</summary>
-        internal static Vector3 ClampToArena(Vector3 p, float halfExtent)
+        public static Vector3 ClampToArena(Vector3 p, float halfExtent)
         {
             if (halfExtent <= 0f) return p;
             float lim = Mathf.Max(0f, halfExtent - ArenaWallMargin);
@@ -550,6 +555,7 @@ namespace Ronin7.Enemies
         {
             if (posture != null && posture.ApplyingBonus) return info.Amount; // posture-break bonus: not a new hit
             if (info.Type == DamageType.Status) return info.Amount; // P4-05 procs ignore facing (no resist/exploit events)
+            if (info.Type == DamageType.Collision) return info.Amount; // A15.9 lasso collisions are a flat 30: no resist, no exploit
 
             Transform t = transform;
             GameObject src = info.Source;
