@@ -237,9 +237,10 @@ namespace Ronin7.EditorTools
             EnsureLoadoutDefinition("Nodachi", WeaponId.Nodachi, 2f, 7f, 14f, 60f, 0.35f, Ronin7.Editor.Art.ArtPrefabBuilder.NodachiBladeLength),
             EnsureLoadoutDefinition("Tanto", WeaponId.Tanto, 1f, 4.5f, 6f, 28f, 0.18f, Ronin7.Editor.Art.ArtPrefabBuilder.TantoBladeLength),
             // User decision (Amendment 12): 0.6x katana damage per blade, 1.25x swing speed (katana thresholds
-            // and cooldown / 1.25). Supersedes the roadmap's 6-26.
+            // and cooldown / 1.25). Supersedes the roadmap's 6-26. A15.5: Double Katana blades are full katana
+            // length (0.837 m, the Sword_Katana mesh) and a normal parry staggers x0.7.
             EnsureLoadoutDefinition("TwinWakizashi", WeaponId.TwinWakizashi, 1.2f, 4.8f, 4.8f, 24f, 0.2f,
-                Ronin7.Editor.Art.ArtPrefabBuilder.WakizashiBladeLength),
+                Ronin7.Editor.Art.ArtPrefabBuilder.KatanaBladeLength, 0.7f),
         };
 
         private static WeaponDefinition WithBladeLength(WeaponDefinition def, float length)
@@ -252,13 +253,19 @@ namespace Ronin7.EditorTools
         }
 
         private static WeaponDefinition EnsureLoadoutDefinition(string file, string id, float minSpeed, float refSpeed,
-            float minDamage, float maxDamage, float cooldown, float bladeLength)
+            float minDamage, float maxDamage, float cooldown, float bladeLength, float? parryStagger = null)
         {
             string path = DataFolder + "/" + file + ".asset";
             var existing = AssetDatabase.LoadAssetAtPath<WeaponDefinition>(path);
             if (existing != null)
             {
-                return WithBladeLength(existing, bladeLength); // A13.5: only the length is spec-driven; tuned stats stay
+                // A13.5 / A15.5: only the length (and a given parry stagger) is spec-driven; tuned stats stay
+                if (parryStagger.HasValue && !Mathf.Approximately(existing.parryStagger, parryStagger.Value))
+                {
+                    existing.parryStagger = parryStagger.Value;
+                    EditorUtility.SetDirty(existing);
+                }
+                return WithBladeLength(existing, bladeLength);
             }
             var def = ScriptableObject.CreateInstance<WeaponDefinition>();
             def.id = id;
@@ -268,6 +275,7 @@ namespace Ronin7.EditorTools
             def.maxDamage = maxDamage;
             def.hitCooldown = cooldown;
             def.bladeLength = bladeLength;
+            if (parryStagger.HasValue) def.parryStagger = parryStagger.Value;
             AssetDatabase.CreateAsset(def, path);
             AssetDatabase.SaveAssets();
             return def;
@@ -306,6 +314,7 @@ namespace Ronin7.EditorTools
             left.name = "SwordLeft";
             left.transform.position += new Vector3(-0.6f, 0f, 0f);
             left.SetActive(false);
+            RoguePaintOffhandBlade(left.transform);
 
             var holster = anchor.gameObject.AddComponent<KatanaHolster>();
             var so = new SerializedObject(holster);
@@ -313,6 +322,54 @@ namespace Ronin7.EditorTools
             SetObjectRef(so, "hipAnchor", anchor);
             so.ApplyModifiedPropertiesWithoutUndo();
             EditorSceneManager.MarkSceneDirty(vrRig.gameObject.scene);
+        }
+
+        private const string RogueCrimsonBladePath = "Assets/Ronin7/Art/Materials/HeroVariants/CyberSword_Blade_Crimson.mat";
+        private const string RogueBladeSourcePath = "Assets/Ronin7/Art/Materials/HeroVariants/CyberSword_Blade.mat";
+
+        /// <summary>A15.5: the Double Katana's second blade is deep crimson through its OWN material (a copy of the
+        /// katana blade material, same shader), not a runtime tint: ElementImbueController resets the blade from
+        /// the material colour. Crimson (blue over green, hue ~350 deg), not the orange-red of enemy telegraphs.</summary>
+        private static Material RogueEnsureCrimsonBladeMaterial()
+        {
+            var mat = AssetDatabase.LoadAssetAtPath<Material>(RogueCrimsonBladePath);
+            if (mat != null) return mat;
+            if (!AssetDatabase.CopyAsset(RogueBladeSourcePath, RogueCrimsonBladePath)) return null;
+            mat = AssetDatabase.LoadAssetAtPath<Material>(RogueCrimsonBladePath);
+            mat.SetColor("_BaseColor", new Color(0.55f, 0.02f, 0.07f, 1f));
+            mat.SetColor("_EmissionColor", new Color(2.4f, 0.05f, 0.2f, 1f)); // HDR, same ~2.5 peak as the cyan original
+            EditorUtility.SetDirty(mat);
+            AssetDatabase.SaveAssets();
+            return mat;
+        }
+
+        /// <summary>Swaps blade slot 0 (the glowing blade; slot 1 is the shared outline) on <paramref name="sword"/>'s
+        /// "Blade" renderer, leaving hilt, guard and kashira alone. Returns true if anything changed.</summary>
+        private static bool RoguePaintOffhandBlade(Transform sword)
+        {
+            var crimson = RogueEnsureCrimsonBladeMaterial();
+            var blade = crimson != null ? sword.Find("Sword_Katana/Blade") : null;
+            var r = blade != null ? blade.GetComponent<Renderer>() : null;
+            if (r == null || r.sharedMaterial == crimson) return false;
+            var mats = r.sharedMaterials;
+            mats[0] = crimson;
+            r.sharedMaterials = mats;
+            return true;
+        }
+
+        /// <summary>A15.5: gives the shipped RunArena's off-hand sword (SwordLeft) its crimson blade. Additive and
+        /// idempotent: opens the scene, swaps one material slot, saves; never rebuilds the scene.</summary>
+        [MenuItem("Tools/Space Samurai/Roguelike/Patch Offhand Crimson Blade (A15.5)", priority = 515)]
+        public static void RoguePatchOffhandCrimson()
+        {
+            var scene = EditorSceneManager.OpenScene(RogueScenePath, OpenSceneMode.Single);
+            var anchor = Object.FindAnyObjectByType<VRRig>(FindObjectsInactive.Include)?.transform.Find(KatanaHolster.OffhandAnchorName);
+            var holster = anchor != null ? anchor.GetComponent<KatanaHolster>() : null;
+            if (holster == null || holster.Sword == null) { Debug.LogWarning("[RogueEntry] No OffhandHolster sword in RunArena."); return; }
+            if (!RoguePaintOffhandBlade(holster.Sword.transform)) { Debug.Log("[RogueEntry] Offhand blade already crimson."); return; }
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log("[RogueEntry] Offhand blade set to crimson.");
         }
 
         private static void RogueEnsureRunDirectorInBootScene()

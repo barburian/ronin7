@@ -215,6 +215,34 @@ namespace Ronin7.Tests.EditMode
                 k.minDamage * 0.6f, k.maxDamage * 0.6f, k.hitCooldown / 1.25f);
         }
 
+        [Test]
+        public void DoubleKatana_MatchesA155()
+        {
+            var w = AssetDatabase.LoadAssetAtPath<WeaponDefinition>("Assets/Ronin7/Data/TwinWakizashi.asset");
+            Assert.AreEqual("twin_wakizashi", w.id);
+            AssertStats(w, 1.2f, 4.8f, 4.8f, 24f, 0.2f);
+            Assert.AreEqual(0.837f, w.bladeLength, 1e-4f);
+            Assert.AreEqual(0.7f, w.parryStagger, 1e-4f);
+            Assert.IsTrue(w.canParry);
+        }
+
+        [Test]
+        public void DoubleKatana_CrimsonBladeMaterial_IsRedNotTelegraphOrange()
+        {
+            var m = AssetDatabase.LoadAssetAtPath<Material>("Assets/Ronin7/Art/Materials/HeroVariants/CyberSword_Blade_Crimson.mat");
+            Assert.IsNotNull(m, "A15.5 crimson material asset");
+            var src = AssetDatabase.LoadAssetAtPath<Material>("Assets/Ronin7/Art/Materials/HeroVariants/CyberSword_Blade.mat");
+            Assert.AreEqual(src.shader, m.shader, "same shader as the katana blade");
+            // MeleeAttacker.TelegraphColor is (1, 0.4, 0.25): orange (g/r 0.4, green over blue). Crimson is red-dominant
+            // with green near zero and blue over green.
+            foreach (var c in new[] { m.GetColor("_BaseColor"), m.GetColor("_EmissionColor") })
+            {
+                Assert.Greater(c.r, 3f * c.b, "red-dominant");
+                Assert.Less(c.g / c.r, 0.15f, "far below the telegraph green ratio 0.4");
+                Assert.Greater(c.b, c.g, "crimson leans blue-ward of orange");
+            }
+        }
+
         private static void AssertStats(WeaponDefinition d, float minSpeed, float refSpeed, float minDmg, float maxDmg, float cooldown)
         {
             Assert.AreEqual(minSpeed, d.minSwingSpeed, 1e-4f, d.name);
@@ -228,7 +256,7 @@ namespace Ronin7.Tests.EditMode
         {
             ("Nodachi", "Sword_Nodachi", 1.14f),
             ("Tanto", "Sword_Tanto", 0.34f),
-            ("TwinWakizashi", "Sword_Wakizashi", 0.54f),
+            // A15.5: Double Katana uses the scene's Katana mesh at 0.837 m (not Sword_Wakizashi), so no variant prefab to match.
         };
 
         [Test]
