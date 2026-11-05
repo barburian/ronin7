@@ -20,7 +20,6 @@ namespace Ronin7.Tests.EditMode
         {
             MetaProgression.ResetForTests();
             RunState.Reset();
-            ArtSlots.OffhandBlocked = false;
             katana = Def(WeaponId.Katana);
             nodachi = Def(WeaponId.Nodachi);
             twin = Def(WeaponId.TwinWakizashi);
@@ -34,7 +33,6 @@ namespace Ronin7.Tests.EditMode
             foreach (var d in new[] { katana, nodachi, twin }) Object.DestroyImmediate(d);
             MetaProgression.ResetForTests();
             RunState.Reset();
-            ArtSlots.OffhandBlocked = false;
         }
 
         private static WeaponDefinition Def(string id)
@@ -79,11 +77,21 @@ namespace Ronin7.Tests.EditMode
             var damager = MakeHolsteredSword(rig, out var sword);
             damager.SetDefinition(katana); // stands in for Awake caching the scene's katana at load
 
-            RunDirector.ApplyLoadout(rig.transform, All, WeaponId.Nodachi);
+            RunDirector.ApplyLoadout(rig.transform, All, WeaponId.TwinWakizashi);
 
-            Assert.AreSame(nodachi, damager.Definition);
-            Assert.AreSame(nodachi, sword.Definition);
-            Assert.IsFalse(ArtSlots.OffhandBlocked);
+            Assert.AreSame(twin, damager.Definition);
+            Assert.AreSame(twin, sword.Definition);
+        }
+
+        [Test]
+        public void Loadout_OffRosterId_PlaysAsKatana()
+        {
+            var damager = MakeHolsteredSword(rig, out _);
+            damager.SetDefinition(twin);
+
+            RunDirector.ApplyLoadout(rig.transform, All, WeaponId.Nodachi); // A15.1: Nodachi/Tanto left the roster
+
+            Assert.AreSame(katana, damager.Definition);
         }
 
         [Test]
@@ -98,23 +106,22 @@ namespace Ronin7.Tests.EditMode
         }
 
         [Test]
-        public void Twin_BlocksOffhandArt_AndArmsLeftBlade()
+        public void Twin_ArmsLeftBlade_AndLeavesOffhandArtToTheHand()
         {
             var main = MakeHolsteredSword(rig, out _);
             var left = MakeOffhand(out var leftSword);
 
             RunDirector.ApplyLoadout(rig.transform, All, WeaponId.TwinWakizashi);
 
-            Assert.IsTrue(ArtSlots.OffhandBlocked);
-            Assert.IsFalse(ArtSlots.CanFire(ArtSlot.Offhand, rightHolding: true, leftHolding: false));
-            Assert.IsTrue(ArtSlots.CanFire(ArtSlot.Weapon, rightHolding: true, leftHolding: false));
+            RunState.Begin(1u);
+            Assert.IsTrue(ArtSlots.CanFire(ArtSlot.Offhand, mainHolding: true, offHolding: false)); // A15.3: only an occupied hand blocks it
+            Assert.IsFalse(ArtSlots.CanFire(ArtSlot.Offhand, mainHolding: true, offHolding: true));
             Assert.IsTrue(leftSword.gameObject.activeSelf);
             Assert.AreSame(twin, main.Definition);
             Assert.AreSame(twin, left.Definition);
 
             RunDirector.ApplyLoadout(rig.transform, All, WeaponId.Katana);
 
-            Assert.IsFalse(ArtSlots.OffhandBlocked);
             Assert.IsFalse(leftSword.gameObject.activeSelf);
             Assert.AreSame(katana, main.Definition);
         }
@@ -130,10 +137,16 @@ namespace Ronin7.Tests.EditMode
             }
             Assert.AreEqual(WeaponId.Katana, MetaProgression.SelectedLoadout);
 
-            MetaProgression.UnlockWeapon(WeaponId.Tanto);
-            Assert.IsTrue(MetaProgression.TrySelectLoadout(WeaponId.Tanto));
+            MetaProgression.UnlockWeapon(WeaponId.TwinWakizashi);
+            Assert.IsTrue(MetaProgression.TrySelectLoadout(WeaponId.TwinWakizashi));
             RunState.Begin(1u);
-            Assert.AreEqual(WeaponId.Tanto, RunState.LoadoutId);
+            Assert.AreEqual(WeaponId.TwinWakizashi, RunState.LoadoutId);
+
+            // A15.1: an owned Nodachi stays truthful in the shop data but reads as the Katana for the next run.
+            MetaProgression.UnlockWeapon(WeaponId.Nodachi);
+            Assert.IsTrue(MetaProgression.TrySelectLoadout(WeaponId.Nodachi));
+            Assert.IsTrue(MetaProgression.IsWeaponUnlocked(WeaponId.Nodachi));
+            Assert.AreEqual(WeaponId.Katana, MetaProgression.SelectedLoadout);
         }
 
         [Test]
@@ -256,19 +269,19 @@ namespace Ronin7.Tests.EditMode
         [Test]
         public void Loadout_SweepLengthEqualsBladeLength_BaseFixed()
         {
-            nodachi.bladeLength = 1.14f;
+            twin.bladeLength = 1.14f;
             var damager = SizedBlade(rig, out _);
             damager.SetDefinition(katana);
             var baseBefore = BaseWorld(damager);
             Assert.AreEqual(0.62f * 1.35f, damager.WorldLength, 1e-4f);
 
-            RunDirector.ApplyLoadout(rig.transform, All, WeaponId.Nodachi);
+            RunDirector.ApplyLoadout(rig.transform, All, WeaponId.TwinWakizashi);
 
             var baseAfter = BaseWorld(damager);
             Assert.AreEqual(1.14f, damager.WorldLength, 1e-4f);
             Assert.AreEqual(0f, Vector3.Distance(baseBefore, baseAfter), 1e-4f);
 
-            RunDirector.ApplyLoadout(rig.transform, All, WeaponId.Nodachi); // idempotent
+            RunDirector.ApplyLoadout(rig.transform, All, WeaponId.TwinWakizashi); // idempotent
             Assert.AreEqual(1.14f, damager.WorldLength, 1e-4f);
         }
 
@@ -285,10 +298,10 @@ namespace Ronin7.Tests.EditMode
         {
             var k = AssetDatabase.LoadAssetAtPath<WeaponDefinition>("Assets/Ronin7/Data/Katana.asset");
             Assert.AreEqual(0.837f, k.bladeLength, 0.005f);
-            nodachi.bladeLength = 1.14f;
+            twin.bladeLength = 1.14f;
             katana.bladeLength = k.bladeLength;
             var damager = SizedBlade(rig, out _);
-            RunDirector.ApplyLoadout(rig.transform, All, WeaponId.Nodachi);
+            RunDirector.ApplyLoadout(rig.transform, All, WeaponId.TwinWakizashi);
             RunDirector.ApplyLoadout(rig.transform, All, WeaponId.Katana);
             Assert.AreEqual(0.837f, damager.WorldLength, 0.005f);
         }

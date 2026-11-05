@@ -77,7 +77,7 @@ namespace Ronin7.Player
                 if (now >= nextPulse)
                 {
                     nextPulse = now + RampPulseInterval;
-                    Haptics.Pulse(XRNode.RightHand, 0.1f + 0.5f * logic.Charge01(now), RampPulseInterval);
+                    Haptics.Pulse(HandednessRig.MainHand(GameSettings.Active.LeftHanded), 0.1f + 0.5f * logic.Charge01(now), RampPulseInterval);
                 }
                 return;
             }
@@ -100,7 +100,7 @@ namespace Ronin7.Player
             Transform head = VRRig.Instance != null && VRRig.Instance.Head != null ? VRRig.Instance.Head : transform;
             Vector3 dir = ChargeLogic.SlashDirection(head.forward, tip - bladeBase, blade.Velocity);
             float dmg = ChargeLogic.DamageFraction * blade.SwingDamageNow();
-            Haptics.Pulse(XRNode.RightHand, 1f, 0.15f);
+            Haptics.Pulse(HandednessRig.MainHand(GameSettings.Active.LeftHanded), 1f, 0.15f);
             EventBus.Publish(new SkillVfx(SkillVfx.ChargedSlash, tip, dir));
             if (dmg <= 0f) return;
 

@@ -26,9 +26,6 @@ namespace Ronin7.Player
     {
         private static readonly Dictionary<string, Action> skills = new();
 
-        /// <summary>True while Twin Wakizashi is equipped (P4-08 sets it); disables the Off-hand slot.</summary>
-        public static bool OffhandBlocked;
-
         /// <summary>P4-04 modal gate: true while a boon/choice panel, the pause menu or the run summary is up.
         /// Set by RunDirector (Flow), which owns those panels. Null = never blocked.</summary>
         public static Func<bool> ModalOpen;
@@ -57,15 +54,22 @@ namespace Ronin7.Player
             else RunState.SetOffhandArt(id);
         }
 
-        /// <summary>Weapon Art needs the sword in the right hand; Off-hand Art needs an empty left hand
-        /// and no Twin Wakizashi. Pure.</summary>
-        public static bool CanFire(ArtSlot slot, bool rightHolding, bool leftHolding) =>
-            slot == ArtSlot.Weapon ? rightHolding : !leftHolding && !OffhandBlocked;
+        /// <summary>A15.3: maps the physical grabbers to main/off hand (left-handed swaps them). Pure.</summary>
+        public static void Hands(bool leftHanded, bool rightGrab, bool leftGrab, out bool main, out bool off)
+        {
+            main = leftHanded ? leftGrab : rightGrab;
+            off = leftHanded ? rightGrab : leftGrab;
+        }
+
+        /// <summary>Weapon Art needs the sword in the main hand and a Katana or Double Katana loadout (A15.18);
+        /// Off-hand Art needs an empty off hand, on any weapon. Pure.</summary>
+        public static bool CanFire(ArtSlot slot, bool mainHolding, bool offHolding) =>
+            slot == ArtSlot.Weapon ? mainHolding && WeaponId.AllowsWeaponArt(RunState.LoadoutId) : !offHolding;
 
         /// <summary>Runs the slot's equipped skill if the hand gate allows and one is registered.</summary>
-        public static bool TryFire(ArtSlot slot, bool rightHolding, bool leftHolding)
+        public static bool TryFire(ArtSlot slot, bool mainHolding, bool offHolding)
         {
-            if (Blocked || !CanFire(slot, rightHolding, leftHolding)) return false;
+            if (Blocked || !CanFire(slot, mainHolding, offHolding)) return false;
             string id = Equipped(slot);
             if (string.IsNullOrEmpty(id) || !skills.TryGetValue(id, out var activate)) return false;
             activate();

@@ -13,7 +13,6 @@ namespace Ronin7.Tests.EditMode
         public void SetUp()
         {
             RunState.Reset();
-            ArtSlots.OffhandBlocked = false;
             fired = 0;
             ArtSlots.Register("test.art", () => fired++);
         }
@@ -22,7 +21,6 @@ namespace Ronin7.Tests.EditMode
         public void TearDown()
         {
             ArtSlots.Unregister("test.art");
-            ArtSlots.OffhandBlocked = false;
             RunState.Reset();
         }
 
@@ -61,15 +59,31 @@ namespace Ronin7.Tests.EditMode
             Assert.AreEqual(1, fired);
         }
 
-        [Test]
-        public void OffhandBlocked_DisablesOffhandOnly()
+        [TestCase("katana", true)]
+        [TestCase("twin_wakizashi", true)]
+        [TestCase("polearm_shield", false)]
+        [TestCase("whip", false)]
+        public void WeaponArt_OnlyOnKatanaAndDoubleKatana_OffhandArtOnAnyWeapon(string loadout, bool weaponArtOk)
         {
-            ArtSlots.Equip(ArtSlot.Offhand, "test.art");
-            ArtSlots.Equip(ArtSlot.Weapon, "test.art");
-            ArtSlots.OffhandBlocked = true;
-            Assert.IsFalse(ArtSlots.TryFire(ArtSlot.Offhand, true, false));
-            Assert.IsTrue(ArtSlots.TryFire(ArtSlot.Weapon, true, false));
-            Assert.AreEqual(1, fired);
+            MetaProgression.DevUnlockAllWeapons = true;
+            try
+            {
+                Assert.IsTrue(MetaProgression.TrySelectLoadout(loadout));
+                RunState.Begin(1u);
+                Assert.AreEqual(loadout, RunState.LoadoutId);
+                Assert.AreEqual(weaponArtOk, ArtSlots.CanFire(ArtSlot.Weapon, true, false));
+                Assert.IsTrue(ArtSlots.CanFire(ArtSlot.Offhand, true, false));
+            }
+            finally { MetaProgression.DevUnlockAllWeapons = false; MetaProgression.ResetForTests(); }
+        }
+
+        [Test]
+        public void LeftHanded_SwapsMainAndOffHand()
+        {
+            ArtSlots.Hands(false, rightGrab: true, leftGrab: false, out bool main, out bool off);
+            Assert.IsTrue(main); Assert.IsFalse(off);
+            ArtSlots.Hands(true, rightGrab: true, leftGrab: false, out main, out off);
+            Assert.IsFalse(main); Assert.IsTrue(off);
         }
 
         [Test]

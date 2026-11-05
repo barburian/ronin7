@@ -19,6 +19,21 @@ namespace Ronin7.Core
         public const string Katana = "katana";                // always unlocked
         public const string Nodachi = "nodachi";              // P4-10 Shrine: 150 Echoes
         public const string Tanto = "tanto";                  // P4-10 Shrine: 150 Echoes
-        public const string TwinWakizashi = "twin_wakizashi"; // P4-10 Shrine: 300 Echoes; blocks the Off-hand Art
+        public const string TwinWakizashi = "twin_wakizashi"; // P4-10 Shrine: 300 Echoes; (Double Katana)
+        public const string PolearmShield = "polearm_shield"; // A15.1: no definition until P9-02c
+        public const string Whip = "whip";                    // A15.1: no definition until P9-02d
+
+        /// <summary>A15.1 roster: the only loadouts a run can start with. Nodachi/Tanto left; owned ones stay readable.</summary>
+        public static bool OnRoster(string id) =>
+            id == Katana || id == TwinWakizashi || id == PolearmShield || id == Whip;
+
+        /// <summary>A15.1 fallback: an off-roster id (old save) plays as the Katana.</summary>
+        public static string Effective(string id) => OnRoster(id) ? id : Katana;
+
+        /// <summary>A15.10: the Whip run has no parry, so ParryGate reads Neutral.</summary>
+        public static bool ParryAvailable(string id) => id != Whip;
+
+        /// <summary>A15.18: Weapon Arts (Charged Slash, Blade Throw) fire only on Katana and Double Katana.</summary>
+        public static bool AllowsWeaponArt(string id) { id = Effective(id); return id == Katana || id == TwinWakizashi; }
     }
 }

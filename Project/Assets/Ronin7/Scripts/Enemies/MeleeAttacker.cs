@@ -628,6 +628,7 @@ namespace Ronin7.Enemies
             deflectedThisSwing = true;
             EndFlinchPose();
             staggerLen = asParry ? StaggerTime * ParryTiming.StaggerScale(TargetBoon(BoonEffectKind.StaggerDuration)) : StaggerTime;
+            if (asParry && attackerBlade != null) staggerLen *= ParryTiming.WeaponStaggerScale(quality, attackerBlade.ParryStagger); // A15.4
             staggerFromEuler = currentEuler;
             staggerFromDraw = bodyDraw;
             Tint(StaggerColor, StaggerRim);

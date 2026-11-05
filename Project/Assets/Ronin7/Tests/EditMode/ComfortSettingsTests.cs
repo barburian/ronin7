@@ -72,7 +72,7 @@ namespace Ronin7.Tests.EditMode
             SettingsService.Persist(s);
             var loaded = SettingsService.Load();
 
-            Assert.IsTrue(loaded.Seated);
+            Assert.IsFalse(loaded.Seated, "A15.15: seated always loads off");
             Assert.IsTrue(loaded.LeftHanded);
             Assert.AreEqual(LocomotionMode.Teleport, loaded.Locomotion);
         }

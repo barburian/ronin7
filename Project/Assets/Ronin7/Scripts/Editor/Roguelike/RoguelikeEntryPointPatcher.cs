@@ -38,10 +38,42 @@ namespace Ronin7.EditorTools
             RoguePatchRunArenaComfortRows();
             RoguePatchComfortOptionRows();
             RoguePatchAccessibility();
+            RoguePatchRemoveSeatedRow();
             AssetDatabase.SaveAssets();
         }
 
-        /// <summary>P2-09: add the Seated / Left-Handed / Teleport rows to RunArena's shipped settings
+        /// <summary>A15.15 (standing only): removes the shipped "Seated Play" row from the boot and RunArena settings
+        /// panels and closes the gap in its column. Additive-safe and idempotent (no row = no change).</summary>
+        [MenuItem("Tools/Space Samurai/Roguelike/Patch Remove Seated Row (A15.15)", priority = 514)]
+        public static void RoguePatchRemoveSeatedRow()
+        {
+            foreach (var path in new[] { RogueBootScenePath, RogueRunArenaScenePath })
+            {
+                var scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
+                bool changed = false;
+                foreach (var panel in Object.FindObjectsByType<Ronin7.Audio.SettingsPanel>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+                {
+                    var rt = panel.GetComponent<RectTransform>();
+                    RectTransform seated = null;
+                    foreach (RectTransform row in rt)
+                        foreach (var t in row.GetComponentsInChildren<Text>(true))
+                            if (t.text == "Seated Play") { seated = row; break; }
+                    if (seated == null) continue;
+                    Vector2 at = seated.anchoredPosition;
+                    foreach (RectTransform row in rt) // rows below it in the same column move up one row
+                        if (row != seated && Mathf.Abs(row.anchoredPosition.x - at.x) < 1f && row.anchoredPosition.y < at.y && row.name == "Row")
+                            row.anchoredPosition += new Vector2(0f, 70f);
+                    Object.DestroyImmediate(seated.gameObject);
+                    changed = true;
+                }
+                if (!changed) { Debug.Log("[RogueEntry] No Seated row in " + path); continue; }
+                Debug.Log("[RogueEntry] Removed the Seated row from " + path);
+                EditorSceneManager.MarkSceneDirty(scene);
+                EditorSceneManager.SaveScene(scene);
+            }
+        }
+
+        /// <summary>P2-09: add the Left-Handed / Teleport rows to RunArena's shipped settings
         /// panel(s). Additive and idempotent (see <see cref="SettingsPanelBuilder.AddComfortRows"/>).</summary>
         private static void RoguePatchRunArenaComfortRows()
         {
@@ -54,7 +86,7 @@ namespace Ronin7.EditorTools
                 Debug.Log("[RogueEntry] RunArena comfort rows already present (or no panel) — left as-is.");
                 return;
             }
-            Debug.Log("[RogueEntry] Added Seated / Left-Handed / Teleport rows to RunArena's settings panel.");
+            Debug.Log("[RogueEntry] Added Left-Handed / Teleport rows to RunArena's settings panel.");
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
         }

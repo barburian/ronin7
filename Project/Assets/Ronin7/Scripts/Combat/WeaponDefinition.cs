@@ -28,6 +28,14 @@ namespace Ronin7.Combat
         [Tooltip("World length (m) of the blade, which is also the swept hit reach. 0 = leave the scene's blade as built (Katana).")]
         public float bladeLength = 0f;
 
+        [Header("Parry / Thrust (A15.4)")]
+        [Tooltip("Off = this weapon never parries: enemy strikes and bolts pass it and only hurt if they reach the body.")]
+        public bool canParry = true;
+        [Tooltip("Scales the stagger of a normal (non-perfect) parry. A perfect parry always gets full stagger.")]
+        public float parryStagger = 1f;
+        [Tooltip("Flat thrust damage. 0 = no thrust (logic arrives with the Polearm).")]
+        public float thrustDamage = 0f;
+
         public float DamageForSpeed(float speed) => DamageForSpeed(speed, 1f);
 
         /// <summary>P4-02 EdgeSensitivity: both speed thresholds scaled by <paramref name="thresholdScale"/>

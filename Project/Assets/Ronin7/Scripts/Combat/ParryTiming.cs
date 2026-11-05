@@ -27,6 +27,9 @@ namespace Ronin7.Combat
             => baseWindow + Mathf.Clamp(baseWindow * windowBonus, 0f, 0.04f);
 
         /// <summary>P4-02 StaggerDuration: deflect-stagger scale, capped at x1.5.</summary>
+        /// <summary>A15.4: a perfect parry (quality &gt; 0) always gets full stagger; a normal one scales by the blade's parryStagger.</summary>
+        public static float WeaponStaggerScale(float quality, float parryStagger) => quality > 0f ? 1f : parryStagger;
+
         public static float StaggerScale(float staggerBonus) => 1f + Mathf.Clamp(staggerBonus, 0f, 0.5f);
 
         /// <summary>

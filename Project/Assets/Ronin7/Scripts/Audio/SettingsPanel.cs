@@ -29,7 +29,6 @@ namespace Ronin7.Audio
         [SerializeField] private Toggle bloodToggle;       // on = red splatter on organic hits
 
         [Header("Comfort / Accessibility (P2-09)")]
-        [SerializeField] private Toggle seatedToggle;     // on = seated play (+0.45 m eye lift)
         [SerializeField] private Toggle leftHandedToggle; // on = HUD on right controller, ray + holster mirrored
         [SerializeField] private Toggle teleportToggle;   // on = Teleport locomotion, off = Smooth (default)
 
@@ -73,7 +72,6 @@ namespace Ronin7.Audio
             if (vignetteToggle != null) vignetteToggle.onValueChanged.AddListener(OnVignetteChanged);
             if (highQualityToggle != null) highQualityToggle.onValueChanged.AddListener(OnHighQualityChanged);
             if (bloodToggle != null) bloodToggle.onValueChanged.AddListener(OnBloodChanged);
-            if (seatedToggle != null) seatedToggle.onValueChanged.AddListener(OnSeatedChanged);
             if (leftHandedToggle != null) leftHandedToggle.onValueChanged.AddListener(OnLeftHandedChanged);
             if (teleportToggle != null) teleportToggle.onValueChanged.AddListener(OnTeleportChanged);
             if (hapticSlider != null) hapticSlider.onValueChanged.AddListener(OnHapticChanged);
@@ -116,7 +114,6 @@ namespace Ronin7.Audio
             if (vignetteToggle != null) vignetteToggle.isOn = s.ComfortVignette;
             if (highQualityToggle != null) highQualityToggle.isOn = s.Quality == GraphicsQuality.High;
             if (bloodToggle != null) bloodToggle.isOn = s.CombatBlood;
-            if (seatedToggle != null) seatedToggle.isOn = s.Seated;
             if (leftHandedToggle != null) leftHandedToggle.isOn = s.LeftHanded;
             if (teleportToggle != null) teleportToggle.isOn = s.Locomotion == LocomotionMode.Teleport;
             if (hapticSlider != null) hapticSlider.value = s.HapticIntensity;
@@ -212,12 +209,6 @@ namespace Ronin7.Audio
         {
             if (initializing || SettingsService.Instance == null) return;
             SettingsService.Instance.SetCombatBlood(v);
-        }
-
-        private void OnSeatedChanged(bool v)
-        {
-            if (initializing || SettingsService.Instance == null) return;
-            SettingsService.Instance.SetSeated(v);
         }
 
         private void OnLeftHandedChanged(bool v)

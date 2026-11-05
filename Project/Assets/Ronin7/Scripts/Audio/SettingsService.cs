@@ -148,12 +148,6 @@ namespace Ronin7.Audio
             Persist(); Apply();
         }
 
-        public void SetSeated(bool on)
-        {
-            settings.Seated = on;
-            Persist(); Apply();
-        }
-
         public void SetLeftHanded(bool on)
         {
             settings.LeftHanded = on;
@@ -277,7 +271,7 @@ namespace Ronin7.Audio
                 Quality = (GraphicsQuality)PlayerPrefs.GetInt(KeyQuality, qualityDefault),
                 CombatBlood = PlayerPrefs.GetInt(KeyBlood, d.CombatBlood ? 1 : 0) != 0,
                 // P2-09: absent on pre-P2-09 installs → defaults (Standing, right-handed, Smooth).
-                Seated = PlayerPrefs.GetInt(KeySeated, d.Seated ? 1 : 0) != 0,
+                Seated = false, // ponytail: seated play removed by A15.15 (standing only); delete the Seated field and its checks if the decision stands
                 LeftHanded = PlayerPrefs.GetInt(KeyLeftHanded, d.LeftHanded ? 1 : 0) != 0,
                 Locomotion = (LocomotionMode)PlayerPrefs.GetInt(KeyLocomotion, (int)d.Locomotion),
                 // P6-02: absent on older installs -> pre-P6 behaviour; hand-edited values are clamped.

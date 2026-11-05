@@ -97,8 +97,8 @@ namespace Ronin7.Enemies
         // BUG-39 tells: gold rim while the state-based weakness is open, blue-grey rest rim for guarded kinds.
         protected override bool WeakOpen => definition != null && WeaknessRules.IsOpen(definition.weakness,
             state == State.Stagger && !IsFlinching, state == State.Windup || state == State.Active,
-            state == State.Recover, Time.time - lastBlinkTime < WeaknessRules.BlinkWindow);
-        protected override bool WeakGuarded => definition != null && WeaknessRules.RestsGuarded(definition.weakness);
+            state == State.Recover, Time.time - lastBlinkTime < WeaknessRules.BlinkWindow, WeaponId.ParryAvailable(RunState.LoadoutId));
+        protected override bool WeakGuarded => definition != null && WeaknessRules.RestsGuarded(definition.weakness, WeaponId.ParryAvailable(RunState.LoadoutId));
 
         /// <summary>BUG-39: this enemy's current weakness rule (first-encounter teach key).</summary>
         public WeaknessKind Weakness => definition != null ? definition.weakness : WeaknessKind.None;
@@ -416,7 +416,7 @@ namespace Ronin7.Enemies
             for (int i = 0; i < n; i++)
             {
                 var blade = _bladeHits[i].GetComponentInParent<BladeDamager>();
-                if (blade == null) continue;
+                if (blade == null || !blade.CanParry) continue; // A15.4: a non-parrying blade is skipped, keep looking
                 Deflect(bladeTip.position, blade);
                 return;
             }
@@ -569,7 +569,8 @@ namespace Ronin7.Enemies
                 recovering: state == State.Recover,
                 recentlyBlinked: now - lastBlinkTime < WeaknessRules.BlinkWindow,
                 side, lastHitSide, now - lastHitTime,
-                onWeakSpot: weakSpot != null && weakSpot.enabled && WeaknessRules.OnWeakSpot(weakSpot.bounds, info.Point));
+                onWeakSpot: weakSpot != null && weakSpot.enabled && WeaknessRules.OnWeakSpot(weakSpot.bounds, info.Point),
+                parryAvailable: WeaponId.ParryAvailable(RunState.LoadoutId));
             lastHitSide = side;
             lastHitTime = now;
 

@@ -47,7 +47,7 @@ namespace Ronin7.Tests.EditMode
             Assert.AreEqual(s.EyeHeightOffset, l.EyeHeightOffset, 1e-4f);
             Assert.AreEqual(s.Quality, l.Quality);
             Assert.AreEqual(s.CombatBlood, l.CombatBlood);
-            Assert.AreEqual(s.Seated, l.Seated);
+            Assert.IsFalse(l.Seated, "A15.15: standing only, a saved Seated always loads off");
             Assert.AreEqual(s.LeftHanded, l.LeftHanded);
             Assert.AreEqual(s.Locomotion, l.Locomotion);
             Assert.AreEqual(s.HapticIntensity, l.HapticIntensity, 1e-4f);

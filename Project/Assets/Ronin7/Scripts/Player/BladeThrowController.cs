@@ -68,10 +68,11 @@ namespace Ronin7.Player
                 sword.Released += OnReleased;
             }
             var rig = VRRig.Instance;
-            if (rightGrabber == null && rig != null && rig.RightHand != null)
+            Transform main = rig != null ? HandednessRig.MainHand(rig, GameSettings.Active.LeftHanded) : null;
+            if (main != null && (rightGrabber == null || rightGrabber.transform != main)) // re-resolve after a live handedness flip
             {
-                rightGrabber = rig.RightHand.GetComponent<Grabber>();
-                rightVelocity = rig.RightHand.GetComponent<HandVelocityTracker>();
+                rightGrabber = main.GetComponent<Grabber>();
+                rightVelocity = main.GetComponent<HandVelocityTracker>();
             }
             return sword != null && rightGrabber != null;
         }
@@ -142,7 +143,7 @@ namespace Ronin7.Player
             recallFrom = sword.transform.position;
             phase = Phase.Recalling;
             phaseStart = now;
-            Haptics.Pulse(XRNode.RightHand, 0.5f, 0.05f);
+            Haptics.Pulse(HandednessRig.MainHand(GameSettings.Active.LeftHanded), 0.5f, 0.05f);
             return true;
         }
 
@@ -155,7 +156,7 @@ namespace Ronin7.Player
             if (!ThrowLogic.RecallDone(t)) return;
             if (rightGrabber.GripHeld) rightGrabber.GrabDirect(sword); // let go mid-recall = it resheathes instead
             EndThrow();
-            Haptics.Pulse(XRNode.RightHand, 0.8f, 0.08f);
+            Haptics.Pulse(HandednessRig.MainHand(GameSettings.Active.LeftHanded), 0.8f, 0.08f);
         }
 
         private void EndThrow()

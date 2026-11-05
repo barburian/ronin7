@@ -88,7 +88,7 @@ namespace Ronin7.Core
         }
 
         /// <summary>P4-08: the loadout the next run starts with. A locked pick (e.g. a dev unlock that ended) reads as the katana.</summary>
-        public static string SelectedLoadout => IsWeaponUnlocked(selectedLoadout) ? selectedLoadout : WeaponId.Katana;
+        public static string SelectedLoadout => IsWeaponUnlocked(selectedLoadout) ? WeaponId.Effective(selectedLoadout) : WeaponId.Katana;
 
         /// <summary>P4-08 LOADOUT rack: selects <paramref name="weaponId"/> if unlocked (false, no change, if locked). Caller saves.</summary>
         public static bool TrySelectLoadout(string weaponId)
@@ -285,6 +285,7 @@ namespace Ronin7.Core
             if (IsWeaponItem(id) || IsPackItem(id)) // P4-10: one-time unlocks
             {
                 if (unlockedWeapons.Contains(id) || unlockedPacks.Contains(id)) return false;
+                if (IsWeaponItem(id) && !WeaponId.OnRoster(id)) return false; // A15.1
                 if (!TrySpend(UpgradeCost(id, 1))) return false;
                 if (IsWeaponItem(id)) UnlockWeapon(id); else UnlockPack(id);
                 Save();

@@ -1724,3 +1724,10 @@ Binding for P9. All numbers are starting values, tuned on the headset. "Off hand
 - A15.17. **Skill sketches for P10-00 (rough, not built in P9).** Katana: Charged Slash, Blade Throw. Double Katana: Kiai Palm, Spirit Blade (holstered second katana flies out and guards for about 5 s, auto-parrying one hit). Polearm: Chain Hook, Ward (empty off-hand palm projects a bolt-blocking barrier for about 3 s). Whip: Element Imbue, Rapid Lash (crack cooldown to about 0.2 s for 5 s). P9 only keeps them possible: Whip and Polearm hits use the shared damage path so Imbue and boons apply.
 - A15.18. **Existing Arts during P9:** Weapon Arts (Charged Slash, Blade Throw) fire only on Katana and Double Katana, and show as unavailable on the others rather than doing nothing. Off-hand Arts work on any weapon with an empty off hand.
 - A15.19. **Later, not P9:** difficulty modes (more enemies, faster reactions, a clean run on easy being doable). Must fit Fracture Pressure, and must decide whether easy counts for the Whip.
+
+**User rulings 2026-11-05 (P9-02 prep, additive to A15):**
+
+- R1. A bolt hitting a `canParry`-off weapon passes through it: it only hurts if it reaches the body.
+- R2. A Whip crack cancels a windup even through Resisted hits; `hyperArmourWindup` holds like super-armour (Juggernaut's slam cannot be cancelled). Built in P9-02e.
+- R3. Polearm thrust is a flat 30 but the head still counts: only the direction bonus goes. Head hit = 30 x precision (37.5 base; Precision boon and Sight x2 apply; cap 60); body thrust = 30; then damage boons. Built in P9-02c.
+- R4. A15.10 is per loadout: `ParryGate` goes Neutral only on a Whip run. Polearm + Shield keeps the gate even with the shield holstered.

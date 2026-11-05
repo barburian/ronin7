@@ -274,6 +274,7 @@ namespace Ronin7.Flow
             bool owned = MetaProgression.HasArtSlot(weapon);
             int cost = MetaProgression.UpgradeCost(weapon ? MetaUpgradeId.WeaponArtSlot : MetaUpgradeId.OffhandArtSlot, 1);
             label.text = ArtText(weapon, owned, MetaProgression.EquippedArt(weapon), cost);
+            if (weapon && owned && !WeaponId.AllowsWeaponArt(MetaProgression.SelectedLoadout)) label.text += "\nUNAVAILABLE ON THIS WEAPON"; // A15.18
             button.interactable = owned || MetaProgression.Echoes >= cost;
         }
 

@@ -58,12 +58,14 @@ namespace Ronin7.Player
         private void TryPalm()
         {
             var rig = VRRig.Instance;
-            if (rig == null || rig.LeftHand == null) return;
-            if (leftVelocity == null) leftVelocity = rig.LeftHand.GetComponent<HandVelocityTracker>();
+            if (rig == null) return;
+            Transform offHand = HandednessRig.OffHand(rig, GameSettings.Active.LeftHanded);
+            if (offHand == null) return;
+            if (leftVelocity == null || leftVelocity.transform != offHand) leftVelocity = offHand.GetComponent<HandVelocityTracker>();
             if (mods == null) mods = GetComponentInParent<PlayerCombatModifiers>();
             if (!logic.TryFire(SkillRig.RealVelocity(leftVelocity).magnitude, Time.time, SkillRig.CooldownScale(mods))) return;
 
-            Vector3 hand = rig.LeftHand.position;
+            Vector3 hand = offHand.position;
             GameObject source = transform.root.gameObject;
             var all = Health.Active;
             for (int i = all.Count - 1; i >= 0; i--) // backwards: a break can kill and unregister
@@ -79,7 +81,7 @@ namespace Ronin7.Player
                     if (h.IsAlive && meter.Fraction >= NearBreakFraction) enemy.ForceStagger();
                 }
             }
-            Haptics.Pulse(XRNode.LeftHand, 1f, 0.15f);
+            Haptics.Pulse(HandednessRig.OffHand(GameSettings.Active.LeftHanded), 1f, 0.15f);
             EventBus.Publish(new AbilityActivated(ArtId.KiaiPalm));
         }
     }

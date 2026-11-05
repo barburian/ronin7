@@ -69,7 +69,7 @@ namespace Ronin7.Enemies
             for (int i = 0; i < n; i++)
             {
                 var blade = _bladeHits[i].GetComponentInParent<BladeDamager>();
-                if (blade == null) continue;
+                if (blade == null || !blade.CanParry) continue;
                 Deflect(guard, blade);
                 return;
             }

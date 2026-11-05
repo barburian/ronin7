@@ -1,11 +1,12 @@
+using Ronin7.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Ronin7.Player
 {
     /// <summary>
-    /// P4-03: right trigger fires the Weapon Art (sword held), left trigger the Off-hand Art (empty
-    /// left hand). Thin shell over <see cref="ArtSlots"/>; wired to Gameplay/WeaponArt and
+    /// P4-03: main-hand trigger fires the Weapon Art (sword held), off-hand trigger the Off-hand Art (empty
+    /// off hand; swapped when left-handed). Thin shell over <see cref="ArtSlots"/>; wired to Gameplay/WeaponArt and
     /// Gameplay/OffhandArt by XRRigBuilder.
     /// </summary>
     public class ArtInputDispatcher : MonoBehaviour
@@ -30,17 +31,21 @@ namespace Ronin7.Player
 
         private void Update()
         {
-            bool right = rightGrabber != null && rightGrabber.IsHolding;
-            bool left = leftGrabber != null && leftGrabber.IsHolding;
+            // A15.3: left-handed swaps which trigger/grabber is the weapon (main) hand. The input asset is not rewired.
+            bool lh = GameSettings.Active.LeftHanded;
+            ArtSlots.Hands(lh, rightGrabber != null && rightGrabber.IsHolding, leftGrabber != null && leftGrabber.IsHolding,
+                out bool main, out bool off);
+            var weaponAct = (lh ? offhandArtAction : weaponArtAction)?.action;
+            var offAct = (lh ? weaponArtAction : offhandArtAction)?.action;
             bool open = !ArtSlots.Blocked;
-            ArtSlots.WeaponHeld = open && ArtSlots.CanFire(ArtSlot.Weapon, right, left)
-                                  && weaponArtAction?.action != null && weaponArtAction.action.IsPressed();
-            ArtSlots.OffhandHeld = open && ArtSlots.CanFire(ArtSlot.Offhand, right, left)
-                                   && offhandArtAction?.action != null && offhandArtAction.action.IsPressed();
-            if (weaponArtAction?.action != null && weaponArtAction.action.WasPressedThisFrame())
-                ArtSlots.TryFire(ArtSlot.Weapon, right, left);
-            if (offhandArtAction?.action != null && offhandArtAction.action.WasPressedThisFrame())
-                ArtSlots.TryFire(ArtSlot.Offhand, right, left);
+            ArtSlots.WeaponHeld = open && ArtSlots.CanFire(ArtSlot.Weapon, main, off)
+                                  && weaponAct != null && weaponAct.IsPressed();
+            ArtSlots.OffhandHeld = open && ArtSlots.CanFire(ArtSlot.Offhand, main, off)
+                                   && offAct != null && offAct.IsPressed();
+            if (weaponAct != null && weaponAct.WasPressedThisFrame())
+                ArtSlots.TryFire(ArtSlot.Weapon, main, off);
+            if (offAct != null && offAct.WasPressedThisFrame())
+                ArtSlots.TryFire(ArtSlot.Offhand, main, off);
         }
     }
 }

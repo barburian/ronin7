@@ -217,22 +217,21 @@ namespace Ronin7.EditorTools
             return panel;
         }
 
-        /// <summary>P2-09: appends Seated / Left-Handed / Teleport toggle rows to an existing panel
+        /// <summary>P2-09: appends Left-Handed / Teleport toggle rows to an existing panel
         /// (fresh builds AND shipped scenes, via the roguelike entry-point patcher). Grows the canvas
-        /// by three rows at the bottom and lifts the existing content by half that, so nothing already
+        /// by two rows at the bottom and lifts the existing content by half that, so nothing already
         /// laid out moves relative to its neighbours. Idempotent: returns false if already present.</summary>
         internal static bool AddComfortRows(SettingsPanel panel)
         {
             var so = new SerializedObject(panel);
-            if (so.FindProperty("seatedToggle").objectReferenceValue != null) return false;
+            if (so.FindProperty("leftHandedToggle").objectReferenceValue != null) return false;
 
-            const float added = 210f; // 3 rows x 70
+            const float added = 140f; // 2 rows x 70 (A15.15: no Seated row)
             var rt = panel.GetComponent<RectTransform>();
             foreach (RectTransform child in rt) child.anchoredPosition += new Vector2(0f, added * 0.5f);
             rt.sizeDelta += new Vector2(0f, added);
 
             float y = -rt.sizeDelta.y * 0.5f + added - 35f; // centre of the first new row
-            SetRef(so, "seatedToggle", MakeToggle(rt, "Seated Play", ref y));
             SetRef(so, "leftHandedToggle", MakeToggle(rt, "Left-Handed", ref y));
             SetRef(so, "teleportToggle", MakeToggle(rt, "Teleport Movement", ref y));
             so.ApplyModifiedPropertiesWithoutUndo();
@@ -274,7 +273,7 @@ namespace Ronin7.EditorTools
 
             var rt = panel.GetComponent<RectTransform>();
             var moved = new List<RectTransform>();
-            foreach (var name in new[] { "seatedToggle", "leftHandedToggle", "teleportToggle", "hapticSlider", "reduceFlashesToggle", "slowMoSlider", "vignetteStrengthSlider" })
+            foreach (var name in new[] { "leftHandedToggle", "teleportToggle", "hapticSlider", "reduceFlashesToggle", "slowMoSlider", "vignetteStrengthSlider" })
             {
                 var c = so.FindProperty(name).objectReferenceValue as Component;
                 if (c != null) moved.Add((RectTransform)c.transform.parent); // each control sits in a 70 px "Row"

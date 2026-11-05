@@ -49,7 +49,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             Assert.IsTrue(MetaProgression.IsWeaponUnlocked(WeaponId.Nodachi));
             Assert.IsTrue(MetaProgression.IsWeaponUnlocked(WeaponId.Tanto));
             Assert.IsFalse(MetaProgression.IsWeaponUnlocked(WeaponId.TwinWakizashi));
-            Assert.AreEqual(WeaponId.Nodachi, MetaProgression.SelectedLoadout);
+            Assert.AreEqual(WeaponId.Katana, MetaProgression.SelectedLoadout, "A15.1: an owned Nodachi pick plays as the Katana");
             Assert.AreEqual(2, MetaProgression.HeatRankOf(HeatRank.SharpenedProgram));
             Assert.AreEqual(1, MetaProgression.HeatRankOf(HeatRank.HardenedShells));
             Assert.AreEqual(1, MetaProgression.HeatRankOf(HeatRank.RustedForge));

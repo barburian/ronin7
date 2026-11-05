@@ -39,8 +39,6 @@ namespace Ronin7.Tests.EditMode
             try { Directory.Delete(dir, true); } catch (IOException) { }
         }
 
-        [TestCase(WeaponId.Nodachi, 150)]
-        [TestCase(WeaponId.Tanto, 150)]
         [TestCase(WeaponId.TwinWakizashi, 300)]
         [TestCase(MetaUpgradeId.WeaponArtSlot, 250)]
         [TestCase(MetaUpgradeId.OffhandArtSlot, 250)]
@@ -64,12 +62,22 @@ namespace Ronin7.Tests.EditMode
         [Test]
         public void Shrine_WeaponPurchase_UnlocksAndPersists()
         {
-            MetaProgression.AddEchoes(150);
-            Assert.IsFalse(MetaProgression.IsWeaponUnlocked(WeaponId.Tanto));
-            Assert.IsTrue(MetaProgression.TryPurchase(WeaponId.Tanto));
+            MetaProgression.AddEchoes(300);
+            Assert.IsFalse(MetaProgression.IsWeaponUnlocked(WeaponId.TwinWakizashi));
+            Assert.IsTrue(MetaProgression.TryPurchase(WeaponId.TwinWakizashi));
             MetaProgression.Load();
-            Assert.IsTrue(MetaProgression.IsWeaponUnlocked(WeaponId.Tanto));
+            Assert.IsTrue(MetaProgression.IsWeaponUnlocked(WeaponId.TwinWakizashi));
             Assert.AreEqual(0, MetaProgression.Echoes);
+        }
+
+        [TestCase(WeaponId.Nodachi)]
+        [TestCase(WeaponId.Tanto)]
+        public void Shrine_OffRosterWeapon_RefusedAndNotCharged(string id)
+        {
+            MetaProgression.AddEchoes(1000);
+            Assert.IsFalse(MetaProgression.TryPurchase(id));
+            Assert.AreEqual(1000, MetaProgression.Echoes);
+            Assert.IsFalse(MetaProgression.IsWeaponUnlocked(id));
         }
 
         [Test]

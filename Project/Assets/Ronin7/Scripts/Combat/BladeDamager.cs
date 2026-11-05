@@ -61,6 +61,12 @@ namespace Ronin7.Combat
         /// <summary>P4-08: the weapon stats this blade reads at hit time.</summary>
         public WeaponDefinition Definition => definition;
 
+        /// <summary>A15.4: false for a weapon that cannot parry (Whip, Polearm). No definition = parries.</summary>
+        public bool CanParry => definition == null || definition.canParry;
+
+        /// <summary>A15.4: stagger scale for a normal parry with this blade (1 with no definition).</summary>
+        public float ParryStagger => definition != null ? definition.parryStagger : 1f;
+
         /// <summary>P4-08: swaps the loadout in after scene load. Awake resolves <see cref="Sword.Definition"/>
         /// before RunDirector knows the run's loadout, so RunDirector.ApplyBoonInventoryToRig calls this. Null is ignored.</summary>
         public void SetDefinition(WeaponDefinition def)

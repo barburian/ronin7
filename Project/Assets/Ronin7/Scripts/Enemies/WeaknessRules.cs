@@ -21,11 +21,13 @@ namespace Ronin7.Enemies
         public readonly float SinceLastHit;
         /// <summary>P8-05: the hit landed on/near the shield's weak spot (<see cref="WeaknessRules.OnWeakSpot"/>).</summary>
         public readonly bool OnWeakSpot;
+        /// <summary>A15.10: false on a Whip run (no parry), so ParryGate reads Neutral.</summary>
+        public readonly bool ParryAvailable;
 
         public WeaknessContext(Vector3 enemyPos, Vector3 enemyForward, Vector3 sourcePos, Vector3 hitPoint,
             float speed, DamageType type, bool sourceIsPlayer, bool sourceIsAlly, bool sightActive,
             bool staggered, bool attacking, bool recovering, bool recentlyBlinked,
-            int hitSide, int lastHitSide, float sinceLastHit, bool onWeakSpot = false)
+            int hitSide, int lastHitSide, float sinceLastHit, bool onWeakSpot = false, bool parryAvailable = true)
         {
             EnemyPos = enemyPos; EnemyForward = enemyForward; SourcePos = sourcePos; HitPoint = hitPoint;
             Speed = speed; Type = type;
@@ -33,6 +35,7 @@ namespace Ronin7.Enemies
             Staggered = staggered; Attacking = attacking; Recovering = recovering; RecentlyBlinked = recentlyBlinked;
             HitSide = hitSide; LastHitSide = lastHitSide; SinceLastHit = sinceLastHit;
             OnWeakSpot = onWeakSpot;
+            ParryAvailable = parryAvailable;
         }
     }
 
@@ -79,6 +82,7 @@ namespace Ronin7.Enemies
                         ? WeaknessResult.Exploited : WeaknessResult.Neutral;
 
                 case WeaknessKind.ParryGate:
+                    if (!c.ParryAvailable) return WeaknessResult.Neutral;
                     return c.Staggered ? WeaknessResult.Exploited : WeaknessResult.Resisted;
 
                 case WeaknessKind.CounterHit:
@@ -100,13 +104,13 @@ namespace Ronin7.Enemies
         /// shows gold ("hit now"). Only the kinds whose window is a state: the positional / swing-speed / side
         /// / projectile kinds (Backstab plate, HeavyBreak slab, Alternating shoulders, Reflect bolts) carry
         /// their own marker instead, so they are false here except Backstab's stagger window.</summary>
-        public static bool IsOpen(WeaknessKind k, bool staggered, bool attacking, bool recovering, bool recentlyBlinked)
+        public static bool IsOpen(WeaknessKind k, bool staggered, bool attacking, bool recovering, bool recentlyBlinked, bool parryAvailable = true)
         {
             switch (k)
             {
                 case WeaknessKind.Recovery: return staggered || recovering;
-                case WeaknessKind.Backstab:
-                case WeaknessKind.ParryGate: return staggered;
+                case WeaknessKind.Backstab: return staggered;
+                case WeaknessKind.ParryGate: return parryAvailable && staggered;
                 case WeaknessKind.CounterHit: return attacking || staggered;
                 case WeaknessKind.Blink: return recentlyBlinked;
                 default: return false; // None, HeavyBreak, Alternating, Reflect, Linchpin, PostureOnly
@@ -114,8 +118,8 @@ namespace Ronin7.Enemies
         }
 
         /// <summary>BUG-39: kinds whose rim rests blue-grey ("guarded") whenever <see cref="IsOpen"/> is false.</summary>
-        public static bool RestsGuarded(WeaknessKind k) =>
-            k == WeaknessKind.ParryGate || k == WeaknessKind.CounterHit || k == WeaknessKind.PostureOnly;
+        public static bool RestsGuarded(WeaknessKind k, bool parryAvailable = true) =>
+            (k == WeaknessKind.ParryGate && parryAvailable) || k == WeaknessKind.CounterHit || k == WeaknessKind.PostureOnly;
 
         public static float Multiplier(WeaknessResult r, float resist, float exploit) =>
             r == WeaknessResult.Resisted ? resist : r == WeaknessResult.Exploited ? exploit : 1f;

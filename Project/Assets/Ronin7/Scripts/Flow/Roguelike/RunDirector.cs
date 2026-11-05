@@ -1681,16 +1681,16 @@ namespace Ronin7.Flow
 
         /// <summary>P4-08: equips the run's weapon on the freshly loaded rig. The main sword (the rig's
         /// <see cref="KatanaHolster"/>) takes the definition; Twin Wakizashi also activates the left blade on the
-        /// <see cref="KatanaHolster.OffhandAnchorName"/> holster and blocks the Off-hand Art. An id with no
+        /// <see cref="KatanaHolster.OffhandAnchorName"/> holster. An id with no
         /// matching definition leaves the scene's katana as built.</summary>
         internal static void ApplyLoadout(Transform rig, WeaponDefinition[] weapons, string loadoutId)
         {
+            loadoutId = WeaponId.Effective(loadoutId); // A15.1: an off-roster id (old save) plays as the Katana
             WeaponDefinition def = null;
             if (weapons != null)
                 foreach (var w in weapons)
                     if (w != null && w.id == loadoutId) { def = w; break; }
             bool twin = def != null && loadoutId == WeaponId.TwinWakizashi;
-            ArtSlots.OffhandBlocked = twin;
 
             var main = rig.GetComponent<KatanaHolster>();
             if (def != null && main != null) EquipBlade(main.Sword, def);

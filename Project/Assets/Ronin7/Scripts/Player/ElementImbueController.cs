@@ -90,13 +90,14 @@ namespace Ronin7.Player
             if (logic.Expired(now)) Clear();
             if (!ArtSlots.IsEquipped(ArtSlot.Offhand, ArtId.ElementImbue) || !Resolve()) return;
             var rig = VRRig.Instance;
-            if (rig == null || rig.LeftHand == null) return;
+            Transform offHand = rig != null ? HandednessRig.OffHand(rig, GameSettings.Active.LeftHanded) : null;
+            if (offHand == null) return;
             blade.WorldEndpoints(out Vector3 bladeBase, out Vector3 tip);
-            float along = ImbueLogic.Along(rig.LeftHand.position, bladeBase, tip, out float dist);
+            float along = ImbueLogic.Along(offHand.position, bladeBase, tip, out float dist);
             if (!logic.Tick(along, dist, ArtSlots.OffhandHeld, Time.unscaledTime)) return;
 
             ImbueElement element = ImbueLogic.Pick(mods.OwnedElements, last);
-            if (element == ImbueElement.None) { Haptics.Pulse(XRNode.LeftHand, 0.15f, 0.03f); return; }
+            if (element == ImbueElement.None) { Haptics.Pulse(HandednessRig.OffHand(GameSettings.Active.LeftHanded), 0.15f, 0.03f); return; }
             last = element;
             mods.Imbued = element;
             logic.Begin(now);
@@ -109,8 +110,8 @@ namespace Ronin7.Player
                 Color baseColor = m != null && m.HasProperty(BaseColorId) ? m.GetColor(BaseColorId) : Color.white;
                 RendererTint.Apply(r, baseColor, rim);
             }
-            Haptics.Pulse(XRNode.LeftHand, 0.8f, 0.1f);
-            Haptics.Pulse(XRNode.RightHand, 0.8f, 0.1f);
+            Haptics.Pulse(HandednessRig.OffHand(GameSettings.Active.LeftHanded), 0.8f, 0.1f);
+            Haptics.Pulse(HandednessRig.MainHand(GameSettings.Active.LeftHanded), 0.8f, 0.1f);
             EventBus.Publish(new AbilityActivated(ArtId.ElementImbue));
         }
 

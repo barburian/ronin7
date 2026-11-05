@@ -27,6 +27,11 @@ namespace Ronin7.Player
         /// right-handed player, right for a left-handed one.</summary>
         public static XRNode OffHand(bool leftHanded) => leftHanded ? XRNode.RightHand : XRNode.LeftHand;
 
+        /// <summary>The main (sword) hand: the one the off-hand is not.</summary>
+        public static XRNode MainHand(bool leftHanded) => leftHanded ? XRNode.LeftHand : XRNode.RightHand;
+        public static Transform OffHand(VRRig rig, bool leftHanded) => leftHanded ? rig.RightHand : rig.LeftHand;
+        public static Transform MainHand(VRRig rig, bool leftHanded) => leftHanded ? rig.LeftHand : rig.RightHand;
+
         public static void Apply(bool leftHanded)
         {
             var rig = VRRig.Instance;

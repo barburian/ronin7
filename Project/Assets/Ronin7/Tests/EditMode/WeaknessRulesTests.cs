@@ -16,9 +16,9 @@ namespace Ronin7.Tests.EditMode
 
         static WeaknessContext C(Vector3? src = null, float speed = 0f, DamageType type = DamageType.Melee,
             bool player = true, bool ally = false, bool sight = false, bool stag = false, bool atk = false,
-            bool rec = false, bool blink = false, int side = 1, int last = 0, float since = 99f) =>
+            bool rec = false, bool blink = false, int side = 1, int last = 0, float since = 99f, bool parry = true) =>
             new WeaknessContext(Vector3.zero, Fwd, src ?? Front, src ?? Front, speed, type, player, ally, sight,
-                stag, atk, rec, blink, side, last, since);
+                stag, atk, rec, blink, side, last, since, parryAvailable: parry);
 
         static WeaknessResult E(WeaknessKind k, WeaknessContext c) => WeaknessRules.Evaluate(k, c, Heavy);
 
@@ -71,6 +71,22 @@ namespace Ronin7.Tests.EditMode
         {
             Assert.AreEqual(WeaknessResult.Resisted, E(WeaknessKind.ParryGate, C()));
             Assert.AreEqual(WeaknessResult.Exploited, E(WeaknessKind.ParryGate, C(stag: true)));
+        }
+
+        [Test] public void ParryGate_NeutralWhenNoParry_WhipRun()
+        {
+            Assert.AreEqual(WeaknessResult.Neutral, E(WeaknessKind.ParryGate, C(parry: false)));
+            Assert.AreEqual(WeaknessResult.Neutral, E(WeaknessKind.ParryGate, C(stag: true, parry: false)));
+            Assert.IsFalse(WeaknessRules.RestsGuarded(WeaknessKind.ParryGate, false));
+            Assert.IsFalse(WeaknessRules.IsOpen(WeaknessKind.ParryGate, true, false, false, false, false));
+            Assert.IsTrue(WeaknessRules.RestsGuarded(WeaknessKind.CounterHit, false));
+        }
+
+        [Test] public void ParryAvailable_OnlyFalseOnWhip()
+        {
+            foreach (var id in new[] { WeaponId.Katana, WeaponId.TwinWakizashi, WeaponId.PolearmShield, WeaponId.Nodachi, "" })
+                Assert.IsTrue(WeaponId.ParryAvailable(id), id);
+            Assert.IsFalse(WeaponId.ParryAvailable(WeaponId.Whip));
         }
 
         [Test] public void CounterHit()

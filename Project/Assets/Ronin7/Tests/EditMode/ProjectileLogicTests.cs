@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using NUnit.Framework;
+using Ronin7.Combat;
 using Ronin7.Ship;
 using UnityEngine;
 
@@ -33,6 +34,48 @@ namespace Ronin7.Tests.EditMode
             if (_owner != null) Object.DestroyImmediate(_owner);
             if (_otherRoot != null) Object.DestroyImmediate(_otherRoot);
             // _childOfOwner is destroyed with _owner.
+        }
+
+        [Test]
+        public void WeaponDefinition_Defaults_LeaveKatanaBehaviourUnchanged()
+        {
+            var d = ScriptableObject.CreateInstance<WeaponDefinition>();
+            try
+            {
+                Assert.IsTrue(d.canParry);
+                Assert.AreEqual(1f, d.parryStagger);
+                Assert.AreEqual(0f, d.thrustDamage);
+            }
+            finally { Object.DestroyImmediate(d); }
+        }
+
+        [TestCase(false, 10f, false, TestName = "TryHit_NonParryingBlade_BoltPassesThrough")]
+        [TestCase(true, 7f, true, TestName = "TryHit_ParryingBlade_BoltDamagesThroughParent")]
+        public void TryHit_BladeCanParry_DecidesWhetherBoltHitsParent(bool canParry, float expectedHealth, bool expectConsumed)
+        {
+            // The blade sits under a live Health at speed 0 (below ReflectMinSpeed), so without the CanParry
+            // guard (A15.4) a bolt would damage the parent either way: only the guard keeps the first case intact.
+            var def = ScriptableObject.CreateInstance<WeaponDefinition>();
+            var parentGo = new GameObject("Wielder", typeof(Health));
+            var boltGo = new GameObject("Bolt", typeof(Projectile));
+            var bladeGo = new GameObject("Blade", typeof(BoxCollider), typeof(BladeDamager));
+            try
+            {
+                var health = parentGo.GetComponent<Health>();
+                health.Configure(10f);
+                bladeGo.transform.SetParent(parentGo.transform);
+                def.canParry = canParry;
+                bladeGo.GetComponent<BladeDamager>().SetDefinition(def);
+
+                var bolt = boltGo.GetComponent<Projectile>();
+                typeof(Projectile).GetField("damage", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(bolt, 3f);
+                var tryHit = typeof(Projectile).GetMethod("TryHit", BindingFlags.Instance | BindingFlags.NonPublic);
+                bool consumed = (bool)tryHit.Invoke(bolt, new object[] { bladeGo.GetComponent<BoxCollider>(), Vector3.zero, Vector3.forward });
+
+                Assert.AreEqual(expectConsumed, consumed);
+                Assert.AreEqual(expectedHealth, health.Current, 1e-4f);
+            }
+            finally { Object.DestroyImmediate(def); Object.DestroyImmediate(boltGo); Object.DestroyImmediate(parentGo); }
         }
 
         [Test]

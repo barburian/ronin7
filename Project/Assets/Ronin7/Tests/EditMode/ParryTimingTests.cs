@@ -8,6 +8,14 @@ namespace Ronin7.Tests.EditMode
     public class ParryTimingTests
     {
         [Test]
+        public void WeaponStaggerScale_NormalParryScales_PerfectKeepsFull()
+        {
+            Assert.AreEqual(0.5f, ParryTiming.WeaponStaggerScale(0f, 0.5f), 1e-5f);
+            Assert.AreEqual(1f, ParryTiming.WeaponStaggerScale(0.01f, 0.5f), 1e-5f);
+            Assert.AreEqual(1f, ParryTiming.WeaponStaggerScale(0f, 1f), 1e-5f, "Katana default unchanged");
+        }
+
+        [Test]
         public void ParryQuality_AtZeroElapsed_IsOne()
         {
             Assert.AreEqual(1f, ParryTiming.ParryQuality(0f, 0.12f), 1e-5f);

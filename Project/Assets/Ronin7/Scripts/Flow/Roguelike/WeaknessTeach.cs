@@ -65,6 +65,7 @@ namespace Ronin7.Flow
             for (int i = 0; i < all.Count; i++)
             {
                 if (!all[i].TryGetComponent(out Enemy e) || !e.IsAggro || !all[i].IsAlive) continue;
+                if (e.Weakness == WeaknessKind.ParryGate && !WeaponId.ParryAvailable(RunState.LoadoutId)) continue; // A15.10: no parry to teach on a Whip run
                 if (!TryTeach(e.Weakness)) continue;
                 e.PulseWeakPoint(PulseSeconds);
                 RunHudPanel.ShowHint(Hint(e.Weakness), HintSeconds);

@@ -23,9 +23,7 @@ namespace Ronin7.Flow
         private static readonly (string id, string name)[] Loadouts =
         {
             (WeaponId.Katana, "KATANA"),
-            (WeaponId.Nodachi, "NODACHI"),
-            (WeaponId.Tanto, "TANTO"),
-            (WeaponId.TwinWakizashi, "TWIN WAKIZASHI"),
+            (WeaponId.TwinWakizashi, "DOUBLE KATANA"), // A15.1; id stays twin_wakizashi
         };
 
         // P4-09 heat selector, in HeatRank order.

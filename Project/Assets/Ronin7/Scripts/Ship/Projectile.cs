@@ -165,9 +165,10 @@ namespace Ronin7.Ship
         {
             if (other == null) return false;
 
+            var blade = other.GetComponentInParent<BladeDamager>();
+            if (blade != null && !blade.CanParry) return false; // A15.4: passes through a non-parrying blade, keeps flying
             if (!reflected)
             {
-                var blade = other.GetComponentInParent<BladeDamager>();
                 if (blade != null && blade.Speed >= ReflectMinSpeed)
                 {
                     var mods = blade.GetComponentInParent<PlayerCombatModifiers>();

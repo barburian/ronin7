@@ -68,8 +68,9 @@ namespace Ronin7.Player
         private void Aim()
         {
             var rig = VRRig.Instance;
-            if (rig == null || rig.LeftHand == null || Time.time < readyAt) return;
-            Transform hand = rig.LeftHand;
+            if (rig == null || Time.time < readyAt) return;
+            Transform hand = HandednessRig.OffHand(rig, GameSettings.Active.LeftHanded);
+            if (hand == null) return;
             int n = Physics.SphereCastNonAlloc(hand.position, ChainLogic.AimRadius, hand.forward, hits, ChainLogic.AimRange,
                 ~0, QueryTriggerInteraction.Ignore);
             Enemy best = null;
@@ -86,7 +87,7 @@ namespace Ronin7.Player
             if (best == null) return;
             latched = best;
             if (chainLine != null) chainLine.enabled = true;
-            Haptics.Pulse(XRNode.LeftHand, 0.4f, 0.05f);
+            Haptics.Pulse(HandednessRig.OffHand(GameSettings.Active.LeftHanded), 0.4f, 0.05f);
         }
 
         private void Update()
@@ -103,11 +104,12 @@ namespace Ronin7.Player
             if (rig == null || !ArtSlots.OffhandHeld || !ArtSlots.IsEquipped(ArtSlot.Offhand, ArtId.ChainHook)
                 || health == null || !health.IsAlive) { Drop(); return; }
 
-            Transform hand = rig.LeftHand;
+            Transform hand = HandednessRig.OffHand(rig, GameSettings.Active.LeftHanded);
+            if (hand == null) { Drop(); return; }
             Vector3 target = latched.transform.position + Vector3.up;
             if (chainLine != null) { chainLine.SetPosition(0, hand.position); chainLine.SetPosition(1, target); }
 
-            if (leftVelocity == null) leftVelocity = hand.GetComponent<HandVelocityTracker>();
+            if (leftVelocity == null || leftVelocity.transform != hand) leftVelocity = hand.GetComponent<HandVelocityTracker>();
             Transform head = rig.Head != null ? rig.Head : transform;
             if (!ChainLogic.IsYank(SkillRig.RealVelocity(leftVelocity), hand.position, head.position, head.forward)) return;
 
@@ -116,7 +118,7 @@ namespace Ronin7.Player
             staggerAt = Time.time + ChainLogic.PullSeconds;
             if (mods == null) mods = GetComponentInParent<PlayerCombatModifiers>();
             readyAt = Time.time + cooldownSeconds * SkillRig.CooldownScale(mods);
-            Haptics.Pulse(XRNode.LeftHand, 1f, 0.12f);
+            Haptics.Pulse(HandednessRig.OffHand(GameSettings.Active.LeftHanded), 1f, 0.12f);
             EventBus.Publish(new AbilityActivated(ArtId.ChainHook));
             Drop();
         }
