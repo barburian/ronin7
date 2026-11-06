@@ -334,7 +334,7 @@ namespace Ronin7.Core
             if (won)
             {
                 runsWon++;
-                if (hitsTaken >= 0) // -1 = caller has no count (an abandoned/discarded run is never a win anyway)
+                if (hitsTaken >= 0 && !DevUnlockAllWeapons) // -1 = no count (abandoned run); a dev-flag win must not persist an unlock or BEST
                 {
                     if (bestHits < 0 || hitsTaken < bestHits) bestHits = hitsTaken;
                     if (hitsTaken <= WhipMaxHits) UnlockWeapon(WeaponId.Whip); // A15.12; the caller saves

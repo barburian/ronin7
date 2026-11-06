@@ -21,6 +21,8 @@ namespace Ronin7.Core
         private static readonly int BaseColorFactorId = Shader.PropertyToID("baseColorFactor"); // glTFast stop-gap
         private static readonly int RimColorId = Shader.PropertyToID("_RimColor");
         private static readonly int FlashAmountId = Shader.PropertyToID("_FlashAmount");
+        private static readonly int EmissionColorId = Shader.PropertyToID("_EmissionColor");
+        private static readonly int FresnelColorId = Shader.PropertyToID("_FresnelColor");
         private static MaterialPropertyBlock _mpb;
 
         /// <summary>Tint <paramref name="r"/> to <paramref name="c"/> without cloning its material.</summary>
@@ -32,6 +34,21 @@ namespace Ronin7.Core
             _mpb.SetColor(ColorId, c);
             _mpb.SetColor(BaseColorId, c);
             _mpb.SetColor(BaseColorFactorId, c);
+            r.SetPropertyBlock(_mpb);
+        }
+
+        /// <summary>Dim a renderer fully: base colour plus the HDR glow properties CyberNeon (_EmissionColor, _FresnelColor)
+        /// and CyberSword (_EmissionColor) output, all on the MPB (no material clone).</summary>
+        public static void ApplyLocked(Renderer r, Color c)
+        {
+            if (r == null) return;
+            if (_mpb == null) _mpb = new MaterialPropertyBlock();
+            r.GetPropertyBlock(_mpb);
+            _mpb.SetColor(ColorId, c);
+            _mpb.SetColor(BaseColorId, c);
+            _mpb.SetColor(BaseColorFactorId, c);
+            _mpb.SetColor(EmissionColorId, Color.black);
+            _mpb.SetColor(FresnelColorId, Color.black);
             r.SetPropertyBlock(_mpb);
         }
 

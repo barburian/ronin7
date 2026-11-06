@@ -32,6 +32,7 @@ namespace Ronin7.Flow
 
         private bool abandonArmed;
         private MetaShopPanel shop;
+        private WeaponSelectPanel weaponSelect;
         private bool settingsHidMenu;
 
         private Canvas canvas;
@@ -82,7 +83,7 @@ namespace Ronin7.Flow
         // Shrine/settings may have opened meanwhile; they restore the canvas themselves.
         private void RevealCanvas()
         {
-            if (canvas != null) canvas.enabled = settings == null || !settings.IsOpen;
+            if (canvas != null) canvas.enabled = SettingsClosed && weaponSelect == null && shop == null;
         }
 
         /// <summary>Recentre the rig (first valid pose or system recenter), then put the canvas in front of the head.</summary>
@@ -260,23 +261,34 @@ namespace Ronin7.Flow
             return head.isValid && head.TryGetFeatureValue(CommonUsages.isTracked, out bool v) && v;
         }
 
-        /// <summary>Menu "START RUN": begin a new roguelike run (random seed).</summary>
+        /// <summary>Menu "START RUN": a saved run resumes straight away; a new run goes through WEAPON SELECT
+        /// first (A15.13), whose START begins it (random seed).</summary>
         public void OnStartRunClicked()
         {
-            RunDirector.Instance?.StartRun();
+            if (!RunEntryOptions.NeedsWeaponSelect(RunEntryOptions.HasSavedRun())) { RunDirector.Instance?.StartRun(); return; }
+            MetaProgression.EnsureLoaded();
+            if (weaponSelect != null || shop != null || (settings != null && settings.IsOpen)) return;
+            weaponSelect = WeaponSelectPanelFactory.Build(Camera.main);
+            if (weaponSelect == null) return;
+            var canvas = GetComponent<Canvas>();
+            canvas.enabled = false;
+            var panel = weaponSelect;
+            panel.onClosed = () => { if (this != null) canvas.enabled = SettingsClosed; };
+            // START: the run fades and loads next; keep the menu hidden instead of popping back at end of frame.
+            panel.startRun = () => { if (RunDirector.Instance != null) panel.onClosed = null; RunDirector.Instance?.StartRun(); };
         }
 
         /// <summary>Menu "SHRINE": open the Echo shop (P2-01).</summary>
         public void OnShrineClicked()
         {
             MetaProgression.EnsureLoaded();
-            if (shop != null) return;
+            if (shop != null || weaponSelect != null || (settings != null && settings.IsOpen)) return;
             shop = MetaShopPanelFactory.Build(Camera.main);
             if (shop == null) return;
             // The shop spawns in front of the menu; hide the menu canvas (not this component) until it closes.
             var canvas = GetComponent<Canvas>();
             canvas.enabled = false;
-            shop.onClosed = () => { if (this != null) canvas.enabled = true; };
+            shop.onClosed = () => { if (this != null) canvas.enabled = SettingsClosed; };
         }
 
         /// <summary>Menu "SETTINGS" (P2-09): comfort options must be reachable before the first run.</summary>
@@ -293,8 +305,10 @@ namespace Ronin7.Flow
             bool open = settings.IsOpen;
             if (open == settingsHidMenu) return;
             settingsHidMenu = open;
-            GetComponent<Canvas>().enabled = !open;
+            GetComponent<Canvas>().enabled = !open && weaponSelect == null && shop == null;
         }
+
+        private bool SettingsClosed => settings == null || !settings.IsOpen;
 
         /// <summary>Menu "ABANDON": the first click asks for confirmation, the second discards the
         /// saved run (banking its Echoes). It does not start a new run (BUG-27).</summary>

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7279132ab4fb7543927a885e335572b, type: 3}
+  m_Name: WeaponCardModels
+  m_EditorClassIdentifier: Ronin7.Flow::Ronin7.Flow.WeaponCardModels
+  models:
+  - {fileID: 8815113657239521870, guid: 7b90129e9a7a5934c9ffdb2fc0c0896e, type: 3}
+  - {fileID: 7808267272798789422, guid: fe4dd928ec135b547a205197d91ef29b, type: 3}
+  - {fileID: 5458146465139854659, guid: 98ae36de43d57bd4a8d445e61fa7e216, type: 3}
+  - {fileID: 1001201048686902552, guid: c24b980d220f96649b43e25497ad1b6f, type: 3}

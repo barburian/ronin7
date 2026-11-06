@@ -28,12 +28,6 @@ namespace Ronin7.Editor.Art
         /// <summary>Primitive dressing the kit replaces (children of "Boot Zone Dressing"). Disabled, not deleted.</summary>
         public static readonly string[] Replaced = { "Distant Planet", "Boot Deck", "Deck Rim", "Pillar", "Pillar Strip", "Holo Ring" };
 
-        public static readonly (string id, string prefab)[] Blades =
-        {
-            (WeaponId.Katana, "Sword_Katana"), (WeaponId.Nodachi, "Sword_Nodachi"),
-            (WeaponId.Tanto, "Sword_Tanto"), (WeaponId.TwinWakizashi, "Sword_Wakizashi"),
-        };
-
         [MenuItem("Tools/Space Samurai/Art/Dress And Bake Boot Menu")]
         public static void DressAndBakeMenu()
         {
@@ -123,41 +117,15 @@ namespace Ronin7.Editor.Art
             EditorSceneManager.MarkSceneDirty(scene);
         }
 
-        /// <summary>West wall segment with the four loadout blades on light-bar shelves, ~1.0-1.9 m high.</summary>
+        /// <summary>West wall segment with light-bar shelves. P9-01 (A15.13): the loadout blades and LoadoutRackDisplay
+        /// are gone (weapons are picked on the WEAPON SELECT panel); the wall stays.</summary>
         private static void BuildRack(Transform kit, Transform lights)
         {
             var rack = new GameObject("Loadout Rack").transform;
             rack.SetParent(kit, false);
             Place("Wall_Straight", rack, new Vector3(-3.0f, 0, 0.6f), 90);
-            var display = rack.gameObject.AddComponent<LoadoutRackDisplay>();
-            var blades = new GameObject[Blades.Length];
-            for (int i = 0; i < Blades.Length; i++)
-            {
-                float y = 1.0f + 0.3f * i;
-                Place("LightBar", rack, new Vector3(-2.72f, y - 0.1f, 0.6f), 90);
-                var src = AssetDatabase.LoadAssetAtPath<GameObject>($"Assets/Ronin7/Prefabs/Art/{Blades[i].prefab}.prefab");
-                if (src == null) { Debug.LogWarning("[BootDressing] missing " + Blades[i].prefab); continue; }
-                var blade = (GameObject)PrefabUtility.InstantiatePrefab(src, kit.gameObject.scene);
-                PrefabUtility.UnpackPrefabInstance(blade, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
-                StripToVisual(blade);
-                blade.name = "Rack_" + Blades[i].prefab;
-                blade.transform.SetParent(rack, false);
-                // Lay the blade's longest axis along world Z, flat against the wall.
-                blade.transform.localRotation = LongAxisToZ(blade) * Quaternion.Euler(0, 0, 90); // roll: flat of the blade to the room
-                blade.transform.localPosition = new Vector3(-2.65f, y, 0.6f);
-                var b = Bounds(blade);
-                blade.transform.position += new Vector3(0, 0, 0.6f - b.center.z);
-                blades[i] = blade;
-            }
-            var so = new SerializedObject(display);
-            var ids = so.FindProperty("weaponIds"); var arr = so.FindProperty("blades");
-            ids.arraySize = arr.arraySize = Blades.Length;
-            for (int i = 0; i < Blades.Length; i++)
-            {
-                ids.GetArrayElementAtIndex(i).stringValue = Blades[i].id;
-                arr.GetArrayElementAtIndex(i).objectReferenceValue = blades[i];
-            }
-            so.ApplyModifiedPropertiesWithoutUndo();
+            for (int i = 0; i < 4; i++)
+                Place("LightBar", rack, new Vector3(-2.72f, 0.9f + 0.3f * i, 0.6f), 90);
             PointLight(lights, new Vector3(-2.3f, 2.3f, 0.6f));
         }
 
@@ -232,33 +200,6 @@ namespace Ronin7.Editor.Art
             var l = go.AddComponent<Light>();
             l.type = LightType.Point; l.color = Cyan; l.range = 5f; l.intensity = 1.5f;
             l.lightmapBakeType = LightmapBakeType.Baked; l.shadows = LightShadows.Soft;
-        }
-
-        /// <summary>Keeps Transform/MeshFilter/MeshRenderer only: no grab, damage, trail or physics on a wall prop.</summary>
-        private static void StripToVisual(GameObject root)
-        {
-            // Scripts first: they RequireComponent the colliders / trails / lights.
-            foreach (var c in root.GetComponentsInChildren<MonoBehaviour>(true)) Object.DestroyImmediate(c);
-            foreach (var c in root.GetComponentsInChildren<Component>(true))
-                if (c != null && !(c is Transform) && !(c is MeshFilter) && !(c is MeshRenderer))
-                    Object.DestroyImmediate(c);
-        }
-
-        private static Bounds Bounds(GameObject go)
-        {
-            var rs = go.GetComponentsInChildren<Renderer>();
-            var b = rs.Length > 0 ? rs[0].bounds : new Bounds(go.transform.position, Vector3.zero);
-            foreach (var r in rs) b.Encapsulate(r.bounds);
-            return b;
-        }
-
-        private static Quaternion LongAxisToZ(GameObject go)
-        {
-            go.transform.rotation = Quaternion.identity;
-            var s = Bounds(go).size;
-            if (s.y >= s.x && s.y >= s.z) return Quaternion.Euler(90, 0, 0);
-            if (s.x >= s.z) return Quaternion.Euler(0, 90, 0);
-            return Quaternion.identity;
         }
 
         /// <summary>Turns every scene-embedded material on renderers / TMP into an asset in <see cref="MatDir"/>

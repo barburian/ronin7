@@ -16,6 +16,9 @@ namespace Ronin7.Flow
         public static bool AbandonConfirmed(bool armed) => armed;
 
         public static bool ShowAbandon(bool hasSnapshot) => hasSnapshot;
+        /// <summary>A15.13: a new run picks its weapon first; RESUME RUN (and the Daily Fracture) skip the screen.</summary>
+        public static bool NeedsWeaponSelect(bool hasSnapshot) => !hasSnapshot;
+
         public static string PrimaryLabel(bool hasSnapshot) => hasSnapshot ? ResumeLabel : NewRunLabel;
 
         /// <summary>True if a valid saved run exists (a stale/old-version file reads as none).</summary>

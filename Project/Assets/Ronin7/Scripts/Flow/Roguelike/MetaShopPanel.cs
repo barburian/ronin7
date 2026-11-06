@@ -69,7 +69,7 @@ namespace Ronin7.Flow
             foreach (var l in loadouts)
             {
                 string id = l.id;
-                l.button.onClick.AddListener(() => SelectLoadout(id));
+                l.button.onClick.AddListener(() => Buy(id)); // A15.13: buy-only, WeaponSelectPanel picks
             }
             foreach (var h in heat)
             {
@@ -117,18 +117,6 @@ namespace Ronin7.Flow
             tab = t;
             for (int i = 0; i < pages.Length; i++) pages[i].SetActive(i == t);
             for (int i = 0; i < tabs.Length; i++) tabs[i].image.color = i == t ? TabActive : TabIdle;
-        }
-
-        /// <summary>P4-08: picks an unlocked weapon. P4-10: a locked one is bought instead (button only live when affordable).</summary>
-        internal void SelectLoadout(string id)
-        {
-            if (!MetaProgression.IsWeaponUnlocked(id)) { Buy(id); return; }
-            if (MetaProgression.TrySelectLoadout(id))
-            {
-                Haptics.Pulse(XRNode.RightHand, 0.4f, 0.06f);
-                MetaProgression.Save();
-            }
-            Refresh();
         }
 
         /// <summary>P4-10: next entry of an Art cycle, wrapping; an unknown id restarts at the first entry.</summary>
@@ -207,7 +195,8 @@ namespace Ronin7.Flow
             Refresh();
         }
 
-        /// <summary>P4-09 DAILY FRACTURE: today's UTC seed with the fixed daily heat set. Not offered while a run is saved.</summary>
+        /// <summary>P4-09 DAILY FRACTURE: today's UTC seed with the fixed daily heat set and the last weapon pick
+        /// (A15.13: skips the select screen). Not offered while a run is saved.</summary>
         internal void StartDaily()
         {
             if (RunState.InRun || RunEntryOptions.HasSavedRun() || RunDirector.Instance == null) return;
@@ -218,11 +207,16 @@ namespace Ronin7.Flow
         internal static string HeatTitleText(int totalRanks) =>
             "FRACTURE PRESSURE  ECHOES x" + RunDirector.HeatEchoMultiplier(totalRanks).ToString("0.0", System.Globalization.CultureInfo.InvariantCulture);
 
-        internal static string LoadoutText(string name, bool unlocked, bool selected, int cost) =>
-            !unlocked ? name + (cost > 0 ? "\nLOCKED ♦ " + cost : "\nLOCKED") : selected ? "● " + name : name; // glyphs Rajdhani + its LiberationSans fallback render (P5-07b)
+        /// <summary>Armory-sized requirement (the 210 px button fits two short lines); the select card spells it out.</summary>
+        internal static string LockedShort(string id)
+        {
+            if (id == WeaponId.Whip) return "WIN, " + MetaProgression.WhipMaxHits + " HITS MAX";
+            int cost = MetaProgression.UpgradeCost(id, 1), wins = MetaProgression.WinsRequired(id);
+            return (cost > 0 ? "♦ " + cost : "") + (wins > 0 ? " + " + wins + "W" : "");
+        }
 
-        /// <summary>A loadout button works when it can select, or buy: cost 0 is not for sale (A15.12, the Whip).</summary>
-        internal static bool LoadoutInteractable(bool unlocked, int echoes, int cost) => unlocked || (cost > 0 && echoes >= cost);
+        /// <summary>A15.13: a loadout button only buys. Cost 0 is not for sale (A15.12, the Whip); an owned weapon is done.</summary>
+        internal static bool LoadoutInteractable(bool unlocked, int echoes, int cost) => !unlocked && cost > 0 && echoes >= cost;
 
         internal void Refresh()
         {
@@ -235,12 +229,11 @@ namespace Ronin7.Flow
                 r.costText.text = level >= max ? "MAX" : "♦ " + cost;
                 r.buy.interactable = level < max && MetaProgression.Echoes >= cost;
             }
-            string selected = MetaProgression.SelectedLoadout;
             foreach (var l in loadouts)
             {
                 bool unlocked = MetaProgression.IsWeaponUnlocked(l.id);
-                l.label.text = unlocked ? LoadoutText(l.name, true, l.id == selected, l.cost) : l.name + "\n" + MetaProgression.RequirementText(l.id, MetaProgression.BestHits);
-                l.button.interactable = LoadoutInteractable(unlocked, MetaProgression.Echoes, l.cost) && (unlocked || MetaProgression.RunsWon >= MetaProgression.WinsRequired(l.id));
+                l.label.text = l.name + "\n" + (unlocked ? "OWNED" : LockedShort(l.id));
+                l.button.interactable = LoadoutInteractable(unlocked, MetaProgression.Echoes, l.cost) && MetaProgression.RunsWon >= MetaProgression.WinsRequired(l.id);
             }
             foreach (var p in packs)
             {

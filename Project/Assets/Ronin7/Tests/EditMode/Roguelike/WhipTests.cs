@@ -600,14 +600,30 @@ namespace Ronin7.Tests.EditMode
         }
 
         [Test]
-        public void ArmoryButton_OnlyWorksWhenUnlocked_ForTheWhip()
+        public void DevFlagWin_DoesNotPersistWhipUnlockOrBest()
+        {
+            MetaProgression.DevUnlockAllWeapons = true;
+            MetaProgression.NoteRunEnded(15, won: true, hitsTaken: 0);
+            MetaProgression.DevUnlockAllWeapons = false;
+            Assert.IsFalse(MetaProgression.IsWeaponUnlocked(WeaponId.Whip));
+            Assert.AreEqual(-1, MetaProgression.BestHits);
+        }
+
+        [Test]
+        public void NormalWin_AtWhipThreshold_UnlocksWhip()
+        {
+            MetaProgression.NoteRunEnded(15, won: true, hitsTaken: MetaProgression.WhipMaxHits);
+            Assert.IsTrue(MetaProgression.IsWeaponUnlocked(WeaponId.Whip));
+        }
+
+        [Test]
+        public void ArmoryButton_IsBuyOnly_AndNeverSellsTheWhip()
         {
             int whipCost = MetaProgression.UpgradeCost(WeaponId.Whip, 1);
             Assert.IsFalse(MetaShopPanel.LoadoutInteractable(false, 99999, whipCost), "locked: never for sale");
-            Assert.IsTrue(MetaShopPanel.LoadoutInteractable(true, 0, whipCost), "dev unlock selects");
+            Assert.IsFalse(MetaShopPanel.LoadoutInteractable(true, 99999, 300), "A15.13: owned is buy-only, nothing to do");
             Assert.IsTrue(MetaShopPanel.LoadoutInteractable(false, 300, 300), "priced weapons still buy");
             Assert.IsFalse(MetaShopPanel.LoadoutInteractable(false, 299, 300));
-            Assert.AreEqual("WHIP\nLOCKED", MetaShopPanel.LoadoutText("WHIP", false, false, whipCost));
         }
     }
 }

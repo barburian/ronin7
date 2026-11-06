@@ -46,9 +46,10 @@ namespace Ronin7.Flow
         private static readonly string[] TabNames = { "UPGRADES", "ARMORY", "PACKS & KEEPSAKES", "HEAT" };
         private const int MaxKeepsakes = 8; // ponytail: 2 rows of 4; page the grid if more than 8 Epics exist
 
-        public static MetaShopPanel Build(Camera targetCamera)
+        /// <param name="requireEventSystem">Tests pass false: an EventSystem cannot register itself in edit mode.</param>
+        public static MetaShopPanel Build(Camera targetCamera, bool requireEventSystem = true)
         {
-            if (targetCamera == null || EventSystem.current == null) return null;
+            if (targetCamera == null || (requireEventSystem && EventSystem.current == null)) return null;
 
             var canvasGo = new GameObject("Meta Shop Canvas");
             var canvas = canvasGo.AddComponent<Canvas>();
@@ -101,7 +102,7 @@ namespace Ronin7.Flow
             panel.loadouts = new MetaShopPanel.Loadout[Loadouts.Length];
             for (int i = 0; i < Loadouts.Length; i++)
             {
-                var b = MakeButton(armory, Loadouts[i].name, new Vector2(-345f + i * 230f, 95f), new Vector2(210f, 100f));
+                var b = MakeButton(armory, Loadouts[i].name, new Vector2(-345f + i * 230f, 85f), new Vector2(210f, 120f));
                 var label = b.GetComponentInChildren<TMP_Text>();
                 label.fontSize = UiKit.MinBody; // P5-07b: was 24
                 panel.loadouts[i] = new MetaShopPanel.Loadout { id = Loadouts[i].id, name = Loadouts[i].name, cost = MetaProgression.UpgradeCost(Loadouts[i].id, 1), label = label, button = b };
