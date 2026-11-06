@@ -119,8 +119,8 @@ namespace Ronin7.Tests.EditMode
         [Test]
         public void Abandon_IsTwoClick()
         {
-            Assert.IsFalse(RunEntryOptions.AbandonConfirmed(armed: false));
-            Assert.IsTrue(RunEntryOptions.AbandonConfirmed(armed: true));
+            Assert.AreEqual(RunEntryOptions.NewRunStep.ArmAbandon, RunEntryOptions.NewRunClick(true, false, 0f));
+            Assert.AreEqual(RunEntryOptions.NewRunStep.AbandonThenWeaponSelect, RunEntryOptions.NewRunClick(true, true, RunEntryOptions.ConfirmDelay));
         }
 
         [TestCase(0f, 0.016f, true, 0.016f)]

@@ -163,8 +163,8 @@ namespace Ronin7.Tests.EditMode
         [Test]
         public void ResumeAndDaily_SkipTheScreen_AndDailyUsesTheLastPick()
         {
-            Assert.IsFalse(RunEntryOptions.NeedsWeaponSelect(true), "RESUME RUN skips the screen");
-            Assert.IsTrue(RunEntryOptions.NeedsWeaponSelect(false), "a new run, even on a brand-new save, goes through it");
+            Assert.IsTrue(RunEntryOptions.ShowContinue(true), "CONTINUE RUN resumes with no select screen");
+            Assert.AreEqual(RunEntryOptions.NewRunStep.OpenWeaponSelect, RunEntryOptions.NewRunClick(false, false, 0f), "a new run, even on a brand-new save, goes through it");
             MetaProgression.UnlockWeapon(WeaponId.PolearmShield);
             MetaProgression.TrySelectLoadout(WeaponId.PolearmShield);
             RunState.Begin(Heat.DailySeed(DateTime.UtcNow)); // MetaShopPanel.StartDaily goes straight to RunDirector.StartRun(seed)

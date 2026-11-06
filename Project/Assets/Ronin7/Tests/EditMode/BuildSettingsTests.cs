@@ -28,7 +28,7 @@ namespace Ronin7.Tests.EditMode
         [TestCase(nameof(MainMenuController.OnStartCampaignClicked), true)]
         [TestCase(nameof(MainMenuController.OnLoadSlotClicked), true)]
         [TestCase(nameof(MainMenuController.OnStartRunClicked), false)]
-        [TestCase(nameof(MainMenuController.OnAbandonRunClicked), false)]
+        [TestCase(nameof(MainMenuController.OnContinueRunClicked), false)]
         [TestCase(nameof(MainMenuController.OnRecalibrateClicked), false)]
         [TestCase(nameof(MainMenuController.OnExitGameClicked), false)]
         public void CampaignEntries_AreHiddenWithoutTheCampaign(string method, bool isCampaign)

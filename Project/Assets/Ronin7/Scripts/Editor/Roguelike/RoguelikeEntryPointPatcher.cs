@@ -25,7 +25,8 @@ namespace Ronin7.EditorTools
     {
         private const string RogueBootScenePath = SceneFolder + "/Phase6_Boot.unity";
         private const string RogueRunButtonName = "Btn_EnterTheFracture";
-        private const string RogueAbandonButtonName = "Btn_AbandonRun";
+        private const string RogueAbandonButtonName = "Btn_AbandonRun"; // legacy: removed by the patcher
+        private const string RogueContinueRunButtonName = "Btn_ContinueRun";
         private const string RogueShrineButtonName = "Btn_Shrine";
         private const string RogueEchoesLabelName = "Txt_Echoes";
         private const string RogueSettingsButtonName = "Btn_Settings";
@@ -224,8 +225,9 @@ namespace Ronin7.EditorTools
             so.ApplyModifiedPropertiesWithoutUndo();
         }
 
-        /// <summary>Boot menu: add an ENTER THE FRACTURE button wired to OnStartRunClicked, and
-        /// restack all five buttons so they still fit the 600x700 canvas under the title.</summary>
+        /// <summary>Boot menu: NEW RUN (OnStartRunClicked) + CONTINUE RUN (OnContinueRunClicked) buttons,
+        /// restacked to fit the canvas under the title. Additive and idempotent.</summary>
+        [MenuItem("Tools/Space Samurai/Roguelike/Patch Boot Menu Run Buttons", priority = 515)]
         private static void RoguePatchBootMenu()
         {
             var scene = EditorSceneManager.OpenScene(RogueBootScenePath, OpenSceneMode.Single);
@@ -247,7 +249,7 @@ namespace Ronin7.EditorTools
             var existing = canvasRt.Find(RogueRunButtonName);
             if (existing == null)
             {
-                var runBtn = MenuMakeButton(canvasRt, "ENTER THE FRACTURE", new Vector2(0f, 170f));
+                var runBtn = MenuMakeButton(canvasRt, RunEntryOptions.NewRunLabel, new Vector2(0f, 170f));
                 runBtn.gameObject.name = RogueRunButtonName;
                 UnityEventTools.AddPersistentListener(runBtn.onClick,
                     new UnityEngine.Events.UnityAction(controller.OnStartRunClicked));
@@ -255,23 +257,29 @@ namespace Ronin7.EditorTools
             }
             else
             {
-                Debug.Log("[RogueEntry] Run button already present — left as-is.");
+                // Playtest 1: the baked label (ENTER THE FRACTURE) becomes NEW RUN.
+                var baked = existing.GetComponentInChildren<Text>(true);
+                if (baked != null) baked.text = RunEntryOptions.NewRunLabel;
             }
 
-            // ABANDON RUN: runtime-shown only when a saved run exists (MainMenuController.OnEnable).
+            // Playtest 1: NEW RUN now asks ABANDON SAVED RUN? itself, so the separate ABANDON RUN button goes.
             var abandon = canvasRt.Find(RogueAbandonButtonName);
-            Button abandonBtn;
-            if (abandon == null)
+            if (abandon != null)
             {
-                abandonBtn = MenuMakeButton(canvasRt, "ABANDON RUN", new Vector2(0f, 100f));
-                abandonBtn.gameObject.name = RogueAbandonButtonName;
-                UnityEventTools.AddPersistentListener(abandonBtn.onClick,
-                    new UnityEngine.Events.UnityAction(controller.OnAbandonRunClicked));
-                Debug.Log("[RogueEntry] Added ABANDON RUN button to the boot menu.");
+                Object.DestroyImmediate(abandon.gameObject);
+                Debug.Log("[RogueEntry] Removed the ABANDON RUN button (replaced by NEW RUN's confirm).");
             }
-            else
+
+            // CONTINUE RUN: runtime-shown only when a saved run exists (MainMenuController.RefreshRunButtons).
+            var continueRun = canvasRt.Find(RogueContinueRunButtonName);
+            if (continueRun == null)
             {
-                abandonBtn = abandon.GetComponent<Button>();
+                var continueBtn = MenuMakeButton(canvasRt, RunEntryOptions.ContinueLabel, new Vector2(0f, 100f));
+                continueBtn.gameObject.name = RogueContinueRunButtonName;
+                UnityEventTools.AddPersistentListener(continueBtn.onClick,
+                    new UnityEngine.Events.UnityAction(controller.OnContinueRunClicked));
+                continueRun = continueBtn.transform;
+                Debug.Log("[RogueEntry] Added CONTINUE RUN button to the boot menu.");
             }
 
             // P2-01: SHRINE (opens the Echo shop) + the "ECHOES n" balance label.
@@ -307,7 +315,7 @@ namespace Ronin7.EditorTools
             var so = new SerializedObject(controller);
             so.FindProperty("settings").objectReferenceValue = settingsToggle;
             so.FindProperty("runButton").objectReferenceValue = canvasRt.Find(RogueRunButtonName).GetComponent<Button>();
-            so.FindProperty("abandonButton").objectReferenceValue = abandonBtn;
+            so.FindProperty("continueRunButton").objectReferenceValue = continueRun.GetComponent<Button>();
             so.FindProperty("echoesLabel").objectReferenceValue = echoes.GetComponent<Text>();
             so.ApplyModifiedPropertiesWithoutUndo();
 
@@ -317,12 +325,12 @@ namespace Ronin7.EditorTools
             // BUG-27: ABANDON RUN sits 20+ cm (1 px = 1 mm) below ENTER THE FRACTURE / RESUME RUN —
             // it used to be 9 cm under it, one slip from discarding the run (now 41 cm).
             canvasRt.sizeDelta = new Vector2(canvasRt.sizeDelta.x, Mathf.Max(canvasRt.sizeDelta.y, 900f));
-            RogueStack(canvasRt, "ENTER THE FRACTURE", 180f);
-            RogueStack(canvasRt, "SHRINE", 98f);
-            RogueStack(canvasRt, "SETTINGS", 16f);
-            RogueStack(canvasRt, "RECALIBRATE HEIGHT", -66f);
-            RogueStack(canvasRt, "START NEW GAME", -148f);
-            RogueStack(canvasRt, "ABANDON RUN", -230f);
+            RogueStack(canvasRt, RunEntryOptions.NewRunLabel, 180f);
+            RogueStack(canvasRt, RunEntryOptions.ContinueLabel, 98f);
+            RogueStack(canvasRt, "SHRINE", 16f);
+            RogueStack(canvasRt, "SETTINGS", -66f);
+            RogueStack(canvasRt, "RECALIBRATE HEIGHT", -148f);
+            RogueStack(canvasRt, "START NEW GAME", -230f);
             RogueStack(canvasRt, "CONTINUE", -312f);
             RogueStack(canvasRt, "EXIT GAME", -394f);
 

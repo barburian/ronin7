@@ -1518,7 +1518,7 @@ namespace Ronin7.Flow
             // deliberately excludes Boot, and arriving there as OnFoot would fire an arrival autosave on
             // the menu and clobber MostRecentSlot.
             var mode = scene == runEndScene ? GameMode.Boot : GameMode.OnFoot;
-            yield return GameFlowManager.Instance.LoadSceneFaded(scene, mode, onLoaded, () => pendingScene != null);
+            yield return GameFlowManager.Instance.LoadSceneFaded(scene, mode, onLoaded, () => pendingScene != null, recenterRig: arenaLoad);
             transitioning = false;
             // Belt and braces: if the load aborted before onLoaded ran, never leave a clear parked.
             if (awaitingRigRestore) OnArenaLoaded();

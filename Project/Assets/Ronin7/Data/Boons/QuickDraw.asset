@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Ronin7.Combat::Ronin7.Combat.BoonDefinition
   id: boon_quick_draw
   displayName: Quick Draw
-  description: Unlocks Quick Draw for this run.
+  description: Snap-draw your katana (hand over 4.5 m/s): the first hit within 0.6 s deals x2.5 damage. Re-sheathe to re-arm.
   rarity: 1
   effect: 6
   magnitude: 0

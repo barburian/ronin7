@@ -30,6 +30,9 @@ namespace Ronin7.Flow
         // Lower-centre of view, ~0.6 m ahead — readable but out of the way of gameplay.
         private static readonly Vector3 Offset = new Vector3(0f, -0.18f, 0.6f);
 
+        // Playtest 1: off by default even in dev builds (the label got in the player's view). Flip to true to debug.
+        private static readonly bool Enabled = false;
+
         private Text label;
         private Canvas canvas;
         private Camera cam;
@@ -37,6 +40,7 @@ namespace Ronin7.Flow
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void Bootstrap()
         {
+            if (!Enabled) return;
             if (FindAnyObjectByType<SceneDebugOverlay>() != null) return;
             var go = new GameObject("Scene Debug Overlay");
             go.AddComponent<SceneDebugOverlay>();

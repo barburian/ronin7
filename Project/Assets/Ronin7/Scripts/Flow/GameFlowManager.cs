@@ -337,11 +337,34 @@ namespace Ronin7.Flow
         /// returns), latching the next scene load — fading fully in just to immediately fade back out
         /// for that queued load is a pointless flash the player would otherwise see six-ish times a run.
         /// </summary>
-        public IEnumerator LoadSceneFaded(string scene, GameMode mode, Action onLoaded = null, Func<bool> skipReveal = null)
-            => FadeLoadFade(scene, mode, runUnloadAfter: true, onLoaded: onLoaded, skipReveal: skipReveal);
+        public IEnumerator LoadSceneFaded(string scene, GameMode mode, Action onLoaded = null, Func<bool> skipReveal = null, bool recenterRig = false)
+            => FadeLoadFade(scene, mode, runUnloadAfter: true, onLoaded: onLoaded, skipReveal: skipReveal, recenterRig: recenterRig);
+
+        /// <summary>Playtest 1: frames to wait (under black) for a steady HMD pose before giving up on the recenter.</summary>
+        internal const int RecenterMaxFrames = 120;
+
+        /// <summary>Same recenter the main menu does, run under the black fade: wait for a tracked, steady,
+        /// plausible head pose (the menu's own checks), then <see cref="Ronin7.Player.XRRecenterUtility.RecenterRig"/>.
+        /// No steady pose in time (editor, headset off) leaves the rig alone.</summary>
+        private static IEnumerator RecenterUnderFade()
+        {
+            int stable = 0;
+            Vector3 prev = Vector3.zero;
+            for (int i = 0; i < RecenterMaxFrames && stable < MainMenuController.RequiredStableFrames; i++)
+            {
+                yield return null;
+                var rig = Ronin7.Player.VRRig.Instance;
+                if (rig == null || rig.Head == null) continue;
+                Vector3 pos = rig.Head.localPosition;
+                stable = MainMenuController.IsHeadPoseValid(MainMenuController.HeadTracked(), pos)
+                    ? MainMenuController.NextStableFrames(stable, prev, pos) : 0;
+                prev = pos;
+            }
+            if (stable >= MainMenuController.RequiredStableFrames) Ronin7.Player.XRRecenterUtility.RecenterRig();
+        }
 
         /// <summary>Shared inner body of every scene transition: fade out → load → mode → onLoaded → autosave → camera → fade in.</summary>
-        private IEnumerator FadeLoadFade(string scene, GameMode mode, bool runUnloadAfter, bool quickBoot = false, Action onLoaded = null, Func<bool> skipReveal = null)
+        private IEnumerator FadeLoadFade(string scene, GameMode mode, bool runUnloadAfter, bool quickBoot = false, Action onLoaded = null, Func<bool> skipReveal = null, bool recenterRig = false)
         {
             if (string.IsNullOrEmpty(scene))
             {
@@ -405,9 +428,10 @@ namespace Ronin7.Flow
             if (Camera.main == null)
                 Debug.LogWarning($"[Flow] No head camera after {maxCameraWaitFrames} frames loading '{scene}'; nothing to render or fade — check the scene's XR rig/head camera. Skipping fade-in.");
             var newFader = ScreenFader.Ensure();
+            if (newFader != null) newFader.SetBlackInstant(); // hold black while the rig recentres
+            if (recenterRig && Camera.main != null) yield return RecenterUnderFade();
             if (newFader != null)
             {
-                newFader.SetBlackInstant();
                 yield return newFader.FadeIn(fadeDuration);
             }
         }

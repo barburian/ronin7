@@ -2,24 +2,31 @@ using Ronin7.Core;
 
 namespace Ronin7.Flow
 {
-    /// <summary>What the run entrance offers. Pure decision (EditMode-testable): with no saved
-    /// snapshot there is one control that starts a new run; with one, RESUME RUN + ABANDON.</summary>
+    /// <summary>What the run entrance offers. Pure decision (EditMode-testable): NEW RUN is always
+    /// there (with a saved run it first asks to abandon it); CONTINUE RUN appears only with a saved run.</summary>
     public static class RunEntryOptions
     {
-        public const string NewRunLabel = "ENTER THE FRACTURE";
-        public const string ResumeLabel = "RESUME RUN";
-        public const string AbandonLabel = "ABANDON RUN";
-        public const string ConfirmAbandonLabel = "CONFIRM ABANDON?";
+        public const string NewRunLabel = "NEW RUN";
+        public const string ContinueLabel = "CONTINUE RUN";
+        public const string ConfirmAbandonLabel = "ABANDON SAVED RUN?";
 
-        /// <summary>BUG-27: ABANDON is two-click. A first click only arms it (relabels to
-        /// <see cref="ConfirmAbandonLabel"/>); the second click abandons.</summary>
-        public static bool AbandonConfirmed(bool armed) => armed;
+        /// <summary>Seconds after arming during which NEW RUN ignores clicks, so a double trigger-pull cannot confirm.</summary>
+        public const float ConfirmDelay = 0.6f;
 
-        public static bool ShowAbandon(bool hasSnapshot) => hasSnapshot;
-        /// <summary>A15.13: a new run picks its weapon first; RESUME RUN (and the Daily Fracture) skip the screen.</summary>
-        public static bool NeedsWeaponSelect(bool hasSnapshot) => !hasSnapshot;
+        public enum NewRunStep { OpenWeaponSelect, ArmAbandon, AbandonThenWeaponSelect }
 
-        public static string PrimaryLabel(bool hasSnapshot) => hasSnapshot ? ResumeLabel : NewRunLabel;
+        /// <summary>NEW RUN click: no saved run goes straight to WEAPON SELECT (A15.13); a saved run needs a
+        /// second, deliberate click (<paramref name="armed"/> and <paramref name="sinceArmed"/> past
+        /// <see cref="ConfirmDelay"/>) before it is abandoned. A too-early click while armed does nothing new.</summary>
+        public static NewRunStep NewRunClick(bool hasSnapshot, bool armed, float sinceArmed)
+        {
+            if (!hasSnapshot) return NewRunStep.OpenWeaponSelect;
+            return armed && sinceArmed >= ConfirmDelay ? NewRunStep.AbandonThenWeaponSelect : NewRunStep.ArmAbandon;
+        }
+
+        public static bool ShowContinue(bool hasSnapshot) => hasSnapshot;
+
+        public static string NewRunButtonLabel(bool armed) => armed ? ConfirmAbandonLabel : NewRunLabel;
 
         /// <summary>True if a valid saved run exists (a stale/old-version file reads as none).</summary>
         public static bool HasSavedRun() => RunSnapshot.Read() != null;

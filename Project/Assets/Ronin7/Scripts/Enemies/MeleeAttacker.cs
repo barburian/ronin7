@@ -433,7 +433,7 @@ namespace Ronin7.Enemies
                 if (bodyHasRim) RendererTint.Flash(bodyRenderer, flashTimer / FlashTime);
             }
 
-            if (state == State.Dead) { TickTopple(); return; }
+            if (state == State.Dead) { TickTopple(); TickCorpse(); return; }
             if (target == null)
             {
                 target = FindPlayer();
@@ -755,6 +755,8 @@ namespace Ronin7.Enemies
             // Route through Enter so the global aggro count is released the moment the enemy
             // dies (a dead-but-not-destroyed enemy must not keep the save gate locked).
             Enter(State.Dead);
+            diedAt = Time.unscaledTime;
+            corpseSunk = 0f;
             OnDeathPose();
 
             // P2-11: topple/slump eases in over ToppleTime (TickTopple) instead of popping in one frame.
@@ -777,6 +779,25 @@ namespace Ronin7.Enemies
         private const float ToppleTime = 0.35f;
         private Quaternion toppleFrom, toppleTo;
         private float toppleT = 1f;
+
+        /// <summary>Playtest 1: a body is deactivated this long (real seconds) after death so corpses do not clutter the map.</summary>
+        internal const float CorpseSeconds = 3f;
+        private const float CorpseSinkSeconds = 1f; // the last second sinks the body into the floor
+        private const float CorpseSinkDepth = 1f;   // m
+        private float diedAt, corpseSunk;
+
+        /// <summary>How far (m) a corpse of the given age (s) has sunk: 0 until the last <c>CorpseSinkSeconds</c>, then a linear ramp. Pure.</summary>
+        internal static float CorpseSunkAt(float age) =>
+            CorpseSinkDepth * Mathf.Clamp01((age - (CorpseSeconds - CorpseSinkSeconds)) / CorpseSinkSeconds);
+
+        // Real time (not scaled): hit-stop / slow-mo must not keep a body on the map. A respawned body leaves State.Dead and is never ticked here.
+        private void TickCorpse()
+        {
+            float age = Time.unscaledTime - diedAt;
+            float sunk = CorpseSunkAt(age);
+            if (sunk > corpseSunk) { transform.position += Vector3.down * (sunk - corpseSunk); corpseSunk = sunk; }
+            if (age >= CorpseSeconds) gameObject.SetActive(false); // Health.OnDisable drops it from Health.Active
+        }
 
         private void TickTopple()
         {

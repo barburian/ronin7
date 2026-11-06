@@ -208,7 +208,7 @@ namespace Ronin7.EditorTools
             B("Zanshin", BoonId.Zanshin, "Zanshin", "Unlocks Zanshin for this run.", BoonRarity.Epic, BoonTag.Parry, BoonEffectKind.GrantAbility, 0f, 1, AbilityId.Zanshin),
 
             // Executioner (pack)
-            B("QuickDraw", BoonId.QuickDraw, "Quick Draw", "Unlocks Quick Draw for this run.", BoonRarity.Rare, BoonTag.Executioner, BoonEffectKind.GrantAbility, 0f, 1, AbilityId.QuickDraw),
+            B("QuickDraw", BoonId.QuickDraw, "Quick Draw", "Snap-draw your katana (hand over 4.5 m/s): the first hit within 0.6 s deals x2.5 damage. Re-sheathe to re-arm.", BoonRarity.Rare, BoonTag.Executioner, BoonEffectKind.GrantAbility, 0f, 1, AbilityId.QuickDraw),
             B("HeavyHand", BoonId.HeavyHand, "Heavy Hand", "+25% posture damage per stack.", BoonRarity.Common, BoonTag.Executioner, BoonEffectKind.PostureDamage, 0.25f, 3),
             B("Guillotine", BoonId.Guillotine, "Guillotine", "Posture breaks deal triple bonus damage.", BoonRarity.Rare, BoonTag.Executioner, BoonEffectKind.PostureBreakBonus, 2f, 1),
             B("Headhunter", BoonId.Headhunter, "Drovis Bounty", "+25% precision-hit damage per stack.", BoonRarity.Common, BoonTag.Executioner, BoonEffectKind.Precision, 0.25f, 3),

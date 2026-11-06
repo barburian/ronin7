@@ -6,17 +6,26 @@ namespace Ronin7.Tests.EditMode
     public class RunEntryOptionsTests
     {
         [Test]
-        public void NoSnapshot_SingleNewRunControl()
+        public void NoSnapshot_NewRunOnly_GoesStraightToWeaponSelect()
         {
-            Assert.AreEqual("ENTER THE FRACTURE", RunEntryOptions.PrimaryLabel(false));
-            Assert.IsFalse(RunEntryOptions.ShowAbandon(false));
+            Assert.IsFalse(RunEntryOptions.ShowContinue(false));
+            Assert.AreEqual(RunEntryOptions.NewRunStep.OpenWeaponSelect, RunEntryOptions.NewRunClick(false, false, 0f));
+            Assert.AreEqual("NEW RUN", RunEntryOptions.NewRunButtonLabel(false));
         }
 
         [Test]
-        public void Snapshot_ResumeAndAbandon()
+        public void Snapshot_ShowsContinue_AndNewRunNeedsConfirmation()
         {
-            Assert.AreEqual("RESUME RUN", RunEntryOptions.PrimaryLabel(true));
-            Assert.IsTrue(RunEntryOptions.ShowAbandon(true));
+            Assert.IsTrue(RunEntryOptions.ShowContinue(true));
+            Assert.AreEqual(RunEntryOptions.NewRunStep.ArmAbandon, RunEntryOptions.NewRunClick(true, false, 0f));
+            Assert.AreEqual("ABANDON SAVED RUN?", RunEntryOptions.NewRunButtonLabel(true));
+        }
+
+        [Test]
+        public void ArmedClick_AbandonsOnlyAfterTheDelay()
+        {
+            Assert.AreEqual(RunEntryOptions.NewRunStep.ArmAbandon, RunEntryOptions.NewRunClick(true, true, RunEntryOptions.ConfirmDelay - 0.1f));
+            Assert.AreEqual(RunEntryOptions.NewRunStep.AbandonThenWeaponSelect, RunEntryOptions.NewRunClick(true, true, RunEntryOptions.ConfirmDelay));
         }
     }
 }

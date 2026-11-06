@@ -18,11 +18,11 @@ namespace Ronin7.Flow
         [Tooltip("Optional CONTINUE button — disabled when the most recent save slot is empty.")]
         [SerializeField] private Button continueButton;
 
-        [Tooltip("ENTER THE FRACTURE button; relabelled RESUME RUN when a saved run exists.")]
+        [Tooltip("NEW RUN button; with a saved run its first click asks ABANDON SAVED RUN?.")]
         [SerializeField] private Button runButton;
 
-        [Tooltip("ABANDON button; shown only when a saved run exists.")]
-        [SerializeField] private Button abandonButton;
+        [Tooltip("CONTINUE RUN button; shown only when a saved run exists.")]
+        [SerializeField] private Button continueRunButton;
 
         [Tooltip("P2-01: shows the banked Echoes balance on the menu.")]
         [SerializeField] private Text echoesLabel;
@@ -30,7 +30,8 @@ namespace Ronin7.Flow
         [Tooltip("P2-09: the boot scene's settings panel toggle (wired by the roguelike entry-point patcher).")]
         [SerializeField] private Ronin7.Player.SettingsMenuToggle settings;
 
-        private bool abandonArmed;
+        private bool newRunArmed;
+        private float armedAt;
         private MetaShopPanel shop;
         private WeaponSelectPanel weaponSelect;
         private bool settingsHidMenu;
@@ -183,20 +184,20 @@ namespace Ronin7.Flow
 
         private void RefreshRunButtons()
         {
-            abandonArmed = false;
+            newRunArmed = false;
             if (echoesLabel != null)
             {
                 MetaProgression.EnsureLoaded();
                 echoesLabel.text = MetaShopPanel.EchoesText(MetaProgression.Echoes);
             }
-            SetAbandonLabel(RunEntryOptions.AbandonLabel);
+            SetRunLabel(RunEntryOptions.NewRunButtonLabel(false));
             bool hasRun = RunEntryOptions.HasSavedRun();
-            if (runButton != null)
+            if (continueRunButton != null)
             {
-                var label = runButton.GetComponentInChildren<Text>(true);
-                if (label != null) label.text = RunEntryOptions.PrimaryLabel(hasRun);
+                var label = continueRunButton.GetComponentInChildren<Text>(true);
+                if (label != null) label.text = RunEntryOptions.ContinueLabel;
+                continueRunButton.gameObject.SetActive(RunEntryOptions.ShowContinue(hasRun));
             }
-            if (abandonButton != null) abandonButton.gameObject.SetActive(RunEntryOptions.ShowAbandon(hasRun));
 
             if (continueButton != null)
                 continueButton.interactable = SaveSystem.SlotExists(SaveSystem.MostRecentSlot);
@@ -255,25 +256,42 @@ namespace Ronin7.Flow
             PlaceMenu();
         }
 
-        private static bool HeadTracked()
+        internal static bool HeadTracked()
         {
             var head = InputDevices.GetDeviceAtXRNode(XRNode.Head);
             return head.isValid && head.TryGetFeatureValue(CommonUsages.isTracked, out bool v) && v;
         }
 
-        /// <summary>Menu "START RUN": a saved run resumes straight away; a new run goes through WEAPON SELECT
-        /// first (A15.13), whose START begins it (random seed).</summary>
+        /// <summary>Menu "CONTINUE RUN": resume the saved run, no select screen.</summary>
+        public void OnContinueRunClicked() => RunDirector.Instance?.StartRun();
+
+        /// <summary>Menu "NEW RUN": always a new run through WEAPON SELECT (A15.13), whose START begins it
+        /// (random seed). With a saved run the first click only asks ABANDON SAVED RUN?; the second
+        /// (after <see cref="RunEntryOptions.ConfirmDelay"/>) banks its Echoes and deletes it.</summary>
         public void OnStartRunClicked()
         {
-            if (!RunEntryOptions.NeedsWeaponSelect(RunEntryOptions.HasSavedRun())) { RunDirector.Instance?.StartRun(); return; }
-            MetaProgression.EnsureLoaded();
             if (weaponSelect != null || shop != null || (settings != null && settings.IsOpen)) return;
+            switch (RunEntryOptions.NewRunClick(RunEntryOptions.HasSavedRun(), newRunArmed, Time.unscaledTime - armedAt))
+            {
+                case RunEntryOptions.NewRunStep.ArmAbandon:
+                    if (newRunArmed) return; // too-early second click: keep waiting
+                    newRunArmed = true;
+                    armedAt = Time.unscaledTime;
+                    SetRunLabel(RunEntryOptions.NewRunButtonLabel(true));
+                    return;
+                case RunEntryOptions.NewRunStep.AbandonThenWeaponSelect:
+                    if (RunDirector.Instance == null) return;
+                    RunDirector.Instance.AbandonSavedRun();
+                    RefreshRunButtons();
+                    break;
+            }
+            MetaProgression.EnsureLoaded();
             weaponSelect = WeaponSelectPanelFactory.Build(Camera.main);
             if (weaponSelect == null) return;
             var canvas = GetComponent<Canvas>();
             canvas.enabled = false;
             var panel = weaponSelect;
-            panel.onClosed = () => { if (this != null) canvas.enabled = SettingsClosed; };
+            panel.onClosed = () => { if (this != null) { RefreshRunButtons(); canvas.enabled = SettingsClosed; } };
             // START: the run fades and loads next; keep the menu hidden instead of popping back at end of frame.
             panel.startRun = () => { if (RunDirector.Instance != null) panel.onClosed = null; RunDirector.Instance?.StartRun(); };
         }
@@ -288,7 +306,7 @@ namespace Ronin7.Flow
             // The shop spawns in front of the menu; hide the menu canvas (not this component) until it closes.
             var canvas = GetComponent<Canvas>();
             canvas.enabled = false;
-            shop.onClosed = () => { if (this != null) canvas.enabled = SettingsClosed; };
+            shop.onClosed = () => { if (this != null) { RefreshRunButtons(); canvas.enabled = SettingsClosed; } };
         }
 
         /// <summary>Menu "SETTINGS" (P2-09): comfort options must be reachable before the first run.</summary>
@@ -310,24 +328,10 @@ namespace Ronin7.Flow
 
         private bool SettingsClosed => settings == null || !settings.IsOpen;
 
-        /// <summary>Menu "ABANDON": the first click asks for confirmation, the second discards the
-        /// saved run (banking its Echoes). It does not start a new run (BUG-27).</summary>
-        public void OnAbandonRunClicked()
+        private void SetRunLabel(string text)
         {
-            if (!RunEntryOptions.AbandonConfirmed(abandonArmed))
-            {
-                abandonArmed = true;
-                SetAbandonLabel(RunEntryOptions.ConfirmAbandonLabel);
-                return;
-            }
-            RunDirector.Instance?.AbandonSavedRun();
-            RefreshRunButtons();
-        }
-
-        private void SetAbandonLabel(string text)
-        {
-            if (abandonButton == null) return;
-            var label = abandonButton.GetComponentInChildren<Text>(true);
+            if (runButton == null) return;
+            var label = runButton.GetComponentInChildren<Text>(true);
             if (label != null) label.text = text;
         }
     }

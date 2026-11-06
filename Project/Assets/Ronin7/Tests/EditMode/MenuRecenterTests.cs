@@ -39,6 +39,10 @@ namespace Ronin7.Tests.EditMode
         }
 
         [Test]
+        public void RunEntryRecenter_WaitsLongerThanTheStableWindow() =>
+            Assert.Greater(GameFlowManager.RecenterMaxFrames, MainMenuController.RequiredStableFrames * 4);
+
+        [Test]
         public void Placement_StandingForward_IsInFrontAtEyeLevelMinusDrop()
         {
             var pos = MainMenuController.PlaceInFront(new Vector3(0.2f, 1.6f, 0.1f), Vector3.forward, out var rot);
