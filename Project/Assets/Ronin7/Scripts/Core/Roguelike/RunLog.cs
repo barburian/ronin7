@@ -33,6 +33,7 @@ namespace Ronin7.Core
         public string[] boonOffers;  // one per boon pick screen: "offeredA,offeredB,offeredC>picked" (picked empty = none)
         public int[] path;           // P5-08 (append-only): node ids walked, start..end (end lines; the boot map table reads it)
         public bool assisted;        // P6-03 (append-only): an assist (damage taken < 100% or enemy cooldown > x1) was on at any point
+        public int hitsTaken;        // P9-03 (append-only): PlayerHits this run (A15.12); old lines read 0
     }
 
     /// <summary>P4-00a: per-run counters behind the extra <see cref="RunLogEntry"/> fields. Reset at run start.</summary>

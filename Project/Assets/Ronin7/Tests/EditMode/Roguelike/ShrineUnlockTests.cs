@@ -48,6 +48,7 @@ namespace Ronin7.Tests.EditMode
         [TestCase(BoonPackId.Executioner, 120)]
         public void Shrine_Purchase_CostDeductionAndNoDoubleBuy(string id, int cost)
         {
+            for (int i = 0; i < MetaProgression.WinsRequired(id); i++) MetaProgression.NoteRunEnded(15, true); // A15.12: the win gate
             Assert.AreEqual(cost, MetaProgression.UpgradeCost(id, 1));
             MetaProgression.AddEchoes(cost - 1);
             Assert.IsFalse(MetaProgression.TryPurchase(id), "insufficient echoes refused");
@@ -63,6 +64,7 @@ namespace Ronin7.Tests.EditMode
         [Test]
         public void Shrine_WeaponPurchase_UnlocksAndPersists()
         {
+            for (int i = 0; i < MetaProgression.WinsRequired(WeaponId.TwinWakizashi); i++) MetaProgression.NoteRunEnded(15, true); // A15.12: the win gate
             MetaProgression.AddEchoes(300);
             Assert.IsFalse(MetaProgression.IsWeaponUnlocked(WeaponId.TwinWakizashi));
             Assert.IsTrue(MetaProgression.TryPurchase(WeaponId.TwinWakizashi));
@@ -74,6 +76,7 @@ namespace Ronin7.Tests.EditMode
         [Test]
         public void Shrine_PolearmPurchase_UnlocksPersistsAndIsSelectable()
         {
+            for (int i = 0; i < MetaProgression.WinsRequired(WeaponId.PolearmShield); i++) MetaProgression.NoteRunEnded(15, true); // A15.12: the win gate
             MetaProgression.AddEchoes(450);
             Assert.IsTrue(MetaProgression.TryPurchase(WeaponId.PolearmShield));
             MetaProgression.Load();

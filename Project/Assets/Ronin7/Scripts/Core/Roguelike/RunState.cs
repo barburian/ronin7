@@ -20,6 +20,7 @@ namespace Ronin7.Core
         private static int shards;
         private static int rerollTokens;
         private static int revivesSpent;
+        private static int hitsTaken;
         private static bool unbrokenUsed;
         private static float playerHealth = -1f;
         private static readonly Dictionary<string, int> boonCounts = new();
@@ -69,6 +70,10 @@ namespace Ronin7.Core
         public static int Shards => shards;
         public static int RerollTokens => rerollTokens;
         public static int RevivesSpent => revivesSpent;
+
+        /// <summary>P9-03: PlayerHits taken this run (A15.12). Survives Save &amp; Quit via the snapshot.</summary>
+        public static int HitsTaken => hitsTaken;
+        public static void NoteHitTaken() { if (InRun) hitsTaken++; }
 
         /// <summary>P1-07: Unbroken is once per run in the roguelike; durable across node reloads.</summary>
         public static bool UnbrokenUsed => unbrokenUsed;
@@ -143,6 +148,7 @@ namespace Ronin7.Core
             shards = 0;
             rerollTokens = 0;
             revivesSpent = 0;
+            hitsTaken = 0;
             unbrokenUsed = false;
             playerHealth = -1f;
             boonCounts.Clear();
@@ -262,6 +268,7 @@ namespace Ronin7.Core
                 loadoutId = loadoutId,
                 rerollTokens = rerollTokens,
                 revivesSpent = revivesSpent,
+                hitsTaken = hitsTaken,
                 unbrokenUsed = unbrokenUsed,
                 playerHealth = playerHealth,
             };
@@ -293,6 +300,7 @@ namespace Ronin7.Core
             shards = snapshot.shards;
             rerollTokens = snapshot.rerollTokens;
             revivesSpent = snapshot.revivesSpent;
+            hitsTaken = snapshot.hitsTaken;
             unbrokenUsed = snapshot.unbrokenUsed;
             playerHealth = snapshot.playerHealth;
             foreach (string boonId in snapshot.boons) AddBoon(boonId);
@@ -307,7 +315,10 @@ namespace Ronin7.Core
             temperLevels.AddRange(snapshot.temperLevels);
             weaponArtId = snapshot.weaponArtId ?? "";
             offhandArtId = snapshot.offhandArtId ?? "";
-            if (!string.IsNullOrEmpty(snapshot.loadoutId)) loadoutId = snapshot.loadoutId;
+            // A weapon the player no longer owns (a dev-build Whip run resumed in a release build) plays as the Katana.
+            // Off-roster ids (Tanto) stay verbatim: ApplyLoadout / Effective already fall them back to the Katana.
+            if (!string.IsNullOrEmpty(snapshot.loadoutId))
+                loadoutId = WeaponId.OnRoster(snapshot.loadoutId) && !MetaProgression.IsWeaponUnlocked(snapshot.loadoutId) ? WeaponId.Katana : snapshot.loadoutId;
             heatTotal = 0;
             for (int i = 0; i < Heat.Count; i++)
             {
@@ -345,6 +356,7 @@ namespace Ronin7.Core
             shards = 0;
             rerollTokens = 0;
             revivesSpent = 0;
+            hitsTaken = 0;
             unbrokenUsed = false;
             playerHealth = -1f;
             boonCounts.Clear();

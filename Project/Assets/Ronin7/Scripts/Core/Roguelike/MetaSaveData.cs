@@ -62,5 +62,7 @@ namespace Ronin7.Core
         /// <summary>P4-10: Shrine Art picks per slot ("" = none). Appended fields (version stays 1); only read once the slot is bought.</summary>
         public string weaponArt = "";
         public string offhandArt = "";
+        /// <summary>P9-03: fewest PlayerHits on any won run; -1 = never won. Appended field (version stays 1): an old meta.json loads -1.</summary>
+        public int metaBestHits = -1;
     }
 }

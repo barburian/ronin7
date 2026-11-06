@@ -67,6 +67,9 @@ namespace Ronin7.Core
         /// <summary>v3: the run's Fracture Pressure ranks, indexed by HeatRank (P4-09).</summary>
         public List<int> heatRanks = new List<int>();
 
+        /// <summary>P9-03: PlayerHits taken this run (A15.12 Whip challenge). APPENDED (version stays 3); legacy saves load 0.</summary>
+        public int hitsTaken;
+
         /// <summary>Depth reached by a saved run, for banking it as a loss: v1 (linear map) stored the
         /// depth in nodeIndex; v2+ store it in <see cref="depth"/>.</summary>
         public static int DepthOf(RunSnapshot s) => s.version <= 1 ? s.nodeIndex : s.depth;

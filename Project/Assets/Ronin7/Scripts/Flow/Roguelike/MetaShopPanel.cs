@@ -239,8 +239,8 @@ namespace Ronin7.Flow
             foreach (var l in loadouts)
             {
                 bool unlocked = MetaProgression.IsWeaponUnlocked(l.id);
-                l.label.text = LoadoutText(l.name, unlocked, l.id == selected, l.cost);
-                l.button.interactable = LoadoutInteractable(unlocked, MetaProgression.Echoes, l.cost);
+                l.label.text = unlocked ? LoadoutText(l.name, true, l.id == selected, l.cost) : l.name + "\n" + MetaProgression.RequirementText(l.id, MetaProgression.BestHits);
+                l.button.interactable = LoadoutInteractable(unlocked, MetaProgression.Echoes, l.cost) && (unlocked || MetaProgression.RunsWon >= MetaProgression.WinsRequired(l.id));
             }
             foreach (var p in packs)
             {

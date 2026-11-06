@@ -19,6 +19,7 @@ namespace Ronin7.Core
         private static int bestDepth;
         private static int runsCompleted;
         private static int runsWon;
+        private static int bestHits = -1; // P9-03: fewest PlayerHits on any won run; -1 = never won
         private static readonly Dictionary<string, int> upgradeLevels = new();
 
         /// <summary>BUG-25: true once <see cref="Load"/> has run this session. <see cref="Save"/> before
@@ -35,6 +36,28 @@ namespace Ronin7.Core
         public static int BestDepth => bestDepth;
         public static int RunsCompleted => runsCompleted;
         public static int RunsWon => runsWon;
+
+        /// <summary>A15.12: a won run with at most this many PlayerHits unlocks the Whip.</summary>
+        public const int WhipMaxHits = 3;
+
+        /// <summary>P9-03: fewest PlayerHits taken on any won run, any weapon; -1 = never won.</summary>
+        public static int BestHits => bestHits;
+
+        /// <summary>A15.13: "BEST: 7", or "BEST: --" before the first win. Shared by the Armory and the select cards.</summary>
+        public static string BestHitsText(int best) => best >= 0 ? "BEST: " + best : "BEST: --";
+
+        /// <summary>A15.12: run wins needed before the Shrine sells this weapon (0 = none).</summary>
+        public static int WinsRequired(string id) => id == WeaponId.TwinWakizashi ? 1 : id == WeaponId.PolearmShield ? 2 : 0;
+
+        /// <summary>Locked-weapon requirement line: "300 ECHOES + 1 WIN", or the Whip challenge with the best score.</summary>
+        public static string RequirementText(string id, int best)
+        {
+            if (id == WeaponId.Whip) return "WIN WITH " + WhipMaxHits + " HITS MAX / " + BestHitsText(best);
+            int cost = UpgradeCost(id, 1), wins = WinsRequired(id);
+            string text = cost > 0 ? cost + " ECHOES" : "";
+            if (wins > 0) text += (text.Length > 0 ? " + " : "") + wins + (wins == 1 ? " WIN" : " WINS");
+            return text.Length > 0 ? text : "LOCKED";
+        }
 
         private static bool tutorialDone;
 
@@ -251,7 +274,7 @@ namespace Ronin7.Core
         private static readonly int[] ArtSlotCosts = { 250 };
         private static readonly int[] BladeCosts = { 150 };
         private static readonly int[] TwinCosts = { 300 };
-        private static readonly int[] PolearmCosts = { 450 }; // P9-02c provisional: the 2-win requirement (A15.12) comes in P9-03
+        private static readonly int[] PolearmCosts = { 450 }; // A15.12: also needs 2 wins, see WinsRequired
         private static readonly int[] PackCosts = { 120 };
 
         private static bool IsWeaponItem(string id) => id == WeaponId.Nodachi || id == WeaponId.Tanto || id == WeaponId.TwinWakizashi || id == WeaponId.PolearmShield;
@@ -284,11 +307,12 @@ namespace Ronin7.Core
         /// <summary>Buys the next level of an upgrade and persists. False (no change) if maxed or unaffordable.</summary>
         public static bool TryPurchase(string id)
         {
-            if (id == WeaponId.Whip) return false; // A15.12: never for sale, the P9-03 challenge unlocks it
+            if (id == WeaponId.Whip) return false; // A15.12: never for sale, NoteRunEnded unlocks it
             if (IsWeaponItem(id) || IsPackItem(id)) // P4-10: one-time unlocks
             {
                 if (unlockedWeapons.Contains(id) || unlockedPacks.Contains(id)) return false;
                 if (IsWeaponItem(id) && !WeaponId.OnRoster(id)) return false; // A15.1
+                if (runsWon < WinsRequired(id)) return false; // A15.12: checked before any Echoes are spent
                 if (!TrySpend(UpgradeCost(id, 1))) return false;
                 if (IsWeaponItem(id)) UnlockWeapon(id); else UnlockPack(id);
                 Save();
@@ -304,10 +328,18 @@ namespace Ronin7.Core
 
         /// <summary>Records a finished run (win or permadeath) into the lifetime counters.
         /// <paramref name="depthReached"/> is rooms CLEARED (TotalNodes on a win), shown as n/15.</summary>
-        public static void NoteRunEnded(int depthReached, bool won)
+        public static void NoteRunEnded(int depthReached, bool won, int hitsTaken = -1)
         {
             runsCompleted++;
-            if (won) runsWon++;
+            if (won)
+            {
+                runsWon++;
+                if (hitsTaken >= 0) // -1 = caller has no count (an abandoned/discarded run is never a win anyway)
+                {
+                    if (bestHits < 0 || hitsTaken < bestHits) bestHits = hitsTaken;
+                    if (hitsTaken <= WhipMaxHits) UnlockWeapon(WeaponId.Whip); // A15.12; the caller saves
+                }
+            }
             bestDepth = Mathf.Max(bestDepth, depthReached);
         }
 
@@ -320,6 +352,7 @@ namespace Ronin7.Core
             bestDepth = data.metaBestDepth;
             runsCompleted = data.metaRunsCompleted;
             runsWon = data.metaRunsWon;
+            bestHits = data.metaBestHits;
             tutorialDone = ResolveTutorialDone(data);
             seenWeaknesses.Clear();
             if (data.seenWeaknesses != null)
@@ -372,6 +405,7 @@ namespace Ronin7.Core
             data.metaBestDepth = bestDepth;
             data.metaRunsCompleted = runsCompleted;
             data.metaRunsWon = runsWon;
+            data.metaBestHits = bestHits;
             data.tutorialDone = tutorialDone;
             data.seenWeaknesses = new List<int>(seenWeaknesses);
             data.seenWeaknesses.Sort();
@@ -479,6 +513,7 @@ namespace Ronin7.Core
             bestDepth = 0;
             runsCompleted = 0;
             runsWon = 0;
+            bestHits = -1;
             tutorialDone = false;
             seenWeaknesses.Clear();
             unlockedPacks.Clear();

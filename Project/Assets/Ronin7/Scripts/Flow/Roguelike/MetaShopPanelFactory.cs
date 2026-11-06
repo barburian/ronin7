@@ -25,7 +25,7 @@ namespace Ronin7.Flow
             (WeaponId.Katana, "KATANA"),
             (WeaponId.TwinWakizashi, "DOUBLE KATANA"), // A15.1; id stays twin_wakizashi
             (WeaponId.PolearmShield, "POLEARM + SHIELD"), // P9-02c
-            (WeaponId.Whip, "WHIP"), // P9-02d: no price, unlocks via DevUnlockAllWeapons until the P9-03 challenge
+            (WeaponId.Whip, "WHIP"), // P9-02d: no price; the A15.12 challenge unlocks it
         };
 
         // P4-09 heat selector, in HeatRank order.

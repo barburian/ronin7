@@ -160,6 +160,7 @@ namespace Ronin7.Flow
             EventBus.Subscribe<RoomCleared>(OnRoomCleared);
             EventBus.Subscribe<EntityDied>(OnEntityDied);
             EventBus.Subscribe<HitResisted>(OnHitResisted);
+            EventBus.Subscribe<PlayerHit>(OnPlayerHit);
             EventBus.Subscribe<WeaknessExploited>(OnWeaknessExploited);
             EventBus.Subscribe<PathChosen>(OnPathChosen);
             if (Instance == this) ArtSlots.ModalOpen = IsModalOpen; // P4-04: Arts stay quiet under a panel
@@ -178,6 +179,7 @@ namespace Ronin7.Flow
             EventBus.Unsubscribe<RoomCleared>(OnRoomCleared);
             EventBus.Unsubscribe<EntityDied>(OnEntityDied);
             EventBus.Unsubscribe<HitResisted>(OnHitResisted);
+            EventBus.Unsubscribe<PlayerHit>(OnPlayerHit);
             EventBus.Unsubscribe<WeaknessExploited>(OnWeaknessExploited);
             EventBus.Unsubscribe<PathChosen>(OnPathChosen);
             if (Instance == this) ArtSlots.ModalOpen = null;
@@ -327,7 +329,7 @@ namespace Ronin7.Flow
                 depth = RunSnapshot.DepthOf(snapshot), kills = snapshot.runKills, boons = snapshot.boons.Count,
                 echoes = echoes, boonIds = snapshot.boons.ToArray(), deathBy = RunLog.AbandonedMarker,
                 build = BuildTag(), evt = "end", outcome = RunLog.AbandonedMarker, sector = -1,
-                path = snapshot.path.ToArray(),
+                path = snapshot.path.ToArray(), hitsTaken = snapshot.hitsTaken,
             });
             RunSnapshot.Delete();
         }
@@ -1258,6 +1260,7 @@ namespace Ronin7.Flow
             EndRun(won: false);
         }
 
+        private static void OnPlayerHit(PlayerHit e) => RunState.NoteHitTaken(); // P9-03: only PlayerHit counts (not hazards, blasts, guard chip)
         private static void OnHitResisted(HitResisted e) { if (RunState.InRun) RunTally.Resisted++; }
         private static void OnWeaknessExploited(WeaknessExploited e) { if (RunState.InRun) RunTally.Exploited++; }
 
@@ -1294,6 +1297,7 @@ namespace Ronin7.Flow
                 boonOffers = RunTally.Offers(),
                 path = new List<int>(RunState.Path).ToArray(),
                 assisted = RunTally.Assisted,
+                hitsTaken = RunState.HitsTaken,
             };
         }
 
@@ -1379,7 +1383,7 @@ namespace Ronin7.Flow
             int echoes = RunEchoResult(won, depth, boonInventory.Bonus(BoonEffectKind.EchoGain), RunState.HeatTotal);
             bool firstRun = MetaProgression.RunsCompleted == 0; // P6-04: read before NoteRunEnded counts this run
             MetaProgression.AddEchoes(echoes);
-            MetaProgression.NoteRunEnded(won ? RunMapGenerator.TotalNodes : depth, won);
+            MetaProgression.NoteRunEnded(won ? RunMapGenerator.TotalNodes : depth, won, RunState.HitsTaken);
 
             // Snapshot the result BEFORE RunState.End() wipes it (deferred to SceneLoadRoutine, but
             // capture here so nothing else can clear it first), then persist the lifetime totals this
