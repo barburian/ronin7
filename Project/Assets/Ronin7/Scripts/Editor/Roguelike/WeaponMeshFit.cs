@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Ronin7.Core;
 using Ronin7.Player;
 using UnityEditor;
 using UnityEngine;
@@ -116,6 +117,39 @@ namespace Ronin7.EditorTools
             return true;
         }
 
+        public const string BackingName = "Backing", BackingMatPath = "Assets/Ronin7/Art/Materials/HeroVariants/Gritty_15_15_18_s.mat";
+
+        /// <summary>The Tripo shield is a one-sided open dome (single front image): from behind, where the player always looks, it was a
+        /// rim with a hole. A shallow dark disc just inside the rim closes it. Visual only: no collider, one renderer. Idempotent.</summary>
+        private static bool EnsureShieldBacking(Transform visual)
+        {
+            if (visual == null || visual.Find(BackingName) != null) return false;
+            var d = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            d.name = BackingName;
+            Object.DestroyImmediate(d.GetComponent<Collider>());
+            d.transform.SetParent(visual, false);
+            d.transform.SetLocalPositionAndRotation(new Vector3(0f, 0f, 0.03f), Quaternion.Euler(90f, 0f, 0f));
+            d.transform.localScale = new Vector3(0.58f, 0.005f, 0.58f); // 0.58 m across inside the 0.6 m rim, 1 cm thick
+            d.GetComponent<Renderer>().sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>(BackingMatPath);
+            return true;
+        }
+
+        public const string ChainMatPath = "Assets/Ronin7/Art/Materials/HeroVariants/CyberSword_Blade.mat";
+
+        /// <summary>The chain's shared additive soft-dot material, stretched over the ~3 m line, drew a sub-pixel hairline (measured:
+        /// 32 px of change at 1.5 m, 5 px at 4 m). The ring's own emissive cyan blade material reads as a solid line instead; one
+        /// LineRenderer, same draw count, a touch wider for 4 m on Quest. Idempotent.</summary>
+        private static bool EnsureChainLook(Grabbable whip)
+        {
+            var lr = whip.GetComponentInChildren<LineRenderer>(true);
+            var mat = AssetDatabase.LoadAssetAtPath<Material>(ChainMatPath);
+            if (lr == null || mat == null || lr.sharedMaterial == mat) return false;
+            lr.sharedMaterial = mat;
+            lr.startWidth = 0.03f;
+            lr.endWidth = 0.018f;
+            return true;
+        }
+
         /// <summary>Idempotent: replaces the placeholder visuals with the Tripo meshes. True if anything changed.</summary>
         public static bool ApplyTo(PolearmShieldGear gear)
         {
@@ -129,11 +163,13 @@ namespace Ronin7.EditorTools
             {
                 var sv = gear.shield.transform.Find("ShieldVisual");
                 changed |= Swap(gear.shield.transform, new[] { "ShieldVisual/Disc", "ShieldVisual/Boss" }, sv, "Shield", Shield());
+                changed |= EnsureShieldBacking(sv);
             }
             if (gear.whip != null)
             {
                 var hv = gear.whip.transform.Find("WhipVisual");
                 changed |= Swap(gear.whip.transform, new[] { "WhipVisual/Handle", "ChainRing/Ring" }, hv, "WhipHandle", WhipHandle());
+                changed |= EnsureChainLook(gear.whip);
             }
             return changed;
         }

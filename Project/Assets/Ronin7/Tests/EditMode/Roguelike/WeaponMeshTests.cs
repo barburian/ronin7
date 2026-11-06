@@ -82,7 +82,14 @@ namespace Ronin7.Tests.EditMode
             var face = g.shield.transform.Find("ShieldFace");
             Assert.AreEqual(new Vector3(0f, 0f, 0.12f), face.GetComponent<BoxCollider>().center);
             Assert.AreEqual(new Vector3(0.5f, 0.5f, 0.04f), face.GetComponent<BoxCollider>().size);
-            Assert.AreEqual(1, g.shield.GetComponentsInChildren<MeshFilter>(true).Length, "placeholders gone");
+            Assert.AreEqual(2, g.shield.GetComponentsInChildren<MeshFilter>(true).Length, "placeholders gone: Tripo dome + backing disc");
+            var back = g.shield.transform.Find("ShieldVisual/" + WeaponMeshFit.BackingName);
+            Assert.IsNotNull(back, "backing closes the open back of the dome");
+            Assert.IsNull(back.GetComponent<Collider>(), "backing is visual only");
+            var bb = back.GetComponent<MeshRenderer>().bounds;
+            Assert.LessOrEqual(Mathf.Max(bb.size.x, bb.size.y, bb.size.z), 0.6f, "inside the 0.6 m rim");
+            Assert.GreaterOrEqual(Mathf.Max(bb.size.x, bb.size.y, bb.size.z), 0.5f);
+            Assert.Greater(back.localPosition.z - back.localScale.y, 0f, "the disc stays on the near side of the hand plane (z 0)");
             Assert.AreEqual(0, g.shield.GetComponentsInChildren<MeshCollider>(true).Length);
         }
 
@@ -101,6 +108,10 @@ namespace Ronin7.Tests.EditMode
             Assert.IsNotNull(g.whip.transform.Find("WhipVisual/Coil"), "holstered coil kept");
             Assert.IsNull(g.whip.transform.Find("ChainRing/Ring"), "the mesh's own ring replaces the placeholder");
             Assert.AreEqual(2, g.whip.GetComponentsInChildren<Collider>(true).Length, "grip + blade only");
+            var line = g.whip.GetComponentInChildren<LineRenderer>(true);
+            Assert.AreEqual(WeaponMeshFit.ChainMatPath, UnityEditor.AssetDatabase.GetAssetPath(line.sharedMaterial), "chain uses the solid emissive material, not the sub-pixel soft dot");
+            Assert.GreaterOrEqual(line.startWidth, 0.03f - 1e-5f, "wide enough to read at 4 m");
+            Assert.AreEqual(1, g.whip.GetComponentsInChildren<LineRenderer>(true).Length, "still one line renderer");
         }
 
         [Test]
