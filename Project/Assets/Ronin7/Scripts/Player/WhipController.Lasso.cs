@@ -209,11 +209,13 @@ namespace Ronin7.Player
 
         private void FinishLasso()
         {
+            lastHit.Clear();
+            // R11: the free chain streams straight back through where the body lands: no body hit on it for one re-hit (R6).
+            if (captiveHealth != null && captiveHealth.IsAlive) lastHit[captiveHealth] = clock;
             captive = null;
             captiveHealth = null;
             lassoPhase = LassoPhase.None;
             if (chain != null) chain.UnpinTip();
-            lastHit.Clear();
             lassoGesture.Reset();
         }
 

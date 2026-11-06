@@ -36,12 +36,16 @@ Notes:
 
 ## 1. Whip crack (before anything else about the lasso)
 
-- [ ] Crack fires on a snap, not on a slow drag. `CrackSpeed` is 8 m/s tip speed; a fast drag also cracks. Fine, or too easy? (open decision f)
+- [ ] **Rest (R11):** holding it still, the chain arcs out ahead of the hand, tip about chest height, not on the floor. It sways when you move and then settles, with no jitter. Pointing the handle steers it, slowly (about a second to catch up). Too floaty or too stiff?
+- [ ] **Launch (R11):** a forward flick or thrust throws the chain out to about 4 m, then it snaps back. No button. A sideways slash is not a launch. Does a real flick trigger it every time (`LaunchHandSpeed` 2.5 m/s), and does it fire by accident?
+- [ ] **Spin vs flick (R11):** a lasso spin never launches; a flick never arms the lasso. Spin, then throw, still grabs.
+- [ ] **Aim marker (R11):** a cyan ring on the upper body of the enemy a front attack will hit, Whip only. Readable, not flickering between neighbours, and clearly not the yellow weakness dot or a red telegraph. Hidden with no target, during a lasso, when dead, when not holding the Whip.
+- [ ] **Steer (R11, replaces the 10 degree bend):** with a ring up, a flick's tip curves to that enemy and lands. Does it help without looking like homing or a teleport? Close enemies (under 2 m) are the hardest case: the tip has to curl back.
+- [ ] Crack fires on a flick, not on a slow drag. `CrackSpeed` is 8 m/s tip speed; a 3.6 m/s sweep stays just under (7.8 m/s measured), and any launch flight touching an enemy cracks. Fine, or too easy? (open decision f)
 - [ ] 25 damage from the last 0.5 m of chain, 0.6 s cooldown; sound, sparks, haptics land.
 - [ ] A crack during an enemy windup cancels it (also through Resisted hits; not on super-armour such as Juggernaut's slam, R2).
-- [ ] Tip bends toward a target on a crack (about 10 degrees) and helps rather than feels off.
 - [ ] Body hits (flat 4 x damage multiplier) are feedback only: no Overdrive or combo from them, the crack earns those (R5). The 0.5 s per-enemy re-hit cooldown (R6) feels right with nonstop swinging.
-- [ ] Chain reach: about 3.6 m clean and 2-3 m while circling, against A15's "about 4 m". Good enough? (open decision k)
+- [ ] Chain reach: 3.9 m at rest, about 3.9-4 m on a launch from the hand, against A15's "about 4 m". Good enough? (open decision k)
 - [ ] Chain readability: it is a line renderer. Does it read as a chain in the headset? If thin, a richer chain is a later art upgrade and must re-run section 0.
 - [ ] Whip handle: Tripo mesh with the ring; **coil placeholder hidden when held**; coil visible on the hip holster.
 
@@ -120,12 +124,12 @@ From Amendment 15 "Readings pending user confirmation" (a-f) plus extras. Write 
 | c | "Once per enemy per swing" for the lasso = once per orbit (`LassoReHitSeconds` 1.6 s) | |
 | d | "Release" = opening the grip on the Whip | |
 | e | **Lasso contact staggers bosses** and super-armour enemies (`ForceStagger`), as A15.9 literally says | |
-| f | Crack threshold 8 m/s tip speed (`CrackSpeed`), so a **fast drag also cracks** | |
+| f | Crack threshold 8 m/s tip speed (`CrackSpeed`): a hard slash and **any launch flight touching an enemy** crack, a 3.6 m/s sweep does not | |
 | g | **Daily and assisted wins unlock the Whip.** Should they? | |
 | h | **QuickDraw** is hardcoded to the right hand (left-handed bug): fix now or later | |
 | i | **Crimson blade's trail and light are still cyan.** Make them crimson? | |
 | j | **2048 textures on the Tripo meshes** if Quest is tight (only if section 0 or OVR shows a problem) | |
-| k | **Chain reach** about 3.6 m clean, 2-3 m circling, vs A15's "about 4 m" | |
+| k | **Chain reach** 3.9 m at rest, about 3.9-4 m on a launch, vs A15's "about 4 m" | |
 
 ## 9. Gate items
 

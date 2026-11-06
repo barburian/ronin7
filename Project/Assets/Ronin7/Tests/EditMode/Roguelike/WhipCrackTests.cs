@@ -16,7 +16,7 @@ using Object = UnityEngine.Object;
 
 namespace Ronin7.Tests.EditMode
 {
-    /// <summary>P9-02e (A15.8, R2, R5): the tip crack, its windup cancel, the tip bend, Parry boons hidden on a Whip run, the tutorial.</summary>
+    /// <summary>P9-02e (A15.8, R2, R5): the tip crack, its windup cancel, Parry boons hidden on a Whip run, the tutorial.</summary>
     public class WhipCrackTests
     {
         private const BindingFlags NonPublic = BindingFlags.Instance | BindingFlags.NonPublic;
@@ -378,65 +378,6 @@ namespace Ronin7.Tests.EditMode
             finally { EventBus.Unsubscribe(on); }
             Assert.AreEqual(1, exploited, "a crack counts as heavy");
             Assert.AreEqual("Stagger", StateOf(e));
-        }
-
-        // --- bend ---
-
-        [Test]
-        public void Bend_IsBoundedTo10Degrees_KeepsLengthAndVelocity()
-        {
-            var c = new VerletChain();
-            c.Reset(new Vector3(0f, 3f, 0f), Vector3.forward, 0f);
-            int tip = c.Count - 1;
-            Vector3 root = c.Positions[tip - 1];
-            Vector3 link = c.Positions[tip] - root;
-            Vector3 vBefore = c.Velocity(tip);
-            c.BendTip(root + Vector3.right * 5f);
-            Vector3 after = c.Positions[tip] - root;
-            Assert.AreEqual(VerletChain.MaxTipBendDegrees, Vector3.Angle(link, after), 0.01f);
-            Assert.AreEqual(link.magnitude, after.magnitude, 1e-4f);
-            Assert.AreEqual(vBefore, c.Velocity(tip));
-
-            // Already nearly on target: it only turns as far as needed.
-            Vector3 near = Quaternion.AngleAxis(3f, Vector3.right) * after;
-            c.BendTip(root + near * 5f);
-            Assert.AreEqual(3f, Vector3.Angle(c.Positions[tip] - root, after), 0.05f);
-            Assert.AreEqual(10f, VerletChain.MaxTipBendDegrees);
-        }
-
-        [Test]
-        public void Bend_Degenerate_IsIgnored_AndChainStaysStable()
-        {
-            var c = new VerletChain();
-            c.Reset(new Vector3(0f, 3f, 0f), Vector3.forward, 0f);
-            c.BendTip(c.Positions[c.Count - 2]); // zero-length aim
-            for (int f = 0; f < 90 * 3; f++)
-            {
-                c.Tick(new Vector3(Mathf.Sin(f / 15f), 3f, 0f), 1f / 90f, 0f);
-                if (f % 20 == 0) c.BendTip(new Vector3(Mathf.Cos(f), 1f, Mathf.Sin(f)) * 3f);
-                float len = 0f;
-                for (int i = 1; i < c.Count; i++)
-                {
-                    var p = c.Positions[i];
-                    Assert.IsFalse(float.IsNaN(p.x + p.y + p.z) || float.IsInfinity(p.x + p.y + p.z));
-                    len += Vector3.Distance(p, c.Positions[i - 1]);
-                }
-                Assert.LessOrEqual(len, VerletChain.TotalLength + 0.3f, "frame " + f);
-                Assert.LessOrEqual(c.MaxSpeed, VerletChain.MaxPointSpeed * 3f);
-            }
-        }
-
-        [Test]
-        public void Crack_BendsTheTipTowardTheTarget()
-        {
-            PlaceChain();
-            Victim(PointOf(9) + Vector3.up * 0.05f + Vector3.forward * 0.3f, 0.6f);
-            Vector3 root = PointOf(8);
-            Vector3 before = PointOf(9) - root;
-            Assert.IsTrue(whip.TryCrackScan(Along));
-            float turned = Vector3.Angle(before, PointOf(9) - root);
-            Assert.Greater(turned, 0.1f);
-            Assert.LessOrEqual(turned, VerletChain.MaxTipBendDegrees + 0.01f);
         }
 
         // --- boons ---

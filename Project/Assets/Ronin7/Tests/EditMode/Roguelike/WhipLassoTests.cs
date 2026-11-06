@@ -321,7 +321,9 @@ namespace Ronin7.Tests.EditMode
             c.UnpinTip();
             Vector3 was = c.Positions[c.Count - 1];
             for (int i = 0; i < 90; i++) c.Tick(new Vector3(0f, 1.5f, 0f), Dt, 0f);
-            Assert.Less(c.Positions[c.Count - 1].y, was.y, "falls once free");
+            // R11: a free tip no longer falls, it goes back to the rest arc.
+            Assert.That(c.Positions[c.Count - 1].y, Is.InRange(1.3f, 2.2f), "rests up, once free");
+            Assert.That(c.Positions[c.Count - 1].z, Is.InRange(was.z - 1f, was.z + 0.1f));
             Assert.Less(c.MaxSpeed, VerletChain.MaxPointSpeed);
         }
 

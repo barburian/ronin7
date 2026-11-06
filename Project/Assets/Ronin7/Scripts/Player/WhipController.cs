@@ -14,7 +14,8 @@ namespace Ronin7.Player
     /// The chain has no collider and no BladeDamager, so it cannot parry or reflect, and it ignores walls.
     /// A15.8 crack (P9-02e): the tip moving faster than <see cref="CrackSpeed"/> into a target within the last
     /// <see cref="CrackZone"/> m deals a flat <see cref="CrackDamage"/> through the shared damage path (credited: Overdrive, combo),
-    /// cancels a windup (R2) and bends the tip toward it. A15.9 lasso: see WhipController.Lasso.cs; while it runs the chain deals no body hits or cracks.
+    /// cancels a windup (R2) and ends the steer. A15.9 lasso: see WhipController.Lasso.cs; while it runs the chain deals no body hits or cracks.
+    /// R11 launch, steer and aim marker: see WhipController.Launch.cs.
     /// </summary>
     public partial class WhipController : MonoBehaviour
     {
@@ -25,8 +26,8 @@ namespace Ronin7.Player
         /// <summary>R6: seconds, real time, before the same enemy takes another body hit.</summary>
         internal const float ReHitCooldown = 0.5f;
         internal const float CrackDamage = 25f; // A15.8
-        /// <summary>Tip speed (m/s) a crack needs. First guess, tune in the headset: above SwingSpeed so drifting never cracks, near
-        /// the Enemy HeavyBreak speed (5.5) so a deliberate flick counts as heavy; a steady 7 m/s drag in the tests stays under it.</summary>
+        /// <summary>Tip speed (m/s) a crack needs. Re-measured on the light chain (R11), tune in the headset: above SwingSpeed and above what
+        /// a 3.6 m/s hand sweep's catch-up reaches, below what a steered launch arrives at; heavy against the Enemy HeavyBreak speed (5.5).</summary>
         internal const float CrackSpeed = 8f;
         /// <summary>Chain length (m) from the tip that can crack.</summary>
         internal const float CrackZone = 0.5f;
@@ -90,7 +91,9 @@ namespace Ronin7.Player
             {
                 chain = new VerletChain(chainPoints);
                 chainLine.positionCount = chain.Count;
+                BuildMarker();
             }
+            ResetAim();
             if (value) lassoGesture.Reset();
             else OnLassoUnheld(); // A15.9: letting go of the grip is the release; the fling carries on unheld
             held = value;
@@ -131,6 +134,9 @@ namespace Ronin7.Player
                 needsReset = false;
             }
             TickLasso(realDt); // first, so the pinned tip is on this frame's captive
+            UpdateMark(realDt);
+            TickLaunch(realDt);
+            chain.SetLiftDirection(chainRing.forward);
             chain.Tick(chainRing.position, realDt, floorY);
             chainLine.SetPositions(chain.Positions);
 
@@ -147,6 +153,8 @@ namespace Ronin7.Player
             if (guard != null && !guard.enabled) return; // tracking loss: the hand pose jumps, so no phantom hits
             if (Time.timeScale <= 0f) return;
             Vector3 tipVelocity = chain.Velocity(chain.Count - 1);
+            // R11: a launch flight is a deliberate flick, so a tip in reach cracks even where the near-taut chain has no room to reach CrackSpeed.
+            if (chain.InFlight && tipVelocity.sqrMagnitude < CrackSpeed * CrackSpeed) tipVelocity = chain.LaunchDirection * CrackSpeed;
             if (tipVelocity.sqrMagnitude >= CrackSpeed * CrackSpeed) TryCrackScan(tipVelocity); // never cut (A15.11)
             if (!bodyDamage) return; // paused: real time still runs, combat does not
             if (checkEveryNthFrame > 1 && Time.frameCount % checkEveryNthFrame != 0) return;
@@ -202,7 +210,7 @@ namespace Ronin7.Player
             var melee = target.GetComponent<MeleeAttacker>();
             if (melee != null) melee.CancelWindup(dir);
             EventBus.Publish(new SwordImpact(point, speed, target.gameObject, tipVelocity));
-            chain.BendTip(best.bounds.center);
+            chain.EndSteer(); // R11: it arrived
             return true;
         }
 

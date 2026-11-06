@@ -43,12 +43,17 @@ namespace Ronin7.Player
         /// <summary>The flat direction of the last throw.</summary>
         public Vector3 ThrowDirection { get; private set; }
         public bool Armed => armedLeft > 0f;
+        /// <summary>Seconds of the current spin so far, armed or not.</summary>
+        public float SpinSeconds => spinSeconds;
+        /// <summary>True if the last sample measured the path's turn: two samples in a row above <see cref="MinHandSpeed"/>. A straight path reads 0 <see cref="RotationRate"/> with this true.</summary>
+        public bool TurnKnown { get; private set; }
 
         public void Reset()
         {
             hasHand = false;
             elapsed = armedLeft = armedSpeed = 0f;
             Velocity = RotationRate = Vector3.zero;
+            TurnKnown = false;
             ClearSpin();
         }
 
@@ -72,7 +77,8 @@ namespace Ronin7.Player
             lastHand = hand;
             float speed = Velocity.magnitude;
             RotationRate = Vector3.zero;
-            if (speed >= MinHandSpeed && before.magnitude >= MinHandSpeed)
+            TurnKnown = speed >= MinHandSpeed && before.magnitude >= MinHandSpeed;
+            if (TurnKnown)
             {
                 Vector3 cross = Vector3.Cross(before, Velocity);
                 if (cross.sqrMagnitude > 1e-8f)
@@ -212,13 +218,17 @@ namespace Ronin7.Player
         }
 
         /// <summary>True if <paramref name="position"/> is in range and in the cone around the flat <paramref name="aim"/>; <paramref name="angle"/> ranks "nearest the aim".</summary>
-        public static bool InAim(Vector3 origin, Vector3 aim, Vector3 position, out float angle)
+        public static bool InAim(Vector3 origin, Vector3 aim, Vector3 position, out float angle) =>
+            InAim(origin, aim, position, AimRange, AimHalfAngle, out angle);
+
+        /// <summary>The same test with its own limits (R11: the Whip's aim marker).</summary>
+        public static bool InAim(Vector3 origin, Vector3 aim, Vector3 position, float range, float halfAngle, out float angle)
         {
             Vector3 to = position - origin;
             to.y = 0f;
             aim.y = 0f;
             angle = Vector3.Angle(aim, to);
-            return to.sqrMagnitude <= AimRange * AimRange && angle <= AimHalfAngle;
+            return to.sqrMagnitude <= range * range && angle <= halfAngle;
         }
     }
 }
