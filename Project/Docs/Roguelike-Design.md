@@ -1744,3 +1744,12 @@ Binding for P9. All numbers are starting values, tuned on the headset. "Off hand
 - (e) Contact staggers bosses and super-armour enemies too, as A15.9 literally says (`ForceStagger`).
 - (f) The crack threshold is 8 m/s tip speed.
 
+**Playtest rulings (user, 2026-11-06).** These change Amendment 15 and D-18.
+
+- R8. PACKS & KEEPSAKES tab removed. All pack boons (Bleed, Storm, Executioner) are available from the start; keepsakes removed; no refunds. Heat stays. (`MetaSaveData` keeps the old serialized fields so meta.json round-trips; nothing reads them.)
+- R9. Weapon Art and Off-hand Art slots are free from the beginning, defaulting to Charged Slash and Kiai Palm. A15.18's "unavailable" label stays; the Armory Art row says what each move does and which trigger fires it.
+- R10. Any held blade in a bolt's path blocks it harmlessly when slow; a fast swing still reflects (2.5 m/s). Non-parry weapons (R1) still pass through. A holstered katana does not shield.
+- R11. Whip tip lift and launch (overrides A15.8's 10-degree bend): the tip stays up, the whip is lighter, launching from the grip sends it to the enemy; a Whip-only aim marker shows which enemy it will hit in front. [Built in a later batch.]
+- R12. Attacks that must be dodged make the enemy's eyes blink red. [Later batch.]
+- R13. Difficulty modes on the select screen: Easy (enemy damage x0.75, telegraphs +20%, one fewer enemy per room), Normal (as today), Hard (one more enemy per room, telegraphs -15%). Whip unlock counts on Normal and up only. New players default to Easy. Resolves A15.19. [Later batch.]
+- R14. NEW RUN and CONTINUE RUN are separate buttons. NEW RUN warns when a save exists; the save is abandoned only when the player presses START on the select screen (BACK leaves it untouched).

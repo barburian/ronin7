@@ -164,7 +164,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
         }
 
         [Test]
-        public void PackTaggedBoons_AreLockedByDefault()
+        public void PackTaggedBoons_AreAllOfferable_R8()
         {
             var catalog = LoadCatalogOrSkip();
             MetaProgression.ResetForTests();
@@ -175,7 +175,6 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
                 {
                     if (boon == null || (boon.tags & (BoonTag.Bleed | BoonTag.Storm | BoonTag.Executioner)) == 0) continue;
                     packed++;
-                    Assert.IsFalse(BoonOfferPicker.IsPackUnlocked(boon), $"'{boon.id}' must start pack-locked.");
                 }
                 Assert.GreaterOrEqual(packed, 10);
                 var quickDraw = System.Array.Find(catalog.boons, b => b != null && b.id == BoonId.QuickDraw);

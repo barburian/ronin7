@@ -221,14 +221,19 @@ namespace Ronin7.Tests.EditMode
         [TestCase(2.5f, false)]
         [TestCase(6f, false)]
         public void Shield_AbsorbsBelowReflectSpeed_ReflectsAbove(float speed, bool absorbs)
-            => Assert.AreEqual(absorbs, Projectile.ShieldAbsorbs(true, speed));
+            => Assert.AreEqual(absorbs, Projectile.BladeAbsorbs(true, speed, false));
 
-        [Test]
-        public void Shield_Katana_NeverAbsorbs() => Assert.IsFalse(Projectile.ShieldAbsorbs(false, 0f));
+        // R10: a held blade blocks slow bolts too; a holstered (not held) katana still does not shield.
+        [TestCase(0f, true, ExpectedResult = true)]
+        [TestCase(2.49f, true, ExpectedResult = true)]
+        [TestCase(2.5f, true, ExpectedResult = false)]
+        [TestCase(0f, false, ExpectedResult = false)]
+        public bool HeldKatana_AbsorbsOnlyBelowReflectSpeed(float speed, bool held) => Projectile.BladeAbsorbs(false, speed, held);
 
-        [TestCase(0f, 10f, true, TestName = "Bolt_SlowShield_AbsorbedNoDamage")]
-        [TestCase(40f, 7f, true, TestName = "Bolt_SlowKatana_StillHurtsParent")]
-        public void Bolt_TryHit_ShieldVersusKatana(float maxDamage, float expectedHealth, bool consumed)
+        [TestCase(0f, 10f, true, false, TestName = "Bolt_SlowShield_AbsorbedNoDamage")]
+        [TestCase(40f, 10f, true, false, TestName = "Bolt_SlowHeldKatana_BlockedHarmlessly_R10")]
+        [TestCase(40f, 7f, true, true, TestName = "Bolt_SlowHolsteredKatana_StillHurtsParent")]
+        public void Bolt_TryHit_ShieldVersusKatana(float maxDamage, float expectedHealth, bool consumed, bool holstered)
         {
             var def = ScriptableObject.CreateInstance<WeaponDefinition>();
             var parentGo = new GameObject("Wielder", typeof(Health));
@@ -239,6 +244,7 @@ namespace Ronin7.Tests.EditMode
                 var health = parentGo.GetComponent<Health>();
                 health.Configure(10f);
                 bladeGo.transform.SetParent(parentGo.transform);
+                if (holstered) bladeGo.AddComponent<Grabbable>(); // never grabbed: IsHeld is false
                 def.maxDamage = maxDamage;
                 var blade = bladeGo.GetComponent<BladeDamager>();
                 blade.SetDefinition(def);

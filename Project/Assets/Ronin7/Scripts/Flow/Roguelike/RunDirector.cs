@@ -369,25 +369,13 @@ namespace Ronin7.Flow
             if (rerollLevel > 0) RunState.AddRerollToken(rerollLevel);
 
             ApplyMetaArts();
-            ApplyKeepsake(boonCatalog);
         }
 
-        /// <summary>P4-10: the Shrine's Art picks go into this run's slots ("" for an unbought slot).</summary>
+        /// <summary>P4-10: the Shrine's Art picks go into this run's slots .</summary>
         internal static void ApplyMetaArts()
         {
             ArtSlots.Equip(ArtSlot.Weapon, MetaProgression.EquippedArt(true));
             ArtSlots.Equip(ArtSlot.Offhand, MetaProgression.EquippedArt(false));
-        }
-
-        /// <summary>P4-10 Keepsake: the run starts holding the chosen past Epic. Like the other starting
-        /// bonuses it is not a pick: no BoonChosen, and it is not re-recorded as a past Epic.</summary>
-        internal static void ApplyKeepsake(BoonCatalog catalog)
-        {
-            string id = MetaProgression.SelectedKeepsake;
-            var def = catalog != null && id.Length > 0 ? catalog.Find(id) : null;
-            if (def == null) return;
-            RunState.AddShrineBoon(def.id);
-            if (def.effect == BoonEffectKind.GrantAbility) RunState.GrantAbility(def.abilityId);
         }
 
         /// <summary>Grants up to <paramref name="level"/> stacks of a meta-upgrade boon, clamped to the
@@ -422,7 +410,7 @@ namespace Ronin7.Flow
 
             var pool = new List<BoonDefinition>();
             foreach (var boon in boonCatalog.boons)
-                if (boon != null && boon.rarity == BoonRarity.Common && BoonOfferPicker.IsPackUnlocked(boon)) pool.Add(boon); // P4-05 pack locks
+                if (boon != null && boon.rarity == BoonRarity.Common) pool.Add(boon);
 
             int granted = 0;
             while (granted < count && pool.Count > 0)
@@ -668,7 +656,6 @@ namespace Ronin7.Flow
             RefreshRigMaxHealth(BoonInventory.Magnitude(boon, BoonEffectKind.HealOnPick));
             EventBus.Publish(new BoonChosen(boon.id));
             if (boon.effect == BoonEffectKind.GrantAbility) RunState.GrantAbility(boon.abilityId);
-            if (boon.rarity == BoonRarity.Epic) MetaProgression.NoteEpicPicked(boon.id); // P4-10 Keepsake candidates
         }
 
         private void BeginBoonOffer(RunNode node)
@@ -1635,9 +1622,6 @@ namespace Ronin7.Flow
                 }
                 int stacks = RunState.BoonCount(boonId);
                 for (int i = 0; i < stacks; i++) boonInventory.Add(def);
-                // P4-11: re-note Epics on every rebuild, so a pick that survived a crash in the snapshot still
-                // reaches pastEpics (saved with meta at run end; no file IO here).
-                if (def.rarity == BoonRarity.Epic) MetaProgression.NoteEpicPicked(def.id);
                 boonInventory.SetTemper(boonId, RunState.TemperLevel(boonId));
             }
             boonInventory.SetRevivesSpent(RunState.RevivesSpent);

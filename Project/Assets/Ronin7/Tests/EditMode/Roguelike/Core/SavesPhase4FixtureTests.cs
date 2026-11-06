@@ -43,9 +43,6 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             Assert.AreEqual(940, MetaProgression.Echoes);
             Assert.IsTrue(MetaProgression.HasSeen(1) && MetaProgression.HasSeen(2) && MetaProgression.HasSeen(6));
             Assert.IsFalse(MetaProgression.HasSeen(3));
-            Assert.IsTrue(MetaProgression.IsPackUnlocked(BoonPackId.Bleed));
-            Assert.IsTrue(MetaProgression.IsPackUnlocked(BoonPackId.Executioner));
-            Assert.IsFalse(MetaProgression.IsPackUnlocked(BoonPackId.Storm));
             Assert.IsTrue(MetaProgression.IsWeaponUnlocked(WeaponId.Nodachi));
             Assert.IsTrue(MetaProgression.IsWeaponUnlocked(WeaponId.Tanto));
             Assert.IsFalse(MetaProgression.IsWeaponUnlocked(WeaponId.TwinWakizashi));
@@ -53,10 +50,11 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             Assert.AreEqual(2, MetaProgression.HeatRankOf(HeatRank.SharpenedProgram));
             Assert.AreEqual(1, MetaProgression.HeatRankOf(HeatRank.HardenedShells));
             Assert.AreEqual(1, MetaProgression.HeatRankOf(HeatRank.RustedForge));
-            CollectionAssert.AreEqual(new[] { BoonId.GrantOverdrive, BoonId.GrantMirror }, MetaProgression.PastEpics);
-            Assert.IsTrue(MetaProgression.HasKeepsake(BoonId.GrantOverdrive));
-            Assert.IsFalse(MetaProgression.HasKeepsake(BoonId.GrantMirror));
-            Assert.AreEqual(BoonId.GrantOverdrive, MetaProgression.SelectedKeepsake);
+            // R8: pack / keepsake fields still parse out of the old file (MetaSaveData keeps them) but nothing reads them any more.
+            var raw = JsonUtility.FromJson<MetaSaveData>(File.ReadAllText(Fixture("meta.json")));
+            CollectionAssert.AreEquivalent(new[] { "pack_bleed", "pack_executioner" }, raw.unlockedPacks);
+            CollectionAssert.AreEqual(new[] { BoonId.GrantOverdrive, BoonId.GrantMirror }, raw.pastEpics);
+            Assert.AreEqual(BoonId.GrantOverdrive, raw.selectedKeepsake);
             Assert.AreEqual("art.charged_slash", MetaProgression.EquippedArt(true));
             Assert.AreEqual("art.kiai_palm", MetaProgression.EquippedArt(false));
         }

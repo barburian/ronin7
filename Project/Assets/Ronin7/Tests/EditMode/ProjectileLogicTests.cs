@@ -50,11 +50,11 @@ namespace Ronin7.Tests.EditMode
         }
 
         [TestCase(false, 10f, false, TestName = "TryHit_NonParryingBlade_BoltPassesThrough")]
-        [TestCase(true, 7f, true, TestName = "TryHit_ParryingBlade_BoltDamagesThroughParent")]
+        [TestCase(true, 10f, true, TestName = "TryHit_SlowParryingBlade_BoltBlockedHarmlessly_R10")]
         public void TryHit_BladeCanParry_DecidesWhetherBoltHitsParent(bool canParry, float expectedHealth, bool expectConsumed)
         {
-            // The blade sits under a live Health at speed 0 (below ReflectMinSpeed), so without the CanParry
-            // guard (A15.4) a bolt would damage the parent either way: only the guard keeps the first case intact.
+            // The blade sits under a live Health at speed 0 (below ReflectMinSpeed). A non-parrying blade is
+            // passed through (A15.4); a parrying one blocks the bolt harmlessly (R10) instead of hurting the parent.
             var def = ScriptableObject.CreateInstance<WeaponDefinition>();
             var parentGo = new GameObject("Wielder", typeof(Health));
             var boltGo = new GameObject("Bolt", typeof(Projectile));

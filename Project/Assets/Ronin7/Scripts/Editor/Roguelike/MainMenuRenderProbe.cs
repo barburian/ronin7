@@ -37,7 +37,10 @@ namespace Ronin7.EditorTools
                 cam.transform.position = new Vector3(c.x, c.y + 0.1f, c.z) - canvas.transform.forward * 2.2f;
                 cam.transform.rotation = Quaternion.LookRotation(canvas.transform.forward, Vector3.up);
                 cam.fieldOfView = 60f;
+                // Awake/Start do not run in edit mode: drive the same refresh the player gets (no save in the temp dir, so the gap closes).
+                typeof(MainMenuController).GetMethod("RefreshRunButtons", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).Invoke(menu, null);
                 Capture(cam, "Logs/MainMenu_NoRun.png");
+                typeof(MainMenuController).GetMethod("CloseContinueGap", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).Invoke(menu, new object[] { false });
                 foreach (var b in menu.GetComponentsInChildren<Button>(true))
                 {
                     var t = b.GetComponentInChildren<Text>(true);

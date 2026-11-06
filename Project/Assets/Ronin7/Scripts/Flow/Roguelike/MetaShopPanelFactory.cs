@@ -35,16 +35,7 @@ namespace Ronin7.Flow
             "RUSTED FORGE", "NO SECOND CHANCES", "UNFORGIVING GUARD", "ESCORTED BOSSES",
         };
 
-        // P4-10 archetype packs.
-        private static readonly (string id, string name)[] Packs =
-        {
-            (BoonPackId.Bleed, "BLEED PACK"),
-            (BoonPackId.Storm, "STORM PACK"),
-            (BoonPackId.Executioner, "EXECUTIONER PACK"),
-        };
-
-        private static readonly string[] TabNames = { "UPGRADES", "ARMORY", "PACKS & KEEPSAKES", "HEAT" };
-        private const int MaxKeepsakes = 8; // ponytail: 2 rows of 4; page the grid if more than 8 Epics exist
+        private static readonly string[] TabNames = { "UPGRADES", "ARMORY", "HEAT" };
 
         /// <param name="requireEventSystem">Tests pass false: an EventSystem cannot register itself in edit mode.</param>
         public static MetaShopPanel Build(Camera targetCamera, bool requireEventSystem = true)
@@ -75,14 +66,13 @@ namespace Ronin7.Flow
             panel.pages = new GameObject[TabNames.Length];
             for (int i = 0; i < TabNames.Length; i++)
             {
-                panel.tabs[i] = MakeButton(rt, TabNames[i], new Vector2(-369f + i * 246f, 260f), new Vector2(242f, 70f)); // P5-07d: 242 px so "PACKS & KEEPSAKES" (238 px at 28 px bold) stays on one line
+                panel.tabs[i] = MakeButton(rt, TabNames[i], new Vector2(-320f + i * 320f, 260f), new Vector2(300f, 70f)); // three tabs
                 panel.tabs[i].GetComponentInChildren<TMP_Text>().fontSize = UiKit.MinBody; // P5-07b: was 22/28 — clamped to the 28 px body minimum
                 panel.pages[i] = MakePage(rt, TabNames[i]);
             }
             var upgrades = (RectTransform)panel.pages[0].transform;
             var armory = (RectTransform)panel.pages[1].transform;
-            var packsPage = (RectTransform)panel.pages[2].transform;
-            var heatPage = (RectTransform)panel.pages[3].transform;
+            var heatPage = (RectTransform)panel.pages[2].transform;
 
             // UPGRADES (P2-01 rows)
             panel.rows = new MetaShopPanel.Row[Upgrades.Length];
@@ -112,34 +102,9 @@ namespace Ronin7.Flow
             panel.weaponArtLabel = panel.weaponArtButton.GetComponentInChildren<TMP_Text>();
             panel.offhandArtButton = MakeButton(armory, "", new Vector2(235f, -110f), new Vector2(440f, 120f));
             panel.offhandArtLabel = panel.offhandArtButton.GetComponentInChildren<TMP_Text>();
-            MakeText(armory, "TAP A SLOT TO CHANGE ITS ART", 24, TextAlignmentOptions.Center, new Vector2(0f, -210f), new Vector2(900f, 40f), new Color(1f, 1f, 1f, 0.6f));
-
-            // PACKS & KEEPSAKES
-            MakeText(packsPage, "ARCHETYPE PACKS", 34, TextAlignmentOptions.Center, new Vector2(0f, 175f), new Vector2(600f, 50f), accent);
-            panel.packs = new MetaShopPanel.Loadout[Packs.Length];
-            for (int i = 0; i < Packs.Length; i++)
-            {
-                var b = MakeButton(packsPage, Packs[i].name, new Vector2(-310f + i * 310f, 95f), new Vector2(290f, 100f));
-                var label = b.GetComponentInChildren<TMP_Text>();
-                label.fontSize = UiKit.MinBody; // P5-07b: was 26
-                panel.packs[i] = new MetaShopPanel.Loadout { id = Packs[i].id, name = Packs[i].name, cost = MetaProgression.UpgradeCost(Packs[i].id, 1), label = label, button = b };
-            }
-            MakeText(packsPage, "KEEPSAKES: START A RUN WITH A PAST EPIC", 30, TextAlignmentOptions.Center, new Vector2(0f, -10f), new Vector2(900f, 50f), accent);
-            var past = MetaProgression.PastEpics;
-            int n = Mathf.Min(past.Count, MaxKeepsakes);
-            if (n == 0)
-                MakeText(packsPage, "PICK AN EPIC BOON IN A RUN TO UNLOCK ONE", 26, TextAlignmentOptions.Center, new Vector2(0f, -110f), new Vector2(900f, 60f), new Color(1f, 1f, 1f, 0.6f));
-            var catalog = RunDirector.Instance != null ? RunDirector.Instance.Catalog : null;
-            panel.keepsakes = new MetaShopPanel.Loadout[n];
-            for (int i = 0; i < n; i++)
-            {
-                var def = catalog != null ? catalog.Find(past[i]) : null;
-                string name = def != null && !string.IsNullOrEmpty(def.displayName) ? def.displayName.ToUpperInvariant() : past[i];
-                var b = MakeButton(packsPage, name, new Vector2(-345f + (i % 4) * 230f, -90f - (i / 4) * 100f), new Vector2(210f, 90f));
-                var label = b.GetComponentInChildren<TMP_Text>();
-                label.fontSize = UiKit.MinBody; // P5-07b: was 22
-                panel.keepsakes[i] = new MetaShopPanel.Loadout { id = past[i], name = name, cost = MetaProgression.KeepsakeCost, label = label, button = b };
-            }
+            panel.weaponArtHelp = MakeText(armory, "", (int)UiKit.MinBody, TextAlignmentOptions.Center, new Vector2(-235f, -215f), new Vector2(440f, 90f), Color.white);
+            panel.offhandArtHelp = MakeText(armory, "", (int)UiKit.MinBody, TextAlignmentOptions.Center, new Vector2(235f, -215f), new Vector2(440f, 90f), Color.white);
+            MakeText(armory, "TAP A SLOT TO CHANGE ITS ART", 24, TextAlignmentOptions.Center, new Vector2(0f, -290f), new Vector2(900f, 40f), new Color(1f, 1f, 1f, 0.6f));
 
             // HEAT (P4-09; unlocks after the first win)
             if (MetaProgression.HeatUnlocked)

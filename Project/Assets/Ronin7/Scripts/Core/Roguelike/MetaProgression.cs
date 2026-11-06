@@ -77,22 +77,6 @@ namespace Ronin7.Core
         /// <summary>P2-08: first-run onboarding finished (or skipped because the player has completed runs).</summary>
         public static bool TutorialDone => tutorialDone;
 
-        // P4-05: archetype packs (BoonPackId) the player has unlocked. Boons from a locked pack are never offered.
-        private static readonly List<string> unlockedPacks = new();
-
-        /// <summary>P4-05 dev path (RONIN7_DEV / editor smoke): every pack reads unlocked. In memory only, never
-        /// saved, and not cleared by <see cref="Reset"/> (a Load must not re-lock a dev session).</summary>
-        public static bool DevUnlockAllPacks { get; set; }
-
-        public static bool IsPackUnlocked(string packId) =>
-            DevUnlockAllPacks || (!string.IsNullOrEmpty(packId) && unlockedPacks.Contains(packId));
-
-        /// <summary>Marks a pack unlocked in memory; the caller (P4-10 Shrine purchase) saves.</summary>
-        public static void UnlockPack(string packId)
-        {
-            if (!string.IsNullOrEmpty(packId) && !unlockedPacks.Contains(packId)) unlockedPacks.Add(packId);
-        }
-
         // P4-08: weapons unlocked (P4-10 Shrine sells them) and the LOADOUT rack pick.
         private static readonly List<string> unlockedWeapons = new();
         private static string selectedLoadout = WeaponId.Katana;
@@ -138,57 +122,19 @@ namespace Ronin7.Core
             return true;
         }
 
-        // P4-10: Shrine Art picks (stored as ArtId strings; Core cannot see the Player constants).
-        private static string weaponArt = "", offhandArt = "";
+        // P4-10 / R9: the Art picks (stored as ArtId strings; Core cannot see the Player constants).
+        // Slots are free from the start and default to Charged Slash / Kiai Palm (a save that chose nothing).
+        private const string DefaultWeaponArt = "art.charged_slash", DefaultOffhandArt = "art.kiai_palm";
+        private static string weaponArt = DefaultWeaponArt, offhandArt = DefaultOffhandArt;
 
-        /// <summary>P4-10: the Art slot has been bought at the Shrine.</summary>
-        public static bool HasArtSlot(bool weapon) =>
-            UpgradeLevel(weapon ? MetaUpgradeId.WeaponArtSlot : MetaUpgradeId.OffhandArtSlot) >= 1;
+        /// <summary>The Art the next run starts with in this slot.</summary>
+        public static string EquippedArt(bool weapon) => weapon ? weaponArt : offhandArt;
 
-        /// <summary>P4-10: the Art the next run starts with in this slot ("" while the slot is unbought).</summary>
-        public static string EquippedArt(bool weapon) => !HasArtSlot(weapon) ? "" : weapon ? weaponArt : offhandArt;
-
-        /// <summary>P4-10 Shrine Art selector ("" clears). False, no change, while the slot is unbought. Caller saves.</summary>
+        /// <summary>Armory Art selector. An empty id restores the slot default. Caller saves.</summary>
         public static bool TryEquipArt(bool weapon, string artId)
         {
-            if (!HasArtSlot(weapon)) return false;
-            if (weapon) weaponArt = artId ?? ""; else offhandArt = artId ?? "";
-            return true;
-        }
-
-        // P4-10 Keepsakes: Epics picked in past runs, the ones bought, and the one the next run starts with.
-        public const int KeepsakeCost = 200;
-        private static readonly List<string> pastEpics = new();
-        private static readonly List<string> keepsakes = new();
-        private static string selectedKeepsake = "";
-
-        public static IReadOnlyList<string> PastEpics => pastEpics;
-        public static bool HasKeepsake(string epicId) => !string.IsNullOrEmpty(epicId) && keepsakes.Contains(epicId);
-
-        /// <summary>P4-10: records an Epic pick. In memory only; persisted by the run-end Save.</summary>
-        public static void NoteEpicPicked(string epicId)
-        {
-            if (!string.IsNullOrEmpty(epicId) && !pastEpics.Contains(epicId)) pastEpics.Add(epicId);
-        }
-
-        /// <summary>P4-10: buys the Keepsake for a past Epic and persists. False if never picked, owned or unaffordable.</summary>
-        public static bool TryBuyKeepsake(string epicId)
-        {
-            if (string.IsNullOrEmpty(epicId) || !pastEpics.Contains(epicId) || keepsakes.Contains(epicId)) return false;
-            if (!TrySpend(KeepsakeCost)) return false;
-            keepsakes.Add(epicId);
-            Save();
-            return true;
-        }
-
-        /// <summary>P4-10: the Keepsake Epic the next run starts holding ("" = none).</summary>
-        public static string SelectedKeepsake => HasKeepsake(selectedKeepsake) ? selectedKeepsake : "";
-
-        /// <summary>P4-10: picks an owned Keepsake ("" clears). False, no change, if not owned. Caller saves.</summary>
-        public static bool TrySelectKeepsake(string epicId)
-        {
-            if (!string.IsNullOrEmpty(epicId) && !HasKeepsake(epicId)) return false;
-            selectedKeepsake = epicId ?? "";
+            if (weapon) weaponArt = string.IsNullOrEmpty(artId) ? DefaultWeaponArt : artId;
+            else offhandArt = string.IsNullOrEmpty(artId) ? DefaultOffhandArt : artId;
             return true;
         }
 
@@ -260,8 +206,6 @@ namespace Ronin7.Core
                 case MetaUpgradeId.StartingDamage: return 5;
                 case MetaUpgradeId.StartingBoon: return 3;
                 case MetaUpgradeId.RerollTokens: return 3;
-                case MetaUpgradeId.WeaponArtSlot:
-                case MetaUpgradeId.OffhandArtSlot: return 1;
                 default: return 0;
             }
         }
@@ -271,14 +215,11 @@ namespace Ronin7.Core
         private static readonly int[] BoonCosts = { 80, 150, 250 };
         private static readonly int[] RerollCosts = { 50, 100, 150 };
         // P4-10 Shrine variety unlocks (one-time; weapons and packs are "level 1" of their own id).
-        private static readonly int[] ArtSlotCosts = { 250 };
         private static readonly int[] BladeCosts = { 150 };
         private static readonly int[] TwinCosts = { 300 };
         private static readonly int[] PolearmCosts = { 450 }; // A15.12: also needs 2 wins, see WinsRequired
-        private static readonly int[] PackCosts = { 120 };
 
         private static bool IsWeaponItem(string id) => id == WeaponId.Nodachi || id == WeaponId.Tanto || id == WeaponId.TwinWakizashi || id == WeaponId.PolearmShield;
-        private static bool IsPackItem(string id) => id == BoonPackId.Bleed || id == BoonPackId.Storm || id == BoonPackId.Executioner;
 
         /// <summary>Echo price of buying <paramref name="nextLevel"/> (1-based) of an upgrade; 0 if out of range.</summary>
         public static int UpgradeCost(string id, int nextLevel)
@@ -290,15 +231,10 @@ namespace Ronin7.Core
                 case MetaUpgradeId.StartingDamage: table = PowerCosts; break;
                 case MetaUpgradeId.StartingBoon: table = BoonCosts; break;
                 case MetaUpgradeId.RerollTokens: table = RerollCosts; break;
-                case MetaUpgradeId.WeaponArtSlot:
-                case MetaUpgradeId.OffhandArtSlot: table = ArtSlotCosts; break;
                 case WeaponId.Nodachi:
                 case WeaponId.Tanto: table = BladeCosts; break;
                 case WeaponId.TwinWakizashi: table = TwinCosts; break;
                 case WeaponId.PolearmShield: table = PolearmCosts; break;
-                case BoonPackId.Bleed:
-                case BoonPackId.Storm:
-                case BoonPackId.Executioner: table = PackCosts; break;
                 default: return 0;
             }
             return nextLevel >= 1 && nextLevel <= table.Length ? table[nextLevel - 1] : 0;
@@ -308,13 +244,13 @@ namespace Ronin7.Core
         public static bool TryPurchase(string id)
         {
             if (id == WeaponId.Whip) return false; // A15.12: never for sale, NoteRunEnded unlocks it
-            if (IsWeaponItem(id) || IsPackItem(id)) // P4-10: one-time unlocks
+            if (IsWeaponItem(id)) // P4-10: one-time unlocks
             {
-                if (unlockedWeapons.Contains(id) || unlockedPacks.Contains(id)) return false;
+                if (unlockedWeapons.Contains(id)) return false;
                 if (IsWeaponItem(id) && !WeaponId.OnRoster(id)) return false; // A15.1
                 if (runsWon < WinsRequired(id)) return false; // A15.12: checked before any Echoes are spent
                 if (!TrySpend(UpgradeCost(id, 1))) return false;
-                if (IsWeaponItem(id)) UnlockWeapon(id); else UnlockPack(id);
+                UnlockWeapon(id);
                 Save();
                 return true;
             }
@@ -357,9 +293,6 @@ namespace Ronin7.Core
             seenWeaknesses.Clear();
             if (data.seenWeaknesses != null)
                 foreach (int k in data.seenWeaknesses) MarkSeen(k);
-            unlockedPacks.Clear();
-            if (data.unlockedPacks != null)
-                foreach (string id in data.unlockedPacks) UnlockPack(id);
             unlockedWeapons.Clear();
             if (data.unlockedWeapons != null)
                 foreach (string id in data.unlockedWeapons) UnlockWeapon(id);
@@ -368,16 +301,8 @@ namespace Ronin7.Core
             if (data.heatRanks != null)
                 for (int i = 0; i < Heat.Count && i < data.heatRanks.Count; i++)
                     heatRanks[i] = Mathf.Clamp(data.heatRanks[i], 0, Heat.Max((HeatRank)i));
-            pastEpics.Clear();
-            if (data.pastEpics != null)
-                foreach (string id in data.pastEpics) NoteEpicPicked(id);
-            keepsakes.Clear();
-            if (data.keepsakes != null)
-                foreach (string id in data.keepsakes)
-                    if (!string.IsNullOrEmpty(id) && !keepsakes.Contains(id)) keepsakes.Add(id);
-            selectedKeepsake = data.selectedKeepsake ?? "";
-            weaponArt = data.weaponArt ?? "";
-            offhandArt = data.offhandArt ?? "";
+            weaponArt = string.IsNullOrEmpty(data.weaponArt) ? DefaultWeaponArt : data.weaponArt;
+            offhandArt = string.IsNullOrEmpty(data.offhandArt) ? DefaultOffhandArt : data.offhandArt;
 
             upgradeLevels.Clear();
             if (data.metaUpgrades != null)
@@ -409,17 +334,10 @@ namespace Ronin7.Core
             data.tutorialDone = tutorialDone;
             data.seenWeaknesses = new List<int>(seenWeaknesses);
             data.seenWeaknesses.Sort();
-            data.unlockedPacks = new List<string>(unlockedPacks);
-            data.unlockedPacks.Sort(System.StringComparer.Ordinal);
             data.unlockedWeapons = new List<string>(unlockedWeapons);
             data.unlockedWeapons.Sort(System.StringComparer.Ordinal);
             data.selectedLoadout = SelectedLoadout;
             data.heatRanks = new List<int>(heatRanks);
-            data.pastEpics = new List<string>(pastEpics);
-            data.pastEpics.Sort(System.StringComparer.Ordinal);
-            data.keepsakes = new List<string>(keepsakes);
-            data.keepsakes.Sort(System.StringComparer.Ordinal);
-            data.selectedKeepsake = SelectedKeepsake;
             data.weaponArt = weaponArt;
             data.offhandArt = offhandArt;
 
@@ -503,7 +421,6 @@ namespace Ronin7.Core
             Reset();
             loaded = false;
             saveBlocked = false;
-            DevUnlockAllPacks = false;
             DevUnlockAllWeapons = false;
         }
 
@@ -516,14 +433,11 @@ namespace Ronin7.Core
             bestHits = -1;
             tutorialDone = false;
             seenWeaknesses.Clear();
-            unlockedPacks.Clear();
             unlockedWeapons.Clear();
             selectedLoadout = WeaponId.Katana;
             System.Array.Clear(heatRanks, 0, Heat.Count);
-            pastEpics.Clear();
-            keepsakes.Clear();
-            selectedKeepsake = "";
-            weaponArt = offhandArt = "";
+            weaponArt = DefaultWeaponArt;
+            offhandArt = DefaultOffhandArt;
             upgradeLevels.Clear();
         }
 

@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Ronin7.Tests.EditMode
 {
-    /// <summary>P4-10 Shrine variety unlocks: weapons, Art slots + selector, packs, Keepsakes, Unforgiving Guard haptic seam.</summary>
+    /// <summary>P4-10 Shrine variety unlocks: weapons, Art selector, Unforgiving Guard haptic seam.</summary>
     public class ShrineUnlockTests
     {
         private string dir;
@@ -41,11 +41,6 @@ namespace Ronin7.Tests.EditMode
 
         [TestCase(WeaponId.TwinWakizashi, 300)]
         [TestCase(WeaponId.PolearmShield, 450)] // P9-02c provisional; the 2-win requirement comes in P9-03
-        [TestCase(MetaUpgradeId.WeaponArtSlot, 250)]
-        [TestCase(MetaUpgradeId.OffhandArtSlot, 250)]
-        [TestCase(BoonPackId.Bleed, 120)]
-        [TestCase(BoonPackId.Storm, 120)]
-        [TestCase(BoonPackId.Executioner, 120)]
         public void Shrine_Purchase_CostDeductionAndNoDoubleBuy(string id, int cost)
         {
             for (int i = 0; i < MetaProgression.WinsRequired(id); i++) MetaProgression.NoteRunEnded(15, true); // A15.12: the win gate
@@ -96,112 +91,50 @@ namespace Ronin7.Tests.EditMode
             Assert.IsFalse(MetaProgression.IsWeaponUnlocked(id));
         }
 
+        // R9: both Art slots are free and default to Charged Slash / Kiai Palm; a chosen Art persists.
         [Test]
-        public void Shrine_PackPurchase_MakesBoonsOfferable()
+        public void Arts_DefaultFree_ChosenArtPersists_AppliedAtRunStart()
         {
-            var bleed = ScriptableObject.CreateInstance<BoonDefinition>();
-            created.Add(bleed);
-            bleed.id = "test_bleed";
-            bleed.rarity = BoonRarity.Common;
-            bleed.tags = BoonTag.Bleed;
-            bleed.maxStacks = 1;
-            var pool = new List<BoonDefinition> { bleed };
-
-            var rng = RunRng.ForNode(1u, 0);
-            Assert.AreEqual(0, BoonOfferPicker.Pick(pool, _ => 0, RoomKind.Combat, ref rng).Count);
-
-            MetaProgression.AddEchoes(120);
-            Assert.IsTrue(MetaProgression.TryPurchase(BoonPackId.Bleed));
-            rng = RunRng.ForNode(1u, 0);
-            CollectionAssert.Contains(BoonOfferPicker.Pick(pool, _ => 0, RoomKind.Combat, ref rng), bleed);
-        }
-
-        [Test]
-        public void Shrine_ArtSlot_EnablesEquip_AppliedAtRunStart()
-        {
-            Assert.IsFalse(MetaProgression.TryEquipArt(true, ArtId.BladeThrow), "slot not bought");
-            MetaProgression.AddEchoes(250);
-            Assert.IsTrue(MetaProgression.TryPurchase(MetaUpgradeId.WeaponArtSlot));
-            Assert.IsTrue(MetaProgression.TryEquipArt(true, ArtId.BladeThrow));
-            Assert.AreEqual("", MetaProgression.EquippedArt(false), "off-hand slot still unbought");
-
-            MetaProgression.Save();
-            MetaProgression.Load();
-            RunState.Begin(9u);
-            RunDirector.ApplyMetaArts();
-            Assert.AreEqual(ArtId.BladeThrow, RunState.WeaponArtId);
-            Assert.AreEqual("", RunState.OffhandArtId);
-        }
-
-        // P7-02 (BUG-49): buying the slot used to leave it on NONE until a second click, so the run started without an Art.
-        [Test]
-        public void ShrineArtSlot_Buy_EquipsFirstArt()
-        {
-            MetaProgression.AddEchoes(500);
-            Assert.IsTrue(MetaShopPanel.BuyArtSlot(true));
-            Assert.IsTrue(MetaShopPanel.BuyArtSlot(false));
-            Assert.IsFalse(MetaShopPanel.BuyArtSlot(true), "no double-buy");
-
-            MetaProgression.Load(); // the equip was saved
             Assert.AreEqual(ArtId.ChargedSlash, MetaProgression.EquippedArt(true));
             Assert.AreEqual(ArtId.KiaiPalm, MetaProgression.EquippedArt(false));
             RunState.Begin(9u);
             RunDirector.ApplyMetaArts();
             Assert.AreEqual(ArtId.ChargedSlash, RunState.WeaponArtId);
             Assert.AreEqual(ArtId.KiaiPalm, RunState.OffhandArtId);
-        }
 
-        [Test]
-        public void Shrine_ArtSelector_CyclesThroughNone()
-        {
-            Assert.AreEqual(ArtId.KiaiPalm, MetaShopPanel.NextArt(MetaShopPanel.OffhandArts, ""));
-            Assert.AreEqual("", MetaShopPanel.NextArt(MetaShopPanel.OffhandArts, ArtId.ElementImbue));
-            Assert.AreEqual("", MetaShopPanel.NextArt(MetaShopPanel.WeaponArts, "bogus"), "unknown id restarts at NONE");
-            Assert.AreEqual(ArtId.ChargedSlash, MetaShopPanel.NextArt(MetaShopPanel.WeaponArts, ""));
-        }
-
-        [Test]
-        public void Keepsake_RecordBuyAndUse()
-        {
-            var epic = ScriptableObject.CreateInstance<BoonDefinition>();
-            created.Add(epic);
-            epic.id = BoonId.GrantOverdrive;
-            epic.rarity = BoonRarity.Epic;
-            epic.effect = BoonEffectKind.GrantAbility;
-            epic.abilityId = AbilityId.Overdrive;
-            var catalog = ScriptableObject.CreateInstance<BoonCatalog>();
-            created.Add(catalog);
-            catalog.boons = new[] { epic };
-
-            MetaProgression.AddEchoes(1000);
-            Assert.IsFalse(MetaProgression.TryBuyKeepsake(epic.id), "never picked");
-            MetaProgression.NoteEpicPicked(epic.id);
-            MetaProgression.NoteEpicPicked(epic.id);
-            Assert.AreEqual(1, MetaProgression.PastEpics.Count);
-
-            Assert.IsTrue(MetaProgression.TryBuyKeepsake(epic.id));
-            Assert.AreEqual(800, MetaProgression.Echoes);
-            Assert.IsFalse(MetaProgression.TryBuyKeepsake(epic.id), "no double-buy");
-            Assert.AreEqual(800, MetaProgression.Echoes);
-            Assert.IsTrue(MetaProgression.TrySelectKeepsake(epic.id));
+            Assert.IsTrue(MetaProgression.TryEquipArt(true, ArtId.BladeThrow));
             MetaProgression.Save();
             MetaProgression.Load();
-            Assert.AreEqual(epic.id, MetaProgression.SelectedKeepsake);
-
-            RunState.Begin(3u);
-            RunDirector.ApplyKeepsake(catalog);
-            Assert.AreEqual(1, RunState.BoonCount(epic.id));
-            Assert.IsTrue(RunState.HasGrantedAbility(AbilityId.Overdrive));
+            Assert.AreEqual(ArtId.BladeThrow, MetaProgression.EquippedArt(true), "a previously chosen art stays");
+            Assert.AreEqual(ArtId.KiaiPalm, MetaProgression.EquippedArt(false));
         }
 
         [Test]
-        public void Keepsake_InsufficientEchoes_Refused()
+        public void Arts_OldSaveWithEmptyArts_GetsDefaults_AndArtSlotUpgradesCannotBeBought()
         {
-            MetaProgression.NoteEpicPicked(BoonId.GrantMirror);
-            MetaProgression.AddEchoes(MetaProgression.KeepsakeCost - 1);
-            Assert.IsFalse(MetaProgression.TryBuyKeepsake(BoonId.GrantMirror));
-            Assert.IsFalse(MetaProgression.TrySelectKeepsake(BoonId.GrantMirror), "unowned cannot be selected");
+            MetaProgression.ApplyFrom(JsonUtility.FromJson<MetaSaveData>("{\"version\":1,\"metaEchoes\":900,\"weaponArt\":\"\",\"offhandArt\":\"\"}"));
+            Assert.AreEqual(ArtId.ChargedSlash, MetaProgression.EquippedArt(true));
+            Assert.AreEqual(ArtId.KiaiPalm, MetaProgression.EquippedArt(false));
+            Assert.IsFalse(MetaProgression.TryPurchase("meta_weapon_art_slot"), "R9: art_slot purchases are gone");
+            Assert.AreEqual(900, MetaProgression.Echoes);
         }
+
+        [Test]
+        public void Shrine_ArtSelector_CyclesWithoutNone()
+        {
+            Assert.AreEqual(ArtId.ChainHook, MetaShopPanel.NextArt(MetaShopPanel.OffhandArts, ArtId.KiaiPalm));
+            Assert.AreEqual(ArtId.KiaiPalm, MetaShopPanel.NextArt(MetaShopPanel.OffhandArts, ArtId.ElementImbue));
+            Assert.AreEqual(ArtId.ChargedSlash, MetaShopPanel.NextArt(MetaShopPanel.WeaponArts, "bogus"));
+            Assert.AreEqual(ArtId.BladeThrow, MetaShopPanel.NextArt(MetaShopPanel.WeaponArts, ArtId.ChargedSlash));
+        }
+
+        [TestCase(ArtId.ChargedSlash)]
+        [TestCase(ArtId.BladeThrow)]
+        [TestCase(ArtId.KiaiPalm)]
+        [TestCase(ArtId.ChainHook)]
+        [TestCase(ArtId.ElementImbue)]
+        public void Arts_EachHasAHelpLineNamingItsTrigger(string id)
+            => StringAssert.Contains("TRIGGER", MetaShopPanel.ArtHelp(id));
 
         [Test]
         public void MetaSave_V1WithoutNewFields_LoadsDefaults()
@@ -210,12 +143,7 @@ namespace Ronin7.Tests.EditMode
             Assert.AreEqual(1, data.version);
             MetaProgression.ApplyFrom(data);
             Assert.AreEqual(42, MetaProgression.Echoes);
-            Assert.AreEqual(0, MetaProgression.PastEpics.Count);
-            Assert.AreEqual("", MetaProgression.SelectedKeepsake);
-            Assert.IsFalse(MetaProgression.HasArtSlot(true));
-            Assert.IsFalse(MetaProgression.HasArtSlot(false));
-            Assert.AreEqual("", MetaProgression.EquippedArt(true));
-            Assert.IsFalse(MetaProgression.IsPackUnlocked(BoonPackId.Storm));
+            Assert.AreEqual(ArtId.ChargedSlash, MetaProgression.EquippedArt(true));
             Assert.IsFalse(MetaProgression.IsWeaponUnlocked(WeaponId.Nodachi));
         }
 

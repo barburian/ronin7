@@ -44,6 +44,8 @@ namespace Ronin7.Core
         public List<int> seenWeaknesses = new List<int>();
         /// <summary>P4-05: <see cref="BoonPackId"/>s bought (P4-10 Shrine). Appended field (version stays 1): an old
         /// meta.json without it loads an empty list, i.e. every archetype pack locked.</summary>
+        // R8 (2026-11-06): packs, keepsakes and past epics were removed from the game. unlockedPacks / pastEpics /
+        // keepsakes / selectedKeepsake stay serialized only so an old meta.json round-trips (no version bump); nothing reads them.
         public List<string> unlockedPacks = new List<string>();
         /// <summary>P4-08: <see cref="WeaponId"/>s unlocked (P4-10 Shrine). Appended field (version stays 1): an old
         /// meta.json without it loads an empty list, i.e. only the katana.</summary>

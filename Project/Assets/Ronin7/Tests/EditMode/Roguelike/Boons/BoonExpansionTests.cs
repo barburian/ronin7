@@ -86,24 +86,22 @@ namespace Ronin7.Tests.EditMode.Roguelike.Boons
         }
 
         [Test]
-        public void LockedPack_NeverOffered_UntilUnlocked()
+        public void PackBoon_IsOffered_Unlocked_R8()
         {
             MetaProgression.ResetForTests();
             var quickDraw = Boon("qd", BoonRarity.Rare, BoonTag.Executioner);
             var pool = new List<BoonDefinition> { quickDraw, Boon("c", BoonRarity.Common), Boon("e", BoonRarity.Epic) };
-            Assert.IsFalse(EverOffered(pool, _ => 0, "qd", RoomKind.Elite));
-            MetaProgression.UnlockPack(BoonPackId.Executioner);
             Assert.IsTrue(EverOffered(pool, _ => 0, "qd", RoomKind.Elite));
         }
 
         [Test]
-        public void MetaSaveV1_WithoutUnlockedPacks_LoadsDefaults()
+        public void MetaSaveV1_WithoutUnlockedPacks_StillLoads()
         {
             var data = JsonUtility.FromJson<MetaSaveData>("{\"version\":1,\"metaEchoes\":5}");
             MetaProgression.ApplyFrom(data);
             Assert.AreEqual(1, data.version);
             Assert.IsNotNull(data.unlockedPacks);
-            Assert.IsFalse(MetaProgression.IsPackUnlocked(BoonPackId.Bleed));
+            Assert.AreEqual(5, MetaProgression.Echoes);
         }
 
         // ---- damage rules ----

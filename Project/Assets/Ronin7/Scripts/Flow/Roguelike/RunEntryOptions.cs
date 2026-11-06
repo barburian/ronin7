@@ -13,15 +13,16 @@ namespace Ronin7.Flow
         /// <summary>Seconds after arming during which NEW RUN ignores clicks, so a double trigger-pull cannot confirm.</summary>
         public const float ConfirmDelay = 0.6f;
 
-        public enum NewRunStep { OpenWeaponSelect, ArmAbandon, AbandonThenWeaponSelect }
+        public enum NewRunStep { OpenWeaponSelect, ArmWarning }
 
         /// <summary>NEW RUN click: no saved run goes straight to WEAPON SELECT (A15.13); a saved run needs a
         /// second, deliberate click (<paramref name="armed"/> and <paramref name="sinceArmed"/> past
-        /// <see cref="ConfirmDelay"/>) before it is abandoned. A too-early click while armed does nothing new.</summary>
+        /// <see cref="ConfirmDelay"/>) to open WEAPON SELECT. Nothing is abandoned here (R14): the caller
+        /// abandons the save only when START is pressed, so BACK leaves it intact.</summary>
         public static NewRunStep NewRunClick(bool hasSnapshot, bool armed, float sinceArmed)
         {
             if (!hasSnapshot) return NewRunStep.OpenWeaponSelect;
-            return armed && sinceArmed >= ConfirmDelay ? NewRunStep.AbandonThenWeaponSelect : NewRunStep.ArmAbandon;
+            return armed && sinceArmed >= ConfirmDelay ? NewRunStep.OpenWeaponSelect : NewRunStep.ArmWarning;
         }
 
         public static bool ShowContinue(bool hasSnapshot) => hasSnapshot;

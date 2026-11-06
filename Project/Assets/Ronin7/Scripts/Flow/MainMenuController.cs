@@ -197,10 +197,29 @@ namespace Ronin7.Flow
                 var label = continueRunButton.GetComponentInChildren<Text>(true);
                 if (label != null) label.text = RunEntryOptions.ContinueLabel;
                 continueRunButton.gameObject.SetActive(RunEntryOptions.ShowContinue(hasRun));
+                CloseContinueGap(!hasRun);
             }
 
             if (continueButton != null)
                 continueButton.interactable = SaveSystem.SlotExists(SaveSystem.MostRecentSlot);
+        }
+
+        private const float ContinueSlotHeight = 82f;
+        private bool gapClosed;
+
+        /// <summary>No saved run: lift the buttons stacked below the hidden CONTINUE RUN slot so no hole is left.</summary>
+        private void CloseContinueGap(bool close)
+        {
+            if (close == gapClosed) return;
+            gapClosed = close;
+            var parent = continueRunButton.transform.parent;
+            float y = continueRunButton.GetComponent<RectTransform>().anchoredPosition.y;
+            foreach (Transform child in parent)
+            {
+                var rt = child as RectTransform;
+                if (rt == null || child == continueRunButton.transform || child.GetComponent<Button>() == null) continue;
+                if (close ? rt.anchoredPosition.y < y : rt.anchoredPosition.y <= y) rt.anchoredPosition += new Vector2(0f, close ? ContinueSlotHeight : -ContinueSlotHeight);
+            }
         }
 
         public void OnStartNewGameClicked()
@@ -266,25 +285,21 @@ namespace Ronin7.Flow
         public void OnContinueRunClicked() => RunDirector.Instance?.StartRun();
 
         /// <summary>Menu "NEW RUN": always a new run through WEAPON SELECT (A15.13), whose START begins it
-        /// (random seed). With a saved run the first click only asks ABANDON SAVED RUN?; the second
-        /// (after <see cref="RunEntryOptions.ConfirmDelay"/>) banks its Echoes and deletes it.</summary>
+        /// (random seed). With a saved run the first click only warns ABANDON SAVED RUN?; the second
+        /// (after <see cref="RunEntryOptions.ConfirmDelay"/>) opens the select screen; START banks and deletes the save, BACK keeps it.</summary>
         public void OnStartRunClicked()
         {
             if (weaponSelect != null || shop != null || (settings != null && settings.IsOpen)) return;
             switch (RunEntryOptions.NewRunClick(RunEntryOptions.HasSavedRun(), newRunArmed, Time.unscaledTime - armedAt))
             {
-                case RunEntryOptions.NewRunStep.ArmAbandon:
+                case RunEntryOptions.NewRunStep.ArmWarning:
                     if (newRunArmed) return; // too-early second click: keep waiting
                     newRunArmed = true;
                     armedAt = Time.unscaledTime;
                     SetRunLabel(RunEntryOptions.NewRunButtonLabel(true));
                     return;
-                case RunEntryOptions.NewRunStep.AbandonThenWeaponSelect:
-                    if (RunDirector.Instance == null) return;
-                    RunDirector.Instance.AbandonSavedRun();
-                    RefreshRunButtons();
-                    break;
             }
+            bool abandonOnStart = RunEntryOptions.HasSavedRun();
             MetaProgression.EnsureLoaded();
             weaponSelect = WeaponSelectPanelFactory.Build(Camera.main);
             if (weaponSelect == null) return;
@@ -293,7 +308,15 @@ namespace Ronin7.Flow
             var panel = weaponSelect;
             panel.onClosed = () => { if (this != null) { RefreshRunButtons(); canvas.enabled = SettingsClosed; } };
             // START: the run fades and loads next; keep the menu hidden instead of popping back at end of frame.
-            panel.startRun = () => { if (RunDirector.Instance != null) panel.onClosed = null; RunDirector.Instance?.StartRun(); };
+            // R14: the saved run is abandoned only here, before StartRun (which would otherwise resume it).
+            panel.startRun = () =>
+            {
+                var rd = RunDirector.Instance;
+                if (rd == null) return;
+                panel.onClosed = null;
+                if (abandonOnStart) rd.AbandonSavedRun();
+                rd.StartRun();
+            };
         }
 
         /// <summary>Menu "SHRINE": open the Echo shop (P2-01).</summary>

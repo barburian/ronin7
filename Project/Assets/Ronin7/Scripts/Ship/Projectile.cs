@@ -156,8 +156,17 @@ namespace Ronin7.Ship
             return targetAlive;
         }
 
-        /// <summary>A15.7: a shield moving slower than <see cref="ReflectMinSpeed"/> absorbs the bolt; faster reflects it.</summary>
-        internal static bool ShieldAbsorbs(bool isShield, float bladeSpeed) => isShield && bladeSpeed < ReflectMinSpeed;
+        /// <summary>R10: any HELD parrying blade moving slower than <see cref="ReflectMinSpeed"/> blocks the bolt harmlessly
+        /// (a holstered blade does not shield the player: it takes the old path). A shield absorbs held or not (A15.7).</summary>
+        internal static bool BladeAbsorbs(bool isShield, float bladeSpeed, bool held) =>
+            bladeSpeed < ReflectMinSpeed && (isShield || held);
+
+        // Blades with no Grabbable (no holster/hand semantics) count as held.
+        private static bool IsHeld(BladeDamager blade)
+        {
+            var grab = blade.GetComponentInParent<Grabbable>();
+            return grab == null || grab.IsHeld;
+        }
 
         /// <summary>
         /// Resolve a contact: ignore the firer (and its children), apply damage to the first
@@ -178,9 +187,9 @@ namespace Ronin7.Ship
             }
             if (!reflected)
             {
-                if (blade != null && ShieldAbsorbs(blade.IsShield, blade.Speed))
+                if (blade != null && BladeAbsorbs(blade.IsShield, blade.Speed, IsHeld(blade)))
                 {
-                    EventBus.Publish(new ProjectileImpact(point)); // A15.7: a slow shield eats the bolt, no damage, no PlayerHit
+                    EventBus.Publish(new ProjectileImpact(point)); // A15.7 / R10: a slow shield or held blade eats the bolt, no damage, no PlayerHit
                     Recycle();
                     return true;
                 }

@@ -197,7 +197,7 @@ namespace Ronin7.EditorTools
                 Magnitude = 0f, AbilityId = AbilityId.Mirror, MaxStacks = 1, Tags = BoonTag.Ability,
             },
             // ---- P4-05: 30 archetype boons (Roadmap P4-05). Bleed / Storm / Executioner tags are locked packs
-            // (BoonPackId) until bought; elemental tags also own the S8 Imbue element (RunDirector.ElementsFor). ----
+            // (formerly packs; all offered since R8); elemental tags also own the S8 Imbue element (RunDirector.ElementsFor). ----
 
             // Kensei (parry)
             B("IronWall", BoonId.IronWall, "Iron Dojo Wall", "Perfect-parry window +0.02 s per stack.", BoonRarity.Common, BoonTag.Parry, BoonEffectKind.ParryWindow, 0.1667f, 2),

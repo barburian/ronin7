@@ -132,19 +132,7 @@ namespace Ronin7.Combat
             return false;
         }
 
-        /// <summary>P4-05 USER DECISION: a boon tagged Bleed / Storm / Executioner belongs to that archetype
-        /// pack and is never offered (nor granted as a starting boon) until the pack is unlocked.</summary>
-        public static bool IsPackUnlocked(BoonDefinition boon)
-        {
-            if (boon == null) return false;
-            if ((boon.tags & BoonTag.Bleed) != 0 && !MetaProgression.IsPackUnlocked(BoonPackId.Bleed)) return false;
-            if ((boon.tags & BoonTag.Storm) != 0 && !MetaProgression.IsPackUnlocked(BoonPackId.Storm)) return false;
-            if ((boon.tags & BoonTag.Executioner) != 0 && !MetaProgression.IsPackUnlocked(BoonPackId.Executioner)) return false;
-            return true;
-        }
-
-        /// <summary>Not null, has an id, not at max stacks, not an already-granted single-stack ability, its
-        /// pack unlocked, the ability it modifies held (a non-GrantAbility boon naming an abilityId), and for a
+        /// <summary>Not null, has an id, not at max stacks, not an already-granted single-stack ability, the ability it modifies held (a non-GrantAbility boon naming an abilityId), and for a
         /// Duo every required tag owned.</summary>
         private static bool IsOfferable(BoonDefinition boon, Func<string, int> stacksHeld, BoonTag owned)
         {
@@ -154,7 +142,6 @@ namespace Ronin7.Combat
             // degrades to "offerable once" rather than "silently never offerable".
             int max = Mathf.Max(1, boon.maxStacks);
             if (held >= max) return false; // already maxed out
-            if (!IsPackUnlocked(boon)) return false;
             // A15.8: no parry on a Whip run, so a Parry-tagged boon (Duos included) would be a dead pick. Every offer path comes through here.
             if ((boon.tags & BoonTag.Parry) != 0 && !WeaponId.ParryAvailable(RunState.LoadoutId)) return false;
             if (boon.rarity == BoonRarity.Duo)

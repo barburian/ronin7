@@ -64,13 +64,4 @@ namespace Ronin7.Core
         public const string BloodPrice = "boon_blood_price";
         public const string HollowOath = "boon_hollow_oath";
     }
-
-    /// <summary>P4-05 archetype packs. Locked until bought in the P4-10 Shrine
-    /// (<see cref="MetaProgression.IsPackUnlocked"/>); the offer picker never offers a locked pack's boons.</summary>
-    public static class BoonPackId
-    {
-        public const string Bleed = "pack_bleed";
-        public const string Storm = "pack_storm";
-        public const string Executioner = "pack_executioner";
-    }
 }

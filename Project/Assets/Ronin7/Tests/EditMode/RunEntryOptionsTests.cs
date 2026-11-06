@@ -17,15 +17,15 @@ namespace Ronin7.Tests.EditMode
         public void Snapshot_ShowsContinue_AndNewRunNeedsConfirmation()
         {
             Assert.IsTrue(RunEntryOptions.ShowContinue(true));
-            Assert.AreEqual(RunEntryOptions.NewRunStep.ArmAbandon, RunEntryOptions.NewRunClick(true, false, 0f));
+            Assert.AreEqual(RunEntryOptions.NewRunStep.ArmWarning, RunEntryOptions.NewRunClick(true, false, 0f));
             Assert.AreEqual("ABANDON SAVED RUN?", RunEntryOptions.NewRunButtonLabel(true));
         }
 
         [Test]
-        public void ArmedClick_AbandonsOnlyAfterTheDelay()
+        public void ArmedClick_OpensSelectOnlyAfterTheDelay()
         {
-            Assert.AreEqual(RunEntryOptions.NewRunStep.ArmAbandon, RunEntryOptions.NewRunClick(true, true, RunEntryOptions.ConfirmDelay - 0.1f));
-            Assert.AreEqual(RunEntryOptions.NewRunStep.AbandonThenWeaponSelect, RunEntryOptions.NewRunClick(true, true, RunEntryOptions.ConfirmDelay));
+            Assert.AreEqual(RunEntryOptions.NewRunStep.ArmWarning, RunEntryOptions.NewRunClick(true, true, RunEntryOptions.ConfirmDelay - 0.1f));
+            Assert.AreEqual(RunEntryOptions.NewRunStep.OpenWeaponSelect, RunEntryOptions.NewRunClick(true, true, RunEntryOptions.ConfirmDelay));
         }
     }
 }

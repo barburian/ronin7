@@ -8,7 +8,7 @@ using UnityEngine.XR;
 namespace Ronin7.Flow
 {
     /// <summary>P2-01: the Shrine of Echoes over <see cref="MetaProgression"/>. P4-10: four tabbed pages
-    /// (UPGRADES / ARMORY / PACKS &amp; KEEPSAKES / HEAT) so it stays in the 1000x800 arm-reach footprint.
+    /// (UPGRADES / ARMORY / HEAT) so it stays in the 1000x800 arm-reach footprint.
     /// Locked items buy on click. Built by <see cref="MetaShopPanelFactory"/>.</summary>
     public class MetaShopPanel : MonoBehaviour
     {
@@ -23,7 +23,7 @@ namespace Ronin7.Flow
         internal struct Loadout
         {
             public string id, name;
-            public int cost; // P4-10 Shrine unlock price, shown while locked (also used for packs and Keepsakes)
+            public int cost; // P4-10 Shrine unlock price, shown while locked
             public TMP_Text label;
             public Button button;
         }
@@ -42,18 +42,16 @@ namespace Ronin7.Flow
         internal TMP_Text heatTitle;
         internal Button dailyButton;
         internal Loadout[] loadouts = System.Array.Empty<Loadout>();
-        internal Loadout[] packs = System.Array.Empty<Loadout>();     // P4-10
-        internal Loadout[] keepsakes = System.Array.Empty<Loadout>(); // P4-10: one per past Epic
-        internal TMP_Text weaponArtLabel, offhandArtLabel;                 // P4-10 Art selector
+        internal TMP_Text weaponArtLabel, offhandArtLabel, weaponArtHelp, offhandArtHelp;                // P4-10 Art selector
         internal Button weaponArtButton, offhandArtButton;
         internal GameObject[] pages = System.Array.Empty<GameObject>(); // P4-10 tabs
         internal Button[] tabs = System.Array.Empty<Button>();
         internal int tab;
         private static readonly Color TabIdle = new Color(0.2f, 0.2f, 0.28f, 0.95f), TabActive = new Color(0.25f, 0.45f, 0.6f, 0.95f);
 
-        // P4-10 Art selector cycles, in order ("" = none).
-        internal static readonly string[] WeaponArts = { "", ArtId.ChargedSlash, ArtId.BladeThrow };
-        internal static readonly string[] OffhandArts = { "", ArtId.KiaiPalm, ArtId.ChainHook, ArtId.ElementImbue };
+        // P4-10 Art selector cycles, in order. R9: no NONE entry, a slot always holds an Art.
+        internal static readonly string[] WeaponArts = { ArtId.ChargedSlash, ArtId.BladeThrow };
+        internal static readonly string[] OffhandArts = { ArtId.KiaiPalm, ArtId.ChainHook, ArtId.ElementImbue };
         internal TMP_Text echoesLabel;
         internal Button closeButton;
         internal System.Action onClosed;
@@ -75,16 +73,6 @@ namespace Ronin7.Flow
             {
                 HeatRank r = h.rank;
                 h.button.onClick.AddListener(() => CycleHeat(r));
-            }
-            foreach (var p in packs)
-            {
-                string id = p.id;
-                p.button.onClick.AddListener(() => Buy(id));
-            }
-            foreach (var k in keepsakes)
-            {
-                string id = k.id;
-                k.button.onClick.AddListener(() => ClickKeepsake(id));
             }
             if (weaponArtButton != null) weaponArtButton.onClick.AddListener(() => ClickArt(true));
             if (offhandArtButton != null) offhandArtButton.onClick.AddListener(() => ClickArt(false));
@@ -133,20 +121,20 @@ namespace Ronin7.Flow
             _ => "NONE",
         };
 
-        /// <summary>P7-02 (BUG-49): buying an Art slot equips its first Art, so the next run starts with one
-        /// (it used to stay on NONE until a second click). Later clicks still cycle, NONE included.</summary>
-        internal static bool BuyArtSlot(bool weapon)
+        /// <summary>R9: what the Art does and which trigger fires it, one short line for the Armory.</summary>
+        internal static string ArtHelp(string id) => id switch
         {
-            if (!MetaProgression.TryPurchase(weapon ? MetaUpgradeId.WeaponArtSlot : MetaUpgradeId.OffhandArtSlot)) return false;
-            MetaProgression.TryEquipArt(weapon, (weapon ? WeaponArts : OffhandArts)[1]);
-            MetaProgression.Save();
-            return true;
-        }
+            ArtId.ChargedSlash => "HOLD TRIGGER, RELEASE\nMID-SWING TO SLASH",
+            ArtId.BladeThrow => "HOLD TRIGGER, LET GO OF\nGRIP WHILE SWINGING TO THROW",
+            ArtId.KiaiPalm => "HOLD TRIGGER, THRUST\nEMPTY HAND TO SHOVE",
+            ArtId.ChainHook => "AIM AT AN ENEMY, HOLD\nTRIGGER, YANK HAND BACK",
+            ArtId.ElementImbue => "HOLD TRIGGER, SWEEP HAND\nALONG THE BLADE",
+            _ => "",
+        };
 
-        /// <summary>P4-10: an unbought slot buys; a bought one cycles its Art.</summary>
+        /// <summary>A click cycles the slot's Art.</summary>
         internal void ClickArt(bool weapon)
         {
-            if (!MetaProgression.HasArtSlot(weapon)) { AfterBuy(BuyArtSlot(weapon), weapon ? MetaUpgradeId.WeaponArtSlot : MetaUpgradeId.OffhandArtSlot); return; }
             if (MetaProgression.TryEquipArt(weapon, NextArt(weapon ? WeaponArts : OffhandArts, MetaProgression.EquippedArt(weapon))))
             {
                 Haptics.Pulse(XRNode.RightHand, 0.4f, 0.06f);
@@ -155,27 +143,8 @@ namespace Ronin7.Flow
             Refresh();
         }
 
-        /// <summary>P4-10: an unowned Keepsake buys; an owned one toggles as the next run's Keepsake.</summary>
-        internal void ClickKeepsake(string id)
-        {
-            if (!MetaProgression.HasKeepsake(id))
-            {
-                if (MetaProgression.TryBuyKeepsake(id))
-                {
-                    Haptics.Pulse(XRNode.RightHand, 0.6f, 0.1f);
-                    EventBus.Publish(new BoonChosen(id));
-                }
-            }
-            else if (MetaProgression.TrySelectKeepsake(MetaProgression.SelectedKeepsake == id ? "" : id))
-            {
-                Haptics.Pulse(XRNode.RightHand, 0.4f, 0.06f);
-                MetaProgression.Save();
-            }
-            Refresh();
-        }
-
-        internal static string ArtText(bool weapon, bool owned, string artId, int cost) =>
-            (weapon ? "WEAPON ART" : "OFF-HAND ART") + "\n" + (owned ? ArtName(artId) : "LOCKED ♦ " + cost);
+        internal static string ArtText(bool weapon, string artId) =>
+            (weapon ? "WEAPON ART" : "OFF-HAND ART") + "\n" + ArtName(artId);
 
         internal static string OwnedText(string name, bool owned, bool selected, int cost) =>
             name + "\n" + (!owned ? "♦ " + cost : selected ? "● EQUIPPED" : "OWNED");
@@ -235,21 +204,8 @@ namespace Ronin7.Flow
                 l.label.text = l.name + "\n" + (unlocked ? "OWNED" : LockedShort(l.id));
                 l.button.interactable = LoadoutInteractable(unlocked, MetaProgression.Echoes, l.cost) && MetaProgression.RunsWon >= MetaProgression.WinsRequired(l.id);
             }
-            foreach (var p in packs)
-            {
-                bool owned = MetaProgression.IsPackUnlocked(p.id);
-                p.label.text = OwnedText(p.name, owned, false, p.cost);
-                p.button.interactable = !owned && MetaProgression.Echoes >= p.cost;
-            }
-            string keep = MetaProgression.SelectedKeepsake;
-            foreach (var k in keepsakes)
-            {
-                bool owned = MetaProgression.HasKeepsake(k.id);
-                k.label.text = OwnedText(k.name, owned, k.id == keep, k.cost);
-                k.button.interactable = owned || MetaProgression.Echoes >= k.cost;
-            }
-            RefreshArt(weaponArtLabel, weaponArtButton, true);
-            RefreshArt(offhandArtLabel, offhandArtButton, false);
+            RefreshArt(weaponArtLabel, weaponArtHelp, true);
+            RefreshArt(offhandArtLabel, offhandArtHelp, false);
             if (heat.Length == 0) return;
             bool saved = RunEntryOptions.HasSavedRun();
             int total = 0;
@@ -264,14 +220,13 @@ namespace Ronin7.Flow
             if (dailyButton != null) dailyButton.interactable = !saved;
         }
 
-        private static void RefreshArt(TMP_Text label, Button button, bool weapon)
+        private static void RefreshArt(TMP_Text label, TMP_Text help, bool weapon)
         {
             if (label == null) return;
-            bool owned = MetaProgression.HasArtSlot(weapon);
-            int cost = MetaProgression.UpgradeCost(weapon ? MetaUpgradeId.WeaponArtSlot : MetaUpgradeId.OffhandArtSlot, 1);
-            label.text = ArtText(weapon, owned, MetaProgression.EquippedArt(weapon), cost);
-            if (weapon && owned && !WeaponId.AllowsWeaponArt(MetaProgression.SelectedLoadout)) label.text += "\nUNAVAILABLE ON THIS WEAPON"; // A15.18
-            button.interactable = owned || MetaProgression.Echoes >= cost;
+            string art = MetaProgression.EquippedArt(weapon);
+            label.text = ArtText(weapon, art);
+            if (weapon && !WeaponId.AllowsWeaponArt(MetaProgression.SelectedLoadout)) label.text += "\nUNAVAILABLE ON THIS WEAPON"; // A15.18
+            if (help != null) help.text = ArtHelp(art);
         }
 
         internal static string EchoesText(int n) => "ECHOES " + n; // P4-11: ♦ is the Shard glyph now

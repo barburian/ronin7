@@ -47,10 +47,9 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
         }
 
         /// <summary>Per-boon stats over <paramref name="runs"/> seeded runs (seeds 1..runs).</summary>
-        public static Dictionary<string, Stat> Simulate(BoonDefinition[] pool, int runs, bool packsUnlocked, Heuristic heuristic)
+        public static Dictionary<string, Stat> Simulate(BoonDefinition[] pool, int runs, Heuristic heuristic)
         {
             MetaProgression.ResetForTests();
-            MetaProgression.DevUnlockAllPacks = packsUnlocked;
             var stats = new Dictionary<string, Stat>();
             foreach (var b in pool) if (b != null && !stats.ContainsKey(b.id)) stats[b.id] = new Stat { Boon = b };
 
@@ -142,34 +141,17 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
         }
 
         [Test]
-        public void AllPacksUnlocked_EveryBoonReachable()
+        public void EveryBoonReachable()
         {
             var pool = LoadCatalogOrSkip();
-            var stats = Simulate(pool, Runs, true, Heuristic.HighestRarity);
-            Debug.Log(Table(stats, Runs, "all packs unlocked, HighestRarity"));
-            Debug.Log(Table(Simulate(pool, Runs, true, Heuristic.UniformRandom), Runs, "all packs unlocked, UniformRandom"));
+            var stats = Simulate(pool, Runs, Heuristic.HighestRarity);
+            Debug.Log(Table(stats, Runs, "HighestRarity"));
+            Debug.Log(Table(Simulate(pool, Runs, Heuristic.UniformRandom), Runs, "UniformRandom"));
 
             var starved = new List<string>();
             foreach (var s in stats.Values) if (s.RunsOffered < Runs * MinRunShare) starved.Add($"{s.Boon.id} {100f * s.RunsOffered / Runs:F1}%");
             Assert.IsEmpty(starved, "offered in < 1% of simulated runs (gating or weight bug): " + string.Join(", ", starved));
         }
 
-        [Test]
-        public void AllPacksLocked_PackBoonsNeverOffered_OthersReachable()
-        {
-            var pool = LoadCatalogOrSkip();
-            var stats = Simulate(pool, Runs, false, Heuristic.HighestRarity);
-            Debug.Log(Table(stats, Runs, "all packs locked, HighestRarity"));
-
-            var bad = new List<string>();
-            const BoonTag packs = BoonTag.Bleed | BoonTag.Storm | BoonTag.Executioner;
-            foreach (var s in stats.Values)
-            {
-                bool packBoon = (s.Boon.tags & packs) != 0;
-                if (packBoon && s.TimesOffered > 0) bad.Add($"{s.Boon.id} offered while its pack is locked");
-                if (!packBoon && s.RunsOffered < Runs * MinRunShare) bad.Add($"{s.Boon.id} {100f * s.RunsOffered / Runs:F1}% of runs");
-            }
-            Assert.IsEmpty(bad, string.Join(", ", bad));
-        }
     }
 }
