@@ -54,14 +54,14 @@ namespace Ronin7.Enemies
             return mesh;
         }
 
+        /// <summary>Resources path of the shared HDR-red unlit eye material (built by EnemyWeaponBuilder.BuildEyeMaterial).</summary>
+        public const string MaterialResource = "DodgeEyes";
+
         private static Material EyeMaterial()
         {
             if (mat != null) return mat;
-            var shader = Shader.Find("Universal Render Pipeline/Unlit") ?? Shader.Find("Unlit/Color");
-            mat = new Material(shader) { name = "Ronin7_DodgeEyes", hideFlags = HideFlags.DontSave };
-            var hdr = DodgeColor * 6f; // HDR so Bloom flares it at range
-            if (mat.HasProperty("_BaseColor")) mat.SetColor("_BaseColor", hdr);
-            if (mat.HasProperty("_Color")) mat.SetColor("_Color", hdr);
+            // Real asset (Resources) so the shader is referenced and ships in a Quest build; Shader.Find can be stripped.
+            mat = Resources.Load<Material>(MaterialResource); // HDR colour (DodgeColor x 6) is baked into the asset
             return mat;
         }
 

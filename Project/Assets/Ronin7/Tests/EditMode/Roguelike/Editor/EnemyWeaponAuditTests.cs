@@ -33,15 +33,16 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
                 if (armR != null && armR.Find("Sword") != null) bad.Add(e.prefab.name + ": baked Rig_ArmR/Sword (D-17)");
                 if (e.mainHand == null) { bad.Add(e.prefab.name + ": no mainHand weapon"); continue; }
                 bool visible = e.mainHand.prefab != null && EnemySwordVisual.FindBladeRenderer(e.mainHand.prefab.transform) != null;
-                if (e.definition.naturalWeapon == visible)
+                if (e.definition.naturalWeapon == visible && e.prefab.name != Ronin7.EditorTools.EnemyPrefabBaker.JuggernautBody) // Juggernaut: meshless Club, the club is sculpted into the body
                     bad.Add($"{e.prefab.name}: natural={e.definition.naturalWeapon} but weapon {e.mainHand.name} visibleBlade={visible}");
             }
             foreach (var b in table.bosses)
             {
                 var so = new SerializedObject(b.prefab.GetComponent<Enemy>());
                 var weapon = so.FindProperty("weapon").objectReferenceValue as Transform;
-                if (so.FindProperty("bladeTip").objectReferenceValue == null) bad.Add(b.prefab.name + ": boss bladeTip");
-                if (!b.definition.naturalWeapon && EnemySwordVisual.FindBladeRenderer(weapon) == null) bad.Add(b.prefab.name + ": boss blade");
+                bool clawed = b.mainHand != null; // The-Warden: Claws composed at spawn, no baked katana
+                if (!clawed && so.FindProperty("bladeTip").objectReferenceValue == null) bad.Add(b.prefab.name + ": boss bladeTip");
+                if (!b.definition.naturalWeapon && !clawed && EnemySwordVisual.FindBladeRenderer(weapon) == null) bad.Add(b.prefab.name + ": boss blade");
                 foreach (var r in weapon.GetComponentsInChildren<MeshRenderer>(true))
                     if (r.sharedMaterial == null) bad.Add($"{b.prefab.name}: {r.name} has no material (magenta)");
             }
@@ -258,7 +259,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
             int found = 0;
             foreach (var e in table.trash)
             {
-                string want = e.prefab.name == "Humanoid_Automaton" || e.prefab.name == Ronin7.EditorTools.EnemyPrefabBaker.JuggernautBody ? "EW_HeavyAxe" // P8-06 Juggernaut
+                string want = e.prefab.name == "Humanoid_Automaton" || e.prefab.name == Ronin7.EditorTools.EnemyPrefabBaker.JuggernautBody ? (e.prefab.name == "Humanoid_Automaton" ? "EW_HeavyAxe" : "EW_Club") // P8-06 Juggernaut: meshless Club
                     : e.prefab.name == "Iron_Dojo_Warden-Cadre" ? "EW_Staff"
                     : e.prefab.name == Ronin7.EditorTools.EnemyPrefabBaker.BannerBody ? "EW_Banner" : null; // P8-06 Banner Commander
                 Assert.AreEqual(want != null, e.fixedKit, e.prefab.name);

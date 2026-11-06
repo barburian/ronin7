@@ -160,7 +160,7 @@ MonoBehaviour:
     minDepth: 4
     eliteOnly: 0
     maxPerRoom: 1
-    mainHand: {fileID: 11400000, guid: 52313ecfe346e05448b2906c79870390, type: 2}
+    mainHand: {fileID: 11400000, guid: 2a6fa49afc89b33468aea1176ff3ee66, type: 2}
     offHand: {fileID: 0}
     fixedKit: 1
     meleeOnly: 0
@@ -188,6 +188,7 @@ MonoBehaviour:
   - prefab: {fileID: 5497403558466260732, guid: 3f113a65b5112c84587edcc28a18ae31, type: 3}
     definition: {fileID: 11400000, guid: 827814da30a066f4887a89086b4bf1c1, type: 2}
     sector: 0
+    mainHand: {fileID: 11400000, guid: 607ea4ca06550d640a487a42fff7da7c, type: 2}
     phases:
     - {fileID: 11400000, guid: 5b56249b36a0be540b759358d8af6a3b, type: 2}
     addEntry: 5
@@ -195,6 +196,7 @@ MonoBehaviour:
   - prefab: {fileID: 4964568157888359081, guid: ce005d45733eea84d8673bc7657ccd63, type: 3}
     definition: {fileID: 11400000, guid: 29e4c2a45b9fdc847aa622b588a03a27, type: 2}
     sector: 1
+    mainHand: {fileID: 0}
     phases:
     - {fileID: 11400000, guid: aca01e138a930f140a8643f3f3506fa3, type: 2}
     addEntry: -1
@@ -202,6 +204,7 @@ MonoBehaviour:
   - prefab: {fileID: 3236774156031892715, guid: 0ef6588e996f7a248abdcf154d4a13be, type: 3}
     definition: {fileID: 11400000, guid: 63e1c56627983474d8abf57958804ce7, type: 2}
     sector: 2
+    mainHand: {fileID: 0}
     phases:
     - {fileID: 11400000, guid: 0cda3b6f425a7e54f8321153bf0f7a41, type: 2}
     - {fileID: 11400000, guid: 7cbdd0e7f107819499aed555822d4531, type: 2}

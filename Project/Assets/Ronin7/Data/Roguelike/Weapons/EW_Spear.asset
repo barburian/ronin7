@@ -31,6 +31,7 @@ MonoBehaviour:
       boltGravity: 0
       boltRadius: 0
       unparryable: 0
+      aoeRadius: 0
   - name: Double thrust
     weight: 1
     strikes:
@@ -42,6 +43,7 @@ MonoBehaviour:
       boltGravity: 0
       boltRadius: 0
       unparryable: 0
+      aoeRadius: 0
     - direction: 4
       windup: 0.7
       active: 1
@@ -50,6 +52,7 @@ MonoBehaviour:
       boltGravity: 0
       boltRadius: 0
       unparryable: 0
+      aoeRadius: 0
   - name: Low sweep
     weight: 1
     strikes:
@@ -61,3 +64,4 @@ MonoBehaviour:
       boltGravity: 0
       boltRadius: 0
       unparryable: 1
+      aoeRadius: 0

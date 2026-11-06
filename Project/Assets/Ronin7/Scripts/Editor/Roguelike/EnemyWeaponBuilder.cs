@@ -111,6 +111,8 @@ namespace Ronin7.EditorTools
                 new Part("Blade", PrimitiveType.Cylinder, M.Steel, new Vector3(0f, 0.02f, 0.38f), new Vector3(0.04f, 0.16f, 0.04f), Roll),
                 new Part("Cell", PrimitiveType.Cube, M.Brass, new Vector3(0f, 0.065f, 0.15f), new Vector3(0.05f, 0.03f, 0.14f)) })),
             ("Claws", new Vector3(0f, 0f, 0.25f), 1f, false, null),
+            // Juggernaut: the Gravelkin mesh has its club sculpted in; the kit is meshless (no second held weapon), tip at the sculpted club head.
+            ("Club", new Vector3(0f, 0f, 0.8f), 1f, false, null),
             // P8-06 Banner Commander (fixed kit, never rolled): an upright pole from the hand (~2.8 m tall in the rest pose)
             // with a white (Steel: reads by value in greyscale) flag flying out to the bearer's right, facing the player full-on. Finial = tip ("Blade": tint hook).
             ("Banner", new Vector3(0f, 2f, 0f), 1f, false, new[] {
@@ -168,6 +170,7 @@ namespace Ronin7.EditorTools
                                 Pat("Cross slash", 1, Hit(StrikeDirection.Left, 1f)) },
             "Baton" => new[] { Pat("Baton strike", 2, Hit(StrikeDirection.Overhead, 1f)) },
             "Shield" => new[] { Pat("Shield bash", 1, Hit(StrikeDirection.Thrust, 0.7f, dodge: true)) },
+            "Club" => PatternsFor("HeavyAxe"),
             "Claws" => new[] { Pat("Swipe", 2, Hit(StrikeDirection.Right, 1f)),
                                Pat("Double swipe", 1, Hit(StrikeDirection.Left, 0.8f), Hit(StrikeDirection.Right, 0.8f)) },
             "Bow" => new[] { Pat("Aimed", 2, Shot(1.5f, 1f, 8f, 6f, 0.1f)), Pat("Snap", 1, Shot(0.8f, 1f, 10f, 3f, 0.1f)) },
@@ -203,22 +206,39 @@ namespace Ronin7.EditorTools
         {
             BuildWeapons();
             EnemyPrefabBaker.ComposeBakedBodies();
-            foreach (var boss in new[] { "The-Warden", "Maelgorn" }) // armed bosses keep the P8-01 baked katana
+            EnemyPrefabBaker.ComposeClawedBoss();
+            foreach (var boss in new[] { "Maelgorn" }) // armed boss keeps the P8-01 baked katana (the Warden is clawed)
             {
                 string path = "Assets/Ronin7/Prefabs/Roguelike/Enemies/" + boss + ".prefab";
                 var root = PrefabUtility.LoadPrefabContents(path);
                 try { PaintKatana(root.transform); PrefabUtility.SaveAsPrefabAsset(root, path); }
                 finally { PrefabUtility.UnloadPrefabContents(root); }
             }
+            BuildEyeMaterial();
             var table = AssetDatabase.LoadAssetAtPath<EnemySpawnTable>(SpawnTablePath);
             if (table != null)
             {
+                foreach (var b in table.bosses) if (b.prefab != null && b.prefab.name == EnemyPrefabBaker.ClawedBoss) b.mainHand = Load("Claws");
                 foreach (var e in table.trash) Assign(e);
+                EnemyPrefabBaker.ApplyArchetypeKits(table); // Assign knows only the P8-02 bodies; keep the P8-06 archetype kits
                 AssignKits(table);
                 EditorUtility.SetDirty(table);
             }
             AssetDatabase.SaveAssets();
             Debug.Log("[EnemyWeaponBuilder] Composed enemy weapons.");
+        }
+
+        /// <summary>The shared HDR-red unlit dodge-eye material as a real Resources asset (so the shader ships on Quest).</summary>
+        [MenuItem("Tools/Space Samurai/Roguelike/Build Dodge Eye Material")]
+        public static void BuildEyeMaterial()
+        {
+            const string path = "Assets/Ronin7/Resources/" + DodgeEyes.MaterialResource + ".mat";
+            var m = AssetDatabase.LoadAssetAtPath<Material>(path);
+            if (m == null) { m = new Material(Shader.Find("Universal Render Pipeline/Unlit")); AssetDatabase.CreateAsset(m, path); }
+            m.SetColor("_BaseColor", DodgeEyes.DodgeColor * 6f);
+            m.enableInstancing = true;
+            EditorUtility.SetDirty(m);
+            AssetDatabase.SaveAssets();
         }
 
         /// <param name="only">P8-06: build just this weapon (the additive archetype bake), leaving the others untouched.</param>

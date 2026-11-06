@@ -192,7 +192,7 @@ namespace Ronin7.EditorTools
                 bladeTip = tip;
             }
 
-            if (boss) { FitWeapon(name, bladeTip); EnemyWeaponBuilder.PaintKatana(bladeTip.parent); }
+            if (boss && name != ClawedBoss) { FitWeapon(name, bladeTip); EnemyWeaponBuilder.PaintKatana(bladeTip.parent); }
 
             var visual = FindDeep(instance.transform, "Visual_Skinned");
             var bodyRenderer = visual != null ? visual.GetComponent<Renderer>() : null;
@@ -370,14 +370,32 @@ namespace Ronin7.EditorTools
             });
 
             var table = AssetDatabase.LoadAssetAtPath<EnemySpawnTable>(SpawnTablePath);
-            var axe = EnemyWeaponBuilder.Load("HeavyAxe");
-            UpsertEntry(table, DuelistBody, duelist, 8, 3, 2, e => { e.meleeOnly = true; e.mainHand = EnemyWeaponBuilder.Load("Sword"); e.offHand = null; e.fixedKit = false; });
-            UpsertEntry(table, JuggernautBody, juggernaut, 5, 4, 1, e => { e.fixedKit = true; e.mainHand = axe; e.offHand = null; });
-            UpsertEntry(table, LeaperBody, leaper, 6, 3, 2, e => { e.fixedKit = false; e.mainHand = EnemyWeaponBuilder.Load("Claws"); e.offHand = null; });
-            UpsertEntry(table, BannerBody, banner, 4, 4, 1, e => { e.fixedKit = true; e.mainHand = EnemyWeaponBuilder.Load("Banner"); e.offHand = null; });
+            UpsertEntry(table, DuelistBody, duelist, 8, 3, 2, null);
+            UpsertEntry(table, JuggernautBody, juggernaut, 5, 4, 1, null);
+            UpsertEntry(table, LeaperBody, leaper, 6, 3, 2, null);
+            UpsertEntry(table, BannerBody, banner, 4, 4, 1, null);
+            ApplyArchetypeKits(table);
             EditorUtility.SetDirty(table);
             AssetDatabase.SaveAssets();
             Debug.Log("[EnemyPrefabBaker] Archetype bodies baked\n" + report);
+        }
+
+        /// <summary>P8-06 archetype kits on the spawn table (idempotent). The Juggernaut's club is sculpted into its mesh, so its kit is the
+        /// meshless "Club" (same moveset as the axe): no second, held weapon.</summary>
+        internal static void ApplyArchetypeKits(EnemySpawnTable table)
+        {
+            foreach (var e in table.trash)
+            {
+                if (e.prefab == null) continue;
+                switch (e.prefab.name)
+                {
+                    case DuelistBody: e.meleeOnly = true; e.mainHand = EnemyWeaponBuilder.Load("Sword"); e.offHand = null; e.fixedKit = false; break;
+                    case JuggernautBody: e.fixedKit = true; e.mainHand = EnemyWeaponBuilder.Load("Club"); e.offHand = null; break;
+                    case LeaperBody: e.fixedKit = false; e.mainHand = EnemyWeaponBuilder.Load("Claws"); e.offHand = null; break;
+                    case BannerBody: e.fixedKit = true; e.mainHand = EnemyWeaponBuilder.Load("Banner"); e.offHand = null; break;
+                }
+            }
+            EditorUtility.SetDirty(table);
         }
 
         private static EnemyDefinition RlDef(string rlName, System.Action<EnemyDefinition> set)
@@ -402,7 +420,7 @@ namespace Ronin7.EditorTools
             }
             e.prefab = AssetDatabase.LoadAssetAtPath<GameObject>(OutputFolder + "/" + prefabName + ".prefab");
             e.definition = def; e.weight = weight; e.minDepth = minDepth; e.maxPerRoom = maxPerRoom; e.eliteOnly = false;
-            extra(e);
+            extra?.Invoke(e);
         }
 
         /// <summary>P8-01 (BUG-54): every non-natural enemy holds a visible katana on its Blade chain (the shared
@@ -453,6 +471,27 @@ namespace Ronin7.EditorTools
             if (strap == null) { strap = new GameObject(EnemyWeaponDefinition.ShieldSocket).transform; strap.SetParent(armL, false); }
             float forearm = SeatOnForearm(root, strap, 0f) * armL.lossyScale.x;
             strap.localScale = Vector3.one * (forearm > 0f ? forearm / 0.25f : 1f) / Mathf.Max(armL.lossyScale.x, 1e-4f);
+        }
+
+        /// <summary>The Warden is a clawed creature: no held weapon, the Claws kit is composed at spawn (BossEntry.mainHand).</summary>
+        internal const string ClawedBoss = "The-Warden";
+
+        /// <summary>Idempotent: strips the baked katana from the clawed boss, clears bladeTip (Equip wires the claw tip) and fits the sockets.</summary>
+        internal static void ComposeClawedBoss()
+        {
+            string path = OutputFolder + "/" + ClawedBoss + ".prefab";
+            var root = PrefabUtility.LoadPrefabContents(path);
+            try
+            {
+                var sword = FindDeep(root.transform, NpcWalkAnimator.ArmRBoneName)?.Find("Sword");
+                if (sword != null) Object.DestroyImmediate(sword.gameObject);
+                var so = new SerializedObject(root.GetComponent<Enemy>());
+                SetObjectRef(so, "bladeTip", null);
+                so.ApplyModifiedPropertiesWithoutUndo();
+                FitSockets(root);
+                PrefabUtility.SaveAsPrefabAsset(root, path);
+            }
+            finally { PrefabUtility.UnloadPrefabContents(root); }
         }
 
         /// <summary>P8-02 (additive, idempotent): fits the sockets on every baked trash body and strips the P8-01

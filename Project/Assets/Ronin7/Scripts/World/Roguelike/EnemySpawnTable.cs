@@ -36,6 +36,8 @@ namespace Ronin7.World
             public GameObject prefab;
             public Ronin7.Enemies.EnemyDefinition definition;
             public int sector; // which sector this boss caps
+            [Tooltip("Optional kit composed at spawn for a clawed boss (The-Warden: Claws). Null = the prefab's own baked kit.")]
+            public Ronin7.Enemies.EnemyWeaponDefinition mainHand;
             [Tooltip("P3-07: phases after the first, in order. Each runtime clone gets its share of " +
                      "RunScaling.BossTargetHealth, weighted by every phase's own maxHealth.")]
             public Ronin7.Enemies.EnemyDefinition[] phases;

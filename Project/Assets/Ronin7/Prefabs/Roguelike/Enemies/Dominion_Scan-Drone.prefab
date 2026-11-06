@@ -742,7 +742,6 @@ MonoBehaviour:
   swingSmoothing: 0.5
   definition: {fileID: 0}
   bladeTip: {fileID: 0}
-  parryRadius: 0.12
   debugLogs: 0
   weakMarks: []
   beam: {fileID: 5091028106413382148}

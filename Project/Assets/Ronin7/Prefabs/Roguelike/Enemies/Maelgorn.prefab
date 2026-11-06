@@ -421,7 +421,6 @@ MonoBehaviour:
   swingSmoothing: 0.5
   definition: {fileID: 0}
   bladeTip: {fileID: 2800649331494345282}
-  parryRadius: 0.12
   debugLogs: 0
   weakMarks: []
 --- !u!114 &5332519163276464282

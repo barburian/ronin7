@@ -31,6 +31,7 @@ MonoBehaviour:
       boltGravity: 0
       boltRadius: 0
       unparryable: 0
+      aoeRadius: 0
     - direction: 2
       windup: 0.5
       active: 1
@@ -39,6 +40,7 @@ MonoBehaviour:
       boltGravity: 0
       boltRadius: 0
       unparryable: 0
+      aoeRadius: 0
     - direction: 4
       windup: 0.5
       active: 1
@@ -47,6 +49,7 @@ MonoBehaviour:
       boltGravity: 0
       boltRadius: 0
       unparryable: 0
+      aoeRadius: 0
   - name: Cross slash
     weight: 1
     strikes:
@@ -58,3 +61,4 @@ MonoBehaviour:
       boltGravity: 0
       boltRadius: 0
       unparryable: 0
+      aoeRadius: 0

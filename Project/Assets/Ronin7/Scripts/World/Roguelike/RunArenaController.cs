@@ -371,6 +371,13 @@ namespace Ronin7.World
                 }
             }
 
+            else if (enemy != null && spawnTable.bosses[request.EntryIndex].mainHand != null)
+            {
+                EnemyWeaponDefinition bossKit = spawnTable.bosses[request.EntryIndex].mainHand; // clawed boss (The-Warden)
+                if (scaled != null) bossKit.ApplyTo(scaled);
+                enemy.Equip(bossKit);
+            }
+
             Health health = instance.GetComponent<Health>();
             if (health == null)
             {

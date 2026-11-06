@@ -314,6 +314,7 @@ namespace Ronin7.EditorTools
                 bosses.Add(new EnemySpawnTable.BossEntry
                 {
                     prefab = prefab, definition = def, sector = spec.Sector,
+                    mainHand = spec.PrefabName == EnemyPrefabBaker.ClawedBoss ? EnemyWeaponBuilder.Load("Claws") : null,
                     phases = phases.ToArray(), addEntry = addEntry, addCount = addEntry >= 0 ? spec.AddCount : 0,
                 });
                 report.Append("Boss sector ").Append(spec.Sector).Append(": ").Append(spec.PrefabName)

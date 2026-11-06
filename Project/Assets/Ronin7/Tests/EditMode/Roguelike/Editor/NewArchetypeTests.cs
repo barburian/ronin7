@@ -160,7 +160,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Editor
         {
             var e = EntryFor(LoadTable(), "Juggernaut");
             Assert.IsTrue(e.fixedKit);
-            Assert.AreEqual("EW_HeavyAxe", e.mainHand.name);
+            Assert.AreEqual("EW_Club", e.mainHand.name); // sculpted club only, no second held weapon
             Assert.Greater(e.definition.groundSlamRadius, e.definition.attackRange + 0.4f, "slam reaches past a normal swing");
 
             var def = Object.Instantiate(e.definition);
