@@ -578,7 +578,7 @@ namespace Ronin7.Enemies
             // P4-09 Quick Telegraph shortens the base (floor 0.6 s) before the off-cone grace is added.
             strike = NextStrike();
             Strikes?.Consume(); // P8-03: advance the held peek (combo strike or next pattern)
-            telegraph = TelegraphFor(Heat.Telegraph(TelegraphTime * strike.windup, RunState.HeatRankOf(HeatRank.QuickTelegraph)), AngleFromPlayerForward());
+            telegraph = TelegraphFor(Heat.Telegraph(Difficulty.Telegraph(TelegraphTime * strike.windup, RunState.Difficulty), RunState.HeatRankOf(HeatRank.QuickTelegraph)), AngleFromPlayerForward()); // R13 mode first, then Heat (its 0.6 s floor wins)
             Log("telegraph");
             deflectedThisSwing = false;
             strikeResolved = false;

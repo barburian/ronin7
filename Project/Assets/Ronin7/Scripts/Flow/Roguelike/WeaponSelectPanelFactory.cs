@@ -11,7 +11,7 @@ namespace Ronin7.Flow
     /// <see cref="MetaShopPanelFactory"/>. Returns null without a camera or EventSystem.</summary>
     public static class WeaponSelectPanelFactory
     {
-        private const float CardW = 285f, CardH = 520f, ModelFit = 190f;
+        private const float CardW = 285f, CardH = 560f, ModelFit = 190f;
         private static readonly Color LockedTint = new Color(0.12f, 0.12f, 0.15f);
 
         /// <param name="requireEventSystem">Tests pass false: an EventSystem cannot register itself in edit mode.</param>
@@ -27,36 +27,41 @@ namespace Ronin7.Flow
             canvasGo.AddComponent<TrackedDeviceGraphicRaycaster>();
 
             var rt = canvas.GetComponent<RectTransform>();
-            rt.sizeDelta = new Vector2(1240f, 800f);
+            rt.sizeDelta = new Vector2(1240f, 960f);
             rt.localScale = Vector3.one * 0.001f;
             rt.gameObject.AddComponent<UiScaleFollower>();
             BoonOfferPanel.Place(rt, targetCamera.transform);
             UiKit.Frame(canvasGo.AddComponent<Image>(), UiKit.Cyan);
 
             var panel = canvasGo.AddComponent<WeaponSelectPanel>();
-            MakeText(rt, "CHOOSE YOUR WEAPON", 48, TextAlignmentOptions.Center, new Vector2(0f, 345f), new Vector2(900f, 80f), Color.white);
+            MakeText(rt, "CHOOSE YOUR WEAPON", 48, TextAlignmentOptions.Center, new Vector2(0f, 425f), new Vector2(900f, 80f), Color.white);
 
             var models = Resources.Load<WeaponCardModels>(WeaponCardModels.ResourcePath);
             panel.cards = new WeaponSelectPanel.Card[WeaponSelectPanel.Cards.Length];
             for (int i = 0; i < panel.cards.Length; i++)
             {
                 var (id, name, blurb) = WeaponSelectPanel.Cards[i];
-                var b = MakeButton(rt, name, new Vector2(-450f + i * 300f, 20f), new Vector2(CardW, CardH));
+                var b = MakeButton(rt, name, new Vector2(-450f + i * 300f, 100f), new Vector2(CardW, CardH));
                 var cardRt = (RectTransform)b.transform;
                 var label = cardRt.GetChild(0).GetComponent<TMP_Text>(); // MakeButton's centred label becomes the name line
                 label.rectTransform.anchorMin = label.rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
                 label.rectTransform.sizeDelta = new Vector2(CardW - 20f, 70f);
                 label.rectTransform.anchoredPosition = new Vector2(0f, -30f);
                 MakeText(cardRt, blurb, UiKit.MinBody, TextAlignmentOptions.Top, new Vector2(0f, -120f), new Vector2(CardW - 20f, 130f), new Color(1f, 1f, 1f, 0.8f));
-                var state = MakeText(cardRt, "", UiKit.MinBody, TextAlignmentOptions.Center, new Vector2(0f, -220f), new Vector2(CardW - 20f, 80f), Color.white);
+                var state = MakeText(cardRt, "", UiKit.MinBody, TextAlignmentOptions.Center, new Vector2(0f, -215f), new Vector2(CardW - 20f, 110f), Color.white);
                 var model = models != null ? models.Get(i) : null;
                 bool unlocked = MetaProgression.IsWeaponUnlocked(id);
                 if (model != null) AttachModel(model, cardRt, new Vector3(0f, 130f, -60f), unlocked);
                 panel.cards[i] = new WeaponSelectPanel.Card { id = id, button = b, stateText = state, group = b.gameObject.AddComponent<CanvasGroup>() };
             }
 
-            panel.backButton = MakeButton(rt, "BACK", new Vector2(-170f, -345f), new Vector2(280f, 80f));
-            panel.startButton = MakeButton(rt, "START", new Vector2(170f, -345f), new Vector2(280f, 80f));
+            panel.modeButtons = new Button[Difficulty.Count];
+            for (int i = 0; i < Difficulty.Count; i++)
+                panel.modeButtons[i] = MakeButton(rt, Difficulty.Label((DifficultyMode)i), new Vector2(-300f + i * 300f, -230f), new Vector2(280f, 70f));
+            panel.modeText = MakeText(rt, "", UiKit.MinBody, TextAlignmentOptions.Center, new Vector2(0f, -300f), new Vector2(1180f, 50f), new Color(1f, 1f, 1f, 0.8f));
+
+            panel.backButton = MakeButton(rt, "BACK", new Vector2(-170f, -400f), new Vector2(280f, 80f));
+            panel.startButton = MakeButton(rt, "START", new Vector2(170f, -400f), new Vector2(280f, 80f));
             panel.Wire();
             return panel;
         }

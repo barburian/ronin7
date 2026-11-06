@@ -136,7 +136,7 @@ namespace Ronin7.World
         /// <c>node.Sector</c>, falling back to the last boss entry if none match.</summary>
         public static List<SpawnRequest> Compose(
             EnemySpawnTable table, RunNode node, float arenaHalfExtent, Vector3 playerSpawn, ref RunRng rng, bool tutorial = false,
-            int swarmRanks = 0)
+            int swarmRanks = 0, int countDelta = 0)
         {
             var result = new List<SpawnRequest>();
             if (table == null) return result;
@@ -160,7 +160,7 @@ namespace Ronin7.World
             bool firstRoom = tutorial && node.Kind == RoomKind.Combat && node.Depth == 0;
             // P4-09 Swarm Protocol: +1 TOTAL per rank on Combat rooms. Only the room total grows; the arena's
             // drip release still never has more than RunScaling.MaxConcurrentEnemies live at once.
-            int count = firstRoom ? 2 : RunScaling.EnemyCount(node.Depth, node.Kind, ref rng) + Mathf.Max(0, swarmRanks);
+            int count = firstRoom ? 2 : Mathf.Max(1, RunScaling.EnemyCount(node.Depth, node.Kind, ref rng) + Mathf.Max(0, swarmRanks) + countDelta); // R13: Easy -1 / Hard +1, never an empty Combat room
             if (count <= 0) return result;
 
             List<int> eligible = EligibleTrashIndices(table.trash, node);

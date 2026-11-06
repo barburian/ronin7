@@ -31,6 +31,8 @@ namespace Ronin7.Flow
 
         internal Card[] cards = System.Array.Empty<Card>();
         internal Button startButton, backButton;
+        internal Button[] modeButtons = System.Array.Empty<Button>(); // R13: Easy / Normal / Hard, index = (int)DifficultyMode
+        internal TMP_Text modeText;
         internal System.Action startRun; // set by the menu: begins the run
         internal System.Action onClosed;
         private readonly LazyFollow follow = new LazyFollow(1.3f);
@@ -41,6 +43,11 @@ namespace Ronin7.Flow
             {
                 string id = cards[i].id;
                 cards[i].button.onClick.AddListener(() => Select(id));
+            }
+            for (int i = 0; i < modeButtons.Length; i++)
+            {
+                var mode = (DifficultyMode)i;
+                modeButtons[i].onClick.AddListener(() => SelectMode(mode));
             }
             startButton.onClick.AddListener(Begin);
             backButton.onClick.AddListener(Close);
@@ -57,6 +64,22 @@ namespace Ronin7.Flow
             }
             Refresh();
         }
+
+        /// <summary>R13: persists the difficulty pick. START locks it into the run (<see cref="RunState.Difficulty"/>).</summary>
+        internal void SelectMode(DifficultyMode mode)
+        {
+            if (MetaProgression.SelectedDifficulty != mode)
+            {
+                Haptics.Pulse(XRNode.RightHand, 0.4f, 0.06f);
+                MetaProgression.SelectDifficulty(mode);
+                MetaProgression.Save();
+            }
+            Refresh();
+        }
+
+        /// <summary>Selector button label: the chosen mode is bracketed.</summary>
+        internal static string ModeLabel(DifficultyMode mode, bool selected) =>
+            selected ? "[ " + Difficulty.Label(mode) + " ]" : Difficulty.Label(mode);
 
         private void Close()
         {
@@ -77,6 +100,15 @@ namespace Ronin7.Flow
 
         internal void Refresh()
         {
+            var chosen = MetaProgression.SelectedDifficulty;
+            for (int i = 0; i < modeButtons.Length; i++)
+            {
+                bool on = i == (int)chosen;
+                var label = modeButtons[i].GetComponentInChildren<TMP_Text>();
+                label.text = ModeLabel((DifficultyMode)i, on);
+                label.color = on ? new Color(0.5f, 1f, 0.7f) : Color.white;
+            }
+            if (modeText != null) modeText.text = Difficulty.Blurb(chosen);
             string pick = MetaProgression.SelectedLoadout;
             foreach (var c in cards)
             {

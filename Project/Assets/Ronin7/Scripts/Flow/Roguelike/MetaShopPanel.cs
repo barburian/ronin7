@@ -179,7 +179,7 @@ namespace Ronin7.Flow
         /// <summary>Armory-sized requirement (the 210 px button fits two short lines); the select card spells it out.</summary>
         internal static string LockedShort(string id)
         {
-            if (id == WeaponId.Whip) return "WIN, " + MetaProgression.WhipMaxHits + " HITS MAX";
+            if (id == WeaponId.Whip) return "NORMAL+ WIN, " + MetaProgression.WhipMaxHits + " HITS MAX";
             int cost = MetaProgression.UpgradeCost(id, 1), wins = MetaProgression.WinsRequired(id);
             return (cost > 0 ? "♦ " + cost : "") + (wins > 0 ? " + " + wins + "W" : "");
         }

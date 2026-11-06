@@ -80,8 +80,8 @@ namespace Ronin7.Tests.EditMode
             Assert.AreEqual("SELECTED", WeaponSelectPanel.StateText(WeaponId.Whip, true, true, 2));
             Assert.AreEqual("300 ECHOES + 1 WIN", WeaponSelectPanel.StateText(WeaponId.TwinWakizashi, false, false, -1));
             Assert.AreEqual("450 ECHOES + 2 WINS", WeaponSelectPanel.StateText(WeaponId.PolearmShield, false, false, 5));
-            Assert.AreEqual("WIN WITH 3 HITS MAX / BEST: --", WeaponSelectPanel.StateText(WeaponId.Whip, false, false, -1));
-            Assert.AreEqual("WIN WITH 3 HITS MAX / BEST: 7", WeaponSelectPanel.StateText(WeaponId.Whip, false, false, 7));
+            Assert.AreEqual("WIN ON NORMAL+ WITH 3 HITS MAX / BEST: --", WeaponSelectPanel.StateText(WeaponId.Whip, false, false, -1));
+            Assert.AreEqual("WIN ON NORMAL+ WITH 3 HITS MAX / BEST: 7", WeaponSelectPanel.StateText(WeaponId.Whip, false, false, 7));
             // A locked weapon is never "selected", even if the flag says so.
             Assert.AreEqual("450 ECHOES + 2 WINS", WeaponSelectPanel.StateText(WeaponId.PolearmShield, false, true, -1));
         }
@@ -95,7 +95,7 @@ namespace Ronin7.Tests.EditMode
             Assert.AreEqual("OWNED", p.cards[CardIndex(p, WeaponId.TwinWakizashi)].stateText.text);
             Assert.AreEqual("SELECTED", p.cards[CardIndex(p, WeaponId.Katana)].stateText.text);
             Assert.AreEqual("450 ECHOES + 2 WINS", p.cards[CardIndex(p, WeaponId.PolearmShield)].stateText.text);
-            Assert.AreEqual("WIN WITH 3 HITS MAX / BEST: 7", p.cards[CardIndex(p, WeaponId.Whip)].stateText.text);
+            Assert.AreEqual("WIN ON NORMAL+ WITH 3 HITS MAX / BEST: 7", p.cards[CardIndex(p, WeaponId.Whip)].stateText.text);
             Assert.IsFalse(p.cards[CardIndex(p, WeaponId.PolearmShield)].button.interactable, "locked cards are dimmed and inert");
             Assert.IsFalse(p.cards[CardIndex(p, WeaponId.Whip)].button.interactable);
             Assert.AreEqual(0.4f, p.cards[CardIndex(p, WeaponId.Whip)].group.alpha, 1e-4f);

@@ -218,7 +218,7 @@ namespace Ronin7.World
                 if (replay) EventBus.Publish(new TutorialReplayShown());
             }
             List<SpawnRequest> requests = WaveComposer.Compose(spawnTable, node, halfExtent, exclusionCentreLocal, ref rng, tutorial,
-                RunState.HeatRankOf(HeatRank.SwarmProtocol)); // P4-09 Swarm Protocol: more total, same concurrent cap
+                RunState.HeatRankOf(HeatRank.SwarmProtocol), Difficulty.EnemyDelta(RunState.Difficulty)); // P4-09 Swarm Protocol: more total, same concurrent cap; R13 mode: -1/+1 per Combat room
 
             rangedThisRoom = 0;
             foreach (SpawnRequest request in requests)
@@ -418,7 +418,8 @@ namespace Ronin7.World
                 clones[i] = Instantiate(sources[i + 1]);
                 clones[i].maxHealth = bossPhaseHealth[i + 1];
                 clones[i].damage = sources[i + 1].damage * RunScaling.BossDamageMultiplier(node.Sector)
-                    * Heat.DamageFactor(RunState.HeatRankOf(HeatRank.SharpenedProgram));
+                    * Heat.DamageFactor(RunState.HeatRankOf(HeatRank.SharpenedProgram))
+                    * Difficulty.DamageFactor(RunState.Difficulty); // R13
             }
             enemy.ConfigurePhases(clones);
             return clones;
@@ -520,7 +521,8 @@ namespace Ronin7.World
         {
             // P4-09 Hardened Shells / Sharpened Program: on every enemy, boss included (1 with no heat).
             float heatHealth = Heat.HealthFactor(RunState.HeatRankOf(HeatRank.HardenedShells));
-            float heatDamage = Heat.DamageFactor(RunState.HeatRankOf(HeatRank.SharpenedProgram));
+            // R13 Easy: enemy damage x0.75 on every enemy (melee, bolts and slams all read definition.damage), stacked with Heat.
+            float heatDamage = Heat.DamageFactor(RunState.HeatRankOf(HeatRank.SharpenedProgram)) * Difficulty.DamageFactor(RunState.Difficulty);
             if (kind == RoomKind.Boss && isBoss) // P3-07: boss adds on a Boss node take the depth multipliers instead
             {
                 health = RunScaling.BossTargetHealth(sector) * heatHealth;

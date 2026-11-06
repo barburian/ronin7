@@ -83,7 +83,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
 
             RunSnapshot again = RunState.ToSnapshot();
             again.runKills = snapshot.runKills;
-            Assert.AreEqual(File.ReadAllText(Fixture("run.json")), JsonUtility.ToJson(again).Replace("\"shrineBoons\":[],", "").Replace(",\"hitsTaken\":0", ""), "v3 must round-trip byte-for-byte");
+            Assert.AreEqual(File.ReadAllText(Fixture("run.json")), JsonUtility.ToJson(again).Replace("\"shrineBoons\":[],", "").Replace(",\"hitsTaken\":0", "").Replace(",\"difficulty\":1", ""), "v3 must round-trip byte-for-byte");
         }
     }
 }

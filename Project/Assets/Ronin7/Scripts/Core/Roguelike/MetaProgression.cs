@@ -20,6 +20,7 @@ namespace Ronin7.Core
         private static int runsCompleted;
         private static int runsWon;
         private static int bestHits = -1; // P9-03: fewest PlayerHits on any won run; -1 = never won
+        private static int difficulty = Difficulty.Unset; // R13: select-screen pick; Unset until chosen
         private static readonly Dictionary<string, int> upgradeLevels = new();
 
         /// <summary>BUG-25: true once <see cref="Load"/> has run this session. <see cref="Save"/> before
@@ -43,6 +44,12 @@ namespace Ronin7.Core
         /// <summary>P9-03: fewest PlayerHits taken on any won run, any weapon; -1 = never won.</summary>
         public static int BestHits => bestHits;
 
+        /// <summary>R13: the select-screen mode. Unset resolves to Easy for a save with no runs, Normal otherwise.</summary>
+        public static DifficultyMode SelectedDifficulty =>
+            difficulty == Difficulty.Unset ? Difficulty.DefaultFor(runsCompleted) : Difficulty.From(difficulty);
+
+        public static void SelectDifficulty(DifficultyMode mode) => difficulty = (int)mode;
+
         /// <summary>A15.13: "BEST: 7", or "BEST: --" before the first win. Shared by the Armory and the select cards.</summary>
         public static string BestHitsText(int best) => best >= 0 ? "BEST: " + best : "BEST: --";
 
@@ -52,7 +59,7 @@ namespace Ronin7.Core
         /// <summary>Locked-weapon requirement line: "300 ECHOES + 1 WIN", or the Whip challenge with the best score.</summary>
         public static string RequirementText(string id, int best)
         {
-            if (id == WeaponId.Whip) return "WIN WITH " + WhipMaxHits + " HITS MAX / " + BestHitsText(best);
+            if (id == WeaponId.Whip) return "WIN ON NORMAL+ WITH " + WhipMaxHits + " HITS MAX / " + BestHitsText(best);
             int cost = UpgradeCost(id, 1), wins = WinsRequired(id);
             string text = cost > 0 ? cost + " ECHOES" : "";
             if (wins > 0) text += (text.Length > 0 ? " + " : "") + wins + (wins == 1 ? " WIN" : " WINS");
@@ -264,13 +271,14 @@ namespace Ronin7.Core
 
         /// <summary>Records a finished run (win or permadeath) into the lifetime counters.
         /// <paramref name="depthReached"/> is rooms CLEARED (TotalNodes on a win), shown as n/15.</summary>
-        public static void NoteRunEnded(int depthReached, bool won, int hitsTaken = -1)
+        public static void NoteRunEnded(int depthReached, bool won, int hitsTaken = -1, DifficultyMode mode = DifficultyMode.Normal)
         {
+            if (difficulty == Difficulty.Unset) difficulty = (int)SelectedDifficulty; // pin the default before runsCompleted flips it
             runsCompleted++;
             if (won)
             {
                 runsWon++;
-                if (hitsTaken >= 0 && !DevUnlockAllWeapons) // -1 = no count (abandoned run); a dev-flag win must not persist an unlock or BEST
+                if (hitsTaken >= 0 && !DevUnlockAllWeapons && Difficulty.CountsForWhip(mode)) // R13: Easy wins count for runsWon only; -1 = no count (abandoned run); a dev-flag win must not persist an unlock or BEST
                 {
                     if (bestHits < 0 || hitsTaken < bestHits) bestHits = hitsTaken;
                     if (hitsTaken <= WhipMaxHits) UnlockWeapon(WeaponId.Whip); // A15.12; the caller saves
@@ -289,6 +297,7 @@ namespace Ronin7.Core
             runsCompleted = data.metaRunsCompleted;
             runsWon = data.metaRunsWon;
             bestHits = data.metaBestHits;
+            difficulty = data.difficulty < 0 ? Difficulty.Unset : Mathf.Clamp(data.difficulty, 0, Difficulty.Count - 1);
             tutorialDone = ResolveTutorialDone(data);
             seenWeaknesses.Clear();
             if (data.seenWeaknesses != null)
@@ -331,6 +340,7 @@ namespace Ronin7.Core
             data.metaRunsCompleted = runsCompleted;
             data.metaRunsWon = runsWon;
             data.metaBestHits = bestHits;
+            data.difficulty = difficulty;
             data.tutorialDone = tutorialDone;
             data.seenWeaknesses = new List<int>(seenWeaknesses);
             data.seenWeaknesses.Sort();
@@ -431,6 +441,7 @@ namespace Ronin7.Core
             runsCompleted = 0;
             runsWon = 0;
             bestHits = -1;
+            difficulty = Difficulty.Unset;
             tutorialDone = false;
             seenWeaknesses.Clear();
             unlockedWeapons.Clear();

@@ -122,7 +122,7 @@ namespace Ronin7.Tests.EditMode.Roguelike.Core
             Assert.AreEqual("BEST: --", MetaProgression.BestHitsText(-1));
             Assert.AreEqual("300 ECHOES + 1 WIN", MetaProgression.RequirementText(WeaponId.TwinWakizashi, -1));
             Assert.AreEqual("450 ECHOES + 2 WINS", MetaProgression.RequirementText(WeaponId.PolearmShield, -1));
-            Assert.AreEqual("WIN WITH 3 HITS MAX / BEST: 7", MetaProgression.RequirementText(WeaponId.Whip, 7));
+            Assert.AreEqual("WIN ON NORMAL+ WITH 3 HITS MAX / BEST: 7", MetaProgression.RequirementText(WeaponId.Whip, 7));
         }
 
         [Test]

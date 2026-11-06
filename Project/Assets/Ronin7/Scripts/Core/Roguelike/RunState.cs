@@ -31,6 +31,7 @@ namespace Ronin7.Core
         private static string offhandArtId = "";
         private static string loadoutId = WeaponId.Katana;
         private static readonly int[] heatRanks = new int[Heat.Count];
+        private static DifficultyMode difficultyMode = DifficultyMode.Normal;
         private static int heatTotal;
 
         public static bool InRun { get; private set; }
@@ -114,6 +115,10 @@ namespace Ronin7.Core
         /// RunSnapshot v3 (P4-11); <see cref="Restore"/> overrides the meta-read ranks with the snapshot's.</summary>
         public static int HeatRankOf(HeatRank r) => (uint)r < Heat.Count ? heatRanks[(int)r] : 0;
 
+        /// <summary>R13: this run's difficulty, locked at <see cref="Begin"/> (Daily Fracture is always Normal);
+        /// <see cref="Restore"/> takes the snapshot's, not the current select-screen pick.</summary>
+        public static DifficultyMode Difficulty => difficultyMode;
+
         /// <summary>P4-09: sum of this run's ranks (drives the Echo multiplier).</summary>
         public static int HeatTotal => heatTotal;
 
@@ -159,6 +164,7 @@ namespace Ronin7.Core
             offhandArtId = "";
             loadoutId = MetaProgression.SelectedLoadout;
             bool daily = Heat.IsDailySeed(runSeed);
+            difficultyMode = daily ? DifficultyMode.Normal : MetaProgression.SelectedDifficulty;
             heatTotal = 0;
             for (int i = 0; i < Heat.Count; i++)
             {
@@ -271,6 +277,7 @@ namespace Ronin7.Core
                 hitsTaken = hitsTaken,
                 unbrokenUsed = unbrokenUsed,
                 playerHealth = playerHealth,
+                difficulty = (int)difficultyMode,
             };
             foreach (KeyValuePair<string, int> boon in boonCounts)
                 for (int i = 0; i < boon.Value; i++) snapshot.boons.Add(boon.Key);
@@ -319,6 +326,7 @@ namespace Ronin7.Core
             // Off-roster ids (Tanto) stay verbatim: ApplyLoadout / Effective already fall them back to the Katana.
             if (!string.IsNullOrEmpty(snapshot.loadoutId))
                 loadoutId = WeaponId.OnRoster(snapshot.loadoutId) && !MetaProgression.IsWeaponUnlocked(snapshot.loadoutId) ? WeaponId.Katana : snapshot.loadoutId;
+            difficultyMode = Core.Difficulty.From(snapshot.difficulty);
             heatTotal = 0;
             for (int i = 0; i < Heat.Count; i++)
             {
@@ -368,6 +376,7 @@ namespace Ronin7.Core
             loadoutId = WeaponId.Katana;
             System.Array.Clear(heatRanks, 0, Heat.Count);
             heatTotal = 0;
+            difficultyMode = DifficultyMode.Normal;
         }
 
         /// <summary>Pure arithmetic for the Forge reward (§1: "heal 60% of missing HP"; 30% under P4-09 Rusted Forge).

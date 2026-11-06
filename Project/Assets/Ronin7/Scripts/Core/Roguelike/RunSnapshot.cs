@@ -70,6 +70,9 @@ namespace Ronin7.Core
         /// <summary>P9-03: PlayerHits taken this run (A15.12 Whip challenge). APPENDED (version stays 3); legacy saves load 0.</summary>
         public int hitsTaken;
 
+        /// <summary>R13: the run's <see cref="DifficultyMode"/>. APPENDED (version stays 3); legacy saves load Normal.</summary>
+        public int difficulty = (int)DifficultyMode.Normal;
+
         /// <summary>Depth reached by a saved run, for banking it as a loss: v1 (linear map) stored the
         /// depth in nodeIndex; v2+ store it in <see cref="depth"/>.</summary>
         public static int DepthOf(RunSnapshot s) => s.version <= 1 ? s.nodeIndex : s.depth;

@@ -151,6 +151,15 @@ From Amendment 15 "Readings pending user confirmation" (a-f) plus extras. Write 
 
 Afterwards, pull `runlog.jsonl` and logcat: 0 errors, no crash, no soft-lock.
 
+## 11. Difficulty modes (R13)
+
+- [ ] New save: the select screen opens on EASY; the three buttons are readable and the one-line blurb under them fits.
+- [ ] Easy: rooms hold one fewer enemy, hits hurt visibly less, tells are slower. Hard: one more enemy, tells are faster but still readable.
+- [ ] Heat on top still bites (e.g. Hard + Quick Telegraph never drops a tell below 0.6 s).
+- [ ] Win on Easy with 3 hits or fewer does NOT unlock the Whip and does not change BEST; a Normal win does.
+- [ ] Quit mid-run, change the mode on the menu, resume: the run keeps its own mode.
+- [ ] Daily Fracture plays as Normal whatever the pick.
+
 ## Results and sign-off
 
 - Overall notes:

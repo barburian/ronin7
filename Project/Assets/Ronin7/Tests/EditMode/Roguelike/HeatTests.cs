@@ -36,7 +36,7 @@ namespace Ronin7.Tests.EditMode
         {
             var heat = new List<int>(new int[Heat.Count]);
             heat[(int)r] = ranks;
-            MetaProgression.ApplyFrom(new MetaSaveData { metaRunsWon = 1, heatRanks = heat });
+            MetaProgression.ApplyFrom(new MetaSaveData { metaRunsWon = 1, heatRanks = heat, difficulty = (int)DifficultyMode.Normal }); // R13: a fresh save defaults to Easy; these tests measure Heat alone
             RunState.Begin(12345u);
         }
 

@@ -330,6 +330,7 @@ namespace Ronin7.Flow
                 echoes = echoes, boonIds = snapshot.boons.ToArray(), deathBy = RunLog.AbandonedMarker,
                 build = BuildTag(), evt = "end", outcome = RunLog.AbandonedMarker, sector = -1,
                 path = snapshot.path.ToArray(), hitsTaken = snapshot.hitsTaken,
+                difficulty = Difficulty.From(snapshot.difficulty).ToString(),
             });
             RunSnapshot.Delete();
         }
@@ -1285,6 +1286,7 @@ namespace Ronin7.Flow
                 path = new List<int>(RunState.Path).ToArray(),
                 assisted = RunTally.Assisted,
                 hitsTaken = RunState.HitsTaken,
+                difficulty = RunState.Difficulty.ToString(),
             };
         }
 
@@ -1370,7 +1372,7 @@ namespace Ronin7.Flow
             int echoes = RunEchoResult(won, depth, boonInventory.Bonus(BoonEffectKind.EchoGain), RunState.HeatTotal);
             bool firstRun = MetaProgression.RunsCompleted == 0; // P6-04: read before NoteRunEnded counts this run
             MetaProgression.AddEchoes(echoes);
-            MetaProgression.NoteRunEnded(won ? RunMapGenerator.TotalNodes : depth, won, RunState.HitsTaken);
+            MetaProgression.NoteRunEnded(won ? RunMapGenerator.TotalNodes : depth, won, RunState.HitsTaken, RunState.Difficulty);
 
             // Snapshot the result BEFORE RunState.End() wipes it (deferred to SceneLoadRoutine, but
             // capture here so nothing else can clear it first), then persist the lifetime totals this
