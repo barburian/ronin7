@@ -1587,21 +1587,23 @@ Design: **Amendment 15** in `Roguelike-Design.md` (binding, numbers there). Rost
 ### [x] P9-00 Archetype design session with the user (blocking)
 Done 2026-11-05, recorded as Amendment 15. The P9 task list below still needs the user's approval before any build.
 
-### P9-02 Weapons, cheapest first
-- **a. Foundations:** run the EditMode gate first (not re-run since `ac08629`). `canParry`, parry-stagger and `thrustDamage` on `WeaponDefinition`; roster and save fallback (A15.1); off-hand and left-handed input (A15.3); Weapon Art rule (A15.18); `ParryGate` rule (A15.10); standing only (A15.15).
-- **b. Double Katana** (A15.5), including the crimson material.
-- **c. Polearm + Shield** (A15.6, A15.7), on placeholders, with holsters (A15.14) and the `Projectile.TryHit` check.
-- **d. Whip prototype + 90 FPS proof (A15.11). Stops for the user's headset test** (chain feel and numbers).
-- **e. Whip complete:** crack, boon hiding (A15.8), then **lasso** (A15.9). Headset check after the crack, before the lasso.
+### [x] P9-02 Weapons, cheapest first (done 2026-11-06; EditMode 2327/0/0; headset stops deferred, see below)
+- **a. [x] d969825. Foundations:** run the EditMode gate first (not re-run since `ac08629`). `canParry`, parry-stagger and `thrustDamage` on `WeaponDefinition`; roster and save fallback (A15.1); off-hand and left-handed input (A15.3); Weapon Art rule (A15.18); `ParryGate` rule (A15.10); standing only (A15.15).
+- **b. [x] 7cbcb6b. Double Katana** (A15.5), including the crimson material.
+- **c. [x] 20d73a6. Polearm + Shield** (A15.6, A15.7), on placeholders, with holsters (A15.14) and the `Projectile.TryHit` check.
+- **d. [x] 085a962 (code only, NOT proven on device). Whip prototype + 90 FPS proof (A15.11). Stops for the user's headset test** (chain feel and numbers).
+- **e. [x] 5b8a02d + 05a4baa (code only, NOT proven on device). Whip complete:** crack, boon hiding (A15.8), then **lasso** (A15.9). Headset check after the crack, before the lasso.
 
-### P9-03 Shrine unlocks (D-18)
+### [x] P9-03 Shrine unlocks (D-18) (done 2026-11-06, 78c46fc)
 Prices and the Whip challenge (A15.12), extending P2-01, don't rebuild. Hits-taken logging and best score. Persisted in `meta.json`, `MetaSaveData` appended fields only, G7 fixture of older saves.
 
-### P9-01 Selection screen
+### [x] P9-01 Selection screen (done 2026-11-06, 39a71f1)
 A15.13: replaces the LOADOUT rack (P4-08). `RunState.LoadoutId` and `TrySelectLoadout` reused.
 
-### P9-04 Hero meshes (needs the user)
+### [x] P9-04 Hero meshes (done 2026-11-06, e282df9)
 A15.16: Shield, Polearm, Whip handle, coiled Whip. Agent reminds the user when P9-02c and P9-02d start; hard deadline is before the exit build.
+
+**P9 status 2026-11-06 (honest record).** P9-01 to P9-04 are code-complete and committed on `roguelike`; EditMode baseline 2327/0/0. The P9-02d and P9-02e headset stops (A15.11 90 FPS proof, whip crack check, then the lasso) were deferred to the exit playtest at the user's say on 2026-11-05/06. **Nothing in P9 has been proven on device**: the Whip numbers, the crack, the lasso and the Polearm/Shield feel are all unplayed. P9-05 is NOT done. Pre-build render check and `Playtest-v0.10.0.md` are prepared; the player builds, the version bump and the sign-off are still to do. User-only gate: the user tags `roguelike-phase9` after sign-off.
 
 ### P9-05 Exit
 Render check, Export Gate, v0.10.0 builds, `Playtest-v0.10.0.md` covering: each weapon with no skills, holsters standing, a left-handed pass (one room per weapon), Whip against Iron Warden and Maelgorn's final phase, Whip challenge counting, old-save fallback. The user tags after sign-off.
