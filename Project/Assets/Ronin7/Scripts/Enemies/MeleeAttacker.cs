@@ -461,8 +461,8 @@ namespace Ronin7.Enemies
                     float draw = WindupPoseProgress(timer, telegraph);
                     PoseWeapon(restEuler, WindEuler, draw);
                     PoseBody(0f, WindBody, draw);
-                    Tint(Color.Lerp(IdleColor, TelegraphColor, timer / telegraph),
-                         PulsedTelegraphRim(Color.Lerp(RestRim, TelegraphRim, timer / telegraph), timer / telegraph));
+                    Tint(Color.Lerp(IdleColor, StrikeColor, timer / telegraph),
+                         PulsedTelegraphRim(Color.Lerp(RestRim, StrikeColor * 2.5f, timer / telegraph), timer / telegraph));
                     UpdateEdge();
                     if (timer >= telegraph)
                     {
@@ -494,8 +494,8 @@ namespace Ronin7.Enemies
                     float settle = Mathf.SmoothStep(0f, 1f, timer / StrikeRecover);
                     PoseWeapon(StrikeEuler, restEuler, settle);
                     PoseBody(-StrikeLunge, 0f, settle);
-                    Tint(Color.Lerp(TelegraphColor, IdleColor, timer / StrikeRecover),
-                         Color.Lerp(TelegraphRim, RestRim, timer / StrikeRecover));
+                    Tint(Color.Lerp(StrikeColor, IdleColor, timer / StrikeRecover),
+                         Color.Lerp(StrikeColor * 2.5f, RestRim, timer / StrikeRecover));
                     if (timer >= StrikeRecover) Enter(StateAfterRecover);
                     break;
 
@@ -513,6 +513,23 @@ namespace Ronin7.Enemies
                     if (timer >= staggerLen) Enter(StateAfterStagger);
                     break;
             }
+            TickEyes();
+        }
+
+        // R12: red blinking eyes for strikes that must be dodged. Created lazily on the first one; afterwards only toggled.
+        private DodgeEyes eyes;
+        private Color StrikeColor => DodgeEyes.TintFor(DodgeEyes.IsDodge(strike), TelegraphColor);
+
+        private void TickEyes()
+        {
+            bool dodge = DodgeEyes.ShouldShow(state == State.Windup || state == State.Active, strike);
+            if (eyes == null)
+            {
+                if (!dodge) return;
+                eyes = DodgeEyes.Create(transform, torso != null ? torso : transform, bodyRenderer);
+            }
+            float elapsed = state == State.Windup ? timer : telegraph + timer;
+            eyes.Set(dodge && DodgeEyes.BlinkOn(elapsed, GameSettings.Active.ReduceFlashes));
         }
 
         // After all pose/animator writes, so the edge tracks the real blade tip. Only runs the work while visible.
@@ -752,6 +769,7 @@ namespace Ronin7.Enemies
         protected virtual void OnDied()
         {
             flinching = false;
+            eyes?.Set(false);
             // Route through Enter so the global aggro count is released the moment the enemy
             // dies (a dead-but-not-destroyed enemy must not keep the save gate locked).
             Enter(State.Dead);

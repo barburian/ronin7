@@ -147,6 +147,8 @@ From Amendment 15 "Readings pending user confirmation" (a-f) plus extras. Write 
 | 3 | Whip run (all sectors, at most 3 hits if you can) | | | | |
 | 4 | Double Katana run, left-handed | | | | |
 
+- [ ] R12 dodge eyes (not in the 0.10.0 build): on a Juggernaut slam and an unparryable weapon strike the enemy's eyes blink red at ~6 Hz from windup to the end of the swing, body tints red (parry telegraphs stay orange), readable at 2-6 m; steady with Reduce Flashes; off on stagger/death.
+
 Afterwards, pull `runlog.jsonl` and logcat: 0 errors, no crash, no soft-lock.
 
 ## Results and sign-off
