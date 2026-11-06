@@ -1,6 +1,6 @@
 # Playtest checklist: v0.10.0 (Phase 9 "Player weapons and select"), Quest 3S
 
-Nothing in Phase 9 has been played on a headset: the P9-02d and P9-02e stops were deferred to this playtest. Players are NOT built yet. Sign off here before the user tags `roguelike-phase9`; the user tags, not the agent. Rulings and numbers: Amendment 15 in `Roguelike-Design.md` (A15, R1-R7).
+Nothing in Phase 9 has been played on a headset: the P9-02d and P9-02e stops were deferred to this playtest. Players are built (2026-11-06, `9185e7c`); the 0.10.0 dev APK is on the headset. Sign off here before the user tags `roguelike-phase9`; the user tags, not the agent. Rulings and numbers: Amendment 15 in `Roguelike-Design.md` (A15, R1-R7).
 
 ## Session
 

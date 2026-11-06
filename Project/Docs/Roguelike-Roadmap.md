@@ -1608,6 +1608,8 @@ A15.16: Shield, Polearm, Whip handle, coiled Whip. Agent reminds the user when P
 ### P9-05 Exit
 Render check, Export Gate, v0.10.0 builds, `Playtest-v0.10.0.md` covering: each weapon with no skills, holsters standing, a left-handed pass (one room per weapon), Whip against Iron Warden and Maelgorn's final phase, Whip challenge counting, old-save fallback. The user tags after sign-off.
 
+**Built 2026-11-06 at `9185e7c`:** Windows 0.10.0, Quest 0.10.0 (versionCode 12, release keystore), Quest 0.10.0-dev (on the headset). EditMode 2327/0/0, PlayMode 17/17. Render check passed at both tiers on Whip and Polearm + Shield. **Not signed off: the A15.11 proof and the whole playtest are still owed, on the dev APK. Not tagged.**
+
 ## PHASE 10 — Player skills and the skill panel (v0.11.0)
 
 ### P10-00 Design session with the user (blocking)
