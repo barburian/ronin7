@@ -41,7 +41,8 @@ namespace Ronin7.EditorTools
                 for (int i = 0; i < 4; i++)
                 {
                     var el = arr.GetArrayElementAtIndex(i);
-                    if (el.objectReferenceValue != null) continue;
+                    // P9-04: the placeholder cards (index 2, 3) are rebuilt once into the Tripo ones; set entries are otherwise kept.
+                    if (el.objectReferenceValue != null && !(i >= 2 && !HasTripo(el.objectReferenceValue))) continue;
                     var root = builders[i]();
                     root.name = names[i];
                     SceneManager.MoveGameObjectToScene(root, scene);
@@ -94,10 +95,30 @@ namespace Ronin7.EditorTools
             r.sharedMaterials = mats;
         }
 
-        /// <summary>Placeholder until the P9-04 Tripo mesh: steel pole, diamond head, glowing shield disc.</summary>
+        private static bool HasTripo(Object o)
+        {
+            if (!(o is GameObject g)) return false;
+            var t = g.transform.Find("Polearm/" + WeaponMeshFit.MeshName) ?? g.transform.Find(WeaponMeshFit.MeshName);
+            return t != null && !PrefabUtility.IsAnyPrefabInstanceRoot(t.gameObject); // the wrapped form only
+        }
+
+        /// <summary>P9-04: the Tripo Polearm standing head-up beside the Tripo Shield (face to the viewer), at real relative size.
+        /// Falls back to primitives if the meshes are missing.</summary>
         private static GameObject PolearmCard()
         {
             var root = new GameObject();
+            if (WeaponMeshFit.Prefab("Polearm") != null && WeaponMeshFit.Prefab("Shield") != null)
+            {
+                var pole = new GameObject("Polearm").transform;
+                pole.SetParent(root.transform, false);
+                pole.SetLocalPositionAndRotation(new Vector3(-0.25f, 0f, 0f), Quaternion.Euler(-90f, 0f, 0f));
+                WeaponMeshFit.Place(pole, "Polearm", WeaponMeshFit.Polearm());
+                var shield = new GameObject("Shield").transform;
+                shield.SetParent(root.transform, false);
+                shield.SetLocalPositionAndRotation(new Vector3(0.3f, 0.15f, 0f), Quaternion.Euler(0f, 180f, 0f));
+                WeaponMeshFit.Place(shield, "Shield", WeaponMeshFit.Shield());
+                return root;
+            }
             Prim(root.transform, PrimitiveType.Cylinder, new Vector3(0f, 0f, 0f), new Vector3(0.04f, 0.9f, 0.04f), Quaternion.identity, SteelMat);
             Prim(root.transform, PrimitiveType.Cube, new Vector3(0f, 1.05f, 0f), new Vector3(0.09f, 0.3f, 0.03f), Quaternion.identity, SteelMat);
             Prim(root.transform, PrimitiveType.Cylinder, new Vector3(0.3f, 0.1f, -0.03f), new Vector3(0.5f, 0.02f, 0.5f), Quaternion.Euler(90f, 0f, 0f), GlowMat);
@@ -108,6 +129,11 @@ namespace Ronin7.EditorTools
         private static GameObject WhipCard()
         {
             var root = new GameObject();
+            if (WeaponMeshFit.Prefab("WhipCoiled") != null)
+            {   // coil axis (mesh +y) tipped toward the viewer (-z) so the rings read as a coil
+                WeaponMeshFit.Place(root.transform, "WhipCoiled", new WeaponMeshFit.Fit { rot = Quaternion.Euler(-75f, 0f, 0f), scale = 1f, pos = Vector3.zero });
+                return root;
+            }
             Prim(root.transform, PrimitiveType.Capsule, new Vector3(0f, -0.2f, 0f), new Vector3(0.05f, 0.18f, 0.05f), Quaternion.identity, SteelMat);
             for (int ring = 0; ring < 2; ring++)
                 for (int i = 0; i < 8; i++)

@@ -521,6 +521,7 @@ namespace Ronin7.EditorTools
             SetObjectRef(so, "shield", shield);
             SetObjectRef(so, "shieldAnchor", shieldAnchor);
             so.ApplyModifiedPropertiesWithoutUndo();
+            WeaponMeshFit.ApplyTo(gear); // P9-04: Tripo visuals
             return true;
         }
 
@@ -579,6 +580,7 @@ namespace Ronin7.EditorTools
             SetObjectRef(so, "whip", whip);
             SetObjectRef(so, "whipAnchor", whipAnchor);
             so.ApplyModifiedPropertiesWithoutUndo();
+            WeaponMeshFit.ApplyTo(gear); // P9-04: Tripo visuals
             return true;
         }
 
@@ -616,6 +618,24 @@ namespace Ronin7.EditorTools
             }
             else Debug.Log("[RogueEntry] RunArena already has the Polearm + Shield.");
             RoguePatchBootWeapons();
+        }
+
+        /// <summary>P9-04 (A15.16): additive, idempotent. Swaps the Polearm, Shield and Whip placeholder VISUALS in RunArena for the
+        /// Tripo meshes (gameplay transforms and colliders untouched). Never rebuilds a scene. Ends with Phase6_Boot open.</summary>
+        [MenuItem("Tools/Space Samurai/Roguelike/Patch Weapon Meshes (P9-04)", priority = 518)]
+        public static void RoguePatchWeaponMeshes()
+        {
+            var scene = EditorSceneManager.OpenScene(RogueScenePath, OpenSceneMode.Single);
+            var gear = Object.FindAnyObjectByType<PolearmShieldGear>(FindObjectsInactive.Include);
+            if (gear == null) { Debug.LogWarning("[RogueEntry] No PolearmShieldGear in RunArena."); return; }
+            if (WeaponMeshFit.ApplyTo(gear))
+            {
+                EditorSceneManager.MarkSceneDirty(scene);
+                EditorSceneManager.SaveScene(scene);
+                Debug.Log("[RogueEntry] Tripo weapon meshes applied to RunArena.");
+            }
+            else Debug.Log("[RogueEntry] RunArena already has the Tripo weapon meshes.");
+            EditorSceneManager.OpenScene(BootScenePath, OpenSceneMode.Single);
         }
 
         private static void RoguePatchBootWeapons()
