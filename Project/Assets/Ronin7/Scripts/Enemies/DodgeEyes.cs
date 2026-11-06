@@ -30,7 +30,7 @@ namespace Ronin7.Enemies
         /// upper front of the body; the pair mesh is 1 m wide so the scale is the eye gap.</summary>
         public static void Layout(Vector3 center, Vector3 size, out Vector3 pos, out float gap)
         {
-            pos = new Vector3(center.x, center.y + size.y * 0.5f - size.y * 0.12f, center.z + Mathf.Min(size.x, size.z) * 0.5f);
+            pos = new Vector3(center.x, center.y + size.y * 0.5f - size.y * 0.12f, center.z + Mathf.Min(size.x, size.z) * 0.5f + 0.05f);
             gap = Mathf.Clamp(size.x * 0.12f, 0.16f, 0.2f);
         }
 
@@ -43,15 +43,16 @@ namespace Ronin7.Enemies
         private static Mesh PairMesh()
         {
             if (mesh != null) return mesh;
-            // Two 0.5 x 0.25 slits centred at x = +-0.5, facing +Z.
-            var v = new Vector3[8];
+            // Two 0.7 x 0.7 squares (round soft dots) centred at x = +-0.5, facing +Z; scale = eye gap, so eye = 0.7 x gap.
+            var v = new Vector3[8]; var uv = new Vector2[8];
             for (int e = 0; e < 2; e++)
             {
                 float cx = e == 0 ? -0.5f : 0.5f;
-                v[e * 4] = new Vector3(cx - 0.25f, -0.125f); v[e * 4 + 1] = new Vector3(cx - 0.25f, 0.125f);
-                v[e * 4 + 2] = new Vector3(cx + 0.25f, 0.125f); v[e * 4 + 3] = new Vector3(cx + 0.25f, -0.125f);
+                v[e * 4] = new Vector3(cx - 0.35f, -0.35f); v[e * 4 + 1] = new Vector3(cx - 0.35f, 0.35f);
+                v[e * 4 + 2] = new Vector3(cx + 0.35f, 0.35f); v[e * 4 + 3] = new Vector3(cx + 0.35f, -0.35f);
+                uv[e * 4] = new Vector2(0, 0); uv[e * 4 + 1] = new Vector2(0, 1); uv[e * 4 + 2] = new Vector2(1, 1); uv[e * 4 + 3] = new Vector2(1, 0);
             }
-            mesh = new Mesh { name = "Ronin7_DodgeEyes", hideFlags = HideFlags.DontSave, vertices = v,
+            mesh = new Mesh { name = "Ronin7_DodgeEyes", hideFlags = HideFlags.DontSave, vertices = v, uv = uv,
                 triangles = Triangles };
             mesh.RecalculateBounds();
             return mesh;
@@ -110,7 +111,7 @@ namespace Ronin7.Enemies
             }
             go.transform.SetParent(root, false);
             go.transform.localPosition = pos;
-            go.transform.localScale = Vector3.one * gap;
+            go.transform.localScale = Vector3.one * gap / Mathf.Max(root.lossyScale.x, 1e-3f); // gap is metres: undo the enemy's own scale
             if (parent != root) go.transform.SetParent(parent, true);
             mr.enabled = false;
             return new DodgeEyes(mr);

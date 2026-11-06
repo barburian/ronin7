@@ -63,7 +63,7 @@ namespace Ronin7.Tests.EditMode
         {
             DodgeEyes.Layout(new Vector3(0f, 1f, 0f), new Vector3(0.8f, 2f, 0.6f), out var pos, out var gap);
             Assert.Greater(pos.y, 1.5f);
-            Assert.AreEqual(0.3f, pos.z, 1e-4f);
+            Assert.AreEqual(0.35f, pos.z, 1e-4f); // front of face + 5 cm so the dots are not clipped
             Assert.AreEqual(0.16f, gap, 1e-4f);
             DodgeEyes.Layout(Vector3.zero, new Vector3(5f, 5f, 5f), out _, out var big);
             DodgeEyes.Layout(Vector3.zero, new Vector3(0.1f, 1f, 1f), out _, out var small);
