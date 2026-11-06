@@ -162,6 +162,16 @@ namespace Ronin7.Ship
             bladeSpeed < ReflectMinSpeed && (isShield || held);
 
         // Blades with no Grabbable (no holster/hand semantics) count as held.
+        /// <summary>A holstered katana (unheld, still parented to the rig) must not reflect when the player moves fast;
+        /// a thrown blade (unheld, unparented) still can.</summary>
+        internal static bool BladeCanReflect(bool held, bool parented) => held || !parented;
+
+        private static bool IsHolsteredBlade(BladeDamager blade)
+        {
+            var grab = blade.GetComponentInParent<Grabbable>();
+            return grab != null && !BladeCanReflect(grab.IsHeld, grab.transform.parent != null);
+        }
+
         private static bool IsHeld(BladeDamager blade)
         {
             var grab = blade.GetComponentInParent<Grabbable>();
@@ -193,7 +203,7 @@ namespace Ronin7.Ship
                     Recycle();
                     return true;
                 }
-                if (blade != null && blade.Speed >= ReflectMinSpeed)
+                if (blade != null && blade.Speed >= ReflectMinSpeed && !IsHolsteredBlade(blade))
                 {
                     var mods = blade.GetComponentInParent<PlayerCombatModifiers>();
                     Reflect(mods != null ? mods.gameObject : blade.transform.root.gameObject);

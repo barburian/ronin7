@@ -11,6 +11,22 @@ namespace Ronin7.Tests.EditMode
         private static Strike Parry => Strike.Chop;
 
         [Test]
+        public void EyeTriangles_FaceForwardPlusZ()
+        {
+            var t = DodgeEyes.Triangles;
+            // Unity front faces are clockwise from the front, i.e. cross(v1-v0, v2-v0) points +Z when seen from +Z.
+            Vector3[] v = new Vector3[8];
+            for (int e = 0; e < 2; e++)
+            {
+                float cx = e == 0 ? -0.5f : 0.5f;
+                v[e * 4] = new Vector3(cx - 0.25f, -0.125f); v[e * 4 + 1] = new Vector3(cx - 0.25f, 0.125f);
+                v[e * 4 + 2] = new Vector3(cx + 0.25f, 0.125f); v[e * 4 + 3] = new Vector3(cx + 0.25f, -0.125f);
+            }
+            for (int i = 0; i < t.Length; i += 3)
+                Assert.Greater(Vector3.Cross(v[t[i + 1]] - v[t[i]], v[t[i + 2]] - v[t[i]]).z, 0f);
+        }
+
+        [Test]
         public void WhichStrikesLightEyes()
         {
             var dodge = Parry; dodge.unparryable = true;
@@ -48,11 +64,11 @@ namespace Ronin7.Tests.EditMode
             DodgeEyes.Layout(new Vector3(0f, 1f, 0f), new Vector3(0.8f, 2f, 0.6f), out var pos, out var gap);
             Assert.Greater(pos.y, 1.5f);
             Assert.AreEqual(0.3f, pos.z, 1e-4f);
-            Assert.AreEqual(0.24f, gap, 1e-4f);
+            Assert.AreEqual(0.16f, gap, 1e-4f);
             DodgeEyes.Layout(Vector3.zero, new Vector3(5f, 5f, 5f), out _, out var big);
             DodgeEyes.Layout(Vector3.zero, new Vector3(0.1f, 1f, 1f), out _, out var small);
-            Assert.AreEqual(0.45f, big, 1e-4f);
-            Assert.AreEqual(0.2f, small, 1e-4f);
+            Assert.AreEqual(0.2f, big, 1e-4f);
+            Assert.AreEqual(0.16f, small, 1e-4f);
         }
 
         [Test]

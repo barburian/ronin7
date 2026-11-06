@@ -16,6 +16,18 @@ namespace Ronin7.Tests.EditMode.Roguelike.World
     public class RunArenaControllerTests
     {
         [Test]
+        public void ExclusionCentre_IsArenaCentreNotTheAuthoredRigPose()
+        {
+            var go = new GameObject("arena");
+            try
+            {
+                go.transform.position = new Vector3(0f, 0.5f, 0f);
+                Assert.AreEqual(Vector3.zero, RunArenaController.ExclusionCentre(go.transform));
+            }
+            finally { UnityEngine.Object.DestroyImmediate(go); }
+        }
+
+        [Test]
         public void BossAdds_FiveAdds_AllReleaseAndRoomClears()
         {
             // The boss is alive (1) while its adds release through the cap; adds die between waves.

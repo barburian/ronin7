@@ -312,27 +312,17 @@ namespace Ronin7.World
             return Mathf.Abs(local.x) > limit || Mathf.Abs(local.z) > limit || local.y < OutOfArenaFloorY;
         }
 
-        /// <summary>A5.7: the no-spawn exclusion centre should track the live player rig, not a
-        /// stale scene transform — otherwise an enemy can materialise inside wherever the player
-        /// actually is at fade-in, the worst possible VR moment. <see cref="Camera.main"/> is the
-        /// live head position and needs no Player-assembly reference; <c>playerSpawn</c> is the
-        /// fallback, then the arena root.</summary>
-        private Vector3 ResolveExclusionCentre()
+        /// <summary>No-spawn exclusion centre = where the head ends up: the run recentres the rig so the head sits
+        /// over the arena/room centre (XRRecenterUtility.RecenterRig), whereas Camera.main and playerSpawn at
+        /// Start are still the authored (0,0,2) pose.</summary>
+        public static Vector3 ExclusionCentre(Transform arena)
         {
-            if (Camera.main != null)
-            {
-                Vector3 pos = Camera.main.transform.position;
-                pos.y = 0f;
-                return pos;
-            }
-            if (playerSpawn != null)
-            {
-                Debug.LogWarning("[RunArenaController] Camera.main is null — falling back to playerSpawn for the enemy exclusion centre.", this);
-                return playerSpawn.position;
-            }
-            Debug.LogWarning("[RunArenaController] Camera.main and playerSpawn are both null — using the arena root for the enemy exclusion centre.", this);
-            return transform.position;
+            Vector3 pos = arena.position;
+            pos.y = 0f;
+            return pos;
         }
+
+        private Vector3 ResolveExclusionCentre() => ExclusionCentre(transform);
 
         private void SpawnEnemy(SpawnRequest request, RunNode node)
         {

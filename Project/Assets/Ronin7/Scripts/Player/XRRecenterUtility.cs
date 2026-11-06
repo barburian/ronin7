@@ -48,6 +48,8 @@ namespace Ronin7.Player
             //    The delta has y = 0, so head (and rig) height is preserved.
             Vector3 headXZ = new Vector3(head.position.x, 0f, head.position.z);
             root.position -= headXZ;
+            // Auto-sync is off and the CharacterController would otherwise snap the rig back on its next Move.
+            Physics.SyncTransforms();
 
             Debug.Log("[XRRecenter] Rig recentred (head moved to seat, facing +Z).");
         }

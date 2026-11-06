@@ -230,6 +230,12 @@ namespace Ronin7.Tests.EditMode
         [TestCase(0f, false, ExpectedResult = false)]
         public bool HeldKatana_AbsorbsOnlyBelowReflectSpeed(float speed, bool held) => Projectile.BladeAbsorbs(false, speed, held);
 
+        [TestCase(true, true, ExpectedResult = true)]
+        [TestCase(true, false, ExpectedResult = true)]
+        [TestCase(false, false, ExpectedResult = true, TestName = "ThrownBlade_StillReflects")]
+        [TestCase(false, true, ExpectedResult = false, TestName = "HolsteredBlade_DoesNotReflect")]
+        public bool BladeCanReflect_HeldOrThrown(bool held, bool parented) => Projectile.BladeCanReflect(held, parented);
+
         [TestCase(0f, 10f, true, false, TestName = "Bolt_SlowShield_AbsorbedNoDamage")]
         [TestCase(40f, 10f, true, false, TestName = "Bolt_SlowHeldKatana_BlockedHarmlessly_R10")]
         [TestCase(40f, 7f, true, true, TestName = "Bolt_SlowHolsteredKatana_StillHurtsParent")]

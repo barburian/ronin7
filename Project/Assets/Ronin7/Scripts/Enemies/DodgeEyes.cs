@@ -31,11 +31,14 @@ namespace Ronin7.Enemies
         public static void Layout(Vector3 center, Vector3 size, out Vector3 pos, out float gap)
         {
             pos = new Vector3(center.x, center.y + size.y * 0.5f - size.y * 0.12f, center.z + Mathf.Min(size.x, size.z) * 0.5f);
-            gap = Mathf.Clamp(size.x * 0.3f, 0.2f, 0.45f);
+            gap = Mathf.Clamp(size.x * 0.12f, 0.16f, 0.2f);
         }
 
         private static Mesh mesh;
         private static Material mat;
+
+        /// <summary>Unity front faces are clockwise seen from the front; these face +Z (cross product +Z).</summary>
+        public static readonly int[] Triangles = { 0, 2, 1, 0, 3, 2, 4, 6, 5, 4, 7, 6 };
 
         private static Mesh PairMesh()
         {
@@ -49,7 +52,7 @@ namespace Ronin7.Enemies
                 v[e * 4 + 2] = new Vector3(cx + 0.25f, 0.125f); v[e * 4 + 3] = new Vector3(cx + 0.25f, -0.125f);
             }
             mesh = new Mesh { name = "Ronin7_DodgeEyes", hideFlags = HideFlags.DontSave, vertices = v,
-                triangles = new[] { 0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7 } };
+                triangles = Triangles };
             mesh.RecalculateBounds();
             return mesh;
         }
@@ -83,10 +86,27 @@ namespace Ronin7.Enemies
             Vector3 pos = new Vector3(0f, 1.6f, 0.2f); float gap = 0.25f;
             if (body != null)
             {
-                var b = body.bounds;
-                Vector3 s = root.lossyScale;
-                Vector3 size = new Vector3(b.size.x / Mathf.Max(s.x, 1e-3f), b.size.y / Mathf.Max(s.y, 1e-3f), b.size.z / Mathf.Max(s.z, 1e-3f));
-                Layout(root.InverseTransformPoint(b.center), size, out pos, out gap);
+                if (body is SkinnedMeshRenderer smr && smr.sharedMesh != null)
+                {
+                    // Skinned world bounds are inflated by animation/arm spread and by the enemy's yaw, which put the eyes well
+                    // above the head. The bind-pose mesh bounds measured in root space are tight and yaw-independent.
+                    Bounds mb = smr.sharedMesh.bounds;
+                    Matrix4x4 toRoot = root.worldToLocalMatrix * smr.transform.localToWorldMatrix;
+                    Vector3 lo = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue), hi = -lo;
+                    for (int i = 0; i < 8; i++)
+                    {
+                        Vector3 c = toRoot.MultiplyPoint3x4(mb.center + Vector3.Scale(mb.extents, new Vector3((i & 1) * 2 - 1, (i >> 1 & 1) * 2 - 1, (i >> 2 & 1) * 2 - 1)));
+                        lo = Vector3.Min(lo, c); hi = Vector3.Max(hi, c);
+                    }
+                    Layout((lo + hi) * 0.5f, hi - lo, out pos, out gap);
+                }
+                else
+                {
+                    var b = body.bounds;
+                    Vector3 s = root.lossyScale;
+                    Vector3 size = new Vector3(b.size.x / Mathf.Max(s.x, 1e-3f), b.size.y / Mathf.Max(s.y, 1e-3f), b.size.z / Mathf.Max(s.z, 1e-3f));
+                    Layout(root.InverseTransformPoint(b.center), size, out pos, out gap);
+                }
             }
             go.transform.SetParent(root, false);
             go.transform.localPosition = pos;
