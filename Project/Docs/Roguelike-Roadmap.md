@@ -1610,6 +1610,8 @@ Render check, Export Gate, v0.10.0 builds, `Playtest-v0.10.0.md` covering: each 
 
 **Built 2026-11-06 at `9185e7c`:** Windows 0.10.0, Quest 0.10.0 (versionCode 12, release keystore), Quest 0.10.0-dev (on the headset). EditMode 2327/0/0, PlayMode 17/17. Render check passed at both tiers on Whip and Polearm + Shield. **Not signed off: the A15.11 proof and the whole playtest are still owed, on the dev APK. Not tagged.**
 
+**[x] Phase 9 closed 2026-11-08:** the user played the 0.10.0 dev APK (fixes through `c483a2f`, EditMode 2403/0/0) and signed off. Carried to Phase 10: teach the Automaton's back weakness better, the unseen Juggernaut `EW_Club` parry tip, the QuickDraw right-hand bug. The release and Windows 0.10.0 builds predate the playtest fixes and need rebuilding before they are shipped. Tag `roguelike-phase9` is the user's.
+
 ## PHASE 10 — Player skills and the skill panel (v0.11.0)
 
 ### P10-00 Design session with the user (blocking)
